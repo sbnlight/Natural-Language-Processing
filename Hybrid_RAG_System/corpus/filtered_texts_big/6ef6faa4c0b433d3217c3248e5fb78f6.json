@@ -1,0 +1,193 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/actor/Receiver.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Receiver Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor Interface Receiver All Known Subinterfaces: ProcessR"
+    },
+    {
+      "chunk_id": 2,
+      "text": "terface Receiver All Known Subinterfaces: ProcessReceiver All Known Implementing Classes: AbstractReceiver , CSPReceiver , DDEReceiver , MailboxBoundaryReceiver , PNQueueReceiver , RendezvousReceiver , RTPReceiver public interface Receiver Interface"
+    },
+    {
+      "chunk_id": 3,
+      "text": ", RTPReceiver public interface Receiver Interface for objects that can hold tokens. An implementation of this interface has two key methods: put() and get(). The put() method deposits a token into the receiver. The get() method retrieves a token t"
+    },
+    {
+      "chunk_id": 4,
+      "text": "he receiver. The get() method retrieves a token that has been put. The order of the retrieved tokens depends on specific implementations, and does not necessarily match the order in which tokens have been put. All implementations of this interface"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ve been put. All implementations of this interface must follow these rules, regardless of the number of threads that are accessing the receiver: If hasToken() returns true, then the next call to get() must not result in a NoTokenException being thr"
+    },
+    {
+      "chunk_id": 6,
+      "text": ") must not result in a NoTokenException being thrown. If hasRoom() returns true, then the next call to put() must not result in a NoRoomException being thrown. In general, this means that multithreaded domains must provide synchronization for rece"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ded domains must provide synchronization for receivers. Note that both NoTokenException and NoRoomException are runtime exceptions, so they need not be declared explicitly. Objects that implement this interface can only be contained by an instanc"
+    },
+    {
+      "chunk_id": 8,
+      "text": "his interface can only be contained by an instance of IOPort. Since: Ptolemy II 0.2 Version: $Id: Receiver.java,v 1.66 2006/06/17 14:27:40 eal Exp $ Author: Jie Liu, Edward A. Lee, Lukito Muliadi See Also: Token Accepted Rating: Green (bart) Propose"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Also: Token Accepted Rating: Green (bart) Proposed Rating: Green (eal) Method Summary void clear () Clear this receiver of any contained tokens. Token get () Get a token from this receiver. Token [] getArray (int numberOfTokens) Get an array of toke"
+    },
+    {
+      "chunk_id": 10,
+      "text": "getArray (int numberOfTokens) Get an array of tokens from this receiver. IOPort getContainer () Return the container of this receiver, or null if there is none. boolean hasRoom () Return true if the receiver has room to put a token into it (via the"
+    },
+    {
+      "chunk_id": 11,
+      "text": "eceiver has room to put a token into it (via the put() method). boolean hasRoom (int numberOfTokens) Return true if the receiver has room to put the specified number of tokens into it (via the put() method). boolean hasToken () Return true if the"
+    },
+    {
+      "chunk_id": 12,
+      "text": "() method). boolean hasToken () Return true if the receiver contains a token that can be obtained by calling the get() method. boolean hasToken (int numberOfTokens) Return true if the receiver contains the specified number of tokens. boolean isKnow"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ins the specified number of tokens. boolean isKnown () Return true if this receiver has known state; that is, the tokens in this receiver are known, or this receiver is known not to contain any tokens. void put ( Token token) Put the specified to"
+    },
+    {
+      "chunk_id": 14,
+      "text": "kens. void put ( Token token) Put the specified token into this receiver. void putArray ( Token [] tokenArray, int numberOfTokens) Put a portion of the specified token array into this receiver. void putArrayToAll ( Token [] tokens,"
+    },
+    {
+      "chunk_id": 15,
+      "text": "r. void putArrayToAll ( Token [] tokens, int numberOfTokens, Receiver [] receivers) Put a sequence of tokens to all receivers in the specified array. void putToAll ( Token token, Receiver [] receivers) Put a single token to all receiver"
+    },
+    {
+      "chunk_id": 16,
+      "text": "r [] receivers) Put a single token to all receivers in the specified array. void reset () Reset this receiver to its initial state, which is typically either empty (same as calling clear()) or unknown. void setContainer ( IOPort port) Set the conta"
+    },
+    {
+      "chunk_id": 17,
+      "text": "wn. void setContainer ( IOPort port) Set the container. Method Detail clear public void clear () throws IllegalActionException Clear this receiver of any contained tokens. Throws: IllegalActionException - If clear() is not supported by"
+    },
+    {
+      "chunk_id": 18,
+      "text": "tionException - If clear() is not supported by the domain. get public Token get () throws NoTokenException Get a token from this receiver. Returns: A token read from the receiver. Throws: NoTokenException - If there is no token. getArray"
+    },
+    {
+      "chunk_id": 19,
+      "text": "NoTokenException - If there is no token. getArray public Token [] getArray (int numberOfTokens) throws NoTokenException Get an array of tokens from this receiver. The numberOfTokens argument specifies the number of tokens to get. In"
+    },
+    {
+      "chunk_id": 20,
+      "text": "argument specifies the number of tokens to get. In an implementation, the length of the returned array must be equal to numberOfTokens . Parameters: numberOfTokens - The number of tokens to get in the returned array. Returns: An array of tokens"
+    },
+    {
+      "chunk_id": 21,
+      "text": "he returned array. Returns: An array of tokens read from the receiver. Throws: NoTokenException - If there are not numberOfTokens tokens. getContainer public IOPort getContainer () Return the container of this receiver, or null if there is none. R"
+    },
+    {
+      "chunk_id": 22,
+      "text": "iner of this receiver, or null if there is none. Returns: The port containing this receiver. See Also: setContainer(IOPort) hasRoom public boolean hasRoom () Return true if the receiver has room to put a token into it (via the put() method). Retu"
+    },
+    {
+      "chunk_id": 23,
+      "text": "t a token into it (via the put() method). Returning true in this method guarantees that the next call to put() will not result in an exception. Returns: True if the next call to put() will not result in a NoRoomException. hasRoom public bool"
+    },
+    {
+      "chunk_id": 24,
+      "text": "esult in a NoRoomException. hasRoom public boolean hasRoom (int numberOfTokens) Return true if the receiver has room to put the specified number of tokens into it (via the put() method). Returning true in this method guarantees that the next n"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ing true in this method guarantees that the next numberOfTokens calls to put() or a corresponding call to putArray() will not result in an exception. Parameters: numberOfTokens - The number of tokens to put into this receiver. Returns: True if the"
+    },
+    {
+      "chunk_id": 26,
+      "text": "s to put into this receiver. Returns: True if the next numberOfTokens calls to put() will not result in a NoRoomException. hasToken public boolean hasToken () Return true if the receiver contains a token that can be obtained by calling the get()"
+    },
+    {
+      "chunk_id": 27,
+      "text": "token that can be obtained by calling the get() method. In an implementation, returning true in this method guarantees that the next call to get() will not result in an exception. Returns: True if the next call to get() will not result in a"
+    },
+    {
+      "chunk_id": 28,
+      "text": "e if the next call to get() will not result in a NoTokenException. hasToken public boolean hasToken (int numberOfTokens) Return true if the receiver contains the specified number of tokens. In an implementation, returning true in this method gua"
+    },
+    {
+      "chunk_id": 29,
+      "text": "implementation, returning true in this method guarantees that the next numberOfTokens calls to get(), or a corresponding call to getArray(), will not result in an exception. Parameters: numberOfTokens - The number of tokens desired. Returns: Tru"
+    },
+    {
+      "chunk_id": 30,
+      "text": "okens - The number of tokens desired. Returns: True if the next numberOfTokens calls to get() will not result in a NoTokenException. isKnown public boolean isKnown () Return true if this receiver has known state; that is, the tokens in this rece"
+    },
+    {
+      "chunk_id": 31,
+      "text": "as known state; that is, the tokens in this receiver are known, or this receiver is known not to contain any tokens. This method supports domains, such as SR, which have fixed-point semantics. In such domains, an iteration of a model starts"
+    },
+    {
+      "chunk_id": 32,
+      "text": "In such domains, an iteration of a model starts with the state of all channels unknown, and the iteration concludes when the state of all channels is known. In domains that have no such notion, this method should simply return true . Returns:"
+    },
+    {
+      "chunk_id": 33,
+      "text": ", this method should simply return true . Returns: True if this receiver has known state. put public void put ( Token token) throws NoRoomException , IllegalActionException Put the specified token into this receiver. Parameters: token - The"
+    },
+    {
+      "chunk_id": 34,
+      "text": "token into this receiver. Parameters: token - The token to put into the receiver. Throws: NoRoomException - If there is no room in the receiver. IllegalActionException - If the token is not acceptable to one of the ports (e.g., wrong type). putArr"
+    },
+    {
+      "chunk_id": 35,
+      "text": "to one of the ports (e.g., wrong type). putArray public void putArray ( Token [] tokenArray, int numberOfTokens) throws NoRoomException , IllegalActionException Put a portion of the specified token array into th"
+    },
+    {
+      "chunk_id": 36,
+      "text": "Put a portion of the specified token array into this receiver. The first numberOfTokens elements of the token array are put into this receiver. The ability to specify a longer array than needed allows certain domains to have more efficient imp"
+    },
+    {
+      "chunk_id": 37,
+      "text": "allows certain domains to have more efficient implementations. Parameters: tokenArray - The array containing tokens to put into this receiver. numberOfTokens - The number of elements of the token array to put into this receiver. Throws: NoRoom"
+    },
+    {
+      "chunk_id": 38,
+      "text": "array to put into this receiver. Throws: NoRoomException - If the token array cannot be put. IllegalActionException - If the token is not acceptable to one of the ports (e.g., wrong type). putArrayToAll public void putArrayToAll ( Token [] toke"
+    },
+    {
+      "chunk_id": 39,
+      "text": "rayToAll public void putArrayToAll ( Token [] tokens, int numberOfTokens, Receiver [] receivers) throws NoRoomException , IllegalActionException Put a sequence of tokens to all receivers in the specified a"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ence of tokens to all receivers in the specified array. Implementers will assume that all such receivers are of the same class. Parameters: tokens - The sequence of token to put. numberOfTokens - The number of tokens to put (the array might be"
+    },
+    {
+      "chunk_id": 41,
+      "text": "The number of tokens to put (the array might be longer). receivers - The receivers. Throws: NoRoomException - If there is no room for the token. IllegalActionException - If the token is not acceptable to one of the ports (e.g., wrong type). put"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ble to one of the ports (e.g., wrong type). putToAll public void putToAll ( Token token, Receiver [] receivers) throws NoRoomException , IllegalActionException Put a single token to all receivers in the specified array. Implementer"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ll receivers in the specified array. Implementers will assume that all such receivers are of the same class. Parameters: token - The token to put. receivers - The receivers. Throws: NoRoomException - If there is no room for the token. IllegalActi"
+    },
+    {
+      "chunk_id": 44,
+      "text": "n - If there is no room for the token. IllegalActionException - If the token is not acceptable to one of the ports (e.g., wrong type). reset public void reset () throws IllegalActionException Reset this receiver to its initial state, wh"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ption Reset this receiver to its initial state, which is typically either empty (same as calling clear()) or unknown. Throws: IllegalActionException - If reset() is not supported by the domain. setContainer public void setContainer ( IOPort port"
+    },
+    {
+      "chunk_id": 46,
+      "text": "etContainer public void setContainer ( IOPort port) throws IllegalActionException Set the container. Parameters: port - The container. Throws: IllegalActionException - If the container is not of an appropriate subclass of IOPort"
+    },
+    {
+      "chunk_id": 47,
+      "text": "er is not of an appropriate subclass of IOPort for the particular receiver implementation. See Also: getContainer() Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | C"
+    }
+  ]
+}

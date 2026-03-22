@@ -1,0 +1,417 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/cvs-old.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/cvs-old.help ***************************************************************"
+    },
+    {
+      "chunk_id": 2,
+      "text": "**************************************************************** THIS DOCUMENT IS OUT OF DATE AND IS HERE FOR HISTORICAL REFERENCE ONLY See /share/b/pub/cvs.help and /share/b/pub/git.help for newer information. ***********************************"
+    },
+    {
+      "chunk_id": 4,
+      "text": "to file to remove ssh references Sep 14, 2006 CONTENTS: Revision Control utilities CVS for Class Project Groups Creating your SSH key Gaining access to your CVS group Structure of a CVS repository Setting up your CVS repository Getting"
+    },
+    {
+      "chunk_id": 5,
+      "text": "pository Setting up your CVS repository Getting your project started in the CVS repository How to work on your project under CVS Funny Little One-Letter Codes CVS Do's and Don'ts Going back to earlier versions of files Group Account Administra"
+    },
+    {
+      "chunk_id": 6,
+      "text": "arlier versions of files Group Account Administration for TAs Summary of CVS commands Security through Obscurity Security with SSH For More Information Revision Control utilities --------------------------- CVS is the Concurrent Versions Sys"
+    },
+    {
+      "chunk_id": 7,
+      "text": "------------- CVS is the Concurrent Versions System, used for revision control of files (usually source code) to keep track of who makes changes and to keep a history of older versions. It is more full-featured than other UNIX revision"
+    },
+    {
+      "chunk_id": 8,
+      "text": "s more full-featured than other UNIX revision control packages such as RCS and SCCS. CVS is installed on our UNIX systems in /usr/sww/bin/cvs. Type \"man cvs\" on a UNIX system for usage information. On MS Windows systems, the Microsoft"
+    },
+    {
+      "chunk_id": 9,
+      "text": "rmation. On MS Windows systems, the Microsoft Source Safe utility is available on some of our computers. Ask 'inst@eecs' if you need it for a class. We do not support PRCS usage for class project groups, but it is installed on the Softw"
+    },
+    {
+      "chunk_id": 10,
+      "text": "project groups, but it is installed on the Software Warehouse in /usr/sww/bin/prcs. See \"man prcs\" for details on its usage. CVS for Class Project Groups ---------------------------- A special CVS archive is set up by the sys admins for grou"
+    },
+    {
+      "chunk_id": 11,
+      "text": "l CVS archive is set up by the sys admins for groups to use when working on programming projects for the course. Prior to its use, it is assumed that students have UNIX 'class' accounts (such as 'cs162-aa') and that UNIX groups have been esta"
+    },
+    {
+      "chunk_id": 12,
+      "text": "'cs162-aa') and that UNIX groups have been established using those accounts. Creating your SSH key --------------------- For a group of students to share a CVS archive, we create a group account on UNIX and enable each student to access the"
+    },
+    {
+      "chunk_id": 13,
+      "text": "t on UNIX and enable each student to access the group account using their own SSH keys. The sys admins can add, delete and replace the SSH keys in a group by using the 'groupadmin' command (see below). So each student needs to generate an"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ee below). So each student needs to generate an SSH key before being assigned to a CVS group. You create an SSH key by logging into the UNIX account that you will use for the class and typing: /usr/sww/bin/ssh-keygen -b 1024 ~/.ssh/$USER"
+    },
+    {
+      "chunk_id": 15,
+      "text": "g: /usr/sww/bin/ssh-keygen -b 1024 ~/.ssh/$USER echo \"IDKey $USER\" >> ~/.ssh/identification For example, if your logon as \"cs162-aa\", this will create files called .ssh/cs162-aa.pub and .ssh/identification in your UNIX home directory. Fo"
+    },
+    {
+      "chunk_id": 16,
+      "text": "/identification in your UNIX home directory. For class accounts, the 'ssh-keygen' command can be added the initial login script so that it is run automatically the first time the students login (after the 'register' program runs). You will"
+    },
+    {
+      "chunk_id": 17,
+      "text": "n (after the 'register' program runs). You will be asked to enter a passphrase. This passphrase is independent of your UNIX password. If you forget your passphrase, run \"ssh-keygen\" again as shown above, and ask your TA to delete your old"
+    },
+    {
+      "chunk_id": 18,
+      "text": "s shown above, and ask your TA to delete your old pub file in the group account and add the new pub file using the \"groupadmin\" command. Gaining access to your CVS group -------------------------------- You do not login directly into to a grou"
+    },
+    {
+      "chunk_id": 19,
+      "text": "------- You do not login directly into to a group account. Instead, you run (for example): % cvsgroup cs162-gNN to gain access to the group cs162-gNN (for example). \"cvsgroup\" sets variables needed for you to access that group, inclu"
+    },
+    {
+      "chunk_id": 20,
+      "text": "riables needed for you to access that group, including CVSROOT. It will prompt you for your SSH passphrase. The \"cvsgroup\" command is an alias that is configured in a startup script in the instructor's account, so you could enable it by ru"
+    },
+    {
+      "chunk_id": 21,
+      "text": "instructor's account, so you could enable it by running ~cs162/adm/class.cshrc (using cs162 for example) before you run \"cvsgroup\". If you get an error like X connection to {hostname}:11.0 broken (explicit kill or server shutdown). that"
+    },
+    {
+      "chunk_id": 22,
+      "text": "broken (explicit kill or server shutdown). that means that you don't have an XWindows server running on your desktop and you also haven't disabled X11 Forwarding in the SSH command. The ssh command on our UNIX systems has X11 Forwarding set"
+    },
+    {
+      "chunk_id": 23,
+      "text": "command on our UNIX systems has X11 Forwarding set by default. You can fix this by changing the default behavior of ssh with an \"ssh_config\" file, which you can create in your UNIX home directory with this UNIX command: echo \"ForwardX11 no\""
+    },
+    {
+      "chunk_id": 24,
+      "text": "with this UNIX command: echo \"ForwardX11 no\" >> ~/.ssh/ssh_config Structure of a CVS repository ----------------------------- CVS operates in the context of a \"repository\", which is a set of modules. Each module corresponds to a project t"
+    },
+    {
+      "chunk_id": 25,
+      "text": "modules. Each module corresponds to a project that you are working on. For instance, you might have one repository, and within that repository you might have three modules, \"proj1\", \"proj2\", and \"proj3\". Additionally, every CVS repository h"
+    },
+    {
+      "chunk_id": 26,
+      "text": "d \"proj3\". Additionally, every CVS repository has a module full of administrative files, called \"CVSROOT\" (not to be confused with the environment variable of the same name). These files are documented in the CVS manual. (\"man cvs\"). Setti"
+    },
+    {
+      "chunk_id": 27,
+      "text": "cumented in the CVS manual. (\"man cvs\"). Setting up your CVS repository ------------------------------ To set up your CVS repository, you should give yourself access to the CVS group by running \"cvsgroup\" (see \"Gaining access to your CVS gro"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ng \"cvsgroup\" (see \"Gaining access to your CVS group\", above) then run the command: % cvs init This will create a repository and, inside that repository, an administrative (\"CVSROOT\") module. This command only needs to be run once, by on"
+    },
+    {
+      "chunk_id": 29,
+      "text": "e. This command only needs to be run once, by one member of the group (the command is ignored after that). Getting your project started in the CVS repository -------------------------------------------------- 0. We assume that - you have"
+    },
+    {
+      "chunk_id": 30,
+      "text": "-------------- 0. We assume that - you have generated your SSH key - your TA has notified 'inst@eecs' of your group membership - inst@eecs has added your SSH key to your group account - you have run \"cvsgroup\" to log in to your"
+    },
+    {
+      "chunk_id": 31,
+      "text": "- you have run \"cvsgroup\" to log in to your CVS group account (see \"Gaining access to your CVS group\", above). 1. Get together all the files given you by your teaching staff (e.g., do whatever they say to do to get the \"framewor"
+    },
+    {
+      "chunk_id": 32,
+      "text": "do whatever they say to do to get the \"framework\" code.) and put all these files in a directory. Give that directory the same name as your assignment; for this example we'll call it \"proj1\". 2. Now, you want to create a new module by"
+    },
+    {
+      "chunk_id": 33,
+      "text": "1\". 2. Now, you want to create a new module by importing the framework code into the CVS repository. This is accomplished using the \"cvs import\" command. Go to the directory containing your \"proj1\" directory, and run the command:"
+    },
+    {
+      "chunk_id": 34,
+      "text": "our \"proj1\" directory, and run the command: % cvs -m \"submitted by $USER\" import proj1 proj1 start You will see a bunch of messages scroll by for each file imported, and at the end the message \"No conflicts created by this import\""
+    },
+    {
+      "chunk_id": 35,
+      "text": "the message \"No conflicts created by this import\" should appear. 3. Now, delete your \"proj1\" directory: % rm -rf proj1 This is okay because the master copy is now in the CVS repository. How to work on your project under CVS -------"
+    },
+    {
+      "chunk_id": 36,
+      "text": "y. How to work on your project under CVS ------------------------------------- 0. We assume you have generated your SSH key, that you TA has added it to your group account and that you have run \"cvsgroup\" to log in to your CVS group a"
+    },
+    {
+      "chunk_id": 37,
+      "text": "run \"cvsgroup\" to log in to your CVS group accout (see \"Gaining access to your CVS group\", above). 1. Check out a working copy of your module. We recommend you do your editing in /usr/tmp or some other local directory. Suppose your lo"
+    },
+    {
+      "chunk_id": 38,
+      "text": "mp or some other local directory. Suppose your login is \"cs162-xy\". % mkdir /usr/tmp/cs162-xy % cd /usr/tmp/cs162-xy % cvs checkout proj1 The files will be copied out of the cvs tree into /tmp/cs162-xy/proj1. 2. Go into /usr/tmp/c"
+    },
+    {
+      "chunk_id": 39,
+      "text": "into /tmp/cs162-xy/proj1. 2. Go into /usr/tmp/cs162-xy/proj1 and fix a bug or add a feature. 3. If you have created any new files or directories, run \"cvs add\" on them, to add them to the repository. % cvs add stuff.c If you have r"
+    },
+    {
+      "chunk_id": 40,
+      "text": "epository. % cvs add stuff.c If you have removed any files or directories, run \"cvs rm\" on them to remove them from the repository. % cvs rm broken.c 4. As soon as your bug is fixed or your feature is added, run \"cvs diff\""
+    },
+    {
+      "chunk_id": 41,
+      "text": "ixed or your feature is added, run \"cvs diff\" and save the changes in DIFFS: % cvs diff > DIFFS 5. Now edit the DIFFS file. For every file you changed, produce a one-sentence summary of the changes you made, preceded by the name o"
+    },
+    {
+      "chunk_id": 42,
+      "text": "the changes you made, preceded by the name of the file. For example: main.c: Added code to support the browser. lib.h: New \"browse_info\" data structure to support the browser. pixel.c: Green pixels were not green enough in some circumstance"
+    },
+    {
+      "chunk_id": 43,
+      "text": "pixels were not green enough in some circumstances; fixed by rounding RGB values instead of truncating them. stuff.c: New file. broken.c: No longer needed (new code is in stuff.c). 6. Run \"cvs commit\" to save the changes you made: % cvs comm"
+    },
+    {
+      "chunk_id": 44,
+      "text": "commit\" to save the changes you made: % cvs commit -F DIFFS 7. Now remove your working copy from /usr/tmp: % rm -rf /usr/tmp/cs162-xy Funny Little One-Letter Codes ----------------------------- cvs update and cvs commit list all the files"
+    },
+    {
+      "chunk_id": 45,
+      "text": "-- cvs update and cvs commit list all the files they touch preceded by a one-character code signifying the change. Here is a quick key to the code: Code Meaning ---- --------------------------------------------------------------"
+    },
+    {
+      "chunk_id": 46,
+      "text": "---------------------------------------------------- M The file is modified in your working directory. U The file was brought up to date with respect to the repository. P The file was patched to bring it up to date with r"
+    },
+    {
+      "chunk_id": 47,
+      "text": "The file was patched to bring it up to date with respect to the repository. ? The file is in your working directory, but not in the repository (it is an \"unknown file\"). C A conflict was detected while trying"
+    },
+    {
+      "chunk_id": 48,
+      "text": ". C A conflict was detected while trying to merge your changes to file with changes from the source repository. Edit the file, by hand to fix up the changes. Look for the string \"<<<<\" A The file is scheduled"
+    },
+    {
+      "chunk_id": 49,
+      "text": "he string \"<<<<\" A The file is scheduled to be added to the source repository at the next time you run \"cvs commit\". R The file is scheduled to be removed from the source repository at the next time you run \""
+    },
+    {
+      "chunk_id": 50,
+      "text": "e repository at the next time you run \"cvs commit\". CVS Do's and Don'ts ------------------- Don't cancel your CVS commits or checkouts with Control-C. CVS is not a database. It does not have transactions. You could irrevocably scre"
+    },
+    {
+      "chunk_id": 51,
+      "text": "not have transactions. You could irrevocably screw up your CVS repository if you cancel your CVS operations in the middle. Don't e-mail files or send them by ICQ, etc., to your partners. Instead, put them in the CVS repository. You might wan"
+    },
+    {
+      "chunk_id": 52,
+      "text": "d, put them in the CVS repository. You might want to have a special \"test\" subdirectory where you store incomplete versions of things. Don't use empty log messages when you commit files. Your partners need to be able to see the code changes"
+    },
+    {
+      "chunk_id": 53,
+      "text": "artners need to be able to see the code changes you make. Don't send e-mail to your partners explaining how your code works. Instead, write down how your code works in a file, put the file in the CVS repository (perhaps in a special \"doc\" di"
+    },
+    {
+      "chunk_id": 54,
+      "text": "the CVS repository (perhaps in a special \"doc\" directory), and tell your partners to look in the file. Do make an effort to check in your code as often as possible. But don't check in anything that doesn't compile. Going back to earlier ver"
+    },
+    {
+      "chunk_id": 55,
+      "text": "that doesn't compile. Going back to earlier versions of files --------------------------------------- Inevitably, you will want to return to previous versions of files. You can get information about versions of files by reading the commit log."
+    },
+    {
+      "chunk_id": 56,
+      "text": "about versions of files by reading the commit log. To look at the commit log corresponding to a file, use \"cvs log\" on that file. % cvs log debug.cc | more RCS file: /services/cvs/vm/debug.cc,v Working file: debug.cc head: 1.13 branch:"
+    },
+    {
+      "chunk_id": 57,
+      "text": "cc,v Working file: debug.cc head: 1.13 branch: locks: strict access list: symbolic names: keyword substitution: kv total revisions: 13; selected revisions: 13 description: ---------------------------- revision 1.13 date: 2000/10/10 05:"
+    },
+    {
+      "chunk_id": 58,
+      "text": "------------- revision 1.13 date: 2000/10/10 05:58:19; author: brg; state: Exp; lines: +4 -4 debug.cc: (exception) Print out a message when an exception is caught by the debugger (for now.) (target_read_memory) Note that we should be tra"
+    },
+    {
+      "chunk_id": 59,
+      "text": "(target_read_memory) Note that we should be translating the addresses. (target_write_memory) Likewise. ---------------------------- revision 1.12 date: 2000/10/08 20:22:45; author: brg; state: Exp; lines: +12 -2 debug.cc: (exception) Stub"
+    },
+    {
+      "chunk_id": 60,
+      "text": "e: Exp; lines: +12 -2 debug.cc: (exception) Stub implementation of Debug::exception(). ---------------------------- ... Here you can see that the October 10 revision is 1.13, and the October 8 revision is 1.12. If you want to get the 1.12"
+    },
+    {
+      "chunk_id": 61,
+      "text": "8 revision is 1.12. If you want to get the 1.12 version, you can run: % cvs update -p -r 1.12 debug.cc > debug.cc.1.12 =================================================================== Checking out debug.cc RCS: /services/cvs/vm/debug.c"
+    },
+    {
+      "chunk_id": 62,
+      "text": "cking out debug.cc RCS: /services/cvs/vm/debug.cc,v VERS: 1.12 *************** If you should choose to make 1.12 the current revision, you can do so by checking it in again: % mv debug.cc.1.12 debug.cc % cvs commit -m 'debug.cc: rol"
+    },
+    {
+      "chunk_id": 63,
+      "text": "c.1.12 debug.cc % cvs commit -m 'debug.cc: rolled back to version 1.12' debug.cc Summary of CVS commands ----------------------- CVS commands are issued by typing the word cvs before the command. So to create a new CVS repository, you would"
+    },
+    {
+      "chunk_id": 64,
+      "text": "nd. So to create a new CVS repository, you would say % cvs init List of CVS commands: add Add a new file/directory to the repository admin Administration front end for rcs annotate Show last revis"
+    },
+    {
+      "chunk_id": 65,
+      "text": "t end for rcs annotate Show last revision where each line was modified checkout Checkout sources for editing commit Check files into the repository diff Show differences between revisions"
+    },
+    {
+      "chunk_id": 66,
+      "text": "Show differences between revisions edit Get ready to edit a watched file editors See who is editing a watched file export Export sources from CVS, similar to checkout history Show reposit"
+    },
+    {
+      "chunk_id": 67,
+      "text": "ilar to checkout history Show repository access history import Import sources into CVS, using vendor branches init Create a CVS repository if it doesn't exist log Print out history informati"
+    },
+    {
+      "chunk_id": 68,
+      "text": "t log Print out history information for files login Prompt for password for authenticating server. logout Removes entry in .cvspass for remote repository. rdiff Create 'patch' format diffs"
+    },
+    {
+      "chunk_id": 69,
+      "text": "rdiff Create 'patch' format diffs between releases release Indicate that a Module is no longer in use remove Remove an entry from the repository rtag Add a symbolic tag to a module st"
+    },
+    {
+      "chunk_id": 70,
+      "text": "Add a symbolic tag to a module status Display status information on checked out files tag Add a symbolic tag to checked out version of files unedit Undo an edit command update Bring"
+    },
+    {
+      "chunk_id": 71,
+      "text": "Undo an edit command update Bring work tree in sync with repository watch Set watches watchers See who is watching a file Try % cvs COMMAND -h for help on a specific COMMAND. Group Account Adminis"
+    },
+    {
+      "chunk_id": 72,
+      "text": "elp on a specific COMMAND. Group Account Administration for TAs ------------------------------------ These are programs that the teaching staff can run to administer the UNIX accounts that are used for CVS groups in their class. /share/b/bin"
+    },
+    {
+      "chunk_id": 73,
+      "text": "sed for CVS groups in their class. /share/b/bin/groupadmin \"groupadmin\" is a command that allows members of a specific UNIX group to manage the SSH keys of students in the group accounts that are used for CVS. The UNIX logins of the"
+    },
+    {
+      "chunk_id": 74,
+      "text": "t are used for CVS. The UNIX logins of the instructor and TAs need to be in a a UNIX group with a name such as 'cs162-staff'. The staff groups already exist for many classes, and the teaching staff can request it from \"inst@eecs.berkele"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ing staff can request it from \"inst@eecs.berkeley.edu\" if needed. To use \"groupadmin\", the instructor or TA must be logged into the UNIX account that is in the staff group (ie \"cs162\", \"cs162-ta\", etc). Usage: add accounts: groupadmi"
+    },
+    {
+      "chunk_id": 76,
+      "text": "a\", etc). Usage: add accounts: groupadmin -g GROUP-NAME -a USER1,USER2 delete accounts: groupadmin -g GROUP-NAME -d USER1,USER2 list members of a group: groupadmin -g GROUP-NAME -l list members of all groups: groupadmin -c CL"
+    },
+    {
+      "chunk_id": 77,
+      "text": "-l list members of all groups: groupadmin -c CLASS-NAME -l list all groups: groupadmin -c CLASS-NAME -n (Note: no spaces in the USER list) It does not require any input, so it is good for use in a batch file. /share/b/bin/groupnames ("
+    },
+    {
+      "chunk_id": 78,
+      "text": "use in a batch file. /share/b/bin/groupnames (list members of all groups for a class) /share/b/bin/grouprosters (list all groups for a class) These programs have been integrated in to 'groupadmin'. They are now obsolete and will be remove"
+    },
+    {
+      "chunk_id": 79,
+      "text": "dmin'. They are now obsolete and will be removed in Jan 2006. (kevinm, Oct 4 2005) Security through Obscurity -------------------------- A simple, but less secure solution for a group of students to share a CVS repository is to share a d"
+    },
+    {
+      "chunk_id": 80,
+      "text": "dents to share a CVS repository is to share a directory that is only known to the people in the group. The users must be in the same UNIX group. You can, however, still run cvs. The only advantage of the cvs group accounts is that they ha"
+    },
+    {
+      "chunk_id": 81,
+      "text": "antage of the cvs group accounts is that they have a separate quota, and that they are completely secure. What I'm about to describe uses security through obscurity, so as long as only your group knows the secret, you are fine. In the root"
+    },
+    {
+      "chunk_id": 82,
+      "text": "up knows the secret, you are fine. In the root of one of your accounts (pick a person who isn't running the db (for quota reasons)), do the following: chmod g+x . mkdir share chmod 711 share cd share mkdir secret chmod 711 secret cd secr"
+    },
+    {
+      "chunk_id": 83,
+      "text": "cd share mkdir secret chmod 711 secret cd secret mkdir cvsroot chmod 770 cvsroot At this point, you have made it so that other cs169 students can cd into your homedir, and you have created directories share and secret that do not allow n"
+    },
+    {
+      "chunk_id": 84,
+      "text": "directories share and secret that do not allow nosy people to ls. As such, as long as you don't tell anybody outside your group the name of the 'secret' folder, all is fine. You need to set your CVSROOT to the cvsroot directory we just create"
+    },
+    {
+      "chunk_id": 85,
+      "text": "ur CVSROOT to the cvsroot directory we just created, so: setenv CVSROOT /home/cc/cs169/fa02/class/cs169-??/share/secret/cvsroot where ?? is the login letters of whoever created the directory. You may want to put that line into your .cshrc fi"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ou may want to put that line into your .cshrc file (such that you don't have to type if every time you open a shell), but if you do, make sure you do it correctly, as you can get your account into a state that won't allow you to login. Now"
+    },
+    {
+      "chunk_id": 87,
+      "text": "to a state that won't allow you to login. Now, do a cvs init, and you should see a CVSROOT directory made inside that cvsroot directory you just made. At this point, your repository is ready for your imported source. After you do the imp"
+    },
+    {
+      "chunk_id": 88,
+      "text": "for your imported source. After you do the import, you need to chmod 770 the directory that contains your project. Go into the cvsroot, and whatever you imported, make sure that directory is chmod 770. If you cvs add any additional direct"
+    },
+    {
+      "chunk_id": 89,
+      "text": "chmod 770. If you cvs add any additional directories, do the same for those too. Security with SSH ------------------ This setup is very similar in nature to that of the cvs group mentioned above. Except is this case the explanation is meant"
+    },
+    {
+      "chunk_id": 90,
+      "text": "bove. Except is this case the explanation is meant for those that don't have a group account, but want to use ssh as their mechanism for getting files via cvs. To get this started you need to choose yourself or someone in the group that will"
+    },
+    {
+      "chunk_id": 91,
+      "text": "hoose yourself or someone in the group that will be hosting the cvs files. Once this is done the user in question then creates a CVSROOT in dir home directory. Example: % mkdir /home/cc/cs169/fa02/class/cs169-??/cvsroot % setenv CVSROOT /ho"
+    },
+    {
+      "chunk_id": 92,
+      "text": "/fa02/class/cs169-??/cvsroot % setenv CVSROOT /home/cc/cs169/fa02/class/cs169-??/cvsroot % cvs init Once you have done this you need to ask your group members to generate ssh keys. Each member will have to call ssh-keygen. Example: % ssh-"
+    },
+    {
+      "chunk_id": 93,
+      "text": "will have to call ssh-keygen. Example: % ssh-keygen -t dsa Generating public/private dsa key pair. Enter file in which to save the key (/home/cc/cs169/fa06/class/cs169-??/.ssh/id_dsa): Enter passphrase (empty for no passphrase): Enter same p"
+    },
+    {
+      "chunk_id": 94,
+      "text": "assphrase (empty for no passphrase): Enter same passphrase again: Your identification has been saved in /home/cc/cs169/fa06/class/cs169-??/.ssh/id_dsa. Your public key has been saved in /home/cc/cs169/fa06/class/cs169-??/.ssh/id_dsa.pub. The key"
+    },
+    {
+      "chunk_id": 95,
+      "text": "169/fa06/class/cs169-??/.ssh/id_dsa.pub. The key fingerprint is: 6b:34:fc:8f:5f:60:98:7b:da:7f:e8:05:50:e3:eb:24 cs169-??@rhombus The only file we care about is the Public key. You need to have your group members email you this key. Once you"
+    },
+    {
+      "chunk_id": 96,
+      "text": "our group members email you this key. Once you get the keys you place them into your .ssh directory and call them whatever you want: Good names could be login.pub. Once you have done this you need to create .ssh/authorization file that looks"
+    },
+    {
+      "chunk_id": 97,
+      "text": "eed to create .ssh/authorization file that looks like this. Example: .ssh/authorization: Key login.pub Key login2.pub The user that sent the ket now has to create a corresponding file labled .ssh/identification. Example: .ssh/id"
+    },
+    {
+      "chunk_id": 98,
+      "text": "led .ssh/identification. Example: .ssh/identification: IdKey id_dsa <-- The key that was generated. Once this is complete the partners that will access the cvs repository from you need to add the following environment variables in ord"
+    },
+    {
+      "chunk_id": 99,
+      "text": "to add the following environment variables in order to get access to the repository. setenv CVS_RSH ssh setenv CVSROOT :ext:(mainpartner-login)@host:/home/cc/cs169/fa02/class/cs169-??/cvsroot Now that these variables are set we need to d"
+    },
+    {
+      "chunk_id": 100,
+      "text": "t Now that these variables are set we need to do one last thing so that when you use cvs your not prompted for a passwd. To achieve this you will need to use ssh-agent and ssh-add. Example: % eval `ssh-agent -c` % ssh-add Once you h"
+    },
+    {
+      "chunk_id": 101,
+      "text": ": % eval `ssh-agent -c` % ssh-add Once you have done this and everthing went smoothly, you should be able to run cvs without being prompted for a passwd. Here are some useful aliases alias pass 'eval `ssh-agent -c`; ssh-add' alias"
+    },
+    {
+      "chunk_id": 102,
+      "text": "lias pass 'eval `ssh-agent -c`; ssh-add' alias cvssetup 'set cvsdir=~\\!:1/{cvsroot}; setenv CVSROOT \\ :ext:\\!:1@cube.cs.berkeley.edu:$cvsdir; setenv CVS_RSH ssh; pass; unset cvsdir' Make sure to replace {cvsroot} with your CVSROOT path. For M"
+    },
+    {
+      "chunk_id": 103,
+      "text": "o replace {cvsroot} with your CVSROOT path. For More Information -------------------- Students, please see these CVS manuals: http://www.cvshome.org/docs/manual/index.html http://www.oreilly.com/catalog/sshtdg/chapter/ch08.html http:/"
+    },
+    {
+      "chunk_id": 104,
+      "text": "ly.com/catalog/sshtdg/chapter/ch08.html http://subversion.tigris.org/ (alternative to CVS) Staff, please also see ~inst/docs/cvsgroup.txt Instructional Support Group 384/386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

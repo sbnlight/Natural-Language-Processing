@@ -1,0 +1,369 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/CapeCodeHost",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / CapeCode Swarmlet Host Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / CapeCode Swarmlet Host Quick Start CapeCode is a co"
+    },
+    {
+      "chunk_id": 2,
+      "text": "apeCode Swarmlet Host Quick Start CapeCode is a configuration of Ptolemy II specialized for creating swarmlets using accessors. To use CapeCode, you must install Ptolemy II (as of this writing, you need the current development version, not a release)"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ed the current development version, not a release), After Ptolemy II is installed, then you can invoke Cape Code on the command line as follows: $PTII/bin/capecode [$[Get Code]] You will see the following welcome window: In this configuration of Ptol"
+    },
+    {
+      "chunk_id": 4,
+      "text": "wing welcome window: In this configuration of Ptolemy II, every accessor that is checked into the TerraSwarm accessor repository is available in a library to be dragged in to a model and connected with other accessors or Ptolemy II actors. The model"
+    },
+    {
+      "chunk_id": 5,
+      "text": "h other accessors or Ptolemy II actors. The model editor displays the accessor library in the palette of actors available to be dragged into a model as shown to the left. The welcome window shown above has a link to a suite of demos that you can exec"
+    },
+    {
+      "chunk_id": 6,
+      "text": "e has a link to a suite of demos that you can execute to get a feel for what accessors and swarmlets can do. Documentation that is available includes: code documentation for accessors, modules, and hosts in the TerraSwarm accessor repository . code d"
+    },
+    {
+      "chunk_id": 7,
+      "text": "sts in the TerraSwarm accessor repository . code documentation for Ptolemy II JavaScript modules code documentation for the Ptolemy II JavaScript actor , which hosts accessors. The documentation provided by an accessor is also available in Vergil by"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ded by an accessor is also available in Vergil by right clicking on the accessor icon and selecting Documentation->Get Documentation. The first time you do this, you may have to build the documentation by following the prompts. To prototype your own"
+    },
+    {
+      "chunk_id": 9,
+      "text": "n by following the prompts. To prototype your own accessors, drag a JavaScript actor from the Utilities library and open it (right click and select Open Actor). You can then enter you JavaScript code conforming with the Accessor Specification . For e"
+    },
+    {
+      "chunk_id": 10,
+      "text": "conforming with the Accessor Specification . For example, the following code creates a simple test accessor that doubles a numerical input: exports. setup = function ( ) { input ( 'in' ) ; output ( 'out' ) ; } exports. fire = function ( ) { send ( 'o"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ut' ) ; } exports. fire = function ( ) { send ( 'out' , get ( 'in' ) * 2 ) ; } [$[Get Code]] More examples can be found in the code documentation for the Ptolemy II JavaScript actor , which is also available by right clicking on the JavaScript actor"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ailable by right clicking on the JavaScript actor and selecting Get Documentation. Components of Cape Code Cape Code supports the Accessor Specification (version 1). It is built from three components: The Nashorn JavaScript engine. Nashorn is the nat"
+    },
+    {
+      "chunk_id": 13,
+      "text": "The Nashorn JavaScript engine. Nashorn is the native JavaScript in Java 8 and above. It runs on the Java virtual machine and provides full access to Java, thereby offering a rich programming environment that combines a scripted, gradually-typed lang"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ent that combines a scripted, gradually-typed language (JavaScript) with a strongly-typed object-oriented language (Java). Since Java has rich networking and I/O libraries, it is relatively easy to build interfaces to devices using Nashorn. The Ptole"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ild interfaces to devices using Nashorn. The Ptolemy II modeling environment or its Cape Code configuration. Ptolemy II provides a mechanism for importing accessors from a library and connecting them to each other and to library actors. The default l"
+    },
+    {
+      "chunk_id": 16,
+      "text": "to each other and to library actors. The default library of actors is at https://ptolemy.berkeley.edu/accessors , but any directory or website that includes an index.json file that lists available accessors is a library. Ptolemy II has a graphical bl"
+    },
+    {
+      "chunk_id": 17,
+      "text": "essors is a library. Ptolemy II has a graphical block-diagram editor called Vergil for composing accessors and building swarmlets. Swarmlets in this host can mix accessors with ordinary Ptolemy II actors. The Vert.x library for event-driven programmi"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ors. The Vert.x library for event-driven programming. The Ptolemy II accessor host makes use of Vertx to implement several of the optional (but important) modules that an accessor may require, including modules providing HTTP, Web socket, and publish"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ng modules providing HTTP, Web socket, and publish-and-subscribe services. Model of Computation (MoC) The contract between an accessor and its environment is one of the key questions that this research raises. In the Ptolemy II/Nashorn host, we use t"
+    },
+    {
+      "chunk_id": 20,
+      "text": "h raises. In the Ptolemy II/Nashorn host, we use the discrete-event director to govern the interactions between an accessor and its environment. This has a number of attractive consequences. One is that setTimeout and setInterval are precise. For exa"
+    },
+    {
+      "chunk_id": 21,
+      "text": "at setTimeout and setInterval are precise. For example, if two accessors produce data with the same interval using setInterval, then any downstream accessor will see data from these two accessors simultaneously . Also, if two uses of setTimeout have"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ltaneously . Also, if two uses of setTimeout have different time values, the order of invocation is guaranteed. This is not usually true in JavaScript programming environments. In the DE model of computation, all interactions between actors is via t"
+    },
+    {
+      "chunk_id": 23,
+      "text": "putation, all interactions between actors is via time-stamped events. The contract is that each actor will see events in time-stamp order. If there are multiple events with the same time stamp, then an actor will see them simultaneously (in the same"
+    },
+    {
+      "chunk_id": 24,
+      "text": "an actor will see them simultaneously (in the same handler or fire invocation). By default, the DE director in Ptolemy II does not synchronize with real time. It runs as quickly as possible, so time stamps will typically advance faster than real time"
+    },
+    {
+      "chunk_id": 25,
+      "text": "tamps will typically advance faster than real time. If you double click on the director and select synchronizeToRealTime , then the execution will slow so that time stamps do not advance more rapidly than real time. It may also be useful to uncheck"
+    },
+    {
+      "chunk_id": 26,
+      "text": "than real time. It may also be useful to uncheck stopWhenQueueIsEmpty so that the execution does not stop prematurely. This is useful, for example, when setTimeout() is being used to trigger an action in the future. In the Cape Code configuration, s"
+    },
+    {
+      "chunk_id": 27,
+      "text": "n in the future. In the Cape Code configuration, synchronizeToRealTime is true by default, and stopWhenQueueIsEmpty is false by default. Note that under the DE Director, actors will not fire unless they either receive an input event or explicitly req"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ey either receive an input event or explicitly request a firing (e.g. using the JavaScript setTimeout function). As a consequence, many accessors have a trigger input to force a firing. You can provide triggering events using the SingleEvent or Discr"
+    },
+    {
+      "chunk_id": 29,
+      "text": "e triggering events using the SingleEvent or DiscreteClock actors in the actor library. Zero Delay Loops In Cape Code, models with a loop where there is no delay in the loop will result in an exception being thrown: \"Found a zero delay loop containin"
+    },
+    {
+      "chunk_id": 30,
+      "text": "n being thrown: \"Found a zero delay loop containing ...\" In Cape Code, one workaround for this problem is to add a MicrostepDelay actor to the loop. However, other accessor hosts do no have a MicrostepDelay, so the workaround is to set the output p"
+    },
+    {
+      "chunk_id": 31,
+      "text": "tepDelay, so the workaround is to set the output port to be spontaneous . Cape Code Zero Delay Loops Implementation Notes Building Swarmlets In the Cape Code configuration, the TerraSwarm accessor library automatically appears in the palette of actor"
+    },
+    {
+      "chunk_id": 32,
+      "text": "rary automatically appears in the palette of actors available to be dragged into a model. You can also import accessors that are not in the library (e.g. accessors that you are developing) by selecting File-Import-Import Accessor from the menu. To us"
+    },
+    {
+      "chunk_id": 33,
+      "text": "g File-Import-Import Accessor from the menu. To use this menu command, your accessor must be in a directory that contains a file called index.json that lists the accessors in the accessors in the directory. For example, the camera directory in the Te"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ctory. For example, the camera directory in the TerraSwarm accessor library currently includes the following index.json file: [ \"Camera.js\", \"Foscam.js\" ] [$[Get Code]] To import the Camera accessor, first choose the directory containing the index.js"
+    },
+    {
+      "chunk_id": 35,
+      "text": "first choose the directory containing the index.json file, then choose the accessor to import, as shown below: JavaScript actors When building swarmlets, it is common to need to perform functions that are not already provided by an accessor or an act"
+    },
+    {
+      "chunk_id": 36,
+      "text": "are not already provided by an accessor or an actor in the Ptolemy II library. For such functions, you can easily create a custom actor by dragging in an instance of the JavaScript actor, and then building a custom accessor (define a function export"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ilding a custom accessor (define a function exports.setup() to create ports and parameters, exports.initialize() to initialize the accessor, etc.). Look inside the JavaScript actor (right click -> Open Actor) to edit the JavaScript code. Accessors t"
+    },
+    {
+      "chunk_id": 38,
+      "text": "en Actor) to edit the JavaScript code. Accessors typically use modules to implement host-specific functionality. If your functionality is not host-specific, then rather than adding an Accessor, create a JavaScript actor. For example a Ramp would be"
+    },
+    {
+      "chunk_id": 39,
+      "text": "a JavaScript actor. For example a Ramp would be implemented using a JavaScript actor because it is trivial JavaScript and it is not host-specific. A Display would be an accessor because the Display behaves differently on the different hosts. If yo"
+    },
+    {
+      "chunk_id": 40,
+      "text": "behaves differently on the different hosts. If you want to prototype an accessor and have your JavaScript code run in exactly the same environment that an accessor's code runs (which is a bit more restrictive than the code run by a JavaScript actor)"
+    },
+    {
+      "chunk_id": 41,
+      "text": "strictive than the code run by a JavaScript actor), then you can instantiate a plain JSAccessor from its class definition; in the Ptolemy menu bar: Graph -> Instantiate Entity -> org.terraswarm.accessor.JSAccessor . Cape Code Script Parameter - notes"
+    },
+    {
+      "chunk_id": 42,
+      "text": "or.JSAccessor . Cape Code Script Parameter - notes about the script parameter in the JavaScript actor. Debugging If your swarmlet is not behaving as expected, it can be useful to right click on an actor or port and listen to it. This will open a wind"
+    },
+    {
+      "chunk_id": 43,
+      "text": "or or port and listen to it. This will open a window that displays messages that may give you an indication of what is going on. The Debug menu also provides an option to listen to the director. This will tell you about time-stamped events and about"
+    },
+    {
+      "chunk_id": 44,
+      "text": "will tell you about time-stamped events and about actor firings. Inputs and Outputs Input Output When you import an accessor into Ptolemy II, an accessor input becomes either an input port or a port parameter (aka PortParameter ), depending on whethe"
+    },
+    {
+      "chunk_id": 45,
+      "text": "arameter (aka PortParameter ), depending on whether a default value is provided. A port parameter appears as both an input port (rendered graphically with a gray-filled triangle) and a parameter of the actor. The initial value of the parameter will b"
+    },
+    {
+      "chunk_id": 46,
+      "text": "e actor. The initial value of the parameter will be the one provided by the accessor as a default value. If at any time a new value is provided on the input port, then that value will henceforth be used by accessor instead of the default value. An ac"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ed by accessor instead of the default value. An accessor output becomes an output port in Ptolemy II. After the accessor is instantiated, to set the default value of an input port, see Input -> Setting the Default Value of an Input . Ptolemy II is s"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ng the Default Value of an Input . Ptolemy II is strongly typed, so input and output ports must be typed. The host implementation automatically handles conversion from JavaScript types in the accessor to Ptolemy II types of the ports. The types of t"
+    },
+    {
+      "chunk_id": 49,
+      "text": "r to Ptolemy II types of the ports. The types of the ports will depend on the accessor's input and output data types . An input or output declaring type boolean or string will result in Ptolemy II ports with type boolean or string, respectively. The"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ts with type boolean or string, respectively. The accessor type number becomes the Ptolemy type double . The accessor type JSON becomes the type string , and the parameter editing box acquires a yellow background to hint to you that you should enter"
+    },
+    {
+      "chunk_id": 51,
+      "text": "w background to hint to you that you should enter data in JSON syntax, not in the syntax of the Ptolemy II expression language (which is based on MATLAB). See also Outputs/Sending To Outputs and JSON . The actor library includes two convenient actor"
+    },
+    {
+      "chunk_id": 52,
+      "text": ". The actor library includes two convenient actors, JSONToToken and TokenToJSON (the Find box above the palette is useful for finding such things). The output type of JSONToToken is not declared, however. You will probably either need to specify the"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ever. You will probably either need to specify the type or enable backward type inference on the model (right click on the background). See the Ptolemy II type system documentation . If an accessor does not specify a type for an input, then neither w"
+    },
+    {
+      "chunk_id": 54,
+      "text": "es not specify a type for an input, then neither will the Ptolemy II port. The type of the port will be inferred from the types of the source actors that send data to the port. If an accessor does not specify a type for an output , however, the outp"
+    },
+    {
+      "chunk_id": 55,
+      "text": "t specify a type for an output , however, the output type is declared to be general . Error Handling An accessor that has been imported into Ptolemy II is endowed with an additional error port named error . NOTE: This could create a conflict with an"
+    },
+    {
+      "chunk_id": 56,
+      "text": "rror . NOTE: This could create a conflict with an input or output named 'error' in the accessor. When an error occurs executing the accessor, if nothing is connected to the error port, or if the accessor is either initializing or wrapping up, then a"
+    },
+    {
+      "chunk_id": 57,
+      "text": "sor is either initializing or wrapping up, then a Java exception will be thrown and the swarmlet will stop executing. If however there is something connected to the error port, then instead of throwing an exception, the error message string will be p"
+    },
+    {
+      "chunk_id": 58,
+      "text": "g an exception, the error message string will be produced on the error output port. This enables the swarmlet to conveniently handle error without stopping execution. Even when an error stops the execution of a swarmlet, the wrapup function, if give"
+    },
+    {
+      "chunk_id": 59,
+      "text": "cution of a swarmlet, the wrapup function, if given, is nevertheless guaranteed to be invoked. JSON See JSON . Modules By design, accessors do not include any Ptolemy-specific or Java-specific code. Instead, they \"require\" modules with well-defined i"
+    },
+    {
+      "chunk_id": 60,
+      "text": "nstead, they \"require\" modules with well-defined interfaces, and if those modules are implemented in Ptolemy II, then the accessor is compatible with the Ptolemy II host. The module implementations themselves can contain Ptolemy-specific and/or Java"
+    },
+    {
+      "chunk_id": 61,
+      "text": "hemselves can contain Ptolemy-specific and/or Java-dependent code, but they should have an interface that can be implemented without Ptolemy II or Java. Modules are designed according to the Module Specification . Any module that is put into the dire"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ecification . Any module that is put into the directory $PTII/ptolemy/actor/lib/jjs/modules will be automatically found by an accessor that \"requires\" that module. If you create a new module, you should also document its interface at Optional JavaScr"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ld also document its interface at Optional JavaScript Modules . Please keep interfaces simple and as generic as possible so that they can be implemented by other swarmlet hosts than Ptolemy II. Code Generation Cape Code can generate an accessor from"
+    },
+    {
+      "chunk_id": 64,
+      "text": "eneration Cape Code can generate an accessor from a Ptolemy II model that contains only JSAccessor actors. The Cape Code Code Generators are found under Experimental Libraries -> CapeCodeGen, see AccessorCodeGenerator . To try out the Accessor Code G"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ssorCodeGenerator . To try out the Accessor Code Generator, run $PTII/bin/capecode $PTII/ptolemy/cg/kernel/generic/accessor/demo/TestComposite/TestComposite.xml Below is a screenshot of TestComposite.xml Click on the blue AccessorCodeGenerator icon a"
+    },
+    {
+      "chunk_id": 66,
+      "text": "xml Click on the blue AccessorCodeGenerator icon and then click on the Generate button. $PTII/org/terraswarm/accessor/accessors/web/cg/TestComposite.js will be created and the Node Host will be invoked on it. The output will be something like: // Sta"
+    },
+    {
+      "chunk_id": 67,
+      "text": "d on it. The output will be something like: // Starting ptolemy.cg.kernel.generic.accessor.AccessorCodeGenerator { .TestComposite.AccessorCodeGenerator } code generation. Writing TestComposite.js in file: / Users / cxh / ptII / org / terraswarm / acc"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ile: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / cg / ( 2081 characters ) In \"/Users/cxh/ptII/org/terraswarm/accessor/accessors/web/cg\" , about to execute: node .. / node_modules /@ accessors-hosts / node / nodeHostInvoke.j"
+    },
+    {
+      "chunk_id": 69,
+      "text": "dules /@ accessors-hosts / node / nodeHostInvoke.js cg / TestComposite // Code generation complete. All initialized accessors have wrapped up. Terminating. All Done. // Code generation complete. [$[Get Code]] Note that only models that contain Ptolem"
+    },
+    {
+      "chunk_id": 70,
+      "text": "t Code]] Note that only models that contain Ptolemy II JavaScript and JSAccessor actors are supported. The AccessorCodeGenerator will not generate code for models that contain Ptolemy II Java actors like Ramp. Location of Generated Code The Accessor"
+    },
+    {
+      "chunk_id": 71,
+      "text": "like Ramp. Location of Generated Code The AccessorsCodeGenerator generates code by default in $PTII/org/terraswarm/accessor/accessors/web/cg . The reason this directory is the default is because the generated code can be run by multiple accessor hos"
+    },
+    {
+      "chunk_id": 72,
+      "text": "generated code can be run by multiple accessor hosts, though the node accessor host is the default accessor host used by the code generator. Composite accessors created from Cape Code tests and demos should be placed in the accessors repository. If"
+    },
+    {
+      "chunk_id": 73,
+      "text": "should be placed in the accessors repository. If a model tests a specific accessor, then the composite accessor should go into a test/auto directory for that accessor. For example accessors/web/net/test/auto/ contains tests for the the net accessors"
+    },
+    {
+      "chunk_id": 74,
+      "text": "est/auto/ contains tests for the the net accessors such as WebSocketClient and WebSocketServer Each Accessor host that supports accessors in that subdirectory should run the composite accessors in the corresponding shared test/auto/ directory For exa"
+    },
+    {
+      "chunk_id": 75,
+      "text": "corresponding shared test/auto/ directory For example, accessors/web/hosts/node/test/mocha/testNodeAuto.js runs the auto/ tests supported by the Node Host If there are accessor host-specific tests, then they could go into accessors/web/node_modules/"
+    },
+    {
+      "chunk_id": 76,
+      "text": "hen they could go into accessors/web/node_modules/@accessors-hosts/ accessorHost /node_modules/@accessors-modules/ module /test/auto accessors/web/node_modules/@accessors-hosts/ accessorHost /node_modules/@accessors-modules// module /test/auto direct"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ules/@accessors-modules// module /test/auto directory. For example, WebSocketClient tests that only run under the browser host could go int accessors/web/node_modules/@accessors-hosts/browser/node_modules/@accessors-modules/web-socket-client/test/au"
+    },
+    {
+      "chunk_id": 78,
+      "text": "dules/@accessors-modules/web-socket-client/test/auto . JUnit support some form of hierarchy in reporting tests. We should avoid having tests appear in the JUnit \"(root)\" module and have them report in a location that corresponds to where the tests a"
+    },
+    {
+      "chunk_id": 79,
+      "text": "n a location that corresponds to where the tests are in the source tree. When generating a composite accessor from a Cape Code test, the parameters of the AccessorCodeGenerator should be adjusted accordingly. For example $PTII/ptolemy/actor/lib/jjs/m"
+    },
+    {
+      "chunk_id": 80,
+      "text": "rdingly. For example $PTII/ptolemy/actor/lib/jjs/modules/httpClient/test/auto/TestRESTGet.xml will generate a composite accessor at org/terraswarm/accessor/accessors/web/net/test/auto/TestRESTGet.js because the AccessorCodeGenerator has the following"
+    },
+    {
+      "chunk_id": 81,
+      "text": "ecause the AccessorCodeGenerator has the following settings: codeDirectory $PTII/org/terraswarm/accessor/accessors/web/net/test/auto runCommands node ../../../node_modules/@accessors-hosts/node/nodeHostInvoke.js net/test/auto/@modelName@ Note that t"
+    },
+    {
+      "chunk_id": 82,
+      "text": "stInvoke.js net/test/auto/@modelName@ Note that the path to ../../../node_modules/@accessors-hosts/node/nodeHostInvoke.js is relative from the $PTII/org/terraswarm/accessor/accessors/web/net/test/auto directory. To run these tests, cd to $PTII/org/t"
+    },
+    {
+      "chunk_id": 83,
+      "text": "o directory. To run these tests, cd to $PTII/org/terraswarm/accessor/accessors/web and run ant tests.mocha . See Testing for details. AccessorSSHCodeGenerator The AccessorSSHCodeGenerator uses ssh to deploy to a remote machine. In Cape Code, Accesso"
+    },
+    {
+      "chunk_id": 84,
+      "text": "deploy to a remote machine. In Cape Code, AccessorSSHCodeGenerator may be found under Experimental Libraries -> CapeCodegen -> AccessorSSHCodeGenerator AccessorSSHCodeGenerator has one parameter userHost , which should have the username, a and the h"
+    },
+    {
+      "chunk_id": 85,
+      "text": "Host , which should have the username, a and the hostname, like: sbuser@swarmnuc001.eecs.berkeley.edu To use this actor, you must have ssh access set up to the client. To use it with a SwarmBox, it is best to use the sbuser account . The AccessorSSH"
+    },
+    {
+      "chunk_id": 86,
+      "text": "s best to use the sbuser account . The AccessorSSHCodeGenerator uses $PTII/ptolemy/cg/kernel/generic/accessor/accessorInvokeSSH to copy the generated Node Host Swarmlet over to the client and invoke it. AccessorSSHCodeGenerator JavaDoc A simple examp"
+    },
+    {
+      "chunk_id": 87,
+      "text": "t. AccessorSSHCodeGenerator JavaDoc A simple example: $PTII/bin/vergil $PTII//ptolemy/cg/kernel/generic/accessor/test/auto/RampJSTestDisplay.xml How use use npm upload to update the @terraswarm/accessors npm package that is used by accessorInvokeSSH"
+    },
+    {
+      "chunk_id": 88,
+      "text": "ors npm package that is used by accessorInvokeSSH The code generator uses the http://pm2.keymetrics.io/ pm2 node module, which is installed by the code generator using npm . To set up the remote machine so that it will restart an accessor, it is nece"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ne so that it will restart an accessor, it is necessary to run a command as root . The necessary command is echoed by the code generator. The command need only be run once per remote host per user account. See Node Forever . Reload All Accessors $"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ccount. See Node Forever . Reload All Accessors $PTII/bin/reloadAllAccessors is a primitive script that searches the Ptolemy tree for Ptolemy models that include the JSAccessor actor. These models are loaded and the accessors are reloaded. Typical"
+    },
+    {
+      "chunk_id": 91,
+      "text": "re loaded and the accessors are reloaded. Typically, after running $PTII/bin/reloadAllAccessors , any changed models are checked in. See Also Cape Code BLE Container - Accessors hosts are not required to provide access to the container Ptolemy II Ac"
+    }
+  ]
+}

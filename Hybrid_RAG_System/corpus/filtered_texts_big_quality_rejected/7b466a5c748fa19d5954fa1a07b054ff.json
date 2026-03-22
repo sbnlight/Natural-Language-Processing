@@ -1,0 +1,325 @@
+{
+  "url": "https://iris.eecs.berkeley.edu/15-faq/15-software/sssd-linux.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "sssd on Linux | IRIS Skip to main content Skip to primary navigation Skip to primary sidebar sssd on Linux Configuring Linux to use LDAP instead of NIS Historically, Unix/Linux systems in EECS have used NIS to retrieve EECS-specific user info, groups"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ed NIS to retrieve EECS-specific user info, groups, automount maps, and other data. As the NIS wikipedia page notes, “The original NIS design was seen to have inherent limitations, especially in the areas of scalability and security, so other technol"
+    },
+    {
+      "chunk_id": 3,
+      "text": "reas of scalability and security, so other technologies have come to replace it.” The System Security Services Daemon or sssd is now a standard part of most Linux distributions and can be configured to retrieve the same data from LDAP, in a more secu"
+    },
+    {
+      "chunk_id": 4,
+      "text": "o retrieve the same data from LDAP, in a more secure manner. This page is an attempt to document a preferred sssd configuration for EECS hosts. Generic Description Manual Configuration Netgroups Info Appendix A: sssd.conf example Appendix B: Example"
+    },
+    {
+      "chunk_id": 5,
+      "text": "Appendix A: sssd.conf example Appendix B: Example Data Appendix C: Vendor-specific suggestions Generic Description Here is a basic description of how to connect to the server, what data is in LDAP, and where it is located. Server: ldap.eecs.berkeley."
+    },
+    {
+      "chunk_id": 6,
+      "text": "d where it is located. Server: ldap.eecs.berkeley.edu Port: 389 (recommend using TLS) or 636 (for LDAPS) User information:OU=People,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu Unix Group information: OU=Group,o=eecs.berkeley.edu,dc=eecs,dc=berkele"
+    },
+    {
+      "chunk_id": 7,
+      "text": "n: OU=Group,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu LDAP Groups:OU=Groups,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu Automount Maps: There are 4 automount maps maintained in LDAP: ldap://ldap.eecs.berkeley.edu/nisMapName=auto.home.eecs,o=e"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ap.eecs.berkeley.edu/nisMapName=auto.home.eecs,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu ldap://ldap.eecs.berkeley.edu/nisMapName=auto.home.cs,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu ldap://ldap.eecs.berkeley.edu/nisMapName=auto.project.e"
+    },
+    {
+      "chunk_id": 9,
+      "text": "//ldap.eecs.berkeley.edu/nisMapName=auto.project.eecs,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu ldap://ldap.eecs.berkeley.edu/nisMapName=auto.project.cs,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu Note the distinction between Unix Groups (OU="
+    },
+    {
+      "chunk_id": 10,
+      "text": "=edu Note the distinction between Unix Groups (OU=Group, singular) and LDAP Groups (OU=Groups, plural). See Appendix B for examples. Manual configuration If you are manually configuring your system, you will need to edit a few files. At a minimum, th"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ou will need to edit a few files. At a minimum, these three files: 1. /etc/pam.d/system-auth-ac You need to enter pam_sss.so in a few places. If you’ve made other customizations you may need to manually edit the file to incorporate the references to"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ly edit the file to incorporate the references to pam_sss.so. A sample file from Red Hat is below. %PAM-1.0 This file is auto-generated. User changes will be destroyed the next time authconfig is run. auth required pam_env.so auth"
+    },
+    {
+      "chunk_id": 13,
+      "text": "auth required pam_env.so auth [default=1 success=ok] pam_localuser.so auth [success=done ignore=ignore default=die] pam_unix.so nullok try_first_pass auth requisite pam_succeed_if.so uid >= 1000 quiet_success aut"
+    },
+    {
+      "chunk_id": 14,
+      "text": "pam_succeed_if.so uid >= 1000 quiet_success auth sufficient pam_sss.so forward_pass auth sufficient pam_krb5.so use_first_pass auth sufficient pam_ldap.so use_first_pass auth required pam_deny.so account"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ss auth required pam_deny.so account required pam_unix.so broken_shadow account sufficient pam_localuser.so account sufficient pam_succeed_if.so uid < 1000 quiet account [default=bad success=ok user_unknown=igno"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ount [default=bad success=ok user_unknown=ignore] pam_sss.so account [default=bad success=ok user_unknown=ignore] pam_ldap.so account [default=bad success=ok user_unknown=ignore] pam_krb5.so account required pam_permit.so passwor"
+    },
+    {
+      "chunk_id": 17,
+      "text": "so account required pam_permit.so password requisite pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type= password sufficient pam_unix.so sha512 shadow nullok try_first_pass use_authtok password sufficient"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ry_first_pass use_authtok password sufficient pam_sss.so use_authtok password sufficient pam_krb5.so use_authtok password sufficient pam_ldap.so use_authtok password required pam_deny.so session optional pam_keyinit"
+    },
+    {
+      "chunk_id": 19,
+      "text": "pam_deny.so session optional pam_keyinit.so revoke session required pam_limits.so -session optional pam_systemd.so session [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid session require"
+    },
+    {
+      "chunk_id": 20,
+      "text": "service in crond quiet use_uid session required pam_unix.so session optional pam_sss.so session optional pam_krb5.so 2. /etc/nsswitch.conf The sss service should be listed as the lookup source on these lines. passwd: fi"
+    },
+    {
+      "chunk_id": 21,
+      "text": "s the lookup source on these lines. passwd: files sss group: files sss automount: files sss 3. /etc/sssd/sssd.conf The /etc/sssd/sssd.conf file contains the main configuration for user and group lookups from LDAP. The ldap_access_filter dir"
+    },
+    {
+      "chunk_id": 22,
+      "text": "roup lookups from LDAP. The ldap_access_filter directive in /etc/sssd/sssd.conf is where you would control who can login into your server. Every person has a multi-valued ‘memberOf’ attribute in their People record which lists all the LDAP groups the"
+    },
+    {
+      "chunk_id": 23,
+      "text": "People record which lists all the LDAP groups they belong to. If you need to create or edit a LDAP group, you can use the Regroup application . You can then create custom LDAP filters to restrict access to one or more groups. For example, this restr"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ess to one or more groups. For example, this restricts access to people in the LDAP groups IDSG, webteam, or helpdesk. ldap_access_filter = (|(memberOf=cn=idsg,ou=Groups,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu)(memberOf=cn=webteam,ou=Groups,o="
+    },
+    {
+      "chunk_id": 25,
+      "text": "=berkeley,dc=edu)(memberOf=cn=webteam,ou=Groups,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu)(memberOf=cn=helpdesk,ou=Groups,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu)) Enable and start sssd: systemctl enable sssd systemctl start sssd Test us"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ystemctl enable sssd systemctl start sssd Test using the getent command: getent passwd getent passwd robm getent group idsg See Appendix A for an example sssd.conf file from Red Hat. AUTOMOUNT MAPS If you want to configure your system to automount h"
+    },
+    {
+      "chunk_id": 27,
+      "text": "f you want to configure your system to automount home and project directories from the EECS NetApp fileservers, here’s how. Before proceeding, please ensure that directories are being exported to your machine. If they are not, email help@eecs request"
+    },
+    {
+      "chunk_id": 28,
+      "text": "machine. If they are not, email help@eecs requesting that your home and project directories be exported to your machine. /etc/nsswitch.conf should be updated to contain: automount: files ldap sss Put the following in /etc/auto.master: /home/eecs lda"
+    },
+    {
+      "chunk_id": 29,
+      "text": "the following in /etc/auto.master: /home/eecs ldap://ldap.eecs.berkeley.edu/nisMapName=auto.home.eecs,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu /home/cs ldap://ldap.eecs.berkeley.edu/nisMapName=auto.home.cs,o=eecs.berkeley.edu,dc=eecs,dc=berke"
+    },
+    {
+      "chunk_id": 30,
+      "text": "=auto.home.cs,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu /project/eecs ldap://ldap.eecs.berkeley.edu/nisMapName=auto.project.eecs,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu -soft,intr,bg /project/cs ldap://ldap.eecs.berkeley.edu/nisMapNam"
+    },
+    {
+      "chunk_id": 31,
+      "text": "project/cs ldap://ldap.eecs.berkeley.edu/nisMapName=auto.project.cs,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu -soft,intr,bg Restart autofs and you should be good to go. SSHD AUTHORIZED_KEYS sssd can retrieved a user’s authorized_keys information"
+    },
+    {
+      "chunk_id": 32,
+      "text": "can retrieved a user’s authorized_keys information from LDAP insetad of ~/.ssh/authorized_keys. This can be used to bootstrap a new account with no password. 1. Add the ssh service to your /etc/sssd/sssd.conf file: [sssd] config_file_version = 2 serv"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ssd.conf file: [sssd] config_file_version = 2 services = nss,pam,ssh 2. Add a couple of lines to your /etc/ssh/sshd_config file. Using “sudo nano /etc/ssh/sshd_config” just add the following to the end: AuthorizedKeysCommand /usr/bin/sss_ssh_authoriz"
+    },
+    {
+      "chunk_id": 34,
+      "text": "d: AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys AuthorizedKeysCommandUser root Restart both sssd and sshd for these changes to take effect Netgroups A one-time snapshot of our netgroups was loaded into LDAP at one time, but this is NOT being"
+    },
+    {
+      "chunk_id": 35,
+      "text": "oaded into LDAP at one time, but this is NOT being updated. We do not plan on keeping up-to-date netgroups in LDAP and the current snapshot will eventually be deleted. In general, “netgroups-of-users” which were used for login authorization on NIS cl"
+    },
+    {
+      "chunk_id": 36,
+      "text": "which were used for login authorization on NIS clients should be phased out and replaced with LDAP groups, which can be used for the same purpose but are more flexible. You can create groups yourself or ask IRIS to bulk-convert your existing netgrou"
+    },
+    {
+      "chunk_id": 37,
+      "text": "or ask IRIS to bulk-convert your existing netgroups to LDAP groups . Appendix A: Sample sssd.conf file # This is an an EXAMPLE sssd.conf file. Do not blindly copy # it over and assume it will work! At the very least you # will need to update the ld"
+    },
+    {
+      "chunk_id": 38,
+      "text": "At the very least you # will need to update the ldap_access_filter line to specify # what users can login to your server. The location of the # SSL cert files might also differ depending on your # operating system. This example from Red Hat 7. au"
+    },
+    {
+      "chunk_id": 39,
+      "text": "perating system. This example from Red Hat 7. autofs_provider = ldap ldap_search_base = dc=eecs,dc=berkeley,dc=edu id_provider = ldap ldap_uri = ldap://ldap.eecs.berkeley.edu/ ldap_id_use_start_tls = True cache_credentials = True ldap_tls_cacertdir"
+    },
+    {
+      "chunk_id": 40,
+      "text": "= True cache_credentials = True ldap_tls_cacertdir = /etc/openldap/cacerts ldap_schema = rfc2307 [sssd] config_file_version = 2 services = nss, pam, autofs,ssh,sudo domains = LDAP [nss] filter_groups = root filter_users = root reconnection_retries"
+    },
+    {
+      "chunk_id": 41,
+      "text": "s = root filter_users = root reconnection_retries = 3 entry_cache_nowait_percentage = 75 debug_level = 3 [pam] offline_credentials_expiration = 2 debug_level = 3 offline_failed_login_attempts = 3 reconnection_retries = 3 offline_failed_login_delay ="
+    },
+    {
+      "chunk_id": 42,
+      "text": "onnection_retries = 3 offline_failed_login_delay = 5 [domain/LDAP] min_id=1000 id_provider = ldap auth_provider = ldap ldap_tls_reqcert = allow ldap_id_use_start_tls = True chpass_provider = ldap cache_credentials = True ldap_uri = ldap://ldap.eecs."
+    },
+    {
+      "chunk_id": 43,
+      "text": "he_credentials = True ldap_uri = ldap://ldap.eecs.berkeley.edu ldap_search_base = OU=People,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu ldap_group_search_base = OU=Group,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu ldap_group_member = memberUid"
+    },
+    {
+      "chunk_id": 44,
+      "text": ",dc=berkeley,dc=edu ldap_group_member = memberUid ldap_access_order = filter access_provider = ldap ldap_access_filter = (&(objectclass=posixaccount)(memberOf=cn=MyLDAPGROUP,ou=Groups,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu)) ldap_schema = rfc"
+    },
+    {
+      "chunk_id": 45,
+      "text": "edu,dc=eecs,dc=berkeley,dc=edu)) ldap_schema = rfc2307 debug_level = 9 [autofs] Appendix B: Example Data PEOPLE Here is an example People entry (public attributes only). $ ldapsearch -xLLL -h ldap.eecs.berkeley.edu -bou=People,o=eecs.berkeley.edu,d"
+    },
+    {
+      "chunk_id": 46,
+      "text": "cs.berkeley.edu -bou=People,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu uid=robm dn: eecsDWRosterID=281,ou=People,o=EECS.Berkeley.EDU,dc=EECS,dc=Berkeley,dc=ED U sn: McNicholas eecsDWRosterID: 281 objectClass: top objectClass: person obj"
+    },
+    {
+      "chunk_id": 47,
+      "text": "D: 281 objectClass: top objectClass: person objectClass: eecspeople objectClass: organizationalPerson objectClass: posixAccount objectClass: inetOrgPerson objectClass: ldapPublicKey roomNumber: 321 eecspeopledwrosteracl: 4 postalAddress: Un"
+    },
+    {
+      "chunk_id": 48,
+      "text": ": 321 eecspeopledwrosteracl: 4 postalAddress: University of CA at Berkeley$Robert McNicholas$Computer User Su pport Group$395 Cory Hall$Department of Electrical Engineerin description: Supervisor, Information Management Group ou: People uid:"
+    },
+    {
+      "chunk_id": 49,
+      "text": "r, Information Management Group ou: People uid: robm givenName: Robert employeeType: Staff businessCategory: EECS street: Soda Hall eecspeopleacctfund: 1-56011-67515-11526-43--EHCSG eecspeopledwuseracl: 4 eecsPeoplePersonStatus: active home"
+    },
+    {
+      "chunk_id": 50,
+      "text": "dwuseracl: 4 eecsPeoplePersonStatus: active homeDirectory: /home/eecs/robm uidNumber: 4027 eecsPeopleCalnetUID: 8494 eecsPeopleExpirationDate: 00:00:00, 31-jan-2099 cn: Rob McNicholas eecspeoplenickname: Rob gecos: Rob McNicholas,321 Soda,510"
+    },
+    {
+      "chunk_id": 51,
+      "text": "enickname: Rob gecos: Rob McNicholas,321 Soda,5108427624, eecsPeopleCIFCOA: 1-56011-64210-11525-43--EHDSG eecspeopleaffiliation: Eric Fraser eecsPeopleKrbPrincipal: robm@EECS.BERKELEY.EDU eecsdwnetworkacl: 4 telephoneNumber: 15108427624 mobile"
+    },
+    {
+      "chunk_id": 52,
+      "text": "etworkacl: 4 telephoneNumber: 15108427624 mobile: 15108427624 labeledURI: http://people.eecs.berkeley.edu/~robm sshPublicKey: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAsFLxwqx8moXs22qKzXhgtLY0cr3d PYCNEVpW0l2AmHEOs5cjl6krdVXpp7BkBl/6n83Kdh4Vt2c87tkB"
+    },
+    {
+      "chunk_id": 53,
+      "text": "CNEVpW0l2AmHEOs5cjl6krdVXpp7BkBl/6n83Kdh4Vt2c87tkB0Vz2h1jg/Y0dsiqJdLaLCI23H MhyP3vIqmWZ77d4dAggbemg3orGoo7zgQ1XZjwVsJod38P+KrDyuG3sMIl530jxXnE8QeFeTxuUi/ CSIVkM4t7MeYL0mKT9VEhk60yMYInQPxUB3SyYABsaI5D2hbJllQ3yeyFUP5rTM6TsLDh6kNGk6eh 0nlvG1Yao89i"
+    },
+    {
+      "chunk_id": 54,
+      "text": "I5D2hbJllQ3yeyFUP5rTM6TsLDh6kNGk6eh 0nlvG1Yao89iipYJEU6tq5q82Z2iiV/122/Us0PMQAwcxHvk9C50hdVYQjB53ey3HNsIVzG/1Eb1H y+IVuQ== robm@mint.EECS.Berkeley.EDU gidNumber: 1307 loginShell: /bin/bash title: Application Developer IV mailAlternateAddress:"
+    },
+    {
+      "chunk_id": 55,
+      "text": "e: Application Developer IV mailAlternateAddress: robm@ERSO.Berkeley.EDU mailAlternateAddress: robm@CS.Berkeley.EDU mail: robm@eecs.berkeley.edu eecspeoplelastmod: 17-AUG-17 01.44.40.518896 PM eecsPeopleCIFType: EECS-FULL GROUPS Here is an examp"
+    },
+    {
+      "chunk_id": 56,
+      "text": "csPeopleCIFType: EECS-FULL GROUPS Here is an example that shows the difference in the representation of LDAP groups vs. Unix groups. Unix groups contain just the group name, gidnumber, and usernames of members in the memberuid attribute. $ ldapsearch"
+    },
+    {
+      "chunk_id": 57,
+      "text": "f members in the memberuid attribute. $ ldapsearch -xLLL -h ldap.eecs.berkeley.edu \\ -bou=group,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu cn=idsg dn: cn=idsg,ou=Group,o=EECS.Berkeley.EDU,dc=EECS,dc=Berkeley,dc=EDU objectClass: posixGroup obj"
+    },
+    {
+      "chunk_id": 58,
+      "text": "S,dc=Berkeley,dc=EDU objectClass: posixGroup objectClass: top cn: idsg gidNumber: 10454 memberUid: fraser memberUid: goto memberUid: janetshu memberUid: kraitch memberUid: larsrohr memberUid: pathma memberUid: robm LDAP groups store the DN"
+    },
+    {
+      "chunk_id": 59,
+      "text": ": pathma memberUid: robm LDAP groups store the DN of the members in the uniqueMember attribute, along with additional information to support the Regroup application such as owner or administrator. $ ldapsearch -xLLL -h ldap.eecs.berkeley.edu -bou=g"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ldapsearch -xLLL -h ldap.eecs.berkeley.edu -bou=groups,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu cn=idsg dn: cn=IDSG,ou=Groups,o=EECS.Berkeley.EDU,dc=EECS,dc=Berkeley,dc=EDU uniqueMember: eecsDWRosterID=100,ou=people,o=eecs.berkeley.edu,dc=e"
+    },
+    {
+      "chunk_id": 61,
+      "text": "sDWRosterID=100,ou=people,o=eecs.berkeley.edu,dc=eecs,dc=berk eley,dc=edu uniqueMember: eecsDWRosterID=2711,ou=People,o=EECS.Berkeley.EDU,dc=EECS,dc=Ber keley,dc=EDU uniqueMember: eecsDWRosterID=479,ou=People,o=EECS.Berkeley.EDU,dc=EECS,dc=Be"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ID=479,ou=People,o=EECS.Berkeley.EDU,dc=EECS,dc=Berk eley,dc=EDU uniqueMember: eecsDWRosterID=27109,ou=people,o=eecs.berkeley.edu,dc=eecs,dc=be rkeley,dc=edu uniqueMember: eecsDWRosterID=143,ou=people,o=eecs.berkeley.edu,dc=eecs,dc=berk ele"
+    },
+    {
+      "chunk_id": 63,
+      "text": "u=people,o=eecs.berkeley.edu,dc=eecs,dc=berk eley,dc=edu uniqueMember: eecsDWRosterID=1614,ou=people,o=eecs.berkeley.edu,dc=eecs,dc=ber keley,dc=edu uniqueMember: eecsDWRosterID=2726,ou=people,o=eecs.berkeley.edu,dc=eecs,dc=ber keley,dc=edu"
+    },
+    {
+      "chunk_id": 64,
+      "text": ",o=eecs.berkeley.edu,dc=eecs,dc=ber keley,dc=edu uniqueMember: eecsDWRosterID=281,ou=People,o=EECS.Berkeley.EDU,dc=EECS,dc=Berk eley,dc=EDU eecsgroupowner: eecsDWRosterID=26012,ou=People,o=eecs.berkeley.edu,dc=eecs,dc= berkeley,dc=EDU cn:"
+    },
+    {
+      "chunk_id": 65,
+      "text": "s.berkeley.edu,dc=eecs,dc= berkeley,dc=EDU cn: IDSG objectClass: top objectClass: groupOfUniqueNames objectClass: eecsgroup eecsgroupadmin: eecsDWRosterID=281,ou=People,o=eecs.berkeley.edu,dc=eecs,dc=be rkeley,dc=EDU url: /idsg mail: idsg"
+    },
+    {
+      "chunk_id": 66,
+      "text": "eecs,dc=be rkeley,dc=EDU url: /idsg mail: idsg@eecs.berkeley.edu description: IRIS/EECS Infrastructure Development and Support Group Appendix C: Vendor-Specific suggestions If your preferred distribution has a command-line or gui that will do th"
+    },
+    {
+      "chunk_id": 67,
+      "text": "ribution has a command-line or gui that will do this configuration, we’d be happy to add the documentation here. RED HAT LINUX This command should configure a Red Hat system to use sssd and LDAP. It will enable the appropriate daemons, disable the un"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ill enable the appropriate daemons, disable the uneeded ones, update /etc/pam.d/system-auth and /etc/nsswitch.conf. You will still need to set up the domain in sssd.conf. See sssd.conf section . Red Hat 7 authconfig --enablelocauthorize --enableldap"
+    },
+    {
+      "chunk_id": 69,
+      "text": "at 7 authconfig --enablelocauthorize --enableldap --disableldapauth \\ --ldapserver=\"ldap.eecs.berkeley.edu\" \\ --ldapbasedn=\"dc=eecs,dc=berkeley,dc=edu\" --enablerfc2307 \\ --enableldaptls --enablecachecreds \\ --enablesssd --enablesssdauth --upd"
+    },
+    {
+      "chunk_id": 70,
+      "text": "cachecreds \\ --enablesssd --enablesssdauth --update Red Hat 8 authselect select sssd with-sudo --force UBUNTU LINUX These instructions were contributed by Kostadin Ilov. 1. Install packages: apt install nfs-common autofs apt install sssd libpam-sss"
+    },
+    {
+      "chunk_id": 71,
+      "text": "tall nfs-common autofs apt install sssd libpam-sss libnss-sss apt install autofs-ldap apt install sssd-tools /etc/nsswitch.conf file will be configured automatically. One may need to add, if it is not there already. Make sure ‘sudoers’ are referenced"
+    },
+    {
+      "chunk_id": 72,
+      "text": "there already. Make sure ‘sudoers’ are referenced with ‘files’ only. automount: files sss sudoers: files 2. Create /etc/sssd/sssd.conf file: ###/etc/sssd/sssd.conf example [domain/LDAP] autofs_provider = ldap ldap_search_base = o=eecs.berkeley.edu,"
+    },
+    {
+      "chunk_id": 73,
+      "text": "der = ldap ldap_search_base = o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu id_provider = ldap auth_provider = ldap chpass_provider = ldap ldap_uri = ldap://ldap.eecs.berkeley.edu/ ldap_id_use_start_tls = True cache_credentials = True ldap_tls_cacer"
+    },
+    {
+      "chunk_id": 74,
+      "text": "tls = True cache_credentials = True ldap_tls_cacertdir = /etc/ssl/certs ldap_schema = rfc2307 debug_level = 4 access_provider = ldap ldap_user_search_base = OU=People,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu ldap_group_search_base = OU=Group,o="
+    },
+    {
+      "chunk_id": 75,
+      "text": "rkeley,dc=edu ldap_group_search_base = OU=Group,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu ldap_access_filter = (|(objectclass=posixaccount)(memberOf=cn=MyLDAPGROUP,ou=Groups,o=eecs.berkeley.edu,dc=eecs,dc=berkeley,dc=edu)) [sssd] config_file_"
+    },
+    {
+      "chunk_id": 76,
+      "text": "c=eecs,dc=berkeley,dc=edu)) [sssd] config_file_version = 2 services = nss, pam, autofs, ssh domains = LDAP [nss] filter_groups = root filter_users = root reconnection_retries = 3 entry_cache_timeout = 300 entry_cache_nowait_percentage = 75 deb"
+    },
+    {
+      "chunk_id": 77,
+      "text": "meout = 300 entry_cache_nowait_percentage = 75 debug_level = 3 [pam] offline_credentials_expiration = 2 debug_level = 3 offline_failed_login_attempts = 3 reconnection_retries = 3 offline_failed_login_delay = 5 ldap_access_filter line controls which"
+    },
+    {
+      "chunk_id": 78,
+      "text": "_delay = 5 ldap_access_filter line controls which groups have access to the machine. Once an ldap group has been created using the regroup app, update the line to reflect the group name. File permissions must be updated and sssd should be enabled and"
+    },
+    {
+      "chunk_id": 79,
+      "text": "ons must be updated and sssd should be enabled and turned on chown root:root sssd.conf chmod 600 sssd.conf systemctl enable sssd systemctl start sssd Primary Sidebar IRIS Service Status We have 0 Active Incidents, and 1 Scheduled Maintenance noted."
+    },
+    {
+      "chunk_id": 80,
+      "text": "tive Incidents, and 1 Scheduled Maintenance noted. IST Service Status Outages to campus services are listed at berkeley.statusdashboard.com ."
+    }
+  ]
+}

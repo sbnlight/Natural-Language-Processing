@@ -1,0 +1,205 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII7.0/ptII7.0.1/doc/codeDoc/ptolemy/actor/lib/javasound/SoundPlayer.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "SoundPlayer Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.lib.javasound Class SoundPlayer java.lang.Object"
+    },
+    {
+      "chunk_id": 2,
+      "text": ".lib.javasound Class SoundPlayer java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.actor.AtomicActor ptolemy.actor.TypedAtomicActor ptolemy.actor.lib.javasou"
+    },
+    {
+      "chunk_id": 3,
+      "text": "y.actor.TypedAtomicActor ptolemy.actor.lib.javasound.SoundActor ptolemy.actor.lib.javasound.SoundPlayer All Implemented Interfaces: java.io.Serializable, java.lang.Cloneable, Actor , Executable , FiringsRecordable , Initializable , TypedActor , Chang"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ngsRecordable , Initializable , TypedActor , Changeable , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable public class SoundPlayer extends SoundActor This actor plays audio samples prov"
+    },
+    {
+      "chunk_id": 5,
+      "text": "nds SoundActor This actor plays audio samples provided on the input port. The audio samples that are supplied to this actor should be doubles in the range -1.0 to 1.0, provided as a DoubleMatrix, where the first index of the matrix represents the"
+    },
+    {
+      "chunk_id": 6,
+      "text": "here the first index of the matrix represents the channel and the second index is the sample number. That is, each row is a sequence of samples for the channel corresponding to the row number. Any input value that is outside of the valid range wi"
+    },
+    {
+      "chunk_id": 7,
+      "text": "input value that is outside of the valid range will be hard-clipped to fall within the range [-1.0, 1.0] before it is written to the audio output port of the computer. The parameters are as follows: sampleRate should be set to desired sample rate,"
+    },
+    {
+      "chunk_id": 8,
+      "text": ": sampleRate should be set to desired sample rate, in Hz. The default value is 8000. Allowable values are 8000, 11025, 22050, 44100, and 48000 Hz. bytesPerSample gives the resolution of audio samples. This is an integer that defaults to 2, meaning"
+    },
+    {
+      "chunk_id": 9,
+      "text": "s. This is an integer that defaults to 2, meaning 16-bit samples. channels should be set to desired number of audio channels. Allowable values are 1 (for mono) and 2 (for stereo). The default value is 1. Some sound cards support more than two aud"
+    },
+    {
+      "chunk_id": 10,
+      "text": "is 1. Some sound cards support more than two audio channels, but this is not supported in Java. FIXME: If this differs from the input dimensions? transferSize The number of samples that will be transferred to the audio driver together. This is"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ansferred to the audio driver together. This is an integer with default 128. The requested buffer size in the audio hardware. This affects how far ahead of real time the model can get. There is no harm in making this large because this actor will"
+    },
+    {
+      "chunk_id": 12,
+      "text": "harm in making this large because this actor will overwrite previously queued values if necessary. This is an integer that defaults to 8000, representing a buffer with 8000 samples per channel. At an 8 kHz sample rate, this corresponds to one se"
+    },
+    {
+      "chunk_id": 13,
+      "text": "an 8 kHz sample rate, this corresponds to one second of sound. All of these parameters are shared by all audio actors that use the audio hardware, so changing them in one of those actors will cause it to change in all. Note: Requires Java 2 v1.3."
+    },
+    {
+      "chunk_id": 14,
+      "text": "e it to change in all. Note: Requires Java 2 v1.3.0 or later. Since: Ptolemy II 6.1 Version: $Id: SoundPlayer.java,v 1.6 2007/12/07 06:25:34 cxh Exp $ Author: Edward A. Lee See Also: LiveSound , AudioCapture , AudioReader , AudioWriter , Serialized F"
+    },
+    {
+      "chunk_id": 15,
+      "text": "Capture , AudioReader , AudioWriter , Serialized Form Accepted Rating: Red (eal) Proposed Rating: Yellow (eal) Nested Class Summary Nested classes/interfaces inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary pr"
+    },
+    {
+      "chunk_id": 16,
+      "text": "y Entity.ContainedObjectsIterator Field Summary protected javax.sound.sampled.SourceDataLine _sourceDataLine The data line being used for playback. TypedIOPort input The input port. Fields inherited from class ptolemy.actor.lib.javasound. SoundActor"
+    },
+    {
+      "chunk_id": 17,
+      "text": "from class ptolemy.actor.lib.javasound. SoundActor _bufferSize , _bytesPerSample , _channels , _isExecuting , _sampleRate , bufferSize , bytesPerSample , channels , sampleRate Fields inherited from class ptolemy.actor. AtomicActor _actorFiringListene"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ass ptolemy.actor. AtomicActor _actorFiringListeners , _initializables , _notifyingActorFiring , _stopRequested Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners"
+    },
+    {
+      "chunk_id": 19,
+      "text": ", _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NO"
+    },
+    {
+      "chunk_id": 20,
+      "text": "interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary SoundPlayer ( CompositeEntity container, java.lang.String name) Construct an actor with the given container and name. Method Summary void init"
+    },
+    {
+      "chunk_id": 21,
+      "text": "given container and name. Method Summary void initialize () Obtain access to the audio playback hardware, and start playback. boolean postfire () Read an input array and send to the audio hardware. void wrapup () Stop audio playback and free up any a"
+    },
+    {
+      "chunk_id": 22,
+      "text": "id wrapup () Stop audio playback and free up any audio resources used for audio playback. Methods inherited from class ptolemy.actor.lib.javasound. SoundActor _doubleArrayToByteArray , attributeChanged Methods inherited from class ptolemy.actor. Ty"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ged Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChanged , clone , newPort , typeConstraintList Methods inherited from class ptolemy.actor. AtomicActor _actorFiring , _actorFiring , _createReceivers , addActorF"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ring , _actorFiring , _createReceivers , addActorFiringListener , addInitializable , clone , connectionsChanged , fire , getDirector , getExecutiveDirector , getFunctionDependency , getManager , inputPortList , isFireFunctional , isStrict , iterate ,"
+    },
+    {
+      "chunk_id": 25,
+      "text": "PortList , isFireFunctional , isStrict , iterate , newReceiver , outputPortList , prefire , preinitialize , pruneDependencies , recordFiring , removeActorFiringListener , removeDependency , removeInitializable , setContainer , stop , stopFire , termi"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ializable , setContainer , stop , stopFire , terminate Methods inherited from class ptolemy.kernel. ComponentEntity _adjustDeferrals , _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , isAtomic , isOpaque , mo"
+    },
+    {
+      "chunk_id": 27,
+      "text": "Container , instantiate , isAtomic , isOpaque , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _description , _exportMoMLContents , _removePort , _validate"
+    },
+    {
+      "chunk_id": 28,
+      "text": "on , _exportMoMLContents , _removePort , _validateSettables , connectedPortList , connectedPorts , containedObjectsIterator , getAttribute , getPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition ,"
+    },
+    {
+      "chunk_id": 29,
+      "text": "portList , removeAllPorts , setClassDefinition , uniqueName Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition , isWithinClassDe"
+    },
+    {
+      "chunk_id": 30,
+      "text": "rototypeList , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _getIndentPr"
+    },
+    {
+      "chunk_id": 31,
+      "text": ", _debug , _debug , _debug , _debug , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeList , attributeList , deepCon"
+    },
+    {
+      "chunk_id": 32,
+      "text": "Listener , attributeList , attributeList , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeLis"
+    },
+    {
+      "chunk_id": 33,
+      "text": "lain , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverri"
+    },
+    {
+      "chunk_id": 34,
+      "text": "eModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplay"
+    },
+    {
+      "chunk_id": 35,
+      "text": "rringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, get"
+    },
+    {
+      "chunk_id": 36,
+      "text": "from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor getDirector , getExecutiveDirector , getFunctionDependency , getManager , inputPortList , new"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ctionDependency , getManager , inputPortList , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable fire , isFireFunctional , isStrict , iterate , prefire , stop , stopFire , terminate Methods inherited from interfa"
+    },
+    {
+      "chunk_id": 38,
+      "text": "topFire , terminate Methods inherited from interface ptolemy.actor. Initializable addInitializable , preinitialize , removeInitializable Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getF"
+    },
+    {
+      "chunk_id": 39,
+      "text": "description , getContainer , getDisplayName , getFullName , getName , getName , setName Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Field Detail input public TypedIOPort input The"
+    },
+    {
+      "chunk_id": 40,
+      "text": "e Field Detail input public TypedIOPort input The input port. This port must receive double matrix tokens (in the range of -1.0 to 1.0). _sourceDataLine protected javax.sound.sampled.SourceDataLine _sourceDataLine The data line being used for play"
+    },
+    {
+      "chunk_id": 41,
+      "text": "_sourceDataLine The data line being used for playback. Constructor Detail SoundPlayer public SoundPlayer ( CompositeEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Co"
+    },
+    {
+      "chunk_id": 42,
+      "text": "legalActionException , NameDuplicationException Construct an actor with the given container and name. Parameters: container - The container. name - The name of this actor. Throws: IllegalActionException - If the actor cannot be contained by the pr"
+    },
+    {
+      "chunk_id": 43,
+      "text": "on - If the actor cannot be contained by the proposed container. NameDuplicationException - If the container already has an actor with this name. Method Detail initialize public void initialize () throws IllegalActionException"
+    },
+    {
+      "chunk_id": 44,
+      "text": "() throws IllegalActionException Obtain access to the audio playback hardware, and start playback. An exception will occur if there is a problem starting playback. This will occur if another SoundPlayer actor is playing audio."
+    },
+    {
+      "chunk_id": 45,
+      "text": "if another SoundPlayer actor is playing audio. Specified by: initialize in interface Initializable Overrides: initialize in class SoundActor Throws: IllegalActionException - If there is a problem beginning audio playback. postfire public boolea"
+    },
+    {
+      "chunk_id": 46,
+      "text": "beginning audio playback. postfire public boolean postfire () throws IllegalActionException Read an input array and send to the audio hardware. If the audio buffer cannot accept the samples, then this method will stall the cal"
+    },
+    {
+      "chunk_id": 47,
+      "text": "the samples, then this method will stall the calling thread until it can. Specified by: postfire in interface Executable Overrides: postfire in class AtomicActor Returns: True if execution can continue into the next iteration. Throws: IllegalAction"
+    },
+    {
+      "chunk_id": 48,
+      "text": "nue into the next iteration. Throws: IllegalActionException - If there is a problem playing audio. wrapup public void wrapup () throws IllegalActionException Stop audio playback and free up any audio resources used for audio playbac"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ee up any audio resources used for audio playback. Specified by: wrapup in interface Initializable Overrides: wrapup in class SoundActor Throws: IllegalActionException - If there is a problem stopping audio playback. Overview Package Class Tree"
+    },
+    {
+      "chunk_id": 50,
+      "text": "pping audio playback. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

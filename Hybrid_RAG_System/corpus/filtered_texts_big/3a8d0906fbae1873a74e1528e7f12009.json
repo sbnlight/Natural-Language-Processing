@@ -1,0 +1,301 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII4.0/ptII4.0.1/doc/codeDoc/ptolemy/actor/lib/io/comm/SerialComm.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "SerialComm Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.lib.io.comm Class SerialComm java.lang.Object pt"
+    },
+    {
+      "chunk_id": 2,
+      "text": "r.lib.io.comm Class SerialComm java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.actor.AtomicActor ptolemy.actor.TypedAtomicActor ptolemy.actor.lib.io.comm.S"
+    },
+    {
+      "chunk_id": 3,
+      "text": "actor.TypedAtomicActor ptolemy.actor.lib.io.comm.SerialComm All Implemented Interfaces: Actor , Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , Instantiable , ModelErrorHandler , MoMLExportable , Nameable , jav"
+    },
+    {
+      "chunk_id": 4,
+      "text": "odelErrorHandler , MoMLExportable , Nameable , java.io.Serializable, TypedActor public class SerialComm extends TypedAtomicActor Send and receive bytes via the serial port. The serial port and baud rate are specified by parameters. This actor req"
+    },
+    {
+      "chunk_id": 5,
+      "text": "d rate are specified by parameters. This actor requires that the Java comm API be installed. The comm API comes from http://java.sun.com/products/javacomm/ To install the comm API on a Windows machine: place the win32com.dll in $JDK\\jre\\bin dir"
+    },
+    {
+      "chunk_id": 6,
+      "text": "achine: place the win32com.dll in $JDK\\jre\\bin directory. make sure the win32com.dll is executable. Place the comm.jar in $JDK\\jre\\lib\\ext. Place the javax.comm.properties in $JDK\\jre\\lib . where $JDK is the location of your Java development kit. Thi"
+    },
+    {
+      "chunk_id": 7,
+      "text": "is the location of your Java development kit. This actor can be used in most domains, but the parameters must be chosen carefully to match the domain semantics. This actor sets up a listener to the serial port, and when input data appears on"
+    },
+    {
+      "chunk_id": 8,
+      "text": "o the serial port, and when input data appears on the serial port, it calls fireAtCurrentTime() on the director. This behavior is useful in the DE domain, for example (although you will likely have to set the stopWhenQueueIsEmpty parameter"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ly have to set the stopWhenQueueIsEmpty parameter of the director false). Some domains, however, such as SDF, ignore the fireAtCurrentTime() call. Such domains, will typically fire this actor when its outputs are needed. Consequently, for u"
+    },
+    {
+      "chunk_id": 10,
+      "text": "hen its outputs are needed. Consequently, for use in such domains, you will likely want to set the blocking parameter of this actor to true. When this parameter is true, the fire() method first reads data on its input port (if any) and wr"
+    },
+    {
+      "chunk_id": 11,
+      "text": "st reads data on its input port (if any) and writes it to the serial port, and then blocks until sufficient input data are available at the serial port. It then reads that data from the serial port and packages it as a byte array to produ"
+    },
+    {
+      "chunk_id": 12,
+      "text": "l port and packages it as a byte array to produce on the output of this actor. The inputs and outputs of this actor are unsigned byte arrays. The minimumOutputSize parameter specifies the minimum number of bytes that are produced on the outp"
+    },
+    {
+      "chunk_id": 13,
+      "text": "m number of bytes that are produced on the output in each firing. The maximumOutputSize parameter specifies the maximum number of bytes that are produced on the output on each firing. If these two numbers are equal, then when a firing produ"
+    },
+    {
+      "chunk_id": 14,
+      "text": "two numbers are equal, then when a firing produces data, it will always produce the same amount of data. Otherwise, the amount of data produced is nondeterministic. The discardOldData parameter, if true, indicates that the fire() method"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ter, if true, indicates that the fire() method may discard bytes. In particular, if there are more than maximumOutputSize bytes available on the serial port, then all but the most recent maximumOutputSize will be discarded. For example, if"
+    },
+    {
+      "chunk_id": 16,
+      "text": "imumOutputSize will be discarded. For example, if you wish for this actor to produce only the most recent byte read on the serial port each time it fires, set discardOldData to true, blocking to true, and both minimumOutputSize and maximumOu"
+    },
+    {
+      "chunk_id": 17,
+      "text": "true, and both minimumOutputSize and maximumOutputSize to 1. If after firing there are additional data available on the input port, then the fire() method will call fireAtCurrentTime() on the director before returning. FIXME: This actor has"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e director before returning. FIXME: This actor has some key limitations. It currently works only under Windows. It is designed under the (poor) assumption that there will be only one instance of the actor present. It should use static data str"
+    },
+    {
+      "chunk_id": 19,
+      "text": "e actor present. It should use static data structures to ensure that if there are multiple instances, then all instances see all serial port input data. Since: Ptolemy II 2.0 Version: $Id: SerialComm.java,v 1.18 2004/04/13 03:07:00 cxh Exp $ A"
+    },
+    {
+      "chunk_id": 20,
+      "text": "alComm.java,v 1.18 2004/04/13 03:07:00 cxh Exp $ Author: Winthrop Williams, Joern Janneck, Xiaojun Liu, Edward A. Lee (Based on my RxDatagram, and on the IRLink class writen by Xiaojun Liu) See Also: Serialized Form Accepted Rating: red (winthrop)"
+    },
+    {
+      "chunk_id": 21,
+      "text": "o: Serialized Form Accepted Rating: red (winthrop) Proposed Rating: red (winthrop) Nested Class Summary Nested classes inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary Parameter baudRate The baud rate of the s"
+    },
+    {
+      "chunk_id": 22,
+      "text": "Summary Parameter baudRate The baud rate of the serial port, such as 19200 (the default), 19200, or 115200, for the serial port. Parameter blocking Indicator of whether fire method is blocking. TypedIOPort dataReceived The output port for data tha"
+    },
+    {
+      "chunk_id": 23,
+      "text": "edIOPort dataReceived The output port for data that has been received by the serial port. TypedIOPort dataToSend The input port for data to be sent to the serial port. Parameter discardOldData Indicator of whether to discard old data. Parameter maxim"
+    },
+    {
+      "chunk_id": 24,
+      "text": "or of whether to discard old data. Parameter maximumOutputSize The maximum number of bytes produced in each firing on the output. Parameter minimumOutputSize The minimum number of bytes that will be read from the serial port and produced on the out"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ead from the serial port and produced on the output. StringParameter serialPortName Attribute giving the serial port to use. Fields inherited from class ptolemy.actor. AtomicActor _stopRequested Fields inherited from class ptolemy.kernel.util. Name"
+    },
+    {
+      "chunk_id": 26,
+      "text": "lds inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINK"
+    },
+    {
+      "chunk_id": 27,
+      "text": "AME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary SerialComm ( CompositeEntity container, java.lang.String name) Constru"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ntainer, java.lang.String name) Construct a SerialComm actor with the given container and name. Method Summary void attributeChanged ( Attribute attribute) If the parameter changed is serialPortName , then hope the model is not running a"
+    },
+    {
+      "chunk_id": 29,
+      "text": "lPortName , then hope the model is not running and do nothing. void fire () If input data is available at the serial port, read it and produce it as a byte array at the output port of this actor; if a token is available at the input port of thi"
+    },
+    {
+      "chunk_id": 30,
+      "text": "if a token is available at the input port of this actor, consume it and send the bytes contained by this token to the serial port. void preinitialize () Perform resource allocation for this actor. void serialEvent (SerialPortEvent e) React to a"
+    },
+    {
+      "chunk_id": 31,
+      "text": "r. void serialEvent (SerialPortEvent e) React to an event from the serial port. void stop () Override the base class to stop waiting for input data. void stopFire () Override the base class to stop waiting for input data. void wrapup () Close the ser"
+    },
+    {
+      "chunk_id": 32,
+      "text": "iting for input data. void wrapup () Close the serial port. Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChanged , clone , newPort , typeConstraintList Methods inherited from class ptolemy.actor. AtomicActor _c"
+    },
+    {
+      "chunk_id": 33,
+      "text": "inherited from class ptolemy.actor. AtomicActor _createReceivers , clone , connectionsChanged , getDirector , getExecutiveDirector , getFunctionDependency , getManager , initialize , inputPortList , iterate , newReceiver , outputPortList , postfire ,"
+    },
+    {
+      "chunk_id": 34,
+      "text": "terate , newReceiver , outputPortList , postfire , prefire , pruneDependencies , removeDependency , setContainer , terminate Methods inherited from class ptolemy.kernel. ComponentEntity _adjustDeferrals , _checkContainer , _getContainedObject , _prop"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ls , _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , isAtomic , isOpaque , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _description , _exportMoMLContents , _removePort ,"
+    },
+    {
+      "chunk_id": 36,
+      "text": "description , _exportMoMLContents , _removePort , connectedPortList , connectedPorts , containedObjectsIterator , getAttribute , getPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition , uniqueName ,"
+    },
+    {
+      "chunk_id": 37,
+      "text": "removeAllPorts , setClassDefinition , uniqueName , validateSettables Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition Methods i"
+    },
+    {
+      "chunk_id": 38,
+      "text": "t , getPrototypeList , isClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _getIndentPrefix , _isMoMLSuppressed , _markCont"
+    },
+    {
+      "chunk_id": 39,
+      "text": ", _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeList , attributeList , deepContains , depthInHierarchy , descripti"
+    },
+    {
+      "chunk_id": 40,
+      "text": "List , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedLi"
+    },
+    {
+      "chunk_id": 41,
+      "text": "rs , getClassName , getDerivedLevel , getDerivedList , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateValue , propagateValues , remo"
+    },
+    {
+      "chunk_id": 42,
+      "text": "message , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setModelErrorHandler , setPersistent , setSource , toplevel , toString , workspac"
+    },
+    {
+      "chunk_id": 43,
+      "text": "stent , setSource , toplevel , toString , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor getDirector , getExecuti"
+    },
+    {
+      "chunk_id": 44,
+      "text": "face ptolemy.actor. Actor getDirector , getExecutiveDirector , getFunctionDependency , getManager , inputPortList , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable initialize , iterate , postfire , prefire , te"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ble initialize , iterate , postfire , prefire , terminate Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , g"
+    },
+    {
+      "chunk_id": 46,
+      "text": "face ptolemy.kernel.util. Nameable description , getFullName , getName , getName Field Detail baudRate public Parameter baudRate The baud rate of the serial port, such as 19200 (the default), 19200, or 115200, for the serial port. This has type"
+    },
+    {
+      "chunk_id": 47,
+      "text": "or 115200, for the serial port. This has type integer and defaults to 19200. blocking public Parameter blocking Indicator of whether fire method is blocking. If true, fire() waits until minimumOutputSize bytes have arrived. The type is boole"
+    },
+    {
+      "chunk_id": 48,
+      "text": "OutputSize bytes have arrived. The type is boolean with default false. dataToSend public TypedIOPort dataToSend The input port for data to be sent to the serial port. This port has type unsigned byte array. dataReceived public TypedIOPort dataRec"
+    },
+    {
+      "chunk_id": 49,
+      "text": "yte array. dataReceived public TypedIOPort dataReceived The output port for data that has been received by the serial port. This port has type unsigned byte array. discardOldData public Parameter discardOldData Indicator of whether to discard old d"
+    },
+    {
+      "chunk_id": 50,
+      "text": "scardOldData Indicator of whether to discard old data. If this is true, then the fire() method will read all available data, but produce no more than maximumOutputSize bytes on the output, discarding the rest. This is a boolean that defaults t"
+    },
+    {
+      "chunk_id": 51,
+      "text": "rding the rest. This is a boolean that defaults to false. maximumOutputSize public Parameter maximumOutputSize The maximum number of bytes produced in each firing on the output. This is an integer that defaults to MaxInt. It is required to be at"
+    },
+    {
+      "chunk_id": 52,
+      "text": "that defaults to MaxInt. It is required to be at least as large as minimumOutputSize minimumOutputSize public Parameter minimumOutputSize The minimum number of bytes that will be read from the serial port and produced on the output. This is requ"
+    },
+    {
+      "chunk_id": 53,
+      "text": "l port and produced on the output. This is required to be a strictly positive integer, and it defaults to 1. serialPortName public StringParameter serialPortName Attribute giving the serial port to use. This is a string with the default being"
+    },
+    {
+      "chunk_id": 54,
+      "text": "to use. This is a string with the default being the first serial port listed by the javax.comm.CommPortIdentifier class. If there are no serial ports available (meaning probably that the javax.comm package is not installed properly), then th"
+    },
+    {
+      "chunk_id": 55,
+      "text": "comm package is not installed properly), then the value of the string will be \"no ports available\". Constructor Detail SerialComm public SerialComm ( CompositeEntity container, java.lang.String name) throws NameDuplic"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ava.lang.String name) throws NameDuplicationException , IllegalActionException Construct a SerialComm actor with the given container and name. Parameters: container - The container. name - The name of this actor. Throws: IllegalActionExcep"
+    },
+    {
+      "chunk_id": 57,
+      "text": "The name of this actor. Throws: IllegalActionException - If the actor cannot be contained by the proposed container. NameDuplicationException - If the container already has an actor with this name. Method Detail attributeChanged public void att"
+    },
+    {
+      "chunk_id": 58,
+      "text": "me. Method Detail attributeChanged public void attributeChanged ( Attribute attribute) throws IllegalActionException If the parameter changed is serialPortName , then hope the model is not running and do nothing. Likewise for"
+    },
+    {
+      "chunk_id": 59,
+      "text": "model is not running and do nothing. Likewise for baudRate. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that changed. Throws: IllegalActionException - Not thrown in this base class. fire public void fire ()"
+    },
+    {
+      "chunk_id": 60,
+      "text": "wn in this base class. fire public void fire () throws IllegalActionException If input data is available at the serial port, read it and produce it as a byte array at the output port of this actor; if a token is available at the input p"
+    },
+    {
+      "chunk_id": 61,
+      "text": "is actor; if a token is available at the input port of this actor, consume it and send the bytes contained by this token to the serial port. If blocking is true, then after writing the input data to the serial port, stall the calling thread"
+    },
+    {
+      "chunk_id": 62,
+      "text": "data to the serial port, stall the calling thread until there are input data available at the serial port. The minimumOutputSize specifies the minimum number of bytes that must be available. Before returning, if data is sent to the serial port,"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ore returning, if data is sent to the serial port, this method calls flush(). However, the flush() method does not wait for the hardware to complete the transmission, as this might take many milliseconds (roughly 1mS for every 10 bytes at 115"
+    },
+    {
+      "chunk_id": 64,
+      "text": "liseconds (roughly 1mS for every 10 bytes at 115200 baud). Consequently, the data will not have been completely produced on the serial port when this returns. If data is still available on the serial port when this returns, then before returnin"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ial port when this returns, then before returning it calls fireAtCurrentTime() on the director. Specified by: fire in interface Executable Overrides: fire in class AtomicActor Throws: IllegalActionException - Not thrown in this base class. preiniti"
+    },
+    {
+      "chunk_id": 66,
+      "text": "xception - Not thrown in this base class. preinitialize public void preinitialize () throws IllegalActionException Perform resource allocation for this actor. Specifically, open the serial port (setting the baud rate and other"
+    },
+    {
+      "chunk_id": 67,
+      "text": "he serial port (setting the baud rate and other communication settings) and then activate the serial port's event listening resource, directing events to the serialEvent() method of this actor. Specified by: preinitialize in interface Executabl"
+    },
+    {
+      "chunk_id": 68,
+      "text": "Specified by: preinitialize in interface Executable Overrides: preinitialize in class AtomicActor Throws: IllegalActionException - Not thrown in this base class. serialEvent public void serialEvent (SerialPortEvent e) React to an event from the seria"
+    },
+    {
+      "chunk_id": 69,
+      "text": "erialPortEvent e) React to an event from the serial port. This is the one and only method required to implement SerialPortEventListener (which this class implements). This method calls fireAtCurrentTime() of the director if sufficient input"
+    },
+    {
+      "chunk_id": 70,
+      "text": "urrentTime() of the director if sufficient input data is available on the serial port. stop public void stop () Override the base class to stop waiting for input data. Specified by: stop in interface Executable Overrides: stop in class AtomicActor"
+    },
+    {
+      "chunk_id": 71,
+      "text": "e Executable Overrides: stop in class AtomicActor stopFire public void stopFire () Override the base class to stop waiting for input data. Specified by: stopFire in interface Executable Overrides: stopFire in class AtomicActor wrapup public void wrap"
+    },
+    {
+      "chunk_id": 72,
+      "text": "pFire in class AtomicActor wrapup public void wrapup () throws IllegalActionException Close the serial port. This method is invoked exactly once per execution of an application. None of the other action methods should be be invoked"
+    },
+    {
+      "chunk_id": 73,
+      "text": "of the other action methods should be be invoked after it. Specified by: wrapup in interface Executable Overrides: wrapup in class AtomicActor Throws: IllegalActionException - Not thrown in this base class. Overview Package Class Tree Deprecated In"
+    },
+    {
+      "chunk_id": 74,
+      "text": "e class. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

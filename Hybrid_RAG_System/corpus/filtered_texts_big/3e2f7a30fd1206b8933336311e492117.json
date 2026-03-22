@@ -1,0 +1,133 @@
+{
+  "url": "https://iris.eecs.berkeley.edu/faq/security/ssh-server-configuration/",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "SSH Server Configuration | IRIS Skip to main content Skip to primary navigation Skip to primary sidebar SSH Server Configuration The revised campus Minimum Security Standards for Network Devices (MSSND) (effective Jan 1, 2022; to be implemented by De"
+    },
+    {
+      "chunk_id": 2,
+      "text": "D) (effective Jan 1, 2022; to be implemented by Dec 31, 2022) includes restrictions on acceptable use of remote interactive shells . Ideally, some form of multi-factor authentication (MFA) should be used for any remote access, to help prevent attacks"
+    },
+    {
+      "chunk_id": 3,
+      "text": "sed for any remote access, to help prevent attacks via compromised credentials. At the end of the Fall 2022 semester, IRIS will begin blocking incoming SSH connections from off-campus, except to those machines registered with us as approved SSH serve"
+    },
+    {
+      "chunk_id": 4,
+      "text": "machines registered with us as approved SSH servers. Such machines should use one of the “Approved SSH Server Configurations for use from off-campus” described below. This means that simply starting an SSH server on your machine will no longer be su"
+    },
+    {
+      "chunk_id": 5,
+      "text": "an SSH server on your machine will no longer be sufficient to allow remote access to it from anywhere. If you require SSH access from off-campus, you will also need to use one of the following configurations approved for use from off-campus, and upda"
+    },
+    {
+      "chunk_id": 6,
+      "text": "rations approved for use from off-campus, and update the machine’s network registration to indicate that it’s an SSH server with an approved configuration. Recommended SSH Server Configuration Use the default! Hosts should generally not allow SSH con"
+    },
+    {
+      "chunk_id": 7,
+      "text": "default! Hosts should generally not allow SSH connections from off-campus. By default, our firewall will block SSH connections from off-campus. So SSH connections will only be allowed from other campus or VPN hosts (making it easy for Berkeley folks"
+    },
+    {
+      "chunk_id": 8,
+      "text": "us or VPN hosts (making it easy for Berkeley folks to connect from anywhere). No special configuration of sshd is needed, and no need to request that SSH be exposed to the internet, when you register your device for use on EECS networks. Approved SSH"
+    },
+    {
+      "chunk_id": 9,
+      "text": "your device for use on EECS networks. Approved SSH Server Configurations for use from off-campus For hosts that must have SSH service exposed to the internet, one of the following configurations may be used. We also strongly recommend using something"
+    },
+    {
+      "chunk_id": 10,
+      "text": "e used. We also strongly recommend using something like fail2ban on such hosts, to help prevent brute-force attacks. These configurations are considered “unit approved” for the purposes of MSSND. Option 1: Limit access to specific IP addresses The ma"
+    },
+    {
+      "chunk_id": 11,
+      "text": "on 1: Limit access to specific IP addresses The main concern is with SSH servers that are widely open to the internet. If your SSH server limits access (e.g. using a local firewall) to certain specific IP addresses, then it is not within the scope of"
+    },
+    {
+      "chunk_id": 12,
+      "text": "c IP addresses, then it is not within the scope of MSSND’s restrictions on remote interactive shells. You may update such a system’s network registration to indicate that it’s an SSH server, and the department firewall will be updated accordingly. Op"
+    },
+    {
+      "chunk_id": 13,
+      "text": "epartment firewall will be updated accordingly. Option 2: Allow public keys only, no typed passwords With this configuration, having one’s username and account password is not enough to gain access via SSH. Users need to set up an SSH public/private"
+    },
+    {
+      "chunk_id": 14,
+      "text": "a SSH. Users need to set up an SSH public/private keypair , and must have both their private key and their SSH passphrase in order to connect to the SSH server that has their public key. The simplest way to enforce this, is to disable the use of pass"
+    },
+    {
+      "chunk_id": 15,
+      "text": "way to enforce this, is to disable the use of passwords with SSH, with the sshd_config setting: PasswordAuthentication no You may also need to set KbdInteractiveAuthentication or ChallengeResponseAuthentication to no, depending on your version of SSH"
+    },
+    {
+      "chunk_id": 16,
+      "text": "entication to no, depending on your version of SSH. Once set, and with sshd restarted, it’s a good idea to check that any attempt at an SSH login without public keys fails: login 25> ssh larsrohr@myserver.eecs.berkeley.edu -o PubkeyAuthentication=no"
+    },
+    {
+      "chunk_id": 17,
+      "text": "rver.eecs.berkeley.edu -o PubkeyAuthentication=no Permission denied (publickey,gssapi-keyex,gssapi-with-mic). For machines that are configured to use sssd and our EECS LDAP directory , one can also look to LDAP for the user’s SSH public key. So remot"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ok to LDAP for the user’s SSH public key. So remote EECS users can create their SSH public/private keypair, upload their public key to LDAP , and then connect via SSH. This works with additional sshd_config settings: AuthorizedKeysCommand /usr/bin/ss"
+    },
+    {
+      "chunk_id": 19,
+      "text": "config settings: AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys AuthorizedKeysCommandUser root Option 3: Use Google Auth for 2-Factor Authentication With this configuration, users must each go through steps to create the secret-key for their a"
+    },
+    {
+      "chunk_id": 20,
+      "text": "through steps to create the secret-key for their account and create an entry in their Google Authenticator app, which may need to be done while they are on campus or the campus VPN. Users will typically use the Google Authenticator or FreeOTP apps on"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ly use the Google Authenticator or FreeOTP apps on their iOS or Android phones. Then, for every SSH connection, the user will be prompted first for password or SSH passphrase, and then for their Google Authenticator 6-digit verification code. We have"
+    },
+    {
+      "chunk_id": 22,
+      "text": "e Authenticator 6-digit verification code. We have this configuration enabled and available to use on login-mfa.eecs.berkeley.edu. See also: https://wiki.archlinux.org/title/Google_Authenticator How to install google authenticator for Red Hat: Instal"
+    },
+    {
+      "chunk_id": 23,
+      "text": "o install google authenticator for Red Hat: Installing Google Authenticator for sudo and su More notes: Setting up multi-factor authentication on Linux systems Red Hat page on OTP: 22.3. One-Time Passwords Red Hat Enterprise Linux 7 To enable this on"
+    },
+    {
+      "chunk_id": 24,
+      "text": "words Red Hat Enterprise Linux 7 To enable this on a RedHat linux machine, after installing the google-authenticator package, one edits /etc/pam.d/sshd to include: auth required pam_google_authenticator.so nullok and to comment-out the following line"
+    },
+    {
+      "chunk_id": 25,
+      "text": "or.so nullok and to comment-out the following line: #auth substack password-auth Then, one needs to enable in sshd_config the settings: ChallengeResponseAuthentication yes AuthenticationMethods publickey,keyboard-interactive Option 4: Use Duo for 2-F"
+    },
+    {
+      "chunk_id": 26,
+      "text": "key,keyboard-interactive Option 4: Use Duo for 2-Factor Authentication With this configuration, users must each go through steps to create the secret-key for their account and create an entry in their Duo Mobile app, which may need to be done while t"
+    },
+    {
+      "chunk_id": 27,
+      "text": "Duo Mobile app, which may need to be done while they are on campus or the campus VPN. One advantage over the above Google Authenticator option, is that Berkeley users generally are already users of Duo Mobile; however, this option requires that one’"
+    },
+    {
+      "chunk_id": 28,
+      "text": "uo Mobile; however, this option requires that one’s username on the SSH server match one’s CalNet ID, so this may not be suitable for many EECS systems. See https://duo.com/docs/loginduo for information on setting up this configuration. You may reque"
+    },
+    {
+      "chunk_id": 29,
+      "text": "on on setting up this configuration. You may request a Duo “secret key”, “Integration key” and API hostname from the CalNet team . Option 5: Enforced Hardware Key Usage With this configuration option, users make use of USB hardware tokens (such as Yu"
+    },
+    {
+      "chunk_id": 30,
+      "text": "users make use of USB hardware tokens (such as YubiKeys) to enable hardware-backed SSH authentication, where one’s SSH private key resides on the hardware token, and one must touch the token to complete the SSH connection. Specific configurations va"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ete the SSH connection. Specific configurations vary; approved configurations require users to touch the hardware token for each connection (disallow “no-touch-required” options). See: https://developers.yubico.com/SSH/ Primary Sidebar IRIS Service S"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ers.yubico.com/SSH/ Primary Sidebar IRIS Service Status We have 0 Active Incidents, and 1 Scheduled Maintenance noted. IST Service Status Outages to campus services are listed at berkeley.statusdashboard.com ."
+    }
+  ]
+}

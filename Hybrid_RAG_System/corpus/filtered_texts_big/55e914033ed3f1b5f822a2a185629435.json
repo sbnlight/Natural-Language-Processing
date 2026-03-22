@@ -1,0 +1,121 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/WebSocketClient",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / webSocketClient module Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / webSocketClient module This is version 0, s"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ion0 / webSocketClient module This is version 0, see Version Current WebSocketServer The webSocketClient module supports web socket clients. Web sockets differ from HTTP interactions by including a notion of a bidirectional connection called a \"socke"
+    },
+    {
+      "chunk_id": 4,
+      "text": "rbitrary number of bytes. It also differs from a TCP socket in that the connection is established through HTTP and is supported by most web browsers. This module defines one class, Client. To make a connection, create an instance of Client (using new"
+    },
+    {
+      "chunk_id": 5,
+      "text": "onnection, create an instance of Client (using new) and set up listeners and/or invoke the send() function of the client to send a message. This module also provides two utility functions that return arrays of MIME types supported for sending or rece"
+    },
+    {
+      "chunk_id": 6,
+      "text": "arrays of MIME types supported for sending or receiving messages. Specifying a message type facilitates conversion between the byte streams transported over the socket and JavaScript objects that are passed to send() or emitted as a 'message' event."
+    },
+    {
+      "chunk_id": 7,
+      "text": "passed to send() or emitted as a 'message' event. These functions specify what types are supported by a particular implementation of this module. Implementations of this module should support at least the following types: application/json : The this."
+    },
+    {
+      "chunk_id": 8,
+      "text": "the following types: application/json : The this.send() function uses JSON.stringify() and sends the result with a UTF-8 encoding. An incoming byte stream will be parsed as JSON, and if the parsing fails, will be provided as a string interpretation"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ails, will be provided as a string interpretation of the byte stream. text/plain : Any text type is sent as a string encoded in UTF-8. Module Functions supportedReceiveTypes : Return an array of the types supported by the current host for the receive"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ypes supported by the current host for the receiveType options. supportedSendTypes : Return an array of the types supported by the current host for the sendType option. Client Class A Client is constructed (using new) by the Client function, which ta"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ucted (using new) by the Client function, which takes one (optional) argument, an options object, defined below. A Client instance represents a single web socket connection to a server and can send and receive messages to and from that server. A Clie"
+    },
+    {
+      "chunk_id": 12,
+      "text": "d receive messages to and from that server. A Client object is an EventEmitter, and you can register handlers for the following events: open : Emitted when the socket has been successfully opened. message : Emitted with the body of the message as an"
+    },
+    {
+      "chunk_id": 13,
+      "text": "sage : Emitted with the body of the message as an argument when an incoming message arrives on the socket. close : Emitted when the socket is closed. error : Emitted if an an error occurs (with an error message as an argument). The functions provided"
+    },
+    {
+      "chunk_id": 14,
+      "text": "or message as an argument). The functions provided by the Client class are: open (): Open the socket connection. Call this after setting up event handlers. send ( data ): Send data over the web socket. If the socket has not yet been successfully open"
+    },
+    {
+      "chunk_id": 15,
+      "text": ". If the socket has not yet been successfully opened, then queue data to be sent later, when the socket is opened, unless the discardMessagesBeforeOpen option is given with value true. close (): Close the current connection with the server. If there"
+    },
+    {
+      "chunk_id": 16,
+      "text": "the current connection with the server. If there is data that was passed to this.send() but has not yet been successfully sent (because the socket was not open), then those messages will be lost. The type of data sent and received can be specified w"
+    },
+    {
+      "chunk_id": 17,
+      "text": "type of data sent and received can be specified with the sendType and receiveType options. In principle, any MIME type can be specified, but the host may support only a subset of MIME types. The client and the server have to agree on the type, or t"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ent and the server have to agree on the type, or the data will not get through correctly. The default type for both sending and receiving is 'application/json'. For this type, the host will use JSON.stringify() to convert any JavaScript object passed"
+    },
+    {
+      "chunk_id": 19,
+      "text": "tringify() to convert any JavaScript object passed to send() into a string, and for received messages, will attempt to parse the message as a JSON string. An example usage is given below: var webSocket = require ( 'webSocketClient' ) ; var client = n"
+    },
+    {
+      "chunk_id": 20,
+      "text": "t = require ( 'webSocketClient' ) ; var client = new webSocket. Client ( { 'host' : 'localhost' , 'port' : 8080 } ) ; client. send ( { 'foo' : 'bar' } ) ; client. on ( 'message' , function ( message ) { console. log ( 'Received from web socket: ' + m"
+    },
+    {
+      "chunk_id": 21,
+      "text": "{ console. log ( 'Received from web socket: ' + message ) ; } ) ; client. open ( ) ; [$[Get Code]] The above code sends a message even before the socket is opened. The module implementation is expected to queue that message to be sent later when the"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ed to queue that message to be sent later when the socket is opened (unless the option discardMessagesBeforeOpen is given with value true). The options argument to the Client constructor is a JSON object that can contain the following properties: hos"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ect that can contain the following properties: host : The IP address or host name for the host. Defaults to 'localhost'. port : The port on which the host is listening. Defaults to 80. receiveType : The MIME type for incoming messages, which defaults"
+    },
+    {
+      "chunk_id": 24,
+      "text": "he MIME type for incoming messages, which defaults to 'application/json'. sendType : The MIME type for outgoing messages, which defaults to 'application/json'. connectTimeout : The time to wait before giving up on a connection, in milliseconds (defau"
+    },
+    {
+      "chunk_id": 25,
+      "text": "giving up on a connection, in milliseconds (defaults to 1000). numberOfRetries : The number of times to retry connecting. Defaults to 10. timeBetweenRetries : The time between retries, in milliseconds. Defaults to 500. discardMessagesBeforeOpen : If"
+    },
+    {
+      "chunk_id": 26,
+      "text": "s. Defaults to 500. discardMessagesBeforeOpen : If true, discard messages before the socket is open. Defaults to false. throttleFactor : The number milliseconds to stall for each item that is queued waiting to be sent. Defaults to 0. See Also To impl"
+    },
+    {
+      "chunk_id": 27,
+      "text": "aiting to be sent. Defaults to 0. See Also To implement this module API in a new swarmlet host, see the WebSocket Implementation Notes . Remote Resources Accessors that use this module to provide a client can be found under net/WebSocketClient at htt"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ient can be found under net/WebSocketClient at https://ptolemy.berkeley.edu/accessors/library/index.html accessors/web/net/WebSocketClient.js CapeCode Host Auto-generated doc file for the current version of the Ptolemy II/Nashorn host implementation"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ion of the Ptolemy II/Nashorn host implementation of this module. Definition of this module: $PTII/ptolemy/actor/lib/jjs/modules/webSocketClient/webSocketClient.js Demos of the use of this module can be found in Ptolemy II in $PTII/ptolemy/actor/lib/"
+    },
+    {
+      "chunk_id": 31,
+      "text": "fied on May 17, 2016, at 06:51 pm"
+    }
+  ]
+}

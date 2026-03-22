@@ -1,0 +1,269 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII7.0/ptII7.0.1/doc/codeDoc/ptolemy/actor/lib/hoc/RealTimeComposite.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "RealTimeComposite Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.lib.hoc Class RealTimeComposite java.lang.O"
+    },
+    {
+      "chunk_id": 2,
+      "text": ".actor.lib.hoc Class RealTimeComposite java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.kernel.CompositeEntity ptolemy.actor.CompositeActor ptolemy.actor.Ty"
+    },
+    {
+      "chunk_id": 3,
+      "text": "tity ptolemy.actor.CompositeActor ptolemy.actor.TypedCompositeActor ptolemy.actor.lib.hoc.MirrorComposite ptolemy.actor.lib.hoc.RealTimeComposite All Implemented Interfaces: java.io.Serializable, java.lang.Cloneable, Actor , Executable , FiringsRecor"
+    },
+    {
+      "chunk_id": 4,
+      "text": ".lang.Cloneable, Actor , Executable , FiringsRecordable , Initializable , TypedActor , Changeable , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , HandlesInternalLinks public class R"
+    },
+    {
+      "chunk_id": 5,
+      "text": "e , Nameable , HandlesInternalLinks public class RealTimeComposite extends MirrorComposite This is a container for another actor that fires that other actor at real times corresponding to the input time stamps. Its ports are those of the contained"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ime stamps. Its ports are those of the contained actor. Given one or more events with time stamp t at the input ports, it queues the events to provide to a firing of the contained actor that is deferred to occur when real time (since start of exe"
+    },
+    {
+      "chunk_id": 7,
+      "text": "erred to occur when real time (since start of execution, in seconds) exceeds or matches t . If real time already exceeds t , then the firing may occur immediately. In addition to the parameters of the contained actor, this actor has a delay para"
+    },
+    {
+      "chunk_id": 8,
+      "text": "the contained actor, this actor has a delay parameter. The value of this parameter is the minimum delay (in model time) between an input event and an output event that results from that input event. If the enclosed actor produces no output, or i"
+    },
+    {
+      "chunk_id": 9,
+      "text": "t. If the enclosed actor produces no output, or if the time of the outputs can be arbitrarily whatever current time is in the model when they are produced, then delay should be set to UNDEFINED . This is the default value. With this value, the en"
+    },
+    {
+      "chunk_id": 10,
+      "text": "his is the default value. With this value, the enclosed actor is executed in a separate thread. If the firing produces output events, then those are given time stamps equal to the greater of the current model time of the enclosing model and the"
+    },
+    {
+      "chunk_id": 11,
+      "text": "urrent model time of the enclosing model and the current real time at which the outputs are produced (in seconds since the start of execution). In this case, the enclosed actor does not regulate in any way the passage of time of the enclosing mo"
+    },
+    {
+      "chunk_id": 12,
+      "text": "n any way the passage of time of the enclosing model, so the time stamps of the enclosing model could get arbitrarily far ahead of real time. If the value of delay is 0.0 (zero), then the inside model is run in the same thread as the enclosing mod"
+    },
+    {
+      "chunk_id": 13,
+      "text": "del is run in the same thread as the enclosing model. When this RealTimeComposite fires, the fire() method stalls until real time matches the current time of the model, and then invokes the enclosed model. If the enclosed model produces any outpu"
+    },
+    {
+      "chunk_id": 14,
+      "text": "d model. If the enclosed model produces any outputs, then those outputs have time stamps equal to the time stamps of the input. Hence, from the perspective of DE semantics, this actor has zero delay, even though it can introduce real-time delay ("
+    },
+    {
+      "chunk_id": 15,
+      "text": "y, even though it can introduce real-time delay (which is indistinguishable from just taking a long time to evaluate the fire() method). Note that with delay = 0.0, this actor affects the model in way similar to the synchronizeToRealTime paramete"
+    },
+    {
+      "chunk_id": 16,
+      "text": "way similar to the synchronizeToRealTime parameter of the director, except that only the events provided to this actor are synchronized to real time, rather than all events. If the value of delay is positive, then the inside model is run in a sep"
+    },
+    {
+      "chunk_id": 17,
+      "text": "s positive, then the inside model is run in a separate thread, just as if the value were UNDEFINED, but in this case, this actor does regulate the passage of time of the enclosing model. In particular, given an event with time stamp t it prevents"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ular, given an event with time stamp t it prevents model time from advancing past t + delay until the firing triggered by the event has completed (which will be at some real time greater than t ). Any outputs produced by that firing are assigned t"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ny outputs produced by that firing are assigned time stamps equal to the greater of t + delay and the current real time at which the output is produced. For various reasons, this actor is tricky to use. The most natural domain to use it in is DE,"
+    },
+    {
+      "chunk_id": 20,
+      "text": "use. The most natural domain to use it in is DE, providing it with input events with time stamps that specify when to perform some action, such as an actuator or display action. However, if the DE system is an open-loop system, then model time of"
+    },
+    {
+      "chunk_id": 21,
+      "text": "system is an open-loop system, then model time of the DE system can get very far ahead of the RealTimeComposite. It is helpful to use a feedback loop including this RealTimeComposite to keep the DE model from getting ahead, and to use the delay p"
+    },
+    {
+      "chunk_id": 22,
+      "text": "model from getting ahead, and to use the delay parameter judiciously as explained above. This actor may also be used in SDF and SR if the period parameter of the director is set to something greater than zero. This actor consumes its inputs and"
+    },
+    {
+      "chunk_id": 23,
+      "text": "er than zero. This actor consumes its inputs and schedules execution in its postfire() method, and hence in SR will behave as a strict actor (all inputs must be known for anything to happen). FIXME: For actors that are triggered by internal calls"
+    },
+    {
+      "chunk_id": 24,
+      "text": ": For actors that are triggered by internal calls to fireAt(), it seems that the delay needs to be no larger than the smallest increment between calls to fireAt(). Is this correct? Why? FIXME: If there is a PortParameter, the parameter gets update"
+    },
+    {
+      "chunk_id": 25,
+      "text": "here is a PortParameter, the parameter gets updated when the fire() method of this composite is invoked, which creates a nondeterminate interaction with the deferred execution. See CompositeActor.fire(). Since: Ptolemy II 6.1 Version: $Id: RealTime"
+    },
+    {
+      "chunk_id": 26,
+      "text": "re(). Since: Ptolemy II 6.1 Version: $Id: RealTimeComposite.java,v 1.17 2007/12/07 06:26:07 cxh Exp $ Author: Edward A. Lee See Also: Serialized Form Accepted Rating: Red (neuendor) Proposed Rating: Yellow (eal) Nested Class Summary Nested classes/in"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ellow (eal) Nested Class Summary Nested classes/interfaces inherited from class ptolemy.actor.lib.hoc. MirrorComposite MirrorComposite.MirrorCompositeContents Nested classes/interfaces inherited from class ptolemy.kernel. CompositeEntity CompositeEnt"
+    },
+    {
+      "chunk_id": 28,
+      "text": "class ptolemy.kernel. CompositeEntity CompositeEntity.ContainedObjectsIterator Field Summary Parameter delay The maximum model-time delay between the input events and the output events. Fields inherited from class ptolemy.actor. CompositeActor _act"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ited from class ptolemy.actor. CompositeActor _actorFiringListeners , _functionDependency , _initializables , _notifyingActorFiring , _stopRequested Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeReq"
+    },
+    {
+      "chunk_id": 30,
+      "text": "medObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface pto"
+    },
+    {
+      "chunk_id": 31,
+      "text": "LLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary RealTimeComposite ( CompositeEntity container, java.lang.String name) Create an actor with a name a"
+    },
+    {
+      "chunk_id": 32,
+      "text": "va.lang.String name) Create an actor with a name and a container. Method Summary void attributeChanged ( Attribute attribute) React to a change in an attribute. boolean fireContainedActors () Invoke iterations on the contained actor of the containe"
+    },
+    {
+      "chunk_id": 33,
+      "text": "terations on the contained actor of the container of this director repeatedly until either it runs out of input data or prefire() returns false. Methods inherited from class ptolemy.actor.lib.hoc. MirrorComposite _addEntity , _addPort , _exportMo"
+    },
+    {
+      "chunk_id": 34,
+      "text": "MirrorComposite _addEntity , _addPort , _exportMoMLContents , _removeEntity , _removePort , clone , newPort Methods inherited from class ptolemy.actor. TypedCompositeActor _addRelation , _checkTypesFromTo , _typeConstraintsFromTo , newRelation , res"
+    },
+    {
+      "chunk_id": 35,
+      "text": "romTo , _typeConstraintsFromTo , newRelation , resolveTypes , typeConstraintList Methods inherited from class ptolemy.actor. CompositeActor _actorFiring , _actorFiring , _createReceivers , _finishedAddEntity , _setDirector , addActorFiringListener ,"
+    },
+    {
+      "chunk_id": 36,
+      "text": "dEntity , _setDirector , addActorFiringListener , addInitializable , addPiggyback , connectionsChanged , fire , getDirector , getExecutiveDirector , getFunctionDependency , getManager , initialize , inputPortList , isFireFunctional , isOpaque , isStr"
+    },
+    {
+      "chunk_id": 37,
+      "text": "nputPortList , isFireFunctional , isOpaque , isStrict , iterate , newInsideReceiver , newReceiver , outputPortList , postfire , prefire , preinitialize , recordFiring , removeActorFiringListener , removeInitializable , removePiggyback , requestChange"
+    },
+    {
+      "chunk_id": 38,
+      "text": "oveInitializable , removePiggyback , requestChange , setContainer , setDirector , setManager , stop , stopFire , terminate , wrapup Methods inherited from class ptolemy.kernel. CompositeEntity _adjustDeferrals , _description , _removeRelation , _vali"
+    },
+    {
+      "chunk_id": 39,
+      "text": "Deferrals , _description , _removeRelation , _validateSettables , allAtomicEntityList , allCompositeEntityList , allowLevelCrossingConnect , classDefinitionList , connect , connect , containedObjectsIterator , deepEntityList , deepGetEntities , entit"
+    },
+    {
+      "chunk_id": 40,
+      "text": "terator , deepEntityList , deepGetEntities , entityList , entityList , exportLinks , getAttribute , getEntities , getEntity , getPort , getRelation , getRelations , isAtomic , numberOfEntities , numberOfRelations , numEntities , numRelations , relati"
+    },
+    {
+      "chunk_id": 41,
+      "text": "rOfRelations , numEntities , numRelations , relationList , removeAllEntities , removeAllRelations , setClassDefinition , statistics , uniqueName Methods inherited from class ptolemy.kernel. ComponentEntity _checkContainer , _getContainedObject , _pro"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ntity _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity connectedPo"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ited from class ptolemy.kernel. Entity connectedPortList , connectedPorts , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChi"
+    },
+    {
+      "chunk_id": 44,
+      "text": "tantiableNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attach"
+    },
+    {
+      "chunk_id": 45,
+      "text": "NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNum"
+    },
+    {
+      "chunk_id": 46,
+      "text": "eValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeList , attributeList , attributeTypeChanged , clone , deepContains , depthInHierarchy , description , description , event , executeChangeRe"
+    },
+    {
+      "chunk_id": 47,
+      "text": "escription , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getDisplayName , ge"
+    },
+    {
+      "chunk_id": 48,
+      "text": "erivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateValue , propagateValues , removeChang"
+    },
+    {
+      "chunk_id": 49,
+      "text": "e , propagateValue , propagateValues , removeChangeListener , removeDebugListener , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , to"
+    },
+    {
+      "chunk_id": 50,
+      "text": ", setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy."
+    },
+    {
+      "chunk_id": 51,
+      "text": "it, wait Methods inherited from interface ptolemy.actor. Actor getDirector , getExecutiveDirector , getFunctionDependency , getManager , inputPortList , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable fire , is"
+    },
+    {
+      "chunk_id": 52,
+      "text": "from interface ptolemy.actor. Executable fire , isFireFunctional , isStrict , iterate , postfire , prefire , stop , stopFire , terminate Methods inherited from interface ptolemy.actor. Initializable addInitializable , initialize , preinitialize , rem"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ddInitializable , initialize , preinitialize , removeInitializable , wrapup Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Methods inherited from"
+    },
+    {
+      "chunk_id": 54,
+      "text": "etName , getName , setName Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Field Detail delay public Parameter delay The maximum model-time delay between the input events and the out"
+    },
+    {
+      "chunk_id": 55,
+      "text": "-time delay between the input events and the output events. This is a double that defaults to UNDEFINED . Constructor Detail RealTimeComposite public RealTimeComposite ( CompositeEntity container, java.lang.String name)"
+    },
+    {
+      "chunk_id": 56,
+      "text": "java.lang.String name) throws IllegalActionException , NameDuplicationException Create an actor with a name and a container. The container argument must not be null, or a NullPointerException will be th"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ot be null, or a NullPointerException will be thrown. This actor will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to the empty string. Increment the version of"
+    },
+    {
+      "chunk_id": 58,
+      "text": "et to the empty string. Increment the version of the workspace. Parameters: container - The container actor. name - The name of this actor. Throws: IllegalActionException - If the container is incompatible with this actor. NameDuplicationExcepti"
+    },
+    {
+      "chunk_id": 59,
+      "text": "patible with this actor. NameDuplicationException - If the name coincides with an actor already in the container. Method Detail attributeChanged public void attributeChanged ( Attribute attribute) throws IllegalActionExce"
+    },
+    {
+      "chunk_id": 60,
+      "text": "e) throws IllegalActionException React to a change in an attribute. This method is called by a contained attribute when its value changes. In this base class, the method does nothing. In derived classes, this method may"
+    },
+    {
+      "chunk_id": 61,
+      "text": "oes nothing. In derived classes, this method may throw an exception, indicating that the new attribute value is invalid. It is up to the caller to restore the attribute to a valid value if an exception is thrown. Overrides: attributeChanged i"
+    },
+    {
+      "chunk_id": 62,
+      "text": "exception is thrown. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that changed. Throws: IllegalActionException - If the change is not acceptable to this container (not thrown in this base class). fireContaine"
+    },
+    {
+      "chunk_id": 63,
+      "text": "iner (not thrown in this base class). fireContainedActors public boolean fireContainedActors () throws IllegalActionException Invoke iterations on the contained actor of the container of this director repeatedly until e"
+    },
+    {
+      "chunk_id": 64,
+      "text": "he container of this director repeatedly until either it runs out of input data or prefire() returns false. If postfire() of any actor returns false, then return false. Otherwise, return true. Returns: True to allow the thread to continue execu"
+    },
+    {
+      "chunk_id": 65,
+      "text": "eturns: True to allow the thread to continue executing. Throws: IllegalActionException - If any called method of of the contained actor throws it, or if the contained actor is not opaque. Overview Package Class Tree Deprecated Index Help PREV C"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ew Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

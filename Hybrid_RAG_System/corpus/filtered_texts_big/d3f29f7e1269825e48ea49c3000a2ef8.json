@@ -1,0 +1,401 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/projects/mobies/reports/00/3",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "oftware Components for Networked Embedded Systems REPORT PERIOD: 5/25/00 - 8/30/00 SPONSOR: Air Force Research Laboratory (AFRL) TECHNICAL POC: Stephen L. Hary REPORT PREPARED BY: Edward A. Lee 0."
+    },
+    {
+      "chunk_id": 3,
+      "text": "L. Hary REPORT PREPARED BY: Edward A. Lee 0. Executive Summary This project aims to develop technology for systematic composition of embedded software components. We are working on a software framework called Ptolemy II, and on models of comp"
+    },
+    {
+      "chunk_id": 4,
+      "text": "framework called Ptolemy II, and on models of computation for component-based designs. In this reporting period, we have made progress creating a code generation toolkit, a user interface for Ptolemy II, a model of computation with (highly verifiabl"
+    },
+    {
+      "chunk_id": 5,
+      "text": "II, a model of computation with (highly verifiable) synchronous semantics, and and XML schema for component-based design. 1. Research Status Code Generation =============== Our work on a code generation (\"autocoder\") toolkit has begun in earne"
+    },
+    {
+      "chunk_id": 6,
+      "text": "eneration (\"autocoder\") toolkit has begun in earnest, using as a starting point the work done by Jeff Tsai as a masters project. The approach is to construct an abstract syntax tree for each component specified in Java, and then to build various back"
+    },
+    {
+      "chunk_id": 7,
+      "text": "specified in Java, and then to build various back ends that synthesize code in various target languages, including real-time Java, C++, C, and VHDL. Jeff has built only a Java back end, and there are number of architectural problems with his implem"
+    },
+    {
+      "chunk_id": 8,
+      "text": "e number of architectural problems with his implementation that need to be worked out before this infrastructure will really be ready. The biggest issue is that he used a non-standard representation of the abstract syntax tree, one that is neither a"
+    },
+    {
+      "chunk_id": 9,
+      "text": "f the abstract syntax tree, one that is neither a Ptolemy II data structure nor a commonly accepted intermediate format like the one used in GCC. Another is that he relied on \"skeleton files\" that represent the interfaces of classes in the Java stand"
+    },
+    {
+      "chunk_id": 10,
+      "text": "resent the interfaces of classes in the Java standard packages. The latter problem has largely been resolved, with Christopher Hylands converting Jeff's code to use reflection instead of the skeleton files. Christopher also fixed a number of other pr"
+    },
+    {
+      "chunk_id": 11,
+      "text": "files. Christopher also fixed a number of other problems with the code, and added instrumentation that indicates that generated Java code runs up to ten times faster than the original Java code. This testifies to the effectiveness of the optimization"
+    },
+    {
+      "chunk_id": 12,
+      "text": "testifies to the effectiveness of the optimizations that Jeff implemented. Christopher also discovered that the total size of the bytecode for the generated program is approximately 10 times smaller than the bytecode for running the original model."
+    },
+    {
+      "chunk_id": 13,
+      "text": "han the bytecode for running the original model. To start investigating the ability to generate code for embedded processors, Christopher Hylands adapted Jeff Tsai's code generator so that it is generating code that can execute on a Palm Pilot runni"
+    },
+    {
+      "chunk_id": 14,
+      "text": "rating code that can execute on a Palm Pilot running KVM, a small Java runtime environment. So far, he has tried this only with rather simple applications. A major limitation of the KVM is that it handles only integer data types, not doubles, which"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ndles only integer data types, not doubles, which greatly limits what we can do using the existing actor library. We've added a few utilities that help with this work. Christopher Hylands has started building a test suite, and we've added a package,"
+    },
+    {
+      "chunk_id": 16,
+      "text": "building a test suite, and we've added a package, lang.tree, which displays a parse tree using an application called ShowTree. The displayed parse tree is shown with JTree, a built-in Java utilities for displaying hierarchical structures. User Int"
+    },
+    {
+      "chunk_id": 17,
+      "text": "for displaying hierarchical structures. User Interface ============== Steve Neuendorffer has made progress on the user interface for Ptolemy II, which is called Vergil. Vergil is designed as a toolkit that supports multiple visual notations, the f"
+    },
+    {
+      "chunk_id": 18,
+      "text": "kit that supports multiple visual notations, the first two of which are block diagrams and finite-state-machine diagrams. The issues that Steve has dealt with include: * He has implemented cut-and-paste using MoML as the clipboard format. MoML is"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ste using MoML as the clipboard format. MoML is extracted for a selection, wrapped in a new namespace, and then inserted using the new MoML incremental parsing capability (see below). This required adding a namespace capability to MoML, an e"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ired adding a namespace capability to MoML, an element called \"group\" which serves to aggregate its contents in a new namespace. The syntax looks like this: The entity \"b\" will actually be named \"a:b\". The entity \"c\" will not be affected by the"
+    },
+    {
+      "chunk_id": 21,
+      "text": "a:b\". The entity \"c\" will not be affected by the group name. It also required augmenting the Ptolemy kernel so that MoML could be exported for an arbitrary subset of a model. It was particularly challenging to deal with links, because these"
+    },
+    {
+      "chunk_id": 22,
+      "text": "rly challenging to deal with links, because these are not objects in the data structure. * Nick Zamora (an undergraduate working in the group for the summer) created a first prototype of an icon editor for block-diagram visual designs. Domai"
+    },
+    {
+      "chunk_id": 23,
+      "text": "editor for block-diagram visual designs. Domains ======= Christoph Kirsch has created a domain in Ptolemy II called Giotto. This domain has synchronous semantics, paralleling those of the Giotto language developed in Tom Henzinger's group. Giott"
+    },
+    {
+      "chunk_id": 24,
+      "text": "language developed in Tom Henzinger's group. Giotto is aimed at hard-real-time systems where verification is critical. It composes concurrently a set of state machines that execute synchronously and periodically with harmnoically related periods. As"
+    },
+    {
+      "chunk_id": 25,
+      "text": "eriodically with harmnoically related periods. As part of a related SEC (software-enabled control) project, Xiaojun Liu has created a demonstration that uses this domain to program a set of Lego robots. Chamberlain Fong has created two new domains i"
+    },
+    {
+      "chunk_id": 26,
+      "text": "s. Chamberlain Fong has created two new domains in Ptolemy II, DT (discrete time) and GR (Graphics). The DT domain is an extension of the SDF domain, adding a notion of time. A major part of the art here was to ensure that time advances monotonicall"
+    },
+    {
+      "chunk_id": 27,
+      "text": "here was to ensure that time advances monotonically and that actors behave in a causal fashion in multirate models. The GR domain leverages the 3-D graphics facility in Java to create a component-based graphics design environment. The domain has syn"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ed graphics design environment. The domain has synchronous semantics, like the Giotto domain. Unlike the Giotto domain, it does not introduce a unit delay in the communications between component. In exchange, it does not permit feedback loops. An ext"
+    },
+    {
+      "chunk_id": 29,
+      "text": "xchange, it does not permit feedback loops. An extension of this domain could permit feedback loops by implementing a fixed-point semantics. Jie Liu made some changes to the FSM domain, created by Xioajun Liu. In particular, his changes permit using"
+    },
+    {
+      "chunk_id": 30,
+      "text": "oajun Liu. In particular, his changes permit using FSM as a top-level model to drive a sequential execution of a set of models, with control logic used to determine model parameters and control the sequencing. Actor Libraries =============== We ha"
+    },
+    {
+      "chunk_id": 31,
+      "text": "quencing. Actor Libraries =============== We have reorganized the library of domain-polymorophic actors, and consolidated several disparate actors into individual, multi-function actors. Trigonometric functions, for example, were consolidated in a"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ric functions, for example, were consolidated in a single TrigFunction actor with a parameter specifying which function to perform. Chamberlain Fong created a MathFunction that similarly aggregates a suite of mathematical functions into a single acto"
+    },
+    {
+      "chunk_id": 33,
+      "text": "suite of mathematical functions into a single actor. We also reorganized the actor libraries in vergil to be more intuitive, making it easier to find pertinent actors. Previously, they were organized by package, which had more to do with software en"
+    },
+    {
+      "chunk_id": 34,
+      "text": "by package, which had more to do with software engineering than usability. As part of this work, we created a class, TypedActorLibrary, that we can use in vergil to have actor libraries. It lazily evaluates its contents, so a library of libraries i"
+    },
+    {
+      "chunk_id": 35,
+      "text": "valuates its contents, so a library of libraries is handled efficiently, with the library elements being instantiated only when they are needed. We've also created a tree browser that is a generic browser for Ptolemy models. It doesn't yet show every"
+    },
+    {
+      "chunk_id": 36,
+      "text": "wser for Ptolemy models. It doesn't yet show everything, but it will soon. Finally, we've created a mechanism in Vergil where users can import their own actor libraries, so more esoteric libraries can be removed from the default configuration. MoML"
+    },
+    {
+      "chunk_id": 37,
+      "text": "be removed from the default configuration. MoML - An XML Schema ==================== MoML is a simple XML schema for representing component-based designs. It is the persistent file format used for Ptolemy II designs, and we expect it to become a"
+    },
+    {
+      "chunk_id": 38,
+      "text": "Ptolemy II designs, and we expect it to become a major mechanism for distributing components over a network. We have made some improvements to the Ptolemy II support for MoML. In particular, the MoML parser now supports incremental parsing. E.g., y"
+    },
+    {
+      "chunk_id": 39,
+      "text": "L parser now supports incremental parsing. E.g., you can parse the following to add a new entity to an existing model: The MoMLParser has some new methods that make incremental parsing easier. You can attach a top-level model to a parser by calling"
+    },
+    {
+      "chunk_id": 40,
+      "text": "attach a top-level model to a parser by calling MoMLParser.setToplevel(model); You can clean up a parser to parse a new toplevel using: MoMLParser.reset(); Of course, you can also keep using the parser that originally creates a mod"
+    },
+    {
+      "chunk_id": 41,
+      "text": "eep using the parser that originally creates a model to handle mutations on that model. In view of the incremental parsing, we have added MoML elements to support deletion of entities, relations, ports, properties, and links. These are: We have also"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ts, properties, and links. These are: We have also extended MoML to support linking and unlinking by index number, e.g. To remove a link by index: Or for an inside link, Creating a link by index actually inserts a link at index 1, rather than replaci"
+    },
+    {
+      "chunk_id": 43,
+      "text": "lly inserts a link at index 1, rather than replacing the current link at index 1; this design is intended to work smoothly with GUI. It will create a \"null link\" at index 0 if necessary, so models can now have links that are not associated with any r"
+    },
+    {
+      "chunk_id": 44,
+      "text": "now have links that are not associated with any relation. Supporting this required some careful tuning of the code in the Ptolemy II kernel. As a side note, these changes would have been impossible without the automated test suite. Another improv"
+    },
+    {
+      "chunk_id": 45,
+      "text": "without the automated test suite. Another improvement we have made to the MoML support in Ptolemy II concerns the \"configure\" tag. The MoML configure element looks like this: ... text ... The idea is that you can specify either an external file (wh"
+    },
+    {
+      "chunk_id": 46,
+      "text": "s that you can specify either an external file (which may be binary), or give text locally. The configuration data is provided to the container element by calling its configure() method. This a key mechanism in MoML for extensibility, since it allows"
+    },
+    {
+      "chunk_id": 47,
+      "text": "chanism in MoML for extensibility, since it allows elements to be provided with input that is arbitrary data, including possibly other XML schema. The key improvement we made was to make the configuration information persistent. That is, if configura"
+    },
+    {
+      "chunk_id": 48,
+      "text": "tion information persistent. That is, if configuration information is provided to a model, and the model is then saved as MoML, the configuration information is also exported verbatim. One immediate consequence of this change is that if you alter th"
+    },
+    {
+      "chunk_id": 49,
+      "text": "consequence of this change is that if you alter the way a plot is visually represented in Ptolemy II, then the altered representation is stored along with the model as PlotML, another XML schema, within a configure tag. In a third change to the MoML"
+    },
+    {
+      "chunk_id": 50,
+      "text": "in a configure tag. In a third change to the MoML support in Ptolemy II, we fixed the parser so that in addition to searching relative to a base URL and relative to the classpath, it also searches relative to the current working directory. We also a"
+    },
+    {
+      "chunk_id": 51,
+      "text": "lative to the current working directory. We also added a new element to MoML, \"input\" which complements \"import\". The import element always reads the specified MoML file at the top level. The input element reads the file in the current context. So yo"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ement reads the file in the current context. So you can do: where the filename referenced populates the model. Java on Embedded Processors =========================== We have investigated a number of \"ahead of time\" (AOT) Java compilers that are a"
+    },
+    {
+      "chunk_id": 53,
+      "text": "of \"ahead of time\" (AOT) Java compilers that are aimed at embedded systems use. These work like most embedded systems IDEs ... i.e., they are cross-compilers that (mostly) run on Windows and produce executable images. These images are native code. So"
+    },
+    {
+      "chunk_id": 54,
+      "text": "xecutable images. These images are native code. Some of these images still require a JVM to run alongside, but some don't. The ones that don't provide a runtime library that handles runtime functions like garbage collection. There are a number of dif"
+    },
+    {
+      "chunk_id": 55,
+      "text": "like garbage collection. There are a number of different solutions to the garbage collection vs. real-time problem, but they all look acceptable, at least for relatively low rates. One is Turboj, from Wind River Systems. A second one is FastJ, also"
+    },
+    {
+      "chunk_id": 56,
+      "text": "m Wind River Systems. A second one is FastJ, also from Wind River (they acquired Diab Data), which is aimed at 32 bit Motorola microcontrollers. Another is GCJ, which is just a different front end on GCC, and hence can target any processor that GCC t"
+    },
+    {
+      "chunk_id": 57,
+      "text": "GCC, and hence can target any processor that GCC targets (sort of... you still need ports of certain packages, like the garbage collector). GCJ is distributed by RedHat. Another interesting one is TurboChai, from HP, which runs with HP's embedded Jav"
+    },
+    {
+      "chunk_id": 58,
+      "text": "boChai, from HP, which runs with HP's embedded Java virtual machine, ChaiVM. This allows mixtures of compiled and interpreted code. There is also ROMizer, from NewMonics, which is aimed at x86 single-board computers. And finally, there is Jbed, from"
+    },
+    {
+      "chunk_id": 59,
+      "text": "board computers. And finally, there is Jbed, from Esmertec. This one extends Java's thread model with a built-in real-time OS. This whole field is in a state of flux, with the recent release of the real-time Java specification. Our assumption is that"
+    },
+    {
+      "chunk_id": 60,
+      "text": "al-time Java specification. Our assumption is that these products will evolve to support that specification, or something similar to it. To get some experience with these, Christopher Hylands tried outthe Java front end of the GNU compilers (GCC). T"
+    },
+    {
+      "chunk_id": 61,
+      "text": "utthe Java front end of the GNU compilers (GCC). The quick summary is that a native version of a simple 500 iteration Ramp/FileWriter simulation runs in roughly 8 ms instead of the usual 15 ms. Thus, with this particular model, running compiled code"
+    },
+    {
+      "chunk_id": 62,
+      "text": "with this particular model, running compiled code yields about a factor of two improvement. Testing ======= We've created a new, extremely simple way to write tests. Create a model in vergil, and save it to actor/lib/test/auto in a file of any nam"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ave it to actor/lib/test/auto in a file of any name. If that model runs without throwing an exception, then the test passes. The test is run automatically when you do \"make tests\". That's all you have to do. Just put the model in that directory. To"
+    },
+    {
+      "chunk_id": 64,
+      "text": "to do. Just put the model in that directory. To support this, we've created an actor called Test that compares its inputs against values given in a parameter. If the inputs differ, it throws an exception. It is extremely simple to use. Mutations"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ption. It is extremely simple to use. Mutations ========= Ptolemy II is designed to allow models to change structure while they are executing. The Workspace class provides the thread synchronization that makes this safe. The way that structural ch"
+    },
+    {
+      "chunk_id": 66,
+      "text": "n that makes this safe. The way that structural changes happen is that a change request is posted with an object in a model. That object delegates the request up the hierarchy until some object handles it. It is typically handled by the Manager, whic"
+    },
+    {
+      "chunk_id": 67,
+      "text": "s it. It is typically handled by the Manager, which implements requests between iterations of the top-level model. In this reporting period, we made a number of significant improvements to the way that such change requests are handled. - ChangeLis"
+    },
+    {
+      "chunk_id": 68,
+      "text": "at such change requests are handled. - ChangeListener interface now has two methods: changeExecuted(ChangeRequest) changeFailed(ChangeRequest, Exception) - ChangeRequest now has setChangeListeners(List), which specifies the listeners"
+    },
+    {
+      "chunk_id": 69,
+      "text": "eListeners(List), which specifies the listeners for the change. Before, the ChangeRequest class had to be used in a very particular way, with whoever executed the change being responsible for notifying all listeners of the outcome. Now,"
+    },
+    {
+      "chunk_id": 70,
+      "text": "r notifying all listeners of the outcome. Now, instead, the composite entity simply specifies a set of listeners, then delegates to the Manager to execute the change. - execute() no longer throws ChangeFailedException (and we no longer"
+    },
+    {
+      "chunk_id": 71,
+      "text": "throws ChangeFailedException (and we no longer need this class). Instead, listeners are notified of the exception. Derived classes override a protected method _execute() that throws Exception. - ChangeRequest constructor originator argume"
+    },
+    {
+      "chunk_id": 72,
+      "text": "n. - ChangeRequest constructor originator argument is now Object rather than Nameable. It was awkward to have it as Nameable, since the originator was often not a Nameable. - ChangeRequest has a waitForCompletion() method now, which, as th"
+    },
+    {
+      "chunk_id": 73,
+      "text": "has a waitForCompletion() method now, which, as the name implies, waits until the change has been implemented, and then returns. - Removed all specialized ChangeRequest classes. These used to be used to implement a variety of specific type"
+    },
+    {
+      "chunk_id": 74,
+      "text": "be used to implement a variety of specific types of changes, like setting the value of a parameter. Now, all such requests use MoML. Other Software Improvements =========================== Brian Vogel has made a number of improvements to th"
+    },
+    {
+      "chunk_id": 75,
+      "text": "rian Vogel has made a number of improvements to the way Ptolemy II handles vectorized computations. The idea here is to obtain significant performance improvements by processing inputs in batches rather than one at a time. This can significantly redu"
+    },
+    {
+      "chunk_id": 76,
+      "text": "er than one at a time. This can significantly reduce the function call overhead, which can account for a significant part of the computation time for fine grain actors. Brian's objective is to achieve performance adequate for doing real-time audio pr"
+    },
+    {
+      "chunk_id": 77,
+      "text": "performance adequate for doing real-time audio processing at 44.1 kHz sample rates, which would also put many closed-loop control problems well within reach. Design and Code Reviews ======================= We performed the following design review"
+    },
+    {
+      "chunk_id": 78,
+      "text": "======== We performed the following design reviews: - actor.lib package We performed the following code reviews: - kernel package (for changes to support MoML) 2. Interactions, Meetings, and Technology Transfer Presentations ============="
+    },
+    {
+      "chunk_id": 79,
+      "text": "d Technology Transfer Presentations ============= * \"Frameworks for Discrete-Event Modeling and Design,\" Edward A. Lee, invited talk, Control Systems Seminar, Univ. of Michigan, Ann Arbor, September 29, 2000. * \"The Gigascale Silicon Researc"
+    },
+    {
+      "chunk_id": 80,
+      "text": "tember 29, 2000. * \"The Gigascale Silicon Research Center,\" Report on the GSRC Semantics Project, Jorn Janneck, SLDL meeting, San Jose, CA, September 21, 2000. * \"Concurrent Models of Computation in System-Level Design,\" invited plenary talk,"
+    },
+    {
+      "chunk_id": 81,
+      "text": "in System-Level Design,\" invited plenary talk, Edward A. Lee, Forum on Design Languages (FDL), Tubingen, Germany, September 7, 2000. * \"The Gigascale Silicon Research Center,\" Report on the GSRC Semantics Project, Edward A. Lee, Forum on D"
+    },
+    {
+      "chunk_id": 82,
+      "text": "RC Semantics Project, Edward A. Lee, Forum on Design Languages (FDL), Tubingen, Germany, September 6, 2000. * \"What Comes After C++ in System-Level Specification,\" Panel Discussion, Edward A. Lee, Forum on Design Languages (FDL), Tubinge"
+    },
+    {
+      "chunk_id": 83,
+      "text": ". Lee, Forum on Design Languages (FDL), Tubingen, Germany, September 6, 2000. * \"Discrete-Event Modeling and Design of Embedded Software,\" invited plenary talk, Edward A. Lee Workshop on Discrete Event Systems, WODES 2000, Ghent, Belgium,"
+    },
+    {
+      "chunk_id": 84,
+      "text": "ete Event Systems, WODES 2000, Ghent, Belgium, 21-23 August, 2000. * \"Ptolemy II - Heterogeneous Modeling and Design in Java,\" Edward A. Lee, July 6, 2000, Agilent Labs, Palo Alto, CA. * \"Process-Based Software Components for Networked Embe"
+    },
+    {
+      "chunk_id": 85,
+      "text": "ocess-Based Software Components for Networked Embedded Systems,\" Edward A. Lee, June 27, 2000, DARPA-Mobies Kickoff, Monterey CA. Other Interactions ================== * Weekly meetings with Mobies Phase II project at Berkeley, Mondays, 9-10"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ies Phase II project at Berkeley, Mondays, 9-10am. * Steve Neuendorffer visited Corning in July. They are using Ptolemy Classic for modeling optical fiber systems, and they wanted some help evaluating Vergil and Ptolemy II. * Prof. Dr."
+    },
+    {
+      "chunk_id": 87,
+      "text": "p evaluating Vergil and Ptolemy II. * Prof. Dr. Wolfgang Pree joined us at Berkeley, on sabbatical from the University of Konstanz, Germany. Pree is an expert in software engineering and design patterns. * Yuhong Xiong spent a summer inter"
+    },
+    {
+      "chunk_id": 88,
+      "text": "gn patterns. * Yuhong Xiong spent a summer internship at IBM, working with the group that does TSpaces. He introduced our code review and other software practice to the TSpaces group. Everyone agreed that review is an excellent way to impr"
+    },
+    {
+      "chunk_id": 89,
+      "text": "agreed that review is an excellent way to improve software. Some said that the review \"makes it almost impossible for blatant errors to go through\"; \"(after the review,) code lives longer than people\"; \"(as a student, learning good softw"
+    },
+    {
+      "chunk_id": 90,
+      "text": "an people\"; \"(as a student, learning good software practices) can make you well rounded\"; \"If you can run this process, you can be promoted manager.\" On the skeptical side, several people expressed concern on the overhead. People in indus"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ressed concern on the overhead. People in industry feel that they are under deadline pressure so they don't have time to do reviews. Yuhong tried to justify the investment on reviews by saying that we don't have a lot of bugs. And most bu"
+    },
+    {
+      "chunk_id": 92,
+      "text": "g that we don't have a lot of bugs. And most bugs can be fixed within one or two days. While in many companies I know, several weeks before each deadline are dedicated to bug fixes. Related to this, one person mentioned that his code is u"
+    },
+    {
+      "chunk_id": 93,
+      "text": "o this, one person mentioned that his code is under constant change, and he is obviously not willing to go through the review process that often. I told him that our mini-review is a good solution for that. Another concern expressed by sever"
+    },
+    {
+      "chunk_id": 94,
+      "text": "ution for that. Another concern expressed by several people is that programmers do not want their code to be picked on by other people, and have all the defects listed on a web page that everyone can see. This might be even a bigger hurdle f"
+    },
+    {
+      "chunk_id": 95,
+      "text": "e can see. This might be even a bigger hurdle for the review process to be widely adopted. * Kees Vissers, visiting industrial fellow from Philips Research, says \"Over the last year I managed to entice some of my closest colleagues in P"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ed to entice some of my closest colleagues in Philips Research to do a similar design and code review process. Well worth it. ... I also mentioned some of these practices at the retreat with Dave Patterson and 'Kubi' and Kathy Yelick [col"
+    },
+    {
+      "chunk_id": 97,
+      "text": "Dave Patterson and 'Kubi' and Kathy Yelick [colleagues in EECS]. I found a willing ear but not willing practice yet.\" 3. Publications [1] Jeff Tsay, Christopher Hylands and Edward Lee, \"A Code Generation Framework for Java Component-Ba"
+    },
+    {
+      "chunk_id": 98,
+      "text": "ode Generation Framework for Java Component-Based Designs,\" CASES '00, accepted, to appear November 17-19, 2000, San Jose, CA. [2] John Davis II, \"Order and Containment in Concurrent System Design,\" Ph.D. thesis, Memorandum UCB/ERL M00/"
+    },
+    {
+      "chunk_id": 99,
+      "text": "Design,\" Ph.D. thesis, Memorandum UCB/ERL M00/47, Electronics Research Laboratory, U niversity of California, Berkeley, September 8, 2000. 4. Financial Data Provided separately on a quarterly basis by the university."
+    },
+    {
+      "chunk_id": 100,
+      "text": "ly basis by the university."
+    }
+  ]
+}

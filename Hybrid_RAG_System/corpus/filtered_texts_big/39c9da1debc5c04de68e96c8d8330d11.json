@@ -1,0 +1,169 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/GMTKWithAccessorsInPTII",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Modules / GMTK Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Modules / GMTK (redirected from Main.GMTKWithAccessorsInPTII ) Getting St"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ted from Main.GMTKWithAccessorsInPTII ) Getting Started To get started using GMTK with the ptolemy accessor host, the first step is to install the GMTK from here . Be sure to get the latest version (1.3.3 or above). Extract the GMTK package and go th"
+    },
+    {
+      "chunk_id": 3,
+      "text": ".3.3 or above). Extract the GMTK package and go through the installation steps provided in the GMTK manual or README. Acquire the json2gmtk package . There are two ways to interface with the GMTK through ptolemy: the webSocket accessor and the Shell"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ugh ptolemy: the webSocket accessor and the Shell accessor. We will focus on the webSocket accessor If you are planning to interface with GMTK using the webSocket accessor, you will need to clone and build websocketd , and add it to your path. This i"
+    },
+    {
+      "chunk_id": 5,
+      "text": "build websocketd , and add it to your path. This is described in the README that is displayed on the json2gmtk package page . GMTK Commands Start with a gmtk_online.sh script something like the following: #! /bin/sh json2stream 39 0 | \\ gmtkOnline \\"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ing: #! /bin/sh json2stream 39 0 | \\ gmtkOnline \\ -os1 - -nf1 39 -fmt1 ascii \\ -strFile applause_detector.str \\ -inputMasterFile applause_detector.mtr \\ -inputTrainable applause_detector.gmp \\ -mVitValsFile - -viterbiScore | \\ vit2json The"
+    },
+    {
+      "chunk_id": 7,
+      "text": "\\ -mVitValsFile - -viterbiScore | \\ vit2json The 39 there is for 39-element MFCC feature vectors like we use in the TIMIT speech recognition model. The number will need to change based on the size of the input feature vectors for the final model."
+    },
+    {
+      "chunk_id": 8,
+      "text": "of the input feature vectors for the final model. applause_detector.str is a textual specification of the dynamic Bayesian network's graphical structure. For an HMM this is pretty simple. applause_detector.mtr defines some of the non-graphical parame"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ector.mtr defines some of the non-graphical parameters of the DBN - any needed decision trees, deterministic conditional probability tables, etc. needed to define the model. applause_detector.gmp contains the numerical learned parameters of the model"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ains the numerical learned parameters of the model - state transition probabilities, means and covariances in the case of an HMM. json2stream converts the JSON input described below to GMTK's native streaming data format. vit2json converts GMTK's out"
+    },
+    {
+      "chunk_id": 11,
+      "text": "treaming data format. vit2json converts GMTK's output to JSON as described below. json2stream and vit2json are available from https://bitbucket.org/rprogers/json2gmtk along with a little bit of documentation. You would configure the Exec accessor (or"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ntation. You would configure the Exec accessor (or the GMTK-specialized subclass thereof) to run the gmtk_online.sh script. To use the WebSocketClient accessor (or the GMTK-specialized subclass thereof), you would run websocketd --port=8080 ./gmtk_on"
+    },
+    {
+      "chunk_id": 13,
+      "text": "f), you would run websocketd --port=8080 ./gmtk_online.sh on the server machine and then aim the accessor at ws://server.ip.address:8080 Note that the inputs and outputs of the Exec- and WebSocket-based accessors are the same, so they should be inter"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ed accessors are the same, so they should be interchangeable. We will probably want to have off-line data files containing feature vectors to test with. This can be done with the Exec or WebSocketClient accessors as well. Create a data_source.sh scri"
+    },
+    {
+      "chunk_id": 15,
+      "text": "nt accessors as well. Create a data_source.sh script: #! /bin/sh obs-cat \\ -fmt1 pfile \\ -of1 test_data.pfile \\ -binaryOutput F | \\ stream2json 39 0 Now data_source.sh can be run by an Exec accessor, or wrapped in another websocketd instance a"
+    },
+    {
+      "chunk_id": 16,
+      "text": "essor, or wrapped in another websocketd instance and accessed by a WebSocketClient accessor. The data_source accessor's output goes directly into the gmtk_online accessor's input. GMTK Accessor Input The input is a sequence of frames. Each frame is a"
+    },
+    {
+      "chunk_id": 17,
+      "text": "The input is a sequence of frames. Each frame is a JSON array of length 2. The first element is an array of numbers containing the real-valued observations of variables in the model. The second element is an array of numbers containing the integer-va"
+    },
+    {
+      "chunk_id": 18,
+      "text": "t is an array of numbers containing the integer-valued observations of variables in the model. Note that JSON doesn't have an integer data type, so both elements are arrays of \"number,\" but GMTK treats the first as an array of float and the second as"
+    },
+    {
+      "chunk_id": 19,
+      "text": "s the first as an array of float and the second as an array of unsigned integers. For the above example with 39 real-valued MFCC features and no discrete (integer-valued) observations, a frame would like like Either the first array or the second arra"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ike like Either the first array or the second array can be empty, but not both (there must be a positive number of observed variables). Also note that the WebSocketClient accessor seems to incorrectly produce empty objects ({}) instead of empty array"
+    },
+    {
+      "chunk_id": 21,
+      "text": "produce empty objects ({}) instead of empty arrays ([]) in its output. The Exec accessor seems to handle empty arrays correctly. An empty frame, represented as an empty array [], signals that the following frames should be treated as conditionally i"
+    },
+    {
+      "chunk_id": 22,
+      "text": "lowing frames should be treated as conditionally independent of the previous frames. In an HMM, this means that the frame after the [] would use the initial state probability distribution rather than the state-to-state transition distribution. In GMT"
+    },
+    {
+      "chunk_id": 23,
+      "text": "the state-to-state transition distribution. In GMTK's more general DBNs, it means the model starts over in the prolog instead of proceeding to the next chunk. Also, frame numbers restart at 0 after an empty frame. Two empty frames, [][], signals the"
+    },
+    {
+      "chunk_id": 24,
+      "text": "empty frame. Two empty frames, [][], signals the end of the input stream. The gmtk_online.sh process will exit, and the Exec accessor would have to launch a new command or the WebSocketClient accessor initiate a new connection to the server to proce"
+    },
+    {
+      "chunk_id": 25,
+      "text": "r initiate a new connection to the server to process any further data. GMTK Accessor Output The output is also a sequence of frames, but the sequence may be asynchronous and shorter with respect to the input sequence. An output frame is a JSON array"
+    },
+    {
+      "chunk_id": 26,
+      "text": "e input sequence. An output frame is a JSON array of most-probable explanation (MPE) objects. (Jeff - we should think about how to extend this for k-best.) Each MPE object has 3 fields: \"varibleName\" is the name of a hidden variable in the model (str"
+    },
+    {
+      "chunk_id": 27,
+      "text": "is the name of a hidden variable in the model (string), \"frame\" is the input frame number (integer) the MPE value corresponds to, and \"MPEvalue\" is the most likely value of the hidden variable at that frame (integer or string). As in the input, an em"
+    },
+    {
+      "chunk_id": 28,
+      "text": "frame (integer or string). As in the input, an empty frame, [], signals the end of a segment of conditionally dependent output, and two empty frames, [][], signals the end of all output (gmtkOnline process ends). Also note that the WebSocketClient a"
+    },
+    {
+      "chunk_id": 29,
+      "text": "rocess ends). Also note that the WebSocketClient accessor incorrectly produces {} instead of [] here as well. As an example, if our applause_detection model has a hidden variable named \"SoundEvent\" with possible values \"silence\", \"applause\", and \"hum"
+    },
+    {
+      "chunk_id": 30,
+      "text": "th possible values \"silence\", \"applause\", and \"humming\", the output might look like: [ {\"MPEvlaue\":\"silence\", \"frame\":0, \"variableName\":\"SoundEvent\"} ] [ {\"MPEvalue\":\"applause\", \"frame\":42, \"variableName\":\"SoundEvent\"} ] [ {\"MPEvalue\":\"humming\", \"fra"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ame\":\"SoundEvent\"} ] [ {\"MPEvalue\":\"humming\", \"frame\":53, \"variableName\":\"SoundEvent\"} ] [ {\"MPEvalue\":\"silence\", \"frame\":63, \"variableName\":\"SoundEvent\"} ] [ {\"MPEvalue\":\"silence\", \"frame\":64, \"variableName\":\"SoundEvent\"} ] [] [] Use Case: Activity/"
+    },
+    {
+      "chunk_id": 32,
+      "text": "bleName\":\"SoundEvent\"} ] [] [] Use Case: Activity/Posture Recognition with Body-Worn IMU Sensors Here we examine the use of the GMTK with a trained activity recognition model to detect activities based on incoming data from an IMUSensor accessor. It"
+    },
+    {
+      "chunk_id": 33,
+      "text": "d on incoming data from an IMUSensor accessor. It is simple enough to interface the GMTK with any accessor using the WebSocketClient accessor as described above and on the json2gmtk page. In this case, the real time output of the IMU Sensor is fed th"
+    },
+    {
+      "chunk_id": 34,
+      "text": ", the real time output of the IMU Sensor is fed through the output of the IMUSensor accessor into the input of the WebSocketClient accessor which sends these samples to the GMTK. Collecting training data Normal experimental design problems factor int"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ata Normal experimental design problems factor into this. Important things to consider are the placement of the sensors and how well that placement will provide information on the activity being observed. For example, a sensor worn on the thigh can e"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ved. For example, a sensor worn on the thigh can easily distinguish between standing and sitting, and can also detect the repetitive motion of walking. Another factor is the sampling rate (in general, 20 Hz is enough to capture human activity). For t"
+    },
+    {
+      "chunk_id": 37,
+      "text": "20 Hz is enough to capture human activity). For this application it is extremely important how the sensors are placed and secured. It becomes very difficult to recognize activities when data is inconsistent and the sensor provides extra noise due to"
+    },
+    {
+      "chunk_id": 38,
+      "text": "sistent and the sensor provides extra noise due to being improperly secured. It is also important to ensure that sensors are worn in the proper orientation. If the orientation for which the model was trained differs from the orientation of the sensor"
+    },
+    {
+      "chunk_id": 39,
+      "text": "trained differs from the orientation of the sensor being worn then the data will be different and the model might not work depending on how it was trained. Training the model For information on how to design and train GMTK models, read through GMTK's"
+    },
+    {
+      "chunk_id": 40,
+      "text": "design and train GMTK models, read through GMTK's TIMIT tutorial which provides a 30 page walkthrough for designing a speech recognition model in the GMTK. The model design will vary from case to case. This is an example of a state space model used"
+    },
+    {
+      "chunk_id": 41,
+      "text": "e. This is an example of a state space model used to detect sitting, standing, and walking based on samples from a sensor worn on the right thigh. See Also Modules : Other Modules Back to the Main Accessors Wiki Edit - History - Print - Recent Change"
+    }
+  ]
+}

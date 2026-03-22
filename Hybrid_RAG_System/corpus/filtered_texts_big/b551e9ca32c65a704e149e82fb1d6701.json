@@ -1,0 +1,217 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/DUKtapeImplementationInARM-M4",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / Duktape Implementation in ARM-M4 Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / Duktape Implementation in ARM-M4 Minimum"
+    },
+    {
+      "chunk_id": 2,
+      "text": "t Main / Duktape Implementation in ARM-M4 Minimum Requirements In order to use Accessor in with Duktape, the system shall have the following as a minimum: 250Kbytes in RAM-Heap available 2Kbytes in RAM 200Kbytes in Flash Note: Above configuration is"
+    },
+    {
+      "chunk_id": 3,
+      "text": "M 200Kbytes in Flash Note: Above configuration is assuming bare-metal application, OS is NOT considered. Duktape Configuration For smaller devices like ARM-Cortex M without File System the next options needs to be set: DUK_OPT_NO_FILE_IO DUK_OPT_LIGH"
+    },
+    {
+      "chunk_id": 4,
+      "text": "s needs to be set: DUK_OPT_NO_FILE_IO DUK_OPT_LIGHTFUNC_BUILTINS DUK_OPT_BUFLEN16 DUK_OPT_OBJSIZES16 DUK_OPT_REFCOUNT16 DUK_OPT_STRHASH16 DUK_OPT_STRLEN16 DUK_OPT_SELF_TESTS For details on what each option does, refer to Duktape Feature Options Dukta"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ption does, refer to Duktape Feature Options Duktape Auxiliary print option Duktape implements the print function as a mechanism to send information to the screen. In case of small devices, there is no such availability, however it is possible to cr"
+    },
+    {
+      "chunk_id": 6,
+      "text": "no such availability, however it is possible to create a new print function which will redirect the information to a desired port or display. Example: Using Semi-host trace function as Duktape print When Duktape has the option DUK_OPT_NO_FILE_IO it a"
+    },
+    {
+      "chunk_id": 7,
+      "text": "hen Duktape has the option DUK_OPT_NO_FILE_IO it automatically disable all print functions . To create and register a new function using the Semihost option trace provided in Eclipse, use the next funciton #include <stdio.h> #include \"duktape.h\" stat"
+    },
+    {
+      "chunk_id": 8,
+      "text": "citon #include <stdio.h> #include \"duktape.h\" static duk_ret_t my_print ( duk_context * ctx ) { duk_idx_t i , n ; trace_printf ( \"PRINT: \" ) ; for ( i = 0 , n = duk_get_top ( ctx ) ; i < n ; i ++ ) { if ( i > 0 ) { trace_printf ( \" \" ) ; } trace_prin"
+    },
+    {
+      "chunk_id": 9,
+      "text": "if ( i > 0 ) { trace_printf ( \" \" ) ; } trace_printf ( \"%s\" , duk_safe_to_string ( ctx , i ) ) ; } trace_printf ( \" \\n \" ) ; return 0 ; } void my_print_register ( duk_context * ctx ) { duk_push_global_object ( ctx ) ; duk_push_c_function ( ctx , my_p"
+    },
+    {
+      "chunk_id": 10,
+      "text": "_object ( ctx ) ; duk_push_c_function ( ctx , my_print , DUK_VARARGS ) ; duk_put_prop_string ( ctx , - 2 , \"print\" ) ; duk_pop ( ctx ) ; } [$[Get Code]] Call the function my_print_register and now we have a print function available. It can be change"
+    },
+    {
+      "chunk_id": 11,
+      "text": "have a print function available. It can be changed to send data via serial port or any other way. Accessor Host Integration to Duktape Accessor duktape is divided in two groups: One is the core of Accessor framework which is Javascript code and coup"
+    },
+    {
+      "chunk_id": 12,
+      "text": "cessor framework which is Javascript code and couple files are C-file implementing timing functions and file localization The other part is the application. As it appears in the terraswarm repository, we can divide the files as shown below: As it can"
+    },
+    {
+      "chunk_id": 13,
+      "text": "we can divide the files as shown below: As it can be seen, the file nofileio.c has a double function: It registers the available JS files It serves as a duktape modSearch implementation If it is desired to modify the application, it will be necessar"
+    },
+    {
+      "chunk_id": 14,
+      "text": "red to modify the application, it will be necessary to re-create nofileio.c Necessary Modifications Current Accessor host assumes that fprintf function is supported. For small devices, it is not always the case, so it was necessary to replace ALL the"
+    },
+    {
+      "chunk_id": 15,
+      "text": "s the case, so it was necessary to replace ALL the fprintf functions with trace_printf. In particular, the function print_pop_error needs to be modified, commenting out the call to fflush // print_pop_error is from Duktape's duk_cmdline.c /* Print er"
+    },
+    {
+      "chunk_id": 16,
+      "text": "_error is from Duktape's duk_cmdline.c /* Print error to stderr and pop error. */ void print_pop_error ( duk_context * ctx ) { /* Print error objects with a stack trace specially. * Note that getting the stack trace may throw an error * so this also"
+    },
+    {
+      "chunk_id": 17,
+      "text": "the stack trace may throw an error * so this also needs to be safe call wrapped. */ ( void ) duk_safe_call ( ctx , get_stack_raw , 1 /*nargs*/ , 1 /*nrets*/ ) ; trace_printf ( \"%s \\n \" , duk_safe_to_string ( ctx , - 1 ) ) ; // fflush(f); duk_pop ( ct"
+    },
+    {
+      "chunk_id": 18,
+      "text": "tring ( ctx , - 1 ) ) ; // fflush(f); duk_pop ( ctx ) ; } [$[Get Code]] main Function call The main function to run Accessor consist of function registration and event thread execution as follows int main ( void ) { const char * accessorFileName = \"R"
+    },
+    {
+      "chunk_id": 19,
+      "text": "main ( void ) { const char * accessorFileName = \"RampJSTestDisplay.js\" ; // Desired Accessor to run duk_context * ctx = NULL ; int timeout = 5000 ; int returnValue = 0 ; // Normally at this stage most of the microcontroller subsystems, including // t"
+    },
+    {
+      "chunk_id": 20,
+      "text": "of the microcontroller subsystems, including // the clock, were initialised by the CMSIS SystemInit() function invoked // from the startup file, before calling main(). // (see system/src/cortexm/_initialize_hardware.c) // If further initialisations"
+    },
+    {
+      "chunk_id": 21,
+      "text": "tialize_hardware.c) // If further initialisations are required, customise __initialize_hardware() // or add the additional initialisation here, for example: // trace_puts ( \"Hello ARM-M$ World!\" ) ; HAL_Init ( ) ; // Create duktape environment ctx ="
+    },
+    {
+      "chunk_id": 22,
+      "text": "AL_Init ( ) ; // Create duktape environment ctx = duk_create_heap_default ( ) ; // Register Modules eventloop_register ( ctx ) ; modSearch_register ( ctx ) ; nofileio_register ( ctx ) ; my_print_register ( ctx ) ; trace_printf ( \"Registered all the m"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ter ( ctx ) ; trace_printf ( \"Registered all the modules. \\n \" ) ; trace_printf ( \"eduk: About to run %s \\n \" , accessorFileName ) ; returnValue = runAccessorHost ( ctx , accessorFileName , timeout ) ; return returnValue ; } [$[Get Code]] runAccessor"
+    },
+    {
+      "chunk_id": 24,
+      "text": "; return returnValue ; } [$[Get Code]] runAccessorHost /** Run the accessor. * @param accessorFileName The file name of the accessor, suitable getAccessorCode() * @param timeout The number of milliseconds to wait after the * accessor is instantiated"
+    },
+    {
+      "chunk_id": 25,
+      "text": "onds to wait after the * accessor is instantiated and initialized. If the timeout is less than zero, * then the timeout will be forever. * @return 0 if successfully, non-zero if there is an error. */ int runAccessorHost ( duk_context * ctx , const c"
+    },
+    {
+      "chunk_id": 26,
+      "text": "int runAccessorHost ( duk_context * ctx , const char * accessorFileName , int timeout ) { int rc ; //ftrace_printf(stderr, \"%s:%d: About to load C version of c_eventloop.\\n\", __FILE__, __LINE__); // Use duk_peval_string_noresult() and avoid internin"
+    },
+    {
+      "chunk_id": 27,
+      "text": "Use duk_peval_string_noresult() and avoid interning the string. Good // for low memory, see // http://duktape.org/api.html#duk_peval_string_noresult if ( duk_peval_string ( ctx , c_eventloop_js ) != 0 ) { trace_printf ( \"%s:%d: Loading C version of"
+    },
+    {
+      "chunk_id": 28,
+      "text": "0 ) { trace_printf ( \"%s:%d: Loading C version of c_eventloop failed. Error was: \\n \" , __FILE__ , __LINE__ ) ; print_pop_error ( ctx ) ; return 1 ; } else { trace_printf ( \"%s: Loading C version of c_eventloop worked \\n \" , __FILE__ ) ; duk_pop ( c"
+    },
+    {
+      "chunk_id": 29,
+      "text": "c_eventloop worked \\n \" , __FILE__ ) ; duk_pop ( ctx ) ; } // Use duk_peval_string_noresult() and avoid interning the string. Good // for low memory, see // http://duktape.org/api.html#duk_peval_string_noresult if ( duk_peval_string ( ctx , ___dukta"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ng_noresult if ( duk_peval_string ( ctx , ___duktapeHost_js ) != 0 ) { trace_printf ( \"%s:%d: Loading C version of duktapeHost failed. Error was: \\n \" , __FILE__ , __LINE__ ) ; print_pop_error ( ctx ) ; return 2 ; } else { trace_printf ( \"%s: Loadin"
+    },
+    {
+      "chunk_id": 31,
+      "text": ") ; return 2 ; } else { trace_printf ( \"%s: Loading C version of duktapeHost worked \\n \" , __FILE__ ) ; duk_pop ( ctx ) ; } // Call instantiateAndInitialize() on the accessorFileName, then timeout. // Build the command to be evaled. int length = my_s"
+    },
+    {
+      "chunk_id": 32,
+      "text": "Build the command to be evaled. int length = my_strlen ( accessorFileName ) + 200 ; char buf [ length ] ; if ( timeout >= 0 ) { // Timeout. requestEventLoopExit() is defined in ecma_eventloop.js. snprintf ( buf , length , \"var args = ['%s']; \\n ins"
+    },
+    {
+      "chunk_id": 33,
+      "text": "printf ( buf , length , \"var args = ['%s']; \\n instantiateAndInitialize(args); \\n setTimeout(function () {requestEventLoopExit()}, %d);\" , accessorFileName , timeout ) ; } else { // Prevent the script from exiting by repeating the empty function // e"
+    },
+    {
+      "chunk_id": 34,
+      "text": "from exiting by repeating the empty function // every ~25 days. snprintf ( buf , length , \"var args = ['%s']; \\n instantiateAndInitialize(args); \\n setInterval(function () {}, 2147483647);\" , accessorFileName ) ; } // Eval the command, avoid interni"
+    },
+    {
+      "chunk_id": 35,
+      "text": "rFileName ) ; } // Eval the command, avoid interning the string. if ( duk_peval_string ( ctx , buf ) != 0 ) { trace_printf ( \"%s:%d: Failed to invoke accessor %s. Command was: \\n %s \\n Error was: \\n \" , __FILE__ , __LINE__ , accessorFileName , buf )"
+    },
+    {
+      "chunk_id": 36,
+      "text": "\" , __FILE__ , __LINE__ , accessorFileName , buf ) ; print_pop_error ( ctx ) ; return 3 ; } else { duk_pop ( ctx ) ; } // Compile solution //duk_compile(ctx, 0); /* duk_push_global_object(ctx); /\\* 'this' binding *\\/ */ /* duk_insert(ctx, -2); /\\*"
+    },
+    {
+      "chunk_id": 37,
+      "text": "this' binding *\\/ */ /* duk_insert(ctx, -2); /\\* [ ... global func ] *\\/ */ /* duk_put_prop_string(ctx, -2, \"_USERCODE\"); */ /* duk_pop(ctx); */ /* duk_eval_string(ctx, \"setTimeout(function() { _USERCODE(); }, 0);\"); */ /* duk_pop(ctx); */ rc = duk_"
+    },
+    {
+      "chunk_id": 38,
+      "text": "CODE(); }, 0);\"); */ /* duk_pop(ctx); */ rc = duk_safe_call ( ctx , eventloop_run , 0 /*nargs*/ , 1 /*nrets*/ ) ; if ( rc != 0 ) { trace_printf ( \"%s:%d: %s: Failed invoke eventloop_run() \\n \" , __FILE__ , __LINE__ , accessorFileName ) ; return 4 ; }"
+    },
+    {
+      "chunk_id": 39,
+      "text": "E__ , __LINE__ , accessorFileName ) ; return 4 ; } trace_printf ( \"runAccessorHost() done. \\n \" ) ; return 0 ; } [$[Get Code]] Issues Once that above changes were completed, we built the system and tried to run it on ARM-Cortex M4 (LPC 4088) JS file"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ied to run it on ARM-Cortex M4 (LPC 4088) JS file failed parsing eduk : About to run RampJSTestDisplay. js .. / src / main. c : 61 Loading C version of c_eventloop failed. Error was : SyntaxError : utf8 decode failed ( line 1 ) .. / src / main. c : 1"
+    },
+    {
+      "chunk_id": 41,
+      "text": "f8 decode failed ( line 1 ) .. / src / main. c : 1 duk_lexer. c : 314 [$[Get Code]] We tried using different J2H tool (the one that we developed internally) and the program started running. PRINT : loading module : commonHost SyntaxError : utf8 decod"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ading module : commonHost SyntaxError : utf8 decode failed ( line 1 ) .. / src / main. c : 1 duk_lexer. c : 314 [$[Get Code]] As we progress, we identified that all JS programs needed to be re-created. We replaced all JS files and the system worked"
+    },
+    {
+      "chunk_id": 43,
+      "text": ". We replaced all JS files and the system worked as expected. Hello ARM - M$ World ! SDRMA Init and OK Registered all the modules. eduk : About to run RampJSTestDisplay. js .. / src / main. c : Loading C version of c_eventloop worked PRINT : loading"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ng C version of c_eventloop worked PRINT : loading module : commonHost PRINT : loading module : util PRINT : loading module : events .. / src / main. c : Loading C version of duktapeHost worked PRINT : duktapeHost. js : instantiateAndInitialize ( ) s"
+    },
+    {
+      "chunk_id": 45,
+      "text": ": duktapeHost. js : instantiateAndInitialize ( ) start : RampJSTestDisplay. js 1 PRINT : duktapeHost. js : instantiateAndInitialize ( ) : about to handle RampJSTestDisplay. js PRINT : duktapeHost. js : instantiateAndInitialize ( ) : about to call ini"
+    },
+    {
+      "chunk_id": 46,
+      "text": ": instantiateAndInitialize ( ) : about to call initialize name RampJSTestDisplay. js Class RampJSTestDisplay. js PRINT : duktapeHost. js : before instantiate ( ) : accessor RampJSTestDisplay. js with class RampJSTestDisplay. js PRINT : Memory alloca"
+    },
+    {
+      "chunk_id": 47,
+      "text": "class RampJSTestDisplay. js PRINT : Memory allocated successfully for accessor = RampJSTestDisplay. js . TestSpontaneous PRINT : Memory allocated successfully for accessor = RampJSTestDisplay. js . TestDisplay PRINT : Memory allocated successfully f"
+    },
+    {
+      "chunk_id": 48,
+      "text": "estDisplay PRINT : Memory allocated successfully for accessor = RampJSTestDisplay. js . TrainableTest PRINT : Memory allocated successfully for accessor = RampJSTestDisplay. js PRINT : duktapeHost. js : instantiate ( ) done : Instantiated accessor Ra"
+    },
+    {
+      "chunk_id": 49,
+      "text": ": instantiate ( ) done : Instantiated accessor RampJSTestDisplay. js with class RampJSTestDisplay. js PRINT : duktapeHost. js : instantiateAndInitialize ( ) : about to call initialize on [ object Object ] PRINT : duktapeHost. js : instantiateAndInit"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ect ] PRINT : duktapeHost. js : instantiateAndInitialize ( ) : done with RampJSTestDisplay. js PRINT : duktapeHost. js : instantiateAndInitialize ( ) done PRINT : 1 PRINT : 2 PRINT : 3 PRINT : 4 [$[Get Code]] Comparing both one file using Terraswarm"
+    },
+    {
+      "chunk_id": 51,
+      "text": "t Code]] Comparing both one file using Terraswarm J2H tool and ours we notice: In some cases J2H removes ASCII 10 In other the comment character (//) is chopped to / Byte size reported is different in both cases (may be because J2H is removing comme"
+    },
+    {
+      "chunk_id": 52,
+      "text": "n both cases (may be because J2H is removing comments?) See Also Duktape Host Duktape for Small Processors Duktape Eclipse Linux Duktape Eclipse Setup Duktape Eclipse ARM Cortex M3 Duktape Eclipse ARM Cortex M4 DUKtape Implementation In ARM-M4 Heap C"
+    },
+    {
+      "chunk_id": 53,
+      "text": "Cortex M4 DUKtape Implementation In ARM-M4 Heap Configuration For ARM Cortex Signpost TockOS - Notes about the Hail board, which uses a Cortex M4 and Duktape Duktape Host (accessible only to densoeal members) Edit - History - Print - Recent Changes"
+    }
+  ]
+}

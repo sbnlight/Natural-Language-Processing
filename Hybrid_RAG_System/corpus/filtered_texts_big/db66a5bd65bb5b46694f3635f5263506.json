@@ -1,0 +1,73 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/Monitoring",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Monitoring Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Monitoring Monitoring In order to check the behavior of the a"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Monitoring In order to check the behavior of the accessors in a running swarmlet, monitoring routines are added. For this, an object monitor is added as a property of an accessor during the construction. this . monitor = { } ; [$[Get Code]] The moni"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ion. this . monitor = { } ; [$[Get Code]] The monitor object is composed of a number of objects having the following structure: { 'eventName' : { 'count' : number , 'firstOccurrenceDate' : date , 'latestOccurrenceDate' : date } } [$[Get Code]] Theref"
+    },
+    {
+      "chunk_id": 4,
+      "text": "estOccurrenceDate' : date } } [$[Get Code]] Therefore, for a given event, we record the number of occurrences, as well as the date and time of the first and last calls. If the accessor is top level, composite, extended or implemented, the possible ev"
+    },
+    {
+      "chunk_id": 5,
+      "text": "omposite, extended or implemented, the possible events are: initialize , reactStart , reactEnd and wrapup . If the accessor is mutable , then an additional event can be recorded which is reify . Implementation Two functions are added for this purpose"
+    },
+    {
+      "chunk_id": 6,
+      "text": "mentation Two functions are added for this purpose. The first one is the prototype function that updates the monitoring information (count, date/time of the first event and date/time of the last event). The event name is passed as a parameter. Access"
+    },
+    {
+      "chunk_id": 7,
+      "text": "). The event name is passed as a parameter. Accessor. prototype . updateMonitoringInformation = function ( info ) [$[Get Code]] For visualization and analysis purpose, the function getMonitoringInformation() is exported by commonHost. This function r"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ation() is exported by commonHost. This function return an object of objects. Each object (referenced by the accessor name) contains: the accessor type (mutable, top level, extended, implemented), and all the monitoring information. function getMonit"
+    },
+    {
+      "chunk_id": 9,
+      "text": "all the monitoring information. function getMonitoringInformation ( ) [$[Get Code]] Web Service on Node for monitoring information retrieval A web service running on Node returns the monitoring information of all accessors in JSON format. In order t"
+    },
+    {
+      "chunk_id": 10,
+      "text": "mation of all accessors in JSON format. In order to test this service, you need first to un-comment the code in the bottom of nodeHost.js file. After running the swarmlet on a node host, it is possible to open, from the browser, the following URL: ht"
+    },
+    {
+      "chunk_id": 11,
+      "text": "e to open, from the browser, the following URL: http://127.0.0.1:8082/monitor/ . A JSON object is displayed. It shows for each accessor: the name, the 'type'and all the monitoring information that are stored. Below is the code for the web service cre"
+    },
+    {
+      "chunk_id": 12,
+      "text": "stored. Below is the code for the web service creation: var http = require ( 'http' ) ; var url = require ( 'url' ) ; // Create a server http. createServer ( function ( request , response ) { var reqParts = request. url . split ( \"/\" ) ; console. lo"
+    },
+    {
+      "chunk_id": 13,
+      "text": "Parts = request. url . split ( \"/\" ) ; console. log ( reqParts ) ; if ( reqParts [ 1 ] == \"monitor\" ) { // HTTP Status: 200 : OK // Content Type: text/plain response. writeHead ( 200 , { 'Content-Type' : 'text/html' } ) ; // Write the content of the"
+    },
+    {
+      "chunk_id": 14,
+      "text": "' : 'text/html' } ) ; // Write the content of the file to response body //console.log(commonHost.getMonitoringInformation()); // Retrieve all monitoring information var allMonitoringInformation = commonHost. getMonitoringInformation ( ) ; // Parse th"
+    },
+    {
+      "chunk_id": 15,
+      "text": "onHost. getMonitoringInformation ( ) ; // Parse the elements and send them one by one Object . keys ( allMonitoringInformation ) . forEach ( function ( accName ) { var accMonitoringInformation = { } ; accMonitoringInformation [ accName ] = allMonitor"
+    },
+    {
+      "chunk_id": 16,
+      "text": "accMonitoringInformation [ accName ] = allMonitoringInformation [ accName ] ; console. log ( JSON. stringify ( accMonitoringInformation ) ) ; response. write ( JSON. stringify ( accMonitoringInformation ) ) ; } ) ; } else { response. writeHead ( 404"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ion ) ) ; } ) ; } else { response. writeHead ( 404 , { 'Content-Type' : 'text/html' } ) ; response. write ( \"Hello, nothing received!\" ) ; } // Send the response body response. end ( ) ; } ) . listen ( 8082 ) ; [$[Get Code]] See Also Notes Edit - His"
+    }
+  ]
+}

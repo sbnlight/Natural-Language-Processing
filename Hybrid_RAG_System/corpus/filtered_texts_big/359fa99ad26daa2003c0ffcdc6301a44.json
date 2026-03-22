@@ -1,0 +1,301 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/AccessorSpecification/AccessorSpecification",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "y Print Version1 / Accessor Specification version 1.0 (redirected from AccessorSpecification.AccessorSpecification ) This page describes the specification for version 1.0 accessors. An accessor specification has up to four parts: an interface , docum"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ication has up to four parts: an interface , documentation , functionality , and composition , as explained below. The full list of functions used by an accessor is in the Index , which also explains how each function is invoked. See also Host Provid"
+    },
+    {
+      "chunk_id": 4,
+      "text": "how each function is invoked. See also Host Provided Libraries and the main wiki page . Minimal Accessor Example Accessors that are to be checked in the accessors repository must follow the Ptolemy Coding Style , which includes the license and JSHint"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ding Style , which includes the license and JSHint directives. However, it is not required that accessors include those features, so they are documented elsewhere. Below is a description of the minimal accessor. A minimal accessor that takes a nume"
+    },
+    {
+      "chunk_id": 6,
+      "text": "mal accessor. A minimal accessor that takes a numeric input, doubles it, and sends the result to an output is given below: exports. setup = function ( ) { this . input ( 'input' ) ; this . output ( 'output' ) ; } ; exports. fire = function ( ) { this"
+    },
+    {
+      "chunk_id": 7,
+      "text": "utput' ) ; } ; exports. fire = function ( ) { this . send ( 'output' , this . get ( 'input' ) * 2 ) ; } ; [$[Get Code]] This accessor has two of the four parts, an interface definition in the setup() function, and a specification of the function to b"
+    },
+    {
+      "chunk_id": 8,
+      "text": "function, and a specification of the function to be performed. In this case, the function is specified by defining a fire() function, which will be invoked by the host whenever a new input is provided, and possibly at other times. To specify a functi"
+    },
+    {
+      "chunk_id": 9,
+      "text": ", and possibly at other times. To specify a function that is performed only exactly when a particular new input named 'input' is provided, use an input handler, as in this example: exports. setup = function ( ) { this . input ( 'input' ) ; this . out"
+    },
+    {
+      "chunk_id": 10,
+      "text": "nction ( ) { this . input ( 'input' ) ; this . output ( 'output' ) ; } ; exports. initialize = function ( ) { var self = this ; this . addInputHandler ( 'input' , function ( ) { self. send ( 'output' , self. get ( 'input' ) * 2 ) ; } ) ; } ; [$[Get C"
+    },
+    {
+      "chunk_id": 11,
+      "text": ", self. get ( 'input' ) * 2 ) ; } ) ; } ; [$[Get Code]] In this case, the function to be performed is given by an input handler function. Notice the commonly used JavaScript idiom, where the value of the variable this is captured in a variable called"
+    },
+    {
+      "chunk_id": 12,
+      "text": "the variable this is captured in a variable called self (this name is arbitrary), and then within the callback function, self is used instead of this . In JavaScript, when a function is invoked, the value of the variable this is the object on which t"
+    },
+    {
+      "chunk_id": 13,
+      "text": "alue of the variable this is the object on which the function is invoked. The setup and initialize functions are invoked by the host on the accessor, which has functions input , output , etc., defined. But the input handler function is not assured o"
+    },
+    {
+      "chunk_id": 14,
+      "text": ". But the input handler function is not assured of being invoked on the accessor. Any callback function that the accessor defines, such as the function passed to addInputHandler above, should be written in such a way that it will work no matter what"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ten in such a way that it will work no matter what object the host invokes it on. A browser host, for example, may invoke it with this equal to the window object. To understand the this keyword in Java, see http://www.quirksmode.org/js/this.html htt"
+    },
+    {
+      "chunk_id": 16,
+      "text": "va, see http://www.quirksmode.org/js/this.html http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this More interesting examples are found on"
+    },
+    {
+      "chunk_id": 17,
+      "text": "rators/this More interesting examples are found on the TerraSwarm accessor repository . Interface Definition An accessor interface specifies what it requires of an accessor host and what its inputs, outputs, and parameters are. An accessor interface"
+    },
+    {
+      "chunk_id": 18,
+      "text": "utputs, and parameters are. An accessor interface definition may include the following elements in the accessor specification file: require : Modules required by the accessor. An exports.setup() function that can invoke the following functions: input"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ion that can invoke the following functions: input : Specify an input to the accessor. output : Specify an output from the accessor. parameter : Specify a parameter for the accessor. implement : Declare that the accessor implements another interface."
+    },
+    {
+      "chunk_id": 20,
+      "text": "re that the accessor implements another interface. extend : Declare that the accessor extends another accessor. Inputs, outputs, and parameters may optionally have specified data types . The exports.setup() function may also invoke instantiate() and"
+    },
+    {
+      "chunk_id": 21,
+      "text": "etup() function may also invoke instantiate() and connect() as explained below in the composition section. All of the above except require() are functions of the accessor, so they should be invoked with the prefix this as illustrated above. The req"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ith the prefix this as illustrated above. The require() function, on the other hand, is a top-level function that can be invoked from anywhere. See Top-Level JavaScript Functions for a complete list of such functions. Accessor Documentation Documen"
+    },
+    {
+      "chunk_id": 23,
+      "text": "of such functions. Accessor Documentation Documentation and metadata such as author, version, etc., are given using JSDoc tags in comments in the JavaScript accessor specification file. For example, the above minimal accessor might be documented as"
+    },
+    {
+      "chunk_id": 24,
+      "text": "the above minimal accessor might be documented as follows: /** Double the value provided at *input* and send to *output*. * @accessor Minimal * @author Edward A. Lee (eal@eecs.berkeley.edu) * @input {number} input A numeric input. * @output {"
+    },
+    {
+      "chunk_id": 25,
+      "text": "nput {number} input A numeric input. * @output {number} output The output for the doubled value. */ The main body of the documentation is given after the first /** in the accessor specification file. It can include any formatting commands supporte"
+    },
+    {
+      "chunk_id": 26,
+      "text": "e. It can include any formatting commands supported by Markdown . For example, above, *input* will be rendered in italics. The documentation may include any of the following tags, in alphabetic order: @accessor Name : The name of the accessor. This"
+    },
+    {
+      "chunk_id": 27,
+      "text": ": @accessor Name : The name of the accessor. This should be capitalized and should match the name of the accessor file (without the .js extension). This is an accessor-specific tag used by the JSDoc Ptdoc Plugin @author Author : The author(s) of the"
+    },
+    {
+      "chunk_id": 28,
+      "text": "Ptdoc Plugin @author Author : The author(s) of the accessor. This is arbitrary text and may optionally include contact information. See the JSDoc @author documentation . @input {type} name : A description of the input with the specified name and an o"
+    },
+    {
+      "chunk_id": 29,
+      "text": "tion of the input with the specified name and an optional type. If the input has a default value, that should be explained in the text. See JSDoc @type tag documentation for formatting of the type. This is an accessor-specific tag used by the JSDoc"
+    },
+    {
+      "chunk_id": 30,
+      "text": "his is an accessor-specific tag used by the JSDoc Ptdoc Plugin . @module Name : The name of the accessor again, if the accessor is also available as a module. This is an accessor-specific tag used by the JSDoc Ptdoc Plugin . @output {type} name : A"
+    },
+    {
+      "chunk_id": 31,
+      "text": "the JSDoc Ptdoc Plugin . @output {type} name : A description of the output with the specified name and an optional type. This is an accessor-specific tag used by the JSDoc Ptdoc Plugin . @parameter {type} name : A description of the parameter with"
+    },
+    {
+      "chunk_id": 32,
+      "text": "{type} name : A description of the parameter with the specified name and an optional type. The default value should be explained in the text, if given. This is an accessor-specific tag used by the JSDoc Ptdoc Plugin . @version version : A version des"
+    },
+    {
+      "chunk_id": 33,
+      "text": "oc Ptdoc Plugin . @version version : A version designator for the accessor. For example, if the accessor is stored under an SVN version control system, this might specify $$Id:$$ , which SVN will automatically replace with the current version number."
+    },
+    {
+      "chunk_id": 34,
+      "text": "matically replace with the current version number. This is an accessor-specific tag used by the JSDoc Ptdoc Plugin . Note that to avoid issues with expanding $, we use $$Id$$ instead of $Id$ . See the Accessor JSDoc page for how to invoke JSDoc. Fun"
+    },
+    {
+      "chunk_id": 35,
+      "text": "e Accessor JSDoc page for how to invoke JSDoc. Functionality In addition to an interface, an accessor may have some functionality given in JavaScript. The script can define local state variables used by the accessor and functions to be invoked by the"
+    },
+    {
+      "chunk_id": 36,
+      "text": "by the accessor and functions to be invoked by the swarmlet host . The accessor's script will be executed in an accessor context provided by the host. The context provides some built-in functions and modules that are available for accessors to use. A"
+    },
+    {
+      "chunk_id": 37,
+      "text": "modules that are available for accessors to use. A swarmlet host must provide all the built-in functions and modules and may provide some or all of the optional modules. The set of required functions and modules is deliberately small, so that impleme"
+    },
+    {
+      "chunk_id": 38,
+      "text": "and modules is deliberately small, so that implementing a basic accessor host is easy. Accessors run in a JavaScript host that provides a standard set of functions and modules that enable the accessor to interact with devices and services. Index of f"
+    },
+    {
+      "chunk_id": 39,
+      "text": "to interact with devices and services. Index of functions for quick reference. Action Functions : A set of functions that an accessor may define that are invoked by the host to execute a swarmlet. The swarmlet host will always invoke these in such a"
+    },
+    {
+      "chunk_id": 40,
+      "text": "e swarmlet host will always invoke these in such a way that the variable this is the accessor itself, which defines the functions such as input Top-Level JavaScript Functions : These functions enable the accessor to get inputs and produce outputs. Th"
+    },
+    {
+      "chunk_id": 41,
+      "text": "the accessor to get inputs and produce outputs. They also provide a small set of basic mechanisms that are commonly found in a JavaScript environment. Built-In JavaScript Modules : All accessor hosts are required to support all built-in modules. Modu"
+    },
+    {
+      "chunk_id": 42,
+      "text": "are required to support all built-in modules. Modules conform with the CommonJS Module Specification . Optional JavaScript Modules : More sophisticated capabilities that may or may not be supported by a particular accessor host. These modules must al"
+    },
+    {
+      "chunk_id": 43,
+      "text": "a particular accessor host. These modules must also conform with the CommonJS Module Specification . JSDoc , auto-generated code documentation. Composition instantiate : Instantiate a contained accessor (see Composition ). connect : Connect one or t"
+    },
+    {
+      "chunk_id": 44,
+      "text": "sor (see Composition ). connect : Connect one or two contained accessors (see Composition ). An accessor may contain other accessors. To instantiate an accessor within another , use instantiate , as illustrated in the following example: exports. setu"
+    },
+    {
+      "chunk_id": 45,
+      "text": "llustrated in the following example: exports. setup = function ( ) { var gain = this . instantiate ( 'TestGain' , 'test/TestGain' ) ; gain. setParameter ( 'gain' , 4 ) ; } [$[Get Code]] This example instantiates a contained accessor test/TestGain , w"
+    },
+    {
+      "chunk_id": 46,
+      "text": "nstantiates a contained accessor test/TestGain , which is a test accessor from the TerraSwarm library that simply multiplies its input by a constant. It has a gain parameter, which in this case is being set to the constant 4. It could also be set to"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ng set to the constant 4. It could also be set to the parameter value of the composite using getParameter() (see parameter ). Any contained accessor will be initialized and wrapped up whenever its container is initialized and wrapped up (see executio"
+    },
+    {
+      "chunk_id": 48,
+      "text": "tainer is initialized and wrapped up (see execution below). But contained accessors are most useful if their inputs and outputs are connected to other contained accessors or to inputs and outputs of the container accessor. Connections are made using"
+    },
+    {
+      "chunk_id": 49,
+      "text": "he container accessor. Connections are made using the connect function, as illustrated by the following example: exports. setup = function ( ) { this . input ( 'input' , { 'type' : 'number' , 'value' : 0 } ) ; this . output ( 'output' , { 'type' : '"
+    },
+    {
+      "chunk_id": 50,
+      "text": ": 0 } ) ; this . output ( 'output' , { 'type' : 'number' } ) ; var gain = this . instantiate ( 'TestGain' , 'test/TestGain' ) ; gain. setParameter ( 'gain' , 4 ) ; var adder = this . instantiate ( 'TestAdder' , 'test/TestAdder' ) ; this . connect ("
+    },
+    {
+      "chunk_id": 51,
+      "text": "estAdder' , 'test/TestAdder' ) ; this . connect ( 'input' , adder , 'inputLeft' ) ; this . connect ( 'input' , gain , 'input' ) ; this . connect ( gain , 'scaled' , adder , 'inputRight' ) ; this . connect ( adder , 'sum' , 'output' ) ; } [$[Get Code]"
+    },
+    {
+      "chunk_id": 52,
+      "text": "nect ( adder , 'sum' , 'output' ) ; } [$[Get Code]] This connects two contained accessors (an instance of test/TestGain and one of test/TestAdder ) as shown here: Container - Accessors hosts are not required to provide access to the container Executi"
+    },
+    {
+      "chunk_id": 53,
+      "text": "equired to provide access to the container Execution An accessor is executed by a swarmlet host , a program that includes a JavaScript interpreter and provides the script with a collection of library functions and modules . All interaction between th"
+    },
+    {
+      "chunk_id": 54,
+      "text": "functions and modules . All interaction between the accessor script and the network, devices, the file system, and other accessors is mediated by these libraries. Hence, the host controls what the accessor script has access to. Not all hosts can exec"
+    },
+    {
+      "chunk_id": 55,
+      "text": "essor script has access to. Not all hosts can execute all accessors. The browser host , for example, limits network and file system access according to a browser security policy. When an accessor is instantiated by a host, the host checks compatibili"
+    },
+    {
+      "chunk_id": 56,
+      "text": "nstantiated by a host, the host checks compatibility and reports if the accessor is incompatible with that host. The life of an accessor has four phases: instantiation: The host reads and executes the JavaScript file defining the accessor. If in that"
+    },
+    {
+      "chunk_id": 57,
+      "text": "JavaScript file defining the accessor. If in that file an exports.setup function is defined, then that function will be executed in this phase. initialization: If the accessor defines an exports.initialize function, then that function is invoked in"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ialize function, then that function is invoked in the initialization phase. This marks the beginning of the execution of a swarmlet. reaction: The accessor reacts to inputs and callbacks, as explained in detail below. wrapup: If the accessor defines"
+    },
+    {
+      "chunk_id": 59,
+      "text": "in detail below. wrapup: If the accessor defines an exports.wrapup() function, then that function is invoked in the wrapup phase. This marks the end of the execution of the swarmlet using the accessor. The host instantiates an accessor exactly once."
+    },
+    {
+      "chunk_id": 60,
+      "text": "r. The host instantiates an accessor exactly once. After instantiation, execution of the accessor consists of initialization, zero or more reactions, followed by wrapup. This execution pattern may be repeated multiple times. A reaction of an accessor"
+    },
+    {
+      "chunk_id": 61,
+      "text": "repeated multiple times. A reaction of an accessor is triggered by the swarmlet host. When the host does this depends on the host. The Browser Host for example, will trigger a reaction when the user clicks a button labeled 'react to inputs' on a we"
+    },
+    {
+      "chunk_id": 62,
+      "text": "clicks a button labeled 'react to inputs' on a web page displaying the accessor. The Node Host will trigger a reaction when the script being executed invokes the react() function on the accessor instance. The Cape Code Host will trigger a reaction w"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ance. The Cape Code Host will trigger a reaction when an input to the accessor arrives. A reaction performs exactly the following actions, in order: Invocation of any timeout callbacks, if the time is appropriate. Invocation of any registered handler"
+    },
+    {
+      "chunk_id": 64,
+      "text": "appropriate. Invocation of any registered handlers for any input that has received new data. These handlers will be invoked first in the order in which inputs are defined, and then, if an input has multiple handlers, in the order in which the handle"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ultiple handlers, in the order in which the handlers were added. Invocation of any registered handlers for new input data that the accessor has sent to itself. An accessor will continue checking for self-provided new input data until none is availab"
+    },
+    {
+      "chunk_id": 66,
+      "text": "self-provided new input data until none is available. Invocation of any handlers that have been registered to be invoked when any new input arrives. These handlers will be invoked in the order in which they were added. Reaction of any contained acces"
+    },
+    {
+      "chunk_id": 67,
+      "text": "h they were added. Reaction of any contained accessors that have been provided with inputs (see below). If the accessor defines an exports.fire function, then that function is invoked now. In the above, \"new input\" means input that has arrived from a"
+    },
+    {
+      "chunk_id": 68,
+      "text": "e, \"new input\" means input that has arrived from an external source since the last reaction. Inputs sent to the accessor by itself are handled in the same reaction. A host is free to invoke a reaction whenever it chooses after it has invoked initial"
+    },
+    {
+      "chunk_id": 69,
+      "text": "n whenever it chooses after it has invoked initialize() and before it has invoked wrapup() , even if there are no new inputs. Hence, anything the accessor does in its fire() function should make sense regardless of whether new inputs have been provid"
+    },
+    {
+      "chunk_id": 70,
+      "text": "regardless of whether new inputs have been provided. When invoking reactions of contained accessors, the swarmlet host follows a specific deterministic model of computation. First, contained accessors are assigned a priority based on their position"
+    },
+    {
+      "chunk_id": 71,
+      "text": "s are assigned a priority based on their position in the graph of connected accessors. An accessor A with an output connected to accessor B will have a higher priority than B , unless the output of A is declared to be spontaneous (see output ). The h"
+    },
+    {
+      "chunk_id": 72,
+      "text": "is declared to be spontaneous (see output ). The host will invoke reactions in priority order, ensuring that any accessor that feeds data to another accessor will react first. An accessor may invoke stop which will invoke wrapup() on any contained ac"
+    },
+    {
+      "chunk_id": 73,
+      "text": "top which will invoke wrapup() on any contained accessors and then stop the host. Coding Style Accessors that are to be checked in the TerraSwarm accessors repository must follow a coding style prescribed in Coding Style . Note that accessors invoke"
+    },
+    {
+      "chunk_id": 74,
+      "text": "ibed in Coding Style . Note that accessors invoke built-in global functions provided by the host, such as error() and require() . A code style checker, such as JSLint and JSHint will identify the references to these global functions as undefined refe"
+    },
+    {
+      "chunk_id": 75,
+      "text": "rences to these global functions as undefined references. These complaints can be silenced by adding to the accessor file a directive of the form /*globals error, require */ , listing the global functions that are used. Also, JSLint complains about"
+    }
+  ]
+}

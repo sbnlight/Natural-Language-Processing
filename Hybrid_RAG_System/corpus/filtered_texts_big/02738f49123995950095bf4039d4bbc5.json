@@ -1,0 +1,173 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/Script",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / Script Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / Script An accessor specification is either an XML file (.xm"
+    },
+    {
+      "chunk_id": 2,
+      "text": "accessor specification is either an XML file (.xml extension) or a JavaScript file (.js extension). For an XML file, the interface is defined in XML and the functionality is in JavaScript. For a JavaScript file, both are given in JavaScript. For an"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Script file, both are given in JavaScript. For an XML file, the JavaScript is embedded in a <script> XML tag, using a CDATA notation to prevent the XML parser from attempting to parse the JavaScript, as follows: <script type=\"text/javascript\"> /"
+    },
+    {
+      "chunk_id": 4,
+      "text": "as follows: <script type=\"text/javascript\"> // <![CDATA[ ... JavaScript code here ... // ]]> </script> Note that the CDATA annotation is commented out to prevent the JavaScript interpreter from attempting to parse it. In either case, the s"
+    },
+    {
+      "chunk_id": 5,
+      "text": "from attempting to parse it. In either case, the script runs in a context provided by the swarmlet host . The context defines functions and modules that may be invoked by the accessor. The functions and modules provided in the Ptolemy II/Nashorn host"
+    },
+    {
+      "chunk_id": 6,
+      "text": "nd modules provided in the Ptolemy II/Nashorn host are (somewhat incompletely) documented here . An Example Below is a complete accessor specification in JavaScript: // Accessor that retrieves a stock price from a Yahoo server. // This accessor requi"
+    },
+    {
+      "chunk_id": 7,
+      "text": "price from a Yahoo server. // This accessor requires the optional 'httpClient' module, which may or may // not be provided by an accessor host. Most hosts will provide this module. var http = require ( 'httpClient' ) ; // Set up the accessor. In an"
+    },
+    {
+      "chunk_id": 8,
+      "text": "( 'httpClient' ) ; // Set up the accessor. In an XML specification, this information would // be provided in XML syntax. exports. setup = function ( ) { accessor. author ( 'Edward A. Lee' ) ; accessor. version ( '0.1 $Date: 2015-05-14 13:43:08 -0700"
+    },
+    {
+      "chunk_id": 9,
+      "text": "r. version ( '0.1 $Date: 2015-05-14 13:43:08 -0700 (Thu, 14 May 2015) $' ) ; accessor. input ( 'symbol' , { 'value' : 'YHOO' , 'type' : 'string' , 'description' : 'The stock symbol.' } ) ; accessor. output ( 'price' , { 'type' : 'number' , 'descripti"
+    },
+    {
+      "chunk_id": 10,
+      "text": "utput ( 'price' , { 'type' : 'number' , 'description' : 'The most recent stock price (bid).' } ) ; accessor. description ( 'This accessor, when fired, reads the most recent trade price for the specified stock symbol from a Yahoo server.' , 'text/html"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ed stock symbol from a Yahoo server.' , 'text/html' ) ; } ; // Define the functionality. function getPrice ( ) { // Read the current value of the 'symbol' input. var stock = get ( 'symbol' ) ; // Construct a URL to obtain a stock price. var url = \"ht"
+    },
+    {
+      "chunk_id": 12,
+      "text": "truct a URL to obtain a stock price. var url = \"http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22\" + stock + \"%22)%0A%09%09&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json\" ;"
+    },
+    {
+      "chunk_id": 13,
+      "text": "F%2Fdatatables.org%2Falltables.env&format=json\" ; // Request a stock price, and provide a function to handle the response. http. get ( url , function ( response ) { // Assuming the response is JSON, parse it. var json = JSON. parse ( response. body )"
+    },
+    {
+      "chunk_id": 14,
+      "text": "arse it. var json = JSON. parse ( response. body ) ; // Extract the last trade price from the JSON record. var price = parseFloat ( json. query . results . quote . LastTradePriceOnly ) ; // Send the price to the 'price' output. send ( price , 'price'"
+    },
+    {
+      "chunk_id": 15,
+      "text": "rice to the 'price' output. send ( price , 'price' ) ; } ) ; } var handle = null ; exports. initialize = function ( ) { // Invoke the getPrice function each time a 'symbol' input arrives. handle = addInputHandler ( getPrice , 'symbol' ) ; } exports."
+    },
+    {
+      "chunk_id": 16,
+      "text": "InputHandler ( getPrice , 'symbol' ) ; } exports. wrapup = function ( ) { // Failing to do this will likely trigger an exception when the model stops running, // because the getPrice() function will attempt to send an output after the model // has st"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ttempt to send an output after the model // has stopped. removeInputHandler ( handle , 'symbol' ) ; } [$[Get Code]] The same specification in XML is here: <?xml version = \"1.0\" encoding = \"utf-8\" ?> <?xml-stylesheet type = \"text/xsl\" href = \"renderHT"
+    },
+    {
+      "chunk_id": 18,
+      "text": "?xml-stylesheet type = \"text/xsl\" href = \"renderHTML.xsl\" ?> <!DOCTYPE class PUBLIC \"-//TerraSwarm//DTD Accessor 1//EN\" \"{$ACCESSORS_HOME}/Accessor_1.dtd\" > <class name = \"StockTick\" extends = \"org.terraswarm.JSAccessor\" > <version > 0.1 $Date: 2015-"
+    },
+    {
+      "chunk_id": 19,
+      "text": "rraswarm.JSAccessor\" > <version > 0.1 $Date: 2015-05-21 04:14:51 -0700 ( Thu, 21 May 2015 ) $ </version > <author > Edward A. Lee </author > <input name = \"symbol\" value = \"YHOO\" type = \"string\" description = \"The stock symbol.\" /> <output name = \"pr"
+    },
+    {
+      "chunk_id": 20,
+      "text": "iption = \"The stock symbol.\" /> <output name = \"price\" type = \"number\" description = \"The most recent stock price (bid).\" /> <description type = \"text/html\" > <! [ CDATA [ This accessor, when fired, reads the most recent trade price for the specified"
+    },
+    {
+      "chunk_id": 21,
+      "text": "eads the most recent trade price for the specified stock symbol from a Yahoo server. ] ] > </description > <require name = \"httpClient\" /> <script type = \"text/javascript\" > // <! [ CDATA [ // This accessor requires the optional 'httpClient' module,"
+    },
+    {
+      "chunk_id": 22,
+      "text": "cessor requires the optional 'httpClient' module, which may or may // not be provided by an accessor host. Most hosts will provide this module. var http = require ( 'httpClient' ) ; function getPrice ( ) { // Read the current value of the 'symbol' in"
+    },
+    {
+      "chunk_id": 23,
+      "text": "( ) { // Read the current value of the 'symbol' input. var stock = get ( 'symbol' ) ; // Construct a URL to obtain a stock price. var url = \"http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20("
+    },
+    {
+      "chunk_id": 24,
+      "text": "m%20yahoo.finance.quotes%20where%20symbol%20in%20(%22\" + stock + \"%22)%0A%09%09&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json\" ; // Request a stock price, and provide a function to handle the response. http.get ( url, function ( respons"
+    },
+    {
+      "chunk_id": 25,
+      "text": "e the response. http.get ( url, function ( response ) { // Assuming the response is JSON, parse it. var json = JSON.parse ( response.body ) ; // Extract the last trade price from the JSON record. var price = parseFloat ( json.query.results.quote.Last"
+    },
+    {
+      "chunk_id": 26,
+      "text": "price = parseFloat ( json.query.results.quote.LastTradePriceOnly ) ; // Send the price to the 'price' output. send ( price, 'price' ) ; } ) ; } var handle = null; exports.initialize = function ( ) { // Invoke the getPrice function each time a 'symbol"
+    },
+    {
+      "chunk_id": 27,
+      "text": "/ Invoke the getPrice function each time a 'symbol' input arrives. handle = addInputHandler ( getPrice, 'symbol' ) ; } exports.wrapup = function ( ) { // Failing to do this will likely trigger an exception when the model stops running, // because the"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ption when the model stops running, // because the getPrice ( ) function will attempt to send an output after the model // has stopped. removeInputHandler ( handle, 'symbol' ) ; } // ] ] > </script > </class > [$[Get Code]] Top-level JavaScript At th"
+    },
+    {
+      "chunk_id": 29,
+      "text": "</class > [$[Get Code]] Top-level JavaScript At the top-level, the script specifies actions that are to be performed exactly once in the lifetime of the accessor instance. In the above example, this includes setting two \"global\" variables and specif"
+    },
+    {
+      "chunk_id": 30,
+      "text": "includes setting two \"global\" variables and specifying a handler for inputs: var http = require ( 'httpClient' ) ; ... var handle = addInputHandler ( getPrice , 'symbol' ) ; [$[Get Code]] The require () and addInputHandler () fuctions are described i"
+    },
+    {
+      "chunk_id": 31,
+      "text": "() and addInputHandler () fuctions are described in Top-Level JavaScript Functions . The top-level variables http and handle become state variables of the accessor. Every accessor gets its own JavaScript environment, so these variables are not really"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ipt environment, so these variables are not really global. They are local to the accessor. The top-level code can also define action functions, as explained below. Setup Function The setup function is normally needed only in a JavaScript specificatio"
+    },
+    {
+      "chunk_id": 33,
+      "text": "normally needed only in a JavaScript specification to declare the interface of the accessor. The body of the setup function should include a script that specifies all the information that in an XML specification would be given in XML. The relevant c"
+    },
+    {
+      "chunk_id": 34,
+      "text": "pecification would be given in XML. The relevant commands are described in the interface specification . The one exception is the require tag. In an XML specification, this normally needs to appear in both the XML and the JavaScript. In a JavaScript"
+    },
+    {
+      "chunk_id": 35,
+      "text": "both the XML and the JavaScript. In a JavaScript specification, it only needs to appear in the JavaScript, and can be anywhere in the script. Action Functions Action functions include any function that is an input handler, plus a set of optional fun"
+    },
+    {
+      "chunk_id": 36,
+      "text": "at is an input handler, plus a set of optional functions. These are described in Action Functions . In the above example, the accessor defines an input handler and a wrapup function that removes the input handler when the use of the accessor ends. T"
+    },
+    {
+      "chunk_id": 37,
+      "text": "nput handler when the use of the accessor ends. This prevents invocation of the handler after the swarmlet using the accessor has stopped executing. There is an interesting subtlety about the above accessor definition. The act of retrieving the stoc"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ccessor definition. The act of retrieving the stock price from a server is performed asynchronously. The accessor makes the request whenever an input 'symbol' arrives, but it does not immediately produce the output price. Were it to do that, the swar"
+    },
+    {
+      "chunk_id": 39,
+      "text": "uce the output price. Were it to do that, the swarmlet host would be blocked until the server has responded with the price. So instead, this accessor defines a handler that is invoked when the server responds. The handler causes the accessor to prod"
+    },
+    {
+      "chunk_id": 40,
+      "text": "responds. The handler causes the accessor to produce an output with the command: send ( price , 'price' ) ; [$[Get Code]] Why not make the HTTP request in the fire () action method, instead of in an input handler? As documented in Action Functions ,"
+    },
+    {
+      "chunk_id": 41,
+      "text": "input handler? As documented in Action Functions , the invocation of send () in the callback function will cause the fire () action function, if one is defined, to be invoked. If the fire () function issues the HTTP request, then this accessor would"
+    },
+    {
+      "chunk_id": 42,
+      "text": "issues the HTTP request, then this accessor would always immediately issue a new HTTP request whenever it gets a response from the server. This would flood the server with requests and is probably not the behavior we intended. Back to accessor specif"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/~cxh/java/tclblend/exceptions.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Tcl Blend Exceptions Tcl Blend Exceptions Below is some Tcl Blend code that will get the Java error stack from an exception and return it as a string to Tcl. # Print the most recent Java stack trace # Here's an example: # Create a String # set s [j"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Here's an example: # Create a String # set s [java::new {String java.lang.String} \"123\"] # Try to get a character beyond the end of the array # catch {$s charAt 4} err # puts \"The error was:\\n$err\" # puts \"The stack was:\\n[jdkStackTrace]\" pr"
+    },
+    {
+      "chunk_id": 3,
+      "text": "err\" # puts \"The stack was:\\n[jdkStackTrace]\" proc jdkStackTrace {} { global errorCode errorInfo if { [string match {JAVA*} $errorCode] } { set exception [lindex $errorCode 1] set stream [java::new java.io.ByteArrayOutputStream] set prin"
+    },
+    {
+      "chunk_id": 4,
+      "text": "java::new java.io.ByteArrayOutputStream] set printWriter [java::new \\ {java.io.PrintWriter java.io.OutputStream} $stream] $exception {printStackTrace java.io.PrintWriter} $printWriter $printWriter flush puts \"[$exception getMessage]\" puts \""
+    },
+    {
+      "chunk_id": 5,
+      "text": "r flush puts \"[$exception getMessage]\" puts \" while executing\" puts \"[$stream toString]\" puts \" while executing\" } puts $errorInfo } These Tcl procs and others are included in util.tcl Below is an example: % source util.tcl % set s"
+    },
+    {
+      "chunk_id": 6,
+      "text": "tcl Below is an example: % source util.tcl % set s [java::new {String java.lang.String} \"123\"] java0x1 % catch {$s charAt 4} err 1 % puts \"The error was:\\n$err\" The error was: java.lang.StringIndexOutOfBoundsException: String index out of range: 4 %"
+    },
+    {
+      "chunk_id": 7,
+      "text": "OfBoundsException: String index out of range: 4 % puts \"The stack was:\\n[jdkStackTrace]\" String index out of range: 4 while executing java.lang.StringIndexOutOfBoundsException: String index out of range: 4 at java.lang.Throwable. (Compiled Code)"
+    },
+    {
+      "chunk_id": 8,
+      "text": "range: 4 at java.lang.Throwable. (Compiled Code) at java.lang.Exception. (Compiled Code) at java.lang.RuntimeException. (Compiled Code) at java.lang.IndexOutOfBoundsException. (Compiled Code) at java.lang.StringIndexOutOfBoundsException. (Compi"
+    },
+    {
+      "chunk_id": 9,
+      "text": "java.lang.StringIndexOutOfBoundsException. (Compiled Code) at java.lang.String.charAt(Compiled Code) at tcl.lang.reflect.PkgInvoker.invokeMethod(Compiled Code) at tcl.lang.JavaInvoke.call(Compiled Code) at tcl.lang.JavaInvoke.callMethod(Compiled"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Code) at tcl.lang.JavaInvoke.callMethod(Compiled Code) at tcl.lang.ReflectObject.cmdProc(Compiled Code) at tcl.lang.Parser.evalObjv(Compiled Code) at tcl.lang.Parser.eval2(Compiled Code) at tcl.lang.Interp.eval(Compiled Code) at tcl.lang.Inter"
+    },
+    {
+      "chunk_id": 11,
+      "text": "lang.Interp.eval(Compiled Code) at tcl.lang.Interp.eval(Compiled Code) at tcl.lang.CatchCmd.cmdProc(Compiled Code) at tcl.lang.Parser.evalObjv(Compiled Code) at tcl.lang.Parser.eval2(Compiled Code) at tcl.lang.Interp.eval(Compiled Code) at tcl."
+    },
+    {
+      "chunk_id": 12,
+      "text": ") at tcl.lang.Interp.eval(Compiled Code) at tcl.lang.ConsoleEvent.processEvent(Compiled Code) at tcl.lang.Notifier.serviceEvent(Compiled Code) at tcl.lang.Notifier.doOneEvent(Compiled Code) at tcl.lang.Shell.main(Compiled Code) while execut"
+    },
+    {
+      "chunk_id": 13,
+      "text": "l.lang.Shell.main(Compiled Code) while executing java.lang.StringIndexOutOfBoundsException: String index out of range: 4 while executing \"$s charAt 4\" The stack was: % Last updated: 10/09/05, cxh at eecs"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/Passwords",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Passwords Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Passwords Accessors will occasionally want to access a passwo"
+    },
+    {
+      "chunk_id": 2,
+      "text": "cessors will occasionally want to access a password or key that should not be committed to version control repository as part of the model. Currently, one way to do this is to place the key in a file in $HOME/.ptKeystore/ and then get the resource w"
+    },
+    {
+      "chunk_id": 3,
+      "text": "in $HOME/.ptKeystore/ and then get the resource with the getResource() function. For example, the Heartbeat demo reads $HOME/.ptKeystore/heartbeatKey To start the demo: $PTII/bin/vergil -capecode $PTII/org/terraswarm/accessor/demo/Heartbeat/Heartbea"
+    },
+    {
+      "chunk_id": 4,
+      "text": "II/org/terraswarm/accessor/demo/Heartbeat/Heartbeat.xml The Heartbeat accessor contains the following code: ... * This accessor looks for key in $KEYSTORE / heartbeatKey , which * resolves to $HOME / . ptKeystore / heartbeatKey. * * The key is found"
+    },
+    {
+      "chunk_id": 5,
+      "text": ". ptKeystore / heartbeatKey. * * The key is found in the swarmbox git repo , which not public. * Look for swarmbox / heartbeat / key * See https : //www.terraswarm.org/testbeds/wiki/Main/SwarmboxGitRepo * * To download the repo using a repo. eecs . b"
+    },
+    {
+      "chunk_id": 6,
+      "text": "po * * To download the repo using a repo. eecs . berkeley . edu username and * password ( possibly different than your terraswarm website username * and password ) : * * git clone https : //repo.eecs.berkeley.edu/git/projects/terraswarm/swarmbox.git"
+    },
+    {
+      "chunk_id": 7,
+      "text": "berkeley.edu/git/projects/terraswarm/swarmbox.git * * If you uploaded your SSH key to repo. eecs , then use : * * git clone repoman @ repo. eecs . berkeley . edu : projects / terraswarm / swarmbox. git ... // Mothership expects the Heartbeat clients"
+    },
+    {
+      "chunk_id": 8,
+      "text": "t ... // Mothership expects the Heartbeat clients to use a key. var key = '' ; ... function Heartbeat ( ) { var heartbeat = { } ; heartbeat. pingMothership = function ( ) { console. log ( \"HeartBeat: pingMothership\" ) ; var config = { } ; config. hos"
+    },
+    {
+      "chunk_id": 9,
+      "text": "pingMothership\" ) ; var config = { } ; config. hostname = os. hostname ( ) ; config. timestamp_sent = Math . floor ( new Date ( ) ) ; // in ms var configString = JSON. stringify ( config ) ; var headers = { 'Content-Type' : 'application/json' , 'Cont"
+    },
+    {
+      "chunk_id": 10,
+      "text": "rs = { 'Content-Type' : 'application/json' , 'Content-Length' : configString. length } ; var url = { host : 'terra.eecs.berkeley.edu' , port : 8088 , path : '/check-in?key=' + key , protocol : 'https' } ... } exports. setup = function ( ) { ... // Se"
+    },
+    {
+      "chunk_id": 11,
+      "text": "} ... } exports. setup = function ( ) { ... // See the accessor comment for how to get the key. var keyFile = '$KEYSTORE/heartbeatKey' ; try { key = getResource ( keyFile , 1000 ) . trim ( ) ; } catch ( e ) { console. log ( 'Heartbeat: Could not get"
+    },
+    {
+      "chunk_id": 12,
+      "text": "h ( e ) { console. log ( 'Heartbeat: Could not get ' + keyFile + \": \" + e + ' \\n The key is not public, so this accessor is only useful ' + 'If you have the key. See ' + 'http://accessors.org/library/index.html?accessor=services.Heartbeat' ) ; key"
+    },
+    {
+      "chunk_id": 14,
+      "text": "odified on December 14, 2020, at 06:02 pm"
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII4.0/ptII4.0.1/doc/codeDoc/ptolemy/actor/lib/ArrayPeakSearch.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "ArrayPeakSearch Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.lib Class ArrayPeakSearch java.lang.Object pt"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ctor.lib Class ArrayPeakSearch java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.actor.AtomicActor ptolemy.actor.TypedAtomicActor ptolemy.actor.lib.ArrayPeak"
+    },
+    {
+      "chunk_id": 3,
+      "text": "actor.TypedAtomicActor ptolemy.actor.lib.ArrayPeakSearch All Implemented Interfaces: Actor , Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , Instantiable , ModelErrorHandler , MoMLExportable , Nameable , java.i"
+    },
+    {
+      "chunk_id": 4,
+      "text": "lErrorHandler , MoMLExportable , Nameable , java.io.Serializable, TypedActor public class ArrayPeakSearch extends TypedAtomicActor This actor outputs the indices and values of peaks in an input array. The dip and squelch parameters control the"
+    },
+    {
+      "chunk_id": 5,
+      "text": "The dip and squelch parameters control the sensitivity to noise. These are given either as absolute numbers or as relative numbers. If they are absolute numbers, then a peak is detected if a rise above dip is detected before the peak"
+    },
+    {
+      "chunk_id": 6,
+      "text": "d if a rise above dip is detected before the peak and a dip below dip is detected after the peak. If they are given as relative numbers, then a peak is detected when a rise by a factor dip above the most recently seen minimum (if there ha"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ove the most recently seen minimum (if there has been one) is seen before the peak, and if a dip by a factor dip relative to the peak is seen after the peak. Relative numbers can be either linear (a fraction) or in decibels. This is deter"
+    },
+    {
+      "chunk_id": 8,
+      "text": "near (a fraction) or in decibels. This is determined by the value of the scale parameter. For example, if dip is given as 2.0 and scale has value \"relative linear\", then a dip must drop to half of a local peak value to be considered a dip"
+    },
+    {
+      "chunk_id": 9,
+      "text": "lf of a local peak value to be considered a dip. If squelch is given as 10.0 and scale has value \"relative linear\", then any peaks that lie below 1/10 of the global peak are ignored. Note that dip is relative to the most recently seen"
+    },
+    {
+      "chunk_id": 10,
+      "text": "that dip is relative to the most recently seen peak or valley, and squelch is relative to the global peak in the array, when relative values are used. If scale has value \"relative amplitude decibels\", then a value of 6.0 is equivalent to t"
+    },
+    {
+      "chunk_id": 11,
+      "text": "cibels\", then a value of 6.0 is equivalent to the linear value 2.0. If scale has value \"relative power decibels\", then a value of 3.0 is equivalent to the linear value 2.0. In either decibel scale, 0.0 is equivalent to 0.0 linear. Othe"
+    },
+    {
+      "chunk_id": 12,
+      "text": "l scale, 0.0 is equivalent to 0.0 linear. Other parameters control how the search is conducted. This actor is based on Matlab code developed by John Signorotti of Southwest Research Institute. Since: Ptolemy II 4.0 Version: $Id: ArrayPeakSe"
+    },
+    {
+      "chunk_id": 13,
+      "text": "e. Since: Ptolemy II 4.0 Version: $Id: ArrayPeakSearch.java,v 1.17 2004/04/13 18:50:49 cxh Exp $ Author: Edward A. Lee See Also: Serialized Form Accepted Rating: Red (cxh) Proposed Rating: Yellow (eal) Nested Class Summary Nested classes inherited fr"
+    },
+    {
+      "chunk_id": 14,
+      "text": ") Nested Class Summary Nested classes inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary Parameter dip The amount that the signal must drop below a local maximum before a peak is detected. PortParameter endInd"
+    },
+    {
+      "chunk_id": 15,
+      "text": "before a peak is detected. PortParameter endIndex The end point of the search. TypedIOPort input The input port. Parameter maximumNumberOfPeaks The maximum number of peaks to report. TypedIOPort peakIndices The output port for the indices of the p"
+    },
+    {
+      "chunk_id": 16,
+      "text": "akIndices The output port for the indices of the peaks. TypedIOPort peakValues The output port for the values of the peaks. StringParameter scale An indicator of whether dip and squelch should be interpreted as absolute or relative, and if relative"
+    },
+    {
+      "chunk_id": 17,
+      "text": "terpreted as absolute or relative, and if relative, then on a linear scale, in amplitude decibels, or power decibels. Parameter squelch The value below which the input is ignored by the algorithm. PortParameter startIndex The starting point of th"
+    },
+    {
+      "chunk_id": 18,
+      "text": "PortParameter startIndex The starting point of the search. Fields inherited from class ptolemy.actor. AtomicActor _stopRequested Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLET"
+    },
+    {
+      "chunk_id": 20,
+      "text": "d from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary ArrayPeakSearch ( CompositeEntity container, java.lang.String name) Construct an actor with the given container and name. Method Sum"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ctor with the given container and name. Method Summary java.lang.Object clone ( Workspace workspace) Override the base class to set type constraints. void fire () Consume at most one array from the input port and produce two arrays containing the i"
+    },
+    {
+      "chunk_id": 22,
+      "text": "put port and produce two arrays containing the indices and values of the identified peaks. Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChanged , clone , newPort , typeConstraintList Methods inherited from"
+    },
+    {
+      "chunk_id": 23,
+      "text": "wPort , typeConstraintList Methods inherited from class ptolemy.actor. AtomicActor _createReceivers , connectionsChanged , getDirector , getExecutiveDirector , getFunctionDependency , getManager , initialize , inputPortList , iterate , newReceiver ,"
+    },
+    {
+      "chunk_id": 24,
+      "text": "tialize , inputPortList , iterate , newReceiver , outputPortList , postfire , prefire , preinitialize , pruneDependencies , removeDependency , setContainer , stop , stopFire , terminate , wrapup Methods inherited from class ptolemy.kernel. ComponentE"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ds inherited from class ptolemy.kernel. ComponentEntity _adjustDeferrals , _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , isAtomic , isOpaque , propagateExistence , setName Methods inherited from class ptol"
+    },
+    {
+      "chunk_id": 26,
+      "text": "stence , setName Methods inherited from class ptolemy.kernel. Entity _description , _exportMoMLContents , _removePort , connectedPortList , connectedPorts , containedObjectsIterator , getAttribute , getPort , getPorts , linkedRelationList , linkedRel"
+    },
+    {
+      "chunk_id": 27,
+      "text": "etPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition , uniqueName , validateSettables Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getEl"
+    },
+    {
+      "chunk_id": 28,
+      "text": "dObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _attachText , _cloneFixAttributeFields , _debug , _debug , _debu"
+    },
+    {
+      "chunk_id": 29,
+      "text": "_cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attri"
+    },
+    {
+      "chunk_id": 30,
+      "text": "fix , addChangeListener , addDebugListener , attributeChanged , attributeList , attributeList , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , getAttri"
+    },
+    {
+      "chunk_id": 31,
+      "text": ", exportMoML , exportMoML , exportMoML , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeR"
+    },
+    {
+      "chunk_id": 32,
+      "text": "getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerived"
+    },
+    {
+      "chunk_id": 33,
+      "text": "lassName , setDeferringChangeRequests , setDerivedLevel , setModelErrorHandler , setPersistent , setSource , toplevel , toString , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait,"
+    },
+    {
+      "chunk_id": 35,
+      "text": "st , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable initialize , iterate , postfire , prefire , preinitialize , stop , stopFire , terminate , wrapup Methods inherited from interface ptolemy.kernel.util. Deriva"
+    },
+    {
+      "chunk_id": 36,
+      "text": "herited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getFullName , getName , getName Field Detail dip public Parameter dip"
+    },
+    {
+      "chunk_id": 37,
+      "text": "me , getName Field Detail dip public Parameter dip The amount that the signal must drop below a local maximum before a peak is detected. This is a double that can be interpreted as an absolute threshold or relative to the local peak, and if relat"
+    },
+    {
+      "chunk_id": 38,
+      "text": "eshold or relative to the local peak, and if relative, on a linear or decibel scale, depending on the scale parameter. It defaults to 0.0. endIndex public PortParameter endIndex The end point of the search. If this number is larger than the lengt"
+    },
+    {
+      "chunk_id": 39,
+      "text": "search. If this number is larger than the length of the input array, then the search is to the end of the array. This is an integer that defaults to MaxInt. input public TypedIOPort input The input port. This is required to be an array of doub"
+    },
+    {
+      "chunk_id": 40,
+      "text": "put port. This is required to be an array of doubles maximumNumberOfPeaks public Parameter maximumNumberOfPeaks The maximum number of peaks to report. This is an integer that defaults to MaxInt. peakIndices public TypedIOPort peakIndices The outpu"
+    },
+    {
+      "chunk_id": 41,
+      "text": "akIndices public TypedIOPort peakIndices The output port for the indices of the peaks. The type is {int} (array of int). peakValues public TypedIOPort peakValues The output port for the values of the peaks. The type is the same as the input port."
+    },
+    {
+      "chunk_id": 42,
+      "text": "e peaks. The type is the same as the input port. scale public StringParameter scale An indicator of whether dip and squelch should be interpreted as absolute or relative, and if relative, then on a linear scale, in amplitude decibels, or power"
+    },
+    {
+      "chunk_id": 43,
+      "text": "n a linear scale, in amplitude decibels, or power decibels. If decibels are used, then the corresponding linear threshold is 10^( threshold / N ), where N is 20 (for amplitude decibels) or 10 (for power decibels). This parameter is a string w"
+    },
+    {
+      "chunk_id": 44,
+      "text": "or power decibels). This parameter is a string with possible values \"absolute\", \"relative linear\", \"relative amplitude decibels\" or \"relative power decibels\". The default value is \"absolute\". squelch public Parameter squelch The value below whi"
+    },
+    {
+      "chunk_id": 45,
+      "text": "uelch public Parameter squelch The value below which the input is ignored by the algorithm. This is a double that can be interpreted as an absolute number or a relative number, and if relative, on a linear or decibel scale, depending on the sca"
+    },
+    {
+      "chunk_id": 46,
+      "text": "a linear or decibel scale, depending on the scale parameter. For the relative case, the number is relative to the global peak. It defaults to -10.0. startIndex public PortParameter startIndex The starting point of the search. If this number is l"
+    },
+    {
+      "chunk_id": 47,
+      "text": "starting point of the search. If this number is larger than the value of endIndex , the search is conducted backwards (and the results presented in reverse order). If this number is larger than the length of the input array, then the search is"
+    },
+    {
+      "chunk_id": 48,
+      "text": "the length of the input array, then the search is started at the end of the input array. This is an integer that defaults to 0. Constructor Detail ArrayPeakSearch public ArrayPeakSearch ( CompositeEntity container, java.la"
+    },
+    {
+      "chunk_id": 49,
+      "text": "teEntity container, java.lang.String name) throws NameDuplicationException , IllegalActionException Construct an actor with the given container and name. Parameters: container - The container. name - The name of"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ers: container - The container. name - The name of this actor. Throws: IllegalActionException - If the actor cannot be contained by the proposed container. NameDuplicationException - If the container already has an actor with this name. Method"
+    },
+    {
+      "chunk_id": 51,
+      "text": "er already has an actor with this name. Method Detail clone public java.lang.Object clone ( Workspace workspace) throws java.lang.CloneNotSupportedException Override the base class to set type constraints. Overrides: clone i"
+    },
+    {
+      "chunk_id": 52,
+      "text": "class to set type constraints. Overrides: clone in class AtomicActor Parameters: workspace - The workspace for the new object. Returns: A new instance of ArrayPeakSearch. Throws: java.lang.CloneNotSupportedException - If a derived class contains"
+    },
+    {
+      "chunk_id": 53,
+      "text": "pportedException - If a derived class contains an attribute that cannot be cloned. fire public void fire () throws IllegalActionException Consume at most one array from the input port and produce two arrays containing the indices and v"
+    },
+    {
+      "chunk_id": 54,
+      "text": "produce two arrays containing the indices and values of the identified peaks. If there is no token on the input, then no output is produced. If the input is an empty array, then the same empty array token is produced on both outputs. Speci"
+    },
+    {
+      "chunk_id": 55,
+      "text": "y array token is produced on both outputs. Specified by: fire in interface Executable Overrides: fire in class AtomicActor Throws: IllegalActionException - If there is no director, or if sorting is not supported for the input array. Overview Pac"
+    },
+    {
+      "chunk_id": 56,
+      "text": "is not supported for the input array. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

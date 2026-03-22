@@ -1,0 +1,113 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/design/usingVergil/usingVergila8.htm",
+  "chunks": [
+    {
+      "chunk_id": 15,
+      "text": "ation of the model is much smaller, since the design of the class is given only once rather than five times. If you invoke \"Open Actor\" any of the instances (or the class) in figure 2.37 , you will see the same channel model. In fact, you will see th"
+    },
+    {
+      "chunk_id": 16,
+      "text": "e the same channel model. In fact, you will see the class definition. Any change you make inside this hierarchical model will be automatically propagated to all the instances. Try changing the value of the noisePower parameter, for example. 2.7.2 O"
+    },
+    {
+      "chunk_id": 17,
+      "text": "f the noisePower parameter, for example. 2.7.2 Overriding Parameter Values in Instances By default, all instances of Channel in figure 2.37 have the same icon and the same parameter values. However, each instance can be customized by overriding the"
+    },
+    {
+      "chunk_id": 18,
+      "text": "each instance can be customized by overriding these values. In figure 2.38 , for example, we have modified the custom icons so that each has a different color, and the fifth one has an extra graphical element. To do this, just right click on the ico"
+    },
+    {
+      "chunk_id": 19,
+      "text": "l element. To do this, just right click on the icon of the instance and select \"Edit Custom Icon.\" 2.7.3 Subclassing and Inheritance Suppose now that we wish to modify some of the channels to add interference in the form of another sinewave. A good"
+    },
+    {
+      "chunk_id": 20,
+      "text": "terference in the form of another sinewave. A good way to do this is to create a subclass of the Channel class, as shown in figure 2.39 . A subclass is created by right clicking on the class icon and selecting \"Create Subclass.\" The resulting icon fo"
+    },
+    {
+      "chunk_id": 21,
+      "text": "selecting \"Create Subclass.\" The resulting icon for the subclass appears right on top of the icon for the class, so it needs to be moved over, as shown in the figure. Looking inside the subclass reveals that it contains all the elements of the class,"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ls that it contains all the elements of the class, but with their icons now surrounded by a dashed pink outline. These elements are inherited . They cannot be removed from the subclass (try to do so, and you will get an error message). You can, howev"
+    },
+    {
+      "chunk_id": 23,
+      "text": "and you will get an error message). You can, however, change their parameter values and add additional elements. Consider the design shown in figure 2.40 , which adds an additional pair of parameters named \"interferenceAmplitude\" and \"interferenceFre"
+    },
+    {
+      "chunk_id": 24,
+      "text": "named \"interferenceAmplitude\" and \"interferenceFrequency\" and an additional pair of actors implementing the interference. A model that replaces the last channel with an instance of the subclass is shown in figure 2.41 , along with a plot where you ca"
+    },
+    {
+      "chunk_id": 25,
+      "text": "wn in figure 2.41 , along with a plot where you can see the sinusoidal interference. An instance of a class may be created anywhere in a hierarchical model that is either in the same composite as the class or in a composite contained by that composit"
+    },
+    {
+      "chunk_id": 26,
+      "text": "class or in a composite contained by that composite. To put an instance into a submodel, simply copy (or cut) an instance from the composite where the class is, and then paste that instance into the composite. 2.7.4 Sharing Classes Across Models A"
+    },
+    {
+      "chunk_id": 27,
+      "text": "omposite. 2.7.4 Sharing Classes Across Models A class may be shared across multiple models by saving the class definition in its own file. We will illustrate how to do that with the Channel class. First, invoke \"Open Actor\" on the Channel class, an"
+    },
+    {
+      "chunk_id": 28,
+      "text": "irst, invoke \"Open Actor\" on the Channel class, and then select Save As from the File menu. The dialog that appears is shown in figure 2.42 . The checkbox at the right, labeled \"Save submodel only\" is by default unchecked, and if left unchecked, what"
+    },
+    {
+      "chunk_id": 29,
+      "text": "by default unchecked, and if left unchecked, what will be saved will be the entire model. In our case, we wish to save the Channel submodel only, so we must check the box. A key issue is to decide where to save the file. As always with files, there"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ere to save the file. As always with files, there is an issue that models that use a class defined in an external file have to be able to find that file. In general Ptolemy II searches for class definitions relative to the classpath , which is given"
+    },
+    {
+      "chunk_id": 31,
+      "text": "itions relative to the classpath , which is given by an environment variable called CLASSPATH. In principle, you can set this environment variable to include any particular directory that you would like searched. In practice, changing the CLASSPATH v"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ke searched. In practice, changing the CLASSPATH variable often causes problems with programs, so we recommend, when possible, simply storing the file in a directory within the Ptolemy II installation directory. 2 In figure 2.42 , the Channel class i"
+    },
+    {
+      "chunk_id": 33,
+      "text": "directory. 2 In figure 2.42 , the Channel class is saved to a file called Channel.xml in the directory $PTII/myActors, where $PTII is the location of the Ptolemy II installation. This class definition can now be used in any model as follows. Open th"
+    },
+    {
+      "chunk_id": 34,
+      "text": "n can now be used in any model as follows. Open the model, and select \"Instantiate Entity\" in the Graph menu, as shown in figure 2.43 . Simply enter the fully qualified class name relative to the $PTII entry in the classpath, which in this case is \"m"
+    },
+    {
+      "chunk_id": 35,
+      "text": "I entry in the classpath, which in this case is \"myActors.Channel\". Once you have an instance of the Channel class that is defined in its own file, you can add it to the UserLibrary that appears in the library browser to the left in Vergil windows, a"
+    },
+    {
+      "chunk_id": 36,
+      "text": "e library browser to the left in Vergil windows, as shown in figure 2.44 . To do this, right click on the instance and select \"Save Actor in Library.\" As shown in the figure, this causes another window to open, which is actually the user library. The"
+    },
+    {
+      "chunk_id": 37,
+      "text": "w to open, which is actually the user library. The user library is a Ptolemy II model like any other, stored in an XML file. If you now save that library model, then the class instance will be available in the UserLibrary henceforth in any Vergil win"
+    },
+    {
+      "chunk_id": 38,
+      "text": "le in the UserLibrary henceforth in any Vergil window. One subtle point is that it would not accomplish the same objective if the class definition itself (vs. an instance of the class) were to be saved in the user library. If you were to do that, the"
+    },
+    {
+      "chunk_id": 39,
+      "text": "d in the user library. If you were to do that, then the user library would provide a new class definition rather than an instance of the class when you drag from it. 1 In communication systems, this technique is known as diversity , where multiple ch"
+    },
+    {
+      "chunk_id": 40,
+      "text": "echnique is known as diversity , where multiple channels with independent noise are used to achieve more reliable communication. 2 If you don't know where Ptolemy II is installed on your system, you can find out by invoking File, New, Expression Eval"
+    },
+    {
+      "chunk_id": 41,
+      "text": "an find out by invoking File, New, Expression Evaluator and typing PTII followed by Enter."
+    }
+  ]
+}

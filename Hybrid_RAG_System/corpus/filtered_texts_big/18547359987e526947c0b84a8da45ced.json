@@ -1,0 +1,137 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version1/WebSocketServer",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / webSocketServer module Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / webSocketServer module This is version 1 of"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ion1 / webSocketServer module This is version 1 of webSocketServer. WebSocketServer Version 0 WebSocketServer Version Current The webSocketServer module supports web socket servers. Web sockets differ from HTTP interactions by including a notion of a"
+    },
+    {
+      "chunk_id": 3,
+      "text": "from HTTP interactions by including a notion of a bidirectional connection called a \"socket\". It differs from a TCP socket in that the connection carries not just a byte stream, but a sequence of \"messages,\" where each message can have an arbitrary"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ssages,\" where each message can have an arbitrary number of bytes. It also differs from a TCP socket in that the connection is established through HTTP and is supported by most web browsers. This module defines two classes, Server, and Socket. To mak"
+    },
+    {
+      "chunk_id": 5,
+      "text": "le defines two classes, Server, and Socket. To make a connection, create an instance of Server, set up event listeners, and start the server. On another machine (or the same machine), create an instance of Client (provided by the webSocketClient modu"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ce of Client (provided by the webSocketClient module) and set up listeners and/or invoke the send() function of the client to send a message. When a client connects to the Server, the Server will create an instance of the Socket object. This object c"
+    },
+    {
+      "chunk_id": 7,
+      "text": "te an instance of the Socket object. This object can be used to send and receive messages to and from the client. This module also provides two utility functions that return arrays of MIME types supported for sending or receiving messages. Specifying"
+    },
+    {
+      "chunk_id": 8,
+      "text": "rted for sending or receiving messages. Specifying a message type facilitates conversion between the byte streams transported over the socket and JavaScript objects that are passed to send() or emitted as a 'message' event. These functions specify wh"
+    },
+    {
+      "chunk_id": 9,
+      "text": "d as a 'message' event. These functions specify what types are supported by a particular implementation of this module. Implementations of this module should support at least the following types: application/json : The this.send() function uses JSON."
+    },
+    {
+      "chunk_id": 10,
+      "text": "ication/json : The this.send() function uses JSON.stringify() and sends the result with a UTF-8 encoding. An incoming byte stream will be parsed as JSON, and if the parsing fails, will be provided as a string interpretation of the byte stream. text/p"
+    },
+    {
+      "chunk_id": 11,
+      "text": "a string interpretation of the byte stream. text/plain : Any text type is sent as a string encoded in UTF-8. Module Functions supportedReceiveTypes : Return an array of the types supported by the current host for the receiveType options. supportedSen"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ent host for the receiveType options. supportedSendTypes : Return an array of the types supported by the current host for the sendType option. Server Class A Server is constructed (using new) by the Server function, which takes one (optional) argumen"
+    },
+    {
+      "chunk_id": 13,
+      "text": "erver function, which takes one (optional) argument, an options object, defined below. A Server instance is an HTTP server that listens for web socket connection requests and creates an instance of the Socket class (defined below) for each opened web"
+    },
+    {
+      "chunk_id": 14,
+      "text": "e Socket class (defined below) for each opened web socket. After invoking this constructor (using new), the user script should set up listeners and then invoke the start() function on this Server. This will create an HTTP server on the local host. Th"
+    },
+    {
+      "chunk_id": 15,
+      "text": "s will create an HTTP server on the local host. The options argument is a JSON object containing the following optional fields: hostInterface : The IP address or name of the local interface for the server to listen on. This defaults to 'localhost',"
+    },
+    {
+      "chunk_id": 16,
+      "text": "rver to listen on. This defaults to 'localhost', but if the host machine has more than one network interface, e.g. an Ethernet and WiFi interface, then you may need to specifically specify the IP address of that interface here. port : The port on wh"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ress of that interface here. port : The port on which to listen for connections (the default is 80, which is the default HTTP port). receiveType : The MIME type for incoming messages, which defaults to 'application/json'. See the Client documentation"
+    },
+    {
+      "chunk_id": 18,
+      "text": "o 'application/json'. See the Client documentation for supported types. sendType : The MIME type for outgoing messages, which defaults to 'application/json'. See the Client documentation for supported types. A Server object is an EventEmitter, and yo"
+    },
+    {
+      "chunk_id": 19,
+      "text": "types. A Server object is an EventEmitter, and you can register handlers for the following events: listening : Emitted when the server is listening for web socket connection requests. connection : Emitted when a connection is established. A listener"
+    },
+    {
+      "chunk_id": 20,
+      "text": "itted when a connection is established. A listener for this event will be passed an instance of the Socket class defined below. The functions provided by the Server class are: start (): Start the server and listen for web socket connection requests."
+    },
+    {
+      "chunk_id": 21,
+      "text": "er and listen for web socket connection requests. Call this after setting up listeners for events. stop (): Close all current connections and stop the server. A typical usage pattern looks like this: var webSocket = require ( 'webSocketServer' ) ; va"
+    },
+    {
+      "chunk_id": 22,
+      "text": "var webSocket = require ( 'webSocketServer' ) ; var server = new webSocket. Server ( { 'port' : 8082 } ) ; server. on ( 'listening' , onListening ) ; server. on ( 'connection' , onConnection ) ; server. start ( ) ; [$[Get Code]] where onListening is"
+    },
+    {
+      "chunk_id": 23,
+      "text": "r. start ( ) ; [$[Get Code]] where onListening is a handler for an event that this Server emits when it is listening for connections, and onConnection is a handler for an event that this Server emits when a client requests a websocket connection and"
+    },
+    {
+      "chunk_id": 24,
+      "text": "when a client requests a websocket connection and the socket has been successfully established. When the 'connection' event is emitted, it will be passed a Socket object, and the onConnection handler can register a listener for 'message' events on th"
+    },
+    {
+      "chunk_id": 25,
+      "text": "can register a listener for 'message' events on that Socket object, as follows: server. on ( 'connection' , function ( socket ) { socket. on ( 'message' , function ( message ) { console. log ( message ) ; socket. send ( 'Reply message' ) ; } ) ; } )"
+    },
+    {
+      "chunk_id": 26,
+      "text": ") ; socket. send ( 'Reply message' ) ; } ) ; } ) ; [$[Get Code]] Socket Class A Socket is constructed by a Server and provided as an argument to any handler registered to handle 'connection' events. An instance of Socket provides incoming messages"
+    },
+    {
+      "chunk_id": 27,
+      "text": "An instance of Socket provides incoming messages as 'message' events and provides a send() function to send messages to the client over the socket. A user should not directly construct an instance of Socket. The Server will do that. A Socket is an E"
+    },
+    {
+      "chunk_id": 28,
+      "text": "Socket. The Server will do that. A Socket is an EventEmitter that emits the following events: open : Emitted when the socket has been successfully opened. message : Emitted with the body of the message as an argument when an incoming message arrive"
+    },
+    {
+      "chunk_id": 29,
+      "text": "age as an argument when an incoming message arrives on the socket. close : Emitted when the socket closes. error : Emitted with an error message argument when an error occurs. Functions provided by the Socket are: send ( message ): Send the specified"
+    },
+    {
+      "chunk_id": 30,
+      "text": "e Socket are: send ( message ): Send the specified message to the client. isOpen (): Return true if the socket is open. close (): Close the socket. See Also To implement this module API in a new swarmlet host, see the WebSocket Implementation Notes ."
+    },
+    {
+      "chunk_id": 31,
+      "text": "let host, see the WebSocket Implementation Notes . Remote Resources An accessor that uses this module to provide a server can be found under net/WebSocketServer at https://ptolemy.berkeley.edu/accessors/library/index.html accessors/web/net/WebSocketS"
+    },
+    {
+      "chunk_id": 32,
+      "text": "rs/library/index.html accessors/web/net/WebSocketServer.js CapeCode Host Auto-generated doc file for the current version of the Ptolemy II/Nashorn host implementation of this module. Definition of this module: $PTII/ptolemy/actor/lib/jjs/modules/webS"
+    },
+    {
+      "chunk_id": 33,
+      "text": "s module: $PTII/ptolemy/actor/lib/jjs/modules/webSocket/webSocketServer.js Demos of the use of this module can be found in Ptolemy II in $PTII/ptolemy/actor/lib/jjs/modules/webSocket/demo . WebSocket (Wikipedia) Back to Optional JavaScript Modules Ed"
+    }
+  ]
+}

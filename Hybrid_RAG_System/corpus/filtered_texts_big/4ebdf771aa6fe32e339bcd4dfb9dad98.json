@@ -1,0 +1,861 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/Users_Guide/original/cshell.tex",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "\\chapter{The C Shell} \\label{cshell} \\index{shell} \\renewcommand{\\thempfootnote}{\\arabic{mpfootnote}} \\setcounter{mpfootnote}{0} \\setcounter{footnote}{0} A shell is a program that runs continually, reading and interpreting key strokes. It provides th"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ading and interpreting key strokes. It provides the command interface between you and the system. There are several popular shells: the C shell,\\index{C shell}\\index{shell!C} the Bourne shell,\\index{Bourne shell}\\index{shell!Bourne}, the tcsh shell"
+    },
+    {
+      "chunk_id": 3,
+      "text": "{Bourne shell}\\index{shell!Bourne}, the tcsh shell\\index{tcsh }\\index{shell!tcsh} and the System~V shell.\\index{System V shell}\\index{shell!System V} Which shell to use is primarily a matter of personal preference. Changing shells is covered in Secti"
+    },
+    {
+      "chunk_id": 4,
+      "text": "al preference. Changing shells is covered in Section~\\ref{customiz}. Only the default shell,\\index{default shell} \\index{shell!default} the C shell, will be discussed here, with minor references to the differences between it and the other commonly-u"
+    },
+    {
+      "chunk_id": 5,
+      "text": "he differences between it and the other commonly-used shell, the Bourne shell.\\index{shell!prompt} \\index{default shell!prompt} The default prompt for the C shell is {\\tt \\%}; for the Bourne shell it is {\\tt \\#}. The command {\\bf logout} will termin"
+    },
+    {
+      "chunk_id": 6,
+      "text": "is {\\tt \\#}. The command {\\bf logout} will terminate a \\index{shell!terminating} \\index{terminating a shell} C shell; to terminate the Bourne shell, \\index{CTRL-d@\\ctrl{d}} use \\ctrl{d}. The UNIX commands described earlier ({\\bf ls}, {\\bf cat}, {\\b"
+    },
+    {
+      "chunk_id": 7,
+      "text": "mmands described earlier ({\\bf ls}, {\\bf cat}, {\\bf cd}, {\\bf pwd}, {\\bf history}, ...) can all be entered at the C shell prompt, but the shell does more than just pass on acceptable commands to the system for execution. It also provides services des"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ystem for execution. It also provides services described earlier such as expanding wildcards and redirecting standard input and output. This chapter will describe three other functions the C shell provides: a history mechanism for manipulating comma"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ovides: a history mechanism for manipulating commands; a set of process control facilities; and a C--like programming capability. Section~\\ref{addfeat} briefly mentions some topics that are useful but deserve more discussion than we can afford here."
+    },
+    {
+      "chunk_id": 10,
+      "text": "deserve more discussion than we can afford here. More detailed information on the C shell can be found in the online manual pages for {\\bf csh}. \\section{C Shell Basics}\\label{cshBasics} The most common means of interacting with the C shell is by e"
+    },
+    {
+      "chunk_id": 11,
+      "text": "mmon means of interacting with the C shell is by entering commands at the prompt for immediate execution. Recent commands are stored in a history list. This section will introduce the basic manipulations of commands on the history list and show some"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ons of commands on the history list and show some of the shell features that expand their power. Just as you can recall the last command via {\\bf !!}, you can recall any recent command by issuing {\\bf !}{\\em n} where {\\em n} is the history number of"
+    },
+    {
+      "chunk_id": 13,
+      "text": "f !}{\\em n} where {\\em n} is the history number of the command to be recalled. Another convenient method of recalling a command is to use {\\bf !} followed immediately by a string of characters which begins the desired command. You only need to enter"
+    },
+    {
+      "chunk_id": 14,
+      "text": "egins the desired command. You only need to enter enough characters to distinguish it in the history list. For example, suppose {\\bf history}\\index{history@{\\bf history} command} lists your recent commands as: \\begin{verbatim} 1 vi five.chickens"
+    },
+    {
+      "chunk_id": 15,
+      "text": "mmands as: \\begin{verbatim} 1 vi five.chickens 2 cat five.chickens | more 3 ls 4 mv five.chickens test.c 5 cc test.c 6 cflow test.c \\end{verbatim} At this point {\\bf !l} (the letter `l') or {\\bf !3} will repeat the {\\bf ls} command"
+    },
+    {
+      "chunk_id": 16,
+      "text": "`l') or {\\bf !3} will repeat the {\\bf ls} command, and {\\bf !v} will restart the {\\bf vi} editor on the named file. The shell stops searching at the first match, so {\\bf !c} will repeat the {\\bf cflow} command. Two ways of repeating the {\\bf cat} co"
+    },
+    {
+      "chunk_id": 17,
+      "text": "w} command. Two ways of repeating the {\\bf cat} command are to enter {\\bf !2} or {\\bf !ca}. Command lines are broken by the shell into \\index{command line}% individual words---the command proper \\index{argument list!on command line} \\index{command l"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ex{argument list!on command line} \\index{command line!argument list} and an {\\em argument list}. For example, {\\bf ls~-l~*} contains the command {\\bf ls} and two arguments, {\\bf -l} and {\\bf *}. You can see how the shell interprets a command withou"
+    },
+    {
+      "chunk_id": 19,
+      "text": "can see how the shell interprets a command without actually executing it using {\\bf echo}, \\index{echo@{{\\bf echo} command}} which types back its argument list showing the shell expansion. The command {\\bf echo ls~-l~*} types back the first two argu"
+    },
+    {
+      "chunk_id": 20,
+      "text": "d {\\bf echo ls~-l~*} types back the first two arguments literally and shows the shell expansion of {\\bf *} into the appropriate file list. {\\tt \\%} {\\bf echo ls -l *} \\newline \\indent {\\tt ls -l Mail five.chickens printit.doc test.c vincent.lat} Er"
+    },
+    {
+      "chunk_id": 21,
+      "text": "five.chickens printit.doc test.c vincent.lat} Errors made while entering commands can be corrected on the next line by use of a shell string replacement feature. \\index{string replacement} The characters to be changed and the characters replacing t"
+    },
+    {
+      "chunk_id": 22,
+      "text": "cters to be changed and the characters replacing them are entered surrounded by \\index{substitution markers} substitution markers, {\\caret}. Most typing errors are easily fixed: {\\tt \\%} {\\bf cay five.chickens $\\mid$ more} \\newline \\indent {\\tt cay"
+    },
+    {
+      "chunk_id": 23,
+      "text": "e.chickens $\\mid$ more} \\newline \\indent {\\tt cay: Command not found } \\newline \\indent {\\tt \\%} {\\caret}{\\bf cay}{\\caret}{\\bf cat}{\\caret} Strings to be replaced can occur anywhere in the original command. The replacement string does not have to b"
+    },
+    {
+      "chunk_id": 24,
+      "text": "command. The replacement string does not have to be the same length. Neither string may contain spaces. Replacement is not limited to correcting errors. Here is how to edit and print a file on the default printer with a minimum of work. {\\tt \\%} {\\b"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ault printer with a minimum of work. {\\tt \\%} {\\bf vi five.chickens } \\newline \\indent {\\tt \\%} {\\caret}{\\bf vi}{\\caret}{\\bf lpr} \\subsection{Variables}\\label{path2} \\index{variable} The shell also provides the facility to store data in variables."
+    },
+    {
+      "chunk_id": 26,
+      "text": "provides the facility to store data in variables. You can see what variables are set at any time by entering \\index{set@{{\\bf set} command}} the command {\\bf set}. Table~\\ref{histlist} is an abbreviated list of the variables you would normally see. T"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ed list of the variables you would normally see. The list shows the name of the variable, e.g. {\\bf term}, and its value, {\\tt dec-vt100}. Notice that some variables, like {\\bf noclobber},\\footnote{See Section \\ref{avoid}.} have no value. \\index{nocl"
+    },
+    {
+      "chunk_id": 28,
+      "text": "e Section \\ref{avoid}.} have no value. \\index{noclobber@{\\bf noclobber} variable} They simply exist. \\index{variable} Variables can also hold multiple words of data. In the list, {\\bf argv} and {\\bf path}\\label{pathdetail} can each hold an array of"
+    },
+    {
+      "chunk_id": 29,
+      "text": "path}\\label{pathdetail} can each hold an array of values. \\begin{table} \\centering \\begin{tabular}{ll} {\\bf Variable} \\\\ {\\bf Name} & {\\bf Value} \\\\[\\medskipamount] {\\bf argv} & {\\tt ()} \\\\ {\\bf cwd} & {\\tt /home/user} \\\\ {\\bf history}"
+    },
+    {
+      "chunk_id": 30,
+      "text": "{\\bf cwd} & {\\tt /home/user} \\\\ {\\bf history} & {\\tt 20} \\\\ {\\bf home} & {\\tt /home/user} \\\\ {\\bf interactive} & \\\\ {\\bf noclobber} & \\\\ {\\bf path} & {\\tt (. /home/user/bindec /usr/vincent /usr/local/bin} \\\\ & {\\tt /usr/ne"
+    },
+    {
+      "chunk_id": 31,
+      "text": "incent /usr/local/bin} \\\\ & {\\tt /usr/new /usr/bin/X11 /usr/ucb /bin /usr/bin)} \\\\ {\\bf prompt} & {\\tt \\%} \\\\ {\\bf shell} & {\\tt /bin/csh} \\\\ {\\bf status} & {\\tt 0} \\\\ {\\bf term} & {\\tt dec--vt100} \\\\ {\\bf user} & {\\tt user} \\en"
+    },
+    {
+      "chunk_id": 32,
+      "text": "{\\tt dec--vt100} \\\\ {\\bf user} & {\\tt user} \\end{tabular} \\isucaption{Shell Variables} \\label{histlist} \\end{table} Alternate forms of the {\\bf set} \\index{variable!setting} command are used to set the values of variables, the form depending on t"
+    },
+    {
+      "chunk_id": 33,
+      "text": "t the values of variables, the form depending on the number of values assigned to the variable. If the variable holds no value, the form is simply {\\bf set} {\\em variablename}. This form was used to set the existence of {\\bf noclobber} and {\\bf inter"
+    },
+    {
+      "chunk_id": 34,
+      "text": "et the existence of {\\bf noclobber} and {\\bf interactive}. Single values are assigned by {\\bf set} {\\em variablename}={\\em value}. \\index{values!assigning} \\index{assigning values} To change the number of commands stored on the history list to 25, e"
+    },
+    {
+      "chunk_id": 35,
+      "text": "er of commands stored on the history list to 25, enter {\\bf set history}={\\bf 25}. \\index{set history@{{\\bf set history} command}} Array variables have values assigned to specific positions in the array. The initial position in the array is numbered"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ray. The initial position in the array is numbered ``1''. Look at the ``path'' variable shown in the list. This is an array variable whose values are all directory \\index{array variable} \\index{variable} names. (A {\\it path} is a list of directories"
+    },
+    {
+      "chunk_id": 37,
+      "text": "le} names. (A {\\it path} is a list of directories that the shell searches through to find and execute the file corresponding to the command you have entered.) The initial position of this variable, {\\tt path[1]}, has the value ``{\\tt .}'', meaning th"
+    },
+    {
+      "chunk_id": 38,
+      "text": "tt path[1]}, has the value ``{\\tt .}'', meaning the current directory. To {\\bf set} the values of an array variable, separate the values by spaces and enclose the list in parentheses. \\begin{verbatim} set trail=(. 1 /yellow/road) \\end{verbatim"
+    },
+    {
+      "chunk_id": 39,
+      "text": "} set trail=(. 1 /yellow/road) \\end{verbatim} Care must be taken {\\it not} to put spaces on either side of the {\\tt =} in the {\\bf set} \\index{set@{{\\bf set} command}} command. Depending on which side(s) the spaces occur, you could get an erro"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ch side(s) the spaces occur, you could get an error message, have the variable exist with no value, or take on the correct value. It is best to avoid potential trouble by never putting extra spaces in a {\\bf set} command. Sometimes within a shell, t"
+    },
+    {
+      "chunk_id": 41,
+      "text": "a {\\bf set} command. Sometimes within a shell, there are processing difficulties because of ambiguity as to where a variable name ends. In these situations, surround the name with braces\\index{braces} and the problem disappears. {\\tt \\%} {\\bf set"
+    },
+    {
+      "chunk_id": 42,
+      "text": "s} and the problem disappears. {\\tt \\%} {\\bf set food{\\tt =}cheese} \\newline \\indent {\\tt \\%} {\\bf echo \\$foodcake} \\newline \\indent {\\tt foodcake: Undefined variable.} \\newline \\indent {\\tt \\%} {\\bf echo \\$\\{food\\}cake} \\newline \\indent {\\tt cheese"
+    },
+    {
+      "chunk_id": 43,
+      "text": "echo \\$\\{food\\}cake} \\newline \\indent {\\tt cheesecake} To remove a variable, use the {\\bf unset} command (as in {\\bf unset} {\\em variablename}). \\index{unset@{{\\bf unset} command}}% \\index{variable!unsetting}% \\index{unsetting a variable} \\subsec"
+    },
+    {
+      "chunk_id": 44,
+      "text": "!unsetting}% \\index{unsetting a variable} \\subsection{Variables that Reference the Command Line} The individual words on the command line are each stored in variables that you can reference. There are two separate referencing conventions. In the fir"
+    },
+    {
+      "chunk_id": 45,
+      "text": "e two separate referencing conventions. In the first, the command itself is named {\\bf \\$0}, and each argument is numbered sequentially from there, {\\bf \\$1}, {\\bf \\$2}, {\\bf \\$3}, and so on. {\\bf \\$\\#} holds the total number of arguments. This conv"
+    },
+    {
+      "chunk_id": 46,
+      "text": "#} holds the total number of arguments. This convention has a limit in that names stop at {\\bf \\$9}. There is a shift command that can be used to work around this limitation but we will not discuss it here. In the command: {\\bf ls -l five.*} {\\bf"
+    },
+    {
+      "chunk_id": 47,
+      "text": "t here. In the command: {\\bf ls -l five.*} {\\bf \\$\\#{\\tt =}2}, {\\bf \\$0{\\tt =}ls}, {\\bf \\$1{\\tt =}-l}, {\\bf \\$2=five.*}, and {\\bf \\$3} through {\\bf \\$9} have no value. The other referencing convention uses the shell array variable {\\bf argv}. \\ind"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ion uses the shell array variable {\\bf argv}. \\index{argv@{{\\bf argv} variable}} \\index{shell!array variable} This variable was designed to provide more flexibility in referring to commands and arguments than the simple numbering scheme shown above."
+    },
+    {
+      "chunk_id": 49,
+      "text": "nts than the simple numbering scheme shown above. It is not available in the Bourne shell. See the manual pages for more information on {\\bf argv}. A last note about variables that reference command line arguments: you can refer to the last word of"
+    },
+    {
+      "chunk_id": 50,
+      "text": "line arguments: you can refer to the last word of the last command with the \\index{ g@{\\verb+$+}} variable {\\bf \\$}. This is useful in situations where the last word of one command is a name that the next command will manipulate. {\\tt \\%} {\\bf cp /t"
+    },
+    {
+      "chunk_id": 51,
+      "text": "next command will manipulate. {\\tt \\%} {\\bf cp /tmp/dummy/local/example.tex~~example.tex} \\newline \\indent {\\tt \\%} {\\bf vi !\\$} \\newline \\indent {\\tt \\%} {\\bf lpr !\\$} \\subsection{Quotation Marks} \\index{quotation marks} Each of the three types o"
+    },
+    {
+      "chunk_id": 52,
+      "text": "\\index{quotation marks} Each of the three types of quotation marks has a specific function defined in the C shell. \\index{apostrophes} \\index{quotation marks!apostrophes} \\begin{description} \\item['...'] Apostrophes protect the enclosed string from"
+    },
+    {
+      "chunk_id": 53,
+      "text": "...'] Apostrophes protect the enclosed string from substitution. What is surrounded by apostrophes is taken literally. \\index{apostrophes!backward} \\index{quotation marks!backward apostrophes} \\item[`...`] Backward apostrophes tell the shell to exec"
+    },
+    {
+      "chunk_id": 54,
+      "text": "`...`] Backward apostrophes tell the shell to execute the enclosed command as if it were typed interactively. Then the output of that command is inserted in the command line where the backquoted expression occurs. If the command has no output, the"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ession occurs. If the command has no output, the backquoted expression would be replaced by nothing. \\index{quotation marks} \\item[``...\"] Quotation marks protect spaces, metacharacters, and apostrophes from substitution. Variables preceded by \\$ a"
+    },
+    {
+      "chunk_id": 56,
+      "text": "phes from substitution. Variables preceded by \\$ and commands enclosed by backward apostrophes (`) are interpreted. \\end{description} {\\tt \\%} {\\bf date} \\newline \\indent {\\tt Sat July 21 1:36:01 CDT 1990} \\newline \\indent {\\tt \\%} {\\bf set now{\\tt"
+    },
+    {
+      "chunk_id": 57,
+      "text": "T 1990} \\newline \\indent {\\tt \\%} {\\bf set now{\\tt =}`date`} \\newline \\indent {\\tt \\%} {\\bf echo ``It is \\$now''} \\newline \\indent {\\tt It is Sat July 21 1:36:31 CDT 1990} \\newline \\indent {\\tt \\%} {\\bf echo ``What time is it '\\$now' ?\"} \\newline \\in"
+    },
+    {
+      "chunk_id": 58,
+      "text": "bf echo ``What time is it '\\$now' ?\"} \\newline \\indent {\\tt What time is it '\\$now' ?} \\subsection{Substituting Commands} The previous section hints at a powerful technique in UNIX, {\\em command substitution}. \\index{command substitution} The genera"
+    },
+    {
+      "chunk_id": 59,
+      "text": "titution}. \\index{command substitution} The general idea is to set a variable to the output of one command and substitute that variable in other commands. Suppose you want to copy all the files from a recent robotics project to a different directory"
+    },
+    {
+      "chunk_id": 60,
+      "text": "recent robotics project to a different directory and print them. You had the foresight to have the string {\\tt robot} in all these filenames. That allows {\\bf grep} to locate the files of interest. By storing the output of {\\bf grep} in a variable,"
+    },
+    {
+      "chunk_id": 61,
+      "text": "y storing the output of {\\bf grep} in a variable, you can accomplish both tasks without ever typing a filename. {\\tt \\%} {\\bf set filelist{\\tt =}`grep -l 'robot' *`} \\newline \\indent {\\tt \\%} {\\bf cp \\$filelist $\\;\\sim$/projects/robotics} \\newline"
+    },
+    {
+      "chunk_id": 62,
+      "text": "cp \\$filelist $\\;\\sim$/projects/robotics} \\newline \\indent {\\tt \\%} {\\bf lpr \\$filelist} \\subsection{Handling Special (``meta'') Characters} \\index{special characters} Many characters which are neither letters nor digits have special significance t"
+    },
+    {
+      "chunk_id": 63,
+      "text": "her letters nor digits have special significance to either the shell or to UNIX. These characters are called metacharacters \\index{metacharacters} and must be quoted when used in commands in order to use them without their special meaning. For exa"
+    },
+    {
+      "chunk_id": 64,
+      "text": "o use them without their special meaning. For example ``;'' is used by the shell to separate two commands on one input line. You can override the usual meaning of these special characters by prefixing them with a backslash, ``{\\verb+\\+}'' {\\tt \\%}"
+    },
+    {
+      "chunk_id": 65,
+      "text": "g them with a backslash, ``{\\verb+\\+}'' {\\tt \\%} {\\bf ls} {\\tt the.good the.bad and.the;ugly} {\\tt \\%} {\\bf mv} {\\em and.the\\verb+\\;+ugly} {\\em and.the.ugly} {\\tt \\%} {\\bf ls} {\\tt the.good the.bad and.the.ugly} \\section{Processes} UNIX execute"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ad and.the.ugly} \\section{Processes} UNIX executes {\\em processes}. \\index{process} You can learn about the processes that are being executed by issuing the process status command {\\bf ps}. \\index{process status command} \\index{ps@{{\\bf ps} command}"
+    },
+    {
+      "chunk_id": 67,
+      "text": "ocess status command} \\index{ps@{{\\bf ps} command}} Two pieces of information that will be shown are the {\\em command name} and the {\\em process identification number}, or PID. \\index{PID (process identification number)} Other information is availabl"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ntification number)} Other information is available by including options, such as {\\bf -uax} to get full information on all processes. One process may generate another. The old process is called the {\\em parent} \\index{parent process} \\index{process"
+    },
+    {
+      "chunk_id": 69,
+      "text": "{\\em parent} \\index{parent process} \\index{process!parent} and the new process is called the {\\em child}. \\index{child process}% \\index{process!child} Your login process \\index{login process} is a child of {\\em init},\\index{init process} a process th"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ld of {\\em init},\\index{init process} a process that executes continuously. Each command you enter starts a new process. The system performs several initiation steps whenever it starts a new shell. One of these steps is to always execute the command"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ne of these steps is to always execute the commands in {\\tt .cshrc} and, \\index{cshrc@{\\tt .cshrc} file} if the process is logging in a new user, to execute the commands in {\\tt .login}.\\index{login@{\\tt .login} file} The role played by these files i"
+    },
+    {
+      "chunk_id": 72,
+      "text": "\\tt .login} file} The role played by these files is covered in Section~\\ref{customiz}. \\subsection{Foreground and Background Jobs} \\index{foreground jobs} \\index{background jobs} \\index{process} \\index{job} Processes or {\\em jobs} are normally runni"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ex{job} Processes or {\\em jobs} are normally running in the {\\em foreground} of your interactive session. You may, however, start processes in the {\\em background} by adding the \\& character to the end of the command line. You could then continue ent"
+    },
+    {
+      "chunk_id": 74,
+      "text": "d of the command line. You could then continue entering interactive commands. For example, the command {\\bf cc test.c \\&} will start compiling a C program named {\\tt test.c} in the background. If you try this with your own C program, you will find t"
+    },
+    {
+      "chunk_id": 75,
+      "text": "try this with your own C program, you will find that you get the prompt back and can continue working while the compilation progresses. Messages, however, are sent to the terminal and can interfere with what you are doing. To prevent this, \\index{b"
+    },
+    {
+      "chunk_id": 76,
+      "text": "with what you are doing. To prevent this, \\index{background process!redirecting output} redirect the output of background processes into files. Try {\\bf cc test.c $>$\\& out.tmp \\&} to see the difference. The {\\bf jobs} command will show the status a"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ce. The {\\bf jobs} command will show the status and {\\em job number} \\index{status of a job} \\index{job!status} of jobs either running in the background or suspended. You can \\index{job!suspending} \\index{suspending a job} suspend a job running in t"
+    },
+    {
+      "chunk_id": 78,
+      "text": "index{suspending a job} suspend a job running in the background by entering {\\bf stop \\%}{\\em jobnumber}. \\index{stop@{{\\bf stop} command}} Or you can bring a job back into the foreground by entering {\\bf fg \\%}{\\em jobnumber}. \\index{job!bringing to"
+    },
+    {
+      "chunk_id": 79,
+      "text": "{\\bf fg \\%}{\\em jobnumber}. \\index{job!bringing to the foreground} \\index{foreground jobs} \\index{fg@{{\\bf fg} command}} Processes may be started in the foreground, stopped, and placed in the background.\\index{CTRL-z@\\ctrl{z}} \\index{job!suspending"
+    },
+    {
+      "chunk_id": 80,
+      "text": "und.\\index{CTRL-z@\\ctrl{z}} \\index{job!suspending foreground} \\index{suspending foreground job} Pressing \\ctrl{Z} suspends the foreground job. Entering {\\bf bg \\%}{\\em jobnumber} starts the \\index{bg@{{\\bf bg} command}} \\index{suspended jobs!starting"
+    },
+    {
+      "chunk_id": 81,
+      "text": "{{\\bf bg} command}} \\index{suspended jobs!starting} \\index{job!starting suspended} suspended job executing in the background. \\subsection{Killing Jobs} \\index{killing a job} Logging out does not kill jobs that are stopped or running in the backgroun"
+    },
+    {
+      "chunk_id": 82,
+      "text": "jobs that are stopped or running in the background. Jobs and processes are deleted from the active list by using the {\\bf kill} command. \\index{kill@{{\\bf kill} command}} \\noindent To kill a job, enter: \\index{job!killing} \\index{killing a job} \\"
+    },
+    {
+      "chunk_id": 83,
+      "text": "nter: \\index{job!killing} \\index{killing a job} \\newline \\indent {\\tt \\%} {\\bf kill \\%}{\\em jobnumber} \\noindent \\\\ If that doesn't work, try: \\newline \\indent {\\tt \\%} {\\bf kill -9 \\%}{\\em jobnumber} \\noindent To kill a process, enter: \\index{pro"
+    },
+    {
+      "chunk_id": 84,
+      "text": "} \\noindent To kill a process, enter: \\index{process!killing} \\index{killing a process} \\newline \\indent {\\tt \\%} {\\bf kill} {\\em PID} \\\\ If that doesn't work, try: \\newline \\indent {\\tt \\%} {\\bf kill -9 \\%}{\\em PID} \\noindent \\section{Shell Scri"
+    },
+    {
+      "chunk_id": 85,
+      "text": "ill -9 \\%}{\\em PID} \\noindent \\section{Shell Scripts} \\index{shell scripts} At times it is inconvenient to give interactive commands to the shell. This is especially true when you have a set of commands that you repeat periodically or that you find"
+    },
+    {
+      "chunk_id": 86,
+      "text": "nds that you repeat periodically or that you find difficult to key in accurately. It would be a timesaving device to key them in just once. The C shell has the ability to read and execute a series of commands from a file. These files of shell command"
+    },
+    {
+      "chunk_id": 87,
+      "text": "commands from a file. These files of shell commands are known as shell files, shell procedures, or shell scripts. This section will discuss the basic facts about script execution, the programming features available inside scripts, and how environmen"
+    },
+    {
+      "chunk_id": 88,
+      "text": "tures available inside scripts, and how environment settings are passed down to scripts. \\subsection{Basic Facts about Script Execution} \\index{script!execution} Scripts can be executed by three distinct methods: \\begin{enumerate} \\item {\\bf csh} {\\"
+    },
+    {
+      "chunk_id": 89,
+      "text": "inct methods: \\begin{enumerate} \\item {\\bf csh} {\\em scriptname} \\item {\\bf source} {\\em scriptname} \\item {\\em scriptname} \\end{enumerate} The first method starts another copy of the C shell in which to execute your script. Changes the script makes"
+    },
+    {
+      "chunk_id": 90,
+      "text": "h to execute your script. Changes the script makes to the environment, such as resetting the current working directory, will not be maintained when the script finishes. The second method executes the script inside the current shell. All changes are"
+    },
+    {
+      "chunk_id": 91,
+      "text": "script inside the current shell. All changes are still in effect when the script finishes just as if the commands had been entered interactively. The third method requires using the {\\bf chmod}\\index{chmod@{\\bf chmod} command} command to mark the s"
+    },
+    {
+      "chunk_id": 92,
+      "text": "x{chmod@{\\bf chmod} command} command to mark the shell script as an executable file. Then the file name may be entered just as if it were a shell command. Since commands are executed as separate programs, this has the same benefit as method one in pr"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ams, this has the same benefit as method one in protecting the current environment from some unwanted side effects. To mark the script as executable by the owner, enter: {\\bf chmod u {\\tt +} x} {\\it scriptname}. \\begin{verbatim} # `This script"
+    },
+    {
+      "chunk_id": 94,
+      "text": "scriptname}. \\begin{verbatim} # `This script shows the effects of the methods described above.' # `Execute it from your home directory by the csh method. Check' # `pwd. Compare the pwd value that was printed by the script.' # `If"
+    },
+    {
+      "chunk_id": 95,
+      "text": "value that was printed by the script.' # `If necessary, use cd to return to your home directory,' # `and remove the dummy directory by rmdir ~/dummy.' # `Then repeat with the other two methods.' mkdir ~/dummy cd ~/dummy"
+    },
+    {
+      "chunk_id": 96,
+      "text": "methods.' mkdir ~/dummy cd ~/dummy pwd \\end{verbatim} \\subsubsection{Tracing Execution} Using the {\\bf -v} or {\\bf -x} option on {\\bf csh} command causes the shell to print each line of the script as it is executed. This is a quick w"
+    },
+    {
+      "chunk_id": 97,
+      "text": "of the script as it is executed. This is a quick way to trace the execution of a script and is a great aid to debugging. You can also include either or both of the following lines at the begining of your shell script: \\begin{quote} {\\bf set verbose}"
+    },
+    {
+      "chunk_id": 98,
+      "text": "your shell script: \\begin{quote} {\\bf set verbose} \\\\ {\\bf set echo} \\\\ \\end{quote} \\subsection{Terminations} \\index{terminating a script} \\index{script!terminating} When you no longer want a script to continue executing you can terminate it by typi"
+    },
+    {
+      "chunk_id": 99,
+      "text": "to continue executing you can terminate it by typing the \\ctrl{c} interrupt.\\index{CTRL-c@\\ctrl{c}} Some scripts have \\ctrl{c} disabled, so if you really wish to stop a process -- ``a sure kill'' -- you can issue the command, {\\bf kill -9} {\\em PID}"
+    },
+    {
+      "chunk_id": 100,
+      "text": "you can issue the command, {\\bf kill -9} {\\em PID} \\index{kill@{{\\bf kill} command}} and the process will die. \\subsection{Command Search Path} \\index{command search path} The shell resolves the names of commands and executable scripts by searching"
+    },
+    {
+      "chunk_id": 101,
+      "text": "es of commands and executable scripts by searching a sequence of directories. This sequence is stored in a UNIX variable named {\\tt path}. You may reset this path variable to include other directories. In any case, your executable scripts must reside"
+    },
+    {
+      "chunk_id": 102,
+      "text": ". In any case, your executable scripts must reside in your current directory or in one of the directories named in your path variable. \\subsection{Passing Values Between Shells} \\index{passing values between shells} \\index{shell!passing values} Ever"
+    },
+    {
+      "chunk_id": 103,
+      "text": "between shells} \\index{shell!passing values} Every command and script executes inside a shell, either the current shell or a new one specifically created for it. The variables created inside a shell or script by using the {\\bf set} command are {\\em"
+    },
+    {
+      "chunk_id": 104,
+      "text": "or script by using the {\\bf set} command are {\\em local}; that is, they exist only as long as the shell or script is executing. A child process normally does not have access to the variables defined by its parent process. \\index{local variables} \\ind"
+    },
+    {
+      "chunk_id": 105,
+      "text": "y its parent process. \\index{local variables} \\index{variable!local} Yet there are situations where a newly-created shell must inherit information about its environment. For example {\\bf vi} must know if TERM is set in order to function properly as"
+    },
+    {
+      "chunk_id": 106,
+      "text": "w if TERM is set in order to function properly as a full-screen editor. \\index{setenv@{{\\bf setenv} command}} The {\\bf setenv} command is used in place of {\\bf set} to create variables that are not local to the shell that creates them. Variables crea"
+    },
+    {
+      "chunk_id": 107,
+      "text": "cal to the shell that creates them. Variables created by {\\bf setenv}, sometime referred to as {\\em export} variables, are available to all descendants of the creating shell. \\index{export variables} \\index{variable!export} The syntax of {\\bf setenv}"
+    },
+    {
+      "chunk_id": 108,
+      "text": "\\index{variable!export} The syntax of {\\bf setenv} is the same as for {\\bf set}. You can print all the environment variables created by {\\bf setenv}, and some of the variables exported by the C shell, with the command {\\bf printenv}. \\index{printenv"
+    },
+    {
+      "chunk_id": 109,
+      "text": ", with the command {\\bf printenv}. \\index{printenv@{{\\bf printenv} command}} \\subsection{Programming Features} The C shell derives its name from the fact that it looks so much like the C programming language. Here is a brief overview of some of the"
+    },
+    {
+      "chunk_id": 110,
+      "text": "language. Here is a brief overview of some of the programming--like commands available. These are normal C shell commands but are rarely seen outside scripts. \\subsubsection{Providing Data} \\index{providing data inside scripts} There are two ways of"
+    },
+    {
+      "chunk_id": 111,
+      "text": "oviding data inside scripts} There are two ways of providing data inside scripts. The first is to read it directly from the standard input: {\\bf set} {\\em variablename}{\\tt =}{\\bf \\$$<$}. This is commonly used to allow the script user to provide simp"
+    },
+    {
+      "chunk_id": 112,
+      "text": "only used to allow the script user to provide simple data values interactively. The second is to provide data lines inside the script. This is normally done to provide a block of data larger than that needed by a simple variable. This method uses a"
+    },
+    {
+      "chunk_id": 113,
+      "text": "t needed by a simple variable. This method uses a marker, {\\tt `EOF`}, to signify that the end of data has been reached. The {\\tt `EOF`} ending marker must be alone on the termination line. Suppose you have developed a program, {\\tt dcyc}, for your"
+    },
+    {
+      "chunk_id": 114,
+      "text": "ou have developed a program, {\\tt dcyc}, for your poultry research that takes as input the number of eggs laid and projects the number of hatchlings. As part of fully documenting this information, you also input some auxiliary information for the fin"
+    },
+    {
+      "chunk_id": 115,
+      "text": "also input some auxiliary information for the final report. Since you do this many times a day you have developed a script file, {\\tt bth}, that feeds data into the program. By using the script file and recalling history commands, you can quickly ru"
+    },
+    {
+      "chunk_id": 116,
+      "text": "and recalling history commands, you can quickly run the program with the correct data. \\begin{verbatim} # 'bth: A script file to provide data to dcyc' dcyc << `EOF` Cyclone Hatchery Report date: July 26, 1990 Eggs laid: 731 `EOF` \\end{verbatim} Not"
+    },
+    {
+      "chunk_id": 117,
+      "text": "26, 1990 Eggs laid: 731 `EOF` \\end{verbatim} Note that the script begins with the first character {\\tt \\#}, and the rest of this comment line is protected from replacement by apostrophes. The input for {\\tt dcyc} is to be read directly from the inp"
+    },
+    {
+      "chunk_id": 118,
+      "text": "for {\\tt dcyc} is to be read directly from the input file and includes all the lines up to the next {\\tt `EOF`}. \\subsubsection{Flow Control Structures } \\index{flow control structure} More complicated program flow control structures are possible in"
+    },
+    {
+      "chunk_id": 119,
+      "text": "ed program flow control structures are possible inside scripts than you would normally use interactively. The C shell supports the familiar {\\tt goto} and the lesser known \\verb+&&+ and {\\tt ||}, used \\index{ q@{\\verb+&&+}} \\index{ m@{\\tt \"|\"|}} to e"
+    },
+    {
+      "chunk_id": 120,
+      "text": "\\index{ q@{\\verb+&&+}} \\index{ m@{\\tt \"|\"|}} to execute commands if the previous command succeeds or fails. It also has {\\tt if/then}, \\index{if/then@{{\\tt if/then} control statement}} {\\tt if/then/else} and \\index{if/then/else@{{\\tt if/then/else} c"
+    },
+    {
+      "chunk_id": 121,
+      "text": "lse} and \\index{if/then/else@{{\\tt if/then/else} control statement}} {\\tt switch/endsw} constructs. \\index{switch/endsw@{{\\tt switch/endsw} control statement}} Each of these structures is described in this section. The simplest control structure you"
+    },
+    {
+      "chunk_id": 122,
+      "text": "this section. The simplest control structure you can use in the C shell is to use {\\tt labels} and {\\tt goto} statements. \\index{labels@{{\\tt labels} control statement}} \\index{goto@{{\\tt goto} control statement}} Any string of identifying characte"
+    },
+    {
+      "chunk_id": 123,
+      "text": "rol statement}} Any string of identifying characters that begins a command line is treated as a label when followed by a colon (:). The syntax of the {\\tt goto} statement is demonstrated in the following example. Note that the colon identifies {\\tt e"
+    },
+    {
+      "chunk_id": 124,
+      "text": "ing example. Note that the colon identifies {\\tt error} as a label but the colon is not part of the label. \\begin{verbatim} . error: . goto error . \\end{verbatim} It is helpful to know about the {\\em status} variable before"
+    },
+    {
+      "chunk_id": 125,
+      "text": "ful to know about the {\\em status} variable before discussing more \\index{status variable} complicated structures. Commands submitted to the shell either succeed or fail. If they fail, you receive some error message; if they succeed, they perform the"
+    },
+    {
+      "chunk_id": 126,
+      "text": "e error message; if they succeed, they perform the requested operation and perhaps you receive some output on the screen. Internally the shell keeps track of success and failure in a variable named {\\tt status}. When a command succeeds, the shell set"
+    },
+    {
+      "chunk_id": 127,
+      "text": "tt status}. When a command succeeds, the shell sets the value of status to 0. Any other value indicates some type of failure. The symbols \\verb+&&+ \\index{ q@{\\verb+&&+}} and {\\tt ||} \\index{ m@{\\tt \"|\"|}} are used to join two commands. The shell"
+    },
+    {
+      "chunk_id": 128,
+      "text": "\"|\"|}} are used to join two commands. The shell executes the first command and stores its status. The second command is then executed {\\em conditionally}. If the \\index{conditional execution} first command succeeds, \\verb+&&+ says to execute the se"
+    },
+    {
+      "chunk_id": 129,
+      "text": "command succeeds, \\verb+&&+ says to execute the second. If the first command fails, {\\tt ||} says to execute the second. With any other combination, the second command is ignored. Suppose the {\\tt bth} script described above always produces an outpu"
+    },
+    {
+      "chunk_id": 130,
+      "text": "h} script described above always produces an output file named {\\tt report}. If everything performs as expected, this report should be printed. If the script fails for any reason, the report should be deleted. This can be done with one command: ({\\"
+    },
+    {
+      "chunk_id": 131,
+      "text": "deleted. This can be done with one command: ({\\bf bth \\&\\& lpr report}) {\\tt ||} {\\bf rm report} The parentheses in this example are used to group the script and printing commands into one unit so that both \\verb+&&+ and {\\tt ||} are joining only"
+    },
+    {
+      "chunk_id": 132,
+      "text": "that both \\verb+&&+ and {\\tt ||} are joining only two commands. We will trace the execution of these commands, first assuming the script succeeds, then assuming the script fails. If the {\\tt bth} script succeeds, status is set to 0, and the report"
+    },
+    {
+      "chunk_id": 133,
+      "text": "ript succeeds, status is set to 0, and the report is printed. This leaves the status 0, so the remove command ({\\bf rm}) is ignored. On the other hand, if the script fails, status is not 0, and the print request is ignored. This leaves the status un"
+    },
+    {
+      "chunk_id": 134,
+      "text": "rint request is ignored. This leaves the status unchanged, so the remove command ({\\bf rm}) is executed. In more complicated situations it may be necessary to execute a group of commands based on some condition. This can be done using an \\index{if/t"
+    },
+    {
+      "chunk_id": 135,
+      "text": "e condition. This can be done using an \\index{if/then@{{\\tt if/then} control statement}} {\\tt if/then} control structure. The syntax is: \\begin{verbatim} if then endif \\end{verbatim} If the condition determines a choice between alternate group"
+    },
+    {
+      "chunk_id": 136,
+      "text": "dition determines a choice between alternate groups of commands then you would use an {\\tt if/then/else} instead. \\index{if/then/else@{{\\tt if/then/else} control statement}} \\begin{verbatim} if then else endif \\end{verbatim} Both constructs re"
+    },
+    {
+      "chunk_id": 137,
+      "text": "then else endif \\end{verbatim} Both constructs require that {\\tt then} appear on the same line as \\index{then@{{\\tt then} control statement}} \\index{if@{{\\tt if} control statement}} {\\tt if}. In the Bourne shell {\\tt then} appears on the first line"
+    },
+    {
+      "chunk_id": 138,
+      "text": "Bourne shell {\\tt then} appears on the first line of commands to execute, and {\\tt endif} is replaced by \\index{endif@{{\\tt endif} control statement}} \\index{fi@{{\\tt fi} control statement}} {\\tt fi}. \\index{if/then/else@{{\\tt if/then/else} control"
+    },
+    {
+      "chunk_id": 139,
+      "text": "\\index{if/then/else@{{\\tt if/then/else} control statement}} It is possible to nest {\\tt if/then/else} statements. One good way to organize nested {\\tt if/then} statements is: \\index{if/then@{{\\tt if/then} control statement}} \\begin{verbatim}"
+    },
+    {
+      "chunk_id": 140,
+      "text": "/then} control statement}} \\begin{verbatim} if then else if then else if then . . . endif \\end{verbatim} The {\\em condition} described above can be: \\begin{itemize} \\item A test on the numerical value of a variable. \\index{condi"
+    },
+    {
+      "chunk_id": 141,
+      "text": "on the numerical value of a variable. \\index{condition test!on numerical value of a variable} \\item A test on the string value of a variable. \\index{condition test!on string value of a variable} \\item A test on the existence, type, ownership or prote"
+    },
+    {
+      "chunk_id": 142,
+      "text": "A test on the existence, type, ownership or protection of a file. \\index{condition test!on existence of a file} \\index{condition test!on type of a file} \\index{condition test!on ownership of a file} \\index{condition test!on protection of a file} \\in"
+    },
+    {
+      "chunk_id": 143,
+      "text": "\\index{condition test!on protection of a file} \\index{existence of a file!condition test} \\index{type of a file!condition test} \\index{ownership of a file!condition test} \\index{protection of a file!condition test} \\item Two or more tests joined by \\"
+    },
+    {
+      "chunk_id": 144,
+      "text": "ondition test} \\item Two or more tests joined by \\verb+&&+ or {\\tt ||} operators with the order of evaluation dictated by grouping the tests in parentheses. \\index{condition test!joining two or more} \\item The negation of a condition,"
+    },
+    {
+      "chunk_id": 145,
+      "text": "wo or more} \\item The negation of a condition, indicated by \\verb+! +. If the condition normally evaluates to true, the negation evaluates to false. If the condition normally evaluates to false, the negation evaluates t"
+    },
+    {
+      "chunk_id": 146,
+      "text": "mally evaluates to false, the negation evaluates to true. \\index{condition test!negation of a condition} \\end{itemize} When {\\em num1} and {\\em num2} are numbers or numeric variables, the numeric tests and the logical results are: \\index{numer"
+    },
+    {
+      "chunk_id": 147,
+      "text": "ic tests and the logical results are: \\index{numeric test} \\index{logical result} \\begin{tabular}{lclcl} num1 & == & num2 & \\mbox{} & True if num1 is equal to num2. \\\\ num1 & != & num2 & & True if num1 is not equal to num2. \\\\ num1 & $<$ & n"
+    },
+    {
+      "chunk_id": 148,
+      "text": "ue if num1 is not equal to num2. \\\\ num1 & $<$ & num2 & & True if num1 is less than num2. \\\\ num1 & $<$= & num2 & & True if num1 is less than or equal to num2. \\\\ num1 & $>$ & num2 & & True if num1 is greater than num2. \\\\ num1 & $>$"
+    },
+    {
+      "chunk_id": 149,
+      "text": "& True if num1 is greater than num2. \\\\ num1 & $>$= & num2 & & True if num1 is greater than or equal to num2. \\end{tabular} When {\\em string1} and {\\em string2} are quoted strings or string variables, the string tests and the logical results are:"
+    },
+    {
+      "chunk_id": 150,
+      "text": "les, the string tests and the logical results are: \\index{string test} \\index{logical result} \\begin{tabular}{llll} string1 & == & string2 & True if string1 is equal to string2. \\\\ string1 & != & string2 & True if string1 is not equal to string2. \\\\"
+    },
+    {
+      "chunk_id": 151,
+      "text": "ing2 & True if string1 is not equal to string2. \\\\ string1 & =$\\sim$ & string2 & True if string1 matches the metacharacter \\\\ & & & pattern specified by string2. \\\\ string1 & !$\\sim$ & string2 & True if string1 does not m"
+    },
+    {
+      "chunk_id": 152,
+      "text": "1 & !$\\sim$ & string2 & True if string1 does not match the \\\\ & & & metacharacter pattern specified by string2. \\\\ \\end{tabular} When {\\em filename } is a file name, the legitimate tests and the logical results are: \\index{logica"
+    },
+    {
+      "chunk_id": 153,
+      "text": "e tests and the logical results are: \\index{logical result} \\begin{tabular}{lcl} --e & filename & True if the file exists. \\\\ --r & filename & True if the file is readable. \\\\ --w & filename & True if the file is writable. \\\\ --x & filename & True"
+    },
+    {
+      "chunk_id": 154,
+      "text": "if the file is writable. \\\\ --x & filename & True if the file is executable. \\\\ --o & filename & True if the user owns the file. \\\\ --z & filename & True if the file is empty. \\\\ --d & filename & True if the file is a directory. \\\\ --f & filename & T"
+    },
+    {
+      "chunk_id": 155,
+      "text": "if the file is a directory. \\\\ --f & filename & True if the file is not a directory. \\\\ \\end{tabular} Returning to the chicken and egg example discussed before, suppose you wanted to automate the report printing step and as well as designing the sc"
+    },
+    {
+      "chunk_id": 156,
+      "text": "port printing step and as well as designing the script to cover nasty possibilities that would destroy existing reports or leave behind unnecessary files. With the tools just described it is possible to design a new improved version of the {\\tt bth}"
+    },
+    {
+      "chunk_id": 157,
+      "text": "to design a new improved version of the {\\tt bth} script that will not execute {\\tt dcyc} if the report file exists. When {\\tt dcyc} creates a bad (empty) report, it is automatically removed. Only good reports are printed, and then the report file is"
+    },
+    {
+      "chunk_id": 158,
+      "text": "d reports are printed, and then the report file is deleted to conserve space. \\begin{verbatim} # 'bth2: An improved script file to provide data to dcyc,' # 'and ensure that the report files are handled cleanly.' if ((-e report && -d r"
+    },
+    {
+      "chunk_id": 159,
+      "text": "are handled cleanly.' if ((-e report && -d report) || (-e report && -f report)) then echo \"There is a directory or file named report!\" else dcyc << `EOF` Cyclone Hatchery Report date: July 26, 1990 E"
+    },
+    {
+      "chunk_id": 160,
+      "text": "chery Report date: July 26, 1990 Eggs laid: 731 `EOF` if (-e report && -z report) then echo \"An empty report was generated! I will remove it.\" rm report else (lpr report && rm repo"
+    },
+    {
+      "chunk_id": 161,
+      "text": "ort else (lpr report && rm report) endif endif \\end{verbatim} Since any existing object named {\\tt report} would normally be a file or directory the condition in the first {\\tt if} statement could be condensed to \\ver"
+    },
+    {
+      "chunk_id": 162,
+      "text": "irst {\\tt if} statement could be condensed to \\verb+(-e report)+. You may or may not decide to simplify scripts once they are written. Often trying to simplify one section causes unforseen problems in another. The important thing is to make them as e"
+    },
+    {
+      "chunk_id": 163,
+      "text": "another. The important thing is to make them as easy to understand as possible. Comments are one means of making scripts easy to follow. Indentation is another. Note the nested {\\tt if/then/else} above. \\index{if/then/else@{{\\tt if/then/else} contr"
+    },
+    {
+      "chunk_id": 164,
+      "text": "ove. \\index{if/then/else@{{\\tt if/then/else} control statement}} The indentation clearly shows that it is inside the {\\tt else} \\index{else@{{\\tt else} control statement}} portion of the outer {\\tt if/then/else} structure. It also allows you to quic"
+    },
+    {
+      "chunk_id": 165,
+      "text": "/then/else} structure. It also allows you to quickly match an {\\tt endif} to the appropriate {\\tt if}. \\index{endif@{{\\tt endif} control statement}} The shell will always pair an {\\tt endif} with the last unpaired {\\tt if}, leading to unpredictable"
+    },
+    {
+      "chunk_id": 166,
+      "text": "last unpaired {\\tt if}, leading to unpredictable results if one has been \\index{if@{{\\tt if} control statement}} inadvertently omitted. The final flow control construction covered here is the {\\tt switch/endsw} \\index{flow control structure} \\index"
+    },
+    {
+      "chunk_id": 167,
+      "text": "witch/endsw} \\index{flow control structure} \\index{switch/endsw@{{\\tt switch/endsw} control statement}} statement. It tests the value of a variable against several strings to find a match. The comparison may involve wildcards, {\\tt *} and {\\tt ?}, an"
+    },
+    {
+      "chunk_id": 168,
+      "text": "son may involve wildcards, {\\tt *} and {\\tt ?}, and character classes, {\\tt [}-{\\tt ]}. One case is selected from a list of cases and the group of commands related to that case is executed. The group of commands to be executed is terminated by a {\\t"
+    },
+    {
+      "chunk_id": 169,
+      "text": "of commands to be executed is terminated by a {\\tt breaksw} command. Omitting the ending breaksw allows \\index{breaksw@{{\\tt breaksw} control statement}} execution to fall through to the next case. This is a common bug in writing switch statements,"
+    },
+    {
+      "chunk_id": 170,
+      "text": "his is a common bug in writing switch statements, and some programmers use it as a feature. The default group of commands is executed if the {\\tt switchvar} does not match any of the \\index{switchvar@{{\\tt switchvar} control statement}} test strings"
+    },
+    {
+      "chunk_id": 171,
+      "text": "@{{\\tt switchvar} control statement}} test strings. The syntax of this command is: \\begin{verbatim} switch (<$switchvar>) case string1: breaksw case string2: breaksw . . . default: breaksw en"
+    },
+    {
+      "chunk_id": 172,
+      "text": ". . default: breaksw endsw \\end{verbatim} \\subsubsection{Conditional and Iterative Looping} \\index{loop!conditional} \\index{loop!iterative} \\index{conditional loop} \\index{iterative loop} The C shell also provides two loo"
+    },
+    {
+      "chunk_id": 173,
+      "text": "{iterative loop} The C shell also provides two looping mechanisms. The first mechanism is the {\\em conditional} loop, implemented by the \\index{while@{{\\tt while} control statement}} {\\tt while} statement, which repeatedly executes a list of commands"
+    },
+    {
+      "chunk_id": 174,
+      "text": "ment, which repeatedly executes a list of commands while some condition is true. The condition is constructed following the same rules as for conditions in an {\\tt if/then} statement. The syntax is: \\index{if/then@{{\\tt if/then} control statement}}"
+    },
+    {
+      "chunk_id": 175,
+      "text": "index{if/then@{{\\tt if/then} control statement}} \\begin{verbatim} while end \\end{verbatim} Care must be taken to insure that one of the commands in the list eventually makes the condition false, providing an exit for the conditional loop. In c"
+    },
+    {
+      "chunk_id": 176,
+      "text": ", providing an exit for the conditional loop. In case of infinite looping you can regain control by entering \\ctrl{C}. \\index{CTRL-c@\\ctrl{c}} The second looping mechanism is the {\\em iterative} loop, implemented by the \\index{iterative loop} \\index"
+    },
+    {
+      "chunk_id": 177,
+      "text": ", implemented by the \\index{iterative loop} \\index{loop!iterative} {\\tt foreach} statement, which executes a list of commands while some \\index{foreach@{{\\tt foreach} control statement}} control variable takes on each value from a specific list of va"
+    },
+    {
+      "chunk_id": 178,
+      "text": "ble takes on each value from a specific list of values. The syntax is: \\begin{verbatim} foreach (control-list) end \\end{verbatim} The control list can be a list of numeric or string values, a file list or even the command's argument list repre"
+    },
+    {
+      "chunk_id": 179,
+      "text": "ile list or even the command's argument list represented as {\\bf \\$argv[*]}. There is little danger of infinite looping with this construct since the number of times the list of commands can be executed is limited by the number of items in the contro"
+    },
+    {
+      "chunk_id": 180,
+      "text": "ed is limited by the number of items in the control list. \\subsection{Arithmetic} \\index{arithmetic operations} Shells can perform simple integer arithmetic. The operations are limited to addition, subtraction, multiplication, integer division and a"
+    },
+    {
+      "chunk_id": 181,
+      "text": "ubtraction, multiplication, integer division and a remainder function. The operands must be numeric constants or numeric variables. All \\index{mathematical operations} mathematical operations must be signaled to the shell by prefixing the command wit"
+    },
+    {
+      "chunk_id": 182,
+      "text": "signaled to the shell by prefixing the command with an at sign (@). Table~\\ref{arithlist} shows the syntax of some of the various operations. \\begin{table}[ht] \\centering \\begin{tabular}{ll} {\\bf Operation} & {\\bf Syntax} \\\\[\\medskipamount]"
+    },
+    {
+      "chunk_id": 183,
+      "text": "f Operation} & {\\bf Syntax} \\\\[\\medskipamount] addition & @ num1=num2 + num3 \\\\ subtraction & @ num1=num2 - num3 \\\\ multiplication & @ num1=num2 * num3 \\\\ division & @ num1=num2 / num3 \\\\ remainder & @ num1=num2"
+    },
+    {
+      "chunk_id": 184,
+      "text": "um1=num2 / num3 \\\\ remainder & @ num1=num2 \\% num3 \\end{tabular} \\isucaption{Arithmetic Operations} \\label{arithlist} \\index{arithmetic operations} \\end{table} \\subsection{Managing Files Inside Shell Scripts} Scripts often create files that"
+    },
+    {
+      "chunk_id": 185,
+      "text": "ide Shell Scripts} Scripts often create files that are only needed while the script is running, but are left behind when the script completes execution. Rather than continually carry out search and delete missions, a better option is to create tempor"
+    },
+    {
+      "chunk_id": 186,
+      "text": "lete missions, a better option is to create temporary files \\index{temporary file} \\index{file!temporary} in the directory {\\tt /tmp}, \\index{tmp@{{\\tt /tmp} directory}} where they will be periodically purged by the system. There is a standard metho"
+    },
+    {
+      "chunk_id": 187,
+      "text": "y purged by the system. There is a standard method for naming these temporary files that ensures your files will have unique names inside {\\tt /tmp}. The name is obtained by concatenating the name of the your script file and your PID. The name of yo"
+    },
+    {
+      "chunk_id": 188,
+      "text": "the your script file and your PID. The name of your script file is stored in the variable {\\tt \\$\\{0\\}}, and the PID is in {\\tt \\$\\$}, so {\\tt \\$\\{0\\}\\$\\$} translates into the name we are after. The full specification for the file is {\\tt /tmp/\\$\\ve"
+    },
+    {
+      "chunk_id": 189,
+      "text": "full specification for the file is {\\tt /tmp/\\$\\verb+{+0\\verb+}+\\$\\$}. % \\verb+/tmp/${0}$$+. Remember this is the name of a temporary file to be used inside a script. If you wish to throw away output without seeing it, for example, during the initia"
+    },
+    {
+      "chunk_id": 190,
+      "text": "without seeing it, for example, during the initial development phase of some project when only garbage is being produced, you can redirect it into the special file {\\tt /dev/null}. \\index{dev/null@{{\\tt /dev/null} file}} \\section{Customizing Your E"
+    },
+    {
+      "chunk_id": 191,
+      "text": "\\tt /dev/null} file}} \\section{Customizing Your Environment} \\label{customiz} Standard UNIX documentation suggests customizing your environment by modifying your {\\tt .login} and {\\tt .cshrc} files. \\index{login@{\\tt .login} file} \\index{cshrc@{\\tt"
+    },
+    {
+      "chunk_id": 192,
+      "text": "\\index{login@{\\tt .login} file} \\index{cshrc@{\\tt .cshrc} file} These files contain shell commands but are not scripts to be executed. They don't need to be made executable. You need to be very careful when modifying these files. If you make any mi"
+    },
+    {
+      "chunk_id": 193,
+      "text": "ful when modifying these files. If you make any mistakes modifying your .cshrc or .login files, you may not be able to login back in to your account. One of the most popular customizations is {\\em aliasing}, a technique that allows users to define t"
+    },
+    {
+      "chunk_id": 194,
+      "text": "iasing}, a technique that allows users to define their own names for commands. The syntax of the command is: {\\bf alias} {\\em aliasname} $<${\\em any command and option list}$>$ \\index{alias@{{\\bf alias} command}} For example, {\\tt alias rm \"rm -"
+    },
+    {
+      "chunk_id": 195,
+      "text": "as} command}} For example, {\\tt alias rm \"rm -i\"} Each window maintains its own shell process, so to make your aliases available in all of them, your {\\tt .cshrc}\\index{cshrc@{\\tt .cshrc} file} must contain your {\\bf alias} commands. If you are"
+    },
+    {
+      "chunk_id": 196,
+      "text": "ust contain your {\\bf alias} commands. If you are an experienced user on some other system, you might alias command names you are more familiar with to their UNIX equivalents. Type {\\tt alias} to see all your current aliases. You can change your de"
+    },
+    {
+      "chunk_id": 197,
+      "text": "all your current aliases. You can change your default shell by entering the command {\\bf chsh} followed by the location of the shell you wish \\index{chsh@{{\\bf chsh} command}} to use. \\index{default shell!changing} \\index{changing default shell} Yo"
+    },
+    {
+      "chunk_id": 198,
+      "text": "shell!changing} \\index{changing default shell} You can pick the Bourne shell by entering: {\\bf chsh /bin/sh}. The C shell is in {\\tt /bin/csh}; the System V shell is in {\\tt /bin/sh5}. \\section{Additional Features} \\label{addfeat} There are many ot"
+    },
+    {
+      "chunk_id": 199,
+      "text": "tional Features} \\label{addfeat} There are many other features available that require more space to discuss than we can devote here. Some of these features are standard parts of UNIX. Others, like {\\bf make}, are enhancements that have become so prev"
+    },
+    {
+      "chunk_id": 200,
+      "text": "f make}, are enhancements that have become so prevalent that they are now regarded as standard. Several of these additional features are mentioned here; these are more fully documented in {\\bf man} or in printed documentation. There is a utility cal"
+    },
+    {
+      "chunk_id": 201,
+      "text": "in printed documentation. There is a utility called {\\bf make} that manages files that in a sense \\index{make@{{\\bf make} utility}} produce a master file. The files may be source code files that must be compiled and linked together to form an execu"
+    },
+    {
+      "chunk_id": 202,
+      "text": "t be compiled and linked together to form an executable file, or they may be sections of a large document that you periodically update. You describe the dependencies in a file called a {\\tt makefile}. \\index{makefile@{{\\bf makefile} file}} If the fil"
+    },
+    {
+      "chunk_id": 203,
+      "text": "\\index{makefile@{{\\bf makefile} file}} If the files were source code, the makefile would contain the commands to create the executable version. After modifying one or more of the files you issue the command {\\bf make makefile}, and {\\bf make} will p"
+    },
+    {
+      "chunk_id": 204,
+      "text": "command {\\bf make makefile}, and {\\bf make} will perform the minimal work required to produce the required master file. There is also a {\\bf touch} command that will make no changes to a \\index{touch@{{\\bf touch} command}} file other than to modify"
+    },
+    {
+      "chunk_id": 205,
+      "text": "h@{{\\bf touch} command}} file other than to modify its last use date. This is often used in conjunction with {\\bf make} to force the updating of certain files that {\\bf make} ordinarily would not update. You can control how and if metacharacters are"
+    },
+    {
+      "chunk_id": 206,
+      "text": "te. You can control how and if metacharacters are expanded with a variable named {\\bf noglob}. \\index{noglob@{{\\bf noglob} variable}} Several utilities are available to assist in writing documents. Among these are {\\bf spell}, \\index{spell@{{\\bf sp"
+    },
+    {
+      "chunk_id": 207,
+      "text": "Among these are {\\bf spell}, \\index{spell@{{\\bf spell} utility}} {\\bf style}, \\index{style@{{\\bf style} utility}} {\\bf diction} \\index{diction@{{\\bf diction} utility}} and {\\bf explain}. \\index{explain@{{\\bf explain} utility}} The {\\bf spell} utilit"
+    },
+    {
+      "chunk_id": 208,
+      "text": "in@{{\\bf explain} utility}} The {\\bf spell} utility checks documents for misspelled words and is the most useful of the group. One use for multiple windows is to let {\\bf spell} check a document in one window while you make corrections in another. T"
+    },
+    {
+      "chunk_id": 209,
+      "text": "e window while you make corrections in another. The {\\bf style} utility rates the readability of your document; {\\bf diction} finds words and phrases that are often misused or overused; {\\bf explain} suggests alternatives for the words and phrases {"
+    },
+    {
+      "chunk_id": 210,
+      "text": "suggests alternatives for the words and phrases {\\bf diction} finds. A natural use for three windows is one each for an editor, {\\bf diction}, and {\\bf explain}. \\section{Things to Avoid}\\label{avoid} UNIX documents a command called {\\bf exit} \\ind"
+    },
+    {
+      "chunk_id": 211,
+      "text": "d} UNIX documents a command called {\\bf exit} \\index{exit@{{\\bf exit} command}} that it recommends as the proper way to finish scripts. Exit is commonly defined as logout, so it is best to avoid this. If you set ``noclobber'' in your shell environme"
+    },
+    {
+      "chunk_id": 212,
+      "text": "If you set ``noclobber'' in your shell environment, then in theory you should not be able to overwrite existing files without being warned. For example, if {\\it file2} already existed, and you executed the following command: \\begin{quote} {\\tt \\%}"
+    },
+    {
+      "chunk_id": 213,
+      "text": "ted the following command: \\begin{quote} {\\tt \\%} cp file1 file2 \\end{quote} You should be prompted with: \\begin{quote} {\\tt overwrite file2?} \\end{quote} However, you should not rely on {\\bf noclobber}\\index{noclobber@{\\bf noclobber} variable} to pr"
+    },
+    {
+      "chunk_id": 214,
+      "text": "r}\\index{noclobber@{\\bf noclobber} variable} to protect existing files from being overwritten."
+    }
+  ]
+}

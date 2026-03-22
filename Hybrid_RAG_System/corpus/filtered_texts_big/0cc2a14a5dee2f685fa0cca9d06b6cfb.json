@@ -1,0 +1,165 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/lib/TestingCommon.pl",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "# Routines used for unpacking and testing submissions. # See the file COPYING in the main distribution directory for copyright notice. use Config; $signum = 1; foreach $name (split(' ', $Config{sig_name})) { $signo{$name} = $signum; $signam"
+    },
+    {
+      "chunk_id": 2,
+      "text": "name})) { $signo{$name} = $signum; $signame[$signum] = $name; $signum += 1; } # Usage: TestsExist (ASSGN) sub TestsExist { my $assgn = shift; return -r \"$TEST_MAKEFILE_DIR/$assgn.mk\"; } # Usage: UnpackSubmission ASSGN SUBMISSIO"
+    },
+    {
+      "chunk_id": 3,
+      "text": ".mk\"; } # Usage: UnpackSubmission ASSGN SUBMISSION_FILE DIR [ NO-ERASE ] sub UnpackSubmission { my ($assgn, $file, $dir, $noerase) = @_; if ( not -r $file ) { Note (\"Attempt to unpack non-existent file: $file.\"); return 0; } mkdi"
+    },
+    {
+      "chunk_id": 4,
+      "text": "xistent file: $file.\"); return 0; } mkdir ($dir, 0700) if (! -d $dir); if (not (-d $dir && -w $dir)) { Note (\"Invalid or unwritable directory: $dir.\"); return 0; } System (\"/bin/rm -rf $dir/.svn $dir/.git $dir/*\") unless ($n"
+    },
+    {
+      "chunk_id": 5,
+      "text": "bin/rm -rf $dir/.svn $dir/.git $dir/*\") unless ($noerase); open (SUBMISSION, $file) || return 0; my $typeLine = ; my ($code, $login); if ($typeLine =~ /SVN submission/) { $code = UnpackSvnSubmission ($dir, $assgn); } elsif ($ty"
+    },
+    {
+      "chunk_id": 6,
+      "text": "packSvnSubmission ($dir, $assgn); } elsif ($typeLine =~ /GIT submission/) { $login = ($file =~ m{/([^/]+)\\.\\d+$}); $code = UnpackGitSubmission ($dir, $assgn); } else { $code = UnpackDirectSubmission ($dir, $assgn); }"
+    },
+    {
+      "chunk_id": 7,
+      "text": "UnpackDirectSubmission ($dir, $assgn); } close SUBMISSION; System (\"cd $dir; /bin/rm -f .SUBMISSION; \" . \"echo $assgn $file > .SUBMISSION; chmod a-w .SUBMISSION\"); return $code; } # Usage: UnpackDirectSubmission DIR ASSGN #"
+    },
+    {
+      "chunk_id": 8,
+      "text": "; } # Usage: UnpackDirectSubmission DIR ASSGN # Unpack a submission from the file handle SUBMISSION for ASSGN into DIR, # where the submission is directly encoded in the file contents. sub UnpackDirectSubmission { my ($dir, $assgn) = @_;"
+    },
+    {
+      "chunk_id": 9,
+      "text": "DirectSubmission { my ($dir, $assgn) = @_; my ($data, $tar); open (UNPACKER, \"| cd $dir && uudecode && chmod a+r *.gz \") or return 0; while (read SUBMISSION, $data, 8192) { syswrite UNPACKER, $data; } close UNPACKER or ret"
+    },
+    {
+      "chunk_id": 10,
+      "text": "e UNPACKER, $data; } close UNPACKER or return 0; if ( -f \"$dir/$assgn-handin.tar.gz\" ) { $tar = \"$assgn-handin.tar.gz\"; } else { @tar = GLOB (\"$dir/*-handin.tar.gz\"); if ($#tar == 0) { $tar = $tar[0]; $tar =~ s{.*/(.*)}{"
+    },
+    {
+      "chunk_id": 11,
+      "text": "0) { $tar = $tar[0]; $tar =~ s{.*/(.*)}{$1}; } else { Note (\"Non-existent or ambiguous hand-in tar file.\"); return 0; } } System (\"cd $dir; gunzip -c $tar | tar xf -\") || return 0; return 1; } # Usage: UnpackSvnS"
+    },
+    {
+      "chunk_id": 12,
+      "text": "|| return 0; return 1; } # Usage: UnpackSvnSubmission DIR ASSGN # Unpack a submission for ASSGN from the SVN repository, assuming that # file handle SUBMISSION contains second and succeeding lines of the # file produced by svn-log-submiss"
+    },
+    {
+      "chunk_id": 13,
+      "text": "lines of the # file produced by svn-log-submission. sub UnpackSvnSubmission { my ($dir, $assgn) = @_; my $reposDir = ; my $rev = ; chomp $reposDir; chomp $rev; System (\"svn export --force --ignore-externals $SVN_REPOSITORY_"
+    },
+    {
+      "chunk_id": 14,
+      "text": "export --force --ignore-externals $SVN_REPOSITORY_URL/$reposDir\\@$rev $dir\") or return 0; return 1; } # Usage: UnpackGitSubmission DIR ASSGN # Unpack a submission for ASSGN from a GIT repository, assuming that # file handle SUBMISSION conta"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ry, assuming that # file handle SUBMISSION contains second and succeeding lines of the # file produced by git-log-submission. LOGIN identifies the individual # or team repository containing the submission. sub UnpackGitSubmission { my ($di"
+    },
+    {
+      "chunk_id": 16,
+      "text": "submission. sub UnpackGitSubmission { my ($dir, $assgn) = @_; my $repo = ; chomp $repo; my $tag = ; chomp $tag; my $commit = ; chomp $commit; my $url = $GIT_REPOSITORY_URL; $url =~ s{REPO}{$repo}; if (! -d \"$dir/.git\") {"
+    },
+    {
+      "chunk_id": 17,
+      "text": "rl =~ s{REPO}{$repo}; if (! -d \"$dir/.git\") { System(\"cd $dir; git init .\") or return 0; } System(\"cd $dir; git remote add $repo $url 2>/dev/null\"); System(\"cd $dir; git tag -d $tag 2>/dev/null\"); System(\"cd $dir; git fetc"
+    },
+    {
+      "chunk_id": 18,
+      "text": "$tag 2>/dev/null\"); System(\"cd $dir; git fetch --tags $repo >/dev/null 2>&1\") || do { Note(\"Fetch from $repo failed.\"); return 0; }; System(\"cd $dir; git reset --hard HEAD 2>/dev/null\"); System(\"cd $dir; git checkout $tag >/d"
+    },
+    {
+      "chunk_id": 19,
+      "text": "null\"); System(\"cd $dir; git checkout $tag >/dev/null 2>&1\") || do { Note(\"git checkout $tag failed.\"); return 0; }; my $head = `cd $dir; git rev-parse HEAD`; chomp $head; if ($head ne $commit) { Warn(\"Tag $tag doe"
+    },
+    {
+      "chunk_id": 20,
+      "text": "if ($head ne $commit) { Warn(\"Tag $tag does not denote expected commit $commit.\"); } return 1; } # Usage: TestAndDiagnose CMND OUTHANDLE sub TestAndDiagnose { my ($cmnd, $outhandle) = @_; my $lines; # Make sure that res"
+    },
+    {
+      "chunk_id": 21,
+      "text": "le) = @_; my $lines; # Make sure that resource-limit signals aren't ignored by default. $SIG{XCPU} = \"DEFAULT\"; $SIG{XFSZ} = \"DEFAULT\"; if (not open (CMNDOUT, \"$cmnd 2>&1 |\")) { print $outhandle \"< ) { print $outhandle $_;"
+    },
+    {
+      "chunk_id": 22,
+      "text": "print $outhandle \"< ) { print $outhandle $_; } close (CMNDOUT); if ($? == 0) { if ($TEST_COMMAND_SUMMARY eq \"default\") { print $outhandle \"\\n< > 8) == 0) { my $signal = ($? & 255); print $outhandle \"\\n< $logName\""
+    },
+    {
+      "chunk_id": 23,
+      "text": "nal = ($? & 255); print $outhandle \"\\n< $logName\") || Fatal (\"Could not create submission log file $logName.\"); my $timeStr = localtime ($time); Note (\"\\nProcessing $baseSubm, Assgn: $assgn, Subm: $timeStr.\"); if (! UnpackSubmission ("
+    },
+    {
+      "chunk_id": 24,
+      "text": ", Subm: $timeStr.\"); if (! UnpackSubmission ($assgn, $subm, $dir)) { Note (\"Problems with unpacking.\"); print SUBMISSION_LOG \"< $ASSGN_DUE{$assgn}) { my $late = (($time - $ASSGN_DUE{$assgn}) / 3600); my $lateDay = int ($late / 24);"
+    },
+    {
+      "chunk_id": 25,
+      "text": "}) / 3600); my $lateDay = int ($late / 24); my $lateMsg = \"\"; if ($lateDay > 1) { $lateMsg = $lateDay . \" days, \"; } elsif ($lateDay > 0) { $lateMsg = \"1 day, \"; } $lateMsg .= sprintf (\"%4.1f hours\", $late - 24.0 *"
+    },
+    {
+      "chunk_id": 26,
+      "text": "lateMsg .= sprintf (\"%4.1f hours\", $late - 24.0 * $lateDay); Note (\" [Late by $lateMsg].\"); print SUBMISSION_LOG \"\\nNOTE: submitted $timeStr, $lateMsg late.\\n\\n\"; } if (RunTests ($assgn, $dir, SUBMISSION_LOG)) { Note (\"Successfu"
+    },
+    {
+      "chunk_id": 27,
+      "text": "gn, $dir, SUBMISSION_LOG)) { Note (\"Successful submission.\"); close (SUBMISSION_LOG); MoveLog ($assgn, $logName, $subm, 0, @partners); } else { Note (\"Submission had problems.\"); close (SUBMISSION_LOG); MoveLog ($assgn,"
+    },
+    {
+      "chunk_id": 28,
+      "text": "close (SUBMISSION_LOG); MoveLog ($assgn, $logName, $subm, 1, @partners); } } unlink ($logName); DeleteClean ($logName); if (!$dir0) { System (\"/bin/rm -rf $dir\"); DeleteClean ($dir); } } # Usage MailResult SUBM"
+    },
+    {
+      "chunk_id": 29,
+      "text": "Clean ($dir); } } # Usage MailResult SUBM ... sub MailResult { my ($arg, $subm, $file, $assgn, $subject, $stamp, $time, $headerMsg, $log); foreach $arg (@_) { ($assgn, $subm, $login, $stamp) = ($arg =~ m{ /([^/]+)/(([^/]+)\\.(["
+    },
+    {
+      "chunk_id": 30,
+      "text": "$stamp) = ($arg =~ m{ /([^/]+)/(([^/]+)\\.([^/]+))$ }x); InitDir (\"$LOG_DIR/$assgn\", 02770); InitDir (\"$LOG_DIR/$assgn/mailed\", 02770); defined ($assgn) || Fatal (\"Ill-formed submission name to MailResult: $arg\"); my"
+    },
+    {
+      "chunk_id": 31,
+      "text": "d submission name to MailResult: $arg\"); my $recipient = MailingAddress ($login); next if (! $recipient || -e \"$LOG_DIR/$assgn/mailed/$subm\" || (! (-e \"$LOG_DIR/$assgn/ok/$subm\") && ! (-e \"$LOG_DIR/$assgn/failed/$subm\"))); $"
+    },
+    {
+      "chunk_id": 32,
+      "text": "&& ! (-e \"$LOG_DIR/$assgn/failed/$subm\"))); $time = localtime (TimeStampToTime ($stamp)); if (-e \"$LOG_DIR/$assgn/ok/$subm\") { $log = \"$LOG_DIR/$assgn/ok/$subm\"; $headerMsg = \"Your submission of assignment $assgn at $time successfu"
+    },
+    {
+      "chunk_id": 33,
+      "text": "submission of assignment $assgn at $time successfully\\n\" . \"compiled and passed our tests. The log is appended.\\n\" . \"\\nThis is an automated account; please do not respond to it.\\n\\n\"; $subject = \"Successful test for submission o"
+    },
+    {
+      "chunk_id": 34,
+      "text": "$subject = \"Successful test for submission of assignment $assgn on $time\"; $headerMsg .= `$GMAKE -f $TEST_MAKEFILE_DIR/$assgn.mk OK 2>/dev/null`; if (-e \"$LOG_DIR/$assgn/failed/$subm\") { Warn (\"Submission $subm for $assgn both succe"
+    },
+    {
+      "chunk_id": 35,
+      "text": "{ Warn (\"Submission $subm for $assgn both succeeded and failed!\"); } } else { $log = \"$LOG_DIR/$assgn/failed/$subm\"; $headerMsg = \"Your submission of assignment $assgn at $time had some problems\\n\" . \"The log is appended.\\"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ad some problems\\n\" . \"The log is appended.\\n\" . \"\\nThis is an automated account; please do not respond to it.\\n\\n\"; $subject = \"Problems with submission of assignment $assgn on $time\"; $headerMsg .= `$GMAKE -f $TEST_MAKEFILE"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ime\"; $headerMsg .= `$GMAKE -f $TEST_MAKEFILE_DIR/$assgn.mk NOT-OK 2>/dev/null`; $headerMsg =~ s/(?m)^~/~~/; } open (COPY_LOG, $log) || Fatal (\"Log file $log unreadable.\"); if (open (MAILING, \"| $MAIL_PROG -s '$subje"
+    },
+    {
+      "chunk_id": 38,
+      "text": ".\"); if (open (MAILING, \"| $MAIL_PROG -s '$subject' $recipient\")) { print MAILING $headerMsg; print MAILING \"\\nLog:\\n--------------------------------------------------\\n\"; while ( ) { s/^~/~~/; print MAILING $_; } close"
+    },
+    {
+      "chunk_id": 39,
+      "text": "s/^~/~~/; print MAILING $_; } close (COPY_LOG); close (MAILING); Note (\"Mailed to $recipient.\"); if ($? == 0) { open (TOUCH, \">$LOG_DIR/$assgn/mailed/$subm\") || Fatal (\"Could not record mailing: $!\"); close (T"
+    },
+    {
+      "chunk_id": 40,
+      "text": "Fatal (\"Could not record mailing: $!\"); close (TOUCH); next; } } Warn (\"Problem mailing result of submission $subm\"); } } 1;"
+    }
+  ]
+}

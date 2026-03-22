@@ -1,0 +1,93 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII3.0/ptII3.0.2/doc/webStartHelp.htm",
+  "chunks": [
+    {
+      "chunk_id": 61,
+      "text": "pplication Manager can be found as Applications -> Utilities -> Java Web Start Borland Web Start Page Problems with Web Start and displaying images JavaHelp bug Unofficial Web Start FAQ Venus Application Publisher - package, sign and publish Java (TM"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ion Publisher - package, sign and publish Java (TM) Network Launching Protocol (JNLP) software. 7/01 Javaworld article IBM Article Java Web Start: Developing and Distributing Java Applications Steven Kim http://openjnlp.nanode.org"
+    },
+    {
+      "chunk_id": 63,
+      "text": "Applications Steven Kim http://openjnlp.nanode.org/ JINI and JNLP Java URL Marc's Web Start Kamasutra Information about Web Start and Java 3D How Web Start .jnlp files are built in Ptolemy II In Ptolemy II, the Java Web Start template files are at: $"
+    },
+    {
+      "chunk_id": 64,
+      "text": "my II, the Java Web Start template files are at: $PTII/vergil.jnlp.in , $PTII/vergilPtiny.jnlp.in and $PTII/vergilPtiny.jnlp.in . $PTII/mk/jnlp.mk contains the rules that process the *jnlp.in files and generates *.jnlp files. If the Web Start applica"
+    },
+    {
+      "chunk_id": 65,
+      "text": "d generates *.jnlp files. If the Web Start application is to have full access to the machine, then the application needs to be signed, which means that the .jnlp file needs to be copied into the jar file that has the main() method and the entire jar"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ile that has the main() method and the entire jar file signed. Since we use the same main() for more than one application and each application has a separate .jnlp file, it is necessary to create a separate java class and jar file for each applicatio"
+    },
+    {
+      "chunk_id": 67,
+      "text": "parate java class and jar file for each application. Those jar files are found in $PTII/ptolemy/actor/gui/jnlp . File not found Starting up vergil and clicking on the mainVergil.htm link yields java.io.FileNotFoundException: JAR entry doc/mainVergil"
+    },
+    {
+      "chunk_id": 68,
+      "text": "io.FileNotFoundException: JAR entry doc/mainVergil.htm not found in C:\\Program Files\\Java Web Start\\.javaws\\cache\\file\\D\\P-1 \\DMc&c\\DMusers\\DMcxh\\DMptII\\DMptolemy\\RMptolemy.jar at sun.net.www.protocol.jar.JarURLConnection.connect(Unknown Sour"
+    },
+    {
+      "chunk_id": 69,
+      "text": "protocol.jar.JarURLConnection.connect(Unknown Source) at sun.net.www.protocol.jar.JarURLConnection.getInputStream(Unknown Source) at javax.swing.JEditorPane.getStream(Unknown Source) at javax.swing.JEditorPane.setPage(Unknown Source) at ptolemy.a"
+    },
+    {
+      "chunk_id": 70,
+      "text": ".JEditorPane.setPage(Unknown Source) at ptolemy.actor.gui.HTMLViewer.setPage(HTMLViewer.java:195) at ptolemy.actor.gui.HTMLViewerTableau$Factory.createTableau(HTMLViewerTableau.java:169) at ptolemy.actor.gui.TableauFactory.createTableau(TableauFac"
+    },
+    {
+      "chunk_id": 71,
+      "text": ".actor.gui.TableauFactory.createTableau(TableauFactory.java:116) at ptolemy.actor.gui.Configuration.createPrimaryTableau(Configuration.java:151) at ptolemy.actor.gui.Configuration.openModel(Configuration.java:267) at ptolemy.actor.gui.HTMLViewer.h"
+    },
+    {
+      "chunk_id": 72,
+      "text": "ation.java:267) at ptolemy.actor.gui.HTMLViewer.hyperlinkUpdate(HTMLViewer.java:139) at javax.swing.JEditorPane.fireHyperlinkUpdate(Unknown Source) http://forums.java.sun.com/thread.jsp?forum=38&thread=71621 says: I had this problem several months"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ead=71621 says: I had this problem several months back and putting the following line (I put this code early in Jbinit() ): ClassLoader loader=this.getClass().getClassLoader(); Thread.currentThread().setContextClassLoader(loader); hope this helps,"
+    },
+    {
+      "chunk_id": 74,
+      "text": ".setContextClassLoader(loader); hope this helps, md URLClassLoader fails when a URL points to a JAR inside another JAR It turns out that is is necessary to modify Ptolemy II so that if it is looking for a resource and fails then we should try stripp"
+    },
+    {
+      "chunk_id": 75,
+      "text": "for a resource and fails then we should try stripping out the text before the jar URL !/ separator and look for the resource in the classpath. Another thing to look for is hrefs that are relative and use ../ instead of ptolemy/ . Relative URLS will"
+    },
+    {
+      "chunk_id": 76,
+      "text": "use ../ instead of ptolemy/ . Relative URLS will not work when looking for resources using the classpath \"Unsigned application requesting unrestricted access to system\" Start up Web Start, clear the cache and reload. Check that the jar files are sig"
+    },
+    {
+      "chunk_id": 77,
+      "text": "cache and reload. Check that the jar files are signed: cd $PTII; make jnlp_verify If one of the jar files will not verify, use jar -tvf file .jar to verify that the file actually has data files in it Resign the jar files: cd $PTII; make jnlp_clean jn"
+    },
+    {
+      "chunk_id": 78,
+      "text": "Resign the jar files: cd $PTII; make jnlp_clean jnlp_all Rebuild the jar files: cd $PTII; make clean install Bad Mime Type When trying to fetch a .jnlp file from a server with cookie authentication, I sometimes have seen: Bad MIME type returned from"
+    },
+    {
+      "chunk_id": 79,
+      "text": "sometimes have seen: Bad MIME type returned from server when accessing resource: http://www.gigascale.org/ptolemy/src/ptII/vergil.jnlp - text/html I think the problem is with the second time the jnlp file is fetched. I can run JNLP on the ptolem"
+    },
+    {
+      "chunk_id": 80,
+      "text": "jnlp file is fetched. I can run JNLP on the ptolemy web server with basic password based authentication turned on. I think the problem is that cookies are not yet supported. The basic password authentication mechanism is a little funky, sometimes the"
+    },
+    {
+      "chunk_id": 81,
+      "text": "ication mechanism is a little funky, sometimes the app starts up without checking for updates. Unofficial FAQ about bad mime type Question about cookies Spaces in path names Web Start does not work very well if the pathname to the vergil.jnlp file ha"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ry well if the pathname to the vergil.jnlp file has spaces in it. The workaround is to place your Ptolemy II tree in a directory that does not have spaces in the path name if you plan on using Web Start."
+    }
+  ]
+}

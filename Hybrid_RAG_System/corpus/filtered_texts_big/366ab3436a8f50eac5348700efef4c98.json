@@ -1,0 +1,465 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/MaximPegasusDuktapeProblems",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / MaximPegasusDuktapeProblems Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / MaximPegasusDuktapeProblems Below are variou"
+    },
+    {
+      "chunk_id": 2,
+      "text": "tes / MaximPegasusDuktapeProblems Below are various problems I had building Duktape 2.1 for the Maxim Pegasus . See Maxim Pegasus for instructions about how to build from the accessors repo. See below for possibly useful information. Makefile Creatio"
+    },
+    {
+      "chunk_id": 3,
+      "text": "for possibly useful information. Makefile Creation I attempted to create a makefile by hand, but it seems easier to use the mbed command to create a makefile and add to that. In /ptII/org/terraswarm/accessor/accessors/web/hosts/duktape : mbed new mb"
+    },
+    {
+      "chunk_id": 4,
+      "text": "accessor/accessors/web/hosts/duktape : mbed new mbed-duktape2 cd mbed-duktape2 / mbed export -i GCC_ARM -m MAX32630FTHR [$[Get Code]] Add the following to duktape/mbed-duktape2/Makefile: CFLAGS += - DDUK_F_32BIT_PTRS - DDUK_USE_DEBUG - DDUK_USE_DEBUG"
+    },
+    {
+      "chunk_id": 5,
+      "text": "DUK_F_32BIT_PTRS - DDUK_USE_DEBUG - DDUK_USE_DEBUG_LEVEL = 0 CXX_FLAGS += - DEDUK_RUN_RAMPJSDISPLAY $ ( CFLAGS ) # ../duktape2/examples/cmdline/duk_cmdline.c C_SRCS = \\ ../ duktape2 / src / duktape . c \\ ../ eduk2 / duk_stack . c \\ ../ eduk2 /"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ape . c \\ ../ eduk2 / duk_stack . c \\ ../ eduk2 / nofileio . c \\ ../ eduk2 / c_eventloop . c \\ ../ eduk2 / modSearch . c \\ ../ duktape2 / extras / print - alert / duk_print_alert . c \\ ../ duktape2 / extras / console / duk_console . c \\ ../ duktape2"
+    },
+    {
+      "chunk_id": 7,
+      "text": "extras / console / duk_console . c \\ ../ duktape2 / extras / logging / duk_logging . c \\ ../ duktape2 / extras / module - duktape / duk_module_duktape . c CPP_SRCS = \\ ../ eduk2 . cpp OBJECTS = $ ( C_SRCS :%. c =%. o ) OBJECTS += $ ( CPP_SRCS :%. cpp"
+    },
+    {
+      "chunk_id": 8,
+      "text": "SRCS :%. c =%. o ) OBJECTS += $ ( CPP_SRCS :%. cpp =%. o ) INCLUDE_PATHS += - I ../../ duktape2 INCLUDE_PATHS += - I ../../ duktape2 / src INCLUDE_PATHS += - I ../../ eduk2 [$[Get Code]] FIXME why can't we put the above in a separate duktape.mk file"
+    },
+    {
+      "chunk_id": 9,
+      "text": "'t we put the above in a separate duktape.mk file and include it in the Makefile? Copy the eduk2.cpp file: cp BUILD / mbed-duktape2.bin / Volumes / DAPLINK / [$[Get Code]] The red LED will blink, indicating that the file is being uploaded Wait for th"
+    },
+    {
+      "chunk_id": 10,
+      "text": "cating that the file is being uploaded Wait for the message about \"Disk Not Ejected Properly\", which indicates that the processor has rebooted. Start up CoolTerm, find the port, set it for 9600-8-None-1 Messages should appear. Duktape Size The issue"
+    },
+    {
+      "chunk_id": 11,
+      "text": "-1 Messages should appear. Duktape Size The issue is that the Accessor host starts up and echoes to the port, but we never see the numbers. We get: eduk: About to run test/auto/RampJSDisplay.js With the default Duktape2.0.1 settings, the size is: te"
+    },
+    {
+      "chunk_id": 12,
+      "text": "the default Duktape2.0.1 settings, the size is: text data bss dec hex filename 437688 15364 8316 461368 70a38 BUILD/mbed-duktape2.elf With the following changes to duktape2/duk_config.j : /* __OVERRIDE_DEFINES__ */ #define DU"
+    },
+    {
+      "chunk_id": 13,
+      "text": "k_config.j : /* __OVERRIDE_DEFINES__ */ #define DUK_USE_DEBUG #define DUK_USE_DEBUG_LEVEL 2 #define DUK_USE_DEBUG_WRITE(level,file,line,func,msg) do { \\ fprintf(stderr, \"D%ld %s:%ld (%s): %s\\n\", \\ (long) (level), (file), (long) (line), (func), (ms"
+    },
+    {
+      "chunk_id": 14,
+      "text": "(long) (level), (file), (long) (line), (func), (msg)); \\ } while (0) /* #define DUK_OPT_NO_JSON_STRINGIFY_FASTPATH #undef DUK_USE_REFERENCE_COUNTING #define DUK_USE_REFCOUNT16 #define DUK_USE_STRHASH16 #define DUK_USE_STRLEN16 #define DUK_USE_OBJSIZE"
+    },
+    {
+      "chunk_id": 15,
+      "text": "6 #define DUK_USE_STRLEN16 #define DUK_USE_OBJSIZES16 */ #undef DUK_USE_AUGMENT_ERRORS #undef DUK_USE_TRACEBACKS /*#undef DUK_USE_VERBOSE_ERRORS*/ #undef DUK_USE_VERBOSE_EXECUTOR_ERRORS #undef DUK_USE_PC2LINE #undef DUK_USE_LEXER_SLIDING_WINDOW #unde"
+    },
+    {
+      "chunk_id": 16,
+      "text": "_PC2LINE #undef DUK_USE_LEXER_SLIDING_WINDOW #undef DUK_USE_JSON_STRINGIFY_FASTPATH #undef DUK_USE_JSON_QUOTESTRING_FASTPATH #undef DUK_USE_JSON_DECSTRING_FASTPATH #undef DUK_USE_JSON_DECNUMBER_FASTPATH #undef DUK_USE_JSON_EATWHITE_FASTPATH #undef DU"
+    },
+    {
+      "chunk_id": 17,
+      "text": "TH #undef DUK_USE_JSON_EATWHITE_FASTPATH #undef DUK_USE_JX #undef DUK_USE_JC #undef DUK_USE_ES6_OBJECT_SETPROTOTYPEOF #undef DUK_USE_ES6_OBJECT_PROTO_PROPERTY /* #undef DUK_USE_ES6_PROXY */ #undef DUK_USE_BYTECODE_DUMP_SUPPORT #define DUK_USE_DEBUG_B"
+    },
+    {
+      "chunk_id": 18,
+      "text": "_USE_BYTECODE_DUMP_SUPPORT #define DUK_USE_DEBUG_BUFSIZE 2048 #define DUK_USE_LIGHTFUNC_BUILTINS #undef DUK_USE_REFERENCE_COUNTING #undef DUK_USE_DOUBLE_LINKED_LIST #define DUK_USE_REFCOUNT16 #define DUK_USE_STRHASH16 #define DUK_USE_STRLEN16 #define"
+    },
+    {
+      "chunk_id": 19,
+      "text": "DUK_USE_STRHASH16 #define DUK_USE_STRLEN16 #define DUK_USE_BUFLEN16 #define DUK_USE_OBJSIZES16 #undef DUK_USE_HSTRING_CLEN #define DUK_USE_EXTERNAL_STRINGS [$[Get Code]] Sizes: text data bss dec hex filename 531736 16388 8316 55"
+    },
+    {
+      "chunk_id": 20,
+      "text": "dec hex filename 531736 16388 8316 556440 87d98 BUILD/mbed-duktape2.elf Then I get quite a bit of output in the terminal and it eventually fails with: D2 duk_alloc_default.c:30 (duk_default_free_function): default free function: 0x2000"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ault_free_function): default free function: 0x20006be0 D0 duk_heap_alloc.c:329 (duk_heap_free): freeing heap structure: 0x20006288 D2 duk_alloc_default.c:30 (duk_default_free_function): default free function: 0x20006288 D1 duk_error_throw.c:34 (duk_e"
+    },
+    {
+      "chunk_id": 22,
+      "text": "unction: 0x20006288 D1 duk_error_throw.c:34 (duk_err_create_and_throw): duk_err_create_and_throw(): code=3, msg=cannot push beyond allocated stack, filename=duk_api_stack.c, line=3445 D0 duk_error_throw.c:74 (duk_err_create_and_throw): double fault d"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ow.c:74 (duk_err_create_and_throw): double fault detected -> push built-in fixed 'double error' instance D1 duk_error_throw.c:34 (duk_err_create_and_throw): duk_err_create_and_throw(): code=3, msg=cannot push beyond allocated stack, filename=duk_api_"
+    },
+    {
+      "chunk_id": 24,
+      "text": "not push beyond allocated stack, filename=duk_api_stack.c, line=3445 [$[Get Code]] Interestingly, it appears that enabling the debugging means that we never get to the first println in eduk.cpp. Presumably we are consuming too much memory with the d"
+    },
+    {
+      "chunk_id": 25,
+      "text": "umably we are consuming too much memory with the debugging. So, it appears there is a stack problem. This could be because we are running with the mbed RTOS, instead we should try to compile without it. limits problem Under the Maxim Pegasus (Cortex"
+    },
+    {
+      "chunk_id": 26,
+      "text": "it. limits problem Under the Maxim Pegasus (Cortex Arm 4), adding debugging fails: D0 duk_heap_alloc.c:621 (duk__dump_type_sizes): duk_re_compiler_ctx=196 D0 duk_heap_alloc.c:624 (duk__dump_type_limits): limits See Maxim Pegasus Limits Problem Size"
+    },
+    {
+      "chunk_id": 27,
+      "text": "its): limits See Maxim Pegasus Limits Problem Size, continued The Makefile contains LINKER_SCRIPT ? = .././ mbed - os / targets / TARGET_Maxim / TARGET_MAX32630 / device / TOOLCHAIN_GCC_ARM / max3263x . ld [$[Get Code]] Looking at the max3263x.ld fil"
+    },
+    {
+      "chunk_id": 28,
+      "text": ". ld [$[Get Code]] Looking at the max3263x.ld file shows various [Ss]tack symbols. Running nm shows that Stack_Size is 0x5000 or 20480 decimal bash-3.2$ nm */* .elf | grep -i stack | head 00005000 a Stack_Size 00000025 a TCB_STACKF 0000002c a TCB_TS"
+    },
+    {
+      "chunk_id": 29,
+      "text": "Stack_Size 00000025 a TCB_STACKF 0000002c a TCB_TSTACK 2007b000 A __StackLimit 20080000 B __StackTop 20080000 A __stack [$[Get Code]] mbed-os/targets/TARGET_Maxim/TARGET_MAX32630/device/TOOLCHAIN_GCC_ARM/startup_max3263x.S contains: #ifdef __STACK_SI"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ARM/startup_max3263x.S contains: #ifdef __STACK_SIZE .equ Stack_Size, __STACK_SIZE #else .equ Stack_Size, 0x00005000 #endif [$[Get Code]] So, let's define __STACK_SIZE ! Editing the Makefile : ASM_FLAGS += -D__STACK_SIZE=0x00050000 The mbed RT"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ASM_FLAGS += -D__STACK_SIZE=0x00050000 The mbed RTOS presumably defines a stack size per thread. Changing this globally could be bad. There is a web page somewhere about how to change this on a per thread basis. If you change the value of ASM_FLAGS"
+    },
+    {
+      "chunk_id": 32,
+      "text": "thread basis. If you change the value of ASM_FLAGS in the Makefile , then do rm ./BUILD/mbed-os/targets/TARGET_Maxim/TARGET_MAX32630/device/TOOLCHAIN_GCC_ARM/startup_max3263x.o With ASM_FLAGS += -D__STACK_SIZE=0x00068000 and #define DUK_USE_DEBUG_LEV"
+    },
+    {
+      "chunk_id": 33,
+      "text": "TACK_SIZE=0x00068000 and #define DUK_USE_DEBUG_LEVEL 1 The failure occurs later: D1 duk_heap_markandsweep.c:802 (duk__sweep_heap): keep object: {__extensible:true,__thread:true,__strict:0,__state:1,__unused1:0,__unused2:0,__valstack\\ _max:1000000,__c"
+    },
+    {
+      "chunk_id": 35,
+      "text": "48/76,__catchstack:0x20008290,__catchstack_size:4,__catchstack_top:0,__resumer:NULL,__class:18,__heapptr:0x20007ba0} D0 duk_heap_markandsweep.c:875 (duk__sweep_heap): mark-and-sweep sweep objects (non-string): 0 freed, 78 kept, 0 rescued, 0 queued fo"
+    },
+    {
+      "chunk_id": 36,
+      "text": "-string): 0 freed, 78 kept, 0 rescued, 0 queued for finalization D1 duk_heap_markandsweep.c:664 (duk__sweep_stringtable_probe): duk__sweep_stringtable: 0x20006288 D0 duk_heap_markandsweep.c:716 (duk__sweep_stringtable_probe): mark-and-sweep sweep str"
+    },
+    {
+      "chunk_id": 37,
+      "text": "sweep_stringtable_probe): mark-and-sweep sweep stringtable: 0 freed, 247 kept D1 duk_heap_markandsweep.c:525 (duk__clear_finalize_list_flags): duk__clear_finalize_list_flags: 0x20006288 D1 duk_heap_markandsweep.c:1351 (duk_heap_mark_and_sweep): resiz"
+    },
+    {
+      "chunk_id": 38,
+      "text": "rkandsweep.c:1351 (duk_heap_mark_and_sweep): resize stringtable: 0x20006288 D0 duk_heap_memory.c:80 (duk_heap_mem_alloc): first alloc attempt failed, attempt to gc and retry D0 duk_heap_memory.c:89 (duk_heap_mem_alloc): duk_heap_mem_alloc() failed, g"
+    },
+    {
+      "chunk_id": 39,
+      "text": "uk_heap_mem_alloc): duk_heap_mem_alloc() failed, gc in progress (gc skipped), alloc size 2084 D0 duk_heap_markandsweep.c:1403 (duk_heap_mark_and_sweep): finalizer run skipped because DUK_MS_FLAG_NO_FINALIZERS is set D0 duk_heap_markandsweep.c:1442 (d"
+    },
+    {
+      "chunk_id": 40,
+      "text": "NALIZERS is set D0 duk_heap_markandsweep.c:1442 (duk_heap_mark_and_sweep): garbage collect (mark-and-sweep) finished: 78 objects kept, 247 strings kept, trigger reset \\ to 1280 D0 duk_heap_memory.c:118 (duk_heap_mem_alloc): duk_heap_mem_alloc() faile"
+    },
+    {
+      "chunk_id": 41,
+      "text": "8 (duk_heap_mem_alloc): duk_heap_mem_alloc() failed even after gc, alloc size 328 D1 duk_hbuffer_alloc.c:120 (duk_hbuffer_alloc): hbuffer allocation failed D1 duk_error_throw.c:34 (duk_err_create_and_throw): duk_err_create_and_throw(): code=1, msg=al"
+    },
+    {
+      "chunk_id": 42,
+      "text": "throw): duk_err_create_and_throw(): code=1, msg=alloc failed, filename=duk_api_stack.c, line=4564 D1 duk_hobject_props.c:911 (duk_hobject_realloc_props): resized hobject 0x20007608 props (0 -> 28 bytes), from {p=NULL,e_size=0,e_next=0,a_size=0,h_siz\\"
+    },
+    {
+      "chunk_id": 43,
+      "text": "s), from {p=NULL,e_size=0,e_next=0,a_size=0,h_siz\\ e=0} to {p=0x20009ae8,e_size=2,e_next=0,a_size=0,h_size=0}, abandon_array=0, unadjusted new_e_size=2 D1 duk_hobject_props.c:911 (duk_hobject_realloc_props): resized hobject 0x20007608 props (28 -> 52"
+    },
+    {
+      "chunk_id": 44,
+      "text": "props): resized hobject 0x20007608 props (28 -> 52 bytes), from {p=0x20009ae8,e_size=2, [$[Get Code]] Memory Usage https://github.com/nuket/mbed-memory-status looks promising Added two lines to mbed-os/targets/T>ARGET_Maxim/TARGET_MAX32630/device/TOO"
+    },
+    {
+      "chunk_id": 45,
+      "text": "s/targets/T>ARGET_Maxim/TARGET_MAX32630/device/TOOLCHAIN_GCC_ARM/startup_max3263x.S .SKIPRAMINIT: /* Perform system initialization after RAM initialization */ ldr r0, =SystemInit blx r0 /* https://github.com/nuket/mbed-memory-status */ LDR"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ps://github.com/nuket/mbed-memory-status */ LDR R0, =fill_isr_stack_with_canary BLX R0 /* This must be called to walk the constructor array for static C++ objects */ /* Note: The linker file must have .data symbols for __X_array_start and __X"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ust have .data symbols for __X_array_start and __X_array_end */ /* where X is {preinit, init, fini} */ ldr r0, =_start blx r0 [$[Get Code]] Editing eduk2.cpp : print_all_thread_info ( ) ; pri"
+    },
+    {
+      "chunk_id": 48,
+      "text": "diting eduk2.cpp : print_all_thread_info ( ) ; print_heap_and_isr_stack_info ( ) ; [$[Get Code]] stack ( start: 20005AF0 end: 20005E10 size: 00000320 used: 00000000 ) thread ( id: 20005E1C entry: 0003D089 )^M stack ( start: 2000447C end: 2000547C siz"
+    },
+    {
+      "chunk_id": 51,
+      "text": "used: 000000E4 )^M [$[Get Code]] Create A Thread https://developer.mbed.org/blog/entry/Tracing-stack-and-heap-overflow-errors/ indicates that we can create a thread and specify the stack size. In eduk2.cpp, move the bulk of main() into a method call"
+    },
+    {
+      "chunk_id": 52,
+      "text": "k2.cpp, move the bulk of main() into a method called inner_main() . Remove the return statements. In main(): #include \"mbed.h\" #include \"rtos.h\" DigitalOut led1 ( LED1 ) ; DigitalOut led2 ( LED2 ) ; Thread thread ; void led2_thread ( ) { while ( tru"
+    },
+    {
+      "chunk_id": 53,
+      "text": "Thread thread ; void led2_thread ( ) { while ( true ) { led2 = ! led2 ; Thread :: wait ( 1000 ) ; } } int main ( int argc , char * argv [ ] ) { fprintf ( stderr , \"eduk2.cpp main() start \\n \" ) ; Thread t ( osPriorityNormal , 200 * 1024 ) ; thread. s"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ad t ( osPriorityNormal , 200 * 1024 ) ; thread. start ( led2_thread ) ; fprintf ( stderr , \"eduk2.cpp main() Thread t: max_stack:%ld \\n \" , t. max_stack ( ) ) ; print_all_thread_info ( ) ; print_heap_and_isr_stack_info ( ) ; fprintf ( stderr , \"eduk"
+    },
+    {
+      "chunk_id": 55,
+      "text": "_and_isr_stack_info ( ) ; fprintf ( stderr , \"eduk2.cpp main() after print thread info \\n \" ) ; t. start ( & inner_main ) ; fprintf ( stderr , \"eduk2.cpp main() started duktape thread \\n \" ) ; while ( true ) { led1 = ! led1 ; Thread :: wait ( 500 ) ;"
+    },
+    {
+      "chunk_id": 56,
+      "text": "true ) { led1 = ! led1 ; Thread :: wait ( 500 ) ; } } [$[Get Code]] When this runs, it creates two threads, one for Duktape, one to blink the LEDs. eduk2.cpp main() start eduk2.cpp main() Thread t: max_stack:0 stack ( start: 200054F0 end: 20005810 s"
+    },
+    {
+      "chunk_id": 60,
+      "text": "0 size: 00000400 used: 00000090 ) eduk2.cpp main() after print thread info eduk2.cppeduk2 main.cpp () stmain(arted) abo duktut toape t callhread duk_ create_heap_default() [$[Get Code]] It fails while loading duktape.js: eduk2.cpp main() done with du"
+    },
+    {
+      "chunk_id": 61,
+      "text": "loading duktape.js: eduk2.cpp main() done with duk_create_heap_default() eduk2.cpp main() about to call eventloop_register() eduk2.cpp main() done with eventloop_register() eduk: About to run test/auto/RampJSDisplay.js ../eduk2.cpp:66: About to load"
+    },
+    {
+      "chunk_id": 62,
+      "text": "to/RampJSDisplay.js ../eduk2.cpp:66: About to load C version of c_eventloop. ../eduk2.cpp: Loading C version of c_eventloop worked D0 duk_js_executor.c:1358 (duk__handle_longjmp): -> throw propagated up to entry level, rethrow and exit bytecode execu"
+    },
+    {
+      "chunk_id": 63,
+      "text": "up to entry level, rethrow and exit bytecode executor ../eduk2.cpp:87: Loading C version of duktapeHost failed. Error was: ReferenceError: 4 ../eduk2.cpp:275: about to print thread info stack ( start: 200054F0 end: 20005810 size: 00000320 used: 0000"
+    },
+    {
+      "chunk_id": 67,
+      "text": "000 ) alloc ( ok: 00000000 fail: 00000000 ) isr_stack ( start: 2007FC00 end: 20080000 size: 00000400 used: 00000090 ) [$[Get Code]] BTW - to identify the threads, subtract 1 from the entry and use nm. The first thread is entry: 0001ED71 Use nm on t"
+    },
+    {
+      "chunk_id": 68,
+      "text": "m. The first thread is entry: 0001ED71 Use nm on the *.elf binary: bash-3.2$ nm . / BUILD / mbed-duktape2.elf | grep -i 1ED70 0001ed70 T osTimerThread bash-3.2$ [$[Get Code]] Here are the other threads. bash-3.2$ nm . / BUILD / mbed-duktape2.elf | gr"
+    },
+    {
+      "chunk_id": 69,
+      "text": "s. bash-3.2$ nm . / BUILD / mbed-duktape2.elf | grep -i 1E184 0001e184 T pre_main bash-3.2$ nm . / BUILD / mbed-duktape2.elf | grep -i 1DEB8 0001deb8 T _ZN4rtos6Thread6_thunkEPKv bash-3.2$ nm . / BUILD / mbed-duktape2.elf | grep -i 1E1CC 0001e1cc T o"
+    },
+    {
+      "chunk_id": 70,
+      "text": "D / mbed-duktape2.elf | grep -i 1E1CC 0001e1cc T os_idle_demon bash-3.2$ [$[Get Code]] I'm not sure why entry: 0001DEB9 appears twice in the output. BTW - Here are the sizes: text data bss dec hex filename 286720 15184 8316 3102"
+    },
+    {
+      "chunk_id": 71,
+      "text": "dec hex filename 286720 15184 8316 310220 4bbcc BUILD/mbed-duktape2.elf In the output, the used values are 00000 because we did not update mbed-os/targets/TARGET_Maxim/TARGET_MAX32630/device/TOOLCHAIN_GCC_ARM/startup_max3263x.S (see abov"
+    },
+    {
+      "chunk_id": 72,
+      "text": "ice/TOOLCHAIN_GCC_ARM/startup_max3263x.S (see above) ReferenceError: 4 To deal with ReferenceError: 4 Edit duk_config.h: /* #undef DUK_USE_VERBOSE_ERRORS */ Run make, cp and press the reset. Now: ReferenceError: identifier 'require' undefined See Du"
+    },
+    {
+      "chunk_id": 73,
+      "text": "erenceError: identifier 'require' undefined See Duktape 1.x compatible module loading framework Makefile Added ../duktape2/extras/module-duktape/duk_module_duktape.c to the C_SRCS Added INCLUDE_PATHS += -I../../duktape2/extras/module-duktape eduk.cpp"
+    },
+    {
+      "chunk_id": 74,
+      "text": "+= -I../../duktape2/extras/module-duktape eduk.cpp Added // See Duktape 1.x compatible module loading framework at // https://github.com/svaarala/duktape/tree/master/extras/module-duktape extern \"C\" { #include \"duk_module_duktape.h\" } [$[Get Code]] A"
+    },
+    {
+      "chunk_id": 75,
+      "text": "#include \"duk_module_duktape.h\" } [$[Get Code]] After setting ctx , added // Duktape 1.x compatible module loading framework. // https://github.com/svaarala/duktape/tree/master/extras/module-duktape duk_module_duktape_init ( ctx ) ; ( : source : ) G"
+    },
+    {
+      "chunk_id": 76,
+      "text": "duk_module_duktape_init ( ctx ) ; ( : source : ) Got further ! !! [ [ #deterministicTemporalSemantics]] deterministicTemporalSemantics.js missing ( : source lang = javascript : ) duk2. cpp main ( ) done with duk_create_heap_default ( ) eduk2. cpp mai"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ne with duk_create_heap_default ( ) eduk2. cpp main ( ) about to call eventloop_register ( ) eduk2. cpp main ( ) done with eventloop_register ( ) eduk : About to run test / auto / RampJSDisplay. js .. / eduk2. cpp : 85 : About to load C version of c_"
+    },
+    {
+      "chunk_id": 78,
+      "text": "/ eduk2. cpp : 85 : About to load C version of c_eventloop. .. / eduk2. cpp : Loading C version of c_eventloop worked .. / .. / eduk2 / nofileio. c : 190 Could not find common / modules / deterministicTemporalSemantics. js .. / eduk2. cpp : 106 : Lo"
+    },
+    {
+      "chunk_id": 79,
+      "text": "icTemporalSemantics. js .. / eduk2. cpp : 106 : Loading C version of duktapeHost failed. Error was : ReferenceError : identifier 'FileIo' undefined [$[Get Code]] The solution to the above was to add detrministicTemporalSemantics.js to the list of fil"
+    },
+    {
+      "chunk_id": 80,
+      "text": "etrministicTemporalSemantics.js to the list of files for which we generate .h files and modify eduk2/nofileio.c to use it. gettimeofday The problem now is that the swarmlet loads but fails to produce output. Compiling the code under x86_64 on the mac"
+    },
+    {
+      "chunk_id": 81,
+      "text": "output. Compiling the code under x86_64 on the mac works properly. See the instructions at the top of eduk2.cpp for how to do this. The makefile is too messed up to easily add this there, so the commands are run by hand. Adding fprintfs to c_eventl"
+    },
+    {
+      "chunk_id": 82,
+      "text": "mands are run by hand. Adding fprintfs to c_eventloop.c shows that we get output like: eduk2.cpp main ( ) done with duk_create_heap_default ( ) eduk2.cpp main ( ) about to call eventloop_register ( ) eduk2.cpp main ( ) done with eventloop_register ("
+    },
+    {
+      "chunk_id": 83,
+      "text": "eduk2.cpp main ( ) done with eventloop_register ( ) eduk2: About to run test / auto / RampJSDisplay.js .. / eduk2.cpp: 94 : About to load C version of c_eventloop. .. / eduk2.cpp: Loading C version of c_eventloop worked duktapeHost.js done .. / eduk2"
+    },
+    {
+      "chunk_id": 84,
+      "text": "c_eventloop worked duktapeHost.js done .. / eduk2.cpp: Loading C version of duktapeHost worked .. / eduk2.cpp: Loading C version of deterministicTemporalSemantics worked .. / .. / eduk2 / c_eventloop.c: 105 : get_now ( ) returning 0 ? This is bad. ."
+    },
+    {
+      "chunk_id": 85,
+      "text": ".c: 105 : get_now ( ) returning 0 ? This is bad. .. / .. / eduk2 / c_eventloop.c: 105 : get_now ( ) returning 0 ? This is bad. .. / eduk2.cpp: 193 : test / auto / RampJSDisplay.js: About to invoke eventloop_run ( ) .. / .. / eduk2 / c_eventloop.c: 35"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ntloop_run ( ) .. / .. / eduk2 / c_eventloop.c: 356 : expire_timers ( ) .. / .. / eduk2 / c_eventloop.c: 105 : get_now ( ) returning 0 ? This is bad. .. / .. / eduk2 / c_eventloop.c: 105 : get_now ( ) returning 0 ? This is bad. going to poll, timeout"
+    },
+    {
+      "chunk_id": 87,
+      "text": "returning 0 ? This is bad. going to poll, timeout 1000 ms, pollfd count 0 timeout - > 1000 .. / .. / eduk2 / c_eventloop.c: 416 : busy_delay_us ( ) .. / .. / eduk2 / c_eventloop.c: 445 : RC - > 0 .. / .. / eduk2 / c_eventloop.c: 356 : expire_timers"
+    },
+    {
+      "chunk_id": 88,
+      "text": "/ .. / eduk2 / c_eventloop.c: 356 : expire_timers ( ) .. / .. / eduk2 / c_eventloop.c: 105 : get_now ( ) returning 0 ? This is bad. .. / .. / eduk2 / c_eventloop.c: 105 : get_now ( ) returning 0 ? This is bad. going to poll, timeout 1000 ms, pollfd c"
+    },
+    {
+      "chunk_id": 89,
+      "text": "s is bad. going to poll, timeout 1000 ms, pollfd count 0 timeout - > 1000 [$[Get Code]] In particular, it looks like gettimeofday() always returns 0! The binary has three definitions of gettimeofday bash-3.2$ nm BUILD /* .elf | grep gettimeofday 0003"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ash-3.2$ nm BUILD /* .elf | grep gettimeofday 00031ae0 T _gettimeofday 0002d54c T _gettimeofday_r 0002a574 T gettimeofday bash-3.2$ [$[Get Code]] eduk2.cpp defines a _gettimeofday , but that is now ifdef'd out for mbed. Running nm $(filter %.o, $^) |"
+    },
+    {
+      "chunk_id": 91,
+      "text": "def'd out for mbed. Running nm $(filter %.o, $^) | grep gettimeofday returns U gettimeofday which indicates that we are looking for the gettimeofday() definition and that it is not defined in the .o files Adding -Wl,-v,-t to the $(LD) line shows that"
+    },
+    {
+      "chunk_id": 92,
+      "text": "iles Adding -Wl,-v,-t to the $(LD) line shows that gettimeofday is being found here: (/usr/local/Cellar/arm-none-eabi-gcc/5-2016-q3-update/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/softfp/libc.a)lib_a-gettimeofdayr.o R"
+    },
+    {
+      "chunk_id": 93,
+      "text": "lib/armv7e-m/softfp/libc.a)lib_a-gettimeofdayr.o Running nm on /usr/local/Cellar/arm-none-eabi-gcc/5-2016-q3-update/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/softfp/libc.a shows the following: lib_a-gettimeofdayr.o: U"
+    },
+    {
+      "chunk_id": 94,
+      "text": "c.a shows the following: lib_a-gettimeofdayr.o: U _gettimeofday 00000000 T _gettimeofday_r U errno ... lib_a-sysgettod.o: U _gettimeofday_r U _impure_ptr 00000000 T gettimeofday ... lib_a-time.o: U _gettimeofday_r U _impure_ptr 00000000 T time [$[Get"
+    },
+    {
+      "chunk_id": 95,
+      "text": "ettimeofday_r U _impure_ptr 00000000 T time [$[Get Code]] So, it appears that lib_a-sysgettod.o defines a gettimeofday() that calls _gettimeofday_r(), which is also defined. It is not clear why the addresses are 00000000. It looks like gettimeofday_r"
+    },
+    {
+      "chunk_id": 96,
+      "text": "dresses are 00000000. It looks like gettimeofday_r is a reentrant version of gettimeofday. It could be that the gettimeofday() that is defined in the library returns 0, but there is no documentation about that. See DuktapeEclipseARMCortexM3 -> TimerS"
+    },
+    {
+      "chunk_id": 97,
+      "text": "bout that. See DuktapeEclipseARMCortexM3 -> TimerSetup DuktapeEclipseARMCortexM4 -> TimerSetup TockOS Compilation -> gettimeofday https://github.com/ARMmbed/mbed-time defines a version, we could try that. Whoops . gettimeofday() returns 0 if everythi"
+    },
+    {
+      "chunk_id": 98,
+      "text": "hat. Whoops . gettimeofday() returns 0 if everything is ok. Correcting c_eventloop.h and eduk2.cpp results in: eduk2: About to run test / auto / RampJSDisplay.js .. / eduk2.cpp: 94 : About to load C version of c_eventloop. .. / eduk2.cpp: Loading C"
+    },
+    {
+      "chunk_id": 99,
+      "text": "version of c_eventloop. .. / eduk2.cpp: Loading C version of c_eventloop worked duktapeHost.js done .. / eduk2.cpp: Loading C version of duktapeHost worked .. / eduk2.cpp: Loading C version of deterministicTemporalSemantics worked .. / .. / eduk2 / c"
+    },
+    {
+      "chunk_id": 100,
+      "text": "nisticTemporalSemantics worked .. / .. / eduk2 / c_eventloop.c: 105 : WARNING: gettimeofday ( ) returned - 1 !! get_now will return 0.0 ? This is bad. .. / .. / eduk2 / c_eventloop.c: 105 : WARNING: gettimeofday ( ) returned - 1 !! get_now will retur"
+    },
+    {
+      "chunk_id": 101,
+      "text": "ettimeofday ( ) returned - 1 !! get_now will return 0.0 ? This is bad. .. / eduk2.cpp: 193 : test / auto / RampJSDisplay.js: About to invoke eventloop_run ( ) .. / .. / eduk2 / c_eventloop.c: 358 : expire_timers ( ) .. / .. / eduk2 / c_eventloop.c: 1"
+    },
+    {
+      "chunk_id": 102,
+      "text": "pire_timers ( ) .. / .. / eduk2 / c_eventloop.c: 105 : WARNING: gettimeofday ( ) returned - 1 !! get_now will return 0.0 ? This is bad. .. / .. / eduk2 / c_eventloop.c: 105 : WARNING: gettimeofday ( ) returned - 1 !! get_now will return 0.0 ? This is"
+    },
+    {
+      "chunk_id": 103,
+      "text": "returned - 1 !! get_now will return 0.0 ? This is bad. going to poll, timeout 1000 ms, pollfd count 0 timeout - > 1000 .. / .. / eduk2 / c_eventloop.c: 418 : busy_delay_us ( ) .. / .. / eduk2 / c_eventloop.c: 447 : RC - > 0 .. / .. / eduk2 / c_event"
+    },
+    {
+      "chunk_id": 104,
+      "text": "ntloop.c: 447 : RC - > 0 .. / .. / eduk2 / c_eventloop.c: 358 : expire_timers ( ) .. / .. / eduk2 / c_eventloop.c: 105 : WARNING: gettimeofday ( ) returned - 1 !! get_now will return 0.0 ? This is bad. .. / .. / eduk2 / c_eventloop.c: 105 : WARNING:"
+    },
+    {
+      "chunk_id": 105,
+      "text": ". .. / .. / eduk2 / c_eventloop.c: 105 : WARNING: gettimeofday ( ) returned - 1 !! get_now will return 0.0 ? This is bad. going to poll, timeout 1000 ms, pollfd count 0 timeout - > 1000 [$[Get Code]] Added perror(): /* Get Javascript compatible 'now'"
+    },
+    {
+      "chunk_id": 106,
+      "text": "Added perror(): /* Get Javascript compatible 'now' timestamp (millisecs since 1970). */ static double get_now ( void ) { struct timeval tv ; int rc ; rc = gettimeofday ( & tv , NULL ) ; if ( rc != 0 ) { fprintf ( stderr , \"%s:%d: WARNING: gettimeofda"
+    },
+    {
+      "chunk_id": 107,
+      "text": "{ fprintf ( stderr , \"%s:%d: WARNING: gettimeofday() returned %d!! get_now will return 0.0? This is bad. \\n \" , __FIL\\ E__ , __LINE__ , rc ) ; perror ( \"gettimeofday() failed\" ) ; /* Should never happen, so return whatever. */ return 0.0 ; } double"
+    },
+    {
+      "chunk_id": 108,
+      "text": "ppen, so return whatever. */ return 0.0 ; } double returnValue = ( ( double ) tv. tv_sec ) * 1000.0 + ( ( double ) tv. tv_usec ) / 1000.0 ; fprintf ( stderr , \"%s:%d: get_now() returning %g. \\n \" , __FILE__ , __LINE__ , returnValue ) ; return returnV"
+    },
+    {
+      "chunk_id": 109,
+      "text": "FILE__ , __LINE__ , returnValue ) ; return returnValue ; } [$[Get Code]] results in timeout - > 1000 .. / .. / eduk2 / c_eventloop.c: 419 : busy_delay_us ( ) .. / .. / eduk2 / c_eventloop.c: 448 : RC - > 0 .. / .. / eduk2 / c_eventloop.c: 359 : expir"
+    },
+    {
+      "chunk_id": 110,
+      "text": "- > 0 .. / .. / eduk2 / c_eventloop.c: 359 : expire_timers ( ) .. / .. / eduk2 / c_eventloop.c: 105 : WARNING: gettimeofday ( ) returned - 1 !! get_now will return 0.0 ? This is bad. gettimeofday ( ) failed: Bad file number .. / .. / eduk2 / c_eventl"
+    },
+    {
+      "chunk_id": 111,
+      "text": "failed: Bad file number .. / .. / eduk2 / c_eventloop.c: 105 : WARNING: gettimeofday ( ) returned - 1 !! get_now will return 0.0 ? This is bad. gettimeofday ( ) failed: Bad file number going to poll, timeout 1000 ms, pollfd count 0 timeout - > 1000 ["
+    },
+    {
+      "chunk_id": 112,
+      "text": "timeout 1000 ms, pollfd count 0 timeout - > 1000 [$[Get Code]] It looks like gcc-arm-none-eabi-5_4-2016q3-20160926/src/newlib/newlib/libc/sys/arm/syscalls.c contains the definition: int _gettimeofday ( struct timeval * tp , void * tzvp ) { struct tim"
+    },
+    {
+      "chunk_id": 113,
+      "text": "( struct timeval * tp , void * tzvp ) { struct timezone * tzp = tzvp ; if ( tp ) { /* Ask the host for the seconds since the Unix epoch. */ #ifdef ARM_RDI_MONITOR tp -> tv_sec = do_AngelSWI ( AngelSWI_Reason_Time , NULL ) ; #else { int value ; asm ("
+    },
+    {
+      "chunk_id": 114,
+      "text": "I_Reason_Time , NULL ) ; #else { int value ; asm ( \"swi %a1; mov %0, r0\" : \"=r\" ( value ) : \"i\" ( SWI_Time ) : \"r0\" ) ; tp -> tv_sec = value ; } #endif tp -> tv_usec = 0 ; } /* Return fixed data for the timezone. */ if ( tzp ) { tzp -> tz_minuteswes"
+    },
+    {
+      "chunk_id": 115,
+      "text": "he timezone. */ if ( tzp ) { tzp -> tz_minuteswest = 0 ; tzp -> tz_dsttime = 0 ; } return 0 ; } [$[Get Code]] Interestingly at the end of the verbose output of ld, we have (/usr/local/Cellar/arm-none-eabi-gcc/5-2016-q3-update/bin/../lib/gcc/arm-none"
+    },
+    {
+      "chunk_id": 116,
+      "text": "-eabi-gcc/5-2016-q3-update/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/softfp/libnosys.a)gettod.o Going to https://launchpad.net/gcc-arm-embedded/+download and downloading https://launchpad.net/gcc-arm-embedded/5.0/5-201"
+    },
+    {
+      "chunk_id": 117,
+      "text": "g https://launchpad.net/gcc-arm-embedded/5.0/5-2016-q3-update/+download/gcc-arm-none-eabi-5_4-2016q3-20160926-src.tar.bz2 and looking for gettod finds ./src/newlib/libgloss/libnosys/gettod.c : int _DEFUN ( _gettimeofday, ( ptimeval, ptimezone ) , str"
+    },
+    {
+      "chunk_id": 118,
+      "text": "FUN ( _gettimeofday, ( ptimeval, ptimezone ) , struct timeval * ptimeval _AND void * ptimezone ) { errno = ENOSYS; return -1 ; } [$[Get Code]] Revisiting the code and printing errno: extern int errno ; /* Get Javascript compatible 'now' timestamp (m"
+    },
+    {
+      "chunk_id": 119,
+      "text": "; /* Get Javascript compatible 'now' timestamp (millisecs since 1970). */ static double get_now ( void ) { struct timeval tv ; int rc ; rc = gettimeofday ( & tv , NULL ) ; if ( rc != 0 ) { fprintf ( stderr , \"%s:%d: WARNING: gettimeofday() returned"
+    },
+    {
+      "chunk_id": 120,
+      "text": "stderr , \"%s:%d: WARNING: gettimeofday() returned %d!! get_now will return 0.0? This is bad. errno = % \\ d \\n \" , __FILE__ , __LINE__ , rc , errno ) ; perror ( \"gettimeofday() failed\" ) ; /* Should never happen, so return whatever. */ return 0.0 ; }"
+    },
+    {
+      "chunk_id": 121,
+      "text": "ever happen, so return whatever. */ return 0.0 ; } double returnValue = ( ( double ) tv. tv_sec ) * 1000.0 + ( ( double ) tv. tv_usec ) / 1000.0 ; fprintf ( stderr , \"%s:%d: get_now() returning %g. \\n \" , __FILE__ , __LINE__ , returnValue ) ; return"
+    },
+    {
+      "chunk_id": 122,
+      "text": "\" , __FILE__ , __LINE__ , returnValue ) ; return returnValue ; } [$[Get Code]] Now, we get .. / .. / eduk2 / c_eventloop.c: 107 : WARNING: gettimeofday ( ) returned - 1 !! get_now will return 0.0 ? This is bad. errno = 88 gettimeofday ( ) failed: Ba"
+    },
+    {
+      "chunk_id": 123,
+      "text": "his is bad. errno = 88 gettimeofday ( ) failed: Bad file number [$[Get Code]] /src/newlib/newlib/libc/include/sys/errno.h has #define ENOSYS 88 /* Function not implemented */ [$[Get Code]] So, what is happening here is that we get the errno = 88 and"
+    },
+    {
+      "chunk_id": 124,
+      "text": "s happening here is that we get the errno = 88 and then the fprintf fails with a Bad file number , which is why perror() displays that. So, gettimeofday is not implemented! See MaximPegasus gettimeofday Edit - History - Print - Recent Changes - Searc"
+    }
+  ]
+}

@@ -1,0 +1,889 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII3.0/ptII3.0.2/doc/codeDoc/ptolemy/kernel/util/NamedObj.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "NamedObj Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.kernel.util Class NamedObj java.lang.Object | +-- ptol"
+    },
+    {
+      "chunk_id": 2,
+      "text": "til Class NamedObj java.lang.Object | +-- ptolemy.kernel.util.NamedObj All Implemented Interfaces: java.lang.Cloneable, Debuggable , DebugListener , ModelErrorHandler , Nameable , java.io.Serializable Direct Known Subclasses: Attribute , Entity ,"
+    },
+    {
+      "chunk_id": 3,
+      "text": "able Direct Known Subclasses: Attribute , Entity , Manager , ODESolver , Port , Relation public class NamedObj extends java.lang.Object implements Nameable , Debuggable , DebugListener , java.io.Serializable, java.lang.Cloneable This is a base class"
+    },
+    {
+      "chunk_id": 4,
+      "text": "lizable, java.lang.Cloneable This is a base class for objects with a name. A simple name is an arbitrary string. If no simple name is provided, the name is taken to be an empty string (not a null reference). The class also has a full name, which is a"
+    },
+    {
+      "chunk_id": 5,
+      "text": "rence). The class also has a full name, which is a concatenation of the container's full name and the simple name, separating by a period. Obviously, if the simple name contains a period then there may be some confusion resolving the full name, so pe"
+    },
+    {
+      "chunk_id": 6,
+      "text": "y be some confusion resolving the full name, so periods are expressly disallowed. If there is no container, then the full name is a concatenation of the workspace name with the simple name. The full name is used for error reporting throughout the pac"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ame is used for error reporting throughout the package, which is why it is supported at this low level of the class hierarchy. Instances of this class are associated with a workspace, specified as a constructor argument. The workspace is immutable."
+    },
+    {
+      "chunk_id": 8,
+      "text": "onstructor argument. The workspace is immutable. It cannot be changed during the lifetime of the object. It is used for synchronization of methods that depend on or modify the state of objects within it. It is also used for tracking the version o"
+    },
+    {
+      "chunk_id": 9,
+      "text": "in it. It is also used for tracking the version of any topology within the workspace. Any method in this class or derived classes that changes visible state of any object within the workspace should call the incrVersion() method of the workspace. I"
+    },
+    {
+      "chunk_id": 10,
+      "text": "call the incrVersion() method of the workspace. If no workspace is specified, then the default workspace is used. Note that the workspace should not be confused with the container. The workspace never serves as a container. In this base class, the c"
+    },
+    {
+      "chunk_id": 11,
+      "text": "r serves as a container. In this base class, the container is null by default, and no method is provided to change it. Derived classes that support hierarchy provide one or more methods that set the container. By convention, if the container of a Nam"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ontainer. By convention, if the container of a NamedObj is set, then it should be removed from the workspace directory, if it is present. The workspace directory is expected to list only top-level objects in a hierarchy. The NamedObj can still use t"
+    },
+    {
+      "chunk_id": 13,
+      "text": "jects in a hierarchy. The NamedObj can still use the workspace for synchronization. Any object contained by another uses the workspace of its container as its own workspace by default. Instances of Attribute can be attached by calling their setContai"
+    },
+    {
+      "chunk_id": 14,
+      "text": "tribute can be attached by calling their setContainer() method and passing this object as an argument. These instances will then be reported by the getAttribute() and attributeList() methods. Classes derived from NamedObj may constrain attributes to"
+    },
+    {
+      "chunk_id": 15,
+      "text": "derived from NamedObj may constrain attributes to be a subclass of Attribute. To do that, they should override the protected _addAttribute() method to throw an exception if the object provided is not of the right class. This class supports mutations"
+    },
+    {
+      "chunk_id": 16,
+      "text": "of the right class. This class supports mutations , which are changes to a model that are performed in a disciplined fashion. In particular, a mutation can be requested via the requestChange() method. Derived classes will ensure that the mutation i"
+    },
+    {
+      "chunk_id": 17,
+      "text": "d. Derived classes will ensure that the mutation is executed at a time when it is safe to execute mutations. This class supports the notion of a model error , which is an exception that is handled by a registered model error handler, or passed up the"
+    },
+    {
+      "chunk_id": 18,
+      "text": "a registered model error handler, or passed up the container hierarchy if there is no registered model error handler. This mechanism complements the exception mechanism in Java. Instead of unraveling the calling stack to handle exceptions, this mech"
+    },
+    {
+      "chunk_id": 19,
+      "text": "the calling stack to handle exceptions, this mechanism passes control up the Ptolemy II hierarchy. Derived classes should override the _description() method to append new fields if there is new information that should be included in the description."
+    },
+    {
+      "chunk_id": 20,
+      "text": "mation that should be included in the description. Since: Ptolemy II 0.2 Version: $Id: NamedObj.java,v 1.202 2003/04/17 19:01:08 eal Exp $ Author: Mudit Goel, Edward A. Lee, Neil Smyth See Also: Serialized Form Nested Class Summary static class Named"
+    },
+    {
+      "chunk_id": 21,
+      "text": "lized Form Nested Class Summary static class NamedObj.MoMLInfo This class is a data structure for storing MoML information used to construct the MoML description of an associated NamedObj. Field Summary protected java.util.List _changeListeners A"
+    },
+    {
+      "chunk_id": 22,
+      "text": "mary protected java.util.List _changeListeners A list of change listeners. protected boolean _debugging protected java.util.LinkedList _debugListeners protected Workspace _workspace static int ATTRIBUTES Indicate that the description(int) method s"
+    },
+    {
+      "chunk_id": 23,
+      "text": "IBUTES Indicate that the description(int) method should include attributes (if any). static int CLASSNAME Indicate that the description(int) method should include the class name. static int COMPLETE Indicate that the description(int) method should"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Indicate that the description(int) method should include everything. static int CONTENTS Indicate that the description(int) method should include the contained objects (if any) that the object has. static int DEEP Indicate that the description(int"
+    },
+    {
+      "chunk_id": 25,
+      "text": "static int DEEP Indicate that the description(int) method should include the contained objects (if any) that the contained objects have. static int FULLNAME Indicate that the description(int) method should include the full name. static int LINKS I"
+    },
+    {
+      "chunk_id": 26,
+      "text": "d should include the full name. static int LINKS Indicate that the description(int) method should include the links (if any) that the object has. Constructor Summary NamedObj () Construct an object in the default workspace with an empty string as"
+    },
+    {
+      "chunk_id": 27,
+      "text": "in the default workspace with an empty string as its name. NamedObj (java.lang.String name) Construct an object in the default workspace with the given name. NamedObj ( Workspace workspace) Construct an object in the specified workspace with an emp"
+    },
+    {
+      "chunk_id": 28,
+      "text": "t an object in the specified workspace with an empty string as its name. NamedObj ( Workspace workspace, java.lang.String name) Construct an object in the given workspace with the given name. Method Summary protected void _addAttribute ("
+    },
+    {
+      "chunk_id": 29,
+      "text": "e. Method Summary protected void _addAttribute ( Attribute p) Add an attribute. protected void _attachText (java.lang.String name, java.lang.String text) Attach the specified text as an attribute with the specified name. protected vo"
+    },
+    {
+      "chunk_id": 30,
+      "text": "attribute with the specified name. protected void _debug ( DebugEvent event) Send a debug event to all debug listeners that have registered. protected void _debug (java.lang.String message) Send a debug message to all debug listeners that have re"
+    },
+    {
+      "chunk_id": 31,
+      "text": "debug message to all debug listeners that have registered. protected void _debug (java.lang.String part1, java.lang.String part2) Send a debug message to all debug listeners that have registered. protected void _debug (java.lang.String part"
+    },
+    {
+      "chunk_id": 32,
+      "text": "red. protected void _debug (java.lang.String part1, java.lang.String part2, java.lang.String part3) Send a debug message to all debug listeners that have registered. protected void _debug (java.lang.String part1, java.lang.Stri"
+    },
+    {
+      "chunk_id": 33,
+      "text": "bug (java.lang.String part1, java.lang.String part2, java.lang.String part3, java.lang.String part4) Send a debug message to all debug listeners that have registered. protected java.lang.String _description (int detail,"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ava.lang.String _description (int detail, int indent, int bracket) Return a description of the object. protected void _exportMoMLContents (java.io.Writer output, int depth) Write a MoML description of th"
+    },
+    {
+      "chunk_id": 35,
+      "text": "int depth) Write a MoML description of the contents of this object, which in this base class is the attributes. protected static java.lang.String _getIndentPrefix (int level) Return a number of spaces that is proportional to the argument."
+    },
+    {
+      "chunk_id": 36,
+      "text": "r of spaces that is proportional to the argument. protected void _removeAttribute ( Attribute param) Remove the given attribute. protected static java.lang.String[] _splitName (java.lang.String name) Split the specified name at the first period and"
+    },
+    {
+      "chunk_id": 37,
+      "text": "Split the specified name at the first period and return the two parts as a two-element array. protected static java.lang.String _stipNumericSuffix (java.lang.String string) Return a string that is identical to the specified string except that an"
+    },
+    {
+      "chunk_id": 38,
+      "text": "identical to the specified string except that any trailing characters that are numeric are removed. void addChangeListener ( ChangeListener listener) Add a change listener. void addDebugListener ( DebugListener listener) Append a listener to the cu"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ebugListener listener) Append a listener to the current set of debug listeners. void attributeChanged ( Attribute attribute) React to a change in an attribute. java.util.List attributeList () Return a list of the attributes contained by this object."
+    },
+    {
+      "chunk_id": 40,
+      "text": "list of the attributes contained by this object. java.util.List attributeList (java.lang.Class filter) Return a list of the attributes contained by this object that are instances of the specified class. void attributeTypeChanged ( Attribute attrib"
+    },
+    {
+      "chunk_id": 41,
+      "text": "lass. void attributeTypeChanged ( Attribute attribute) React to a change in the type of an attribute. java.lang.Object clone () Clone the object into the current workspace by calling the clone() method that takes a Workspace argument. java.lang.Obj"
+    },
+    {
+      "chunk_id": 42,
+      "text": "hod that takes a Workspace argument. java.lang.Object clone ( Workspace workspace) Clone the object into the specified workspace. boolean deepContains ( NamedObj inside) Return true if this object contains the specified object, directly or indirect"
+    },
+    {
+      "chunk_id": 43,
+      "text": "tains the specified object, directly or indirectly. int depthInHierarchy () Return the depth in the hierarchy of this object. java.lang.String description () Return a full description of the object. java.lang.String description (int detail) Return"
+    },
+    {
+      "chunk_id": 44,
+      "text": "java.lang.String description (int detail) Return a description of the object. void event ( DebugEvent event) React to the given debug event by relaying to any registered debug listeners. java.lang.String exportMoML () Get a MoML description of thi"
+    },
+    {
+      "chunk_id": 45,
+      "text": "String exportMoML () Get a MoML description of this object. java.lang.String exportMoML (java.lang.String name) Get a MoML description of this object with its name replaced by the specified name. void exportMoML (java.io.Writer output) Write a MoML"
+    },
+    {
+      "chunk_id": 46,
+      "text": "id exportMoML (java.io.Writer output) Write a MoML description of this object using the specified Writer. void exportMoML (java.io.Writer output, int depth) Write a MoML description of this entity with the specified indentation depth."
+    },
+    {
+      "chunk_id": 47,
+      "text": "is entity with the specified indentation depth. void exportMoML (java.io.Writer output, int depth, java.lang.String name) Write a MoML description of this entity with the specified indentation depth and with the specified na"
+    },
+    {
+      "chunk_id": 48,
+      "text": "fied indentation depth and with the specified name substituting for the name of this entity. Attribute getAttribute (java.lang.String name) Get the attribute with the given name. Attribute getAttribute (java.lang.String name, java.la"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ibute (java.lang.String name, java.lang.Class attributeClass) Get the attribute with the given name and class. java.util.Enumeration getAttributes () Deprecated. Use attributeList() instead. Nameable getContainer () Get the container. ja"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ad. Nameable getContainer () Get the container. java.lang.String getFullName () Return a string of the form \".name1.name2...nameN\". ModelErrorHandler getModelErrorHandler () Get the model error handler specified by setErrorHandler(). NamedObj.MoMLInf"
+    },
+    {
+      "chunk_id": 51,
+      "text": "r specified by setErrorHandler(). NamedObj.MoMLInfo getMoMLInfo () Get the data structure defining the MoML description of this class. java.lang.String getName () Get the name. java.lang.String getName ( NamedObj parent) Get the name of this object r"
+    },
+    {
+      "chunk_id": 52,
+      "text": "e ( NamedObj parent) Get the name of this object relative to the specified container. boolean handleModelError ( NamedObj context, IllegalActionException exception) Handle a model error. void message (java.lang.String message) React to a debug messag"
+    },
+    {
+      "chunk_id": 53,
+      "text": "(java.lang.String message) React to a debug message by relaying it to any registered debug listeners. void removeChangeListener ( ChangeListener listener) Remove a change listener. void removeDebugListener ( DebugListener listener) Unregister a deb"
+    },
+    {
+      "chunk_id": 54,
+      "text": "istener ( DebugListener listener) Unregister a debug listener. void requestChange ( ChangeRequest change) Request that given change request be executed. void setDeferMoMLDefinitionTo ( NamedObj deferTo) Specify that when generating a MoML description"
+    },
+    {
+      "chunk_id": 55,
+      "text": "o) Specify that when generating a MoML description of this named object, instead of giving a detailed description, refer to the specified other object. void setModelErrorHandler ( ModelErrorHandler handler) Set the model error handler. void setNa"
+    },
+    {
+      "chunk_id": 56,
+      "text": "r handler) Set the model error handler. void setName (java.lang.String name) Set or change the name. NamedObj toplevel () Return the top level of the containment hierarchy. java.lang.String toString () Return the class name and the full name of the o"
+    },
+    {
+      "chunk_id": 57,
+      "text": ") Return the class name and the full name of the object, with syntax \"className {fullName}\". java.lang.String uniqueName (java.lang.String prefix) Return a name that is guaranteed to not be the name of any contained attribute. void validateSettab"
+    },
+    {
+      "chunk_id": 58,
+      "text": "of any contained attribute. void validateSettables () Validate attributes deeply contained by this object if they implement the Settable interface by calling their validate() method. Workspace workspace () Get the workspace. Methods inherited fr"
+    },
+    {
+      "chunk_id": 59,
+      "text": "rkspace () Get the workspace. Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail COMPLETE public static final int COMPLETE Indicate that the description(int) method sho"
+    },
+    {
+      "chunk_id": 60,
+      "text": "LETE Indicate that the description(int) method should include everything. See Also: Constant Field Values CLASSNAME public static final int CLASSNAME Indicate that the description(int) method should include the class name. See Also: Constant Field Va"
+    },
+    {
+      "chunk_id": 61,
+      "text": "nclude the class name. See Also: Constant Field Values FULLNAME public static final int FULLNAME Indicate that the description(int) method should include the full name. The full name is surrounded by braces \"{name}\" in case it has spaces. See Also:"
+    },
+    {
+      "chunk_id": 62,
+      "text": "y braces \"{name}\" in case it has spaces. See Also: Constant Field Values LINKS public static final int LINKS Indicate that the description(int) method should include the links (if any) that the object has. This has the form \"links {...}\" where t"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ct has. This has the form \"links {...}\" where the list is a list of descriptions of the linked objects. This may force some of the contents to be listed. For example, a description of an entity will include the ports if this is set, irrespe"
+    },
+    {
+      "chunk_id": 64,
+      "text": "y will include the ports if this is set, irrespective of whether the CONTENTS bit is set. See Also: Constant Field Values CONTENTS public static final int CONTENTS Indicate that the description(int) method should include the contained objects (if"
+    },
+    {
+      "chunk_id": 65,
+      "text": "method should include the contained objects (if any) that the object has. This has the form \"keyword {{class {name}} {class {name}} ... }\" where the keyword can be ports, entities, relations, or anything else that might indicate what the ob"
+    },
+    {
+      "chunk_id": 66,
+      "text": "or anything else that might indicate what the object contains. See Also: Constant Field Values DEEP public static final int DEEP Indicate that the description(int) method should include the contained objects (if any) that the contained objects ha"
+    },
+    {
+      "chunk_id": 67,
+      "text": "d objects (if any) that the contained objects have. This has no effect if CONTENTS is not also specified. The returned string has the form \"keyword {{class {name} keyword {...}} ... }\". See Also: Constant Field Values ATTRIBUTES public static"
+    },
+    {
+      "chunk_id": 68,
+      "text": "so: Constant Field Values ATTRIBUTES public static final int ATTRIBUTES Indicate that the description(int) method should include attributes (if any). See Also: Constant Field Values _changeListeners protected java.util.List _changeListeners A list"
+    },
+    {
+      "chunk_id": 69,
+      "text": "protected java.util.List _changeListeners A list of change listeners. _debugging protected boolean _debugging _debugListeners protected java.util.LinkedList _debugListeners _workspace protected Workspace _workspace Constructor Detail NamedObj public"
+    },
+    {
+      "chunk_id": 70,
+      "text": "pace _workspace Constructor Detail NamedObj public NamedObj () Construct an object in the default workspace with an empty string as its name. The object is added to the list of objects in the workspace. Increment the version number of the workspa"
+    },
+    {
+      "chunk_id": 71,
+      "text": "space. Increment the version number of the workspace. NamedObj public NamedObj (java.lang.String name) throws IllegalActionException Construct an object in the default workspace with the given name. If the name argument is null, then the n"
+    },
+    {
+      "chunk_id": 72,
+      "text": "n name. If the name argument is null, then the name is set to the empty string. The object is added to the list of objects in the workspace. Increment the version number of the workspace. Parameters: name - Name of this object. Throws: IllegalA"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ters: name - Name of this object. Throws: IllegalActionException - If the name has a period. NamedObj public NamedObj ( Workspace workspace) Construct an object in the specified workspace with an empty string as its name. The object is added to the"
+    },
+    {
+      "chunk_id": 74,
+      "text": "y string as its name. The object is added to the list of objects in the workspace. Increment the version number of the workspace. NamedObj public NamedObj ( Workspace workspace, java.lang.String name) throws IllegalAction"
+    },
+    {
+      "chunk_id": 75,
+      "text": "va.lang.String name) throws IllegalActionException Construct an object in the given workspace with the given name. If the workspace argument is null, use the default workspace. The object is added to the list of objects in the workspace."
+    },
+    {
+      "chunk_id": 76,
+      "text": "is added to the list of objects in the workspace. If the name argument is null, then the name is set to the empty string. Increment the version number of the workspace. Parameters: workspace - Object for synchronization and version tracking name"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ject for synchronization and version tracking name - Name of this object. Throws: IllegalActionException - If the name has a period. Method Detail addChangeListener public void addChangeListener ( ChangeListener listener) Add a change listener. If t"
+    },
+    {
+      "chunk_id": 78,
+      "text": "ngeListener listener) Add a change listener. If there is a container, then delegate to the container. Otherwise, add the listener to the list of change listeners in this object. Each listener will be notified of the execution (or failure) of"
+    },
+    {
+      "chunk_id": 79,
+      "text": "will be notified of the execution (or failure) of each change request that is executed via the requestChange() method. Note that in this implementation, only the top level of a hierarchy executes changes, which is why this method delegates to"
+    },
+    {
+      "chunk_id": 80,
+      "text": "s changes, which is why this method delegates to the container if there is one. If the listener is already in the list, do not add it again. This listener is also notified before other listeners that have been previously registered with the t"
+    },
+    {
+      "chunk_id": 81,
+      "text": "that have been previously registered with the top-level object. Parameters: listener - The listener to add. addDebugListener public void addDebugListener ( DebugListener listener) Append a listener to the current set of debug listeners. If the l"
+    },
+    {
+      "chunk_id": 82,
+      "text": "to the current set of debug listeners. If the listener is already in the set, do not add it again. Specified by: addDebugListener in interface Debuggable Parameters: listener - The listener to which to send debug messages. attributeChanged public"
+    },
+    {
+      "chunk_id": 83,
+      "text": "h to send debug messages. attributeChanged public void attributeChanged ( Attribute attribute) throws IllegalActionException React to a change in an attribute. This method is called by a contained attribute when its value cha"
+    },
+    {
+      "chunk_id": 84,
+      "text": "lled by a contained attribute when its value changes. In this base class, the method does nothing. In derived classes, this method may throw an exception, indicating that the new attribute value is invalid. It is up to the caller to restor"
+    },
+    {
+      "chunk_id": 85,
+      "text": "ue is invalid. It is up to the caller to restore the attribute to a valid value if an exception is thrown. Parameters: attribute - The attribute that changed. Throws: IllegalActionException - If the change is not acceptable to this container"
+    },
+    {
+      "chunk_id": 86,
+      "text": "the change is not acceptable to this container (not thrown in this base class). attributeList public java.util.List attributeList () Return a list of the attributes contained by this object. If there are no attributes, return an empty list. Th"
+    },
+    {
+      "chunk_id": 87,
+      "text": "here are no attributes, return an empty list. This method is read-synchronized on the workspace. Returns: An unmodifiable list of instances of Attribute. attributeList public java.util.List attributeList (java.lang.Class filter) Return a list of th"
+    },
+    {
+      "chunk_id": 88,
+      "text": "eList (java.lang.Class filter) Return a list of the attributes contained by this object that are instances of the specified class. If there are no such instances, then return an empty list. This method is read-synchronized on the workspace. Pa"
+    },
+    {
+      "chunk_id": 89,
+      "text": "s method is read-synchronized on the workspace. Parameters: filter - The class of attribute of interest. Returns: A list of instances of specified class. attributeTypeChanged public void attributeTypeChanged ( Attribute attribute)"
+    },
+    {
+      "chunk_id": 90,
+      "text": "Changed ( Attribute attribute) throws IllegalActionException React to a change in the type of an attribute. This method is called by a contained attribute when its type changes. In this base class, the method does nothi"
+    },
+    {
+      "chunk_id": 91,
+      "text": "anges. In this base class, the method does nothing. Parameters: attribute - The attribute whose type changed. Throws: IllegalActionException - If the change is not acceptable to this container (not thrown in this base class). clone public java.l"
+    },
+    {
+      "chunk_id": 92,
+      "text": "ot thrown in this base class). clone public java.lang.Object clone () throws java.lang.CloneNotSupportedException Clone the object into the current workspace by calling the clone() method that takes a Workspace argument. Th"
+    },
+    {
+      "chunk_id": 93,
+      "text": "e() method that takes a Workspace argument. This method read-synchronizes on the workspace. Overrides: clone in class java.lang.Object Returns: A new NamedObj. Throws: java.lang.CloneNotSupportedException - If any of the attributes cannot be c"
+    },
+    {
+      "chunk_id": 94,
+      "text": "xception - If any of the attributes cannot be cloned. clone public java.lang.Object clone ( Workspace workspace) throws java.lang.CloneNotSupportedException Clone the object into the specified workspace. The new object is no"
+    },
+    {
+      "chunk_id": 95,
+      "text": "into the specified workspace. The new object is not added to the directory of that workspace (you must do this yourself if you want it there). This uses the clone() method of java.lang.Object, which makes a field-by-field copy. It then adjusts"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ch makes a field-by-field copy. It then adjusts the workspace reference and clones the attributes on the attribute list, if there is one. The attributes are set to the attributes of the new object. In addition, if this object has the MoML e"
+    },
+    {
+      "chunk_id": 97,
+      "text": "ect. In addition, if this object has the MoML element name \"class\", as determined by elementName field of the associated MoMLInfo object, then the new object will not export its contents when exportMoML() is called, but rather will declare"
+    },
+    {
+      "chunk_id": 98,
+      "text": "exportMoML() is called, but rather will declare that it extends this one, and will export only its attributes. This method read-synchronizes on the workspace. Parameters: workspace - The workspace for the new object. Returns: A new NamedObj. Thr"
+    },
+    {
+      "chunk_id": 99,
+      "text": "e for the new object. Returns: A new NamedObj. Throws: java.lang.CloneNotSupportedException - If any of the attributes cannot be cloned. See Also: getMoMLInfo() , exportMoML(Writer, int, String) deepContains public boolean deepContains ( NamedObj"
+    },
+    {
+      "chunk_id": 100,
+      "text": "epContains public boolean deepContains ( NamedObj inside) Return true if this object contains the specified object, directly or indirectly. That is, return true if the specified object is contained by an object that this contains, or by an obj"
+    },
+    {
+      "chunk_id": 101,
+      "text": "ed by an object that this contains, or by an object contained by an object contained by this, etc. This method ignores whether the entities report that they are atomic (see CompositeEntity), and always returns false if the entities are not in"
+    },
+    {
+      "chunk_id": 102,
+      "text": "always returns false if the entities are not in the same workspace. This method is read-synchronized on the workspace. Returns: True if this contains the argument, directly or indirectly. depthInHierarchy public int depthInHierarchy () Return th"
+    },
+    {
+      "chunk_id": 103,
+      "text": "Hierarchy public int depthInHierarchy () Return the depth in the hierarchy of this object. If this object has no container, then return 0. If its container has no container, then return 1. Etc. Returns: The depth in the hierarchy of this object"
+    },
+    {
+      "chunk_id": 104,
+      "text": "Returns: The depth in the hierarchy of this object. description public java.lang.String description () Return a full description of the object. This is accomplished by calling the description method with an argument for full detail. This method r"
+    },
+    {
+      "chunk_id": 105,
+      "text": "with an argument for full detail. This method read-synchronizes on the workspace. Specified by: description in interface Nameable Returns: A description of the object. See Also: exportMoML(Writer, int, String) description public java.lang.String d"
+    },
+    {
+      "chunk_id": 106,
+      "text": "int, String) description public java.lang.String description (int detail) Return a description of the object. The level of detail depends on the argument, which is an or-ing of the static final constants defined in this class (NamedObj). This m"
+    },
+    {
+      "chunk_id": 107,
+      "text": "stants defined in this class (NamedObj). This method returns an empty string (not null) if there is nothing to report. It read-synchronizes on the workspace. Parameters: detail - The level of detail. Returns: A description of the object. See A"
+    },
+    {
+      "chunk_id": 108,
+      "text": "etail. Returns: A description of the object. See Also: exportMoML(Writer, int, String) event public void event ( DebugEvent event) React to the given debug event by relaying to any registered debug listeners. Specified by: event in interface DebugL"
+    },
+    {
+      "chunk_id": 109,
+      "text": "listeners. Specified by: event in interface DebugListener Parameters: event - The event. Since: Ptolemy II 2.3 exportMoML public final java.lang.String exportMoML () Get a MoML description of this object. This might be an empty string if there is"
+    },
+    {
+      "chunk_id": 110,
+      "text": "ect. This might be an empty string if there is no MoML description of the object. This uses the three-argument version of this method. It is final to ensure that derived classes only need to override that method to change the MoML descript"
+    },
+    {
+      "chunk_id": 111,
+      "text": "override that method to change the MoML description. Returns: A MoML description, or null if there is none. See Also: exportMoML(Writer, int, String) exportMoML public final java.lang.String exportMoML (java.lang.String name) Get a MoML description"
+    },
+    {
+      "chunk_id": 112,
+      "text": "oML (java.lang.String name) Get a MoML description of this object with its name replaced by the specified name. The description might be an empty string if there is no MoML description of the object. This uses the three-argument version of th"
+    },
+    {
+      "chunk_id": 113,
+      "text": "ect. This uses the three-argument version of this method. It is final to ensure that derived classes only override that method to change the MoML description. Returns: A MoML description, or null if there is none. See Also: exportMoML(Writer,"
+    },
+    {
+      "chunk_id": 114,
+      "text": "ull if there is none. See Also: exportMoML(Writer, int, String) exportMoML public final void exportMoML (java.io.Writer output) throws java.io.IOException Write a MoML description of this object using the specified Writer. If"
+    },
+    {
+      "chunk_id": 115,
+      "text": "n of this object using the specified Writer. If there is no MoML description, then nothing is written. To write to standard out, do exportMoML(new OutputStreamWriter(System.out)) This method uses the three-argument version of this method. It"
+    },
+    {
+      "chunk_id": 116,
+      "text": "the three-argument version of this method. It is final to ensure that derived classes only need to override that method to change the MoML description. Parameters: output - The stream to write to. Throws: java.io.IOException - If an I/O error"
+    },
+    {
+      "chunk_id": 117,
+      "text": "to. Throws: java.io.IOException - If an I/O error occurs. See Also: exportMoML(Writer, int, String) exportMoML public final void exportMoML (java.io.Writer output, int depth) throws java.io.IOExcept"
+    },
+    {
+      "chunk_id": 118,
+      "text": "pth) throws java.io.IOException Write a MoML description of this entity with the specified indentation depth. This calls the three-argument version of this method with getName() as the third argument. This method is final"
+    },
+    {
+      "chunk_id": 119,
+      "text": "me() as the third argument. This method is final to ensure that derived classes only override the three-argument method to change the MoML description. Parameters: output - The output stream to write to. depth - The depth in the hierarchy, to d"
+    },
+    {
+      "chunk_id": 120,
+      "text": "write to. depth - The depth in the hierarchy, to determine indenting. Throws: java.io.IOException - If an I/O error occurs. See Also: exportMoML(Writer, int, String) exportMoML public void exportMoML (java.io.Writer output, int"
+    },
+    {
+      "chunk_id": 121,
+      "text": "(java.io.Writer output, int depth, java.lang.String name) throws java.io.IOException Write a MoML description of this entity with the specified indentation depth and with the specified n"
+    },
+    {
+      "chunk_id": 122,
+      "text": "ified indentation depth and with the specified name substituting for the name of this entity. The element name, class, and source attributes are determined by the instance of MoMLInfo returned by getMoMLInfo(). The description has one of two"
+    },
+    {
+      "chunk_id": 123,
+      "text": "d by getMoMLInfo(). The description has one of two forms, depending on the element name. If it is \"class\", then the exported MoML looks like this: <class name=\" name \" extends=\" classname source=\" source \"> body, determined by _exportMoMLContents"
+    },
+    {
+      "chunk_id": 124,
+      "text": "source \"> body, determined by _exportMoMLContents() </class> If it is anything else (call what it returns element ), then the exported MoML looks like this: < element name=\" name \" class=\" classname \" source=\" source \">> body, determined by _exportM"
+    },
+    {
+      "chunk_id": 125,
+      "text": "\" source=\" source \">> body, determined by _exportMoMLContents() </ element > By default, the element name is \"entity.\" The default class name is the Java classname of this instance. The source attribute is by default left off altogether. If this"
+    },
+    {
+      "chunk_id": 126,
+      "text": "tribute is by default left off altogether. If this object has been cloned from another whose element name is \"class\", then the body contains only the MoML exported by the attributes. I.e., the _exportMoMLContents() method is not called in this"
+    },
+    {
+      "chunk_id": 127,
+      "text": "exportMoMLContents() method is not called in this case. For example, if \"foo\" was cloned from \"bar\", and \"bar\" is a MoML \"class\", then the exported MoML looks like: <entity name=\"foo\" class=\".bar\"> attributes </entity> Here, \".bar\" is the full na"
+    },
+    {
+      "chunk_id": 128,
+      "text": "> attributes </entity> Here, \".bar\" is the full name of another named object. If this object has no container and the depth argument is zero, then this method prepends XML file header information, which is: <?xml version=\"1.0\" standalone=\"no\"?> <"
+    },
+    {
+      "chunk_id": 129,
+      "text": "hich is: <?xml version=\"1.0\" standalone=\"no\"?> <!DOCTYPE entity PUBLIC \"-//UC Berkeley//DTD MoML 1//EN\" \"http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd\"> If the element has class name \"class\" instead of \"entity\", then \"entity\" above is"
+    },
+    {
+      "chunk_id": 130,
+      "text": "ass\" instead of \"entity\", then \"entity\" above is replaced with \"class\". The text that is written is indented according to the specified depth, with each line (including the last one) terminated with a newline. Derived classes can override thi"
+    },
+    {
+      "chunk_id": 131,
+      "text": "with a newline. Derived classes can override this method to change the MoML description of an object. They can override the protected method _exportMoMLContents() if they need to only change which contents are described. Parameters: output -"
+    },
+    {
+      "chunk_id": 132,
+      "text": "ich contents are described. Parameters: output - The output stream to write to. depth - The depth in the hierarchy, to determine indenting. name - The name to use in the exported MoML. Throws: java.io.IOException - If an I/O error occurs. See Also:"
+    },
+    {
+      "chunk_id": 133,
+      "text": "io.IOException - If an I/O error occurs. See Also: clone(Workspace) , getMoMLInfo() getAttribute public Attribute getAttribute (java.lang.String name) Get the attribute with the given name. The name may be compound, with fields separated by periods"
+    },
+    {
+      "chunk_id": 134,
+      "text": "ay be compound, with fields separated by periods, in which case the attribute returned is contained by a (deeply) contained attribute. If the given name is null, then an InternalErrorException is thrown. This method is read-synchronized on th"
+    },
+    {
+      "chunk_id": 135,
+      "text": "s thrown. This method is read-synchronized on the workspace. Parameters: name - The name of the desired attribute. Returns: The requested attribute if it is found, null otherwise. getAttribute public Attribute getAttribute (java.lang.String name,"
+    },
+    {
+      "chunk_id": 136,
+      "text": "c Attribute getAttribute (java.lang.String name, java.lang.Class attributeClass) throws IllegalActionException Get the attribute with the given name and class. If an attribute is found that has t"
+    },
+    {
+      "chunk_id": 137,
+      "text": "e and class. If an attribute is found that has the specified name, but the class does not match, then throw an IllegalActionException. The name may be compound, with fields separated by periods, in which case the attribute returned is contai"
+    },
+    {
+      "chunk_id": 138,
+      "text": ", in which case the attribute returned is contained by a (deeply) contained attribute. This method is read-synchronized on the workspace. Parameters: name - The name of the desired attribute. attributeClass - The class of the desired attribute. R"
+    },
+    {
+      "chunk_id": 139,
+      "text": "ibuteClass - The class of the desired attribute. Returns: The requested attribute if it is found, null otherwise. Throws: IllegalActionException - If an attribute is found with the specified name that is not an instance of the specified class. get"
+    },
+    {
+      "chunk_id": 140,
+      "text": "hat is not an instance of the specified class. getAttributes public java.util.Enumeration getAttributes () Deprecated. Use attributeList() instead. Return an enumeration of the attributes attached to this object. This method is read-synchronized on"
+    },
+    {
+      "chunk_id": 141,
+      "text": "this object. This method is read-synchronized on the workspace. Returns: An enumeration of instances of Attribute. getContainer public Nameable getContainer () Get the container. Always return null in this base class. A null returned value shoul"
+    },
+    {
+      "chunk_id": 142,
+      "text": "in this base class. A null returned value should be interpreted as indicating that there is no container. Specified by: getContainer in interface Nameable Returns: null. getFullName public java.lang.String getFullName () Return a string of the f"
+    },
+    {
+      "chunk_id": 143,
+      "text": "ang.String getFullName () Return a string of the form \".name1.name2...nameN\". Here, \"nameN\" is the name of this object, and the intervening names are the names of the containers of this other name of this object, if there are containers. A re"
+    },
+    {
+      "chunk_id": 144,
+      "text": "me of this object, if there are containers. A recursive structure, where this object is directly or indirectly contained by itself, results in a runtime exception of class InvalidStateException. Note that it is not possible to construct a re"
+    },
+    {
+      "chunk_id": 145,
+      "text": "Note that it is not possible to construct a recursive structure using this class alone, since there is no container. But derived classes might erroneously permit recursive structures, so this error is caught here. This method is read-sync"
+    },
+    {
+      "chunk_id": 146,
+      "text": "s error is caught here. This method is read-synchronized on the workspace. Specified by: getFullName in interface Nameable Returns: The full name of the object. getMoMLInfo public NamedObj.MoMLInfo getMoMLInfo () Get the data structure defining the"
+    },
+    {
+      "chunk_id": 147,
+      "text": "getMoMLInfo () Get the data structure defining the MoML description of this class. This method creates an instance of the data structure if one does not already exist, so this method never returns null. Returns: An instance of MoMLInfo. See Also:"
+    },
+    {
+      "chunk_id": 148,
+      "text": "null. Returns: An instance of MoMLInfo. See Also: NamedObj.MoMLInfo getModelErrorHandler public ModelErrorHandler getModelErrorHandler () Get the model error handler specified by setErrorHandler(). Returns: The error handler, or null if none. See Al"
+    },
+    {
+      "chunk_id": 149,
+      "text": "eturns: The error handler, or null if none. See Also: setModelErrorHandler(ModelErrorHandler handler) getName public java.lang.String getName () Get the name. If no name has been given, or null has been given, then return an empty string, \"\". Speci"
+    },
+    {
+      "chunk_id": 150,
+      "text": "en given, then return an empty string, \"\". Specified by: getName in interface Nameable Returns: The name of the object. getName public java.lang.String getName ( NamedObj parent) Get the name of this object relative to the specified container. If"
+    },
+    {
+      "chunk_id": 151,
+      "text": "s object relative to the specified container. If this object is contained directly by the specified container, this is just its name, as returned by getName(). If it is deeply contained by the specified container, then the relative name is x1"
+    },
+    {
+      "chunk_id": 152,
+      "text": "specified container, then the relative name is x1 . x2 . ... . name , where x1 is directly contained by the specified container, x2 is contained by x1 , etc. If this object is not deeply contained by the specified container, then this method ret"
+    },
+    {
+      "chunk_id": 153,
+      "text": "by the specified container, then this method returns the full name of this object, as returned by getFullName(). A recursive structure, where this object is directly or indirectly contained by itself, may result in a runtime exception of class"
+    },
+    {
+      "chunk_id": 154,
+      "text": "tself, may result in a runtime exception of class InvalidStateException if it is detected. Note that it is not possible to construct a recursive structure using this class alone, since there is no container. But derived classes might erroneo"
+    },
+    {
+      "chunk_id": 155,
+      "text": "no container. But derived classes might erroneously permit recursive structures, so this error is caught here. This method is read-synchronized on the workspace. Parameters: parent - An object that deeply contains this object. Returns: A string"
+    },
+    {
+      "chunk_id": 156,
+      "text": "at deeply contains this object. Returns: A string of the form \"name2...nameN\". handleModelError public boolean handleModelError ( NamedObj context, IllegalActionException exception) throws IllegalActionException Handle a mode"
+    },
+    {
+      "chunk_id": 157,
+      "text": "throws IllegalActionException Handle a model error. If a model error handler has been registered with setModelErrorHandler(), then handling is delegated to that handler. Otherwise, or if the registered error handler declines to handle t"
+    },
+    {
+      "chunk_id": 158,
+      "text": "he registered error handler declines to handle the error by returning false, then if there is a container, handling is delegated to the container. If there is no container and no handler that agrees to handle the error, then return false. A t"
+    },
+    {
+      "chunk_id": 159,
+      "text": "rees to handle the error, then return false. A typical use of this facility is where a subclass of NamedObj does the following: handleModelError(this, new IllegalActionException(this, message)); instead of this: throw new IllegalActionException(t"
+    },
+    {
+      "chunk_id": 160,
+      "text": "nstead of this: throw new IllegalActionException(this, message); The former allows a container in the hierarchy to intercept the exception, whereas the latter simply throws the exception. Specified by: handleModelError in interface ModelErrorHandle"
+    },
+    {
+      "chunk_id": 161,
+      "text": "by: handleModelError in interface ModelErrorHandler Parameters: context - The object in which the error occurred. exception - An exception that represents the error. Returns: True if the error is handled, false otherwise. Throws: IllegalActionExcepti"
+    },
+    {
+      "chunk_id": 162,
+      "text": "led, false otherwise. Throws: IllegalActionException - If the handler handles the error by throwing an exception. See Also: setModelErrorHandler(ModelErrorHandler handler) message public void message (java.lang.String message) React to a debug mes"
+    },
+    {
+      "chunk_id": 163,
+      "text": "ge (java.lang.String message) React to a debug message by relaying it to any registered debug listeners. Specified by: message in interface DebugListener Parameters: message - The debug message. Since: Ptolemy II 2.3 removeChangeListener public voi"
+    },
+    {
+      "chunk_id": 164,
+      "text": "ce: Ptolemy II 2.3 removeChangeListener public void removeChangeListener ( ChangeListener listener) Remove a change listener. If there is a container, delegate the request to the container. If the specified listener is not on the list of listene"
+    },
+    {
+      "chunk_id": 165,
+      "text": "specified listener is not on the list of listeners, do nothing. Parameters: listener - The listener to remove. See Also: addChangeListener(ChangeListener) removeDebugListener public void removeDebugListener ( DebugListener listener) Unregister a de"
+    },
+    {
+      "chunk_id": 166,
+      "text": "Listener ( DebugListener listener) Unregister a debug listener. If the specified listener has not been previously registered, then do nothing. Specified by: removeDebugListener in interface Debuggable Parameters: listener - The listener to remove"
+    },
+    {
+      "chunk_id": 167,
+      "text": "ble Parameters: listener - The listener to remove from the list of listeners to which debug messages are sent. requestChange public void requestChange ( ChangeRequest change) Request that given change request be executed. In this base class, d"
+    },
+    {
+      "chunk_id": 168,
+      "text": "nge request be executed. In this base class, defer the change request to the container, if there is one. If there is no container, then execute the request immediately. In other words, the request will get passed up to the top level of the"
+    },
+    {
+      "chunk_id": 169,
+      "text": "uest will get passed up to the top level of the hierarchy and then executed. Subclasses can override this to queue the change request and execute it at an appropriate time. Change listeners will be notified of success (or failure) of the req"
+    },
+    {
+      "chunk_id": 170,
+      "text": "l be notified of success (or failure) of the request. Parameters: change - The requested change. setDeferMoMLDefinitionTo public void setDeferMoMLDefinitionTo ( NamedObj deferTo) Specify that when generating a MoML description of this named objec"
+    },
+    {
+      "chunk_id": 171,
+      "text": "enerating a MoML description of this named object, instead of giving a detailed description, refer to the specified other object. The name of that other object goes into the \"class\" or \"extends\" attribute of the MoML element defining this ob"
+    },
+    {
+      "chunk_id": 172,
+      "text": "\" attribute of the MoML element defining this object. This method is called when this object is constructed by cloning another object that identifies itself as a MoML \"class\". In addition, calling this method suppresses description of the c"
+    },
+    {
+      "chunk_id": 173,
+      "text": "ling this method suppresses description of the contents of this named object (_exportMoMLContents() is not called). Only the attributes are described in the body of the element. To re-enabled detailed descriptions, call this method with a n"
+    },
+    {
+      "chunk_id": 174,
+      "text": "detailed descriptions, call this method with a null argument. This method is write synchronized on the workspace because it modifies the object that is the argument to refer back to this one. Parameters: deferTo - The object to defer to. See A"
+    },
+    {
+      "chunk_id": 175,
+      "text": "arameters: deferTo - The object to defer to. See Also: exportMoML(Writer, int) setModelErrorHandler public void setModelErrorHandler ( ModelErrorHandler handler) Set the model error handler. Parameters: handler - The error handler, or null to specify"
+    },
+    {
+      "chunk_id": 176,
+      "text": "s: handler - The error handler, or null to specify no handler. See Also: getModelErrorHandler() setName public void setName (java.lang.String name) throws IllegalActionException , NameDuplicationException Set or change the name. If a nu"
+    },
+    {
+      "chunk_id": 177,
+      "text": "licationException Set or change the name. If a null argument is given the name is set to an empty string. Increment the version of the workspace. This method is write-synchronized on the workspace. Specified by: setName in interface Nameable P"
+    },
+    {
+      "chunk_id": 178,
+      "text": "ace. Specified by: setName in interface Nameable Parameters: name - The new name. Throws: IllegalActionException - If the name contains a period. NameDuplicationException - Not thrown in this base class. May be thrown by derived classes if the cont"
+    },
+    {
+      "chunk_id": 179,
+      "text": "ss. May be thrown by derived classes if the container already contains an object with this name. toString public java.lang.String toString () Return the class name and the full name of the object, with syntax \"className {fullName}\". Overrides:"
+    },
+    {
+      "chunk_id": 180,
+      "text": "with syntax \"className {fullName}\". Overrides: toString in class java.lang.Object Returns: The class name and the full name. toplevel public NamedObj toplevel () Return the top level of the containment hierarchy. Returns: The top level, or this if"
+    },
+    {
+      "chunk_id": 181,
+      "text": "ment hierarchy. Returns: The top level, or this if this has no container. uniqueName public java.lang.String uniqueName (java.lang.String prefix) Return a name that is guaranteed to not be the name of any contained attribute. In derived classes, t"
+    },
+    {
+      "chunk_id": 182,
+      "text": "any contained attribute. In derived classes, this should be overridden so that the returned name is guaranteed to not conflict with any contained object. In this implementation, the argument is stripped of any numeric suffix, and then a nu"
+    },
+    {
+      "chunk_id": 183,
+      "text": "is stripped of any numeric suffix, and then a numeric suffix is appended and incremented until a name is found that does not conflict with a contained attribute. Parameters: prefix - A prefix for the name. Returns: A unique name, which will be"
+    },
+    {
+      "chunk_id": 184,
+      "text": "r the name. Returns: A unique name, which will be exactly the prefix if possible, or the prefix extended by a number. validateSettables public void validateSettables () throws IllegalActionException Validate attributes deepl"
+    },
+    {
+      "chunk_id": 185,
+      "text": "s IllegalActionException Validate attributes deeply contained by this object if they implement the Settable interface by calling their validate() method. Errors that are triggered by this validation are handled by calling handleModelError(). Il"
+    },
+    {
+      "chunk_id": 186,
+      "text": "on are handled by calling handleModelError(). IllegalActionException See Also: handleModelError(NamedObj context, IllegalActionException exception) workspace public final Workspace workspace () Get the workspace. This method never returns null, sin"
+    },
+    {
+      "chunk_id": 187,
+      "text": "the workspace. This method never returns null, since there is always a workspace. Returns: The workspace responsible for this object. _addAttribute protected void _addAttribute ( Attribute p) throws NameDuplicationException ,"
+    },
+    {
+      "chunk_id": 188,
+      "text": "throws NameDuplicationException , IllegalActionException Add an attribute. This method should not be used directly. Instead, call setContainer() on the attribute. Derived classes may further constrain the class of the attribute."
+    },
+    {
+      "chunk_id": 189,
+      "text": "may further constrain the class of the attribute. To do this, they should override this method to throw an exception when the argument is not an instance of the expected class. This method is write-synchronized on the workspace and increments i"
+    },
+    {
+      "chunk_id": 190,
+      "text": "ite-synchronized on the workspace and increments its version number. Parameters: p - The attribute to be added. Throws: NameDuplicationException - If this object already has an attribute with the same name. IllegalActionException - If the attrib"
+    },
+    {
+      "chunk_id": 191,
+      "text": "same name. IllegalActionException - If the attribute is not an an instance of the expect class (in derived classes). _attachText protected void _attachText (java.lang.String name, java.lang.String text) Attach the speci"
+    },
+    {
+      "chunk_id": 192,
+      "text": "java.lang.String text) Attach the specified text as an attribute with the specified name. This is a convenience method (syntactic sugar) that creates an instance of TransientSingletonConfigurableAttribute and configures it with the"
+    },
+    {
+      "chunk_id": 193,
+      "text": "onfigurableAttribute and configures it with the specified text. This attribute is transient, meaning that it is not described by exported MoML. Moreover, it is a singleton, meaning that it will replace any previously contained instance of S"
+    },
+    {
+      "chunk_id": 194,
+      "text": "l replace any previously contained instance of SingletonAttribute that has the same name. Note that attribute names beginning with an underscore \"_\" are reserved for system use. This method is used in several places to set the value of such"
+    },
+    {
+      "chunk_id": 195,
+      "text": "used in several places to set the value of such attributes. Parameters: name - The name of the attribute. text - The text with which to configure the attribute. _debug protected final void _debug ( DebugEvent event) Send a debug event to all debug"
+    },
+    {
+      "chunk_id": 196,
+      "text": "DebugEvent event) Send a debug event to all debug listeners that have registered. Parameters: event - The event. _debug protected final void _debug (java.lang.String message) Send a debug message to all debug listeners that have registered. By conv"
+    },
+    {
+      "chunk_id": 197,
+      "text": "ll debug listeners that have registered. By convention, messages should not include a newline at the end. The newline will be added by the listener, if appropriate. Parameters: message - The message. _debug protected final void _debug (java.lang."
+    },
+    {
+      "chunk_id": 198,
+      "text": "ge. _debug protected final void _debug (java.lang.String part1, java.lang.String part2) Send a debug message to all debug listeners that have registered. The message is a concatenation of the two parts, with a space betw"
+    },
+    {
+      "chunk_id": 199,
+      "text": "concatenation of the two parts, with a space between them. By convention, messages should not include a newline at the end. The newline will be added by the listener, if appropriate. Parameters: part1 - The first part of the message. part2 - T"
+    },
+    {
+      "chunk_id": 200,
+      "text": ": part1 - The first part of the message. part2 - The second part of the message. _debug protected final void _debug (java.lang.String part1, java.lang.String part2, java.lang.String part3) Send"
+    },
+    {
+      "chunk_id": 201,
+      "text": "java.lang.String part3) Send a debug message to all debug listeners that have registered. The message is a concatenation of the three parts, with a space between them. By convention, messages should not include a newline at"
+    },
+    {
+      "chunk_id": 202,
+      "text": "nvention, messages should not include a newline at the end. The newline will be added by the listener, if appropriate. Parameters: part1 - The first part of the message. part2 - The second part of the message. part3 - The third part of the message."
+    },
+    {
+      "chunk_id": 203,
+      "text": "he message. part3 - The third part of the message. _debug protected final void _debug (java.lang.String part1, java.lang.String part2, java.lang.String part3, java.la"
+    },
+    {
+      "chunk_id": 204,
+      "text": ".String part3, java.lang.String part4) Send a debug message to all debug listeners that have registered. The message is a concatenation of the four parts, with a space between them. By convention, messages should not"
+    },
+    {
+      "chunk_id": 205,
+      "text": "tween them. By convention, messages should not include a newline at the end. The newline will be added by the listener, if appropriate. Parameters: part1 - The first part of the message. part2 - The second part of the message. part3 - The third"
+    },
+    {
+      "chunk_id": 206,
+      "text": "The second part of the message. part3 - The third part of the message. part4 - The fourth part of the message. _description protected java.lang.String _description (int detail, int indent,"
+    },
+    {
+      "chunk_id": 207,
+      "text": "int indent, int bracket) Return a description of the object. The level of detail depends on the argument, which is an or-ing of the static final constants defined in this class (NamedObj)"
+    },
+    {
+      "chunk_id": 208,
+      "text": "final constants defined in this class (NamedObj). Lines are indented according to to the level argument using the static method _getIndentPrefix(). Zero, one or two brackets can be specified to surround the returned description. If one is s"
+    },
+    {
+      "chunk_id": 209,
+      "text": "surround the returned description. If one is specified it is the the leading bracket. This is used by derived classes that will append to the description. Those derived classes are responsible for the closing bracket. An argument other than"
+    },
+    {
+      "chunk_id": 210,
+      "text": "for the closing bracket. An argument other than 0, 1, or 2 is taken to be equivalent to 0. This method is read-synchronized on the workspace. Parameters: detail - The level of detail. indent - The amount of indenting. bracket - The number of sur"
+    },
+    {
+      "chunk_id": 211,
+      "text": "e amount of indenting. bracket - The number of surrounding brackets (0, 1, or 2). Returns: A description of the object. _exportMoMLContents protected void _exportMoMLContents (java.io.Writer output, int depth)"
+    },
+    {
+      "chunk_id": 212,
+      "text": "int depth) throws java.io.IOException Write a MoML description of the contents of this object, which in this base class is the attributes. This method is called by _exportMoML(). If"
+    },
+    {
+      "chunk_id": 213,
+      "text": "s. This method is called by _exportMoML(). If there are attributes, then each attribute description is indented according to the specified depth and terminated with a newline character. Parameters: output - The output stream to write to. dept"
+    },
+    {
+      "chunk_id": 214,
+      "text": "ters: output - The output stream to write to. depth - The depth in the hierarchy, to determine indenting. Throws: java.io.IOException - If an I/O error occurs. See Also: exportMoML(Writer, int) _getIndentPrefix protected static java.lang.String _getI"
+    },
+    {
+      "chunk_id": 215,
+      "text": "dentPrefix protected static java.lang.String _getIndentPrefix (int level) Return a number of spaces that is proportional to the argument. If the argument is negative or zero, return an empty string. Parameters: level - The level of indenting repres"
+    },
+    {
+      "chunk_id": 216,
+      "text": "Parameters: level - The level of indenting represented by the spaces. Returns: A string with zero or more spaces. _removeAttribute protected void _removeAttribute ( Attribute param) Remove the given attribute. If there is no such attribute, do not"
+    },
+    {
+      "chunk_id": 217,
+      "text": "attribute. If there is no such attribute, do nothing. This method is write-synchronized on the workspace and increments its version. It should only be called by setContainer() in Attribute. Parameters: param - The attribute to be removed. _spli"
+    },
+    {
+      "chunk_id": 218,
+      "text": "meters: param - The attribute to be removed. _splitName protected static final java.lang.String[] _splitName (java.lang.String name) Split the specified name at the first period and return the two parts as a two-element array. If there is no perio"
+    },
+    {
+      "chunk_id": 219,
+      "text": "arts as a two-element array. If there is no period, the second element is null. Parameters: name - The name to split. Returns: The name before and after the first period as a two-element array. _stipNumericSuffix protected static java.lang.Stri"
+    },
+    {
+      "chunk_id": 220,
+      "text": "_stipNumericSuffix protected static java.lang.String _stipNumericSuffix (java.lang.String string) Return a string that is identical to the specified string except that any trailing characters that are numeric are removed. Parameters: string - The s"
+    },
+    {
+      "chunk_id": 221,
+      "text": "re numeric are removed. Parameters: string - The string to strip of its numeric suffix. Returns: A string with no numeric suffix. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | F"
+    }
+  ]
+}

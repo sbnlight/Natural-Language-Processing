@@ -1,0 +1,81 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/ComputerVision",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / computerVision module Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / computerVision module A module for computer"
+    },
+    {
+      "chunk_id": 2,
+      "text": "on0 / computerVision module A module for computer vision, offering functionality from OpenCV. The browser version uses the UC Irvine and Intel OpenCV.js port, https://github.com/ucisysarch/opencvjs . To run an example, please point your browser to:"
+    },
+    {
+      "chunk_id": 3,
+      "text": "To run an example, please point your browser to: https://ptolemy.berkeley.edu/accessors/hosts/browser/demo/computerVision/computerVision.html Face detection is now in a separate module. To try, please point your browser to: https://ptolemy.berkeley"
+    },
+    {
+      "chunk_id": 4,
+      "text": "se point your browser to: https://ptolemy.berkeley.edu/accessors/hosts/browser/demo/faceDetector/faceDetector.html To run in CapeCode, please install OpenCV , then try $PTII/ptolemy/actor/lib/jjs/modules/faceDetector/demo/FaceDetector/FaceDetector.xm"
+    },
+    {
+      "chunk_id": 5,
+      "text": "les/faceDetector/demo/FaceDetector/FaceDetector.xml . Functions The following functions are implemented by this module: Filter() : Construct a new object to invoke various filters. The filters are: Filter.blur(options) : Blur the image, optionally p"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ilter.blur(options) : Blur the image, optionally passing in options.blurSize (1-25). Filter.dilate(options) : Dilate the image, optionally passing in options.erosionSize (0-21). Filter.erode(options) : Erode the image, optionally passing in options.e"
+    },
+    {
+      "chunk_id": 7,
+      "text": ": Erode the image, optionally passing in options.erosionSize (0-21). Filter.findContours(options) : Find contours of an image, optionally passing in options.cannyThreshold (10-150). Filter.findEdges(options) : Find edges of an image, optionally passi"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ptions) : Find edges of an image, optionally passing in options.cannyThreshold (10-150). Filter.gaussianBlur(options) : Blur the image, optionally passing in options.blurSize (1-25). Filter.histogram() : Create a histogram from the image showing red,"
+    },
+    {
+      "chunk_id": 9,
+      "text": ") : Create a histogram from the image showing red, green and blue content. Filter.makeBGRA() : Convert image to blue, green, red, alpha colorspace. Filter.makeGray() : Convert image to grayscale. Filter.makeHSV() : Convert image to hue, saturation, v"
+    },
+    {
+      "chunk_id": 10,
+      "text": "er.makeHSV() : Convert image to hue, saturation, value colorspace. Filter.makeYUV() : Convert image to luminance, chroma colorspace. Filter.mediaBlur(options) : Blur the image, optionally passing in options.blurSize (1-25). Filter.getResult() : Retur"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ptions.blurSize (1-25). Filter.getResult() : Return the result image. Filter.setOriginal(input) : Set the original image, where input may be a path to a local image, or the image itself (not implemented yet). filters : A list of available filters. fi"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ed yet). filters : A list of available filters. filter(image, transform, options, callback) : Apply the given transform with any options to the given image and invoke callback() with the result image. Filter uses the event emitter pattern common in"
+    },
+    {
+      "chunk_id": 13,
+      "text": ". Filter uses the event emitter pattern common in JavaScript, emitting: ready : Emitted when an image has successfully loaded from the specified path in setInput(input) . Usage Import the module: var cv = require('computerVision'); To obtain a list o"
+    },
+    {
+      "chunk_id": 14,
+      "text": "cv = require('computerVision'); To obtain a list of filters: var filters = cv.filters; Invoke a filter and handle the result. For example, in an accessor with an input image and output result , to run findEdges() : var self = this; this.addInput"
+    },
+    {
+      "chunk_id": 15,
+      "text": "n findEdges() : var self = this; this.addInputHandler('input', function() { var image = this.get('input'); var options = {}; options.cannyThreshold = 20; cv.filter(image, 'findEdges', options, function(result) {"
+    },
+    {
+      "chunk_id": 16,
+      "text": "(image, 'findEdges', options, function(result) { self.send('output', result); }); }); Installing OpenCV On Windows, please follow these instructions . On Mac, OpenCV can be installed through MacPorts. I encountered problems with"
+    },
+    {
+      "chunk_id": 17,
+      "text": "led through MacPorts. I encountered problems with Homebrew. From the command line: sudo port install opencv +java This should install /opt/local/share/OpenCV/java/libopencv_java320.dylib If you'd like to try installing through Homebrew, try this and"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e to try installing through Homebrew, try this and if that doesn't work try this . This appeared to install OpenCV for me, but not to the folder that Ptolemy looks for, /opt/local/share/OpenCV/java . Try editing $PTII.org.ptolemy.opencv.OpenCVLoade"
+    },
+    {
+      "chunk_id": 19,
+      "text": "Try editing $PTII.org.ptolemy.opencv.OpenCVLoader.java to point to the installed folder. Browser display The browser version uses the ImageProcessingDisplay module to automatically set up before and after canvases. See Also Accessor demo OpenCV API"
+    }
+  ]
+}

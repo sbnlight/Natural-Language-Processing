@@ -1,0 +1,101 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII3.0/ptII3.0.2/doc/coding/develsetup.htm",
+  "chunks": [
+    {
+      "chunk_id": 15,
+      "text": "talled in ptII/vendors , which we do not distribute. Packages that are large or have restricted copyrights (such as GPL) should go into ptII/vendors . Large packages should optionally be placed in a separate repository and a directory in $PTII/vend"
+    },
+    {
+      "chunk_id": 16,
+      "text": "separate repository and a directory in $PTII/vendors should be created that contains a README.txt file that describes how to obtain the package (either by download or by using cvs). For example, JHDL is a large package that is used by the code g"
+    },
+    {
+      "chunk_id": 17,
+      "text": "DL is a large package that is used by the code generator. $PTII/vendors/jhdl/README.txt would desribe how to get JHDL. In this case, it says to use cvs so that $PTII/vendors/jhdl/ptjhdllib is created. $PTII/configure would then be modified to"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ated. $PTII/configure would then be modified to look $PTII/vendors/jhdl/ptjhdllib for the pieces that it needs. Build-time considerations During development, we use GNU autoconf to read in $PTII/configure.in to generate $PTII/configure . During t"
+    },
+    {
+      "chunk_id": 19,
+      "text": "nfigure.in to generate $PTII/configure . During the build process, users run $PTII/configure which reads in $PTII/mk/ptII.mk.in and substitutes in makefile variables and creates $PTII/mk/ptII.mk . The primary method is to look for a directory that"
+    },
+    {
+      "chunk_id": 20,
+      "text": "he primary method is to look for a directory that contains the external package. Another method is to compile a program that uses the package and see if it works. Usually, all you need to do is to try to compile a file that imports the package"
+    },
+    {
+      "chunk_id": 21,
+      "text": "to try to compile a file that imports the package. The javasound and java3d portions of configure.in try to compile files from $PTII/conf that contain the appropriate import statements. Below is a rough outline of the steps necessary to add a pac"
+    },
+    {
+      "chunk_id": 22,
+      "text": "rough outline of the steps necessary to add a package. by looking for a directory. In general, your best bet is to find a similar package that has already been added and mimic that setup. Edit $PTII/mk/ptII.mk.in and add three variables for your"
+    },
+    {
+      "chunk_id": 23,
+      "text": "II/mk/ptII.mk.in and add three variables for your package: # KVM is the JDK for PalmOS, see # http://java.sun.com/products/kvm KVM_CLASSES = @KVM_CLASSES@ # Directory that contains the kvm used by PalmOS KVM_DIR = @KVM_DIR@ # Set to kvm and"
+    },
+    {
+      "chunk_id": 24,
+      "text": "y PalmOS KVM_DIR = @KVM_DIR@ # Set to kvm and used in $PTII/ptolemy/makefile if the PalmOS KVM was found PTKVM_DIR = @PTKVM_DIR@ Edit $PTII/configure.in and add a new section for your package. It is easiest to copy a section for an existing pa"
+    },
+    {
+      "chunk_id": 25,
+      "text": "t is easiest to copy a section for an existing package. There are many small design decisions to be made here: Check to be sure that the package is actually required. configure.in can be used for small Ptolemy II trees that might not have all th"
+    },
+    {
+      "chunk_id": 26,
+      "text": "mall Ptolemy II trees that might not have all the source code, so be sure to check that the external package is actually needed. What happens if the package is not present? Print a useful message stating what this package is used for and where"
+    },
+    {
+      "chunk_id": 27,
+      "text": "stating what this package is used for and where to get it. External packages that we cannot ship should go in $PTII/vendors . See $PTII/vendors/README.txt for information about naming conventions. The configure script should look in $PTII/ven"
+    },
+    {
+      "chunk_id": 28,
+      "text": ". The configure script should look in $PTII/vendors for the external package Run cd $PTII rm -f config.status config.cache; autoconf; ./configure until you get the settings in ptII.mk right. If you Ptolemy II code requires that the package be p"
+    },
+    {
+      "chunk_id": 29,
+      "text": "you Ptolemy II code requires that the package be present at compile time, then place your .java files in a subdirectory with the same name as the package, and use the PTKVM_DIR makefile variable in the makefile above your package to determine wheth"
+    },
+    {
+      "chunk_id": 30,
+      "text": "the makefile above your package to determine whether make runs in your Ptolemy II code. For example, $PTII/ptolemy/apps/kvm requires that kvm be present to compile. configure sets the PTKVM_DIR makefile variable to kvm if the kvm package was found"
+    },
+    {
+      "chunk_id": 31,
+      "text": "efile variable to kvm if the kvm package was found. $PTIIptolemy/apps/makefile uses PTKVM_DIR in the DIRS variable to select whether make goes into the kvm subdirectory: # $PTII/configure looks for various packages and sets variables # in $PTII/mk/"
+    },
+    {
+      "chunk_id": 32,
+      "text": "arious packages and sets variables # in $PTII/mk/ptII.mk if these packages are found, otherwise # the variables are empty # # PTKVM_DIR is set to kvm by configure if the kvm runtime was found # PTLEGO_DIR is set to lego if the commapi was found."
+    },
+    {
+      "chunk_id": 33,
+      "text": "TLEGO_DIR is set to lego if the commapi was found. # PTWABA_DIR is set to waba if waba was found # DIRS = agilent $(PTKVM_DIR) $(PTLEGO_DIR) $(PTWABA_DIR) In the makefile where you actually compile the .java files that use the package, use KVM_"
+    },
+    {
+      "chunk_id": 34,
+      "text": "le the .java files that use the package, use KVM_CLASSES to set the CLASSPATH: CLASSPATH=\"$(ROOT)$(CLASSPATHSEPARATOR)$(KVM_CLASSES)\" If you need access to a binary in the external package tree, use the KVM_DIR makefile variable Run-time considera"
+    },
+    {
+      "chunk_id": 35,
+      "text": "the KVM_DIR makefile variable Run-time considerations When configure runs, it also reads in $PTII/bin/ptinvoke.in and generates $PTII/bin/ptinvoke . When make is run in the bin directory, ptinvoke is copied to the various startup scripts like ve"
+    },
+    {
+      "chunk_id": 36,
+      "text": "is copied to the various startup scripts like vergil and ptolemy . Note that all the startup scripts share a common body and use a switch statement to select the appropriate jar files at runtime. ptinvoke.in issues In general, do not add externa"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ptinvoke.in issues In general, do not add external packages to the ptolemy switch section. The ptolemy command should not require non-standard packages that we do not ship. The right solution is to add another switch section that uses your packa"
+    },
+    {
+      "chunk_id": 38,
+      "text": "o add another switch section that uses your package If you want to create a new startup script, add a section to the switch statement and edit $PTII/bin/makefile Last Updated: $Date: 2003/04/05 00:06:09 $"
+    }
+  ]
+}

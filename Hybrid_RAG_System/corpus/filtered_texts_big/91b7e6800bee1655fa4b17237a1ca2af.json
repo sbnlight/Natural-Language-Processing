@@ -1,0 +1,453 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/VersionCurrent/WebSocketImplementationNotes",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / WebSocketImplementationNotes Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / WebSocketImplementationNotes (redirec"
+    },
+    {
+      "chunk_id": 2,
+      "text": "t Version1 / WebSocketImplementationNotes (redirected from VersionCurrent.WebSocketImplementationNotes ) Summary This module is implemented in the Cape Code Host that uses Nashorn. It should be relatively easy to implement for the Node Host using Nod"
+    },
+    {
+      "chunk_id": 3,
+      "text": "vely easy to implement for the Node Host using Node.js because it is fashioned after the ws module in Node.js , with additional influence from the web socket submodule of the socket.io . Node Host Node Test Case Our test case is invoked using Cape Co"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e Test Case Our test case is invoked using Cape Code Host Cape Code: $PTII/bin/vergil -capecode $PTII/org/terraswarm/accessor/test/auto/WebSocketClientJS.xml Running the code generator creates accessors/web/net/test/auto/WebSocketClient.js, which can"
+    },
+    {
+      "chunk_id": 5,
+      "text": "rs/web/net/test/auto/WebSocketClient.js, which can be invoked with: cd $PTII/org/terraswarm/accessor/accessors/web/net/test/auto; node ../../../hosts/node/nodeHostInvoke.js -timeout 2000 net/test/auto/WebSocketClientJS The WebSocketClient accessor"
+    },
+    {
+      "chunk_id": 6,
+      "text": "to/WebSocketClientJS The WebSocketClient accessor is never fired When the Cape Code model above is run, we get the following output: WebSocketClient: WebSocketClient.js: initialize() (Thread[WebSocketClientJS,1,main]) WebSocketClient: WebSocketClient"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ClientJS,1,main]) WebSocketClient: WebSocketClient.js: connect() (Thread[WebSocketClientJS,1,main]) WebSocketClient: Connection failed. Will try again: Connection refused: localhost/127.0.0.1:8087 (Thread[vert.x-eventloop-thread-1,6,main]) WebSocketS"
+    },
+    {
+      "chunk_id": 8,
+      "text": "read[vert.x-eventloop-thread-1,6,main]) WebSocketServer: Server: Listening for socket connection requests. (Thread[vert.x-eventloop-thread-3,6,main]) WebSocketServer: Server: new socket established with ID: 0 (Thread[vert.x-eventloop-thread-3,6,main]"
+    },
+    {
+      "chunk_id": 9,
+      "text": "th ID: 0 (Thread[vert.x-eventloop-thread-3,6,main]) WebSocketClient: WebSocketClient.js: onOpen(): Status: Connection established (Thread[vert.x-eventloop-thread-1,6,main]) WebSocketClient: Connection closed because model is no longer running. (Threa"
+    },
+    {
+      "chunk_id": 10,
+      "text": "closed because model is no longer running. (Thread[AWT-EventQueue-0,6,main]) WebSocketClient: Status: Connection closed in wrapup. (Thread[AWT-EventQueue-0,6,main]) WebSocketClient: WebSocketClient.js onClose(): Status: Connection closed. (Thread[ve"
+    },
+    {
+      "chunk_id": 11,
+      "text": "s onClose(): Status: Connection closed. (Thread[vert.x-eventloop-thread-1,6,main]) WARNING: Invoking send() too late (probably in a callback), so WebSocketServer is not able to send the token {socketID = 0, status = \"closed\"} to the output connection"
+    },
+    {
+      "chunk_id": 12,
+      "text": "D = 0, status = \"closed\"} to the output connection. Token is discarded. WebSocketClient: WebSocketClient.js onClose(): Status: Connection closed. (Thread[vert.x-eventloop-thread-1,6,main]) WARNING: Invoking send() too late (probably in a callback), s"
+    },
+    {
+      "chunk_id": 13,
+      "text": "voking send() too late (probably in a callback), so WebSocketServer is not able to send the token {socketID = 0, status = \"closed\"} to the output connection. Token is discarded. WebSocketClient: Connection closed because model is no longer running. ("
+    },
+    {
+      "chunk_id": 14,
+      "text": "ction closed because model is no longer running. (Thread[WebSocketClientJS,1,main]) WebSocketClient: Status: Connection closed in wrapup. (Thread[WebSocketClientJS,1,main]) 28984 ms. Memory: 448512K Free: 134833K (30%) [$[Get Code]] When the node ver"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ree: 134833K (30%) [$[Get Code]] When the node version is run, we get: Instantiated accessor WebSocketClientJS with class net/test/auto/WebSocketClientJS WebSocketClient.js: initialize() WebSocketClient.js: connect() webSocketServer.Server() webSocke"
+    },
+    {
+      "chunk_id": 16,
+      "text": "nt.js: connect() webSocketServer.Server() webSocketServer.start(): localhost 8087 webSocketServer.start(): listening event webSocketServer.stop() undefined:121 throw new Error('The fire() function of this accessor was never called. ' + ^ Error: The f"
+    },
+    {
+      "chunk_id": 17,
+      "text": "this accessor was never called. ' + ^ Error: The fire() function of this accessor was never called. Usually, this is an error indicating that starvation is occurring. at Accessor.exports.wrapup (eval at Accessor (/Users/cxh/ptII/org/terraswarm/access"
+    },
+    {
+      "chunk_id": 18,
+      "text": "at Accessor (/Users/cxh/ptII/org/terraswarm/accessor/accessors/web/{$HOSTS_COMMON}/commonHost.js:425:19), <anonymous>:121:23) at Accessor.wrapup (/Users/cxh/ptII/org/terraswarm/accessor/accessors/web/{$HOSTS_COMMON}/commonHost.js:552:37) at Accessor."
+    },
+    {
+      "chunk_id": 19,
+      "text": "{$HOSTS_COMMON}/commonHost.js:552:37) at Accessor.wrapup (/Users/cxh/ptII/org/terraswarm/accessor/accessors/web/{$HOSTS_COMMON}/commonHost.js:545:52) at null._onTimeout (/Users/cxh/ptII/org/terraswarm/accessor/accessors/web/{$HOSTS_NODE}/nodeHostInvo"
+    },
+    {
+      "chunk_id": 20,
+      "text": "/accessor/accessors/web/{$HOSTS_NODE}/nodeHostInvoke.js:77:39) at Timer.listOnTimeout (timers.js:92:15) [$[Get Code]] Comparing the two outputs: initialize() is fine: Cape Code: WebSocketClient: WebSocketClient.js: initialize() (Thread[WebSocketClien"
+    },
+    {
+      "chunk_id": 21,
+      "text": "cketClient.js: initialize() (Thread[WebSocketClientJS,1,main]) Node: WebSocketClient.js: initialize() connect() is fine: Cape Code: WebSocketClient: WebSocketClient.js: connect() (Thread[WebSocketClientJS,1,main]) Node: WebSocketClient.js: connect()"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ntJS,1,main]) Node: WebSocketClient.js: connect() Hint: See Analysis below The client fails to connect! Cape Code: WebSocketClient: Connection failed. Will try again: Connection refused: localhost/127.0.0.1:8087 (Thread[vert.x-eventloop-thread-1,6,ma"
+    },
+    {
+      "chunk_id": 23,
+      "text": ".0.0.1:8087 (Thread[vert.x-eventloop-thread-1,6,main]) The above comes from HttpClientExceptionHandler in ptolemy/actor/lib/jjs/modules/webSocket/WebSocketHelper.java The stack trace is: java. net . ConnectException : Connection refused : localhost /"
+    },
+    {
+      "chunk_id": 24,
+      "text": "onnectException : Connection refused : localhost / 127.0.0.1 : 8087 at sun. nio . ch . SocketChannelImpl . checkConnect ( Native Method ) at sun. nio . ch . SocketChannelImpl . finishConnect ( SocketChannelImpl. java : 717 ) at io. netty . channel ."
+    },
+    {
+      "chunk_id": 25,
+      "text": "hannelImpl. java : 717 ) at io. netty . channel . socket . nio . NioSocketChannel . doFinishConnect ( NioSocketChannel. java : 224 ) at io. netty . channel . nio . AbstractNioChannel $AbstractNioUnsafe. finishConnect ( AbstractNioChannel. java \\ : 28"
+    },
+    {
+      "chunk_id": 26,
+      "text": "e. finishConnect ( AbstractNioChannel. java \\ : 289 ) at io. netty . channel . nio . NioEventLoop . processSelectedKey ( NioEventLoop. java : 528 ) at io. netty . channel . nio . NioEventLoop . processSelectedKeysOptimized ( NioEventLoop. java : 468"
+    },
+    {
+      "chunk_id": 27,
+      "text": "sSelectedKeysOptimized ( NioEventLoop. java : 468 ) at io. netty . channel . nio . NioEventLoop . processSelectedKeys ( NioEventLoop. java : 382 ) at io. netty . channel . nio . NioEventLoop . run ( NioEventLoop. java : 354 ) at io. netty . util . co"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ioEventLoop. java : 354 ) at io. netty . util . concurrent . SingleThreadEventExecutor $2. run ( SingleThreadEventExecutor. java : 112 ) at java. lang . Thread . run ( Thread . java : 745 ) [$[Get Code]] WebSocketHelper._connectWebsocket() is a priva"
+    },
+    {
+      "chunk_id": 29,
+      "text": "e]] WebSocketHelper._connectWebsocket() is a private method that instantiates a HttpClientExceptionHandler . WebSocketHelper.open() invokes _connectWebsocket as does HttpClientExceptionHandler . Edward wrote: \"Next problem is that the WebSocketServer"
+    },
+    {
+      "chunk_id": 30,
+      "text": "d wrote: \"Next problem is that the WebSocketServer is not issuing a connection event. This may be because WebSocketClient gets initialized before the servers is listening. I think the Nashorn implementation repeatedly retries to make the connection,"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ntation repeatedly retries to make the connection, but it looks like maybe the Node implementation in the ws module just silently fails (?).\" Continuing: Cape Code: WebSocketServer: Server: Listening for socket connection requests. (Thread[vert.x-eve"
+    },
+    {
+      "chunk_id": 32,
+      "text": "for socket connection requests. (Thread[vert.x-eventloop-thread-8,6,main]) The above comes from accessor/accessors/web/net/WebSocketServer.js : exports. onListening = function ( ) { console. log ( 'Server: Listening for socket connection requests.' )"
+    },
+    {
+      "chunk_id": 33,
+      "text": "rver: Listening for socket connection requests.' ) ; this . send ( 'listening' , this . getParameter ( 'port' ) ) ; } ; [$[Get Code]] Node: webSocketServer.Server() The above comes from accessors/web/hosts/hosts/node/node_modules/@accessors-modules//"
+    },
+    {
+      "chunk_id": 34,
+      "text": "hosts/hosts/node/node_modules/@accessors-modules//web-socket-server/web-socket-server.js : exports. Server = function ( options ) { console. log ( \"webSocketServer.Server()\" ) ; if ( typeof options. port === 'undefined' || options. port === null ) {"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ort === 'undefined' || options. port === null ) { this . port = 80 ; } else { this . port = options. port ; } this . hostInterface = options. hostInterface || 'localhost' ; this . sslTls = options. sslTls || false ; this . pfxKeyCertPassword = option"
+    },
+    {
+      "chunk_id": 36,
+      "text": "lTls || false ; this . pfxKeyCertPassword = options. pfxKeyCertPassword || '' ; this . pfxKeyCertPath = options. pfxKeyCertPath || '' ; this . receiveType = options. receiveType || 'application/json' ; this . sendType = options. sendType || 'applicat"
+    },
+    {
+      "chunk_id": 37,
+      "text": "; this . sendType = options. sendType || 'application/json' ; // this.helper = WebSocketServerHelper.createServer( // this, this.hostInterface, this.sslTls, this.pfxKeyCertPassword, this.pfxKeyCertPath, // this.port, this.receiveType, this.send"
+    },
+    {
+      "chunk_id": 38,
+      "text": "Path, // this.port, this.receiveType, this.sendType //); } ; util. inherits ( exports. Server , EventEmitter ) ; [$[Get Code]] Node: webSocketServer.start(): localhost 8087 The above comes from accessors/web/hosts/hosts/node/node_modules/@accessor"
+    },
+    {
+      "chunk_id": 39,
+      "text": "essors/web/hosts/hosts/node/node_modules/@accessors-modules//web-socket-server/web-socket-server.js : exports. Server . prototype . start = function ( ) { console. log ( \"webSocketServer.start(): \" + this . hostInterface + \" \" + this . port ) ; // Th"
+    },
+    {
+      "chunk_id": 40,
+      "text": "this . hostInterface + \" \" + this . port ) ; // The ws module starts the server when you create an instance of ws.Server, // so this needs to be done here rather than in the constructor or we will // start the server prematurely. this . helper = new"
+    },
+    {
+      "chunk_id": 41,
+      "text": "start the server prematurely. this . helper = new ws. Server ( { 'host' : this . hostInterface , 'port' : this . port } ) ; // Register handlers. Note that in Node, this start function will be // completed before any of these handlers is invoked, so"
+    },
+    {
+      "chunk_id": 42,
+      "text": "leted before any of these handlers is invoked, so there is no race // condition caused by the fact that we already issued the command above // to start the server. this . helper . on ( 'listening' , function ( ) { console. log ( \"webSocketServer.star"
+    },
+    {
+      "chunk_id": 43,
+      "text": "unction ( ) { console. log ( \"webSocketServer.start(): listening event\" ) ; } ) ; [$[Get Code]] Node: webSocketServer.start(): listening event See above. Analysis From the above: connect() is fine: Cape Code: WebSocketClient: WebSocketClient.js: conn"
+    },
+    {
+      "chunk_id": 44,
+      "text": "pe Code: WebSocketClient: WebSocketClient.js: connect() (Thread[WebSocketClientJS,1,main]) Node: WebSocketClient.js: connect() Further analysis indicates that connect() in accessor/accessors/web/net/WebSocketClient.js is returning because this.get('p"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ebSocketClient.js is returning because this.get('port') is returning -1: exports. connect = function ( ) { console. log ( \"WebSocketClient.js: connect()\" ) ; // Note that if 'server' and 'port' both receive new data in the same // reaction, then this"
+    },
+    {
+      "chunk_id": 46,
+      "text": "eceive new data in the same // reaction, then this will be invoked twice. But we only want to open // the socket once. This is fairly tricky. var portValue = this . get ( 'port' ) ; if ( portValue < 0 ) { // No port is specified. This could be a sig"
+    },
+    {
+      "chunk_id": 47,
+      "text": "0 ) { // No port is specified. This could be a signal to close a previously // open socket. if ( client ) { client. close ( ) ; } previousPort = null ; previousServer = null ; console. log ( \"WebSocketClient.js: connect(): portValue: \" + portValue +"
+    },
+    {
+      "chunk_id": 48,
+      "text": "tClient.js: connect(): portValue: \" + portValue + \", which is less than 0. This could be a signla to close a previously open socket.\" + \" Returning.\" ) ; return ; } [$[Get Code]] Solutions Edit connect() in accessor/accessors/web/net/WebSocketClient"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ct() in accessor/accessors/web/net/WebSocketClient.js to print an message about exiting Update the code generator so that instead of generating WebSocketClient. setParameter ( 'port' , 8087 ) ; [$[Get Code]] Generate WebSocketClient. setDefault ( 'po"
+    },
+    {
+      "chunk_id": 50,
+      "text": "Code]] Generate WebSocketClient. setDefault ( 'port' , 8087 ) ; [$[Get Code]] Update docs about setParameter() and get() Continuing with Node One possible solution is to wait a bit and then try to connect again. However, that is not working. accesso"
+    },
+    {
+      "chunk_id": 51,
+      "text": "nnect again. However, that is not working. accessors/web/hosts/hosts/node/node_modules/@accessors-modules//web-socket-client/web-socket-client.js was edited so that there is a new method called connectWebsocket : /** Open the socket connection. Call"
+    },
+    {
+      "chunk_id": 52,
+      "text": "tWebsocket : /** Open the socket connection. Call this after setting up event handlers. */ exports. Client . prototype . open = function ( ) { console. log ( \"webSocketClient.open(): this.host: \" + this . host ) ; // The code below is from the Cape C"
+    },
+    {
+      "chunk_id": 53,
+      "text": "is . host ) ; // The code below is from the Cape Code module. // this.helper.open(); // There is no ws open(). We wait to instantiate the WebSocket // until we are here because we want to be able to register // handlers before we open the WebSocket c"
+    },
+    {
+      "chunk_id": 54,
+      "text": "egister // handlers before we open the WebSocket connection. // Strictly speaking, it is not necessary in Node to this, but it is in Vert.x. // Before this method is called, the client code will register an // open handler (for example) or a message"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ter an // open handler (for example) or a message handler. this . connectWebsocket ( ) ; } ; // FIXME: this should probably not be exported. exports. Client . prototype . connectWebsocket = function ( ) { console. log ( \"webSocketClient.connectWebsoc"
+    },
+    {
+      "chunk_id": 56,
+      "text": ") { console. log ( \"webSocketClient.connectWebsocket()\" ) ; var protocol = 'http' ; if ( this . sslTls ) { protocol = 'https' ; } var url = protocol + \"://\" + this . host + \":\" + this . port ; try { this . helper = new WebSocket ( url ) ; } catch ("
+    },
+    {
+      "chunk_id": 57,
+      "text": "this . helper = new WebSocket ( url ) ; } catch ( err ) { throw new Error ( \"Failed to instantiate a Websocket host, url was '\" + url + \"': \" + err ) ; } this . helper . on ( 'close' , function ( ) { console. log ( \"webSocketClient.open(): close even"
+    },
+    {
+      "chunk_id": 58,
+      "text": "console. log ( \"webSocketClient.open(): close event\" ) ; this . emit ( 'close' ) ; } ) ; var self = this ; this . helper . on ( 'error' , function ( message ) { console. log ( \"webSocketClient.open(): error event: \" + message + \" timeBetweenRetries:"
+    },
+    {
+      "chunk_id": 59,
+      "text": "error event: \" + message + \" timeBetweenRetries: \" + self. tim \\ eBetweenRetries ) ; // It could be that the WebSocketServer is not yet present. // See ptolemy/actor/lib/jjs/modules/webSocket/WebSocketHelper.java // FIXME: the body of this setTimeou"
+    },
+    {
+      "chunk_id": 60,
+      "text": "etHelper.java // FIXME: the body of this setTimeout() does not get invoked? setTimeout ( function ( ) { //console.log(\"webSocketClient.open(): error event: about to call connectWebsocket()\"); self. connectWebsocket ( ) ; } , self. timeBetweenRetries"
+    },
+    {
+      "chunk_id": 61,
+      "text": "nnectWebsocket ( ) ; } , self. timeBetweenRetries ) ; // However, if I uncomment the definition of retryConnection() // above and the line below, then that method gets invoked. // self.retryConnection(); this . emit ( 'error' , message ) ; } ) ; this"
+    },
+    {
+      "chunk_id": 62,
+      "text": "(); this . emit ( 'error' , message ) ; } ) ; this . helper . on ( 'message' , function ( body ) { console. log ( \"webSocketClient.open(): message event:\" + body ) ; this . emit ( 'message' , body ) ; } ) ; this . helper . on ( 'open' , function ( )"
+    },
+    {
+      "chunk_id": 63,
+      "text": "} ) ; this . helper . on ( 'open' , function ( ) { console. log ( \"webSocketClient.open(): open event\" ) ; this . emit ( 'open' ) ; } ) ; } ; [$[Get Code]] When I run under node 6.2.0: bash-3.2$ node --version v6.2.0 bash-3.2$ ( cd $PTII / org / ter"
+    },
+    {
+      "chunk_id": 64,
+      "text": "--version v6.2.0 bash-3.2$ ( cd $PTII / org / terraswarm / accessor / accessors / web / net / test / auto; node .. / .. / .. / { $HOSTS_NODE } / nodeHost\\ Invoke.js -timeout 3000 net / test / auto / WebSocketClientJS ) Reading accessor at: / Users /"
+    },
+    {
+      "chunk_id": 65,
+      "text": "WebSocketClientJS ) Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / net / test / auto / WebSocketClientJS\\ .js Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / net"
+    },
+    {
+      "chunk_id": 66,
+      "text": "rg / terraswarm / accessor / accessors / web / net / WebSocketClient.js Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / net / WebSocketServer.js Reading accessor at: / Users / cxh / ptII / org / terraswarm"
+    },
+    {
+      "chunk_id": 67,
+      "text": "essor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / TrainableTest.js Instantiated accessor WebSocketClientJS with class net / test / auto / WebSocketClientJS WebSocketClient.js: initialize ( ) WebSocketClient.js: c"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ketClient.js: initialize ( ) WebSocketClient.js: connect ( ) WebSocketClient.js: connect ( ) calling new WebSocket.Client ( ) webSocketClient.Client ( ) webSocketClient.open ( ) : this.host: localhost webSocketClient.connectWebsocket ( ) WebSocketCli"
+    },
+    {
+      "chunk_id": 69,
+      "text": "webSocketClient.connectWebsocket ( ) WebSocketClient.js: connect ( ) done webSocketServer.Server ( ) webSocketServer.start ( ) : localhost 8087 webSocketServer.start ( ) : listening event webSocketClient.open ( ) : error event: Error: connect ECONNR"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.open ( ) : error event: Err"
+    },
+    {
+      "chunk_id": 71,
+      "text": ": 1000 webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.open ( )"
+    },
+    {
+      "chunk_id": 72,
+      "text": "timeBetweenRetries: 1000 webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSock"
+    },
+    {
+      "chunk_id": 73,
+      "text": "D 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRet"
+    },
+    {
+      "chunk_id": 74,
+      "text": "onnect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.open ( ) : error event: Error:bash- 3.2 $ [$[Get Code]] Using the debugger indicates that the issue is the stack size: WebSocketClient.js: connect ( ) done webSocketServer.S"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ocketClient.js: connect ( ) done webSocketServer.Server ( ) webSocketServer.start ( ) : localhost 8087 webSocketServer.start ( ) : listening event webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries:"
+    },
+    {
+      "chunk_id": 76,
+      "text": "t ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127node.js: 257 g"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ent: Error: connect ECONNREFUSED 127node.js: 257 get: function ( ) { ^ RangeError: Maximum call stack size exceeded at Object.defineProperty.get ( node.js: 257 : 20 ) at WebSocket. < anonymous > ( / Users / cxh / ptII / org / terraswarm / accessor /"
+    },
+    {
+      "chunk_id": 78,
+      "text": "sers / cxh / ptII / org / terraswarm / accessor / accessors / web / { $HOSTS_NODE } / node_module\\ s / webSocketClient / webSocketClient.js: 232 : 9 ) at emitOne ( events.js: 96 : 13 ) at WebSocket.emit ( events.js: 188 : 7 ) at WebSocket. < anonymou"
+    },
+    {
+      "chunk_id": 79,
+      "text": "it ( events.js: 188 : 7 ) at WebSocket. < anonymous > ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / { $HOSTS_NODE } / node_module\\ s / webSocketClient / webSocketClient.js: 248 : 14 ) at emitOne ( events.js: 96 : 13 ) at We"
+    },
+    {
+      "chunk_id": 80,
+      "text": "248 : 14 ) at emitOne ( events.js: 96 : 13 ) at WebSocket.emit ( events.js: 188 : 7 ) at WebSocket. < anonymous > ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / { $HOSTS_NODE } / node_module\\ s / webSocketClient / webSocketC"
+    },
+    {
+      "chunk_id": 81,
+      "text": "} / node_module\\ s / webSocketClient / webSocketClient.js: 248 : 14 ) at emitOne ( events.js: 96 : 13 ) at WebSocket.emit ( events.js: 188 : 7 ) [ Inferior 1 ( process 11441 ) exited with code 01 ] [$[Get Code]] Adding the following method: exports."
+    },
+    {
+      "chunk_id": 82,
+      "text": "$[Get Code]] Adding the following method: exports. Client . prototype . retryConnection = function ( ) { console. log ( \"webSocketClient.retryConnection()\" ) ; // It could be that the WebSocketServer is not yet present. // See ptolemy/actor/lib/jjs/m"
+    },
+    {
+      "chunk_id": 83,
+      "text": "is not yet present. // See ptolemy/actor/lib/jjs/modules/webSocket/WebSocketHelper.java setTimeout ( this . connectWebsocket , 1000 ) ; } ; ( : source : ) and changing the contents of @@ connectWebsocket ( ) @@: ( : source lang = javascript : ) this"
+    },
+    {
+      "chunk_id": 84,
+      "text": "ket ( ) @@: ( : source lang = javascript : ) this . helper . on ( 'error' , function ( message ) { console. log ( \"webSocketClient.open(): error event: \" + message + \" timeBetweenRetries: \" + self. tim \\ eBetweenRetries ) ; // It could be that the We"
+    },
+    {
+      "chunk_id": 85,
+      "text": "m \\ eBetweenRetries ) ; // It could be that the WebSocketServer is not yet present. // See ptolemy/actor/lib/jjs/modules/webSocket/WebSocketHelper.java // FIXME: the body of this setTimeout() does not get invoked? // setTimeout(function() { // //"
+    },
+    {
+      "chunk_id": 86,
+      "text": "get invoked? // setTimeout(function() { // //console.log(\"webSocketClient.open(): error event: about to call connectWebsocket()\"); // self.connectWebsocket(); // }, self.timeBetweenRetries); // However, if I uncomment the definition of retry"
+    },
+    {
+      "chunk_id": 87,
+      "text": "// However, if I uncomment the definition of retryConnection() // above and the line below, then that method gets invoked. self. retryConnection ( ) ; this . emit ( 'error' , message ) ; } ) ; [$[Get Code]] results in this from within ggdb after brea"
+    },
+    {
+      "chunk_id": 88,
+      "text": "Code]] results in this from within ggdb after break exit : ( gdb ) break exit Breakpoint 1 at 0x7fff85f3973c ( gdb ) r .. / .. / .. / { $HOSTS_NODE } / nodeHostInvoke.js -timeout 5000 net / test / auto / WebSocketClientJS The program being debugged h"
+    },
+    {
+      "chunk_id": 89,
+      "text": "o / WebSocketClientJS The program being debugged has been started already. Start it from the beginning? ( y or n ) y Starting program: / usr / local / bin / node .. / .. / .. / { $HOSTS_NODE } / nodeHostInvoke.js -timeout 5000 net / test / auto / We\\"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ostInvoke.js -timeout 5000 net / test / auto / We\\ bSocketClientJS Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / net / test / auto / WebSocketClientJS\\ .js Reading accessor at: / Users / cxh / ptII / org"
+    },
+    {
+      "chunk_id": 91,
+      "text": "s Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / net / WebSocketClient.js Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / net / WebSocketServer.js Reading access"
+    },
+    {
+      "chunk_id": 92,
+      "text": "rs / web / net / WebSocketServer.js Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / TrainableTest.js Instantiated accessor WebSocketClientJS with class net / test / auto / WebSocketClientJS WebSocket"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ss net / test / auto / WebSocketClientJS WebSocketClient.js: initialize ( ) WebSocketClient.js: connect ( ) WebSocketClient.js: connect ( ) calling new WebSocket.Client ( ) webSocketClient.Client ( ) webSocketClient.open ( ) : this.host: localhost we"
+    },
+    {
+      "chunk_id": 94,
+      "text": "webSocketClient.open ( ) : this.host: localhost webSocketClient.connectWebsocket ( ) WebSocketClient.js: connect ( ) done webSocketServer.Server ( ) webSocketServer.start ( ) : localhost 8087 webSocketServer.start ( ) : listening event webSocketClien"
+    },
+    {
+      "chunk_id": 95,
+      "text": "tServer.start ( ) : listening event webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.retryConnection ( ) webSocketClient.open ( ) : error event: Error: connect ECONNREFUSED 1"
+    },
+    {
+      "chunk_id": 96,
+      "text": "n ( ) : error event: Error: connect ECONNREFUSED 127.0.0.1: 8087 timeBetweenRetries: 1000 webSocketClient.retryConnection ( ) node.js: 257 get: function ( ) { ^ RangeError: Maximum call stack size exceeded at Object.defineProperty.get ( node.js: 257"
+    },
+    {
+      "chunk_id": 97,
+      "text": "eeded at Object.defineProperty.get ( node.js: 257 : 20 ) at WebSocket. < anonymous > ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / { $HOSTS_NODE } / node_module\\ s / webSocketClient / webSocketClient.js: 232 : 9 ) at emitOn"
+    },
+    {
+      "chunk_id": 98,
+      "text": "etClient / webSocketClient.js: 232 : 9 ) at emitOne ( events.js: 96 : 13 ) at WebSocket.emit ( events.js: 188 : 7 ) at WebSocket. < anonymous > ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / { $HOSTS_NODE } / node_module\\ s"
+    },
+    {
+      "chunk_id": 99,
+      "text": "ccessors / web / { $HOSTS_NODE } / node_module\\ s / webSocketClient / webSocketClient.js: 248 : 14 ) at emitOne ( events.js: 96 : 13 ) at WebSocket.emit ( events.js: 188 : 7 ) at WebSocket. < anonymous > ( / Users / cxh / ptII / org / terraswarm / ac"
+    },
+    {
+      "chunk_id": 100,
+      "text": "s > ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / { $HOSTS_NODE } / node_module\\ s / webSocketClient / webSocketClient.js: 248 : 14 ) at emitOne ( events.js: 96 : 13 ) at WebSocket.emit ( events.js: 188 : 7 ) [ New Thread 0"
+    },
+    {
+      "chunk_id": 101,
+      "text": "bSocket.emit ( events.js: 188 : 7 ) [ New Thread 0x1527 of process 11452 ] [ New Thread 0x1627 of process 11452 ] [ New Thread 0x1717 of process 11452 ] [ New Thread 0x1807 of process 11452 ] [ New Thread 0x1907 of process 11452 ] [ New Thread 0x1a07"
+    },
+    {
+      "chunk_id": 102,
+      "text": "read 0x1907 of process 11452 ] [ New Thread 0x1a07 of process 11452 ] [ New Thread 0x1b07 of process 11452 ] [ New Thread 0x1c17 of process 11452 ] [ New Thread 0x2007 of process 11452 ] Breakpoint 1 , 0x00007fff85f3973c in exit ( ) from / usr / lib"
+    },
+    {
+      "chunk_id": 103,
+      "text": ", 0x00007fff85f3973c in exit ( ) from / usr / lib / system / libsystem_c.dylib ( gdb ) where #0 0x00007fff85f3973c in exit () from /usr/lib/system/libsystem_c.dylib #1 0x00000001007e1ae5 in node::FatalException(v8::Isolate*, v8::Local<v8::Value>, v"
+    },
+    {
+      "chunk_id": 104,
+      "text": "talException(v8::Isolate*, v8::Local<v8::Value>, v8::Local<v8::Message>)\\ ( ) #2 0x0000000100546bed in v8::internal::MessageHandler::ReportMessage(v8::internal::Isolate*, v8::internal\\ ::MessageLocation * , v8::internal::Handle < v8::internal::JSMes"
+    },
+    {
+      "chunk_id": 105,
+      "text": "ion * , v8::internal::Handle < v8::internal::JSMessageObject > ) ( ) #3 0x0000000100532c09 in v8::internal::Isolate::ReportPendingMessages() () #4 0x00000001004440e4 in v8::internal::(anonymous namespace)::Invoke(v8::internal::Isolate*, bool, v8::i"
+    },
+    {
+      "chunk_id": 106,
+      "text": "space)::Invoke(v8::internal::Isolate*, bool, v8::in\\ ternal::Handle < v8::internal::Object > , v8::internal::Handle < v8::internal::Object > , int, v8::internal::Handl\\ e < v8::internal::Object >* , v8::internal::Handle < v8::internal::Object > ) ( )"
+    },
+    {
+      "chunk_id": 107,
+      "text": "8::internal::Handle < v8::internal::Object > ) ( ) #5 0x0000000100443e33 in v8::internal::Execution::Call(v8::internal::Isolate*, v8::internal::Handle<v8::i\\ nternal::Object > , v8::internal::Handle < v8::internal::Object > , int, v8::internal::Hand"
+    },
+    {
+      "chunk_id": 108,
+      "text": "< v8::internal::Object > , int, v8::internal::Handle < v8::internal::Obje\\ ct >* ) ( ) #6 0x0000000100167a86 in v8::Function::Call(v8::Local<v8::Context>, v8::Local<v8::Value>, int, v8::Local<\\ v8::Value >* ) ( ) #7 0x00000001007d3f51 in node::Asyn"
+    },
+    {
+      "chunk_id": 109,
+      "text": "alue >* ) ( ) #7 0x00000001007d3f51 in node::AsyncWrap::MakeCallback(v8::Local<v8::Function>, int, v8::Local<v8::Value>\\ * ) ( ) #8 0x000000010081cea0 in node::TCPWrap::AfterConnect(uv_connect_s*, int) () #9 0x000000010091aa56 in uv.stream_io () #"
+    },
+    {
+      "chunk_id": 111,
+      "text": "4 in start () ( gdb ) [$[Get Code]] Questions: Why doesn't the setTimeout() call work inside this.helper.on('error', function(message) { . I should at least be seeing the console.log How do I stop the errors after I've called setTimeout()? Retry May"
+    },
+    {
+      "chunk_id": 112,
+      "text": "e errors after I've called setTimeout()? Retry Maybe instead, we should use a Node retry module How to do repeated requests until one succeeds without blocking in node? (Stackoverflow) Suggests: https://github.com/caolan/async#retry https://github.co"
+    },
+    {
+      "chunk_id": 113,
+      "text": "://github.com/caolan/async#retry https://github.com/tim-kos/node-retry Searching for \"node retry on error\" is helpful See Also WebSocket Implementation Notes (Version0) Back to Optional JavaScript Modules Edit - History - Print - Recent Changes - Sea"
+    }
+  ]
+}

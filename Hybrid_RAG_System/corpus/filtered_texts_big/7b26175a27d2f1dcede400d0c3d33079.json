@@ -1,0 +1,149 @@
+{
+  "url": "https://www2.eecs.berkeley.edu/Pubs/TechRpts/2010/EECS-2010-172.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Making Static Pivoting Scalable and Dependable | EECS at UC Berkeley Making Static Pivoting Scalable and Dependable Jason Riedy EECS Department, University of California, Berkeley Technical Report No. UCB/EECS-2010-172 December 17, 2010 http"
+    },
+    {
+      "chunk_id": 2,
+      "text": "UCB/EECS-2010-172 December 17, 2010 http://www2.eecs.berkeley.edu/Pubs/TechRpts/2010/EECS-2010-172.pdf Solving square linear systems of equations Ax=b is one of the primary workhorses in scientific computing. With asymptotically and practi"
+    },
+    {
+      "chunk_id": 3,
+      "text": "entific computing. With asymptotically and practically small amounts of extra calculation and higher precision, we can render solution techniques \\emph{dependable}. We produce a solution with tiny error for almost all systems where we should expect"
+    },
+    {
+      "chunk_id": 4,
+      "text": "rror for almost all systems where we should expect a tiny error, and we correctly flag potential failures. Our method uses a proven technique: iterative refinement. We extend prior work by applying extra precision not only in calculating the residua"
+    },
+    {
+      "chunk_id": 5,
+      "text": "xtra precision not only in calculating the residual b-A\\y i of an intermediate solution \\y i but also in carrying that intermediate solution \\y i . Analysis shows that extra precision in the intermediate solutions lowers the limiting backward error"
+    },
+    {
+      "chunk_id": 6,
+      "text": "iate solutions lowers the limiting backward error (measuring perturbations in the initial problem) to levels that produce a forward error (measuring perturbations in the solution) not much larger than the precision used to store the result. We also"
+    },
+    {
+      "chunk_id": 7,
+      "text": "the precision used to store the result. We also demonstrate that condition estimation is not necessary for determining success, reducing the computation in refinement substantially. This basic, dependable solver applies to typical dense LU factoriz"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ndable solver applies to typical dense LU factorization methods using partial pivoting as well as methods that risk greater failure by choosing pivots for non-numerical reasons. Sparse factorization methods may choose pivots to promote structural spa"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ethods may choose pivots to promote structural sparsity or even choose pivots \\emph{before} factorization to decouple the phases. We show through experiments that solutions using these restrictive pivoting methods still have small error so long as a"
+    },
+    {
+      "chunk_id": 10,
+      "text": "voting methods still have small error so long as an estimate of factorization quality, the growth factor, does not grow too large. Our refinement algorithm dependably flags such failures. Additionally, we find a better choice of heuristic for sparse"
+    },
+    {
+      "chunk_id": 11,
+      "text": "y, we find a better choice of heuristic for sparse static pivoting than the defaults in Li and Demmel's SuperLU package. Static pivoting in a distributed-memory setting needs an algorithm for choosing pivots that does not rely on fitting the entire m"
+    },
+    {
+      "chunk_id": 12,
+      "text": "pivots that does not rely on fitting the entire matrix into one memory space. We investigate a set of algorithms, Bertsekas's auction algorithms, for choosing a static pivoting via maximum weight perfect bipartite matching. Auction algorithms have"
+    },
+    {
+      "chunk_id": 13,
+      "text": "rfect bipartite matching. Auction algorithms have a natural mapping to distributed memory computation through their bidding mechanism. We provide an analysis of the auction algorithm fitting it comfortably in linear optimization theory and characte"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ortably in linear optimization theory and characterizing approximately maximum weight perfect bipartite matches. These approximately maximum weight perfect matches work well as static pivot choices and can be computed much more quickly than the exac"
+    },
+    {
+      "chunk_id": 15,
+      "text": "nd can be computed much more quickly than the exact maximum weight matching. Finally, we consider the performance of auction algorithm implementations on a suite of real-world sparse problems. Sequential performance is roughly equivalent to existing"
+    },
+    {
+      "chunk_id": 16,
+      "text": "tial performance is roughly equivalent to existing implementations like Duff and Koster's MC64, but varies widely with different parameter and input settings. The parallel performance is even more wildly unpredictable. Computing approximately maxim"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ldly unpredictable. Computing approximately maximum weight matchings helps performance somewhat, but we still conclude that the performance is too variable for a black-box solution method. Advisors: James Demmel BibTeX citation: @phdthesis{Riedy:EEC"
+    },
+    {
+      "chunk_id": 18,
+      "text": "James Demmel BibTeX citation: @phdthesis{Riedy:EECS-2010-172, Author= {Riedy, Jason}, Title= {Making Static Pivoting Scalable and Dependable}, School= {EECS Department, University of California, Berkeley}, Year= {2010}, Month= {De"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ornia, Berkeley}, Year= {2010}, Month= {Dec}, Url= {http://www2.eecs.berkeley.edu/Pubs/TechRpts/2010/EECS-2010-172.html}, Number= {UCB/EECS-2010-172}, Abstract= {Solving square linear systems of equations <i>Ax=b</i> is one of the"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ear systems of equations <i>Ax=b</i> is one of the primary workhorses in scientific computing. With asymptotically and practically small amounts of extra calculation and higher precision, we can render solution techniques \\emph{dependable}. We prod"
+    },
+    {
+      "chunk_id": 21,
+      "text": "er solution techniques \\emph{dependable}. We produce a solution with tiny error for almost all systems where we should expect a tiny error, and we correctly flag potential failures. Our method uses a proven technique: iterative refinement. We ex"
+    },
+    {
+      "chunk_id": 22,
+      "text": "s a proven technique: iterative refinement. We extend prior work by applying extra precision not only in calculating the residual <i>b-A\\y<sub>i</sub></i> of an intermediate solution <i>\\y<sub>i</sub></i> but also in carrying that intermediate solut"
+    },
+    {
+      "chunk_id": 23,
+      "text": "></i> but also in carrying that intermediate solution <i>\\y<sub>i</sub></i>. Analysis shows that extra precision in the intermediate solutions lowers the limiting backward error (measuring perturbations in the initial problem) to levels that produce"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ons in the initial problem) to levels that produce a forward error (measuring perturbations in the solution) not much larger than the precision used to store the result. We also demonstrate that condition estimation is not necessary for determining"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ition estimation is not necessary for determining success, reducing the computation in refinement substantially. This basic, dependable solver applies to typical dense <i>LU</i> factorization methods using partial pivoting as well as methods that"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ds using partial pivoting as well as methods that risk greater failure by choosing pivots for non-numerical reasons. Sparse factorization methods may choose pivots to promote structural sparsity or even choose pivots \\emph{before} factorization to de"
+    },
+    {
+      "chunk_id": 27,
+      "text": "en choose pivots \\emph{before} factorization to decouple the phases. We show through experiments that solutions using these restrictive pivoting methods still have small error so long as an estimate of factorization quality, the growth factor, does"
+    },
+    {
+      "chunk_id": 28,
+      "text": "of factorization quality, the growth factor, does not grow too large. Our refinement algorithm dependably flags such failures. Additionally, we find a better choice of heuristic for sparse static pivoting than the defaults in Li and Demmel's SuperLU"
+    },
+    {
+      "chunk_id": 29,
+      "text": "oting than the defaults in Li and Demmel's SuperLU package. Static pivoting in a distributed-memory setting needs an algorithm for choosing pivots that does not rely on fitting the entire matrix into one memory space. We investigate a set of algo"
+    },
+    {
+      "chunk_id": 30,
+      "text": "to one memory space. We investigate a set of algorithms, Bertsekas's auction algorithms, for choosing a static pivoting via maximum weight perfect bipartite matching. Auction algorithms have a natural mapping to distributed memory computation throu"
+    },
+    {
+      "chunk_id": 31,
+      "text": "al mapping to distributed memory computation through their bidding mechanism. We provide an analysis of the auction algorithm fitting it comfortably in linear optimization theory and characterizing approximately maximum weight perfect bipartite matc"
+    },
+    {
+      "chunk_id": 32,
+      "text": "pproximately maximum weight perfect bipartite matches. These approximately maximum weight perfect matches work well as static pivot choices and can be computed much more quickly than the exact maximum weight matching. Finally, we consider the per"
+    },
+    {
+      "chunk_id": 33,
+      "text": "m weight matching. Finally, we consider the performance of auction algorithm implementations on a suite of real-world sparse problems. Sequential performance is roughly equivalent to existing implementations like Duff and Koster's MC64, but varie"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ementations like Duff and Koster's MC64, but varies widely with different parameter and input settings. The parallel performance is even more wildly unpredictable. Computing approximately maximum weight matchings helps performance somewhat, but we"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ight matchings helps performance somewhat, but we still conclude that the performance is too variable for a black-box solution method.}, } EndNote citation: %0 Thesis %A Riedy, Jason %T Making Static Pivoting Scalable and Dependable %I EECS Departme"
+    },
+    {
+      "chunk_id": 36,
+      "text": "Pivoting Scalable and Dependable %I EECS Department, University of California, Berkeley %D 2010 %8 December 17 %@ UCB/EECS-2010-172 %U http://www2.eecs.berkeley.edu/Pubs/TechRpts/2010/EECS-2010-172.html %F Riedy:EECS-2010-172"
+    }
+  ]
+}

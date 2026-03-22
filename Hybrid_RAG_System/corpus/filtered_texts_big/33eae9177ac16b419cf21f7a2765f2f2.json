@@ -1,0 +1,409 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII4.0/ptII4.0.1/doc/codeDoc/jni/JNIUtilities.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "JNIUtilities Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD jni Class JNIUtilities java.lang.Object jni.JNIUtilities publi"
+    },
+    {
+      "chunk_id": 2,
+      "text": "IUtilities java.lang.Object jni.JNIUtilities public class JNIUtilities extends java.lang.Object A collection of utilities for generating Java Native Interface (JNI) classes. For information about JNI, see http://java.sun.com/docs/books/tutorial/nativ"
+    },
+    {
+      "chunk_id": 3,
+      "text": "see http://java.sun.com/docs/books/tutorial/native1.1/concepts/index.html For information about how to create shared libraries under Windows using Cygwin, see http://cygwin.com/cygwin-ug-net/dll.html For information about using JNI with Cygwin, s"
+    },
+    {
+      "chunk_id": 4,
+      "text": "tml For information about using JNI with Cygwin, see http://www.inonit.com/cygwin/jni/helloWorld/c.html How to call an actor that calls C code that returns a double In this example, we call a C method called meaningOfLife() that returns a double. Cre"
+    },
+    {
+      "chunk_id": 5,
+      "text": "called meaningOfLife() that returns a double. Create the C file called meaningOfLife.c that contains // Return the answer to \"the meaning of life, the universe, and everything\" double meaningOfLife() { return 42.0; } Create meaningOfLife.h"
+    },
+    {
+      "chunk_id": 6,
+      "text": "e() { return 42.0; } Create meaningOfLife.h that contains extern \"C\" double meaningOfLife(); Compile and create the shared library. Under Windows, we create a .dll gcc -shared -o meaningOfLife.dll meaningOfLife.c Set the CLASSPATH to includ"
+    },
+    {
+      "chunk_id": 7,
+      "text": "fe.dll meaningOfLife.c Set the CLASSPATH to include the current directory CLASSPATH=. export CLASSPATH Start up Vergil with the JNI interface enabled. $PTII/bin/vergil -jni Note that the -jni option may go away in the future if we merge the jni"
+    },
+    {
+      "chunk_id": 8,
+      "text": "n may go away in the future if we merge the jni facility into the main tree Create a new model with File -> New -> Graph Editor Drag in the JNIActor from the jni folder Right click on the actor and select Configure Arguments. Fill in the form as f"
+    },
+    {
+      "chunk_id": 9,
+      "text": "select Configure Arguments. Fill in the form as follows Name: output C or C++ type: double Kind: return Select Ok and then Commit to close the argument configurer Right Click on the actor to edit the parameters libraryDirectory \"\" nativeFuncti"
+    },
+    {
+      "chunk_id": 10,
+      "text": "the parameters libraryDirectory \"\" nativeFunction: \"meaningOfLife\" nativeLibrary \"meaningOfLife\" Select Commit to close the Edit Parameters window Select JNI from the menu and then select Generate C Interface FIXME: Copy the dlls into a directo"
+    },
+    {
+      "chunk_id": 11,
+      "text": "te C Interface FIXME: Copy the dlls into a directory that is in the path cp meaningOfLife.dll $PTII/bin cp jni/jnimeaningOfLife/JnijnimeaningOfLife.dll $PTII/bin Save the model. FIXME: Because of an apparent bug, it is necessary to save the mod"
+    },
+    {
+      "chunk_id": 12,
+      "text": "n apparent bug, it is necessary to save the model for the port we just created to appear Add a Display actor from the Sink folder in the Actor Library and connect the input of the Display actor to the output of the meaningOfLife Actor FIXME:"
+    },
+    {
+      "chunk_id": 13,
+      "text": "to the output of the meaningOfLife Actor FIXME: Because of a bug in the Ptolemy interface to the JNI actor, you must specify the type of the output of the meaningOfLife actor by right clicking on the actor and selecting Configure Ports an"
+    },
+    {
+      "chunk_id": 14,
+      "text": "g on the actor and selecting Configure Ports and then entering double for output type Drag in a SDF director and set the number of iterations to 1. Select Run The answer to \"the meaning of life, the universe, and everything\" should appear in"
+    },
+    {
+      "chunk_id": 15,
+      "text": "the universe, and everything\" should appear in the Display actor. If you get an error like: /cygdrive/c/Program Files/j2sdk1.4.1_01/include/win32/jni_md.h:16: syntax error before `;' Then see http://www.xraylith.wisc.edu/~khan/software/gnu-win32/"
+    },
+    {
+      "chunk_id": 16,
+      "text": "://www.xraylith.wisc.edu/~khan/software/gnu-win32/README.jni.txt You might need to edit jni_md.h, the above URL says GCC doesn't have a __int64 built-in, and this patch basically uses \"long long\" instead. Edit the file /include/win32/jni_md.h, Whe"
+    },
+    {
+      "chunk_id": 17,
+      "text": "nstead. Edit the file /include/win32/jni_md.h, Where is the installation root (eg., c:/jdk1.1.7A). Replace the segment: typedef long jint; typedef __int64 jlong; with: typedef long jint; #ifdef __GNUC__ typedef long long jlong; #else t"
+    },
+    {
+      "chunk_id": 18,
+      "text": "__GNUC__ typedef long long jlong; #else typedef __int64 jlong; #endif typedef signed char jbyte; Since: Ptolemy II 2.3 Version: $Id: JNIUtilities.java,v 1.49 2004/04/21 03:04:25 cxh Exp $ Author: Vincent Arnould (vincent.arnould@thales"
+    },
+    {
+      "chunk_id": 19,
+      "text": "$ Author: Vincent Arnould (vincent.arnould@thalesgroup.com), contributor Christopher Hylands Accepted Rating: Red (vincent.arnould) Proposed Rating: Red (vincent.arnould) Method Summary protected static java.io.File _exportCInterfaceFile ( GenericJN"
+    },
+    {
+      "chunk_id": 20,
+      "text": "tic java.io.File _exportCInterfaceFile ( GenericJNIActor actor, java.lang.String destinationDirectory) Create the JNI C file. protected static void _exportDSP ( GenericJNIActor actor, java.lang.String destinationDirec"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ctor, java.lang.String destinationDirectory) Export the Visual Studio project. protected static java.io.File _exportJavaInterfaceFile ( GenericJNIActor actor, java.lang.String destinationDirectory) Create the JNI J"
+    },
+    {
+      "chunk_id": 22,
+      "text": "lang.String destinationDirectory) Create the JNI Java file. protected static void _exportMakefile ( GenericJNIActor actor, java.lang.String destinationDirectory) Export a makefile protected static java.util.Vector _getArguments ( Gene"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ected static java.util.Vector _getArguments ( GenericJNIActor actor, boolean isInput, boolean isOutput, boolean isReturn) Get the args belonging to this entity. protected static java.lang.String _getArguments"
+    },
+    {
+      "chunk_id": 24,
+      "text": "y. protected static java.lang.String _getArguments ( GenericJNIActor actor, boolean isInput, boolean isOutput, boolean isReturn, java.lang.String separator) Get the args belonging to this entity"
+    },
+    {
+      "chunk_id": 25,
+      "text": "g separator) Get the args belonging to this entity. protected static java.util.Vector _getArgumentsIn ( GenericJNIActor actor) Get the args In belonging to this entity. protected static java.lang.String _getArgumentsIn ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ng _getArgumentsIn ( GenericJNIActor actor, java.lang.String separator) Get the args In name belonging to this entity. protected static java.util.Vector _getArgumentsInOut ( GenericJNIActor actor) Get the args InOut belonging to this"
+    },
+    {
+      "chunk_id": 27,
+      "text": "Actor actor) Get the args InOut belonging to this entity. protected static java.lang.String _getArgumentsInOut ( GenericJNIActor actor, java.lang.String separator) Get the args InOut belonging to this entity. protected static java."
+    },
+    {
+      "chunk_id": 28,
+      "text": "t belonging to this entity. protected static java.lang.String _getArgumentsInOutWithCType ( GenericJNIActor actor, java.lang.String separator) Get the args In belonging to this entity with their c type. protected static ja"
+    },
+    {
+      "chunk_id": 29,
+      "text": "this entity with their c type. protected static java.lang.String _getArgumentsInOutWithJNIType ( GenericJNIActor actor, java.lang.String separator) Get the args In belonging to this entity with their JNI type, excludin"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ing to this entity with their JNI type, excluding the out arguments. protected static java.lang.String _getArgumentsInOutWithJType ( GenericJNIActor actor, java.lang.String separator) Get the args Out belonging to this e"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ng separator) Get the args Out belonging to this entity with their java type. protected static java.lang.String _getArgumentsInWithCType ( GenericJNIActor actor, java.lang.String separator) Get the args In belonging to this e"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ing separator) Get the args In belonging to this entity with their c type. protected static java.lang.String _getArgumentsInWithJNIType ( GenericJNIActor actor, java.lang.String separator) Get the args In belonging to this"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ring separator) Get the args In belonging to this entity with their JNI type, excluding the out arguments. protected static java.lang.String _getArgumentsInWithJType ( GenericJNIActor actor, java.lang.String separator) Get"
+    },
+    {
+      "chunk_id": 34,
+      "text": "java.lang.String separator) Get the args In belonging to this entity with their java type. protected static java.util.Vector _getArgumentsOut ( GenericJNIActor actor) Get the args Out belonging to this entity. protected static java."
+    },
+    {
+      "chunk_id": 35,
+      "text": "t belonging to this entity. protected static java.lang.String _getArgumentsOut ( GenericJNIActor actor, java.lang.String separator) Get the args out name belonging to this entity. protected static java.lang.String _getArgumentsOutWit"
+    },
+    {
+      "chunk_id": 36,
+      "text": "tected static java.lang.String _getArgumentsOutWithCType ( GenericJNIActor actor, java.lang.String separator) Get the args Out belonging to this entity with their c type. protected static java.lang.String _getArgumentsOutWit"
+    },
+    {
+      "chunk_id": 37,
+      "text": "tected static java.lang.String _getArgumentsOutWithJNIType ( GenericJNIActor actor, java.lang.String separator) Get the args In belonging to this entity with their JNI type, excluding the out arguments. protected static"
+    },
+    {
+      "chunk_id": 38,
+      "text": ", excluding the out arguments. protected static java.lang.String _getArgumentsOutWithJType ( GenericJNIActor actor, java.lang.String separator) Get the args Out belonging to this entity with their java type. protected sta"
+    },
+    {
+      "chunk_id": 39,
+      "text": "to this entity with their java type. protected static java.lang.String _getArgumentsWithCType ( GenericJNIActor actor, boolean isInput, boolean isOutput, boolean isReturn,"
+    },
+    {
+      "chunk_id": 40,
+      "text": "boolean isReturn, java.lang.String separator) Get the args belonging to this entity with their c type. protected static java.lang.String _getArgumentsWithCTypeCast ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 41,
+      "text": "CTypeCast ( GenericJNIActor actor, boolean isInput, boolean isOutput, boolean isReturn, java.lang.String separator) Get the arguments belongin"
+    },
+    {
+      "chunk_id": 42,
+      "text": ".lang.String separator) Get the arguments belonging to this entity with their c type. protected static java.lang.String _getArgumentsWithJNIType ( GenericJNIActor actor, boolean isInput, boolean isOut"
+    },
+    {
+      "chunk_id": 43,
+      "text": "an isInput, boolean isOutput, boolean isReturn, java.lang.String separator) Get the arguments In belonging to this entity with their JNI type, excluding the out arguments. p"
+    },
+    {
+      "chunk_id": 44,
+      "text": "h their JNI type, excluding the out arguments. protected static java.lang.String _getArgumentsWithJType ( GenericJNIActor actor, boolean isInput, boolean isOutput, boolean isRetur"
+    },
+    {
+      "chunk_id": 45,
+      "text": "n isOutput, boolean isReturn, java.lang.String separator) Get the arguments belonging to this entity with their java type. protected static java.lang.String _signature (java.lang.String typ) protected sta"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ng _signature (java.lang.String typ) protected static java.lang.String _signatureSendResults ( GenericJNIActor actor) static boolean generateJNI ( CompositeEntity model) Given a model, generate JNI files for all GenericJNIActors. static void generate"
+    },
+    {
+      "chunk_id": 47,
+      "text": "les for all GenericJNIActors. static void generateJNI ( CompositeEntity model, GenericJNIActor actor) Generate JNI files for one actor in a model static java.lang.String getNativeLibrary ( GenericJNIActor actor) Methods inherited from class java.lang"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ctor actor) Methods inherited from class java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait Method Detail generateJNI public static boolean generateJNI ( CompositeEntity model)"
+    },
+    {
+      "chunk_id": 49,
+      "text": "erateJNI ( CompositeEntity model) throws java.lang.Exception Given a model, generate JNI files for all GenericJNIActors. Parameters: model - The model to generate JNI files for any contained GenericJNIActors. Returns: tru"
+    },
+    {
+      "chunk_id": 50,
+      "text": "for any contained GenericJNIActors. Returns: true if a GenericJNIActor was found. Throws: java.lang.Exception - If there was a problem creating the JNI files. generateJNI public static void generateJNI ( CompositeEntity model, GenericJNIActor actor"
+    },
+    {
+      "chunk_id": 51,
+      "text": "JNI ( CompositeEntity model, GenericJNIActor actor) throws java.lang.Exception Generate JNI files for one actor in a model Throws: java.lang.Exception getNativeLibrary public static java.lang.String getNativeLibrary ( GenericJ"
+    },
+    {
+      "chunk_id": 52,
+      "text": "tatic java.lang.String getNativeLibrary ( GenericJNIActor actor) throws IllegalActionException Throws: IllegalActionException _exportCInterfaceFile protected static java.io.File _exportCInterfaceFile ( Generic"
+    },
+    {
+      "chunk_id": 53,
+      "text": "tatic java.io.File _exportCInterfaceFile ( GenericJNIActor actor, java.lang.String destinationDirectory) throws IllegalActionException ,"
+    },
+    {
+      "chunk_id": 54,
+      "text": "throws IllegalActionException , java.io.IOException Create the JNI C file. Parameters: actor - Actor to generate a JNI C file for. destinationDirectory - Directory to create the file in. Throws: I"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ctory - Directory to create the file in. Throws: IllegalActionException java.io.IOException _exportDSP protected static void _exportDSP ( GenericJNIActor actor, java.lang.String destinationDirectory)"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ang.String destinationDirectory) throws IllegalActionException , java.io.IOException Export the Visual Studio project. Parameters: actor - Actor to generate a JNI Java file for. destinationDi"
+    },
+    {
+      "chunk_id": 57,
+      "text": "tor to generate a JNI Java file for. destinationDirectory - Directory to create the file in. Throws: IllegalActionException java.io.IOException _exportJavaInterfaceFile protected static java.io.File _exportJavaInterfaceFile ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 58,
+      "text": "exportJavaInterfaceFile ( GenericJNIActor actor, java.lang.String destinationDirectory) throws IllegalActionException ,"
+    },
+    {
+      "chunk_id": 59,
+      "text": "legalActionException , java.io.IOException Create the JNI Java file. Parameters: actor - Actor to generate a JNI Java file for. destinationDirectory - Directory to create the file in. Throws: Ill"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ory - Directory to create the file in. Throws: IllegalActionException java.io.IOException _exportMakefile protected static void _exportMakefile ( GenericJNIActor actor, java.lang.String destinationDirectory)"
+    },
+    {
+      "chunk_id": 61,
+      "text": "java.lang.String destinationDirectory) throws IllegalActionException , java.io.IOException Export a makefile Parameters: actor - Actor to generate a makefile for destinationD"
+    },
+    {
+      "chunk_id": 62,
+      "text": "or - Actor to generate a makefile for destinationDirectory - Directory to create the file in. Throws: IllegalActionException java.io.IOException _getArguments protected static java.util.Vector _getArguments ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 63,
+      "text": "uments ( GenericJNIActor actor, boolean isInput, boolean isOutput, boolean isReturn) Get the args belongin"
+    },
+    {
+      "chunk_id": 64,
+      "text": "boolean isReturn) Get the args belonging to this entity. Returns: a vector of in arguments. _getArguments protected static java.lang.String _getArguments ( GenericJNIActor actor, boolean isIn"
+    },
+    {
+      "chunk_id": 65,
+      "text": "boolean isInput, boolean isOutput, boolean isReturn, java.lang.Strin"
+    },
+    {
+      "chunk_id": 66,
+      "text": "java.lang.String separator) Get the args belonging to this entity. Returns: the name of each in arguments. _getArgumentsIn protected static java.util.Vector _getArgumentsIn ( GenericJNIActor actor) Get the args In b"
+    },
+    {
+      "chunk_id": 67,
+      "text": "mentsIn ( GenericJNIActor actor) Get the args In belonging to this entity. Returns: a vector of out arguments, excluding the in arguments. _getArgumentsIn protected static java.lang.String _getArgumentsIn ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 68,
+      "text": "tsIn ( GenericJNIActor actor, java.lang.String separator) Get the args In name belonging to this entity. Returns: the name of the out arguments, excluding the in arguments. _getArgumentsInOut protecte"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ding the in arguments. _getArgumentsInOut protected static java.util.Vector _getArgumentsInOut ( GenericJNIActor actor) Get the args InOut belonging to this entity. Returns: a vector of inout arguments. _getArgumentsInOut protected static java.lang.S"
+    },
+    {
+      "chunk_id": 70,
+      "text": "s. _getArgumentsInOut protected static java.lang.String _getArgumentsInOut ( GenericJNIActor actor, java.lang.String separator) Get the args InOut belonging to this entity. Returns: a vector of ino"
+    },
+    {
+      "chunk_id": 71,
+      "text": "belonging to this entity. Returns: a vector of inout arguments. _getArgumentsInOutWithCType protected static java.lang.String _getArgumentsInOutWithCType ( GenericJNIActor actor, java.lang"
+    },
+    {
+      "chunk_id": 72,
+      "text": "java.lang.String separator) Get the args In belonging to this entity with their c type. Returns: the c type and name of each in arguments. _getArgumentsInOutWithJNIType protected static java.lang.String _getAr"
+    },
+    {
+      "chunk_id": 73,
+      "text": "thJNIType protected static java.lang.String _getArgumentsInOutWithJNIType ( GenericJNIActor actor, java.lang.String separator) Get the args In belonging to this entity with their JNI typ"
+    },
+    {
+      "chunk_id": 74,
+      "text": "rgs In belonging to this entity with their JNI type, excluding the out arguments. Returns: the JNI type and name of each in arguments. _getArgumentsInOutWithJType protected static java.lang.String _getArgumentsInOutWithJType ( GenericJNIActor actor"
+    },
+    {
+      "chunk_id": 75,
+      "text": "getArgumentsInOutWithJType ( GenericJNIActor actor, java.lang.String separator) Get the args Out belonging to this entity with their java type. Returns: the name and the java type of the o"
+    },
+    {
+      "chunk_id": 76,
+      "text": "type. Returns: the name and the java type of the out arguments, excluding the in arguments. _getArgumentsInWithCType protected static java.lang.String _getArgumentsInWithCType ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 77,
+      "text": "r, java.lang.String separator) Get the args In belonging to this entity with their c type. Returns: the c type of the out arguments. _getArgumentsInWithJNIType protected static java.lang.Stri"
+    },
+    {
+      "chunk_id": 78,
+      "text": "mentsInWithJNIType protected static java.lang.String _getArgumentsInWithJNIType ( GenericJNIActor actor, java.lang.String separator) Get the args In belonging to this entity with their JNI"
+    },
+    {
+      "chunk_id": 79,
+      "text": "e args In belonging to this entity with their JNI type, excluding the out arguments. Returns: the JNI type and name of each in arguments, excluding the in arguments. _getArgumentsInWithJType protected static java.lang.String _getArgumentsInWithJT"
+    },
+    {
+      "chunk_id": 80,
+      "text": "cted static java.lang.String _getArgumentsInWithJType ( GenericJNIActor actor, java.lang.String separator) Get the args In belonging to this entity with their java type. Returns: the name and"
+    },
+    {
+      "chunk_id": 81,
+      "text": "entity with their java type. Returns: the name and the java type of the out arguments, excluding the in arguments. _getArgumentsOut protected static java.util.Vector _getArgumentsOut ( GenericJNIActor actor) Get the args Out belonging to this entit"
+    },
+    {
+      "chunk_id": 82,
+      "text": "or actor) Get the args Out belonging to this entity. Returns: a vector of out arguments, excluding the in arguments. _getArgumentsOut protected static java.lang.String _getArgumentsOut ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 83,
+      "text": "or actor, java.lang.String separator) Get the args out name belonging to this entity. Returns: the name of the out arguments, excluding the in arguments. _getArgumentsOutWithCType protected static ja"
+    },
+    {
+      "chunk_id": 84,
+      "text": "nts. _getArgumentsOutWithCType protected static java.lang.String _getArgumentsOutWithCType ( GenericJNIActor actor, java.lang.String separator) Get the args Out belonging to this entity with"
+    },
+    {
+      "chunk_id": 85,
+      "text": "or) Get the args Out belonging to this entity with their c type. Returns: the c type of the out arguments. _getArgumentsOutWithJNIType protected static java.lang.String _getArgumentsOutWithJNIType ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 86,
+      "text": "enericJNIActor actor, java.lang.String separator) Get the args In belonging to this entity with their JNI type, excluding the out arguments. Returns: the JNI type and name of each in ar"
+    },
+    {
+      "chunk_id": 87,
+      "text": "ents. Returns: the JNI type and name of each in arguments, excluding the in arguments. _getArgumentsOutWithJType protected static java.lang.String _getArgumentsOutWithJType ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 88,
+      "text": "java.lang.String separator) Get the args Out belonging to this entity with their java type. Returns: the name and the java type of the out arguments, excluding the in arguments. _getArgume"
+    },
+    {
+      "chunk_id": 89,
+      "text": "rguments, excluding the in arguments. _getArgumentsWithCType protected static java.lang.String _getArgumentsWithCType ( GenericJNIActor actor, boolean isInput,"
+    },
+    {
+      "chunk_id": 90,
+      "text": "boolean isInput, boolean isOutput, boolean isReturn, java.lang.String separat"
+    },
+    {
+      "chunk_id": 91,
+      "text": "java.lang.String separator) Get the args belonging to this entity with their c type. Returns: the c type and name of each in arguments. _getArgumentsWithCTypeCast protected static java.lang.String _getArgumentsWithCTypeCast"
+    },
+    {
+      "chunk_id": 92,
+      "text": "tatic java.lang.String _getArgumentsWithCTypeCast ( GenericJNIActor actor, boolean isInput, boolean isOutput,"
+    },
+    {
+      "chunk_id": 93,
+      "text": "boolean isOutput, boolean isReturn, java.lang.String separator) Get the arguments belonging to this entity with th"
+    },
+    {
+      "chunk_id": 94,
+      "text": "Get the arguments belonging to this entity with their c type. Returns: the c type and name of each in arguments. _getArgumentsWithJNIType protected static java.lang.String _getArgumentsWithJNIType ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 95,
+      "text": "enericJNIActor actor, boolean isInput, boolean isOutput, boolean isReturn"
+    },
+    {
+      "chunk_id": 96,
+      "text": "boolean isReturn, java.lang.String separator) Get the arguments In belonging to this entity with their JNI type, excluding the out arguments. Returns: the"
+    },
+    {
+      "chunk_id": 97,
+      "text": "type, excluding the out arguments. Returns: the JNI type and name of each in arguments. _getArgumentsWithJType protected static java.lang.String _getArgumentsWithJType ( GenericJNIActor actor,"
+    },
+    {
+      "chunk_id": 98,
+      "text": "boolean isInput, boolean isOutput, boolean isReturn,"
+    },
+    {
+      "chunk_id": 99,
+      "text": "boolean isReturn, java.lang.String separator) Get the arguments belonging to this entity with their java type. Returns: the java type and name of each in arguments _signature protected static"
+    },
+    {
+      "chunk_id": 100,
+      "text": "of each in arguments _signature protected static java.lang.String _signature (java.lang.String typ) Returns: the signature of the interface function. _signatureSendResults protected static java.lang.String _signatureSendResults ( GenericJNIActor act"
+    },
+    {
+      "chunk_id": 101,
+      "text": "String _signatureSendResults ( GenericJNIActor actor) Returns: the signature of the interface function. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DET"
+    }
+  ]
+}

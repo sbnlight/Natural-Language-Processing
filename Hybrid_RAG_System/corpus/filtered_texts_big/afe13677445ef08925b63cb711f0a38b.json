@@ -1,0 +1,229 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/CommonExerciseBuildAnAudioAccessor",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / CommonExerciseBuildAnAudioAccessor Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / CommonExerciseBuildAnAudioAccessor Your"
+    },
+    {
+      "chunk_id": 2,
+      "text": "int Main / CommonExerciseBuildAnAudioAccessor Your task is create an accessor for the audio hardware on your laptop. There are three parts to this task: Define an API and implementation for a CommonJS JavaScript module. Write the accessor to \"require"
+    },
+    {
+      "chunk_id": 3,
+      "text": "JavaScript module. Write the accessor to \"require\" this module and use it. Create a demo swarmlet. To make your task easier, we have provided incomplete templates for all three tasks. The templates are located here: $PTII/ptolemy/actor/lib/jjs/modul"
+    },
+    {
+      "chunk_id": 4,
+      "text": "re located here: $PTII/ptolemy/actor/lib/jjs/modules/audio/audio.js : The CommonJS module. https://ptolemy.berkeley.edu/accessors/AudioPlayer.js : An incomplete accessor. $PTII/org/terraswarm/accessor/demo/Audio/Audio.xml : The Ptolemy II model, to b"
+    },
+    {
+      "chunk_id": 5,
+      "text": "/demo/Audio/Audio.xml : The Ptolemy II model, to be opened with vergil (see below) For these tasks, we will use the 1a Accessors Specification . We suggest performing this exercise by following these steps: -1. The homework is done Of course, you al"
+    },
+    {
+      "chunk_id": 6,
+      "text": "steps: -1. The homework is done Of course, you all did the homework and Installed Ptolemy II . For this workshop, it is essential to install the SVN version, not the 10.0 release or the nightly build installer because we will be relying on up-to-th"
+    },
+    {
+      "chunk_id": 7,
+      "text": "d installer because we will be relying on up-to-the-minute updates. If you are not able to install the svn version, then the workshop might be difficult for you. 0. Make sure Ptolemy II is up to date These assume that you have the environment variabl"
+    },
+    {
+      "chunk_id": 8,
+      "text": "These assume that you have the environment variable PTII set to the root of the Ptolemy II tree. If you do not, you can set it with the following command: export PTII=/Users/foo/ptII assuming that Ptolemy II is installed at /Users/foo/ptII. Make sure"
+    },
+    {
+      "chunk_id": 9,
+      "text": "lemy II is installed at /Users/foo/ptII. Make sure your Ptolemy II tree is up to date: cd $PTII svn update ant 1. Run the (incomplete) demo. Locate the file $PTII/org/terraswarm/accessor/demo/Audio/Audio.xml and open in vergil. Run it. You should"
+    },
+    {
+      "chunk_id": 10,
+      "text": "o/Audio.xml and open in vergil. Run it. You should hear a sinusoidal audio signal and you should get a plot. Your first goal is to modify the accessor to play the signal is that is plotted. 2. Modify the AudioPlayer accessor. Download the accessor sp"
+    },
+    {
+      "chunk_id": 11,
+      "text": "the AudioPlayer accessor. Download the accessor specification from https://ptolemy.berkeley.edu/accessors/AudioPlayer.js to create a local copy of the accessor source code in a directory on your local disk, for example /Users/claudius/accessors/Audio"
+    },
+    {
+      "chunk_id": 12,
+      "text": "disk, for example /Users/claudius/accessors/AudioPlayer.js. In your favorite text editor, modify the JavaScript accessor specification to add an input to accessor and create an input handler using addInputHandler (see Top-Level JavaScript Functions"
+    },
+    {
+      "chunk_id": 13,
+      "text": "dInputHandler (see Top-Level JavaScript Functions and Script instructions). Use the handler to collect a few input samples (say, 128*128 samples -- note if you have too few it will sound very choppy), and then to play them when you have enough. In yo"
+    },
+    {
+      "chunk_id": 14,
+      "text": "and then to play them when you have enough. In your copy of the Audio.xml model, double click on the AudioPlayer accessor and change the accessorSource parameter to point to your modified accessor specification, e.g. /Users/claudius/accessors/AudioP"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ecification, e.g. /Users/claudius/accessors/AudioPlayer.js. Click on Reload. Connect the accessor in place of the plotter in the demo. You should now hear a chirp lasting four seconds. 3. Modify the CommonJS audio module. An accessor is designed to b"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ommonJS audio module. An accessor is designed to be executable by any accessor host, not just Ptolemy II/Nashorn. Many accessors, including AudioPlayer, require that the host provide some capability. For AudioPlayer, the host needs to provide access"
+    },
+    {
+      "chunk_id": 17,
+      "text": "For AudioPlayer, the host needs to provide access to the audio hardware of machine. This requirement is expressed in the accessor by the line var audio = require(\"audio\"); This line refers to a module called \"audio\". Every accessor host that is capa"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e called \"audio\". Every accessor host that is capable of hosting AudioPlayer must provide an implementation of that module. For the Ptolemy II host, the \"audio\" module is implemented in the file $PTII/ptolemy/actor/lib/jjs/modules/audio/audio.js . Yo"
+    },
+    {
+      "chunk_id": 19,
+      "text": "/ptolemy/actor/lib/jjs/modules/audio/audio.js . You will next augment this module to provide not just audio playback, but also audio capture through the host microphone. The audio.js file defines a JavaScript \"object type\" called \"Player\" that is ins"
+    },
+    {
+      "chunk_id": 20,
+      "text": "vaScript \"object type\" called \"Player\" that is instantiated in the accessor by the line var player = new Player(); The Player object type includes two functions, \"play\" and \"stop\" that are used by the accessor. These functions invoke Java code provid"
+    },
+    {
+      "chunk_id": 21,
+      "text": "accessor. These functions invoke Java code provided by Ptolemy II in a class called LiveSound, (see the documentation ). This class provides set of static methods that can be invoked as in the following JavaScript example: var LiveSound = Java.type("
+    },
+    {
+      "chunk_id": 22,
+      "text": "ing JavaScript example: var LiveSound = Java.type('ptolemy.media.javasound.LiveSound'); LiveSound.putSamples(this, [data]); The first line creates JavaScript proxy for a Java class. The second line invokes a static method in that class, passing it"
+    },
+    {
+      "chunk_id": 23,
+      "text": "invokes a static method in that class, passing it two arguments. The first argument is a reference the accessor, which by calling this method is requesting exclusive access to the audio hardware on the machine. The second argument is two-dimensional"
+    },
+    {
+      "chunk_id": 24,
+      "text": "e machine. The second argument is two-dimensional array (data is an array, so [data] is an array containing one array). Your task now is to augment the module by adding one more object type, Capture, with two functions, get and stop that retrieve an"
+    },
+    {
+      "chunk_id": 25,
+      "text": "with two functions, get and stop that retrieve an array of audio samples and stop the capture, respectively. We suggest you make these modifications directly in the audio.js file using an editor of your choice. You can experiment with your module by"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ur choice. You can experiment with your module by instantiating an actor called JavaScript in a new Ptolemy II model. We suggest placing a DE Director in the model, and then double clicking on the JavaScript actor and writing your test code as in the"
+    },
+    {
+      "chunk_id": 27,
+      "text": "aScript actor and writing your test code as in the following example: var audio = require(\"audio\"); exports.initialize = function() { var capture = new audio.Capture(); var data = capture.get(); for each (sample in data) { print(sample);"
+    },
+    {
+      "chunk_id": 28,
+      "text": "for each (sample in data) { print(sample); } capture.stop(); } Now, each time you run the model, the body of code in your initialize function will execute. Notes: The LiveSound.getSamples() method returns type double[][], and apparently Nash"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ethod returns type double[][], and apparently Nashorn does not automatically convert this to a native JavaScript array. You can iterate through the array using the JavaScript construct for each (foo in bar) {...} , you can access the length using ar"
+    },
+    {
+      "chunk_id": 30,
+      "text": "in bar) {...} , you can access the length using array.length , and you can index the values using array[i] , but you cannot (oddly) invoke toString() nor use JSON.stringify() to get a text representation. Alternatively, you can convert to a native Ja"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ion. Alternatively, you can convert to a native JavaScript array using Nashorn's built-in Java.from() method. Such code should only appear in module implementation, not in an accessor, because it is specific to the Nashorn host. There may be a better"
+    },
+    {
+      "chunk_id": 32,
+      "text": "pecific to the Nashorn host. There may be a better way to do this, so please update this wiki if you find one. For example, to get the audio data from channel 0 as a JavaScript array, you can do: var channels = Java.from(LiveSound.getSamples(this));"
+    },
+    {
+      "chunk_id": 33,
+      "text": "channels = Java.from(LiveSound.getSamples(this)); var sound = Java.from(channels[0]); Your implementation of the stop() function should call LiveSound.stopCapture(). It is essential to call this to release an exclusive lock on the audio hardware t"
+    },
+    {
+      "chunk_id": 34,
+      "text": "release an exclusive lock on the audio hardware that is acquired when you call LiveSound.startCapture(). Error messages can be rather arcane. Line numbers may not refer to lines in your accessor code, but rather may refer to lines in some file defin"
+    },
+    {
+      "chunk_id": 35,
+      "text": ", but rather may refer to lines in some file defining library functions. The environment for developing accessors clearly needs to be improved. Volunteers? When an accessor invokes require ('foo'), the Ptolemy II host looks in the directory $PTII/pto"
+    },
+    {
+      "chunk_id": 36,
+      "text": "e Ptolemy II host looks in the directory $PTII/ptolemy/actor/lib/jjs/modules/ for a CommonJS module named 'foo'. You can add your own modules here, but to make your accessors portable, be sure that the API of your module is implementable in other hos"
+    },
+    {
+      "chunk_id": 37,
+      "text": "e API of your module is implementable in other hosts than Ptolemy II, such as Node.js or in a browser. In particular, a module implementation can invoke Java methods, but an accessor should not. If it does, it will not be executable by non-Java hosts"
+    },
+    {
+      "chunk_id": 38,
+      "text": "does, it will not be executable by non-Java hosts. 4. Create an AudioCapture accessor. Your final task is to create an AudioCapture accessor. In the same directory where you downloaded and modified AudioPlayer, create a new file AudioCapture.js that"
+    },
+    {
+      "chunk_id": 39,
+      "text": "udioPlayer, create a new file AudioCapture.js that defines this accessor. To import this accessor to Ptolemy II, you will need to create a third file called index.json that contains an array of accessor definition files provided in this directory, li"
+    },
+    {
+      "chunk_id": 40,
+      "text": "or definition files provided in this directory, like this: [ 'AudioPlayer.js', 'AudioCapture.js' ] The index.json file defines an accessor library . Once you have created this file, in vergil, you can invoke File->Import->Import Accessor to instantia"
+    },
+    {
+      "chunk_id": 41,
+      "text": "invoke File->Import->Import Accessor to instantiate accessors from your new accessor library. Notes: You will probably need to define the data type of your output (type number will work if your accessor outputs one sample at a time). Currently, ther"
+    },
+    {
+      "chunk_id": 42,
+      "text": "sor outputs one sample at a time). Currently, there are very few choices for data type declarations (see Input And Output Data Types , but for the Ptolemy II host, you can can actually define the output type to be any Ptolemy II type. For example, if"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ut type to be any Ptolemy II type. For example, if your output is an array of doubles, you can declare the output type to be [double]. But the resulting accessor will likely not work with any other accessor host. One of the interesting questions that"
+    },
+    {
+      "chunk_id": 44,
+      "text": "cessor host. One of the interesting questions that this exercise raises is how this accessor should interact with its environment. Should it have a trigger input, and capture data only on arrival of a trigger? Should it capture data continuously and"
+    },
+    {
+      "chunk_id": 45,
+      "text": "trigger? Should it capture data continuously and produce outputs spontaneously whenever it has data? Should it use setInterval to trigger the capture periodically? It is important to call LiveSound.stopCapture(), or your accessor will retain exclusi"
+    },
+    {
+      "chunk_id": 46,
+      "text": "topCapture(), or your accessor will retain exclusive access to the audio hardware even after your model stops executing. You will need to exit and restart vergil to run again. See for example how AudioPlayer calls Player.stop(), which calls LiveSoun"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ioPlayer calls Player.stop(), which calls LiveSound.stopPlayback(this), releasing the audio hardware. By default, the DE Director will execute a model as fast as possible, ignoring time stamps. If you double click on the director and enable synchroni"
+    },
+    {
+      "chunk_id": 48,
+      "text": "double click on the director and enable synchronizeToRealTime, the execution will slow down to match the time stamps. Alternatively, you can rely on blocking calls like LiveSound.getSamples() to throttle the execution speed. The mechanism for import"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ttle the execution speed. The mechanism for importing accessors in Ptolemy II currently has a very awkward GUI, where you need to select the directory, then select from the offered list of accessors. We are looking for a volunteer to design a better"
+    },
+    {
+      "chunk_id": 50,
+      "text": "We are looking for a volunteer to design a better mechanism. Elaborations There is quite a bit more work to be done to \"productize\" the audio accessors. Some suggestions: 1. Add options. The audio.js file defines a JavaScript object type called \"Play"
+    },
+    {
+      "chunk_id": 51,
+      "text": "file defines a JavaScript object type called \"Player\" whose constructor takes one argument, options . This argument is assumed to be a JSON object giving options (such as sample rate) for configuring the audio hardware. You should decide what options"
+    },
+    {
+      "chunk_id": 52,
+      "text": "the audio hardware. You should decide what options to support. For example, if you have an option \"sampleRate\", you might construct a Player object like this: var player = new Player({'sampleRate':8000}); to specify a player with sample rate 8000 sa"
+    },
+    {
+      "chunk_id": 53,
+      "text": "00}); to specify a player with sample rate 8000 samples per second. 2. Output an array. For many applications, it may be much more efficient to operate on a block of samples rather than one sample at a time. Modify the Player and Capture accessors to"
+    },
+    {
+      "chunk_id": 54,
+      "text": "a time. Modify the Player and Capture accessors to input and output an array of samples rather than one sample at a time. 3. Exclusive access. The LiveSound implementation grants exclusive access to the audio hardware to a single Java object. This wo"
+    },
+    {
+      "chunk_id": 55,
+      "text": "he audio hardware to a single Java object. This would mean that the Player and Capture accessors cannot both execute in the same swarmlet unless they share an object. Since accessors each run in their own JavaScript engine, they cannot easily share"
+    },
+    {
+      "chunk_id": 56,
+      "text": "r own JavaScript engine, they cannot easily share a JavaScript object. Experiment with solutions to this. For example, your audio module could use the static class LiveSound as the object to which access is granted, in which case any two accessors r"
+    }
+  ]
+}

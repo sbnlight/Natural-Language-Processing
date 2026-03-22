@@ -1,0 +1,57 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/NashornHost",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / NashornHost Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / NashornHost This page contains implementation notes about th"
+    },
+    {
+      "chunk_id": 2,
+      "text": "t This page contains implementation notes about the Nashorn Host . See the Nashorn Host page for more user-friendly documentation. SetTimeout Nashorn does not define setTimeout(), setInterval() etc., below are some possible solutions 2013 Oracle Blog"
+    },
+    {
+      "chunk_id": 3,
+      "text": "below are some possible solutions 2013 Oracle Blog with March 2014 updates Uses javafx.application.Platform, which is rather Oracle-JDK-centric and possibly not preferred. salomvary gist November 2014 // Adopted from here: https://gist.github.com/bri"
+    },
+    {
+      "chunk_id": 4,
+      "text": "// Adopted from here: https://gist.github.com/bripkens/8597903 // Makes ES7 Promises polyfill work on Nashorn https://github.com/jakearchibald/es6-promise // (Haven't verified how correct it is, use with care) [$[Get Code]] bripkens gist June 2014 J"
+    },
+    {
+      "chunk_id": 5,
+      "text": "with care) [$[Get Code]] bripkens gist June 2014 Java 8 Nashorn event loop \"polyfill\" . javax . script . ScriptEngine #eval calls should immediately call window. main to enter the event loop and thus to avoid concurrency issues. The XMLHttpRequest si"
+    },
+    {
+      "chunk_id": 6,
+      "text": "to avoid concurrency issues. The XMLHttpRequest simulation is not yet finished. [$[Get Code]] kayhadrin gist Oct 2016 Does not use javafx.application.Platform Has a link to josmardias This one does not properly terminate. That is, running ( cd $PTII"
+    },
+    {
+      "chunk_id": 7,
+      "text": "t properly terminate. That is, running ( cd $PTII / org / terraswarm / accessor / accessors / web / hosts; $PTII / bin / ptinvoke ptolemy.actor.lib.jjs.NashornAccessorHostApplication -js -timeout 5000 common / test / testCommon.js ) [$[Get Code]] do"
+    },
+    {
+      "chunk_id": 8,
+      "text": "0 common / test / testCommon.js ) [$[Get Code]] does not exit. josmardias gist Aug 2016 // https://gist.github.com/josmardias/20493bd205e24e31c0a406472330515a // at least one timeout needs to be set, larger then your code bootstrap // or Nashorn wil"
+    },
+    {
+      "chunk_id": 9,
+      "text": "larger then your code bootstrap // or Nashorn will run forever // preferably, put a timeout 0 after your code bootstrap [$[Get Code]] It is necessary to call setTimeout() after bootstrapping, which we do in NashornAccessorHostApplication.java: int t"
+    },
+    {
+      "chunk_id": 10,
+      "text": "e do in NashornAccessorHostApplication.java: int timeout ; ... Object instance = engine. eval ( \"function() { print('NashornAccessorHostApplication done.');}\" ) ; ( ( Invocable ) engine ) . invokeFunction ( \"setTimeout\" , instance, timeout ) ; [$[Get"
+    },
+    {
+      "chunk_id": 11,
+      "text": "tion ( \"setTimeout\" , instance, timeout ) ; [$[Get Code]] Use this one commonHost and setTimeout etc. Edward suggested that we can define setTimeout in commonHost and keep track of requests in commonHost. Then, to stop an accessor, we cancel the time"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ost. Then, to stop an accessor, we cancel the timeouts and intervals. Differences with Cape Code Cape Code has two JavaScript globals: actor and accessor that are set to the JavaScript actor. capeCodeHost.js invokes actor.setTimeout() etc. However,"
+    },
+    {
+      "chunk_id": 13,
+      "text": "Host.js invokes actor.setTimeout() etc. However, in Nashorn, we don't have an actor. For Nashorn, if actor is null, then we could have if ( typeof actor === 'undefined' || actor === null ) { var actor = require ( 'js-timeout-polyfill.js' ) ; fi [$[G"
+    }
+  ]
+}

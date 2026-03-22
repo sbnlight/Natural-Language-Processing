@@ -1,0 +1,205 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/HttpClient",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / httpClient Module Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / httpClient Module This is for Version0, see http"
+    },
+    {
+      "chunk_id": 2,
+      "text": "/ httpClient Module This is for Version0, see http-client for a more recent version. Library for making HTTP requests. Cross-origin requests are generally prohibited for scripts (and, therefore, accessors) running in a browser. See Browser Considera"
+    },
+    {
+      "chunk_id": 3,
+      "text": "sors) running in a browser. See Browser Considerations for details. API get ( url | options , responseCallback ): Make an HTTP GET request and call the callback when the request has been satisfied. post ( url | options , responseCallback ): Make an"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ost ( url | options , responseCallback ): Make an HTTP POST request and call the callback when the request has been satisfied. put ( url | options , responseCallback ): Make an HTTP PUT request and call the callback when the request has been satisfie"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ll the callback when the request has been satisfied. request ( url | options , responseCallback ): Make an HTTP request and call the callback when the server has responded. In all cases, the first argument is either a string with a URL or a JavaScrip"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ument is either a string with a URL or a JavaScript object with a number of fields defined below. Also, in all cases, the responseCallback function, if provided, will be called when the request has been fully satisfied. The responseCallback function"
+    },
+    {
+      "chunk_id": 7,
+      "text": "en fully satisfied. The responseCallback function will be passed one argument, an instance of the IncomingMessage class, defined below. The difference between request () and the other functions is that the former only begins the interaction with the"
+    },
+    {
+      "chunk_id": 8,
+      "text": "at the former only begins the interaction with the server, whereas the rest are complete, self-contained requests. Specifically, if you use request , you can use the returned object to send additional information to the server, for example to PUT a f"
+    },
+    {
+      "chunk_id": 9,
+      "text": "information to the server, for example to PUT a file on the server. Both functions return an instance of the ClientRequest class, defined below. See also the auto-generated doc file for the current version of the Ptolemy II/Nashorn host implementat"
+    },
+    {
+      "chunk_id": 10,
+      "text": "version of the Ptolemy II/Nashorn host implementation of this module. Usage A simple use to read the contents of a web page looks like this: var http = require('httpClient'); http.get('http://ptolemy.eecs.berkeley.edu', function(response) { con"
+    },
+    {
+      "chunk_id": 11,
+      "text": "y.eecs.berkeley.edu', function(response) { console.log('Got response: ' + response.body); }); To view all returned parameters from http.get(): var http = require('httpClient'); http.get('http://ptolemy.eecs.berkeley.edu', function(response) {"
+    },
+    {
+      "chunk_id": 12,
+      "text": "//ptolemy.eecs.berkeley.edu', function(response) { console.log('Got response: ' + JSON.stringify(response)); }); POST and PUT requests typically specify a body, using options.body. (This URL will give an error since it doesn't allow posting)."
+    },
+    {
+      "chunk_id": 13,
+      "text": "ll give an error since it doesn't allow posting). var http = require('httpClient'); var options = { body : {test : 'this is a test'}, url : 'http://ptolemy.eecs.berkeley.edu' }; http.post(options, function(response) { console.log("
+    },
+    {
+      "chunk_id": 14,
+      "text": "ost(options, function(response) { console.log('Got response: ' + JSON.stringify(response)); }); Options The options argument to the above functions can be a string URL or a JavaScript object with the following (optional) fields: body : An objec"
+    },
+    {
+      "chunk_id": 15,
+      "text": "h the following (optional) fields: body : An object containing the request body. headers : An object containing request headers. By default this is an empty object. Items may have a value that is an array of values, for headers with more than one val"
+    },
+    {
+      "chunk_id": 16,
+      "text": "rray of values, for headers with more than one value. keepAlive : A boolean that specified whether to keep sockets around in a pool to be used by other requests in the future. This defaults to false. method : A string specifying the HTTP request meth"
+    },
+    {
+      "chunk_id": 17,
+      "text": "method : A string specifying the HTTP request method. This defaults to 'GET', but can also be 'PUT', 'POST', 'DELETE', etc. url : A string that can be parsed as a URL, or an object containing the following fields: host : A string giving the domain n"
+    },
+    {
+      "chunk_id": 18,
+      "text": "lowing fields: host : A string giving the domain name or IP address of the server to issue the request to. This defaults to 'localhost'. path : Request path as a string. This defaults to '/'. This can include a query string, e.g. '/index.html?page=12"
+    },
+    {
+      "chunk_id": 19,
+      "text": "include a query string, e.g. '/index.html?page=12', or the query string can be specified as a separate field (see below). An exception is thrown if the request path contains illegal characters. protocol : The protocol. This is a string that defaults"
+    },
+    {
+      "chunk_id": 20,
+      "text": "col : The protocol. This is a string that defaults to 'http'. port : Port of remote server. This defaults to 80. query : A query string to be appended to the path, such as '?page=12'. IncomingMessage The responseCallback function, if provided, will b"
+    },
+    {
+      "chunk_id": 21,
+      "text": "The responseCallback function, if provided, will be passed an instance of IncomingMessage , which has these fields: statusCode : an integer indicating the status of the response. A description of HTTP response codes can be found here: http://www.w3.o"
+    },
+    {
+      "chunk_id": 22,
+      "text": "response codes can be found here: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html . Codes in the 300 range indicate redirects, and codes 400 or above indicate errors. statusMessage : a string with the status message of the response. body : a"
+    },
+    {
+      "chunk_id": 23,
+      "text": "with the status message of the response. body : a string with the body of the response. FIXME: At this time, only UTF-8-encoded string bodies are supported. Also, by including the body of the response in the argument to the callback, rather than a so"
+    },
+    {
+      "chunk_id": 24,
+      "text": "in the argument to the callback, rather than a socket, we limit the size of the body. A large response (e.g. a video file) could easily overwhelm available RAM memory. ClientRequest The request and get functions both return an instance of ClientReq"
+    },
+    {
+      "chunk_id": 25,
+      "text": "get functions both return an instance of ClientRequest, which has the following functions: end (): Call this to end the request (no more data to send to the server). The get () function automatically calls this for you, but request () does not. writ"
+    },
+    {
+      "chunk_id": 26,
+      "text": "calls this for you, but request () does not. write ( data , encoding ): Write data (e.g. for a POST request) using the specified encoding (e.g. 'UTF-8'). The ClientRequest class is an event emitter that emits the following events: 'error': If an err"
+    },
+    {
+      "chunk_id": 27,
+      "text": "hat emits the following events: 'error': If an error occurs. The message is passed as an argument. 'response': A response is received from the server. This event is automatically handled by calling responseCallback, if responseCallback is not null, b"
+    },
+    {
+      "chunk_id": 28,
+      "text": "sponseCallback, if responseCallback is not null, but you can also listen for this event. Browser Considerations Cross-Origin Requests For security reasons, scripts in a browser are generally prohibited from certain types of data transfer in cross-ori"
+    },
+    {
+      "chunk_id": 29,
+      "text": "d from certain types of data transfer in cross-origin requests. The same-origin policy states that two pages have the same origin if the protocol, port (if given), and host are the same for both pages. Client-server coordination is required to achie"
+    },
+    {
+      "chunk_id": 30,
+      "text": "s. Client-server coordination is required to achieve cross-origin communication. Two techniques are cross-origin resource sharing (CORS) and JSON with padding (JSONP) . Cross-Origin Resource Sharing (CORS) A server may stipulate that cross-origin re"
+    },
+    {
+      "chunk_id": 31,
+      "text": "(CORS) A server may stipulate that cross-origin requests are allowed. This is called cross-origin resource sharing (CORS). For simple requests , a CORS-aware browser automatically adds an Origin request header specifying the host. For example: Orig"
+    },
+    {
+      "chunk_id": 32,
+      "text": "est header specifying the host. For example: Origin: http://www.terraswarm.org A server sets the response header Access-Control-Allow-Origin to the list of hosts allowed access, using * for all hosts. For example: Access-Control-Allow-Origin : * or"
+    },
+    {
+      "chunk_id": 33,
+      "text": ". For example: Access-Control-Allow-Origin : * or Access-Control-Allow-Origin : http://www.terraswarm.org The client checks this header. If access is allowed, the content is loaded. For non-simple preflighted requests , the client first sends an HT"
+    },
+    {
+      "chunk_id": 34,
+      "text": "reflighted requests , the client first sends an HTTP OPTIONS request with additional information. History and more examples are available here. JSON with padding (JSONP) The JSON with padding technique takes advantage of the fact that <script> tags i"
+    },
+    {
+      "chunk_id": 35,
+      "text": "e takes advantage of the fact that <script> tags in HTML are exempt from cross-origin restrictions. For example, this is allowed: <script src=\"http://www.otherdomain.com/thescript.js\"> </script> In a JSONP request, the client specifies some text to"
+    },
+    {
+      "chunk_id": 36,
+      "text": "JSONP request, the client specifies some text to pre-pend to a JSON response. The server replies with the text plus the JSON data enclosed in parenthesis. If the client defines a function locally and sends the function name as the text, this funct"
+    },
+    {
+      "chunk_id": 37,
+      "text": "nd sends the function name as the text, this function is then executed with the JSON data as an argument. For example , calling http://ip.jsontest.com/ will return your IP address in JSON form. Example: {\"ip\": \"8.8.8.8\"} A client could define a funct"
+    },
+    {
+      "chunk_id": 38,
+      "text": "e: {\"ip\": \"8.8.8.8\"} A client could define a function that displays data: function showIP(data) { alert(data); } Next, the client asks the server to prepend this function name to the returned JSON by appending ?callback=[function_name] to the reque"
+    },
+    {
+      "chunk_id": 39,
+      "text": "y appending ?callback=[function_name] to the request URL. For example, calling http://ip.jsontest.com/?callback=showIP will return this response: showIP({\"ip\": \"8.8.8.8\"}); The showIP function then executes with the returned data as an argument. jQu"
+    },
+    {
+      "chunk_id": 40,
+      "text": "xecutes with the returned data as an argument. jQuery's getJSON() function will issue a JSONP request if the URL ends in ?callback? . For example: jquery.getJSON(\"http://jsonplaceholder.typicode.com/posts/1?callback=?\", function(data) { console.l"
+    },
+    {
+      "chunk_id": 41,
+      "text": "posts/1?callback=?\", function(data) { console.log(JSON.stringify(data)); }); Here's another example. Here's the original JSONP idea . APIs and Libraries XMLHttpRequest XMLHttpRequest is an API that allows a client to fetch and send data without ha"
+    },
+    {
+      "chunk_id": 42,
+      "text": "allows a client to fetch and send data without having to do a full page refresh. All modern browsers (Chrome, IE7+, Firefox, Safari, and Opera) include a built-in XMLHttpRequest implementation. XMLHttpRequest supports: Both asynchronous and synchro"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ttpRequest supports: Both asynchronous and synchronous requests Both text and binary data Event listeners Form submission and file upload Please see Mozilla's XMLHttpRequest for a complete list of methods and browser support, and Using XMLHttpRequest"
+    },
+    {
+      "chunk_id": 44,
+      "text": "hods and browser support, and Using XMLHttpRequest for examples. jQuery jQuery is a \"fast, small, and feature-rich JavaScript library\" that is supported by modern browsers. jQuery defines an easy-to-use API for common HTML manipulation and data tran"
+    },
+    {
+      "chunk_id": 45,
+      "text": "use API for common HTML manipulation and data transfer tasks. jQuery includes an AJAX (Asynchronous Javascript and XML) method that wraps XMLHttpRequest for issuing requests. There is also a shorthand GET method. Browserify Browserify is a bundling"
+    },
+    {
+      "chunk_id": 46,
+      "text": "d GET method. Browserify Browserify is a bundling system and set of modules that replicates most node.js APIs and functionality in a browser. Browserify allows one to use the \"requires\" syntax in a browser and creates a bundle of all modules needed"
+    },
+    {
+      "chunk_id": 47,
+      "text": "rowser and creates a bundle of all modules needed for a particular piece of code by collecting all of the \"require\" dependencies. For example: browserify main.js > bundle.js will recursively locate all dependencies starting in the main.js file and o"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ll dependencies starting in the main.js file and output flattened Javascript to bundle.js . The HTML page then includes this bundle using a script tag: <script src=\"bundle.js\"> </script> Browserify includes both HTTP and HTTPS modules. These modules"
+    },
+    {
+      "chunk_id": 49,
+      "text": "cludes both HTTP and HTTPS modules. These modules depend on many others, so accessors that use browserify would need to either include bundles or have the browserify source code available in the accessor repository or other location. jQuery-browseri"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ssor repository or other location. jQuery-browserify There is a browserify version of jQuery, jQuery-browserify . Unfortunately jQuery-browserify has no license, so the terms of use are unknown. See Also http-server Back to Optional JavaScript Modul"
+    }
+  ]
+}

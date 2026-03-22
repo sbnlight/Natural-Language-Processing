@@ -1,0 +1,513 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/kernel/Port.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Port JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method ptolemy."
+    },
+    {
+      "chunk_id": 2,
+      "text": "| Method Detail: Field | Constr | Method ptolemy.kernel Class Port java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.Port All Implemented Interfaces: java.lang.Cloneable, Changeable , Debuggable , DebugListener , Derivable , ModelErrorHan"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ggable , DebugListener , Derivable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: ComponentPort public class Port extends NamedObj A Port is the interface of an Entity to any number of Relations. Normally, a Port"
+    },
+    {
+      "chunk_id": 4,
+      "text": "tity to any number of Relations. Normally, a Port is contained by an Entity, although a port may exist with no container. The role of a port is to aggregate a set of links to relations. Thus, for example, to represent a directed graph, entities"
+    },
+    {
+      "chunk_id": 5,
+      "text": "example, to represent a directed graph, entities can be created with two ports, one for incoming arcs and one for outgoing arcs. More generally, the arcs to an entity may be divided into any number of subsets, with one port representing each su"
+    },
+    {
+      "chunk_id": 6,
+      "text": "er of subsets, with one port representing each subset. A Port can link to any instance of Relation. Derived classes may wish to constrain links to a subclass of Relation. To do this, subclasses should override the protected method _checkLink(Rel"
+    },
+    {
+      "chunk_id": 7,
+      "text": "hould override the protected method _checkLink(Relation) to throw an exception if its argument is a relation that is not of the appropriate subclass. Similarly, if a subclass wishes to constrain the containers of the port to be of a subclass of E"
+    },
+    {
+      "chunk_id": 8,
+      "text": "he containers of the port to be of a subclass of Entity, they should override the protected method _checkContainer(Entity) . Since: Ptolemy II 0.2 Version: $Id$ Author: Mudit Goel, Edward A. Lee, Jie Liu See Also: Entity , Relation Pt.AcceptedRating"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Liu See Also: Entity , Relation Pt.AcceptedRating: Green (cxh) Pt.ProposedRating: Green (eal) Nested Class Summary Nested classes/interfaces inherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary Fields Mo"
+    },
+    {
+      "chunk_id": 10,
+      "text": "j.ContainedObjectsIterator Field Summary Fields Modifier and Type Field and Description protected CrossRefList _insideLinks The list of inside relations for this port. protected CrossRefList _relationsList The list of relations for this port. Fields"
+    },
+    {
+      "chunk_id": 11,
+      "text": "sList The list of relations for this port. Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _w"
+    },
+    {
+      "chunk_id": 12,
+      "text": "sts , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary Constructors Constructor and Description Port () Construct a port in the default workspace with an"
+    },
+    {
+      "chunk_id": 13,
+      "text": "Construct a port in the default workspace with an empty string as its name. Port ( Entity container, java.lang.String name) Construct a port with the given name contained by the specified entity. Port ( Workspace workspace) Construct a port"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ity. Port ( Workspace workspace) Construct a port in the specified workspace with an empty string as a name. Method Summary All Methods Instance Methods Concrete Methods Deprecated Methods Modifier and Type Method and Description protected void _ch"
+    },
+    {
+      "chunk_id": 15,
+      "text": "and Type Method and Description protected void _checkContainer ( Entity container) Check that the specified container is of a suitable class for this port. protected void _checkLink ( Relation relation) Check that this port is compatible with the s"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ion) Check that this port is compatible with the specified relation, that it has a container. protected java.lang.String _description (int detail, int indent, int bracket) Return a description of the object. protected NamedO"
+    },
+    {
+      "chunk_id": 17,
+      "text": "turn a description of the object. protected NamedObj _getContainedObject ( NamedObj container, java.lang.String relativeName) Get a port with the specified name in the specified container. protected NamedObj _propagateExistence ( N"
+    },
+    {
+      "chunk_id": 18,
+      "text": "tainer. protected NamedObj _propagateExistence ( NamedObj container) Propagate existence of this object to the specified object. java.lang.Object clone ( Workspace workspace) Clone the object into the specified workspace. java.util.List connectedPo"
+    },
+    {
+      "chunk_id": 19,
+      "text": "he specified workspace. java.util.List connectedPortList () List the connected ports. java.util.Enumeration connectedPorts () Deprecated. Use connectedPortList() instead. NamedObj getContainer () Get the container entity. void insertLink (int index,"
+    },
+    {
+      "chunk_id": 20,
+      "text": "the container entity. void insertLink (int index, Relation relation) Insert a link to the specified relation at the specified index, and notify the container by calling its connectionsChanged() method. boolean isGroupLinked ( Relation r) Return tru"
+    },
+    {
+      "chunk_id": 21,
+      "text": "od. boolean isGroupLinked ( Relation r) Return true if the given relation or one in its relation group is linked to this port. boolean isLinked ( Relation r) Return true if the given relation is linked to this port. void link ( Relation relation) L"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ked to this port. void link ( Relation relation) Link this port with a relation, and notify the container by calling its connectionsChanged() method. java.util.List linkedRelationList () List the linked relations. java.util.Enumeration linkedRelati"
+    },
+    {
+      "chunk_id": 23,
+      "text": "nked relations. java.util.Enumeration linkedRelations () Enumerate the linked relations. int moveDown () Move this object down by one in the list of ports of its container. int moveToFirst () Move this object to the first position in the list of"
+    },
+    {
+      "chunk_id": 24,
+      "text": "his object to the first position in the list of ports of the container. int moveToIndex (int index) Move this object to the specified position in the list of ports of the container. int moveToLast () Move this object to the last position in the l"
+    },
+    {
+      "chunk_id": 25,
+      "text": "() Move this object to the last position in the list of ports of the container. int moveUp () Move this object up by one in the list of ports of the container. int numLinks () Return the number of links to relations. void setContainer ( Entity e"
+    },
+    {
+      "chunk_id": 26,
+      "text": "f links to relations. void setContainer ( Entity entity) Specify the container entity, adding the port to the list of ports in the container. void setName (java.lang.String name) Set the name of the port. void unlink (int index) Unlink whatever rel"
+    },
+    {
+      "chunk_id": 27,
+      "text": "port. void unlink (int index) Unlink whatever relation is currently linked at the specified index number. void unlink ( Relation relation) Unlink the specified Relation. void unlinkAll () Unlink all relations. Methods inherited from class ptolemy."
+    },
+    {
+      "chunk_id": 28,
+      "text": "l relations. Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _containedDecorators , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeCh"
+    },
+    {
+      "chunk_id": 29,
+      "text": "g , _debug , _debug , _debug , _debug , _executeChangeRequests , _exportMoMLContents , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _propagateValue , _rem"
+    },
+    {
+      "chunk_id": 30,
+      "text": "rchyListenersBeforeChange , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , _validateSettables , addChangeListener , addDebugListener , addHierarchyListener , attributeChanged , attributeDeleted , attributeList , attributeList"
+    },
+    {
+      "chunk_id": 31,
+      "text": ", attributeDeleted , attributeList , attributeList , attributeTypeChanged , clone , containedObjectsIterator , decorators , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , export"
+    },
+    {
+      "chunk_id": 32,
+      "text": "eChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel ,"
+    },
+    {
+      "chunk_id": 33,
+      "text": "bute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequests , isOverridden ,"
+    },
+    {
+      "chunk_id": 34,
+      "text": "Error , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateExistence , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , rem"
+    },
+    {
+      "chunk_id": 35,
+      "text": ", removeChangeListener , removeDebugListener , removeHierarchyListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel"
+    },
+    {
+      "chunk_id": 36,
+      "text": "tent , setSource , sortContainedObjects , toplevel , toString , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail _insideLin"
+    },
+    {
+      "chunk_id": 37,
+      "text": "otifyAll, wait, wait, wait Field Detail _insideLinks protected CrossRefList _insideLinks The list of inside relations for this port. _relationsList protected CrossRefList _relationsList The list of relations for this port. Constructor Detail Port pub"
+    },
+    {
+      "chunk_id": 38,
+      "text": "lations for this port. Constructor Detail Port public Port() Construct a port in the default workspace with an empty string as its name. The object is added to the workspace directory. Increment the version number of the workspace. Port public"
+    },
+    {
+      "chunk_id": 39,
+      "text": "the version number of the workspace. Port public Port( Workspace workspace) Construct a port in the specified workspace with an empty string as a name. You can then change the name with setName(). If the workspace argument is null, then use th"
+    },
+    {
+      "chunk_id": 40,
+      "text": "If the workspace argument is null, then use the default workspace. The object is added to the workspace directory. Increment the version number of the workspace. Parameters: workspace - The workspace that will list the port. Port public Port("
+    },
+    {
+      "chunk_id": 41,
+      "text": "rkspace that will list the port. Port public Port( Entity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct a port with the given name contained by the specified entity. The contai"
+    },
+    {
+      "chunk_id": 42,
+      "text": "me contained by the specified entity. The container argument must not be null, or a NullPointerException will be thrown. This port will use the workspace of the container for synchronization and version counts. If the name argument is null,"
+    },
+    {
+      "chunk_id": 43,
+      "text": "d version counts. If the name argument is null, then the name is set to the empty string. The object is not added to the workspace directory, unless the container is null. Increment the version of the workspace. Parameters: container - The pa"
+    },
+    {
+      "chunk_id": 44,
+      "text": "n of the workspace. Parameters: container - The parent entity. name - The name of the Port. Throws: IllegalActionException - If the port is not of an acceptable class for the container. NameDuplicationException - If the name coincides with a po"
+    },
+    {
+      "chunk_id": 45,
+      "text": "tionException - If the name coincides with a port already in the container. Method Detail clone public java.lang.Object clone( Workspace workspace) throws java.lang.CloneNotSupportedException Clone the object into the specif"
+    },
+    {
+      "chunk_id": 46,
+      "text": "upportedException Clone the object into the specified workspace. The new object is not added to the directory of that workspace (you must do this yourself if you want it there). The result is a new port with no connections and no container. Overr"
+    },
+    {
+      "chunk_id": 47,
+      "text": "w port with no connections and no container. Overrides: clone in class NamedObj Parameters: workspace - The workspace for the cloned object. Returns: A new Port. Throws: java.lang.CloneNotSupportedException - If one of the attributes cannot be clo"
+    },
+    {
+      "chunk_id": 48,
+      "text": "eption - If one of the attributes cannot be cloned. See Also: NamedObj.exportMoML(Writer, int, String) , NamedObj.setDeferringChangeRequests(boolean) connectedPortList public java.util.List connectedPortList() List the connected ports. Note that"
+    },
+    {
+      "chunk_id": 49,
+      "text": "edPortList() List the connected ports. Note that a port may be listed more than once if more than one connection to it has been established. This method is read-synchronized on the workspace. Returns: An unmodifiable list of Port objects. connec"
+    },
+    {
+      "chunk_id": 50,
+      "text": "urns: An unmodifiable list of Port objects. connectedPorts @Deprecated public java.util.Enumeration connectedPorts() Deprecated. Use connectedPortList() instead. Enumerate the connected ports. Note that a port may be listed more than once if more"
+    },
+    {
+      "chunk_id": 51,
+      "text": "hat a port may be listed more than once if more than one connection to it has been established. This method is read-synchronized on the workspace. Returns: An enumeration of Port objects. getContainer public NamedObj getContainer() Get the contai"
+    },
+    {
+      "chunk_id": 52,
+      "text": "iner public NamedObj getContainer() Get the container entity. Specified by: getContainer in interface Nameable Overrides: getContainer in class NamedObj Returns: An instance of Entity. See Also: setContainer(Entity) insertLink public void insertLink("
+    },
+    {
+      "chunk_id": 53,
+      "text": "ntainer(Entity) insertLink public void insertLink(int index, Relation relation) throws IllegalActionException Insert a link to the specified relation at the specified index, and notify the container by calling its connectionsChanged"
+    },
+    {
+      "chunk_id": 54,
+      "text": "fy the container by calling its connectionsChanged() method. The relation is required to be at the same level of the hierarchy as the entity that contains this port, meaning that the container of the relation is the same as the container of the"
+    },
+    {
+      "chunk_id": 55,
+      "text": "f the relation is the same as the container of the container of the port. That is, level-crossing links are not allowed. The specified index can be any non-negative integer. Any links with indices larger than or equal to the one specified here"
+    },
+    {
+      "chunk_id": 56,
+      "text": "larger than or equal to the one specified here will henceforth have indices that are larger by one. If the index is larger than the number of existing links (as returned by numLinks()), then empty links are inserted (these will be null eleme"
+    },
+    {
+      "chunk_id": 57,
+      "text": "pty links are inserted (these will be null elements in the list returned by linkedRelationsList() or in the enumeration returned by linkedRelations()). If the specified relation is null, then an empty link is inserted at the specified index."
+    },
+    {
+      "chunk_id": 58,
+      "text": "an empty link is inserted at the specified index. Note that a port may be linked to the same relation more than once, in which case the link will be reported more than once by the linkedRelations() method. In derived classes, the relation may be"
+    },
+    {
+      "chunk_id": 59,
+      "text": ") method. In derived classes, the relation may be required to be an instance of a particular subclass of Relation (this is checked by the _checkLink() protected method). This method is write-synchronized on the workspace and increments its vers"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ronized on the workspace and increments its version number. Parameters: index - The index at which to insert the link. relation - The relation to link to this port. Throws: IllegalActionException - If the link would cross levels of the hierarchy"
+    },
+    {
+      "chunk_id": 61,
+      "text": "If the link would cross levels of the hierarchy, or the relation is incompatible, or the port has no container, or the port is not in the same workspace as the relation, or if the port is contained by a class definition. isGroupLinked pub"
+    },
+    {
+      "chunk_id": 62,
+      "text": "tained by a class definition. isGroupLinked public boolean isGroupLinked( Relation r) Return true if the given relation or one in its relation group is linked to this port. Parameters: r - The relation. Returns: True if the given relation is lin"
+    },
+    {
+      "chunk_id": 63,
+      "text": "lation. Returns: True if the given relation is linked to this port. See Also: isLinked(Relation) isLinked public boolean isLinked( Relation r) Return true if the given relation is linked to this port. Note that this returns true only if the relatio"
+    },
+    {
+      "chunk_id": 64,
+      "text": "Note that this returns true only if the relation is directly linked to the port. There is no support here for relation groups. This method is read-synchronized on the workspace. Parameters: r - The relation. Returns: True if the given relation"
+    },
+    {
+      "chunk_id": 65,
+      "text": "The relation. Returns: True if the given relation is linked to this port. See Also: isGroupLinked(Relation) link public void link( Relation relation) throws IllegalActionException Link this port with a relation, and notify the container by"
+    },
+    {
+      "chunk_id": 66,
+      "text": "port with a relation, and notify the container by calling its connectionsChanged() method. The relation is required to be at the same level of the hierarchy as the entity that contains this port, meaning that the container of the relation i"
+    },
+    {
+      "chunk_id": 67,
+      "text": "rt, meaning that the container of the relation is the same as the container of the container of the port. That is, level-crossing links are not allowed. If the argument is null, then create a null link. Note that a port may be linked to the sam"
+    },
+    {
+      "chunk_id": 68,
+      "text": "link. Note that a port may be linked to the same relation more than once, in which case the link will be reported more than once by the linkedRelations() method. In derived classes, the relation may be required to be an instance of a particu"
+    },
+    {
+      "chunk_id": 69,
+      "text": "n may be required to be an instance of a particular subclass of Relation (this is checked by the _checkLink() protected method). This method is write-synchronized on the workspace and increments its version number. Parameters: relation - The"
+    },
+    {
+      "chunk_id": 70,
+      "text": "its version number. Parameters: relation - The relation to link to this port. Throws: IllegalActionException - If the link would cross levels of the hierarchy, or the relation is incompatible, or the port has no container, or the port is not"
+    },
+    {
+      "chunk_id": 71,
+      "text": "or the port has no container, or the port is not in the same workspace as the relation, or if the port is contained by a class definition. linkedRelationList public java.util.List linkedRelationList() List the linked relations. Note that a r"
+    },
+    {
+      "chunk_id": 72,
+      "text": "onList() List the linked relations. Note that a relation may appear more than once if more than one link to it has been established. Also, some entries in the list may be null, indicating a null link , where there is no linked relation. A null"
+    },
+    {
+      "chunk_id": 73,
+      "text": "link , where there is no linked relation. A null link causes a skip in the link indexes. This method is read-synchronized on the workspace. Returns: A list of Relation objects. linkedRelations public java.util.Enumeration linkedRelations() Enum"
+    },
+    {
+      "chunk_id": 74,
+      "text": "ublic java.util.Enumeration linkedRelations() Enumerate the linked relations. Note that a relation may appear more than once if more than one link to it has been established. Also, some entries in the enumeration may be null, indicating a null l"
+    },
+    {
+      "chunk_id": 75,
+      "text": "n the enumeration may be null, indicating a null link , where there is no linked relation. A null link causes a skip in the link indexes. This method is read-synchronized on the workspace. Returns: An enumeration of Relation objects. moveDown pub"
+    },
+    {
+      "chunk_id": 76,
+      "text": ": An enumeration of Relation objects. moveDown public int moveDown() throws IllegalActionException Move this object down by one in the list of ports of its container. If this object is already last, do nothing. Increment the version"
+    },
+    {
+      "chunk_id": 77,
+      "text": "already last, do nothing. Increment the version of the workspace. Specified by: moveDown in interface Moveable Overrides: moveDown in class NamedObj Returns: The index of the specified object prior to moving it, or -1 if it is not moved. Throws:"
+    },
+    {
+      "chunk_id": 78,
+      "text": "to moving it, or -1 if it is not moved. Throws: IllegalActionException - If this object has no container. moveToFirst public int moveToFirst() throws IllegalActionException Move this object to the first position in the list of"
+    },
+    {
+      "chunk_id": 79,
+      "text": "this object to the first position in the list of ports of the container. If this object is already first, do nothing. Increment the version of the workspace. Specified by: moveToFirst in interface Moveable Overrides: moveToFirst in class NamedObj"
+    },
+    {
+      "chunk_id": 80,
+      "text": "Moveable Overrides: moveToFirst in class NamedObj Returns: The index of the specified object prior to moving it, or -1 if it is not moved. Throws: IllegalActionException - If this object has no container. moveToIndex public int moveToIndex(int"
+    },
+    {
+      "chunk_id": 81,
+      "text": "container. moveToIndex public int moveToIndex(int index) throws IllegalActionException Move this object to the specified position in the list of ports of the container. If this object is already at the specified position, do noth"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ct is already at the specified position, do nothing. Increment the version of the workspace. Specified by: moveToIndex in interface Moveable Overrides: moveToIndex in class NamedObj Parameters: index - The position to move this object to. Returns"
+    },
+    {
+      "chunk_id": 83,
+      "text": "dex - The position to move this object to. Returns: The index of the specified object prior to moving it, or -1 if it is not moved. Throws: IllegalActionException - If this object has no container or if the index is out of bounds. moveToLast pu"
+    },
+    {
+      "chunk_id": 84,
+      "text": "er or if the index is out of bounds. moveToLast public int moveToLast() throws IllegalActionException Move this object to the last position in the list of ports of the container. If this object is already last, do nothing. Increme"
+    },
+    {
+      "chunk_id": 85,
+      "text": "this object is already last, do nothing. Increment the version of the workspace. Specified by: moveToLast in interface Moveable Overrides: moveToLast in class NamedObj Returns: The index of the specified object prior to moving it, or -1 if it is"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ified object prior to moving it, or -1 if it is not moved. Throws: IllegalActionException - If this object has no container. moveUp public int moveUp() throws IllegalActionException Move this object up by one in the list of ports o"
+    },
+    {
+      "chunk_id": 87,
+      "text": "ove this object up by one in the list of ports of the container. If this object is already first, do nothing. Increment the version of the workspace. Specified by: moveUp in interface Moveable Overrides: moveUp in class NamedObj Returns: The inde"
+    },
+    {
+      "chunk_id": 88,
+      "text": "rrides: moveUp in class NamedObj Returns: The index of the specified object prior to moving it, or -1 if it is not moved. Throws: IllegalActionException - If this object has no container. numLinks public int numLinks() Return the number of link"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ks public int numLinks() Return the number of links to relations. This method is read-synchronized on the workspace. Returns: The number of links, a non-negative integer. setContainer public void setContainer( Entity entity) throw"
+    },
+    {
+      "chunk_id": 90,
+      "text": "tContainer( Entity entity) throws IllegalActionException , NameDuplicationException Specify the container entity, adding the port to the list of ports in the container. If the container already contains a port with the same nam"
+    },
+    {
+      "chunk_id": 91,
+      "text": "tainer already contains a port with the same name, then throw an exception and do not make any changes. Similarly, if the container is not in the same workspace as this port, throw an exception. If the port is a class element and the propose"
+    },
+    {
+      "chunk_id": 92,
+      "text": ". If the port is a class element and the proposed container does not match the current container, then also throw an exception. If the port is already contained by the entity, do nothing. If the port already has a container, remove this por"
+    },
+    {
+      "chunk_id": 93,
+      "text": "he port already has a container, remove this port from its port list first. Otherwise, remove it from the workspace directory, if it is present. If the argument is null, then unlink the port from any relations and remove it from its containe"
+    },
+    {
+      "chunk_id": 94,
+      "text": "from any relations and remove it from its container. It is not added to the workspace directory, so this could result in this port being garbage collected. This method validates all deeply contained instances of Settable, since they may no long"
+    },
+    {
+      "chunk_id": 95,
+      "text": "ined instances of Settable, since they may no longer be valid in the new context. This method is write-synchronized on the workspace and increments its version number. Parameters: entity - The container. Throws: IllegalActionException - If this"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ontainer. Throws: IllegalActionException - If this port is not of the expected class for the container, or it has no name, or the port and container are not in the same workspace, or if a contained Settable becomes invalid and the error hand"
+    },
+    {
+      "chunk_id": 97,
+      "text": "tained Settable becomes invalid and the error handler throws it, or if this port is a class element and the argument does not match the current container. NameDuplicationException - If the container already has a port with the name of this p"
+    },
+    {
+      "chunk_id": 98,
+      "text": "iner already has a port with the name of this port. See Also: getContainer() , _checkContainer(Entity) setName public void setName(java.lang.String name) throws IllegalActionException , NameDuplicationException Set the name of the por"
+    },
+    {
+      "chunk_id": 99,
+      "text": ", NameDuplicationException Set the name of the port. If there is already an port of the container entity with the same name, then throw an exception. Specified by: setName in interface Nameable Overrides: setName in class NamedObj Parameters: nam"
+    },
+    {
+      "chunk_id": 100,
+      "text": "errides: setName in class NamedObj Parameters: name - The new name. Throws: IllegalActionException - If the name has a period. NameDuplicationException - If there is already a port with the same name in the container. See Also: NamedObj.getName()"
+    },
+    {
+      "chunk_id": 101,
+      "text": "me in the container. See Also: NamedObj.getName() , NamedObj.getName(NamedObj) unlink public void unlink(int index) Unlink whatever relation is currently linked at the specified index number. If there is no such relation, do nothing. If a link is"
+    },
+    {
+      "chunk_id": 102,
+      "text": "re is no such relation, do nothing. If a link is removed, then any links at higher index numbers will have their index numbers decremented by one. If there is a container, notify it by calling connectionsChanged(). This method is write-synchr"
+    },
+    {
+      "chunk_id": 103,
+      "text": "onnectionsChanged(). This method is write-synchronized on the workspace and increments its version number. Parameters: index - The index number of the link to remove. unlink public void unlink( Relation relation) Unlink the specified Relation. If"
+    },
+    {
+      "chunk_id": 104,
+      "text": "lation relation) Unlink the specified Relation. If the Relation is not linked to this port, do nothing. If the relation is linked more than once, then unlink all occurrences. If there is a container, notify it by calling connectionsChanged()."
+    },
+    {
+      "chunk_id": 105,
+      "text": "iner, notify it by calling connectionsChanged(). This method is write-synchronized on the workspace and increments its version number. Parameters: relation - The relation to unlink. unlinkAll public void unlinkAll() Unlink all relations. If the"
+    },
+    {
+      "chunk_id": 106,
+      "text": "ic void unlinkAll() Unlink all relations. If there is a container, notify it by calling connectionsChanged(). This method is write-synchronized on the workspace and increments its version number. _checkContainer protected void _checkContainer("
+    },
+    {
+      "chunk_id": 107,
+      "text": ". _checkContainer protected void _checkContainer( Entity container) throws IllegalActionException Check that the specified container is of a suitable class for this port. In this base class, this method returns immediately"
+    },
+    {
+      "chunk_id": 108,
+      "text": "this base class, this method returns immediately without doing anything. Parameters: container - The proposed container. Throws: IllegalActionException - If the container is not of an acceptable class. Not thrown in this base class. _checkLink"
+    },
+    {
+      "chunk_id": 109,
+      "text": "class. Not thrown in this base class. _checkLink protected void _checkLink( Relation relation) throws IllegalActionException Check that this port is compatible with the specified relation, that it has a container. If the argume"
+    },
+    {
+      "chunk_id": 110,
+      "text": "relation, that it has a container. If the argument is null, do nothing. If this port has no container, throw an exception. Derived classes may constrain the argument to be a subclass of Relation. Level-crossing links are allowed. This port"
+    },
+    {
+      "chunk_id": 111,
+      "text": "on. Level-crossing links are allowed. This port and the relation are assumed to be in the same workspace, but this is not checked here. The caller should check. This method is used in a \"strategy pattern,\" where the link methods call it to c"
+    },
+    {
+      "chunk_id": 112,
+      "text": "gy pattern,\" where the link methods call it to check the validity of a link, and derived classes perform more elaborate checks. This method is not synchronized on the workspace, so the caller should be. Parameters: relation - The relation to"
+    },
+    {
+      "chunk_id": 113,
+      "text": "should be. Parameters: relation - The relation to link to. Throws: IllegalActionException - If this port has no container, or if this port is not an acceptable port for the specified relation. _description protected java.lang.String _descriptio"
+    },
+    {
+      "chunk_id": 114,
+      "text": "description protected java.lang.String _description(int detail, int indent, int bracket) throws IllegalActionException Return a descripti"
+    },
+    {
+      "chunk_id": 115,
+      "text": "throws IllegalActionException Return a description of the object. The level of detail depends on the argument, which is an or-ing of the static final constants defined in the NamedObj class. Lines are indented according to to the level argu"
+    },
+    {
+      "chunk_id": 116,
+      "text": "ines are indented according to to the level argument using the protected method _getIndentPrefix(). Zero, one or two brackets can be specified to surround the returned description. If one is specified it is the the leading bracket. This is u"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ecified it is the the leading bracket. This is used by derived classes that will append to the description. Those derived classes are responsible for the closing bracket. An argument other than 0, 1, or 2 is taken to be equivalent to 0. This"
+    },
+    {
+      "chunk_id": 118,
+      "text": "0, 1, or 2 is taken to be equivalent to 0. This method is read-synchronized on the workspace. Overrides: _description in class NamedObj Parameters: detail - The level of detail. indent - The amount of indenting. bracket - The number of surrounding"
+    },
+    {
+      "chunk_id": 119,
+      "text": "of indenting. bracket - The number of surrounding brackets (0, 1, or 2). Returns: A description of the object. Throws: IllegalActionException - If thrown by the parent class. _getContainedObject protected NamedObj _getContainedObject( NamedObj contai"
+    },
+    {
+      "chunk_id": 120,
+      "text": "cted NamedObj _getContainedObject( NamedObj container, java.lang.String relativeName) throws IllegalActionException Get a port with the specified name in the specified container."
+    },
+    {
+      "chunk_id": 121,
+      "text": "th the specified name in the specified container. The returned object is assured of being an instance of the same class as this object. Overrides: _getContainedObject in class NamedObj Parameters: relativeName - The name relative to the container"
+    },
+    {
+      "chunk_id": 122,
+      "text": "relativeName - The name relative to the container. container - The container expected to contain the object, which must be an instance of Entity. Returns: An object of the same class as this object, or null if there is none. Throws: IllegalAct"
+    },
+    {
+      "chunk_id": 123,
+      "text": "t, or null if there is none. Throws: IllegalActionException - If the object exists and has the wrong class, or if the specified container is not an instance of CompositeEntity. _propagateExistence protected NamedObj _propagateExistence( Name"
+    },
+    {
+      "chunk_id": 124,
+      "text": "tence protected NamedObj _propagateExistence( NamedObj container) throws IllegalActionException Propagate existence of this object to the specified object. This overrides the base class to set the container. Overri"
+    },
+    {
+      "chunk_id": 125,
+      "text": "ides the base class to set the container. Overrides: _propagateExistence in class NamedObj Parameters: container - Object to contain the new object. Returns: A new object of the same class and name as this one. Throws: IllegalActionException - I"
+    },
+    {
+      "chunk_id": 126,
+      "text": "as this one. Throws: IllegalActionException - If the object cannot be cloned. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method D"
+    },
+    {
+      "chunk_id": 127,
+      "text": "lasses Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

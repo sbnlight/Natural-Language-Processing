@@ -1,0 +1,73 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/bug-submit",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "if (! exists $ENV{'MASTERDIR'}) { do \"acquireDir.pl\"; askForMaster($#ARGV+1, 1, 1, \"Usage: bug-submit ASSIGNMENT\\n E.g., bug-submit hw1\", \"Enter the name of the course for which you are submitting\" . \"\\n a bug report (e.g., ee24"
+    },
+    {
+      "chunk_id": 3,
+      "text": "re submitting\" . \"\\n a bug report (e.g., ee245, cs164): \"); } require \"GradingBase.pl\"; CmndLine (\"\", 1, 1); require \"GradingCommon.pl\"; $me = MyLogin (); $assgn = shift; sub MyEmail { my $addr; open (INFO, \"$REGISTER_PROG|\") || retur"
+    },
+    {
+      "chunk_id": 4,
+      "text": "$addr; open (INFO, \"$REGISTER_PROG|\") || return undef; while ( ) { chomp; if (/^Email:\\s*(\\S+)/) { $addr = $1; close (INFO); return $addr; } } return undef; } if (! AssignmentExists ($assgn)) { Fatal (\"There is"
+    },
+    {
+      "chunk_id": 5,
+      "text": "AssignmentExists ($assgn)) { Fatal (\"There is no assignment $assgn.\"); } if (! StudentExists ($me)) { Fatal (\"$me is not registered as a student in $COURSE.\"); } if (! $ASSGN_SUBMIT{$assgn}) { Note (\"There is no electronic submission fo"
+    },
+    {
+      "chunk_id": 6,
+      "text": "{ Note (\"There is no electronic submission for assignment $assgn.\"); } if (-r \"ERROR\") { Note (\"You have included the following bug report in the file ERROR:\\n\" . \"-----------------------------------------------\"); System (\"/bin/cat"
+    },
+    {
+      "chunk_id": 7,
+      "text": "------------------------\"); System (\"/bin/cat ERROR\"); Note (\"-----------------------------------------------\"); Yorn (\"Is this correct?\") || Fatal (\"Update your ERROR file and try again.\"); } else { Fatal (\"You must have a file nam"
+    },
+    {
+      "chunk_id": 8,
+      "text": ".\"); } else { Fatal (\"You must have a file named ERROR describing your problem\\n\" . \"and telling us how to reproduce it.\"); } Note (\"Looking for other files to turn in....\"); $autoskips = '\\\\.(o|exe|class|jpg|gz|tar|jar|tif|gif|pdf|ps|eps)$"
+    },
+    {
+      "chunk_id": 9,
+      "text": "\\.(o|exe|class|jpg|gz|tar|jar|tif|gif|pdf|ps|eps)$'; %fileSet = (\"./ERROR\" => 1); sub Traverse { my $dir = shift; my @candidates; my ($f, $full); if (opendir (TRAVERSE_DIR, $dir)) { @candidates = readdir (TRAVERSE_DIR); closedir (T"
+    },
+    {
+      "chunk_id": 10,
+      "text": "@candidates = readdir (TRAVERSE_DIR); closedir (TRAVERSE_DIR); foreach (@candidates) { $full = \"$dir/$_\"; next if (/^\\.\\.?$/ || $fileSet{$full}); if (/[#;\\[\\]\\?'\"|\\n`\\\\ \\t&]/) { Note (\"Skipping file name $_, which contains strange"
+    },
+    {
+      "chunk_id": 11,
+      "text": "e (\"Skipping file name $_, which contains strange characters\"); next; } if ($full =~ /$autoskips/) { Note (\"Skipping file name $_ because of name\"); next; } if (-d $full) { if ($_"
+    },
+    {
+      "chunk_id": 12,
+      "text": "next; } if (-d $full) { if ($_ ne \".svn\" and Yorn (\"Look at files in directory $full?\")) { Traverse ($full); } else { Note (\"Skipping directory $full.\"); } } elsif (-f _) { my $size = (stat (_))[7];"
+    },
+    {
+      "chunk_id": 13,
+      "text": "} elsif (-f _) { my $size = (stat (_))[7]; if ($size <= 50_000 || Yorn (\"Turn in $full (it's $size bytes long)\")) { $fileSet{$full} = 1; } } } } } &Traverse (\".\"); @allFiles = sort (keys %fileSet); print STDERR \"Th"
+    },
+    {
+      "chunk_id": 14,
+      "text": "allFiles = sort (keys %fileSet); print STDERR \"The files you have submitted are:\"; for ($i = 0; $i <= $#allFiles; $i += 1) { print STDERR \"\\n\\t\" if ($i % 4 == 0); print STDERR \"$allFiles[$i] \"; } print STDERR \"\\n\"; if (! Yorn (\"Is this co"
+    },
+    {
+      "chunk_id": 15,
+      "text": "\"; } print STDERR \"\\n\"; if (! Yorn (\"Is this correct?\")) { Fatal (\"Bug submission FAILS by request.\"); } $fileArg = \"\"; foreach (@allFiles) { $fileArg .= \" \" . ShellQuote ($_); } Note (\"Submitting bug report to $SUPERVISOR ....\"); $repl"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ubmitting bug report to $SUPERVISOR ....\"); $reply = MyEmail (); if ($reply) { $reply = \" -r $reply\"; } else { $reply = \"\"; } if (System (\"tar chf - $fileArg | gzip -c | uuencode ${assgn}-handin.tar.gz\" . \" | ${SUBMIT_PROG} -s 'Error"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ndin.tar.gz\" . \" | ${SUBMIT_PROG} -s 'Error report for assignment ${assgn}'\") && System (\"${MAIL_PROG} -s 'Error report for assignment ${assgn} from $me'$reply \" . \"$SUPERVISOR < ERROR\")) { Note (\"Submission mailed. You should be"
+    },
+    {
+      "chunk_id": 18,
+      "text": ")) { Note (\"Submission mailed. You should be hearing from us.\"); } else { Fatal (\"There was some problem with mailing. Report NOT MAILED.\"); } exit 0;"
+    }
+  ]
+}

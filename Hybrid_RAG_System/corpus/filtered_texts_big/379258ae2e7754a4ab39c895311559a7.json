@@ -1,0 +1,453 @@
+{
+  "url": "http://chess.eecs.berkeley.edu/ptexternal/src/ptII/doc/codeDoc/ptolemy/actor/TypedCompositeActor.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "TypedCompositeActor JavaScript is disabled on your browser. Package ptolemy.actor Class TypedCompositeActor java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity <T> ptolemy.kernel.ComponentEntity pto"
+    },
+    {
+      "chunk_id": 2,
+      "text": "rnel.Entity <T> ptolemy.kernel.ComponentEntity ptolemy.kernel.CompositeEntity ptolemy.actor.CompositeActor ptolemy.actor.TypedCompositeActor All Implemented Interfaces: java.lang.Cloneable , Actor , Executable , FiringsRecordable , Initializable , Ty"
+    },
+    {
+      "chunk_id": 3,
+      "text": "xecutable , FiringsRecordable , Initializable , TypedActor , Changeable , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: AbstractParticleFilter , AbstractPredi"
+    },
+    {
+      "chunk_id": 4,
+      "text": "Subclasses: AbstractParticleFilter , AbstractPredictor , AbstractStateSpaceSimulator , AbstractUnscentedKalmanFilter , ActorRecursion , Butterfly , CA2DConvolution , CompiledCompositeActor , ComponentActor , CompositeActorMatcher , CompositeCommunica"
+    },
+    {
+      "chunk_id": 5,
+      "text": "Actor , CompositeActorMatcher , CompositeCommunicationAspect , CompositeExecutionAspect , ContinuousTransferFunction , DifferentialSystem , DistributedTypedCompositeActor , EnabledComposite , LazyTypedCompositeActor , LifeCycleManager , LinearStateSp"
+    },
+    {
+      "chunk_id": 6,
+      "text": "dCompositeActor , LifeCycleManager , LinearStateSpace , MetroIICompositeActor , MobileModel , ModalModel , MultiCompositeActor , MultiInstanceComposite , NondeterministicMerge , OrthogonalCom , PetriNetActor , PtalonActor , PtalonMatcher , PthalesCom"
+    },
+    {
+      "chunk_id": 7,
+      "text": "etActor , PtalonActor , PtalonMatcher , PthalesCompositeActor , PthalesWrapperCompositeActor , Refinement , Refinement , ReflectComposite , ReflectComposite.ReflectCompositeContents , Region , SMVLegacyCodeActor , Task , TDLTask , TestModel , TMCompo"
+    },
+    {
+      "chunk_id": 8,
+      "text": "cyCodeActor , Task , TDLTask , TestModel , TMCompositeFacade , Transition , WirelessComposite public class TypedCompositeActor extends CompositeActor implements TypedActor A TypedCompositeActor is an aggregation of typed actors. When exporting MoML,"
+    },
+    {
+      "chunk_id": 9,
+      "text": "aggregation of typed actors. When exporting MoML, instances of this class identify their class name as TypedCompositeActor. If a derived class does not change this, then it too will be identified as a TypedCompositeActor. To change this in a deriv"
+    },
+    {
+      "chunk_id": 10,
+      "text": "a TypedCompositeActor. To change this in a derived class, put the following line in the constructor: setClassName( full class name \"); If you do this, you will probably also want to override _exportMoMLContents() to not generate a description of t"
+    },
+    {
+      "chunk_id": 11,
+      "text": "MoMLContents() to not generate a description of the contents of the composite, since they will be already defined in the Java class. The ports of a TypedCompositeActor are constrained to be TypedIOPorts, the relations to be TypedIORelations, and t"
+    },
+    {
+      "chunk_id": 12,
+      "text": "orts, the relations to be TypedIORelations, and the actors to be instances of ComponentEntity that implement the TypedActor interface. Derived classes may impose further constraints by overriding newPort(), _addPort(), newRelation(), _addRelatio"
+    },
+    {
+      "chunk_id": 13,
+      "text": "newPort(), _addPort(), newRelation(), _addRelation(), and _addEntity(). Also, derived classes may constrain the container by overriding _checkContainer(). Since: Ptolemy II 0.2 Version: $Id$ Author: Yuhong Xiong, Marten Lohstroh See Also: TypedIOPo"
+    },
+    {
+      "chunk_id": 14,
+      "text": "Yuhong Xiong, Marten Lohstroh See Also: TypedIOPort , TypedIORelation , TypedActor , ComponentEntity , CompositeActor Pt.AcceptedRating: Green (lmuliadi) Pt.ProposedRating: Green (yuhong) Nested Class Summary Nested classes/interfaces inherited from"
+    },
+    {
+      "chunk_id": 15,
+      "text": "s Summary Nested classes/interfaces inherited from class ptolemy.kernel. CompositeEntity CompositeEntity.ContainedObjectsIterator Field Summary Fields inherited from class ptolemy.actor. CompositeActor _actorFiringListeners , _causalityInterface , _d"
+    },
+    {
+      "chunk_id": 16,
+      "text": "r _actorFiringListeners , _causalityInterface , _derivedPiggybacks , _initializables , _notifyingActorFiring , _piggybacks , _publishedPorts , _publisherRelations , _stopRequested , _subscribedPorts Fields inherited from class ptolemy.kernel. Composi"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ields inherited from class ptolemy.kernel. CompositeEntity _levelCrossingLinks Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _element"
+    },
+    {
+      "chunk_id": 18,
+      "text": "_debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY ,"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary Constructors Constructor Description TypedCompositeActor () Construct a TypedCompositeActor in the default workspace with no container and an empty string as its n"
+    },
+    {
+      "chunk_id": 20,
+      "text": "e with no container and an empty string as its name. TypedCompositeActor ​( CompositeEntity container, java.lang.String name) Construct a TypedCompositeActor with a name and a container. TypedCompositeActor ​( Workspace workspace"
+    },
+    {
+      "chunk_id": 21,
+      "text": "tainer. TypedCompositeActor ​( Workspace workspace) Construct a TypedCompositeActor in the specified workspace with no container and an empty string as a name. Method Summary All Methods Static Methods Instance Methods Concrete Methods Deprecated M"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ods Instance Methods Concrete Methods Deprecated Methods Modifier and Type Method Description protected void _addEntity ​( ComponentEntity entity) Add an actor to this container with minimal error checking. protected void _addPort ​( Port port) Add a"
+    },
+    {
+      "chunk_id": 23,
+      "text": "cking. protected void _addPort ​( Port port) Add a port to this actor. protected void _addRelation ​( ComponentRelation relation) Add a relation to this container. protected java.util.List< Inequality > _checkTypesFromTo ​( TypedIOPort sourcePort,"
+    },
+    {
+      "chunk_id": 24,
+      "text": "> _checkTypesFromTo ​( TypedIOPort sourcePort, java.util.List< TypedIOPort > destinationPortList) Check types from a source port to a group of destination ports, assuming the source port is connected to all the ports in the grou"
+    },
+    {
+      "chunk_id": 25,
+      "text": "e port is connected to all the ports in the group of destination ports. protected java.util.List< Inequality > _destinationTypeConstraints ​( TypedIOPort source) Return the type constraints on all connections starting from the specified source po"
+    },
+    {
+      "chunk_id": 26,
+      "text": "onnections starting from the specified source port to all the ports in a group of destination ports. void attributeChanged ​( Attribute attribute) React to a change in an attribute. void attributeTypeChanged ​( Attribute attribute) React to a cha"
+    },
+    {
+      "chunk_id": 27,
+      "text": "TypeChanged ​( Attribute attribute) React to a change in the type of an attribute. boolean isBackwardTypeInferenceEnabled () Return true if backward type inference is enabled. Port newPort ​(java.lang.String name) Create a new TypedIOPort with the sp"
+    },
+    {
+      "chunk_id": 28,
+      "text": ".String name) Create a new TypedIOPort with the specified name. ComponentRelation newRelation ​(java.lang.String name) Create a new TypedIORelation with the specified name, add it to the relation list, and return it. static void resolveTypes ​( Typ"
+    },
+    {
+      "chunk_id": 29,
+      "text": "st, and return it. static void resolveTypes ​( TypedCompositeActor topLevel) Do type checking and type resolution on the specified composite actor. java.util.List typeConstraintList () Deprecated. Use typeConstraints(). java.util.Set< Inequality > ty"
+    },
+    {
+      "chunk_id": 30,
+      "text": "typeConstraints(). java.util.Set< Inequality > typeConstraints () Return the type constraints of this typed composite actor. Methods inherited from class ptolemy.actor. CompositeActor _actorFiring , _actorFiring , _finishedAddEntity , _setDirector ,"
+    },
+    {
+      "chunk_id": 31,
+      "text": "_actorFiring , _finishedAddEntity , _setDirector , _transferPortParameterInputs , addActorFiringListener , addInitializable , addPiggyback , clone , connectionsChanged , createReceivers , createSchedule , fire , getCausalityInterface , getDirector ,"
+    },
+    {
+      "chunk_id": 32,
+      "text": "le , fire , getCausalityInterface , getDirector , getExecutiveDirector , getManager , getPublishedPort , getPublishedPortChannel , getPublishedPorts , getSubscribedPortChannel , inferringWidths , inferWidths , initialize , inputPortList , isFireFunct"
+    },
+    {
+      "chunk_id": 33,
+      "text": "rWidths , initialize , inputPortList , isFireFunctional , isOpaque , isPublishedPort , isStrict , iterate , linkToPublishedPort , linkToPublishedPort , linkToPublishedPort , linkToPublishedPort , needsWidthInference , newInsideReceiver , newReceiver"
+    },
+    {
+      "chunk_id": 34,
+      "text": "sWidthInference , newInsideReceiver , newReceiver , notifyConnectivityChange , outputPortList , postfire , prefire , preinitialize , recordFiring , registerPublisherPort , registerPublisherPort , removeActorFiringListener , removeInitializable , remo"
+    },
+    {
+      "chunk_id": 35,
+      "text": "veActorFiringListener , removeInitializable , removePiggyback , requestChange , setContainer , setDirector , setManager , stop , stopFire , terminate , unlinkToPublishedPort , unlinkToPublishedPort , unlinkToPublishedPort , unlinkToPublishedPort , un"
+    },
+    {
+      "chunk_id": 36,
+      "text": "unlinkToPublishedPort , unlinkToPublishedPort , unregisterPublisherPort , unregisterPublisherPort , wrapup Methods inherited from class ptolemy.kernel. CompositeEntity _adjustDeferrals , _containedDecorators , _deepOpaqueEntityList , _description , _"
+    },
+    {
+      "chunk_id": 37,
+      "text": "orators , _deepOpaqueEntityList , _description , _exportMoMLContents , _removeEntity , _removeRelation , _validateSettables , allAtomicEntityList , allowLevelCrossingConnect , classDefinitionList , connect , connect , containedObjectsIterator , deepC"
+    },
+    {
+      "chunk_id": 38,
+      "text": "nnect , connect , containedObjectsIterator , deepCompositeEntityList , deepEntityList , deepGetEntities , deepNamedObjList , deepOpaqueEntityList , deepRelationSet , entityList , entityList , exportLinks , exportMoML , getAttribute , getEntities , ge"
+    },
+    {
+      "chunk_id": 39,
+      "text": "nks , exportMoML , getAttribute , getEntities , getEntity , getPort , getRelation , getRelations , isAtomic , lazyAllAtomicEntityList , lazyAllCompositeEntityList , lazyAllCompositeTransparentAndOpaqueEntityList , lazyClassDefinitionList , lazyDeepEn"
+    },
+    {
+      "chunk_id": 40,
+      "text": "eEntityList , lazyClassDefinitionList , lazyDeepEntityList , lazyEntityList , lazyRelationList , numberOfEntities , numberOfRelations , numEntities , numRelations , relationList , removeAllEntities , removeAllRelations , setClassDefinition , statisti"
+    },
+    {
+      "chunk_id": 41,
+      "text": "removeAllRelations , setClassDefinition , statistics , uniqueName Methods inherited from class ptolemy.kernel. ComponentEntity _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , moveDown , moveToFirst , moveToI"
+    },
+    {
+      "chunk_id": 42,
+      "text": "r , instantiate , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _removePort , connectedPortList , connectedPorts , getPorts , linkedRelationList , linkedR"
+    },
+    {
+      "chunk_id": 43,
+      "text": "tedPorts , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition , is"
+    },
+    {
+      "chunk_id": 44,
+      "text": "Parent , getPrototypeList , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _copyChangeRequestList , _debug , _debug , _"
+    },
+    {
+      "chunk_id": 45,
+      "text": "lds , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _propaga"
+    },
+    {
+      "chunk_id": 46,
+      "text": ", _notifyHierarchyListenersBeforeChange , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , addHierarchyListener , attributeDeleted , attributeList , attributeList , clone , decorators , de"
+    },
+    {
+      "chunk_id": 47,
+      "text": "buteList , attributeList , clone , decorators , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChan"
+    },
+    {
+      "chunk_id": 48,
+      "text": "MoMLPlain , getAttribute , getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , h"
+    },
+    {
+      "chunk_id": 49,
+      "text": "elErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateValue , propagateValues , removeAttribute , removeCha"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortCont"
+    },
+    {
+      "chunk_id": 51,
+      "text": "rrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inher"
+    },
+    {
+      "chunk_id": 52,
+      "text": "notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor createReceivers , getCausalityInterface , getDirector , getExecutiveDirector , getManager , inputPortList , newReceiver , outputPortList Methods inherited from"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ewReceiver , outputPortList Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from interface ptolemy.actor. Executable fire , isFireFunctional , isStrict , iterate , po"
+    },
+    {
+      "chunk_id": 54,
+      "text": "fire , isFireFunctional , isStrict , iterate , postfire , prefire , stop , stopFire , terminate Methods inherited from interface ptolemy.actor. Initializable addInitializable , initialize , preinitialize , removeInitializable , wrapup Methods inheri"
+    },
+    {
+      "chunk_id": 55,
+      "text": "lize , removeInitializable , wrapup Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Constructor Detail TypedCompositeActor public TypedCompositeAct"
+    },
+    {
+      "chunk_id": 56,
+      "text": "etail TypedCompositeActor public TypedCompositeActor() Construct a TypedCompositeActor in the default workspace with no container and an empty string as its name. Add the actor to the workspace directory. You should set the local director or e"
+    },
+    {
+      "chunk_id": 57,
+      "text": "rectory. You should set the local director or executive director before attempting to send data to the actor or to execute it. Increment the version number of the workspace. TypedCompositeActor public TypedCompositeActor​( Workspace workspace) C"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ublic TypedCompositeActor​( Workspace workspace) Construct a TypedCompositeActor in the specified workspace with no container and an empty string as a name. You can then change the name with setName(). If the workspace argument is null, then us"
+    },
+    {
+      "chunk_id": 59,
+      "text": "me(). If the workspace argument is null, then use the default workspace. You should set the local director or executive director before attempting to send data to the actor or to execute it. Add the actor to the workspace directory. Incremen"
+    },
+    {
+      "chunk_id": 60,
+      "text": "d the actor to the workspace directory. Increment the version number of the workspace. Parameters: workspace - The workspace that will list the actor. TypedCompositeActor public TypedCompositeActor​( CompositeEntity container,"
+    },
+    {
+      "chunk_id": 61,
+      "text": "( CompositeEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct a TypedCompositeActor with a name and a container. The container argument must not"
+    },
+    {
+      "chunk_id": 62,
+      "text": "and a container. The container argument must not be null, or a NullPointerException will be thrown. This actor will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set"
+    },
+    {
+      "chunk_id": 63,
+      "text": "If the name argument is null, then the name is set to the empty string. Increment the version of the workspace. This actor will have no local director initially, and its executive director will be simply the director of the container. Paramete"
+    },
+    {
+      "chunk_id": 64,
+      "text": "e simply the director of the container. Parameters: container - The container. name - The name of this actor. Throws: IllegalActionException - If the container is incompatible with this actor. NameDuplicationException - If the name coincides wit"
+    },
+    {
+      "chunk_id": 65,
+      "text": "meDuplicationException - If the name coincides with an actor already in the container. Method Detail attributeChanged public void attributeChanged​( Attribute attribute) throws IllegalActionException React to a change in an a"
+    },
+    {
+      "chunk_id": 66,
+      "text": "s IllegalActionException React to a change in an attribute. If the name of the attribute is \"enableBackwardTypeInference\" then invalidate resolved types. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that chan"
+    },
+    {
+      "chunk_id": 67,
+      "text": "bj Parameters: attribute - The attribute that changed. Throws: IllegalActionException - Not thrown in this base class. Derived classes can throw this exception if type change is not allowed. attributeTypeChanged public void attributeTypeChanged​("
+    },
+    {
+      "chunk_id": 68,
+      "text": "uteTypeChanged public void attributeTypeChanged​( Attribute attribute) throws IllegalActionException React to a change in the type of an attribute. This method is called by a contained attribute when its type changes. I"
+    },
+    {
+      "chunk_id": 69,
+      "text": "y a contained attribute when its type changes. In this base class, the method informs the director to invalidate type resolution, if the director is not null. Thus, by default, attribute type changes cause type resolution to be redone at the"
+    },
+    {
+      "chunk_id": 70,
+      "text": "anges cause type resolution to be redone at the next opportunity. If an actor does not allow attribute types to change, then it should override this method. Overrides: attributeTypeChanged in class NamedObj Parameters: attribute - The attribute"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ass NamedObj Parameters: attribute - The attribute whose type changed. Throws: IllegalActionException - Not thrown in this base class. Derived classes can throw this exception if type change is not allowed. isBackwardTypeInferenceEnabled public bo"
+    },
+    {
+      "chunk_id": 72,
+      "text": "allowed. isBackwardTypeInferenceEnabled public boolean isBackwardTypeInferenceEnabled() Return true if backward type inference is enabled. If this composite actor is opaque, then it looks for an attribute named \"enableBackwardTypeInference\" insi"
+    },
+    {
+      "chunk_id": 73,
+      "text": "tribute named \"enableBackwardTypeInference\" inside of it, and if it exists, returns its boolean value. If it does not exist, it looks up the hierarchy until the top-level for such an attribute, and if it exists, again given that the container"
+    },
+    {
+      "chunk_id": 74,
+      "text": "and if it exists, again given that the container is opaque, returns its boolean value. If it does not exist, then return false. For backward compatibility, if it does not exist, then look for a parameter named \"disableBackwardTypeInference\" a"
+    },
+    {
+      "chunk_id": 75,
+      "text": "parameter named \"disableBackwardTypeInference\" at the top level and return its value, if it exists. Specified by: isBackwardTypeInferenceEnabled in interface TypedActor Returns: True if backward type inference is enabled. newPort public Port newP"
+    },
+    {
+      "chunk_id": 76,
+      "text": "ype inference is enabled. newPort public Port newPort​(java.lang.String name) throws NameDuplicationException Create a new TypedIOPort with the specified name. The container of the port is set to this actor. This method is write-sync"
+    },
+    {
+      "chunk_id": 77,
+      "text": "is set to this actor. This method is write-synchronized on the workspace. Overrides: newPort in class CompositeActor Parameters: name - The name for the new port. Returns: A new TypedIOPort. Throws: NameDuplicationException - If this actor already"
+    },
+    {
+      "chunk_id": 78,
+      "text": ": NameDuplicationException - If this actor already has a port with the specified name. newRelation public ComponentRelation newRelation​(java.lang.String name) throws NameDuplicationException Create a new TypedIORelat"
+    },
+    {
+      "chunk_id": 79,
+      "text": "NameDuplicationException Create a new TypedIORelation with the specified name, add it to the relation list, and return it. Derived classes can override this to create domain-specific subclasses of TypedIORelation. This method is write-synchroni"
+    },
+    {
+      "chunk_id": 80,
+      "text": "TypedIORelation. This method is write-synchronized on the workspace. Overrides: newRelation in class CompositeActor Parameters: name - The name for the new TypedIORelation. Returns: A new TypedIORelation. Throws: NameDuplicationException - If name"
+    },
+    {
+      "chunk_id": 81,
+      "text": "lation. Throws: NameDuplicationException - If name collides with a name already on the container's contents list. resolveTypes public static void resolveTypes​( TypedCompositeActor topLevel) throws TypeConflictException Do"
+    },
+    {
+      "chunk_id": 82,
+      "text": "throws TypeConflictException Do type checking and type resolution on the specified composite actor. The specified actor must be the top level container of the model. Parameters: topLevel - The top level TypedCompositeActor. Throw"
+    },
+    {
+      "chunk_id": 83,
+      "text": "opLevel - The top level TypedCompositeActor. Throws: java.lang.IllegalArgumentException - If the specified actor is not the top level container. That is, its container is not null. TypeConflictException - If a type conflict is detected. typeConstr"
+    },
+    {
+      "chunk_id": 84,
+      "text": "ption - If a type conflict is detected. typeConstraints public java.util.Set< Inequality > typeConstraints() throws IllegalActionException Return the type constraints of this typed composite actor. The cons"
+    },
+    {
+      "chunk_id": 85,
+      "text": "straints of this typed composite actor. The constraints have the form of a set of inequalities. The constraints come from three sources, the contained actors, the contained Typeables, and (for opaque actors) the topology of connections betwe"
+    },
+    {
+      "chunk_id": 86,
+      "text": "opaque actors) the topology of connections between actors. To generate the constraints based on the topology, this method scans all the connections within this composite between opaque TypedIOPorts. If the type of the ports on one or both en"
+    },
+    {
+      "chunk_id": 87,
+      "text": "rts. If the type of the ports on one or both ends of a connection is not declared, a type constraint is formed that requires the type of the port at the source end of the connection to be less than or equal to the type at the destination por"
+    },
+    {
+      "chunk_id": 88,
+      "text": "than or equal to the type at the destination port. To collect the type constraints from the contained actors, This method recursively calls the typeConstraints() method of the contained actors and combine all the constraints together. The t"
+    },
+    {
+      "chunk_id": 89,
+      "text": "and combine all the constraints together. The type constraints from contained Typeables (ports and parameters) are collected by calling the typeConstraints() method of all the contained Typeables. This method is read-synchronized on the wo"
+    },
+    {
+      "chunk_id": 90,
+      "text": "bles. This method is read-synchronized on the workspace. Specified by: typeConstraints in interface TypedActor Returns: a list of instances of Inequality. Throws: IllegalActionException - If the typeConstraints of one of the deeply contained obje"
+    },
+    {
+      "chunk_id": 91,
+      "text": "eConstraints of one of the deeply contained objects throws it. See Also: Inequality typeConstraintList @Deprecated public java.util.List typeConstraintList() throws IllegalActionException Deprecated. Use typeConstr"
+    },
+    {
+      "chunk_id": 92,
+      "text": "IllegalActionException Deprecated. Use typeConstraints(). Return the type constraints of this variable. The constraints include the ones explicitly set to this variable, plus the constraint that the type of this variable must be no less than i"
+    },
+    {
+      "chunk_id": 93,
+      "text": "the type of this variable must be no less than its current type, if it has one. The constraints are a list of inequalities. Returns: a list of Inequality objects. Throws: IllegalActionException - If thrown while constructing the set of type con"
+    },
+    {
+      "chunk_id": 94,
+      "text": "If thrown while constructing the set of type constraints. See Also: Inequality _addEntity protected void _addEntity​( ComponentEntity entity) throws IllegalActionException , NameDuplicationException Add an actor to this container"
+    },
+    {
+      "chunk_id": 95,
+      "text": "uplicationException Add an actor to this container with minimal error checking. This overrides the base-class method to make sure the argument implements the TypedActor interface. This method does not alter the actor in any way. It is not syn"
+    },
+    {
+      "chunk_id": 96,
+      "text": "es not alter the actor in any way. It is not synchronized on the workspace, so the caller should be. Overrides: _addEntity in class CompositeActor Parameters: entity - TypedActor to contain. Throws: IllegalActionException - If the actor has no na"
+    },
+    {
+      "chunk_id": 97,
+      "text": "s: IllegalActionException - If the actor has no name, or the action would result in a recursive containment structure, or the argument does not implement the TypedActor interface. NameDuplicationException - If the name collides with a name a"
+    },
+    {
+      "chunk_id": 98,
+      "text": "nException - If the name collides with a name already on the actor contents list. _addPort protected void _addPort​( Port port) throws IllegalActionException , NameDuplicationException Add a port to this actor. This overrides the"
+    },
+    {
+      "chunk_id": 99,
+      "text": "tion Add a port to this actor. This overrides the base class to throw an exception if the proposed port is not an instance of TypedIOPort. This method should not be used directly. Call the setContainer() method of the port instead. This metho"
+    },
+    {
+      "chunk_id": 100,
+      "text": "Container() method of the port instead. This method does not set the container of the port to point to this actor. It assumes that the port is in the same workspace as this actor, but does not check. The caller should check. This method is n"
+    },
+    {
+      "chunk_id": 101,
+      "text": "heck. The caller should check. This method is not synchronized on the workspace, so the caller should be. Overrides: _addPort in class CompositeActor Parameters: port - The TypedIOPort to add to this actor. Throws: IllegalActionException - If th"
+    },
+    {
+      "chunk_id": 102,
+      "text": "this actor. Throws: IllegalActionException - If the port class is not acceptable to this actor, or the port has no name. NameDuplicationException - If the port name collides with a name already in the actor. _addRelation protected void _addRela"
+    },
+    {
+      "chunk_id": 103,
+      "text": "in the actor. _addRelation protected void _addRelation​( ComponentRelation relation) throws IllegalActionException , NameDuplicationException Add a relation to this container. This overrides the base class to throw an exception"
+    },
+    {
+      "chunk_id": 104,
+      "text": "s overrides the base class to throw an exception if the proposed relation is not an instance of TypedIORelation. This method should not be used directly. Call the setContainer() method of the relation instead. This method does not set the co"
+    },
+    {
+      "chunk_id": 105,
+      "text": "elation instead. This method does not set the container of the relation to refer to this container. This method is not synchronized on the workspace, so the caller should be. Overrides: _addRelation in class CompositeActor Parameters: relation"
+    },
+    {
+      "chunk_id": 106,
+      "text": "tion in class CompositeActor Parameters: relation - The TypedIORelation to contain. Throws: IllegalActionException - If the relation has no name, or is not an instance of TypedIORelation. NameDuplicationException - If the name collides with a name"
+    },
+    {
+      "chunk_id": 107,
+      "text": "cationException - If the name collides with a name already on the contained relations list. _checkTypesFromTo protected java.util.List< Inequality > _checkTypesFromTo​( TypedIOPort sourcePort,"
+    },
+    {
+      "chunk_id": 108,
+      "text": "java.util.List< TypedIOPort > destinationPortList) Check types from a source port to a group of destination ports, assuming the source port is connected to all the ports in the group of destinati"
+    },
+    {
+      "chunk_id": 109,
+      "text": "ected to all the ports in the group of destination ports. Return a list of instances of Inequality that have type conflicts. Parameters: sourcePort - The source port. destinationPortList - A list of destination ports. Returns: A list of instance"
+    },
+    {
+      "chunk_id": 110,
+      "text": "of destination ports. Returns: A list of instances of Inequality indicating the type constraints that are not satisfied. _destinationTypeConstraints protected java.util.List< Inequality > _destinationTypeConstraints​( TypedIOPort source) Return t"
+    },
+    {
+      "chunk_id": 111,
+      "text": "tionTypeConstraints​( TypedIOPort source) Return the type constraints on all connections starting from the specified source port to all the ports in a group of destination ports. Parameters: source - The source port. Returns: A list of instances"
+    },
+    {
+      "chunk_id": 112,
+      "text": "e - The source port. Returns: A list of instances of Inequality."
+    }
+  ]
+}

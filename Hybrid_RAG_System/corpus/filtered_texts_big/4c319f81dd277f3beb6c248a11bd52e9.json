@@ -1,0 +1,197 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/~cxh/ptpub/nt/ptntinstall.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Ptolemy NT Installation Ptolemy NT Installation The Ptolemy NT Installation is more tricky than it should be, we hope to fix this soon. Quick nt4 Installation Instructions This section is for people that don't like to read instructions. If you have p"
+    },
+    {
+      "chunk_id": 2,
+      "text": "hat don't like to read instructions. If you have problems, see the detailed instructions below. Download and install Cygnus GNU-win32 b20.1 Download and install gcc-2.95 from ftp://ftp.xraylith.wisc.edu/pub/khan/gnu-win32/cygwin/gcc-2.95/ Download an"
+    },
+    {
+      "chunk_id": 3,
+      "text": "du/pub/khan/gnu-win32/cygwin/gcc-2.95/ Download and install X11 for Cygwin from http://www.xemacs.freeserve.co.uk/ Start up bash, and complete the following steps mkdir /tmp /bin /etc cp /Cygnus/cygwin-b20/H-i586-cygwin32/bin/bash.exe /bin/sh.exe cp"
+    },
+    {
+      "chunk_id": 4,
+      "text": "n-b20/H-i586-cygwin32/bin/bash.exe /bin/sh.exe cp /Cygnus/cygwin-b20/H-i586-cygwin32/bin/bash.exe /bin/bash.exe cp /Cygnus/cygwin-b20/H-i586-cygwin32/bin/rm.exe /bin mkpasswd -d -l -g > /etc/passwd mkgroup -d -l > /etc/group ( /bin/bash.exe is used w"
+    },
+    {
+      "chunk_id": 5,
+      "text": "group -d -l > /etc/group ( /bin/bash.exe is used when we load a star ) Set the following variables in the System Control Panel DISPLAY localhost:0.0 PTOLEMY /users/ptolemy PTARCH nt4 CC gcc Your PATH should include %PTOLEMY%\\bin;%PTOLEMY%\\bin.nt4 If"
+    },
+    {
+      "chunk_id": 6,
+      "text": "should include %PTOLEMY%\\bin;%PTOLEMY%\\bin.nt4 If you have not yet done so, download the Ptolemy src and other.src tar files from http://ptolemy.eecs.berkeley.edu/ptolemyclassic/pt0.7.2/download.htm and then use GNU tar to extract the files. Do not u"
+    },
+    {
+      "chunk_id": 7,
+      "text": "nd then use GNU tar to extract the files. Do not use Winzip to extract the tar files. These tar files contain Cygwin symbolic links, which Winzip cannot handle. In a bash shell, do cd $PTOLEMY make -k ntbuild >& make.out & Detailed nt4 Installation I"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ntbuild >& make.out & Detailed nt4 Installation Instructions This section covers the installation in more detail. Download Cygnus GNU-win32 b20.1 from ftp://go.cygnus.com/pub/sourceware.cygnus.com/cygwin/ README Download full.exe (14Mb) Install Cygn"
+    },
+    {
+      "chunk_id": 9,
+      "text": "gwin/ README Download full.exe (14Mb) Install Cygnus GNU-win32 by mousing on the full.exe icon. It is best if you install Cygnus GNU-win32 in a directory that does not have spaces in the pathname. Usually GNU-win32 is installed in the top level, so"
+    },
+    {
+      "chunk_id": 10,
+      "text": "sually GNU-win32 is installed in the top level, so it ends up in c:/Cygnus . Be sure to update your path and the other variables mentioned in the Cygnus README file. Be sure to do mkdir /tmp Copy the bash.exe binary to /bin/sh.exe for use from make :"
+    },
+    {
+      "chunk_id": 11,
+      "text": "bash.exe binary to /bin/sh.exe for use from make : mkdir /bin cp /Cygnus/cygwin-b20/H-i586-cygwin32/bin/bash.exe /bin It is possible to use the vanilla sh.exe rather than using bash.exe , but make has subtle problems with the sh.exe . Another problem"
+    },
+    {
+      "chunk_id": 12,
+      "text": "subtle problems with the sh.exe . Another problem is that pigi uses csh style syntax to exec subprocesses in a few places, and csh style syntax is not supported by the vanilla sh.exe , but it is supported by bash.exe . For more information, see Load"
+    },
+    {
+      "chunk_id": 13,
+      "text": "orted by bash.exe . For more information, see Loading a star fails . Since the Xgraph stars and various scripts use /bin/rm you should also do: cp /Cygnus/cygwin-b20/H-i386-cygwin32/bin/rm.exe /bin Currently, xv does not build properly. You can downl"
+    },
+    {
+      "chunk_id": 14,
+      "text": "rrently, xv does not build properly. You can download a version of xv from ftp://linc.cis.upenn.edu/pub/xv/xv-3.10.NTbin.tar.gz If you plan on trying to compile xv, copy the file gcc.exe from Cygnus/cygwin-b20/H-i386-cygwin-32/bin to /bin and rename"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ygwin-b20/H-i386-cygwin-32/bin to /bin and rename it to cc.exe . Otherwise you will get problems while trying to compile xv. Create /etc/passwd and /etc/group by running mkdir /etc mkpasswd -d -l -g > /etc/passwd mkgroup -d -l > /etc/group For more i"
+    },
+    {
+      "chunk_id": 16,
+      "text": "/etc/passwd mkgroup -d -l > /etc/group For more information, type mkpasswd and mkgroup without any arguments. The Cygwin faq also covers these programs. If you do not have /etc/passwd , then you will get errors from GetTildePath() when trying to cr"
+    },
+    {
+      "chunk_id": 17,
+      "text": "l get errors from GetTildePath() when trying to create an icon. (Reported by Sascha Schwarz <s_schwa@informatik.uni-kl.de>) The -d option will include all the users in the domain. Tim Kurzweg <tim@ee.pitt.edu> reports that mkgroup sometimes not plac"
+    },
+    {
+      "chunk_id": 18,
+      "text": ".pitt.edu> reports that mkgroup sometimes not place the user administrator in the administrator group. Download and install gcc-2.95 for b20 from ftp://ftp.xraylith.wisc.edu/pub/khan/gnu-win32/cygwin/gcc-2.95/ Download X11 for b20 from http://dao.gsf"
+    },
+    {
+      "chunk_id": 19,
+      "text": "gcc-2.95/ Download X11 for b20 from http://dao.gsfc.nasa.gov/software/grads/win32/X11R6.3/ Below are other possibilities: http://www.xemacs.freeserve.co.uk/ Cygwin links to software ports X11 for b19, b20 ftp://www.lexa.ru/pub/domestic/sos/ports/ X11"
+    },
+    {
+      "chunk_id": 20,
+      "text": "b20 ftp://www.lexa.ru/pub/domestic/sos/ports/ X11 for b19 http://dao.gsfc.nasa.gov/software/grads/win32/X11R6.3 . Install X11R6.4: mkdir /usr cd /usr tar -xf /tmp/B20_X11R6_4_tar.gz Install an X server. The Pre-compiled X11R6.3 Libraries/Clients Fo"
+    },
+    {
+      "chunk_id": 21,
+      "text": "er. The Pre-compiled X11R6.3 Libraries/Clients For GNU Win32 B19 page has some pointers to freely available X servers. Locally we use Hummingbird's Exceed, which is a commercial X server package. Add c:\\usr\\X11R6.4\\bin to your path by using the Sys"
+    },
+    {
+      "chunk_id": 22,
+      "text": "d c:\\usr\\X11R6.4\\bin to your path by using the System control panel. Verify that the X installation is working by starting up an X server setting your DISPLAY: DISPLAY=localhost:0.0 export DISPLAY and then running /usr/X11R6.4/bin/xclock . To use the"
+    },
+    {
+      "chunk_id": 23,
+      "text": "then running /usr/X11R6.4/bin/xclock . To use the Java version of pxgraph , download JDK1.1 . The JDK should be installed in c:/jdk1.1. n and you will need to update your path to include c:/jdk1.1.n/bin For a prebuilt X11 pxgraph binary, see: ftp://"
+    },
+    {
+      "chunk_id": 24,
+      "text": "bin For a prebuilt X11 pxgraph binary, see: ftp://ptolemy.eecs.berkeley.edu/pub/misc/pxgraph/index.html Building Ptolemy Since Ptolemy has lots of small files, you are better off avoid FAT partitions and placing the sources on a NTFS partition. If y"
+    },
+    {
+      "chunk_id": 25,
+      "text": "and placing the sources on a NTFS partition. If you have not yet done so, download the Ptolemy src and other.src tar files from http://ptolemy.eecs.berkeley.edu/ptolemyclassic/pt0.7.2/download.htm and then use GNU tar to extract the files. Do not us"
+    },
+    {
+      "chunk_id": 26,
+      "text": "d then use GNU tar to extract the files. Do not use Winzip to extract the tar files. These tar files contain Cygwin symbolic links, which Winzip cannot handle. Note that Ptolemy 0.7.1p1 and earlier had problems with problem with $PTOLEMY/colors/ptole"
+    },
+    {
+      "chunk_id": 27,
+      "text": "d problems with problem with $PTOLEMY/colors/ptolemy/con and file names that contained percent characters. These problems have been fixed in 0.7.2devel If you are using tar and you get a warning like bash-2.02$ tar -zxf /tmp/pt0.7.2devel.src.tar.gz"
+    },
+    {
+      "chunk_id": 28,
+      "text": "bash-2.02$ tar -zxf /tmp/pt0.7.2devel.src.tar.gz tar: ptolemy/tcltk/tcl/man/mann/Toplevel.n: Could not create file: Permission denied tar: ptolemy/tcltk/tcl/man/mann/optionmenu.n: Could not create file: Permission denied tar: ptolemy/tcltk/tcl/man/m"
+    },
+    {
+      "chunk_id": 29,
+      "text": "le: Permission denied tar: ptolemy/tcltk/tcl/man/mann/messagebox.n: Could not create file: Permisson denied tar: Error exit delayed from previous errors These errors occur because of case sensitivity problems. The files that are reported as errors ar"
+    },
+    {
+      "chunk_id": 30,
+      "text": "problems. The files that are reported as errors are only different by case. For example: /users/ptolemy/tcltk/tcl/man/mann/Toplevel.n /users/ptolemy/tcltk/tcl/man/mann/toplevel.n In the short term, you can ignore the above errors. If you do not have"
+    },
+    {
+      "chunk_id": 31,
+      "text": "u can ignore the above errors. If you do not have enough space for Ptolemy on your disk, you may be able to use the Cygwin mount command to mount a disk with enough space. You may need to do: cd $PTOLEMY chmod -R a+w . chown -R yourlogin . Where your"
+    },
+    {
+      "chunk_id": 32,
+      "text": "EMY chmod -R a+w . chown -R yourlogin . Where yourlogin is your NT login, which should also be present in /etc/passwd , which was created in the mkpasswd step above. The chown works around a problem where the configure scripts have problems with the"
+    },
+    {
+      "chunk_id": 33,
+      "text": "here the configure scripts have problems with the write permissions on directories. If you don't chown the tree, then you may see messages like not updating unwritable cache config.cache. We are not sure of the cause of this problem, hopefully it wi"
+    },
+    {
+      "chunk_id": 34,
+      "text": "sure of the cause of this problem, hopefully it will be fixed in a future release. Building Itcl, Octtools and Ptolemy will require about 470Mb of space for the sources, build directories and installation directories. To save space, you can build and"
+    },
+    {
+      "chunk_id": 35,
+      "text": "tion directories. To save space, you can build and install Itcl and Octtools separately and then do rm -rf $PTOLEMY/obj.nt4/tcltk $PTOLEMY/obj.nt4/octtools Set up your environment by setting the variables below. In the Start menu, select Settings ,"
+    },
+    {
+      "chunk_id": 36,
+      "text": "bles below. In the Start menu, select Settings , then Control Panels , then System , then select the Environment tab The values of PTOLEMY and PTARCH should follow these conventions: The value should not contain a colon ' : '. For example, D:/users/"
+    },
+    {
+      "chunk_id": 37,
+      "text": "not contain a colon ' : '. For example, D:/users/ptolemy is incorrect. Do not use multiple slashes. For example, //D/users/ptolemy is incorrect. The values to set are: PTARCH nt4 PTOLEMY /users/ptolemy CC gcc In the NT System Environment control pan"
+    },
+    {
+      "chunk_id": 38,
+      "text": "my CC gcc In the NT System Environment control panel, set your PATH to include %PTOLEMY%\\bin;%PTOLEMY%\\bin.nt4 Note that if you are setting variables directly in bash, then you should not use the DOS %foo% syntax, instead use $foo . If you have Samba"
+    },
+    {
+      "chunk_id": 39,
+      "text": "%foo% syntax, instead use $foo . If you have Samba setup, then start up bash and cd to the tree with something like: mkdir /users/ptolemy mount // UnixHost /ptolemy /users/ptolemy cd $PTOLEMY Now you have three ways to get to the sources using Samba:"
+    },
+    {
+      "chunk_id": 40,
+      "text": "have three ways to get to the sources using Samba: Mount a Ptolemy tree located on Unix machine with the Run Start menu choice. cd to the UNC, such as cd //carson/ptdesign cd to the Cygwin mount point: cd /users/ptolemy Note that there are two ways t"
+    },
+    {
+      "chunk_id": 41,
+      "text": ": cd /users/ptolemy Note that there are two ways to run Tycho, via the native Windows itkwish or via the Cygwin32 itkwish . The Windows itkwish does not understand Cygwin32 mount points, but the Cygwin32 version does. Note that you can set PTOLEMY t"
+    },
+    {
+      "chunk_id": 42,
+      "text": "in32 version does. Note that you can set PTOLEMY to the raw UNC format // UnixHost /ptolemy , but if you do, you will have problems with configuring Itcl. Instead use the mount command as above. To do the actual build, do cd $PTOLEMY make -k ntbuild"
+    },
+    {
+      "chunk_id": 43,
+      "text": "the actual build, do cd $PTOLEMY make -k ntbuild >& make.out Note that the ntbuild rule builds everything but xv and the GNU tools. You can safely ignore the following warnings and errors: Ignore the warning: touch: /users/ptolemy/obj.nt4: Permissio"
+    },
+    {
+      "chunk_id": 44,
+      "text": "warning: touch: /users/ptolemy/obj.nt4: Permission denied While building Itcl, you may see warnings like: checking host system type... Invalid configuration `i586-CYGWIN32-NT40': system `NT40' not recognized Ignore warnings from X11R6 files of the f"
+    },
+    {
+      "chunk_id": 45,
+      "text": "cognized Ignore warnings from X11R6 files of the form: type defaults to `int' in declaration octtools/Xpackages/iv fails to compile You can ignore this error. xv fails to build In the short term, you can ignore this error. If you create a shortcut, y"
+    },
+    {
+      "chunk_id": 46,
+      "text": "can ignore this error. If you create a shortcut, you may want to use the Mr. Ptolemy icon from $PTOLEMY/tycho/doc/img/ptolemy.ico If you have problems, try Ptolemy NT Hints and Ptolemy NT Bugs Also, my NT and Ptolemy page might be of use. Some of t"
+    },
+    {
+      "chunk_id": 47,
+      "text": "my NT and Ptolemy page might be of use. Some of the notes above are from Saschas Schwarz, <s_schwa@informatik.uni-kl.de> Up to the Ptolemy under NT page - Back to Ptolemy NT Bugs Copyright © 1997-1999, The Regents of the University of California. Al"
+    },
+    {
+      "chunk_id": 48,
+      "text": "9, The Regents of the University of California. All rights reserved. Last updated: 10/26/99, comments to: cxh at eecs"
+    }
+  ]
+}

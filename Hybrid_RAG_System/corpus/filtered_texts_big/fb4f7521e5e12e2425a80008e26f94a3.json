@@ -1,0 +1,141 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/PtolemyCodingStyle",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / CodingStyle Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / CodingStyle (redirected from Main.PtolemyCodingStyle ) This pa"
+    },
+    {
+      "chunk_id": 2,
+      "text": "(redirected from Main.PtolemyCodingStyle ) This page documents the recommended coding style for accessors. This style will be required for accessors checked into the acccessors repository. The style largely follows the Ptolemy II coding style, adapte"
+    },
+    {
+      "chunk_id": 3,
+      "text": "argely follows the Ptolemy II coding style, adapted to JavaScript as needed. See http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/coding/style.htm - style from the ptII tree http://www.eecs.berkeley.edu/Pubs/TechRpts/2014/EECS-2014-164."
+    },
+    {
+      "chunk_id": 4,
+      "text": "ecs.berkeley.edu/Pubs/TechRpts/2014/EECS-2014-164.html - latests publication The key elements are: Comments are complete sentences that begin with a capital letter and end with a period. Functions and variables are complete words. Use camelCase . Use"
+    },
+    {
+      "chunk_id": 5,
+      "text": "variables are complete words. Use camelCase . Use brackets for single line blocks. Use spaces, not tabs. Indent 4 spaces. Elements of a JavaScript File Start with a one line description // Accessor for Representational State Transfer (RESTful) inte"
+    },
+    {
+      "chunk_id": 6,
+      "text": "or Representational State Transfer (RESTful) interfaces. [$[Get Code]] Each JavaScript file includes the license text Including a license file by reference will fail The TerraSwarm website will not be around forever People copy the .js file, not the"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e around forever People copy the .js file, not the license file // Copyright (c) 2017 The Regents of the University of California. // All rights reserved. // Permission is hereby granted, without written agreement and without // license or royalty fe"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ten agreement and without // license or royalty fees, to use, copy, modify, and distribute this // software and its documentation for any purpose, provided that the above // copyright notice and the following two paragraphs appear in all copies // of"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ollowing two paragraphs appear in all copies // of this software. // IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY // FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES // ARISING OUT OF THE USE OF THIS SOFTWA"
+    },
+    {
+      "chunk_id": 10,
+      "text": "L DAMAGES // ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF // THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF // SUCH DAMAGE. // THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES, // INCLU"
+    },
+    {
+      "chunk_id": 11,
+      "text": "IA SPECIFICALLY DISCLAIMS ANY WARRANTIES, // INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE // PROVIDED HEREUNDER IS ON AN \"AS IS\" BASIS, AND THE UNIVERSITY OF // CALIFOR"
+    },
+    {
+      "chunk_id": 12,
+      "text": "AN \"AS IS\" BASIS, AND THE UNIVERSITY OF // CALIFORNIA HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, // ENHANCEMENTS, OR MODIFICATIONS. [$[Get Code]] The year should be the year the file was created. If the file is based on a previous fi"
+    },
+    {
+      "chunk_id": 13,
+      "text": "was created. If the file is based on a previous file, then use the year of that file and note that fact in the comments. File Comment Each file should have a comment that describes what the functions in the file do and how to use them. /** Accessor f"
+    },
+    {
+      "chunk_id": 14,
+      "text": "in the file do and how to use them. /** Accessor for RESTful interfaces. * Upon receipt of a trigger input, this accessor will issue an HTTP request * specified by the inputs. Some time later, the accessor will receive a response * from the server"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ccessor will receive a response * from the server or a timeout. In the first case, the accessor will produce * the response (body, status code, and headers) on output ports. * In the second case, it will produce a nil output on the response port *"
+    },
+    {
+      "chunk_id": 16,
+      "text": "t will produce a nil output on the response port * and an error. ... * @accessor net/REST * @author Edward A. Lee (eal@eecs.berkeley.edu) * @input {JSON} options The url for the command or an object specifying options. * @input {string} command"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ct specifying options. * @input {string} command The command. * @input {JSON} arguments Arguments to the command. * @input body The request body, if any. This supports at least strings and image data. * @input trigger An input to trigger the com"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ata. * @input trigger An input to trigger the command. * @output {string} response The server's response. * @output {string} status The status code and message of the response. * @output headers The headers sent with the response. * @parameter {"
+    },
+    {
+      "chunk_id": 19,
+      "text": "he headers sent with the response. * @parameter {int} timeout The amount of time (in milliseconds) to wait for a response * before triggering a null response and an error. This defaults to 5000. * @parameter {boolean} outputCompleteResponseOnly I"
+    },
+    {
+      "chunk_id": 20,
+      "text": "@parameter {boolean} outputCompleteResponseOnly If true (the default), the produce a * 'response' output only upon receiving the entire response. * @version $$Id$$ */ [$[Get Code]] You can use Markdown or HTML. The bottom of the accessor should i"
+    },
+    {
+      "chunk_id": 21,
+      "text": "kdown or HTML. The bottom of the accessor should include @ tags that are used by JSDoc . See Version0 Documentation for details. Note that the @version tag uses $$Id$$ instead of $Id$$. This is so that Ptolemy does not interpret $Id$@@ as a variab"
+    },
+    {
+      "chunk_id": 22,
+      "text": "that Ptolemy does not interpret $Id$@@ as a variable. JSHint We are currently using JSHint to identify common problems. Files should include the following text: // Stop extra messages from jslint and jshint. Note that there should // be no space be"
+    },
+    {
+      "chunk_id": 23,
+      "text": "jshint. Note that there should // be no space between the / and the * and global. See // https://chess.eecs.berkeley.edu/ptexternal/wiki/Main/JSHint */ /*globals addInputHandler, error, exports, get, input, output, parameter, require, send */ /*jsh"
+    },
+    {
+      "chunk_id": 24,
+      "text": ", input, output, parameter, require, send */ /*jshint globalstrict: true*/ 'use strict' ; [$[Get Code]] See JSHint for common issues. See also JavaScript Issues below. Variables The next section defines variables: var httpClient = require ( 'httpClie"
+    },
+    {
+      "chunk_id": 25,
+      "text": "es variables: var httpClient = require ( 'httpClient' ) ; var querystring = require ( 'querystring' ) ; [$[Get Code]] Setup Function The first function is the setup function: /** Define inputs and outputs. */ exports. setup = function ( ) { this . in"
+    },
+    {
+      "chunk_id": 26,
+      "text": "puts. */ exports. setup = function ( ) { this . input ( 'options' , { 'type' : 'JSON' , 'value' : '' } ) ; this . input ( 'command' , { 'type' : 'string' , 'value' : '' } ) ; this . input ( 'arguments' , { 'type' : 'JSON' , 'value' : '' } ) ; this ."
+    },
+    {
+      "chunk_id": 27,
+      "text": "' , { 'type' : 'JSON' , 'value' : '' } ) ; this . input ( 'trigger' ) ; this . input ( 'body' ) ; this . output ( 'response' ) ; this . output ( 'status' , { 'type' : 'string' } ) ; this . output ( 'headers' ) ; this . parameter ( 'timeout' , { 'valu"
+    },
+    {
+      "chunk_id": 28,
+      "text": "eaders' ) ; this . parameter ( 'timeout' , { 'value' : 5000 , 'type' : 'int' } ) ; this . parameter ( 'outputCompleteResponseOnly' , { 'value' : true , 'type' : 'boolean' } ) ; } ; [$[Get Code]] The order of inputs, outputs and parameters defines the"
+    },
+    {
+      "chunk_id": 29,
+      "text": "rder of inputs, outputs and parameters defines the order they appear in the parameters dialog and port ordering. The setup function should be at the top. It defines the interface. The declaration ends with a semicolon: ; . Other Functions Functions t"
+    },
+    {
+      "chunk_id": 30,
+      "text": "with a semicolon: ; . Other Functions Functions that take arguments should describe the parameter with: @param argumentName A sentence describing the parameter Inside the setup() function, the fields are defined in alphabetical order. FIXME: should"
+    },
+    {
+      "chunk_id": 31,
+      "text": "are defined in alphabetical order. FIXME: should the above be changed so that arguments is first ? The declaration ends with a semicolon: ; . JavaScript Issues JavaScript is not Java, so there are some differences between the Ptolemy coding style do"
+    },
+    {
+      "chunk_id": 32,
+      "text": "me differences between the Ptolemy coding style documented above for Java and what we use for JavaScript. Line Continuation In the Ptolemy Coding style, when a line is continued, the operator is at the beginning of the line: if ( aIsTrue ( ) && bIsTr"
+    },
+    {
+      "chunk_id": 33,
+      "text": "e beginning of the line: if ( aIsTrue ( ) && bIsTrue ( ) ) { etc ( \"This is a longish \" + \"message\" ) ; } [$[Get Code]] However, JSHint warns with messages like \" Bad line breaking before '&&'.\" and \"Bad line breaking before ''\" In JavaScript, we wo"
+    },
+    {
+      "chunk_id": 34,
+      "text": "\"Bad line breaking before ''\" In JavaScript, we would write: if ( aIsTrue ( ) && bIsTrue ( ) ) { etc ( \"This is a longish \" + \"message\" ) ; } [$[Get Code]] This has to do with automatic semicolon insertion, see http://stackoverflow.com/questions/1514"
+    }
+  ]
+}

@@ -1,0 +1,357 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/~cxh/ptpub/nt/ptntbugs.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Ptolemy NT Bugs Ptolemy NT Bugs Tar and Zip File Bugs When you unzip the zip file, you may see messages about files being overwritten. These messages are probably caused by symbolic links in the original source directory or by two filenames differin"
+    },
+    {
+      "chunk_id": 2,
+      "text": "inal source directory or by two filenames differing only by case. You can safely overwrite these files. Cygwin32 tar has problems creating $PTOLEMY/colors/ptolemy/con . The problem is that con is a reserved name. The Cygwin32 FAQ says DOS special"
+    },
+    {
+      "chunk_id": 3,
+      "text": "reserved name. The Cygwin32 FAQ says DOS special filenames Files cannot be named com1, lpt1, or aux (to name a few); either as the root filename or as the extension part. If you do, you'll have trouble. Unix programs don't avoid these names which c"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ble. Unix programs don't avoid these names which can make things interesting. Eg, the perl distribution has a file called aux.sh. The perl configuration tries to make sure that aux.sh is there, but an operation on a file with the magic letters 'aux'"
+    },
+    {
+      "chunk_id": 5,
+      "text": "operation on a file with the magic letters 'aux' in it will hang. You can replicate this with: bash-2.01$ cd /tmp bash-2.01$ mkdir con mkdir: cannot make directory `con': Permission denied bash-2.01$ mkdir foo bash-2.01$ The workaround is to use a n"
+    },
+    {
+      "chunk_id": 6,
+      "text": "mkdir foo bash-2.01$ The workaround is to use a non GNU tar tool such as Winzip. (Reported by Sascha Schwarz <s_schwa@informatik.uni-kl.de> ). Below is some information about mkgroup from Tim Kurzweg <tim@ee.pitt.edu> Note: We noticed that when crea"
+    },
+    {
+      "chunk_id": 7,
+      "text": "<tim@ee.pitt.edu> Note: We noticed that when creating the group file, this procedure isn't always perfect. You should check to make sure that users are in the right groups. i.e. If someone should have administrative rights and the administrator gro"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ve administrative rights and the administrator group or Domain Administrator group in the group file says the group number is \"512\", the user's second number after their name in the passwd file should be \"512\". It is important that the account which"
+    },
+    {
+      "chunk_id": 9,
+      "text": "be \"512\". It is important that the account which you are currently using have administrative rights so that you can install software onto the disk. If not, you should change the group/passwd files so that you do have administrative rights or log ou"
+    },
+    {
+      "chunk_id": 10,
+      "text": "o that you do have administrative rights or log out and then log back in using an account that does and is setup correctly in the group/passwd files. Since this may be confusing, an example would seem necessary. As I perform the above steps on my com"
+    },
+    {
+      "chunk_id": 11,
+      "text": "necessary. As I perform the above steps on my computer, here is my /etc/group file: Domain Admins::512: Domain Guests::514: Domain Users::513: Levitan's VLSI::1036: MailServer-group::1039: SIGDA People::1004: None::513: Everyone::0: My machine parti"
+    },
+    {
+      "chunk_id": 12,
+      "text": "le::1004: None::513: Everyone::0: My machine participates in a Windows NT Domain and all groups listed above are from the Domain Controller. Notice that the number after \"Domain Admins\" is \"512\". This is the number that identifies this group. If y"
+    },
+    {
+      "chunk_id": 13,
+      "text": "is is the number that identifies this group. If you are only using accounts from your local machine, you should look for the \"Administrators\" group and its identification number. Next look at my /etc/passwd file: Administrator::500:513:::/bin/sh er"
+    },
+    {
+      "chunk_id": 14,
+      "text": "c/passwd file: Administrator::500:513:::/bin/sh eric::1002:513:Eric N. Reiss::/bin/sh eric2::1014:513:Eric2::/bin/sh Guest::501:514:::/bin/sh IUSR_JAMAICA::1001:513:Internet Guest Account::/bin/sh kathy::1007:513:Kathy Preas::/bin/sh MailServer-user:"
+    },
+    {
+      "chunk_id": 15,
+      "text": "hy::1007:513:Kathy Preas::/bin/sh MailServer-user::1038:513:MailServer-user::/bin/sh Mcdonald::1037:513:Eric McDonald::/bin/sh mcgahey::1033:512:Bill McGahey::/bin/sh plusquellic::1034:513:Jim Plusquellic::/bin/sh rajon::1032:513:Rajon Gilmore::/bin/"
+    },
+    {
+      "chunk_id": 16,
+      "text": "llic::/bin/sh rajon::1032:513:Rajon Gilmore::/bin/sh sigda::1003:513:Sigda Personnel::/bin/sh steve::1011:513:Steven Levitan::/bin/sh web-server::1017:513:Netscape Web Server::/bin/sh webadmin::1020:513:webadmin::/bin/sh Administrator::500:513:::/bin"
+    },
+    {
+      "chunk_id": 17,
+      "text": "13:webadmin::/bin/sh Administrator::500:513:::/bin/sh Guest::501:513:::/bin/sh Administrators::544:0::: Backup Operators::551:0::: Guests::546:0::: Power Users::547:0::: Replicator::552:0::: Users::545:0::: Now, even though I used both the -d and -l"
+    },
+    {
+      "chunk_id": 18,
+      "text": "5:0::: Now, even though I used both the -d and -l switches to get the accounts above, a problem has occured. All of the accounts listed at the top of the passwd file have \"513\" as the second number after their username except for the user with usern"
+    },
+    {
+      "chunk_id": 19,
+      "text": "fter their username except for the user with username \"mcgahey\", who has group id number \"512\". This is wrong since a number of the users above have \"Domain Admins\" privileges including me with the account \"eric\". So before I go any further, I am g"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ccount \"eric\". So before I go any further, I am going to change the \"513\" on the line with the username \"eric\" so that it says \"512\". Since I am currently logged in as \"eric\", I shouldn't have any permission problems after the change. If you are us"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ermission problems after the change. If you are using just local accounts, then get the group id number for the group \"administrator\" out of the /etc/group file and make sure you have that number for the account you are using to install everything"
+    },
+    {
+      "chunk_id": 22,
+      "text": "r the account you are using to install everything with. Note: If you are logged into your machine using a Domain account and you run mkpasswd and mkgroup with just -l , you may not get an \"administrator\" group. You should be logged into the machine"
+    },
+    {
+      "chunk_id": 23,
+      "text": "tor\" group. You should be logged into the machine directly to run with the -l switch. Compilation bugs The Microsoft Visual C++ port ( PTARCH == nt4.vc ) is unlikely to build and has not been tested. Compiling with Cygwin32 is slow. This is because"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Compiling with Cygwin32 is slow. This is because Cygwin32 adds a layer to file access and other operations. Linking pigiRpc and ptcl can take a long time. This is mostly due to the fact that the Cygwin port is using static libraries. Compiling wit"
+    },
+    {
+      "chunk_id": 25,
+      "text": "win port is using static libraries. Compiling without debugging ( -g ) might help make fails with making install in kernel ../../mk/compile.mk:95: *** missing separator. Stop. You should only see this error if you are building from sources 0.7.2de"
+    },
+    {
+      "chunk_id": 26,
+      "text": "his error if you are building from sources 0.7.2devel created before 2/22/99. In versions of Ptolemy 0.7.2devel before 2/22/99, the makefiles referred to the library being built with the LIB makefile variable, which was overridden by the LIB environm"
+    },
+    {
+      "chunk_id": 27,
+      "text": "variable, which was overridden by the LIB environment variable. The fix was to be sure that you do not have the LIB environment variable set in bash. Try typing: unset LIB make failed with c:/tycho0.3.devel/mk/tycommon.mk:276: *** target pattern c"
+    },
+    {
+      "chunk_id": 28,
+      "text": "0.3.devel/mk/tycommon.mk:276: *** target pattern contains no `%'. The problem here was that ROOT was set to c:/tycho0.3devel . The colon was being interpreted by make , so setting ROOT to /tycho0.3devel fixed the problem. make failed with: '\\\\carson"
+    },
+    {
+      "chunk_id": 29,
+      "text": "vel fixed the problem. make failed with: '\\\\carson\\cxh\\pt\\obj.nt4\\pigiRpc' is an invalid current directory path. UNC paths are not supported. Defaulting to Windows directory. The handle could not be duplicated during a pipe operation. The fix is to"
+    },
+    {
+      "chunk_id": 30,
+      "text": "duplicated during a pipe operation. The fix is to run make --unix , or do MAKE_MODE=unix export MAKE_MODE Some of the tests in $PTOLEMY/src/octtools/Packages/oct fail. If tcltk gets a message about cross compiling, Be sure that the system control p"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ross compiling, Be sure that the system control panel includes the directory that contains gcc. or try: cd $PTOLEMY/src/tcltk make CC=\"/cygnus/cygwin-b20/H-i586-cygwin32/bin/gcc -v\" The problem seems to be that /bin/sh.exe can't find gcc make SHELL"
+    },
+    {
+      "chunk_id": 32,
+      "text": "s to be that /bin/sh.exe can't find gcc make SHELL=bash also works Compiling octtools/tkoct/top fails. The top library is use only by the oct2ptcl binary, which is used to convert Oct facets to ptcl scripts. If you don't need oct2ptcl , then you can"
+    },
+    {
+      "chunk_id": 33,
+      "text": "cripts. If you don't need oct2ptcl , then you can ignore this error and move on. (Reported by Sascha Schwarz <s_schwa@informatik.uni-kl.de> ). octtools/Xpackages/iv fails to compile ../../../../src/octtools/Xpackages/iv/ivGetLine.c: In function `ivT"
+    },
+    {
+      "chunk_id": 34,
+      "text": "cttools/Xpackages/iv/ivGetLine.c: In function `ivTextInit': ../../../../src/octtools/Xpackages/iv/ivGetLine.c:98: storage size of `tty' isn't known ../../../../src/octtools/Xpackages/iv/ivGetLine.c:100: warning: implicit declaration of function `ioct"
+    },
+    {
+      "chunk_id": 35,
+      "text": "0: warning: implicit declaration of function `ioctl' ../../../../src/octtools/Xpackages/iv/ivGetLine.c:100: `TIOCGETC' undeclared (first use this function) ../../../../src/octtools/Xpackages/iv/ivGetLine.c:100: (Each undeclared identifier is reported"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ine.c:100: (Each undeclared identifier is reported only once ../../../../src/octtools/Xpackages/iv/ivGetLine.c:100: for each function it appears in.) There are also problems compiling timer.c The iv package is used to change values of variables inter"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ackage is used to change values of variables interactively. I believe that these errors can be ignored, iv is not used in vem or pigiRpc (Reported by Sascha Schwarz <s_schwa@informatik.uni-kl.de> ). Problems compiling octtools/attache/io.c : ../../."
+    },
+    {
+      "chunk_id": 38,
+      "text": "Problems compiling octtools/attache/io.c : ../../../src/octtools/attache/io.c:39: curses.h: No such file or directory attache is used to edit Octtools facets by hand. Most users never need this functionality, so you can probably skip this error and m"
+    },
+    {
+      "chunk_id": 39,
+      "text": "onality, so you can probably skip this error and move on. curses.h is the include file for the curses system, which is a cursor based ascii windowing package. To fix this bug, it would be necessary to find a Cygwin32 curses library and .h file. (Re"
+    },
+    {
+      "chunk_id": 40,
+      "text": "o find a Cygwin32 curses library and .h file. (Reported by Sascha Schwarz <s_schwa@informatik.uni-kl.de> ). xv fails to compile There are various problems compiling xv under Cygwin. In the short term, you can ignore them. The SDF image processing d"
+    },
+    {
+      "chunk_id": 41,
+      "text": ", you can ignore them. The SDF image processing demos use xv. Eric Pauer reported that there is a precompiled version of xv at: ftp://linc.cis.upenn.edu/pub/xv/xv-3.10.NTbin.tar.gz Problems compiling src/tysh/SigHandle.cc : ../../src/tysh/SigHandle"
+    },
+    {
+      "chunk_id": 42,
+      "text": "g src/tysh/SigHandle.cc : ../../src/tysh/SigHandle.cc: In function `int setHandlers(void (*)(int))': ../../src/tysh/SigHandle.cc:109: `SIGIOT' undeclared (first use this function) The tysh binary is used when tycho -pigi is started up. In the short"
+    },
+    {
+      "chunk_id": 43,
+      "text": "sed when tycho -pigi is started up. In the short term, this error can be ignored. The code in SigHandle.cc , is used to catch signals so that we can attempt to save files etc. This code never really worked well, and is basically dead code. The qui"
+    },
+    {
+      "chunk_id": 44,
+      "text": "y worked well, and is basically dead code. The quick and dirty thing to do would be to just ifdef out those lines. I think we could use SIGABRT instead of SIGIOT . Under Solaris, and egcs-1.0.2, SIGIOT and SIGABRT are both defined as the number 6. B"
+    },
+    {
+      "chunk_id": 45,
+      "text": "OT and SIGABRT are both defined as the number 6. Below is a sample code fragment that is unlikely to break other ports. // Under Cygwin32, SIGIOT is not defined #ifdef SIGIOT if (ptSignal(SIGIOT, sigHandler) != 0) { return 5; } #else"
+    },
+    {
+      "chunk_id": 46,
+      "text": "sigHandler) != 0) { return 5; } #else if (ptSignal(SIGABRT, sigHandler) != 0) { return 5; } #endif (Reported by Sascha Schwarz <s_schwa@informatik.uni-kl.de> ). Tydoc fails: \"set retval [::tycho::HTMLDocSys::generateHTML $"
+    },
+    {
+      "chunk_id": 47,
+      "text": ": \"set retval [::tycho::HTMLDocSys::generateHTML $verbose $debug $generateIndex $title [lrange $args $switchCount end]]...\" can't read \"retval\": no such variable while executing \"if {$retval != \"\"} { puts \"tydoc returned $retval\\n$errorInfo\" e"
+    },
+    {
+      "chunk_id": 48,
+      "text": "\"} { puts \"tydoc returned $retval\\n$errorInfo\" exit 3 }\" (procedure \"tydoc\" line 43) invoked from within \"tydoc -d testDefs.tcl\" (\"eval\" body line 1) invoked from within \"eval tydoc $argv\" (file \"../../util/tydoc/bin/tydoc\""
+    },
+    {
+      "chunk_id": 49,
+      "text": "doc $argv\" (file \"../../util/tydoc/bin/tydoc\" line 72) make[3]: *** [itcldocs] Error 1 The fix is to edit $PTOLEMY/tycho/util/tydoc/tydoc.tcl and add set retval \"\" before the catch: set retval \"\" if [catch {set retval [::tycho::HTMLDocSys::ge"
+    },
+    {
+      "chunk_id": 50,
+      "text": "if [catch {set retval [::tycho::HTMLDocSys::generateHTML $verbose $debug \\ $generateIndex $title \\ [lrange $args $switchCount end]]} err ] { puts \"tydoc: $err\\n$errorInfo\" } if {$retval != \"\"} { puts \"tydoc returned $retval\\"
+    },
+    {
+      "chunk_id": 51,
+      "text": "f {$retval != \"\"} { puts \"tydoc returned $retval\\n$errorInfo\" exit 3 } } (Reported by Sascha Schwarz <s_schwa@informatik.uni-kl.de> ). Problems Starting Ptolemy $PTOLEMY/bin/pigi prints warning messages about not being able to find xrdb . This"
+    },
+    {
+      "chunk_id": 52,
+      "text": "messages about not being able to find xrdb . This is because /bin/sh.exe does not have a working type command. One workaround would be to copy bash.exe to /bin/sh.exe , though this will result in slower compiles. Starting up pigi results in message"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ower compiles. Starting up pigi results in messages like: Error: Unable to load ptk startup file: : can't find package tycho.kernel.basic: can't find package tycho.kernel.basic while executing \"package require tycho.kernel.basic\" (file \""
+    },
+    {
+      "chunk_id": 54,
+      "text": "g \"package require tycho.kernel.basic\" (file \"C:\\tycho0.3devel/kernel/Tycho.tcl\" line 255) invoked from within \"source $path/kernel/Tycho.tcl\" This message can occur if you have a standalone installation of Tycho installed. The workaround i"
+    },
+    {
+      "chunk_id": 55,
+      "text": "nstallation of Tycho installed. The workaround is to unset TYCHO before starting pigi: unset TYCHO pigi If you see the following message, then you may need to upgrade to Cygwinb19.1 or later RPC Error: can not fdopen for write in application RPC E"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ror: can not fdopen for write in application RPC Error: cannot connect to the server Locally we use Hummingbird's Exceed X server. Sascha Schwarz <s_schwa@informatik.uni-kl.de> , reported font problems with the MicroImages X server that were solved"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ms with the MicroImages X server that were solved by using Exceed. If you have font problems, you might try the following: Be sure that another X client starts up before starting pigi . The pigi script attempts to start xclock by hand if xrdb -que"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ipt attempts to start xclock by hand if xrdb -query return no resources. Be sure that pigi successfully starts xclock , or start it by hand before running pigi Add the following line to your .Xdefaults file: Vem.label.fonts: 9x15 then do xrdb -mer"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ults file: Vem.label.fonts: 9x15 then do xrdb -merge ~/.Xdefaults Under NT4.0, with Exceed 6.1, the following messages may occur: A Serious X Error has occurred: BadValue (integer parameter out of range for operation) Request X_QueryColors (min"
+    },
+    {
+      "chunk_id": 60,
+      "text": "range for operation) Request X_QueryColors (minor code 0) Type 'y' to continue, 'n' to exit, 'a' to abort: y A Serious X Error has occurred: BadValue (integer parameter out of range for operation) Request X_QueryColors (minor code 0) Type 'y"
+    },
+    {
+      "chunk_id": 61,
+      "text": "n) Request X_QueryColors (minor code 0) Type 'y' to continue, 'n' to exit, 'a' to abort: y The workaround is to be sure that your display is set to 256 colors. Problems Running Ptolemy If you have problems with pxgraph , see the Ptolemy NT Install"
+    },
+    {
+      "chunk_id": 62,
+      "text": "problems with pxgraph , see the Ptolemy NT Installation page , and $PTOLEMY/src/pxgraph/README.txt The SDF Butterfly demo gives a bogus graph The problem here is that the temporary plot data files were not being opened in binary mode, so they were be"
+    },
+    {
+      "chunk_id": 63,
+      "text": "e not being opened in binary mode, so they were being truncated. The file to change is src/kernel/Display.cc . The change to make is to change: if ((strm[i] = fopen(tmpFileNames[i], \"w\")) == NULL) { To if ((strm[i] = fopen(tmpFileNames[i], \"wb\")) =="
+    },
+    {
+      "chunk_id": 64,
+      "text": "o if ((strm[i] = fopen(tmpFileNames[i], \"wb\")) == NULL) { The Matlab and Mathematica stars do not work. The SDF Gaussian demo fails with: Error: no interpreter to evaluate 'expr 1024/8' This message comes from kernel/InvokeInterp.cc : // send a strin"
+    },
+    {
+      "chunk_id": 65,
+      "text": "omes from kernel/InvokeInterp.cc : // send a string to an external interpreter for evaluation const char* InvokeInterp :: interpreter(const char* expression) { Error::error(\"no interpreter to evaluate '\", expression, \"'.\"); return NULL; } The"
+    },
+    {
+      "chunk_id": 66,
+      "text": "uate '\", expression, \"'.\"); return NULL; } The problem here is that there are multiple definitions of this method in the kernel, pigilib and ptcl. Wolfgang Reimer created a patch that solves this problem, see: http://ptolemy.eecs.berkeley.edu/pt0"
+    },
+    {
+      "chunk_id": 67,
+      "text": "problem, see: http://ptolemy.eecs.berkeley.edu/pt0.7.1/ptolemy0.7.1/html/reimer0898/pt0.7.1p1.ptclInvokeInterp.patch.gz Loading a star fails Currently, dynamically loading a star is not supported under NT, but Ptolemy 0.7.1 was not even getting that"
+    },
+    {
+      "chunk_id": 68,
+      "text": "r NT, but Ptolemy 0.7.1 was not even getting that far, pigi was failing to run ptlang To replicate the bug: I have a .pl file, but no .cc or .h file I hit '*' The Make Star window comes up. I fill in the Star name and Star src dir, I hit ok. I get a"
+    },
+    {
+      "chunk_id": 69,
+      "text": "the Star name and Star src dir, I hit ok. I get a message: Loader: cd //d/users/cxh/c++/pt; ptlang SDFMyRamp.pl >& /tmp/pt2af3001 Can't open error file I looked in pigilib/pigiLoader.cc and found that the ptlang call actually was calling util_c"
+    },
+    {
+      "chunk_id": 70,
+      "text": "d that the ptlang call actually was calling util_cystem() . util_csystem() is defined in src/octtools/Packages/utility/csystem.c The bug is that util_cystem() execs /bin/csh, which does not exist under Cygwin As a hack, I modified util_cystem so tha"
+    },
+    {
+      "chunk_id": 71,
+      "text": "r Cygwin As a hack, I modified util_cystem so that we call /bin/bash: #ifdef PTNT /* /bin/sh needs to actually be /bin/bash */ (void) execl(\"/bin/bash\", \"bash\", \"-c\", s, 0); #else (void) execl(\"/bin/csh\", \"csh\", \"-f\", \"-c\", s, 0); #endif I"
+    },
+    {
+      "chunk_id": 72,
+      "text": "ecl(\"/bin/csh\", \"csh\", \"-f\", \"-c\", s, 0); #endif I then rebuilt the octtools libutility and pigi I then copied bash.exe from the Cygwin directory to /bin The above change is in 0.7.2devel . Note that to get it to work, you need to copy bash.exe to /b"
+    },
+    {
+      "chunk_id": 73,
+      "text": "to get it to work, you need to copy bash.exe to /bin/bash/exe util_csystem() is also used to compile the star by hand from within pigiLoader.cc or to run make if a makefile is present. Sascha Schwarz <s_schwa@informatik.uni-kl.de> reported the follow"
+    },
+    {
+      "chunk_id": 74,
+      "text": "<s_schwa@informatik.uni-kl.de> reported the following workaround for this problem The clue is to create the .pl file, and then copy some schematic from somewhere in the same directory, and name it in the same way. E.g., DEFoo.pl would require schemat"
+    },
+    {
+      "chunk_id": 75,
+      "text": "the same way. E.g., DEFoo.pl would require schematics foo, contents don't seem to matter. Then you can compile your own pigiRPC as described in the Programmer's Guide, p.1-7. Then run this pigi-version, and you will be able to make the star using the"
+    },
+    {
+      "chunk_id": 76,
+      "text": "n, and you will be able to make the star using the '*' command, though you might have some error messages. But the second or third try usually works. Incremental linking still fails Error: Error in creating shared object, command failed: g++ -shared"
+    },
+    {
+      "chunk_id": 77,
+      "text": "eating shared object, command failed: g++ -shared -o /tmp/__ptlink1032_2.so /usr/cxh/src/pt/SDFMyRamp.o In brief, the problem is that incremental linking of user stars is broken in the NT port. In the past, I've tried to build a shared library v"
+    },
+    {
+      "chunk_id": 78,
+      "text": "n the past, I've tried to build a shared library version of Ptolemy under NT, but had various problems with the constructors etc. The alternative to building a shared library version is to build a static version of pigiRpc, which is what is currently"
+    },
+    {
+      "chunk_id": 79,
+      "text": "tic version of pigiRpc, which is what is currently built under NT. The problem with a static pigiRpc is that incremental linking is tricky. We had it working under SunOS years ago with the BSD ld -a flag, but it looks like that is not supported The"
+    },
+    {
+      "chunk_id": 80,
+      "text": "flag, but it looks like that is not supported The binutils2-9.1/ld/TODO file says: Support the \"traditional\" BSD -A flag (incremental loading). (There is a -A flag in ld now, but it is used to specify the architecture. That should probably be chan"
+    },
+    {
+      "chunk_id": 81,
+      "text": "fy the architecture. That should probably be changed.) One workaround would be to avoid incrementally linking your stars and instead build a pigiRpc that had the stars built in. The way to do this is to create a makefile for your stars, build a lib"
+    },
+    {
+      "chunk_id": 82,
+      "text": "s to create a makefile for your stars, build a library and then modify $PTOLEMY/mk/stars.mk so that your stars are built in. The programmer's manual has some info about this, see also $PTOLEMY/src/pigiExample Tk demos don't run Formerly, running the"
+    },
+    {
+      "chunk_id": 83,
+      "text": "iExample Tk demos don't run Formerly, running the SDF butterfly demo within pigi takes roughly 60 seconds, but running it from within ptcl takes roughly 2 seconds. The problem is that early releases of Cygwin32 did not have itimers, so pigi's event"
+    },
+    {
+      "chunk_id": 84,
+      "text": "of Cygwin32 did not have itimers, so pigi's event loop uses a much slower technique. config-nt4.mk defined PT_NO_TIMER , which is used in src/ProfileTimer.cc and src/SimControl.cc . However, Cygwin20 has itimers so we removed the -DPT_NO_TIMER from"
+    },
+    {
+      "chunk_id": 85,
+      "text": "0 has itimers so we removed the -DPT_NO_TIMER from config-nt4.mk , and the butterfly demo is much faster. Now, if we use itimers, then the problem is that the Tk demos hang. The workaround is to either edit config-nt4.mk and add the -DPT_NO_TIMER fl"
+    },
+    {
+      "chunk_id": 86,
+      "text": "er edit config-nt4.mk and add the -DPT_NO_TIMER flag and recompile, or to do the following: cd $PTOLEMY/obj.nt4/kernel rm SimControl.o ProfileTimer.o make USERFLAGS=-DPT_NO_TIMER install cd ../pigiRpc make install Currently, in 0.7.2devel, the itimer"
+    },
+    {
+      "chunk_id": 87,
+      "text": "make install Currently, in 0.7.2devel, the itimers are not used, so the butterfly demo is slow, but at least the Tk demos run. Up to the Ptolemy under NT page - Back to Ptolemy NT Hints - Forward to Ptolemy NT Installation Copyright © 1997-1999, The"
+    },
+    {
+      "chunk_id": 88,
+      "text": "Ptolemy NT Installation Copyright © 1997-1999, The Regents of the University of California. All rights reserved. Last updated: 10/07/99, comments to: cxh at eecs"
+    }
+  ]
+}

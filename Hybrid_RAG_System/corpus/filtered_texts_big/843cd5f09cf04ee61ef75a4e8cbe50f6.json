@@ -1,0 +1,1221 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/projects/mobies/reports/02/3",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "oftware Components for Networked Embedded Systems REPORT PERIOD: 7/1/02 - 9/30/02 SPONSOR: Air Force Research Laboratory (AFRL) TECHNICAL POC: Lyttle James, James.Lyttle@wpafb.af.mil REPORT PREPARED BY"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ames, James.Lyttle@wpafb.af.mil REPORT PREPARED BY: Edward A. Lee 0. Executive Summary Our focus is on component-based design using principled models of computation and their runtime environments for embedded systems. The emphasis of this proje"
+    },
+    {
+      "chunk_id": 4,
+      "text": "s for embedded systems. The emphasis of this project is on the dynamics of the components, including the communication protocols that they use to interface with other components, the modeling of their state, and their flow of control. The objective i"
+    },
+    {
+      "chunk_id": 5,
+      "text": "state, and their flow of control. The objective is to provide mechanisms for introspection, supporting both the ability of the run-time environment to safely dispatch tasks and the ability of components to adapt their interfaces using polymorphism."
+    },
+    {
+      "chunk_id": 6,
+      "text": "nts to adapt their interfaces using polymorphism. The focus is on real-time applications, which implies that models of time are a critical part of the abstractions that we are developing. The purpose of the mechanisms we develop is to improve robustn"
+    },
+    {
+      "chunk_id": 7,
+      "text": "of the mechanisms we develop is to improve robustness and safety while promoting component-based design. This reporting period has included a major release of a new version of Ptolemy II, the realization of a mechanism for higher-order expressions,"
+    },
+    {
+      "chunk_id": 8,
+      "text": "tion of a mechanism for higher-order expressions, the capability to import HSIF models into Ptolemy II, a set of alternative semantics for HSIF, and an analysis of the relationship between the semantics of Simulink and Giotto. 1. Research Status S"
+    },
+    {
+      "chunk_id": 9,
+      "text": "cs of Simulink and Giotto. 1. Research Status Software Release ================ We released Ptolemy II 2.0.1 and Ptplot 5.2. The release announcements are attached as appendices. Higher-Order Expressions ======================== Xiaojun Liu, w"
+    },
+    {
+      "chunk_id": 10,
+      "text": "pressions ======================== Xiaojun Liu, with the help of Joern Janneck and Steve Neuendorffer, has added support for defining functions in the expression language. The syntax is as in the following example: function(x) x * 5"
+    },
+    {
+      "chunk_id": 11,
+      "text": "lowing example: function(x) x * 5 function(x, y) x * sin(y) which will evaluate to FunctionTokens, or as part of a larger expression: ( function(x) x * 5 ) (10) Now parameters can have values that are functions, and actors"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ers can have values that are functions, and actors can send/receive function tokens. This enables higher-order components, where the communicated data is functions that can be applied to other data that is communicated. Currently, function tokens r"
+    },
+    {
+      "chunk_id": 13,
+      "text": "hat is communicated. Currently, function tokens report their types as BaseType.GENERAL. A major next step is to implement type inference of function definition/application. Models of Computation for Real-Time Systems =============================="
+    },
+    {
+      "chunk_id": 14,
+      "text": "r Real-Time Systems =========================================== A group consisting of Tom Henzinger, Wolfgang Pree, Ben Horowitz, Haiyang Zheng and Xiaojun Liu have been examining the relationship between the semantics of Giotto and those of Simulin"
+    },
+    {
+      "chunk_id": 15,
+      "text": "tween the semantics of Giotto and those of Simulink, as it applies to Real-Time Workshop. This is an ongoing investigation, but currently the debate centers on whether the formal structure of Giotto (and all its ensuing benefits) in fact apply to the"
+    },
+    {
+      "chunk_id": 16,
+      "text": "and all its ensuing benefits) in fact apply to the model used in real-time workshop. It appears reasonable that it will, with a small amount of generalization, at least for applications that run concurrently on a single computing platform. HSIF ==="
+    },
+    {
+      "chunk_id": 17,
+      "text": "rrently on a single computing platform. HSIF ==== HSIF is a proposed hybrid system interchange format that the Mobies community is working on. Haiyang Zheng implemented the tool for reading HSIF into Ptolemy. He tested this tool on several example"
+    },
+    {
+      "chunk_id": 18,
+      "text": "to Ptolemy. He tested this tool on several examples provided by the HSIF team, including the thermostat, swimming pool and vehicle platoon. This exercise led to some insights about HSIF. Based on these insights, we have contributed an analysis of a d"
+    },
+    {
+      "chunk_id": 19,
+      "text": "e insights, we have contributed an analysis of a difficulty with the first version of the semantics that makes it difficult to build simulators for hybrid systems defined in HSIF. We have proposed an alternative semantics that preserves the major int"
+    },
+    {
+      "chunk_id": 20,
+      "text": "alternative semantics that preserves the major intent of the original, but makes it possible to construct deterministic models that are easier to simulate. An extensive dialog with the Mobies community has led to significant refinements of the semant"
+    },
+    {
+      "chunk_id": 21,
+      "text": "y has led to significant refinements of the semantics. We have also provided feedback on a number of the examples and on the expression language. Behavioral Types ================ Yuhong Xiong (now a HP labs) created software that computes an alt"
+    },
+    {
+      "chunk_id": 22,
+      "text": "w a HP labs) created software that computes an alternating simulation relation between two interface automata. We are using interface automata to represent behavioral types, and the alternating simulation relation is the subtyping relation. Timed M"
+    },
+    {
+      "chunk_id": 23,
+      "text": "tion relation is the subtyping relation. Timed Multitasking ================== The timed multitasking (TM) domain, created by Jie Liu, has matured to the point of being generically useful. It supports the design of concurrent real-time software. I"
+    },
+    {
+      "chunk_id": 24,
+      "text": "rts the design of concurrent real-time software. It assumes an underlying priority-driven preemptive scheduler, such as that typically found in a real-time operating systems (RTOS). But the behavior of models is more deterministic than that obtained"
+    },
+    {
+      "chunk_id": 25,
+      "text": "f models is more deterministic than that obtained by more ad hoc uses of an RTOS. In TM, each actor executes (conceptually) as a concurrent task. It is a timed domain, meaning that there is a notion of \"model time\" that advances monotonically and un"
+    },
+    {
+      "chunk_id": 26,
+      "text": "of \"model time\" that advances monotonically and uniformly. Each actor has a specified execution time T, and it delays the production of the outputs until it has had access to the CPU for that specified amount of time (in model time, which may or may"
+    },
+    {
+      "chunk_id": 27,
+      "text": "d amount of time (in model time, which may or may not match real time). Actors execute when they receive new inputs, so the execution is event driven. Conceptually, the actor begins execution at some time t, and its output is produced at time t + T +"
+    },
+    {
+      "chunk_id": 28,
+      "text": "time t, and its output is produced at time t + T + P, where T is the declared execution time, and P is the amount of time where the actor is suspended due to being preempted by a higher priority actor. At any given model time t, the task with the hig"
+    },
+    {
+      "chunk_id": 29,
+      "text": ". At any given model time t, the task with the highest priority that has received inputs but not yet produced its outputs has the CPU. All other tasks are suspended. TM offers a way to design real-time systems that is more deterministic than ad hoc"
+    },
+    {
+      "chunk_id": 30,
+      "text": "me systems that is more deterministic than ad hoc uses of an RTOS. In particular, typically, a task produces outputs at a time that depends on the actual execution time of the task, rather than on some declared parameter. This means that consumers of"
+    },
+    {
+      "chunk_id": 31,
+      "text": "e declared parameter. This means that consumers of that data may or may not see updates to the data, depending on when their execution occurs relative to the actual execution time. Thus, the computational results that are produced depend on the actua"
+    },
+    {
+      "chunk_id": 32,
+      "text": "onal results that are produced depend on the actual execution time. TM avoids this by declaring the time that elapses before production of the outputs. By maintaining model time correctly, TM ensures that the data computation is deterministic, irresp"
+    },
+    {
+      "chunk_id": 33,
+      "text": "that the data computation is deterministic, irrespective of actual execution time. C Code Generation ================= Shuvra Bhattacharyya (under subcontract from Maryland) reports considerable progress on the C code generation back end. A TCL-b"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ogress on the C code generation back end. A TCL-based testing framework was set up to automatically check the correctness of the generated code. For classes without a main method or classes generated in single class mode (a conversion mode in which"
+    },
+    {
+      "chunk_id": 35,
+      "text": "in single class mode (a conversion mode in which dependencies on other classes are ignored), \"correctness\" refers to generation of ANSI-compliant C code that does not trigger any errors or warnings in gcc even with the -Wall -pedantic flags. For cla"
+    },
+    {
+      "chunk_id": 36,
+      "text": "n gcc even with the -Wall -pedantic flags. For classes that generate executables, \"correctness\" also implies that the execution of the generated code results in output consistent with the output of a JVM running the original Java bytecode. A MainFil"
+    },
+    {
+      "chunk_id": 37,
+      "text": "JVM running the original Java bytecode. A MainFileGenerator class was added that generates a \"main\" function, required for generation of a correct executable. This enables runnable \".exe\" files to be generated. But because the functionality for I/O"
+    },
+    {
+      "chunk_id": 38,
+      "text": "generated. But because the functionality for I/O was not yet up, these could not be fully tested at first. A new pruning algorithm was built that eliminated calls to Soot's built-in hierarchy analyzer. The new algorithm uses a recursive breadth-fir"
+    },
+    {
+      "chunk_id": 39,
+      "text": "er. The new algorithm uses a recursive breadth-first-search to generate the list of all required methods and classes according to a set of rules. Support for native methods was enabled by allowing predefined code to be inserted as code for native me"
+    },
+    {
+      "chunk_id": 40,
+      "text": "edefined code to be inserted as code for native methods (which would otherwise be undefined). Stubs for undefined native methods are automatically generated. Support was added to allow the user to force-override the generated code and replace it wit"
+    },
+    {
+      "chunk_id": 41,
+      "text": "rce-override the generated code and replace it with predefined hand-written code for purposes of either performance or correctness with respect to a given platform. Support for System.out.println was added. For the first time, executables could be r"
+    },
+    {
+      "chunk_id": 42,
+      "text": "added. For the first time, executables could be run, and their generated output could be compared against expected output for verification. Exceptions support was added. Simple exceptions, exceptions thrown by one method and caught by another, and"
+    },
+    {
+      "chunk_id": 43,
+      "text": "s thrown by one method and caught by another, and exceptions in which a subclass is thrown but a superclass is caught, are all supported. The testing framework has now been expanded to include 15 separate tests, checking most major features of the c"
+    },
+    {
+      "chunk_id": 44,
+      "text": "arate tests, checking most major features of the code generator. Also, Christopher Hylands has created regression tests that include the generated code. Java Code Generation ==================== Steve Neuendorffer reports that code generation can"
+    },
+    {
+      "chunk_id": 45,
+      "text": "eve Neuendorffer reports that code generation can currently generate Java code for a large number of modal, all hierarchical, Synchronous Dataflow models. The resulting code depends relatively little on the rest of Ptolemy. There is a translator that"
+    },
+    {
+      "chunk_id": 46,
+      "text": "on the rest of Ptolemy. There is a translator that converts the Java code into C code for embedded targets that do not have Java environments. This translator has been developed under subcontract to Prof. Shuvra Bhattacharyya at the University of Mar"
+    },
+    {
+      "chunk_id": 47,
+      "text": "rof. Shuvra Bhattacharyya at the University of Maryland. There is also some more primitive support for synthesizing FPGA implementations. The key difficulty in code generation that we have tried to approach deals with component libraries. The tradit"
+    },
+    {
+      "chunk_id": 48,
+      "text": "pproach deals with component libraries. The traditional way of generating code from component-based specifications is to take a library of component specifications in the language to be generated, such as Java, and to splice the component code togeth"
+    },
+    {
+      "chunk_id": 49,
+      "text": "h as Java, and to splice the component code together using automatically generated code. To generate Java code from a model, you need a Java specification of the components in the model. To generate C code, you need a C specification of the component"
+    },
+    {
+      "chunk_id": 50,
+      "text": "code, you need a C specification of the components, etc... However, maintaining such libraries is difficult at best, and unmanageable when a large number of code generation target languages are desired. The problem becomes more difficult when we sta"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ed. The problem becomes more difficult when we start to explore the semantics of how components interact: for each pattern of component composition (i.e. a model of computation) we need an efficient Java or C style for representing components in that"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ava or C style for representing components in that model of computation. The more generally the components are specified, the less efficient the generated code becomes. Basically our code tries to solve this problem by taking a single generic specif"
+    },
+    {
+      "chunk_id": 53,
+      "text": "lve this problem by taking a single generic specification of a component, and specializing it to a particular parameter values, a particular model of computation, and to particular data types before splicing it together with the code from the other c"
+    },
+    {
+      "chunk_id": 54,
+      "text": "plicing it together with the code from the other components. This allows efficient code to be generated even in the face of highly polymorphic and parameterizable component specifications. The specification language that we use is a stylized form of"
+    },
+    {
+      "chunk_id": 55,
+      "text": "cation language that we use is a stylized form of Java code, which makes it easier for programmers to learn, and allows us to leverage alot of existing compiler technology. Steve also checked in updates to the code generator that are a first stab at"
+    },
+    {
+      "chunk_id": 56,
+      "text": "tes to the code generator that are a first stab at doing code generation from FSMs and modal models. He has generated code for a Rijndael encryption example, which runs roughly 5 times faster than Ptolemy version, even without token unboxing. One cav"
+    },
+    {
+      "chunk_id": 57,
+      "text": "lemy version, even without token unboxing. One caveat at the moment is that the code generator doesn't properly handle some parameter changes in modal models. He plans to work on improving the handling of dynamic parameters in general which should im"
+    },
+    {
+      "chunk_id": 58,
+      "text": "g of dynamic parameters in general which should improve the situation. Code Generation from the Expression Language ============================================ Many Ptolemy II models use expressions written in the Ptolemy II expression language,"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ns written in the Ptolemy II expression language, for example to specify the computation performed by an actor, or the guard associated with a state transition. To perform code generation for such models, we have to code generate the expressions. Ste"
+    },
+    {
+      "chunk_id": 60,
+      "text": "els, we have to code generate the expressions. Steve Neuendorffer has built a simple such code generator. He implemented this a visitor pattern that produces Soot statements (Soot is the compiler toolkit from McGill that we are using for code generat"
+    },
+    {
+      "chunk_id": 61,
+      "text": "kit from McGill that we are using for code generation). The most difficult part was dealing with the complicated reflection of method invocations. The code generator uses the static typing information to reflect the method, and generates an invocati"
+    },
+    {
+      "chunk_id": 62,
+      "text": "n to reflect the method, and generates an invocation for that method, along with specialized code for doing the necessary type conversions for methods that take native java objects instead of tokens. There remain some subtle issues with such methods."
+    },
+    {
+      "chunk_id": 63,
+      "text": "There remain some subtle issues with such methods. Type System =========== Steve Neuendorffer has experimented with some fundamental new capabilities that link the expression language to the type system for ports in Ptolemy II. The objective is to"
+    },
+    {
+      "chunk_id": 64,
+      "text": "ystem for ports in Ptolemy II. The objective is to be able to properly type the ports of the Expression actor, based on the expression that is specified in its parameters. However, his experiments revealed that the problem is fairly deep, and we have"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ealed that the problem is fairly deep, and we have not found a complete solution. His approach uses a monotonic function to constrain the type of the output port. The monotonic function is evaluated using the ParseTreeTypeInference visitor on the pa"
+    },
+    {
+      "chunk_id": 66,
+      "text": "using the ParseTreeTypeInference visitor on the parsed expression. As type resolution occurs, the types of the variables and input ports that the expression depends on are updated, resulting in the type of the output port getting updated. This strat"
+    },
+    {
+      "chunk_id": 67,
+      "text": "pe of the output port getting updated. This strategy works for some simple cases e.g. the input to the expression is a record, and the expression pulls a field out of the record. However, he has some doubts about this strategy in general... 1) Ther"
+    },
+    {
+      "chunk_id": 68,
+      "text": "doubts about this strategy in general... 1) There maybe constraints inside the expression that are getting lost... for instance, if the value from an input port is getting referenced as a record, should this result in a constraint on the type of th"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ould this result in a constraint on the type of the input port? 2) Method calls are challenging. On top of type inference not always being able to select the correct type after the method has been reflected (Token.add(Token)), there is a further pro"
+    },
+    {
+      "chunk_id": 70,
+      "text": "flected (Token.add(Token)), there is a further problem. The method cannot be reflected at all until the types of the inputs have reached their final type. Currently, if a method cannot be reflected (or, in fact, if any exception occurs while typing t"
+    },
+    {
+      "chunk_id": 71,
+      "text": "r, in fact, if any exception occurs while typing the expression) The result of the monotonic function is BaseType.UNKNOWN. Unfortunately, with this result there does not seem to be an easy way to ensure that the function is indeed monotonic. For ins"
+    },
+    {
+      "chunk_id": 72,
+      "text": "re that the function is indeed monotonic. For instance, the method may be properly reflected at some point during type resolution, and then after consideration of further information, the input types to the function are updated, meaning that the fun"
+    },
+    {
+      "chunk_id": 73,
+      "text": "to the function are updated, meaning that the function cna no longer be reflected. In this case, the correct result of the function should just be that the current type assignment is not acceptable, with no change in the previous function result. It"
+    },
+    {
+      "chunk_id": 74,
+      "text": "with no change in the previous function result. It is an open issue whether this can be represented in the current type resolution infrastructure. An alternative would be to implement another visitor on the expression that collected individual const"
+    },
+    {
+      "chunk_id": 75,
+      "text": "on the expression that collected individual constraints in the expression as a set, and then returned them. However, this would probably not solve the above problem, because we would still need a monotonic function constraint for function invocation"
+    },
+    {
+      "chunk_id": 76,
+      "text": "otonic function constraint for function invocations. Improvements to Basic Modeling Infrastructure ============================================= We have devised a mechanism for defining an interface to an actor where data values can be specified a"
+    },
+    {
+      "chunk_id": 77,
+      "text": "e to an actor where data values can be specified as either parameters or ports. If the port is unconnected, then the parameter value prevails. Data provided on the port, however, trumps data defined in the parameter. The data is accessed as if it wer"
+    },
+    {
+      "chunk_id": 78,
+      "text": "n the parameter. The data is accessed as if it were parameter. This mechanism has been realized in a pair of classes, PortParameter and ParameterPort. Xiaojun Liu discovered a mechanism by which a discrete-event (DE) model that is not at the top lev"
+    },
+    {
+      "chunk_id": 79,
+      "text": "screte-event (DE) model that is not at the top level of the hierarchy can introduce a deadlock. This occurs when its stopWhenQueueIsEmpty parameter is set to false (as is generally the case). If the input events of the containing actor do not end in"
+    },
+    {
+      "chunk_id": 80,
+      "text": "nput events of the containing actor do not end in the event queue of the director, say when the inputs are not connected on the inside, or the inputs are ParameterPorts, then the director will wait in its fire() method, and the execution of the whole"
+    },
+    {
+      "chunk_id": 81,
+      "text": "its fire() method, and the execution of the whole model is blocked. Xiaojun checked in a fix to this problem. We have improved the Ptolemy II component library that performs file I/O, and have provided basic infrastructure in the form of a FilePar"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ided basic infrastructure in the form of a FileParameter class. This class manages platform dependencies in file system interaction, and provides a convenient user interface for selecting and accessing files on the file system. We have converted our"
+    },
+    {
+      "chunk_id": 83,
+      "text": "g files on the file system. We have converted our internal build to use JDK 1.4, which introduces a number of useful new features that we are exploiting. Unfortunately, this also exposed a number of bugs, including a particularly problematic one whe"
+    },
+    {
+      "chunk_id": 84,
+      "text": "bugs, including a particularly problematic one where certain graphics hardware would cause the Java environment to hang the machine when a Java program was exited. Christopher Hylands performed an analysis of the problem and devised a workaround. Sh"
+    },
+    {
+      "chunk_id": 85,
+      "text": "lysis of the problem and devised a workaround. Shuvra Bhattacharyya (under subcontract from Maryland) made several improvements on the package in Ptolemy II that provides generic graph manipulation infrastructure. The main enhancement in this period"
+    },
+    {
+      "chunk_id": 86,
+      "text": "nfrastructure. The main enhancement in this period was the development of the ptolemy.graph.analysis package, which is designed as a repository for graph analyses and transformations that support demand-driven and incremental computation. A simple, l"
+    },
+    {
+      "chunk_id": 87,
+      "text": "nd-driven and incremental computation. A simple, low-overhead version tracking mechanism is used between each analysis/graph instance pair to recompute the analysis only when necessary. The architecture can also support incremental computation, where"
+    },
+    {
+      "chunk_id": 88,
+      "text": "re can also support incremental computation, where recomputation is streamlined based on the actual changes that have occurred since the last computation. We plan to explore this incremental computation aspect more in the future. Several of the graph"
+    },
+    {
+      "chunk_id": 89,
+      "text": "on aspect more in the future. Several of the graph algorithms that existed previously in the graph package have been ported into the ptolemy.graph.analysis format. This package will be extended in the future with more algorithms. A mechanism for comp"
+    },
+    {
+      "chunk_id": 90,
+      "text": "future with more algorithms. A mechanism for computing \"mirrors\" of graphs was developed. The mirror of a graph G is a graph that is isomorphic to G (has the same node/edge topology). However, nodes and edges of the mirror are newly created and ther"
+    },
+    {
+      "chunk_id": 91,
+      "text": "and edges of the mirror are newly created and therefore not equal to those of the original graph. This is in contrast to the clone of a graph, where the nodes and edges of the clone graph are identical to those of the original graph. Options are avai"
+    },
+    {
+      "chunk_id": 92,
+      "text": "l to those of the original graph. Options are available in the mirror methods to clone node/edge weights or to share the weights between the original and mirror graphs. We have made changes to Vergil (the Ptolemy II GUI) to support run buttons on th"
+    },
+    {
+      "chunk_id": 93,
+      "text": "(the Ptolemy II GUI) to support run buttons on the toolbar and hotkeys. The run button on the toolbar fairly fundamentally changes the way a modeler interacts with an executing model. No longer is the interaction through the somewhat awkward contr"
+    },
+    {
+      "chunk_id": 94,
+      "text": "the interaction through the somewhat awkward control panel. This required a few changes to the displays that are created by various actors in Ptolemy II. We have created a set of GUI components for viewing Ptolemy II data, as given in the expressio"
+    },
+    {
+      "chunk_id": 95,
+      "text": "viewing Ptolemy II data, as given in the expression language. Files with the extension .ptd are now opened by a token viewer. The default viewer is a text editor, but if the data is a matrix, then the matrix viewer is used. Steve Neuendorffer create"
+    },
+    {
+      "chunk_id": 96,
+      "text": "matrix viewer is used. Steve Neuendorffer created a number small fixes to the expression language in Ptolemy II that bring the language closer to the Java expression syntax. We have improved the way that the SDF (synchronous dataflow) domain imple"
+    },
+    {
+      "chunk_id": 97,
+      "text": "y that the SDF (synchronous dataflow) domain implements rate propagation. Previously, SDF would infer the rates of ports of an SDF model, and create parameters named \"tokenConsumptionRate\" \"tokenInitProduction\" and \"tokenConsumptionRate\". However, th"
+    },
+    {
+      "chunk_id": 98,
+      "text": "roduction\" and \"tokenConsumptionRate\". However, this has two bad side effects: 1) If a port has these parameters already, then the SDF scheduler overrides them. This may not be correct. 2) If a port has these parameters already, then running a m"
+    },
+    {
+      "chunk_id": 99,
+      "text": "ort has these parameters already, then running a model will mark it dirty, resulting in a prompt to save the model on exit. We've changed this so that it sets these values only if the parameters do not exist already, and stores them in new att"
+    },
+    {
+      "chunk_id": 100,
+      "text": "s do not exist already, and stores them in new attributes called \"_tokenConsumptionRate\" \"_tokenInitProduction\" and \"_tokenConsumptionRate\". These are transient (Variable rather than Parameter), so they will not trigger a prompt to save. Study Grou"
+    },
+    {
+      "chunk_id": 101,
+      "text": "ey will not trigger a prompt to save. Study Group =========== Our quasi-weekly study group examined the following topics: -- J2EE and Enterprise Java Beans (EJB) architectures -- Software refactoring -- Executable UML -- Microsoft Passport 2."
+    },
+    {
+      "chunk_id": 102,
+      "text": "ing -- Executable UML -- Microsoft Passport 2. Interactions, Meetings, and Technology Transfer Presentations ============= * Jorn Janneck, \"Ptolemy II,\" Workshop on Semantics Foundation of Engineering Design Languages, Grenoble, France, 14 A"
+    },
+    {
+      "chunk_id": 103,
+      "text": "gineering Design Languages, Grenoble, France, 14 April, 2002. * Edward A. Lee and Tom Henzinger, \"Process-Based Software Components,\" Mobies PI Meeting, New York, July 24, 2002. Technology Transfer =================== * It has been announced"
+    },
+    {
+      "chunk_id": 104,
+      "text": "sfer =================== * It has been announced that the National Science Foundation has selected Berkeley to lead a major new initiative in hybrid and embedded software systems. This is part of the NSF information technology research (ITR) i"
+    },
+    {
+      "chunk_id": 105,
+      "text": "the NSF information technology research (ITR) initiative, and it will bring $13 million in the next five years to Berkeley and its partner institutions (Vanderbilt University and Memphis). The Ptolemy Project team is a major part of this eff"
+    },
+    {
+      "chunk_id": 106,
+      "text": "Ptolemy Project team is a major part of this effort. For more information, see the website: http://chess.eecs.berkeley.edu. * We provided to the HSIF team a definition of the Ptolemy II expression language. * We have updated the Ptolemy FAQ o"
+    },
+    {
+      "chunk_id": 107,
+      "text": "n language. * We have updated the Ptolemy FAQ on the website and improved the documentation of the expression language. * Jim Armstrong of Virginia Tech has organized a graduate class on modeling. An outline can be found at: http://www.visc"
+    },
+    {
+      "chunk_id": 108,
+      "text": "ing. An outline can be found at: http://www.visc.vt.edu/armstrong/index.html (click on ECPE 5514, Design of Systems On a Chip). Other Interactions ================== * David Hermann, a fourth-year University of Waterloo student working with"
+    },
+    {
+      "chunk_id": 109,
+      "text": "ear University of Waterloo student working with Zoltan Kemenczy at Research in Motion Limited (www.rim.net) has implemented and contributed an FSM Transition Refinement mechanism. Previously, an FSM model could have \"state refinements,\" which"
+    },
+    {
+      "chunk_id": 110,
+      "text": "FSM model could have \"state refinements,\" which are Ptolemy II models that are executed when the the FSM is invoked and is in the pertinent state. Transition refinements are executed when a transition between states is taken. This was a fair"
+    },
+    {
+      "chunk_id": 111,
+      "text": "ansition between states is taken. This was a fairly major addition, and we worked with Zoltan to refine it, review it, provide a user interface, and integrate it with the Ptolemy II tree. Zoltan contributed a demonstration application (a modal"
+    },
+    {
+      "chunk_id": 112,
+      "text": "contributed a demonstration application (a modal binary symmetric communication channel). * Mike Wirthlin at Brigham Young University reports on the status of the JHDL code generation. JHDL is a hardware description language based on Java, a"
+    },
+    {
+      "chunk_id": 113,
+      "text": "a hardware description language based on Java, and Mike has been using it to design FPGA configurations from Ptolemy II models. His report: \"Over the last few weeks I have been working on our control-flow analysis and have finally completed"
+    },
+    {
+      "chunk_id": 114,
+      "text": "ontrol-flow analysis and have finally completed it. I am halfway through the JHDL circuit generation code and am able to generate simple circuits from Java methods. The big task I have now is to integrate the JHDL circuit generation and contr"
+    },
+    {
+      "chunk_id": 115,
+      "text": "integrate the JHDL circuit generation and control-flow analysis into the Ptolemy code generation infrastructure (i.e. generate hardware in the context of a Ptolemy model).\" * Zoltan Kemenczy of Research in Motion Limited (www.rim.net) imple"
+    },
+    {
+      "chunk_id": 116,
+      "text": "f Research in Motion Limited (www.rim.net) implemented a \"MultiContextComposite\" actor, which is a first form of a higher-order function (HOF) for Ptolemy II. Zoltan reports: \"We used it to create multiple instances of the same model (e.g. '"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ate multiple instances of the same model (e.g. 'logical channels' of 'network protocols'). In such a case, one would want to create N instances of the same model and as data arrives, route data to a particular (or all) instance(s) determined by"
+    },
+    {
+      "chunk_id": 118,
+      "text": "to a particular (or all) instance(s) determined by some data element. This is a specialized form of HOF tailored towards the current PTII gui and execution environment. MultiContextComposite is derived from TypedCompositeActor and as such au"
+    },
+    {
+      "chunk_id": 119,
+      "text": "derived from TypedCompositeActor and as such automatically supports all PTII vergil gui interactions as TypedCompositeActor. One has one predefined parameter, 'nContext' that determines the number of instances (clones) to be created from the"
+    },
+    {
+      "chunk_id": 120,
+      "text": "ber of instances (clones) to be created from the master. The master model is created using vergil in the same way as a TypedCompositeActor is created. MultiContextComposite input ports must not be multiports (for now) and may be connected to"
+    },
+    {
+      "chunk_id": 121,
+      "text": "be multiports (for now) and may be connected to multiports or regular ports. During its preinitialize(), the master MultiContextComposite determines how its input ports are connected and creates additional relations in its container (the mod"
+    },
+    {
+      "chunk_id": 122,
+      "text": "s additional relations in its container (the model it is embedded in) to connect the input ports of its clones (instances) to the same output port if that port is a multiport. If the output port is a regular port, the clone's input port is li"
+    },
+    {
+      "chunk_id": 123,
+      "text": "is a regular port, the clone's input port is linked to the already existing relation between the output port and the master's input port. MultiContextComposite output ports must not be multiports (for now) and must be connected to input mult"
+    },
+    {
+      "chunk_id": 124,
+      "text": "ts (for now) and must be connected to input multiports. The master MultiContextComposite creates additional relations to connect the output ports of its clones to the input port. Finally, after all these connections are made, the master's pre"
+    },
+    {
+      "chunk_id": 125,
+      "text": "all these connections are made, the master's preinitialize() calls preinitalize() of the clones. From here on until wrapup() nothing special is needed. Type resolution to occur on all instances in the modified model, so does initialize(), th"
+    },
+    {
+      "chunk_id": 126,
+      "text": "in the modified model, so does initialize(), the computation of schedules by directors of the master and clones, etc. We typically connect MultiContextComposite outputs to a Merge actor in the DE domain. Alternatively in SDF, one can use"
+    },
+    {
+      "chunk_id": 127,
+      "text": "he DE domain. Alternatively in SDF, one can use MultiContextComposite with Distributors and Commutators. During model wrapup(), the master MultiContextComposite deletes any relations created, unlinks any ports if needed, and deletes the clon"
+    },
+    {
+      "chunk_id": 128,
+      "text": "nlinks any ports if needed, and deletes the clones it created. To re-sync vergil's model graph, a change request is also queued with the Manager.\" Zoltan also created a MultiContextController which he describes as such: \"It is similar to"
+    },
+    {
+      "chunk_id": 129,
+      "text": "hich he describes as such: \"It is similar to a Switch actor without a control input. Instead, the control value is computed based on input data. In our case, we use a (configurable) RecordToken fieldname (int-typed) that is looked up in th"
+    },
+    {
+      "chunk_id": 130,
+      "text": "en fieldname (int-typed) that is looked up in the input RecordToken to determine which output channel (MultiContextComposite instance) to route data to.\" * Zoltan Kemenczy of Research in Motion Limited (www.rim.net) contributed a change to Pto"
+    },
+    {
+      "chunk_id": 131,
+      "text": "imited (www.rim.net) contributed a change to Ptolemy II which dramatically improved performance of certain models. On the test case he supplied, the execution time reduced from 87 seconds to about 5.5 seconds. Zoltan writes: \"The run-ti"
+    },
+    {
+      "chunk_id": 132,
+      "text": "ut 5.5 seconds. Zoltan writes: \"The run-times of some of our larger models felt like they had increased lately... Profiling surfaced calls from the ptolemy.data package to ptolemy.data.type.TypeLattice.compare(). After looki"
+    },
+    {
+      "chunk_id": 133,
+      "text": "data.type.TypeLattice.compare(). After looking at this code, I realized that the DAG classes/structures are somewhat redundant for the PTII type system (i.e. they seem to support dynamic graphs), and are causing what turned ou"
+    },
+    {
+      "chunk_id": 134,
+      "text": "amic graphs), and are causing what turned out to be a roughly * 14X * overall run-time overhead for computationally-intensive PTII applications (see enclosed performance.xml test and the comment in TypeLattice.compare(Type,Typ"
+    },
+    {
+      "chunk_id": 135,
+      "text": "the comment in TypeLattice.compare(Type,Type). On my machine, this test takes around 110 seconds without the improvement, and 7 seconds with the improvement). Since the PTII type lattice is constant (i.e. no user types are"
+    },
+    {
+      "chunk_id": 136,
+      "text": "type lattice is constant (i.e. no user types are allowed to be added, the number of nodes in the DAG representing the type lattice is constant and known at system initialization (TheTypeLattice() construction). Yet the DAG is is inv"
+    },
+    {
+      "chunk_id": 137,
+      "text": "TypeLattice() construction). Yet the DAG is is invoked to run its validation, node checking and half-a-dozen hash- and list-lookups every time e.g. a DoubleToken is compared to another DoubleToken... and the result is invariably the"
+    },
+    {
+      "chunk_id": 138,
+      "text": "DoubleToken... and the result is invariably the same... So I added a set of small methods to Type.java to support a trivial type comparison cache and implemented them in BaseType and StructuredType (all other derived types inher"
+    },
+    {
+      "chunk_id": 139,
+      "text": "and StructuredType (all other derived types inherit from these two). When the type lattice is built, all built-in types get their DAG node indices configured and allocate an int[nodeCount] array to cache the comparison results with"
+    },
+    {
+      "chunk_id": 140,
+      "text": "] array to cache the comparison results with the other built in types. User-types don't get their node numbers configured by TheTypeLattice() constructor, so for user-types, type comparison is performed as before... Oth"
+    },
+    {
+      "chunk_id": 141,
+      "text": "parison is performed as before... Other Type/Lattice/DAG class reorganizations that better support the fact the type lattice is constant are probably possible... I restricted myself to the least instrusive method (least files"
+    },
+    {
+      "chunk_id": 142,
+      "text": "myself to the least instrusive method (least files changed) of demonstrating the performance improvement. I also chose to cache close to the top of TypeLattice.compare(), thereby also short-circuiting other non-trivial DAG operation"
+    },
+    {
+      "chunk_id": 143,
+      "text": "o short-circuiting other non-trivial DAG operations like containsNodeWeight() that are used in TheTypeLattice.compare(). This maximizes the performance improvement for model execute-phase type comparisons, and leaves other type reso"
+    },
+    {
+      "chunk_id": 144,
+      "text": "phase type comparisons, and leaves other type resolution operations like LUB unaffected (which could also be improved it they were to become a bottleneck later).\" * Javier Contreras Sanz writes: We have released for public use a ge"
+    },
+    {
+      "chunk_id": 145,
+      "text": "writes: We have released for public use a general distributed optimization package called DistOpt and developed in Ptolemy classic. The ftp site to download the files, manual and so on is the following: ftp://sistelet.ing.u"
+    },
+    {
+      "chunk_id": 146,
+      "text": "is the following: ftp://sistelet.ing.unicas.it/DistOpt 4. Publications [1] Edward A. Lee and Yuhong Xiong, \"Behavioral Types for Component -Based Design,\" Memorandum UCB/ERL M02/29, University of California, Berkeley, CA 9"
+    },
+    {
+      "chunk_id": 147,
+      "text": "2/29, University of California, Berkeley, CA 94720, USA, September 27, 2002. [2] Shuvra S. Bhattacharyya, Elaine Cheong, John Davis II, Mudit Goel, Christopher Hylands, Bart Kienhuis, Edward A. Lee, Jie Liu, Xiaojun Liu, Lukito Muliadi,"
+    },
+    {
+      "chunk_id": 148,
+      "text": "A. Lee, Jie Liu, Xiaojun Liu, Lukito Muliadi, Steve Neuendorffer, John Reekie, Neil Smyth, Jeff Tsay, Brian Vogel, Winthrop Williams, Yuhong Xiong, Haiyang Zheng, \"Heterogeneous Concurrent Modeling and Design in Java,\" Memorandum UCB/"
+    },
+    {
+      "chunk_id": 149,
+      "text": "Modeling and Design in Java,\" Memorandum UCB/ERL M02/23, University of California, Berkeley, CA USA 94720, August 5, 2002. [3] Praveen K. Murthy and Edward A. Lee, \"Multidimensional Synchronous Dataflow,\" IEEE Transactions on Signal Pro"
+    },
+    {
+      "chunk_id": 150,
+      "text": "ous Dataflow,\" IEEE Transactions on Signal Processing, volume 50, no. 8, pp. 2064 -2079, August 2002. [4] Jie Liu and Edward A. Lee, \"A Component-Based Approach to Modeling and Simulating Mixed-Signal and Hybrid Systems,\" to appear in AC"
+    },
+    {
+      "chunk_id": 151,
+      "text": "Mixed-Signal and Hybrid Systems,\" to appear in ACM Trans. on Modeling and Computer Simulation special issue on computer automated multi-paradigm modeling, 2003. (submitted on 7/12/2002). [5] Edward A. Lee, Stephen Neuendorffer and Michael J"
+    },
+    {
+      "chunk_id": 152,
+      "text": "Edward A. Lee, Stephen Neuendorffer and Michael J. Wirthlin, \"Actor-Oriented Design of Embedded Hardware and Software Systems,\" Invited paper, Journal of Circuits, Systems, and Computers, Version 1, July 8, 2002. [6] Jie Liu, Johan Eker"
+    },
+    {
+      "chunk_id": 153,
+      "text": "Version 1, July 8, 2002. [6] Jie Liu, Johan Eker, Jorn W. Janneck and Edward A. Lee, \"Realistic Simulations of Embedded Control Systems,\" International Federation of Automatic Control, 15th IFAC World Congress, Barcelona, Spain, July 21"
+    },
+    {
+      "chunk_id": 154,
+      "text": "IFAC World Congress, Barcelona, Spain, July 21-26, 2002. [7] Jie Liu and Edward A. Lee, \"Timed Multitasking for Real-Time Embedded Software,\" invited paper in IEEE Control System Magazine, special issue on \"Advances in Software Enabled C"
+    },
+    {
+      "chunk_id": 155,
+      "text": "special issue on \"Advances in Software Enabled Control\", to appear in December, 2002. (submitted on 7/20/2002). 5. Financial Data Provided separately on a quarterly basis by the university. Appendix A: Ptolemy 2.0.1 Release Announcement ="
+    },
+    {
+      "chunk_id": 156,
+      "text": "Appendix A: Ptolemy 2.0.1 Release Announcement ============================================== Ptolemy II 2.0.1 is available for download from http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII2.0 Ptolemy II 2.0.1 includes the following features that"
+    },
+    {
+      "chunk_id": 157,
+      "text": "lemy II 2.0.1 includes the following features that were not present in Ptolemy II 2.0-beta: * Windows Installer * Design Document * Bug and Typo Fixes, see http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII2.0/ChangeLog.txt Ptolemy II is a software"
+    },
+    {
+      "chunk_id": 158,
+      "text": "II/ptII2.0/ChangeLog.txt Ptolemy II is a software framework developed as part of the Ptolemy project. It is a Java-based component assembly framework with a graphical user interface called Vergil. Vergil itself is a component assembly defined in Pto"
+    },
+    {
+      "chunk_id": 159,
+      "text": "rgil itself is a component assembly defined in Ptolemy II. The Ptolemy project studies modeling, simulation, and design of concurrent, real-time, embedded systems. The focus is on assembly of concurrent components. The key underlying principle in th"
+    },
+    {
+      "chunk_id": 160,
+      "text": "ent components. The key underlying principle in the project is the use of well-defined models of computation that govern the interactions between components. A major problem area being addressed is the use of heterogeneous mixtures of models of compu"
+    },
+    {
+      "chunk_id": 161,
+      "text": "e use of heterogeneous mixtures of models of computation. The Ptolemy Project web page (http://ptolemy.eecs.berkeley.edu) contains much more information about the project. The work is conducted in the Department of Electrical Engineering and Compute"
+    },
+    {
+      "chunk_id": 162,
+      "text": "e Department of Electrical Engineering and Computer Sciences of the University of California at Berkeley. The project is directed by Prof. Edward A. Lee. The project is named after Claudius Ptolemaeus, the second century Greek astronomer, mathematici"
+    },
+    {
+      "chunk_id": 163,
+      "text": ", the second century Greek astronomer, mathematician, and geographer. Ptolemy II includes a growing suite of domains, each of which realizes a model of computation. It also includes a component library, in which most components are domain polymorphi"
+    },
+    {
+      "chunk_id": 164,
+      "text": "ry, in which most components are domain polymorphic, in that they can operate in several of the domains. Most are also data polymorphic, in that they operate on several data types. The domains that have been implemented are listed below. Some of thes"
+    },
+    {
+      "chunk_id": 165,
+      "text": "ve been implemented are listed below. Some of these are preliminary and/or experimental, as indicated below. Below is a text version of the web page that describes the release. ---start--- Ptolemy II 2.0.1 Release Notes"
+    },
+    {
+      "chunk_id": 166,
+      "text": "Ptolemy II 2.0.1 Release Notes Ptolemy II is a set of Java packages supporting heterogeneous, concurrent modeling and design. Its kernel package supports clustered hierarchical graphs, which are collections of entities"
+    },
+    {
+      "chunk_id": 167,
+      "text": "hical graphs, which are collections of entities and relations between those entities. Its actor package extends the kernel so that entities have functionality and can communicate via the relations. Its domains extend the actor package by"
+    },
+    {
+      "chunk_id": 168,
+      "text": "elations. Its domains extend the actor package by imposing models of computation on the interaction between entities. Examples of models of computation include discrete-event systems, dataflow, process networks, synchronous/reactive syste"
+    },
+    {
+      "chunk_id": 169,
+      "text": ", process networks, synchronous/reactive systems, and communicating sequential processes. Ptolemy II includes a number of support packages, such as data, providing a type system, data encapsulation and an expression parser, plot,"
+    },
+    {
+      "chunk_id": 170,
+      "text": "encapsulation and an expression parser, plot, providing visual display of data, math, providing matrix and vector math and signal processing functions, and graph, providing graph-theoretic manipulations. The Ptolemy II Design Docume"
+    },
+    {
+      "chunk_id": 171,
+      "text": "c manipulations. The Ptolemy II Design Document describes the Ptolemy II design and the implementation of the Java classes. The \"Using Vergil\" chapter ( PDF - HTML) describes how to use Vergil. Complete List of Domains in Ptolemy I"
+    },
+    {
+      "chunk_id": 172,
+      "text": "Vergil. Complete List of Domains in Ptolemy II * CSP: communicating sequential processes, * CT: continuous-time modeling, * DE: discrete-event modeling, * DDE: distributed discrete events (experimental), * DT: disc"
+    },
+    {
+      "chunk_id": 173,
+      "text": "d discrete events (experimental), * DT: discrete time, * FSM: finite state machines, * Giotto: periodic time-driven (experimental), * GR: 3-D graphics (experimental), * PN: process networks, * SDF: synchronous data"
+    },
+    {
+      "chunk_id": 174,
+      "text": "N: process networks, * SDF: synchronous dataflow, * SR: synchronous/reactive (experimental), and * TM: timed multitasking (experimental). Platforms The core of Ptolemy II 2.0 is 100% Java, so it should work on any platform"
+    },
+    {
+      "chunk_id": 175,
+      "text": "s 100% Java, so it should work on any platform that has JDK1.3 We developed Ptolemy II 2.0 under Solaris 8 and Windows 2000 sr2 and with JDK1.3.1 and JDK1.4. Note that code generation only works under JDK1.3.0 or 1.3.1 because of lim"
+    },
+    {
+      "chunk_id": 176,
+      "text": "y works under JDK1.3.0 or 1.3.1 because of limitations in Soot. Ptolemy II 2.0 will not compile under JDK1.2.2. The code generation facility requires JDK1.3.0, it will not work under JDK 1.4.0 Major Features that are new in Ptolemy"
+    },
+    {
+      "chunk_id": 177,
+      "text": "JDK 1.4.0 Major Features that are new in Ptolemy 2.0 Modal Models (Xiaojun Liu, Edward A. Lee) A model model is one whose behavior depends on its \"mode\" of operation. A modal model in Ptolemy II is an FSM (finite state"
+    },
+    {
+      "chunk_id": 178,
+      "text": "odel in Ptolemy II is an FSM (finite state machine) combined hierarchically with other models. A state in the FSM represents a mode of operation, and can have a refinement that gives the behavior in that model. The refinement"
+    },
+    {
+      "chunk_id": 179,
+      "text": "gives the behavior in that model. The refinement can be another FSM or some other model using some other Ptolemy domain. This example combines DE, FSM, and SDF to model a system where regularly sampled signals are perturbed b"
+    },
+    {
+      "chunk_id": 180,
+      "text": "regularly sampled signals are perturbed by irregular events in time. Code Generation (Primary Author: Stephen Neuendorffer, Contributor: Christopher Hylands) This release includes a limited prototype of our code"
+    },
+    {
+      "chunk_id": 181,
+      "text": "s release includes a limited prototype of our code generation facility that will generate .class files for non-hierarchical SDF models Note that the code generator will not work in an applet, but will work with Web Sta"
+    },
+    {
+      "chunk_id": 182,
+      "text": "k in an applet, but will work with Web Start, the Windows installer and the standard configure and build ptolemy.data.unit - Units Demo (Primary Authors: Yuhong Xiong, Xiaojun Liu, Contributors: Winthrop Williams, Edward"
+    },
+    {
+      "chunk_id": 183,
+      "text": "aojun Liu, Contributors: Winthrop Williams, Edward A. Lee) A major source of errors in embedded software is incorrect application of units. Yuhong Xiong and Xiaojun Liu have created a unit system for Ptolemy II that is"
+    },
+    {
+      "chunk_id": 184,
+      "text": "eated a unit system for Ptolemy II that is quite clever. A suite of constants are defined, with names such as \"meter\", \"cm\", \"feet\", \"miles\", \"seconds\", \"hours\", and \"days\". In each unit category (\"length\" or \"time\" fo"
+    },
+    {
+      "chunk_id": 185,
+      "text": "each unit category (\"length\" or \"time\" for example), there is a primary unit with respect to which all the others are specified. Thus, for example, if the primary unit of length is meters, then the expression \"1.0 * c"
+    },
+    {
+      "chunk_id": 186,
+      "text": "th is meters, then the expression \"1.0 * cm\" will have an internal value of 0.01 * meters. Compound units are specified by just multiplying and dividing, as in for example \"1.0 * cm/second\". The way this is realized is"
+    },
+    {
+      "chunk_id": 187,
+      "text": "* cm/second\". The way this is realized is that these unit constants are tokens just like other Ptolemy II data, and multiplication and division are overloaded in the base classes for numeric valued tokens. We continue"
+    },
+    {
+      "chunk_id": 188,
+      "text": "ses for numeric valued tokens. We continue to work on this architecture to enable users to customize the unit system on a per-model basis. Timed Multitasking Domain (Jie Liu) - an implementation of a model of computation"
+    },
+    {
+      "chunk_id": 189,
+      "text": "n implementation of a model of computation based on priority-driven multitasking, as common in real-time operating systems (RTOSs), but with more deterministic behavior Synchronous/Reactive Domain: (Primary Author: Paul"
+    },
+    {
+      "chunk_id": 190,
+      "text": "ynchronous/Reactive Domain: (Primary Author: Paul Whitaker, Contributors: Elaine Cheong, John Reekie) Web Start (Christopher Hylands) - Ptolemy II includes support to build distributions using Sun's Web Start facility, which all"
+    },
+    {
+      "chunk_id": 191,
+      "text": "ibutions using Sun's Web Start facility, which allows end users to download fully functional distributions via the web. Vergil updates (Steve Neuendorffer, Edward A. Lee, John Reekie) Vergil has been improved and the following f"
+    },
+    {
+      "chunk_id": 192,
+      "text": "Vergil has been improved and the following features have been added Annotations - It is now much easier to annotate a model with text. Parameters - The model can display top level parameter names"
+    },
+    {
+      "chunk_id": 193,
+      "text": "model can display top level parameter names and values Snap to grid - It is now much easier to line up actors Panner, zoom - The panner and zoom facilities make it easier to navigate large I"
+    },
+    {
+      "chunk_id": 194,
+      "text": "easier to navigate large Improved FSM editor Animation - It is now possible to show which actors are firing when. Better icons - Some icons such as Const, Scale and Expression wi"
+    },
+    {
+      "chunk_id": 195,
+      "text": "uch as Const, Scale and Expression will display their values. Set data types of ports Java Virtual Machine properties window - JVM Properties can be queried and garbage collection requested."
+    },
+    {
+      "chunk_id": 196,
+      "text": "ried and garbage collection requested. Documentation for setting CT signal types See $PTII/doc/design/usingVergil/index.htm for more complete information Other Features that are new in Ptolemy II 2.0 * Giotto Domain"
+    },
+    {
+      "chunk_id": 197,
+      "text": "t are new in Ptolemy II 2.0 * Giotto Domain rewrite: (Haiyang Zheng) - The Giotto scheduler was rewritten and the kernel was updated. * Multiple Runs (Xiaojun Liu, Edward A. Lee) - The FSM domain as been extended to perfo"
+    },
+    {
+      "chunk_id": 198,
+      "text": "- The FSM domain as been extended to perform multiple runs of refinement on a model. * Support for jdb (Zoltan Kemenczy, Research In Motion, Ltd.) - The scripts that invoke Ptolemy II have been extended to support jdb, t"
+    },
+    {
+      "chunk_id": 199,
+      "text": "my II have been extended to support jdb, the Java Debugger. * Ptolemy II Matlab interface (Zoltan Kemenczy and Sean Simmons, Research In Motion, Ltd.) - The Matlab Expression actor uses JNI to invoke the Matlab engine, e"
+    },
+    {
+      "chunk_id": 200,
+      "text": "or uses JNI to invoke the Matlab engine, evaluate Matlab expressions and return the results to Ptolemy II. The Matlab Expression actor works only under Windows, and requires that Matlab be installed on your local machi"
+    },
+    {
+      "chunk_id": 201,
+      "text": "at Matlab be installed on your local machine. Ptolemy II Matlab Interface Overview Java class documentation Matlab Expression Demonstration - Windows only, requires that Matlab be installed loca"
+    },
+    {
+      "chunk_id": 202,
+      "text": "equires that Matlab be installed locally, will not work within an applet, but will work with Web Start * Expression improvements (Zoltan Kemenczy and Sean Simmons of Research In Motion, Ltd.) Functions with sca"
+    },
+    {
+      "chunk_id": 203,
+      "text": "Research In Motion, Ltd.) Functions with scalar arguments applied to arrays and matrices element-by-element (recursive argument dimension reduction); widened search for static function (and method) signatures that includ"
+    },
+    {
+      "chunk_id": 204,
+      "text": "nction (and method) signatures that includes most ptolemy.math classes; performance improvements by caching search results; widened token to java-type conversions for function arguments and results. * ptolemy.graph (Shuv"
+    },
+    {
+      "chunk_id": 205,
+      "text": "arguments and results. * ptolemy.graph (Shuvra S. Bhattacharyya (University of Maryland at College Park)) - The graph package was redesigned and reimplemented. * VersionAttribute (Christopher Hylands, Edward A. Lee) - Mode"
+    },
+    {
+      "chunk_id": 206,
+      "text": "ribute (Christopher Hylands, Edward A. Lee) - Models can be annotated with the Web Start format version number of Ptolemy II that is required to run the model. In the future, we will use this attribute to manage backward compa"
+    },
+    {
+      "chunk_id": 207,
+      "text": "will use this attribute to manage backward compatibility. * ptolemy.data.UnsignedByteToken (Winthrop Williams, Steve Neuendorffer) - A new Token supporting unsigned bytes. New Demonstrations CT: Continuous Time B"
+    },
+    {
+      "chunk_id": 208,
+      "text": "nstrations CT: Continuous Time Bouncing Ball (Requires Java 3D, see the GR domain) A Continuous Time model that uses a Finite State Machine and the GR domain to simulate a bouncing ball. Car Trac"
+    },
+    {
+      "chunk_id": 209,
+      "text": "n to simulate a bouncing ball. Car Tracking A following car tracking a leading car in an unreliable communication environment. Switching Continuous Signals Shows how to handle hybrid systems with both c"
+    },
+    {
+      "chunk_id": 210,
+      "text": "to handle hybrid systems with both continuous and discrete inputs and outputs. Modal Thermostat A thermostat model where the refinements of the modes in the state machine are the same model. Units A de"
+    },
+    {
+      "chunk_id": 211,
+      "text": "machine are the same model. Units A demonstration of the Units facility DE: Discrete Event Modal Model This example combines DE, FSM, and SDF to model a system where regularly sampled signals are perturbed by"
+    },
+    {
+      "chunk_id": 212,
+      "text": "m where regularly sampled signals are perturbed by irregular events in time. FSM: Finite State Machines Blending A blending controller with two major control modes. Multiple Runs A state machine p"
+    },
+    {
+      "chunk_id": 213,
+      "text": "modes. Multiple Runs A state machine performs multiple runs of the refinement of mode1. Giotto: Synchronous Periodic Systems Composite A composite demo with a Giotto model embedded in a DE model."
+    },
+    {
+      "chunk_id": 214,
+      "text": "Giotto model embedded in a DE model. GR: 3-D graphics (experimental) FurutaPendulum The Furuta pendulum has a motor controlling the angle of an arm, from which a free-swinging pendulum hangs. T"
+    },
+    {
+      "chunk_id": 215,
+      "text": "ich a free-swinging pendulum hangs. The objective is to swing the pendulum up and then balance it. SDF: Synchronous Dataflow LMSAdaptive An adaptive filter MaximumEntropySpectrum A spectral estima"
+    },
+    {
+      "chunk_id": 216,
+      "text": "MaximumEntropySpectrum A spectral estimation example SR: Synchronous/Reactive (experimental) TokenRing A cyclic token-ring arbiter composed of three blocks. TM: Timed Multitasking (experimental)."
+    },
+    {
+      "chunk_id": 217,
+      "text": "TM: Timed Multitasking (experimental). Controllers Two (independent) control loops whose controllers share the same CPU. FFT This model shows the use of background process for long running tasks in t"
+    },
+    {
+      "chunk_id": 218,
+      "text": "d process for long running tasks in the TM domain. MergedEvents SimpleTasks This model shows two independent tasks on a single CPU machine. New Actors * ptolemy.actor.lib: Accumulat"
+    },
+    {
+      "chunk_id": 219,
+      "text": "rs * ptolemy.actor.lib: Accumulator (Edward A. Lee) An actor that outputs the sum of the inputs so far. BooleanMultiplexor (Steve Neuendorffer) A polymorphic multiplexor wi"
+    },
+    {
+      "chunk_id": 220,
+      "text": "(Steve Neuendorffer) A polymorphic multiplexor with boolean select. BooleanMultiplexor (Steve Neuendorffer) A polymorphic multiplexor with boolean select. BooleanSelect"
+    },
+    {
+      "chunk_id": 221,
+      "text": "boolean select. BooleanSelect (Steve Neuendorffer) A polymorphic multiplexor with boolean select. BooleanSwitch (Steve Neuendorffer) A polymorphic multiplexor with"
+    },
+    {
+      "chunk_id": 222,
+      "text": "fer) A polymorphic multiplexor with boolean select. ClassWrapper An actor that wraps (an instance of) a Java class. (Xiaojun Liu) Counter An up-down counter. (Ste"
+    },
+    {
+      "chunk_id": 223,
+      "text": "Counter An up-down counter. (Steve Neuendorffer) Differential (Edward A. Lee) An actor that outputs the difference between successive inputs. DoubleReader (Jie L"
+    },
+    {
+      "chunk_id": 224,
+      "text": "ts. DoubleReader (Jie Liu, Christopher Hylands) An actor that outputs doubles read from a URL. Limiter (Edward A. Lee) An actor that limits the input to a specifi"
+    },
+    {
+      "chunk_id": 225,
+      "text": "hat limits the input to a specified range. LinearDifferenceEquationSystem (Jie Liu, Elaine Cheong) Linear Difference Equation System. LookupTable (Paul Whitaker,"
+    },
+    {
+      "chunk_id": 226,
+      "text": "LookupTable (Paul Whitaker, Christopher Hylands) A lookup table that outputs internally stored data given an index Parameter. NonStrictTest (Paul Whitaker, Christopher Hylands) Check t"
+    },
+    {
+      "chunk_id": 227,
+      "text": "(Paul Whitaker, Christopher Hylands) Check the input streams against a parameter value, ignoring absent values. URLDirectoryReader (Christopher Hylands) An actor that reads a URL nami"
+    },
+    {
+      "chunk_id": 228,
+      "text": "hristopher Hylands) An actor that reads a URL naming a directory and outputs each element of the directory one at a time. VectorAssembler (Jie Liu, Elaine Cheong) An actor that reads a toke"
+    },
+    {
+      "chunk_id": 229,
+      "text": "Jie Liu, Elaine Cheong) An actor that reads a token from each input channel to assemble a DoubleMatrixToken. VectorDisassembler (Jie Liu, Elaine Cheong) An actor that disassembles a DoubleM"
+    },
+    {
+      "chunk_id": 230,
+      "text": "actor that disassembles a DoubleMatrixToken to a multiport output. WallClockTime (Edward A. Lee) Output the elapsed time in seconds. * ptolemy.actor.lib.comm: SerialComm (W"
+    },
+    {
+      "chunk_id": 231,
+      "text": "lib.comm: SerialComm (Winthrop Williams) Read and write from a serial port * ptolemy.actor.lib.conversions: BooleanToAnything (Edward A. Lee) An actor that converts a boolean token"
+    },
+    {
+      "chunk_id": 232,
+      "text": "e) An actor that converts a boolean token into any other data type. InUnitsOf (Yuhong Xiong, Xiaojun Liu, Edward Lee) An actor that converts input tokens to specified units. IntAr"
+    },
+    {
+      "chunk_id": 233,
+      "text": "s input tokens to specified units. IntArrayToString (Winthrop Williams) An actor that converts an array of integers into a string. LongToDouble (Christopher Hylands) An actor that"
+    },
+    {
+      "chunk_id": 234,
+      "text": "(Christopher Hylands) An actor that converts a LongToken into a DoubleToken. StringToIntArray (Winthrop Williams) An actor that converts a string to an array of integers."
+    },
+    {
+      "chunk_id": 235,
+      "text": "ring to an array of integers. * ptolemy.actor.lib.gui: MatrixVisualizer (Neil Turner, Steve Neuendorffer) An actor for 2-D visualization of matrices. RealTimePlotter"
+    },
+    {
+      "chunk_id": 236,
+      "text": "tion of matrices. RealTimePlotter (Edward A. Lee) Plot input data as a function of elapsed real time. SliderSource (Xiaojun Liu) An actor whose output is controlled by a"
+    },
+    {
+      "chunk_id": 237,
+      "text": "An actor whose output is controlled by a slider in the run window. * ptolemy.actor.lib.logic: IsPresent (Edward A. Lee) Output true if the input is present, false otherwise. *"
+    },
+    {
+      "chunk_id": 238,
+      "text": "resent, false otherwise. * ptolemy.actor.lib.net: DatagramReader (Winthrop Williams) An actor that asynchronously reads datagram packets. DatagramWriter (W"
+    },
+    {
+      "chunk_id": 239,
+      "text": "kets. DatagramWriter (Winthrop Williams) An actor that sends its input as a UDP datagram packet. * ptolemy.domains.ct.lib: EventSource (Jie Liu) Generate discrete events at"
+    },
+    {
+      "chunk_id": 240,
+      "text": "(Jie Liu) Generate discrete events at prespecified time instants. FirstOrderHold (Jie Liu) An actor that takes a value and a derivative and does first order projection."
+    },
+    {
+      "chunk_id": 241,
+      "text": "and does first order projection. LevelCrossingDetector (Jie Liu) A CT actor that detects level crossings of its trigger input signal. * ptolemy.domains.de.lib: EventButton"
+    },
+    {
+      "chunk_id": 242,
+      "text": "lemy.domains.de.lib: EventButton (Winthrop Williams, Paul Whitaker) An actor that generates an empty token in response to a click of a button. EventFilter (Steve"
+    },
+    {
+      "chunk_id": 243,
+      "text": "on. EventFilter (Steve Neuendorffer, Sonia Sachs) An actor that filters false boolean tokens. Inhibit (Steve Neuendorffer) An actor that produces a copy of the mo"
+    },
+    {
+      "chunk_id": 244,
+      "text": "or that produces a copy of the most recent input each time PreemptableTask (Elaine Cheong, Yang Zhao, Xiaojun Liu) An actor that simulates a preemptable task. Previous"
+    },
+    {
+      "chunk_id": 245,
+      "text": "a preemptable task. Previous (Edward A. Lee) An actor that outputs the previous event when it receives an event. Queue (Steve Neuendorffer) An actor that implements a queue of"
+    },
+    {
+      "chunk_id": 246,
+      "text": "endorffer) An actor that implements a queue of events. QueueWithNextOut (Winthrop Williams, Steve Neuendorffer) An actor that implements a queue of events with a nextOut port Samp"
+    },
+    {
+      "chunk_id": 247,
+      "text": "queue of events with a nextOut port SamplerWithDefault (Steve Neuendorffer, Jie Liu, Edward A. Lee) An actor that produces a copy of the most recent input each time * ptolemy.domains.sdf.lib:"
+    },
+    {
+      "chunk_id": 248,
+      "text": "ach time * ptolemy.domains.sdf.lib: DoubleToMatrix (Edward A. Lee) An actor that converts a sequence of input tokens to a matrix. MatrixToDouble (Edward A. Lee) An actor th"
+    },
+    {
+      "chunk_id": 249,
+      "text": "ouble (Edward A. Lee) An actor that converts a matrix to sequence of output tokens. Backward compatibility issues Most models developed under Ptolemy II 1.0.1 should run under Ptolemy II 2.0. The MoMLP"
+    },
+    {
+      "chunk_id": 250,
+      "text": "hould run under Ptolemy II 2.0. The MoMLParser has been extended to include a list of backward compatibility filters that look for actors that have changed while parsing a model. The backward compatibility filters will make what"
+    },
+    {
+      "chunk_id": 251,
+      "text": "backward compatibility filters will make what ever change is necessary, and the user will eventually be prompted to save the model. The filters themselves are defined in ptolemy.moml.filter Below are the backward compatibility issues"
+    },
+    {
+      "chunk_id": 252,
+      "text": "r Below are the backward compatibility issues that are handled automatically. ptolemy.moml.filter.AddEditorFactory: If a parameter has a _location, then Add a VisibleParameterEditorFactory named _editorFactory pto"
+    },
+    {
+      "chunk_id": 253,
+      "text": "itorFactory named _editorFactory ptolemy.moml.filter.AddIcon: Add specialized icons that display the value of one of the parameters. The affected actors are: ptolemy.actor.lib.Scale ptolemy.actor.li"
+    },
+    {
+      "chunk_id": 254,
+      "text": "tolemy.actor.lib.Scale ptolemy.actor.lib.Const ptolemy.actor.lib.TrigFunction ptolemy.actor.lib.MathFunction ptolemy.actor.lib.Expression ptolemy.moml.filter.HideAnnotationNames: If an annotation name"
+    },
+    {
+      "chunk_id": 255,
+      "text": ".filter.HideAnnotationNames: If an annotation name ends with 'annotation1', then add _hideName if necessary. ptolemy.moml.filter.PortNameChanges: Update any actor port names that have been renamed. Below are the actors t"
+    },
+    {
+      "chunk_id": 256,
+      "text": "have been renamed. Below are the actors that are affected, along with the old port name and the new port name: ptolemy.actor.lib.Sleep delay -sleepTime ptolemy.actor.lib.conversions.ComplexToCart"
+    },
+    {
+      "chunk_id": 257,
+      "text": "ptolemy.actor.lib.conversions.ComplexToCartesian imag -y real -x ptolemy.actor.lib.conversions.CartesianToComplex imag -y real -x ptolemy.moml.filter.PropertyClas"
+    },
+    {
+      "chunk_id": 258,
+      "text": "real -x ptolemy.moml.filter.PropertyClassChanges: Update any actor port class names that have been renamed. Below are the actors that are affected, along with the port name and the new classname: ptolemy.d"
+    },
+    {
+      "chunk_id": 259,
+      "text": "and the new classname: ptolemy.domains.sdf.lib.vq.ImageUnpartition output -ptolemy.actor.TypedIOPort input -ptolemy.actor.TypedIOPort ptolemy.actor.lib.javasound.AudioReader"
+    },
+    {
+      "chunk_id": 260,
+      "text": "my.actor.lib.javasound.AudioReader sourceURL -ptolemy.data.expr.Parameter ptolemy.domains.sdf.lib.vq.VQDecode output -ptolemy.actor.TypedIOPort input -ptolemy.actor.TypedIOPort pto"
+    },
+    {
+      "chunk_id": 261,
+      "text": "input -ptolemy.actor.TypedIOPort ptolemy.domains.sdf.lib.vq.HTVQEncode output -ptolemy.actor.TypedIOPort input -ptolemy.actor.TypedIOPort ptolemy.domains.sdf.lib.vq.ImagePartition"
+    },
+    {
+      "chunk_id": 262,
+      "text": "my.domains.sdf.lib.vq.ImagePartition output -ptolemy.actor.TypedIOPort input -ptolemy.actor.TypedIOPort Below are the changes that are not handled automatically: ct.kernel.CTRealTimeDirector has been removed"
+    },
+    {
+      "chunk_id": 263,
+      "text": "ct.kernel.CTRealTimeDirector has been removed, the fix is to use ct.kernel.CTDirector instead and to set the synchronizeToRealTime parameter to true. DDE: RcvrComparator renamed to ReceiverComparator actor.lib.Reader"
+    },
+    {
+      "chunk_id": 264,
+      "text": "amed to ReceiverComparator actor.lib.Reader is now actor.lib.DoubleReader The Reader class was included in the Ptolemy II 1.0.1 download, but was not part of the default configuration. If you have developed your own actors"
+    },
+    {
+      "chunk_id": 265,
+      "text": "ation. If you have developed your own actors under Ptolemy II 1.0.1 by writing your own Java files, you should recompile all your java code with the new release. In theory, copying the .class files should work, but recompiling is saf"
+    },
+    {
+      "chunk_id": 266,
+      "text": "lass files should work, but recompiling is safer. Major Features that were new in Ptolemy II 1.0.1 Vergil - the Ptolemy II GUI (Steve Neuendorffer and Edward A. Lee) Giotto Domain (Christoph M. Kirsch, Benjamin Horowitz, Thomas A."
+    },
+    {
+      "chunk_id": 267,
+      "text": "hristoph M. Kirsch, Benjamin Horowitz, Thomas A. Henzinger) Java 3D Domain (GR Domain) (Chamberlain Fong) Discrete Time Domain (Chamberlain Fong) CORBA/Jini work (Jie Liu) Other Features that were new in Ptolemy II 1.0.1"
+    },
+    {
+      "chunk_id": 268,
+      "text": "ther Features that were new in Ptolemy II 1.0.1 * The actor classes are more robust and have been reviewed. * User interface utilities for applets and applications * Live editing of models and parameters; * Network integratio"
+    },
+    {
+      "chunk_id": 269,
+      "text": "models and parameters; * Network integration; * A sophisticated type system including: + Type constant propagation, + Record types, + Array types, and + Fixed-point type * An expression l"
+    },
+    {
+      "chunk_id": 270,
+      "text": "+ Fixed-point type * An expression language for parameter expressions; * Data and domain polymorphic component library; * A polymorphic expression actor; * A very simple XML file format called MoML; * A flexible"
+    },
+    {
+      "chunk_id": 271,
+      "text": "e XML file format called MoML; * A flexible signal plotter; * Several domains with concurrent models of computation ( CSP, PN, DDE ) * Hierarchically interoperable domains (CT/FSM Accelerometer demo); * On-line documen"
+    },
+    {
+      "chunk_id": 272,
+      "text": "T/FSM Accelerometer demo); * On-line documentation (in HTML); * Audio signal processing capabilities; --end-- Appendix B: Ptplot 5.2 Release Announcement =========================================== Ptplot 5.2 is available for demonstra"
+    },
+    {
+      "chunk_id": 273,
+      "text": "=========== Ptplot 5.2 is available for demonstration and download from the Ptplot home page at http://ptolemy.eecs.berkeley.edu/java/ptplot Ptplot is a set of two dimensional signal plotter components written in Java with the following properties:"
+    },
+    {
+      "chunk_id": 274,
+      "text": "nts written in Java with the following properties: * Embeddable in applets or applications. * Auto-ranging. * Automatic or manual labeling of axes. * Automatic or manual tick marks. * Logarithmic axes. * Live, animated"
+    },
+    {
+      "chunk_id": 275,
+      "text": "s. * Logarithmic axes. * Live, animated plots. * Infinite zooming. * Various plot styles: connected lines, scatter plot, bars, etc. * Various point styles: none, dots, points, and unique marks. * Multiple data sets and a"
+    },
+    {
+      "chunk_id": 276,
+      "text": "and unique marks. * Multiple data sets and a legend. * Color or black and white plotting. * Error bars. * Editable plots. * PlotML, and XML language for specifying plots. * Compatibility with pxgraph, an older plotting"
+    },
+    {
+      "chunk_id": 277,
+      "text": "* Compatibility with pxgraph, an older plotting program. There is a set of demonstrations of the various capabilities. There are several ways to use the classes in the plot package. * You can invoke an executable, ptplot, which is a shell sc"
+    },
+    {
+      "chunk_id": 278,
+      "text": "invoke an executable, ptplot, which is a shell script, to plot data on the local file system or on the network. * You can invoke an executable, pxgraph, which is a shell script, to plot data that is stored in binary format c"
+    },
+    {
+      "chunk_id": 279,
+      "text": "to plot data that is stored in binary format compatible with the older program pxgraph. * You can invoke a Java application, such as PlotMLApplication, by setting your CLASSPATH variable appropriately and using the java"
+    },
+    {
+      "chunk_id": 280,
+      "text": "SSPATH variable appropriately and using the java executable that is included in your Java distribution. * You can reference an existing applet class, such as PlotMLApplet, in an HTML file. The applet parameters, such as"
+    },
+    {
+      "chunk_id": 281,
+      "text": "an HTML file. The applet parameters, such as dataurl, give the plot data and format information, either by referring to another file on the network, or by directly including the information. You do not even have to have Ptplot"
+    },
+    {
+      "chunk_id": 282,
+      "text": "nformation. You do not even have to have Ptplot installed on your server, since you can always reference the Berkeley installation. * You can create new classes derived from applet, frame, or application classes to cus"
+    },
+    {
+      "chunk_id": 283,
+      "text": "pplet, frame, or application classes to customize your plots. This allows you to completely control the placement of plots on the screen, and to write Java code that defines the data to be plotted. The plot data can be specified"
+    },
+    {
+      "chunk_id": 284,
+      "text": "ata to be plotted. The plot data can be specified in any of three data formats: * PlotML is an XML extension for plot data. Its syntax is similar to that of HTML. * An older, simpler syntax for plot data is also provided, a"
+    },
+    {
+      "chunk_id": 285,
+      "text": "er syntax for plot data is also provided, although in the long term, that syntax is unlikely to be maintained (it will not necessarily be expanded to include new features). For simple data plots, however, it is adequate. Using"
+    },
+    {
+      "chunk_id": 286,
+      "text": "mple data plots, however, it is adequate. Using it for applets has the advantage of making it possible to reference a slightly smaller jar file containing the code, which makes for more responsive applets. * A binary file f"
+    },
+    {
+      "chunk_id": 287,
+      "text": "r more responsive applets. * A binary file format used by the popular pxgraph program, an extension of xgraph, is supported by classes in the compat package. There is also a shell script, called pxgraph, which invokes these"
+    },
+    {
+      "chunk_id": 288,
+      "text": "script, called pxgraph, which invokes these classes. Formatting information in pxgraph (and in the compat package) is provided by command-line arguments, rather than being included with the plot data, exactly as in the old"
+    },
+    {
+      "chunk_id": 289,
+      "text": "d with the plot data, exactly as in the older program. Applets specify these command-line arguments as an appet parameter. The main class implementing the plotter component is Plot. It is derived from PlotBox, which provides only the a"
+    },
+    {
+      "chunk_id": 290,
+      "text": "is derived from PlotBox, which provides only the axes and decorations of the plot. This is implemented in a base class so that it can be reused for different kinds of plots. Live (animated) data plots are supported by the PlotLive class. This class i"
+    },
+    {
+      "chunk_id": 291,
+      "text": "are supported by the PlotLive class. This class is abstract; a derived class must be created to generate the data to plot (or collect it from some other application). Editable plots (where a user can interactively modify the data being plotted) are"
+    },
+    {
+      "chunk_id": 292,
+      "text": "interactively modify the data being plotted) are supported by the EditablePlot class. The above classes define panels that are used by placing them into a user interface context such as an applet or the top-level window of an application. A number"
+    },
+    {
+      "chunk_id": 293,
+      "text": "the top-level window of an application. A number of classes are provided to support common situations, but you should keep in mind that these classes are by no means comprehensive. Many interesting uses of the plot package involve writing Java code"
+    },
+    {
+      "chunk_id": 294,
+      "text": "ses of the plot package involve writing Java code to create customized user interfaces that include one or more plots. The most commonly used built-in classes are those in the plotml package, which can read PlotML files and the older textual syntax."
+    },
+    {
+      "chunk_id": 295,
+      "text": "n read PlotML files and the older textual syntax. These classes are include: * PlotMLApplet: A simple applet that can read PlotML files off the web and render them. * EditablePlotMLApplet: A version that allows editing of any data s"
+    },
+    {
+      "chunk_id": 296,
+      "text": "pplet: A version that allows editing of any data set in the plot. * PlotMLFrame: A top-level window containing a plot defined by a PlotML file. * PlotMLApplication: An application that can be invoked from the command li"
+    },
+    {
+      "chunk_id": 297,
+      "text": "ion that can be invoked from the command line and reads PlotML files. * EditablePlotMLApplication: An extension that allows editing of any data set in the plot. The last of these is the class invoked by the ptplot command-line scr"
+    },
+    {
+      "chunk_id": 298,
+      "text": "s the class invoked by the ptplot command-line script. It can open plot files, edit them, print them, and save them. There are simpler version of some of these in the plot package that cannot read PlotML files, but can read an older, simpler syntax."
+    },
+    {
+      "chunk_id": 299,
+      "text": "tML files, but can read an older, simpler syntax. The only reason to use these simpler versions is for the slightly smaller jar file sizes, which can improve the responsivity of applets. TwoPlotExample is a very simple sample Ptplot application tha"
+    },
+    {
+      "chunk_id": 300,
+      "text": "ple is a very simple sample Ptplot application that uses only core classes in the plot package, and exercises complete control over the layout of the page. Backward compatibility with the C pxgraph program is provided in the compat package by the Px"
+    },
+    {
+      "chunk_id": 301,
+      "text": "rogram is provided in the compat package by the PxgraphApplet and PxgraphApplication classes in the compat package. This code owes a heavy debt to David Harrison, the original author of xgraph, which runs under the X window system on Unix platforms."
+    },
+    {
+      "chunk_id": 302,
+      "text": "runs under the X window system on Unix platforms. An extension to xgraph called pxgraph, written by Joe Buck, reads binary files as well as ASCII. For compatibility with these programs, we have provided a Bourne Shell script called pxgraph that is a"
+    },
+    {
+      "chunk_id": 303,
+      "text": "ded a Bourne Shell script called pxgraph that is a drop-in replacement for either xgraph or pxgraph. Unlike the original program, however, the Java implementation does not depend on the X window system. We have provided a DOS batch file called pxgrap"
+    },
+    {
+      "chunk_id": 304,
+      "text": "m. We have provided a DOS batch file called pxgraph.bat that brings pxgraph capability to Windows platforms. The changes between Ptplot 5.1 and 5.2 are mainly bug fixes, though the printing system has been enhanced, and there are a few new method ca"
+    },
+    {
+      "chunk_id": 305,
+      "text": "s been enhanced, and there are a few new method calls. The list of changes can be found at http://ptolemy.eecs.berkeley.edu/java/ptplot5.2/ptolemy/plot/doc/changes.htm Send bug reports, questions or comments to ptplot@ptolemy.eecs.berkeley.edu"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII10.0/ptII/ptolemy/cg/README.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Code Generation Code Generation This code generator is patterned after the Ptolemy Classic code generator where actors have template files consisting of code blocks. The code blocks are stitched together to create the resulting fi"
+    },
+    {
+      "chunk_id": 2,
+      "text": "stitched together to create the resulting file. Simple Demo Java Command Line Demo Package Overview Limitations FAQ See Code Generation section of the Complete Demos page for more demos. Simple Demo Generate HTML code that describes a model. If"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Demo Generate HTML code that describes a model. If you are viewing this page from within vergil, open $PTII/ptolemy/cg/adapter/generic/html/demo/HierarchicalModel/HierarchicalModel.xml If you are viewing this page from a browser, start vergil wit"
+    },
+    {
+      "chunk_id": 4,
+      "text": "viewing this page from a browser, start vergil with: $PTII/bin/vergil /Users/cxh/ptII/ptolemy/cg/adapter/generic/html/demo/HierarchicalModel/HierarchicalModel.xml Click on the HTMLCodeGenerator icon. A dialog box will appear, click on \"Generate\" An H"
+    },
+    {
+      "chunk_id": 5,
+      "text": "A dialog box will appear, click on \"Generate\" An HTML description of the model will be generated and displayed. Java Command Line Demo To generate Java code for a simple model, run: $PTII/bin/ptcg -language java $PTII/ptolemy/cg/kernel/generic/progra"
+    },
+    {
+      "chunk_id": 6,
+      "text": "nguage java $PTII/ptolemy/cg/kernel/generic/program/procedural/java/test/auto/Display.xml or java -classpath $PTII ptolemy.cg.kernel.generic.GenericCodeGenerator -language java $PTII/ptolemy/cg/kernel/generic/program/procedural/java/test/auto/Display"
+    },
+    {
+      "chunk_id": 7,
+      "text": "/generic/program/procedural/java/test/auto/Display.xml Package overview The cg facility uses an adapter pattern where classes in a regular Ptolemy II model have corresponding classes in the cg facility. The cg subpackages are structured so that"
+    },
+    {
+      "chunk_id": 8,
+      "text": "acility. The cg subpackages are structured so that language specific code is separate from generic code. The main entry point is $PTII/ptolemy/cg/kernel/generic/GenericCodeGenerator.java. This file is invoked by $PTII/bin/ptcg . To get the comple"
+    },
+    {
+      "chunk_id": 9,
+      "text": "is invoked by $PTII/bin/ptcg . To get the complete list of options, run $PTII/bin/ptcg -help . To invoke the cg code generator from the GUI, drag in a code generator attribute from More Libraries -> CodeGenerators ->CGCodegen. The ptolemy/cg dir"
+    },
+    {
+      "chunk_id": 10,
+      "text": "-> CodeGenerators ->CGCodegen. The ptolemy/cg directory has these subdirectories: ptolemy/cg/adapter Language specific adapters classes that correspond with regular Ptolemy II classes. ptolemy/cg/adapter/generic/program/procedural/ The classes fo"
+    },
+    {
+      "chunk_id": 11,
+      "text": "adapter/generic/program/procedural/ The classes for the procedural languages (C and Java) ptolemy/cg/adapter/generic/program/procedural/adapters The adapter definitions that are shared between the procedural languages. For example, the Display adapt"
+    },
+    {
+      "chunk_id": 12,
+      "text": "cedural languages. For example, the Display adapter is at ptolemy/cg/adapter/generic/program/procedural/adapters/ptolemy/actor/lib/gui/Display.java ptolemy/cg/adapter/generic/program/procedural/adapters/c The adapters for actors that generate C. In"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ers/c The adapters for actors that generate C. In general, the Java class extends the shared adapter and contains only a constructor. There is an optional .c file that contains C-specific blocks of code used in code generation. For exam"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ocks of code used in code generation. For example, we have ptolemy/cg/adapter/generic/program/procedural/c/adapters/ptolemy/actor/lib/gui/Display.java and ptolemy/cg/adapter/generic/program/procedural/c/adapters/ptolemy/actor/lib/gui/Display."
+    },
+    {
+      "chunk_id": 15,
+      "text": "ocedural/c/adapters/ptolemy/actor/lib/gui/Display.c The adapters for actors that generate Java. The layout is similar to the C version, except the .j file contains the Java template blocks. The file is named .j so that it does not get compiled. pto"
+    },
+    {
+      "chunk_id": 16,
+      "text": "is named .j so that it does not get compiled. ptolemy/cg/gui Graphical User Interface (gui) code. If a model has a ptolemy.cg.gui.CodeGeneratorGUIFactory attribute in it, then double clicking on that attribute brings up the code generator gui"
+    },
+    {
+      "chunk_id": 17,
+      "text": "on that attribute brings up the code generator gui. ptolemy/cg/kernel Non-language specific code generation classes and language-specific type information. ptolemy/cg/lib Modular code generation work and syntactic code generation work Hints abo"
+    },
+    {
+      "chunk_id": 18,
+      "text": "rk and syntactic code generation work Hints about working with the tree Because the tree is so deep, you may find it easier to use a few tools to quickly search files from the command line. Search for files To find all the files named Display use:"
+    },
+    {
+      "chunk_id": 19,
+      "text": "for files To find all the files named Display use: cd $PTII/ptolemy/cg find . -name \"Display\" Search all the files for a string find . -type f | xargs grep MyString How to add an actor Adding code generation support for an actor is fairly complex, b"
+    },
+    {
+      "chunk_id": 20,
+      "text": "neration support for an actor is fairly complex, but follows a pattern. First, check to see that there is no already a code generation version of the actor. It could be that there is one for a different language. Also, look for code generati"
+    },
+    {
+      "chunk_id": 21,
+      "text": "fferent language. Also, look for code generation versions of the actors that are similar to the actor in question. Read the style guide at $PTII/doc/coding/style.htm . In particular, pay attention to the parts about makefiles. The ptolem"
+    },
+    {
+      "chunk_id": 22,
+      "text": "attention to the parts about makefiles. The ptolemy/cg directory contains subdirectories that mimic the Ptolemy II tree. So, if we are adding a code generation version of an actor in ptolemy/actor/lib, then we will be working in similar sub"
+    },
+    {
+      "chunk_id": 23,
+      "text": "tor/lib, then we will be working in similar subdirectories in ptolemy/cg. The code generation system reads blocks of code from a template file and does substitution. Most of the work occurs in a file that is shared between the procedural la"
+    },
+    {
+      "chunk_id": 24,
+      "text": "a file that is shared between the procedural languages (C and Java). The directory is $PTII/ptolemy/cg/adapter/generic/program/procedural/adapters/ptolemy/actor/lib/ The C or Java specific code is in $PTII/ptolemy/cg/adapter/generic/program/proce"
+    },
+    {
+      "chunk_id": 25,
+      "text": "in $PTII/ptolemy/cg/adapter/generic/program/procedural/ c /adapters/ptolemy/actor/lib/ or $PTII/ptolemy/cg/adapter/generic/program/procedural/ java /adapters/ptolemy/actor/lib/ These directories contain corresponding .c or .j files that define the b"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ain corresponding .c or .j files that define the blocks used in the generated code. These directories also contain a test/auto/ directory that contains the test models. Supporting different targets A target is typically an architecture-specific pl"
+    },
+    {
+      "chunk_id": 27,
+      "text": "A target is typically an architecture-specific platform. For example, the arduino target generates C-code meant to run on the Arduino platform. To generate code for a target, use the -generatorPackageList command line argument to $PTII/bin/cg ."
+    },
+    {
+      "chunk_id": 28,
+      "text": "kageList command line argument to $PTII/bin/cg . The value of the -generatorPackageList parameter i a semicolon or * separated list of Java packages to be searched for adapters. For example $PTII/bin/ptcg -generatorPackageList generic.program.proc"
+    }
+  ]
+}

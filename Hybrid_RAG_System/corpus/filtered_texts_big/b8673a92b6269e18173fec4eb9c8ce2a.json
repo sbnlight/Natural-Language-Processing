@@ -1,0 +1,53 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version1/ModuleSpecification",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / ModuleSpecification Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / ModuleSpecification Modules are formatted acco"
+    },
+    {
+      "chunk_id": 2,
+      "text": "1 / ModuleSpecification Modules are formatted according to the CommonJS Module standard. This standard specifies that a module may be contained within a single JavaScript file with name module-name .js or in a directory named module-name containing a"
+    },
+    {
+      "chunk_id": 3,
+      "text": "s or in a directory named module-name containing a package.json file, which gives an object that defines properties of the module. In addition, modules follow the Node Package Manager (npm) package name specification where package names are lower cas"
+    },
+    {
+      "chunk_id": 4,
+      "text": "me specification where package names are lower case and hyphenated. Host-specific modules should be in the @accessors-modules npm scope . An example of the correct way for an accessor to require a host-specific module is: var module = require ( '@"
+    },
+    {
+      "chunk_id": 5,
+      "text": "host-specific module is: var module = require ( '@accessors-modules/web-socket-client' ) ; [$[Get Code]] The host-specific implementation of require may remap the scope and package name. For example, the Node Host module definitions in the @accessors"
+    },
+    {
+      "chunk_id": 6,
+      "text": "the Node Host module definitions in the @accessors-modules scope, which can be found at accessors/web/hosts/node/node_modules/@accessors-modules . The JavaScript file or files in a module may define top-level variables, but these will be local to the"
+    },
+    {
+      "chunk_id": 7,
+      "text": "op-level variables, but these will be local to the module and not visible to the accessor script. A module makes its components available to the accessor script by defining fields of its exports field. For example, if the @accessors-modules/ module-"
+    },
+    {
+      "chunk_id": 8,
+      "text": ". For example, if the @accessors-modules/ module-name / module-name .js file contains this: exports. moduleFunction = function ( ) { ... } ; [$[Get Code]] then the accessor script that requires a module that is not one of the Built-In JavaScript Mod"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ule that is not one of the Built-In JavaScript Modules can invoke the module's function as follows: var module = require ( '@accessors-modules/module-name' ) ; module. moduleFunction ( ) ; [$[Get Code]] Alternatively, the module JavaScript file can e"
+    },
+    {
+      "chunk_id": 10,
+      "text": "]] Alternatively, the module JavaScript file can explicitly define the exports object as follows: var myFunction = function ( ) { ... } ; module. exports = { myFunction : myFunction } ; [$[Get Code]] The require('@accessors-modules/module-name') call"
+    },
+    {
+      "chunk_id": 11,
+      "text": "The require('@accessors-modules/module-name') call indicates to the accessor host that must have a locally installed implementation of the module in order to support this accessor. The host should reject the accessor if it does not have such an imple"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ect the accessor if it does not have such an implementation installed. Some hosts, such as the Node Host can install packages at run time using a package manager such as NPM . See accessors/web/hosts/node/node_modules/@accessors-modules/serial/seria"
+    }
+  ]
+}

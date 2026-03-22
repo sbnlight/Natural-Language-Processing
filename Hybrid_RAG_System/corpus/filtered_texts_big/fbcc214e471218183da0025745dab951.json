@@ -1,0 +1,425 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/kernel/Entity.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Entity JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method ptolem"
+    },
+    {
+      "chunk_id": 2,
+      "text": "tr | Method Detail: Field | Constr | Method ptolemy.kernel Class Entity<T extends Port > java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity<T> All Implemented Interfaces: java.lang.Cloneable, Chang"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Implemented Interfaces: java.lang.Cloneable, Changeable , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: ComponentEntity public class Entity<T extends Port > e"
+    },
+    {
+      "chunk_id": 4,
+      "text": "onentEntity public class Entity<T extends Port > extends InstantiableNamedObj An Entity is a vertex in a generalized graph. It is an aggregation of ports. The ports can be linked to relations. The relations thus represent connections between ports,"
+    },
+    {
+      "chunk_id": 5,
+      "text": "elations thus represent connections between ports, and hence, connections between entities. To add a port to an entity, simply set its container to the entity. To remove it, set its container to null, or to some other entity. Entities are intende"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ull, or to some other entity. Entities are intended for flat graphs. Derived classes support hierarchy (clustered graphs) by defining entities that aggregate other entities. An Entity can contain any instance of Port. Derived classes may wish to"
+    },
+    {
+      "chunk_id": 7,
+      "text": "y instance of Port. Derived classes may wish to constrain to a subclass of Port. To do this, subclasses should override the public method newPort() to create a port of the appropriate subclass, and the protected method _addPort() to throw an ex"
+    },
+    {
+      "chunk_id": 8,
+      "text": "nd the protected method _addPort() to throw an exception if its argument is a port that is not of the appropriate subclass. An Entity is created within a workspace. If the workspace is not specified as a constructor argument, then the default wor"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ed as a constructor argument, then the default workspace is used. The workspace is used to synchronize simultaneous accesses to a topology from multiple threads. The workspace is immutable (it cannot be changed during the lifetime of the Entity)."
+    },
+    {
+      "chunk_id": 10,
+      "text": "not be changed during the lifetime of the Entity). Since: Ptolemy II 0.2 Version: $Id$ Author: John S. Davis II, Edward A. Lee See Also: Port , Relation Pt.AcceptedRating: Green (johnr) Pt.ProposedRating: Green (eal) Nested Class Summary Nested Class"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ing: Green (eal) Nested Class Summary Nested Classes Modifier and Type Class and Description protected class Entity.ContainedObjectsIterator This class is an iterator over all the contained objects (all instances of NamedObj). Field Summary Fields"
+    },
+    {
+      "chunk_id": 12,
+      "text": "(all instances of NamedObj). Field Summary Fields Modifier and Type Field and Description (package private) NamedList _portList A list of Ports owned by this Entity. Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _change"
+    },
+    {
+      "chunk_id": 14,
+      "text": "SSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary Constructors Constructor and Description Entity () Construct an entity in the default workspace with an empty string as its name. Entity (java.lang.String name) Construct an"
+    },
+    {
+      "chunk_id": 15,
+      "text": "name. Entity (java.lang.String name) Construct an entity in the default workspace with the given name. Entity ( Workspace workspace) Construct an entity in the given workspace with an empty string as a name. Entity ( Workspace workspace, jav"
+    },
+    {
+      "chunk_id": 16,
+      "text": "as a name. Entity ( Workspace workspace, java.lang.String name) Construct an entity in the given workspace with the given name. Method Summary All Methods Instance Methods Concrete Methods Deprecated Methods Modifier and Type Method and Descrip"
+    },
+    {
+      "chunk_id": 17,
+      "text": "cated Methods Modifier and Type Method and Description protected void _addPort ( T port) Add a port to this entity. protected java.lang.String _description (int detail, int indent, int bracket) Return a description of the obje"
+    },
+    {
+      "chunk_id": 18,
+      "text": "int bracket) Return a description of the object. protected void _exportMoMLContents (java.io.Writer output, int depth) Write a MoML description of the contents of this object, which in this class are the attributes plus the"
+    },
+    {
+      "chunk_id": 19,
+      "text": "which in this class are the attributes plus the ports. protected void _removePort ( Port port) Remove the specified port. protected void _validateSettables (java.util.Collection attributesValidated) Validate attributes deeply contained by this obje"
+    },
+    {
+      "chunk_id": 20,
+      "text": "Validate attributes deeply contained by this object if they implement the Settable interface by calling their validate() method. java.lang.Object clone ( Workspace workspace) Clone the object into the specified workspace. java.util.List< T > conne"
+    },
+    {
+      "chunk_id": 21,
+      "text": "the specified workspace. java.util.List< T > connectedPortList () Return a list of the ports that are connected to contained ports. java.util.Enumeration connectedPorts () Deprecated. Use connectedPortList() instead. void connectionsChanged ( Port po"
+    },
+    {
+      "chunk_id": 22,
+      "text": "tList() instead. void connectionsChanged ( Port port) Notify this entity that the links to the specified port have been altered. java.util.Iterator containedObjectsIterator () Return an iterator over contained objects. Attribute getAttribute (java."
+    },
+    {
+      "chunk_id": 23,
+      "text": "r contained objects. Attribute getAttribute (java.lang.String name) Get the attribute with the given name. Port getPort (java.lang.String name) Return the port contained by this entity that has the specified name. java.util.Enumeration getPorts () De"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ecified name. java.util.Enumeration getPorts () Deprecated. Use portList() instead. java.util.List linkedRelationList () Get all relations that are linked to ports contained by this entity. java.util.Enumeration linkedRelations () Deprecated. Use l"
+    },
+    {
+      "chunk_id": 25,
+      "text": "l.Enumeration linkedRelations () Deprecated. Use linkedRelationList() instead. Port newPort (java.lang.String name) Create a new port with the specified name. java.util.List< T > portList () Get the ports belonging to this entity. void removeAllPorts"
+    },
+    {
+      "chunk_id": 26,
+      "text": "orts belonging to this entity. void removeAllPorts () Remove all ports by setting their container to null. void setClassDefinition (boolean isClass) Specify whether this object is a class definition. java.lang.String uniqueName (java.lang.String pref"
+    },
+    {
+      "chunk_id": 27,
+      "text": "java.lang.String uniqueName (java.lang.String prefix) Return a name that is guaranteed to not be the name of any contained attribute or port. Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren ,"
+    },
+    {
+      "chunk_id": 28,
+      "text": "eNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , instantiate , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _"
+    },
+    {
+      "chunk_id": 29,
+      "text": "util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _containedDecorators , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _getContainedObject , _getIndentPrefix , _"
+    },
+    {
+      "chunk_id": 30,
+      "text": "uests , _getContainedObject , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _propagateExistence , _propagateValue , _removeAttribute , _splitName , _stripN"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , addHierarchyListener , attributeChanged , attributeDeleted , attributeList , attributeList , attributeTypeChanged , clone , decorators , deepConta"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ributeTypeChanged , clone , decorators , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListe"
+    },
+    {
+      "chunk_id": 33,
+      "text": "in , getAttribute , getAttributes , getChangeListeners , getClassName , getContainer , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSo"
+    },
+    {
+      "chunk_id": 34,
+      "text": ", getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , notifyOfNameCh"
+    },
+    {
+      "chunk_id": 35,
+      "text": "moveToIndex , moveToLast , moveUp , notifyOfNameChange , propagateExistence , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , requestChange , setClassName , setDeferringChang"
+    },
+    {
+      "chunk_id": 36,
+      "text": ", requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setName , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited"
+    },
+    {
+      "chunk_id": 37,
+      "text": ", validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList"
+    },
+    {
+      "chunk_id": 38,
+      "text": ".util. Derivable getDerivedLevel , getDerivedList , propagateExistence , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Field Detai"
+    },
+    {
+      "chunk_id": 39,
+      "text": "FullName , getName , getName , setName Field Detail _portList NamedList _portList A list of Ports owned by this Entity. Constructor Detail Entity public Entity() Construct an entity in the default workspace with an empty string as its name. The o"
+    },
+    {
+      "chunk_id": 40,
+      "text": "kspace with an empty string as its name. The object is added to the workspace directory. Increment the version number of the workspace. Entity public Entity(java.lang.String name) throws IllegalActionException Construct an entity in the"
+    },
+    {
+      "chunk_id": 41,
+      "text": "IllegalActionException Construct an entity in the default workspace with the given name. If the name argument is null, then the name is set to the empty string. The object is added to the workspace directory. Increment the version number of t"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ace directory. Increment the version number of the workspace. Parameters: name - The name of this object. Throws: IllegalActionException - If the name has a period. Entity public Entity( Workspace workspace) Construct an entity in the given workspa"
+    },
+    {
+      "chunk_id": 43,
+      "text": "orkspace) Construct an entity in the given workspace with an empty string as a name. If the workspace argument is null, use the default workspace. The object is added to the workspace directory. Increment the version of the workspace. Paramet"
+    },
+    {
+      "chunk_id": 44,
+      "text": "Increment the version of the workspace. Parameters: workspace - The workspace for synchronization and version tracking. Entity public Entity( Workspace workspace, java.lang.String name) throws IllegalActionException Construct"
+    },
+    {
+      "chunk_id": 45,
+      "text": "e) throws IllegalActionException Construct an entity in the given workspace with the given name. If the workspace argument is null, use the default workspace. If the name argument is null, then the name is set to the empty string. The"
+    },
+    {
+      "chunk_id": 46,
+      "text": ", then the name is set to the empty string. The object is added to the workspace directory. Increment the version of the workspace. Parameters: workspace - The workspace for synchronization and version tracking. name - The name of this object. Th"
+    },
+    {
+      "chunk_id": 47,
+      "text": "rsion tracking. name - The name of this object. Throws: IllegalActionException - If the name has a period. Method Detail clone public java.lang.Object clone( Workspace workspace) throws java.lang.CloneNotSupportedException Clon"
+    },
+    {
+      "chunk_id": 48,
+      "text": "throws java.lang.CloneNotSupportedException Clone the object into the specified workspace. The new object is not added to the directory of that workspace (you must do this yourself if you want it there). The result is a new entity with clones o"
+    },
+    {
+      "chunk_id": 49,
+      "text": "there). The result is a new entity with clones of the ports of the original entity. The ports are set to the ports of the new entity. This method gets read access on the workspace associated with this object. Overrides: clone in class Instan"
+    },
+    {
+      "chunk_id": 50,
+      "text": "th this object. Overrides: clone in class InstantiableNamedObj Parameters: workspace - The workspace for the cloned object. Returns: The new Entity. Throws: java.lang.CloneNotSupportedException - If cloned ports cannot have as their container th"
+    },
+    {
+      "chunk_id": 51,
+      "text": "cloned ports cannot have as their container the cloned entity (this should not occur), or if one of the attributes cannot be cloned. See Also: NamedObj.exportMoML(Writer, int, String) , NamedObj.setDeferringChangeRequests(boolean) connectedPor"
+    },
+    {
+      "chunk_id": 52,
+      "text": "j.setDeferringChangeRequests(boolean) connectedPortList public java.util.List< T > connectedPortList() Return a list of the ports that are connected to contained ports. Ports in this entity are not included unless there is a loopback, meaning tha"
+    },
+    {
+      "chunk_id": 53,
+      "text": "included unless there is a loopback, meaning that two distinct ports of this entity are linked to the same relation. The connected entities can be obtained from the ports using getContainer(). Note that a port may be listed more than once"
+    },
+    {
+      "chunk_id": 54,
+      "text": "Note that a port may be listed more than once if there is more than one connection to it. This method is read-synchronized on the workspace. Returns: An unmodifiable list of Port objects. connectedPorts @Deprecated public java.util.Enumeration"
+    },
+    {
+      "chunk_id": 55,
+      "text": "tedPorts @Deprecated public java.util.Enumeration connectedPorts() Deprecated. Use connectedPortList() instead. Enumerate all ports that are connected to contained ports. Ports in this entity are not included unless there is a loopback, meaning t"
+    },
+    {
+      "chunk_id": 56,
+      "text": "t included unless there is a loopback, meaning that two distinct ports of this entity are linked to the same relation. The connected entities can be obtained from the ports using getContainer(). Note that a port may be listed more than onc"
+    },
+    {
+      "chunk_id": 57,
+      "text": "). Note that a port may be listed more than once if there is more than one connection to it. This method is read-synchronized on the workspace. Returns: An enumeration of Port objects. connectionsChanged public void connectionsChanged( Port port"
+    },
+    {
+      "chunk_id": 58,
+      "text": "sChanged public void connectionsChanged( Port port) Notify this entity that the links to the specified port have been altered. The default implementation in this base class is to do nothing, but derived classes may want to react to new connect"
+    },
+    {
+      "chunk_id": 59,
+      "text": "derived classes may want to react to new connections. Parameters: port - The port to which connections have changed. containedObjectsIterator public java.util.Iterator containedObjectsIterator() Return an iterator over contained objects. In this cl"
+    },
+    {
+      "chunk_id": 60,
+      "text": "urn an iterator over contained objects. In this class, this is simply an iterator over attributes and ports. In derived classes, the iterator will also traverse classes, entities, and relations. The caller of this method should have read acc"
+    },
+    {
+      "chunk_id": 61,
+      "text": ". The caller of this method should have read access on the workspace and hold it for the duration of the use of the iterator. Moreover, it should not modify the port or attribute list while using the iterator or it will get a ConcurrentModifi"
+    },
+    {
+      "chunk_id": 62,
+      "text": "g the iterator or it will get a ConcurrentModificationException. Overrides: containedObjectsIterator in class NamedObj Returns: An iterator over instances of NamedObj contained by this object. getAttribute public Attribute getAttribute(java.lang"
+    },
+    {
+      "chunk_id": 63,
+      "text": "tAttribute public Attribute getAttribute(java.lang.String name) Get the attribute with the given name. The name may be compound, with fields separated by periods, in which case the attribute returned is (deeply) contained by a contained attribute"
+    },
+    {
+      "chunk_id": 64,
+      "text": "ned is (deeply) contained by a contained attribute or port. This method is read-synchronized on the workspace. Overrides: getAttribute in class NamedObj Parameters: name - The name of the desired attribute. Returns: The requested attribute if it is"
+    },
+    {
+      "chunk_id": 65,
+      "text": "tribute. Returns: The requested attribute if it is found, null otherwise. getPort public Port getPort(java.lang.String name) Return the port contained by this entity that has the specified name. If there is no such port, return null. This method"
+    },
+    {
+      "chunk_id": 66,
+      "text": "there is no such port, return null. This method is read-synchronized on the workspace. Parameters: name - The name of the desired port. Returns: A port with the given name, or null if none exists. getPorts @Deprecated public java.util.Enumeration g"
+    },
+    {
+      "chunk_id": 67,
+      "text": "etPorts @Deprecated public java.util.Enumeration getPorts() Deprecated. Use portList() instead. Enumerate the ports belonging to this entity. The order is the order in which they became contained by this entity. This method is read-synchronized o"
+    },
+    {
+      "chunk_id": 68,
+      "text": "this entity. This method is read-synchronized on the workspace. Returns: An enumeration of Port objects. linkedRelationList public java.util.List linkedRelationList() Get all relations that are linked to ports contained by this entity. Note that"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ked to ports contained by this entity. Note that a relation may be listed more than once. This method is read-synchronized on the workspace. Returns: An unmodifiable list of Relation objects. linkedRelations @Deprecated public java.util.Enumerati"
+    },
+    {
+      "chunk_id": 70,
+      "text": "edRelations @Deprecated public java.util.Enumeration linkedRelations() Deprecated. Use linkedRelationList() instead. Enumerate relations that are linked to ports contained by this entity. Note that a relation may be listed more than once. This me"
+    },
+    {
+      "chunk_id": 71,
+      "text": "a relation may be listed more than once. This method is read-synchronized on the workspace. Returns: An enumeration of Relation objects. newPort public Port newPort(java.lang.String name) throws IllegalActionException , NameDuplication"
+    },
+    {
+      "chunk_id": 72,
+      "text": "throws IllegalActionException , NameDuplicationException Create a new port with the specified name. Set its container to be this entity. Derived classes should override this method to create a subclass of Port, if they require subclasses of Po"
+    },
+    {
+      "chunk_id": 73,
+      "text": "subclass of Port, if they require subclasses of Port. If the name argument is null, then the name used is an empty string. This method is write-synchronized on the workspace, and increments its version number. Parameters: name - The name to ass"
+    },
+    {
+      "chunk_id": 74,
+      "text": "version number. Parameters: name - The name to assign to the newly created port. Returns: The new port. Throws: IllegalActionException - If the port created is not of an acceptable class (this is a programming error; failed to override this met"
+    },
+    {
+      "chunk_id": 75,
+      "text": "programming error; failed to override this method in derived classes). NameDuplicationException - If the entity already has a port with the specified name. portList public java.util.List< T > portList() Get the ports belonging to this entity."
+    },
+    {
+      "chunk_id": 76,
+      "text": "ortList() Get the ports belonging to this entity. The order is the order in which they became contained by this entity. This method is read-synchronized on the workspace. Returns: An unmodifiable list of Port objects. removeAllPorts public void r"
+    },
+    {
+      "chunk_id": 77,
+      "text": "list of Port objects. removeAllPorts public void removeAllPorts() Remove all ports by setting their container to null. As a side effect, the ports will be unlinked from all relations. This method is write-synchronized on the workspace, and increm"
+    },
+    {
+      "chunk_id": 78,
+      "text": "is write-synchronized on the workspace, and increments its version number. setClassDefinition public void setClassDefinition(boolean isClass) throws IllegalActionException Specify whether this object is a class definition."
+    },
+    {
+      "chunk_id": 79,
+      "text": "ecify whether this object is a class definition. This method overrides the base class to check that if the argument is true, then this entity contains no ports with links. This method is write synchronized on the workspace. Overrides: setClassD"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ynchronized on the workspace. Overrides: setClassDefinition in class InstantiableNamedObj Parameters: isClass - True to make this object a class definition. Throws: IllegalActionException - If the argument is true and this entity contains ports wi"
+    },
+    {
+      "chunk_id": 81,
+      "text": "ument is true and this entity contains ports with links. See Also: InstantiableNamedObj.isClassDefinition() , Instantiable uniqueName public java.lang.String uniqueName(java.lang.String prefix) Return a name that is guaranteed to not be the name o"
+    },
+    {
+      "chunk_id": 82,
+      "text": "urn a name that is guaranteed to not be the name of any contained attribute or port. In derived classes, this should be overridden so that the returned name is guaranteed to not conflict with any contained object. In this implementation, the a"
+    },
+    {
+      "chunk_id": 83,
+      "text": "ny contained object. In this implementation, the argument is stripped of any numeric suffix, and then a numeric suffix is appended and incremented until a name is found that does not conflict with a contained attribute or port. Overrides: uniqu"
+    },
+    {
+      "chunk_id": 84,
+      "text": "th a contained attribute or port. Overrides: uniqueName in class NamedObj Parameters: prefix - A prefix for the name. Returns: A unique name. _addPort protected void _addPort( T port) throws IllegalActionException , NameDuplicationEx"
+    },
+    {
+      "chunk_id": 85,
+      "text": "throws IllegalActionException , NameDuplicationException Add a port to this entity. This method should not be used directly. Call the setContainer() method of the port instead. This method does not set the container of the port to point to th"
+    },
+    {
+      "chunk_id": 86,
+      "text": "not set the container of the port to point to this entity. It assumes that the port is in the same workspace as this entity, but does not check. The caller should check. Derived classes should override this method if they require a subclas"
+    },
+    {
+      "chunk_id": 87,
+      "text": "d override this method if they require a subclass of Port to throw an exception if the argument is not of an acceptable class. This method is not synchronized on the workspace, so the caller should be. Parameters: port - The port to add to th"
+    },
+    {
+      "chunk_id": 88,
+      "text": "hould be. Parameters: port - The port to add to this entity. Throws: IllegalActionException - If the port has no name. NameDuplicationException - If the port name collides with a name already in the entity. _description protected java.lang.String"
+    },
+    {
+      "chunk_id": 89,
+      "text": "e entity. _description protected java.lang.String _description(int detail, int indent, int bracket) throws IllegalActionException Return"
+    },
+    {
+      "chunk_id": 90,
+      "text": "throws IllegalActionException Return a description of the object. The level of detail depends on the argument, which is an or-ing of the static final constants defined in the NamedObj class. Lines are indented according to to the"
+    },
+    {
+      "chunk_id": 91,
+      "text": "j class. Lines are indented according to to the level argument using the protected method _getIndentPrefix(). Zero, one or two brackets can be specified to surround the returned description. If one is specified it is the the leading bracket."
+    },
+    {
+      "chunk_id": 92,
+      "text": "f one is specified it is the the leading bracket. This is used by derived classes that will append to the description. Those derived classes are responsible for the closing bracket. An argument other than 0, 1, or 2 is taken to be equivalent to"
+    },
+    {
+      "chunk_id": 93,
+      "text": "other than 0, 1, or 2 is taken to be equivalent to 0. This method is read-synchronized on the workspace. Overrides: _description in class NamedObj Parameters: detail - The level of detail. indent - The amount of indenting. bracket - The number of s"
+    },
+    {
+      "chunk_id": 94,
+      "text": "The amount of indenting. bracket - The number of surrounding brackets (0, 1, or 2). Returns: A description of the object. Throws: IllegalActionException - If there is a problem accessing subcomponents of this object. _exportMoMLContents protected v"
+    },
+    {
+      "chunk_id": 95,
+      "text": "ts of this object. _exportMoMLContents protected void _exportMoMLContents(java.io.Writer output, int depth) throws java.io.IOException Write a MoML description of the contents of this obj"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ite a MoML description of the contents of this object, which in this class are the attributes plus the ports. This method is called by exportMoML(). Each description is indented according to the specified depth and terminated with a newline c"
+    },
+    {
+      "chunk_id": 97,
+      "text": "specified depth and terminated with a newline character. Overrides: _exportMoMLContents in class NamedObj Parameters: output - The output to write to. depth - The depth in the hierarchy, to determine indenting. Throws: java.io.IOException - If an"
+    },
+    {
+      "chunk_id": 98,
+      "text": "ne indenting. Throws: java.io.IOException - If an I/O error occurs. See Also: NamedObj.exportMoML(Writer, int) _removePort protected void _removePort( Port port) Remove the specified port. This method should not be used directly. Call the setConta"
+    },
+    {
+      "chunk_id": 99,
+      "text": "should not be used directly. Call the setContainer() method of the port instead with a null argument. The port is assumed to be contained by this entity (otherwise, nothing happens). This method does not alter the container of the port. T"
+    },
+    {
+      "chunk_id": 100,
+      "text": "thod does not alter the container of the port. This method is not synchronized on the workspace, so the caller should be. Parameters: port - The port being removed from this entity. _validateSettables protected void _validateSettables(java.util.C"
+    },
+    {
+      "chunk_id": 101,
+      "text": "bles protected void _validateSettables(java.util.Collection attributesValidated) throws IllegalActionException Validate attributes deeply contained by this object if they implement the Settable interface by calling their"
+    },
+    {
+      "chunk_id": 102,
+      "text": "implement the Settable interface by calling their validate() method. This method overrides the base class to check attributes contained by the contained ports. Errors that are triggered by this validation are handled by calling handleModelErr"
+    },
+    {
+      "chunk_id": 103,
+      "text": "validation are handled by calling handleModelError(). Overrides: _validateSettables in class NamedObj Parameters: attributesValidated - A HashSet of Attributes that have already been validated. For example, Settables that implement the SharedS"
+    },
+    {
+      "chunk_id": 104,
+      "text": "or example, Settables that implement the SharedSettable interface are validated only once. Throws: IllegalActionException - If the superclass throws it or if handleModelError() throws it. See Also: NamedObj.handleModelError(NamedObj context, Ille"
+    },
+    {
+      "chunk_id": 105,
+      "text": ": NamedObj.handleModelError(NamedObj context, IllegalActionException exception) Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detai"
+    },
+    {
+      "chunk_id": 106,
+      "text": "es Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

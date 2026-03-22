@@ -1,0 +1,409 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/actor/gui/Effigy.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Effigy JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method ptolem"
+    },
+    {
+      "chunk_id": 2,
+      "text": "tr | Method Detail: Field | Constr | Method ptolemy.actor.gui Class Effigy java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity <T> ptolemy.kernel.ComponentEntity ptolemy.kernel.CompositeEntity ptole"
+    },
+    {
+      "chunk_id": 3,
+      "text": "mponentEntity ptolemy.kernel.CompositeEntity ptolemy.actor.gui.Effigy All Implemented Interfaces: java.lang.Cloneable, Changeable , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direc"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ndler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: BrowserEffigy , DocEffigy , ExecShellEffigy , ExpressionShellEffigy , HTMLEffigy , ImageTokenEffigy , PtolemyEffigy , PythonShellEffigy , TclShellEffigy , TextEffigy , TokenEffigy"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ffigy , TclShellEffigy , TextEffigy , TokenEffigy public class Effigy extends CompositeEntity An effigy represents model metadata, and is contained by the model directory or by another effigy. The effigy, for example, keeps track of where the model"
+    },
+    {
+      "chunk_id": 6,
+      "text": "figy, for example, keeps track of where the model originated (from a URI or file) and whether the model has been modified since the URI or file was read. In design automation, such information is often called \"metadata.\" When we began to design t"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ften called \"metadata.\" When we began to design this class, we called it ModelModel, because it was a model of a Ptolemy II model. However, this name seemed awkward, so we changed it to Effigy. We also considered the name Proxy for the class. We"
+    },
+    {
+      "chunk_id": 8,
+      "text": "also considered the name Proxy for the class. We rejected that name because of the common use of the word \"proxy\" in distributed object-oriented models. The Effigy class extends CompositeEntity, so an instance of Effigy can contain entities. By"
+    },
+    {
+      "chunk_id": 9,
+      "text": "an instance of Effigy can contain entities. By convention, an effigy contains all open instances of Tableau associated with the model. It also contains a string attribute named \"identifier\" with a value that uniquely identifies the model. A typ"
+    },
+    {
+      "chunk_id": 10,
+      "text": "a value that uniquely identifies the model. A typical choice (which depends on the configuration) is the canonical URI for a MoML file that describes the model. In the case of an effigy contained by another, a typical choice is the URI of the pa"
+    },
+    {
+      "chunk_id": 11,
+      "text": "by another, a typical choice is the URI of the parent effigy, a pound sign \"#\", and a name. An effigy may contain other effigies. The master effigy in such a containment hierarchy is typically associated with a URI or file. Contained effigies a"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ociated with a URI or file. Contained effigies are associated with the same file, and represent structured data within the top-level representation in the file. The masterEffigy() method returns that master effigy. The topEffigy() method in this"
+    },
+    {
+      "chunk_id": 13,
+      "text": "hat master effigy. The topEffigy() method in this base class returns the same master effigy. However, in derived classes, a master effigy may be contained by another effigy, so the top effigy is not the same as the master effigy. The top effigy i"
+    },
+    {
+      "chunk_id": 14,
+      "text": "t the same as the master effigy. The top effigy is directly contained by the ModelDirectory in the Configuration. NOTE: It might seem more natural for the identifier to match the name of the effigy rather than recording the identifier in a string"
+    },
+    {
+      "chunk_id": 15,
+      "text": "rather than recording the identifier in a string attribute. But in Ptolemy II, an entity name cannot have periods in it, and a URI typically does have periods in it. To determine the Effigy of a NamedObj, use Configuration.findEffigy(NamedObj) . S"
+    },
+    {
+      "chunk_id": 16,
+      "text": "medObj, use Configuration.findEffigy(NamedObj) . Since: Ptolemy II 1.0 Version: $Id$ Author: Steve Neuendorffer and Edward A. Lee See Also: ModelDirectory , Tableau Pt.AcceptedRating: Yellow (celaine) Pt.ProposedRating: Green (eal) Nested Class Summa"
+    },
+    {
+      "chunk_id": 17,
+      "text": "Pt.ProposedRating: Green (eal) Nested Class Summary Nested classes/interfaces inherited from class ptolemy.kernel. CompositeEntity CompositeEntity.ContainedObjectsIterator Field Summary Fields Modifier and Type Field and Description StringAttribute"
+    },
+    {
+      "chunk_id": 18,
+      "text": "er and Type Field and Description StringAttribute identifier The identifier for the effigy. URIAttribute uri The URI for the effigy. Fields inherited from class ptolemy.kernel. CompositeEntity _levelCrossingLinks Fields inherited from class ptolemy.k"
+    },
+    {
+      "chunk_id": 19,
+      "text": "rossingLinks Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSN"
+    },
+    {
+      "chunk_id": 20,
+      "text": "tent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary Constructors Constructor and Description Effigy ( CompositeEntity container, java.lang.String name) Construct an effigy wi"
+    },
+    {
+      "chunk_id": 21,
+      "text": "java.lang.String name) Construct an effigy with the given name and container. Effigy ( Workspace workspace) Create a new effigy in the specified workspace with an empty string for its name. Method Summary All Methods Static Methods Instance Me"
+    },
+    {
+      "chunk_id": 22,
+      "text": "hod Summary All Methods Static Methods Instance Methods Concrete Methods Modifier and Type Method and Description protected void _checkContainer ( CompositeEntity container) Check that the specified container is of a suitable class for this entity,"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ontainer is of a suitable class for this entity, i.e., ModelDirectory or Effigy. protected void _removeEntity ( ComponentEntity entity) Remove the specified entity from this container. void attributeChanged ( Attribute attribute) If the argument is"
+    },
+    {
+      "chunk_id": 24,
+      "text": "eChanged ( Attribute attribute) If the argument is the identifier parameter, then set the title of all contained Tableaux to the value of the parameter; if the argument is the uri parameter, then check to see whether it is writable, and call se"
+    },
+    {
+      "chunk_id": 25,
+      "text": "check to see whether it is writable, and call setModifiable() appropriately. boolean closeTableaux () Close all tableaux contained by this effigy, and by any effigies it contains. static Effigy findToplevelEffigy ( NamedObj object) Find the effig"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ndToplevelEffigy ( NamedObj object) Find the effigy associated with the top level of the object, and if not found but the top level has a ContainmentExtender attribute, use that attribute to find the containment extender of the top level and cont"
+    },
+    {
+      "chunk_id": 27,
+      "text": "the containment extender of the top level and continue the search. TableauFactory getTableauFactory () Get a tableau factory that offers views of this effigy, or null if none has been specified. java.io.File getWritableFile () Return a writable f"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ava.io.File getWritableFile () Return a writable file for the URI given by the uri parameter of this effigy, if there is one, or return null if there is not. boolean isModifiable () Return whether the model data is modifiable. boolean isModified ()"
+    },
+    {
+      "chunk_id": 29,
+      "text": "he model data is modifiable. boolean isModified () Return the data associated with the master effigy (as returned by masterEffigy()) has been modified. boolean isSystemEffigy () Return whether this effigy is a system effigy. Effigy masterEffigy ()"
+    },
+    {
+      "chunk_id": 30,
+      "text": "effigy is a system effigy. Effigy masterEffigy () Return the effigy that is \"in charge\" of this effigy. int numberOfOpenTableaux () Return the total number of open tableau for this effigy effigy and all effigies it contains. void setContainer ( Com"
+    },
+    {
+      "chunk_id": 31,
+      "text": "all effigies it contains. void setContainer ( CompositeEntity container) Override the base class so that tableaux contained by this object are removed before this effigy is removed from the ModelDirectory. void setModifiable (boolean flag) If the"
+    },
+    {
+      "chunk_id": 32,
+      "text": "rectory. void setModifiable (boolean flag) If the argument is false, the specify that that the model is not modifiable, even if the URI associated with this effigy is writable. void setModified (boolean modified) Record whether the data associated"
+    },
+    {
+      "chunk_id": 33,
+      "text": "lean modified) Record whether the data associated with this effigy has been modified since it was first read or last saved. void setSystemEffigy (boolean isSystemEffigy) Set the effigy to be a system effigy if the given flag is true. void setTablea"
+    },
+    {
+      "chunk_id": 34,
+      "text": "m effigy if the given flag is true. void setTableauFactory ( TableauFactory factory) Specify a tableau factory that offers multiple views of this effigy. Tableau showTableaux () Make all tableaux associated with this effigy and any effigies it cont"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ciated with this effigy and any effigies it contains visible by raising or deiconifying them. Effigy topEffigy () Return the top-level effigy that (deeply) contains this one. void writeFile (java.io.File file) Write the model associated with this e"
+    },
+    {
+      "chunk_id": 36,
+      "text": ".File file) Write the model associated with this effigy to the specified file. Methods inherited from class ptolemy.kernel. CompositeEntity _addEntity , _addRelation , _adjustDeferrals , _containedDecorators , _deepOpaqueEntityList , _description ,"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ecorators , _deepOpaqueEntityList , _description , _exportMoMLContents , _finishedAddEntity , _removeRelation , _validateSettables , allAtomicEntityList , allowLevelCrossingConnect , classDefinitionList , clone , connect , connect , containedObjectsI"
+    },
+    {
+      "chunk_id": 38,
+      "text": "st , clone , connect , connect , containedObjectsIterator , deepCompositeEntityList , deepEntityList , deepGetEntities , deepNamedObjList , deepOpaqueEntityList , deepRelationSet , entityList , entityList , exportLinks , exportMoML , getAttribute , g"
+    },
+    {
+      "chunk_id": 39,
+      "text": "List , exportLinks , exportMoML , getAttribute , getEntities , getEntity , getPort , getRelation , getRelations , isAtomic , isOpaque , lazyAllAtomicEntityList , lazyAllCompositeEntityList , lazyAllCompositeTransparentAndOpaqueEntityList , lazyClassD"
+    },
+    {
+      "chunk_id": 40,
+      "text": "mpositeTransparentAndOpaqueEntityList , lazyClassDefinitionList , lazyDeepEntityList , lazyEntityList , lazyRelationList , newRelation , numberOfEntities , numberOfRelations , numEntities , numRelations , relationList , removeAllEntities , removeAllR"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ns , relationList , removeAllEntities , removeAllRelations , setClassDefinition , statistics , uniqueName Methods inherited from class ptolemy.kernel. ComponentEntity _checkContainer , _getContainedObject , _propagateExistence , getContainer , instan"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ject , _propagateExistence , getContainer , instantiate , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , newPort , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _addPort , _removePort , connectedPortLi"
+    },
+    {
+      "chunk_id": 43,
+      "text": "l. Entity _addPort , _removePort , connectedPortList , connectedPorts , connectionsChanged , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , ge"
+    },
+    {
+      "chunk_id": 44,
+      "text": "olemy.kernel. InstantiableNamedObj _setParent , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _at"
+    },
+    {
+      "chunk_id": 45,
+      "text": "il. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _noti"
+    },
+    {
+      "chunk_id": 46,
+      "text": ", _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , addHierarchyLis"
+    },
+    {
+      "chunk_id": 47,
+      "text": "hangeListener , addDebugListener , addHierarchyListener , attributeDeleted , attributeList , attributeList , attributeTypeChanged , clone , decorators , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exp"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ibute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObject"
+    },
+    {
+      "chunk_id": 50,
+      "text": "isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , requestChange , setClassName , se"
+    },
+    {
+      "chunk_id": 51,
+      "text": "rarchyListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inhe"
+    },
+    {
+      "chunk_id": 52,
+      "text": "tring , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerived"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getDisplayName , getFullName , getName , getName Field Detail identifier public StringAttribute ident"
+    },
+    {
+      "chunk_id": 54,
+      "text": "eld Detail identifier public StringAttribute identifier The identifier for the effigy. The default value is \"Unnamed\". uri public URIAttribute uri The URI for the effigy. The default value is null. Constructor Detail Effigy public Effigy( Workspace"
+    },
+    {
+      "chunk_id": 55,
+      "text": "Constructor Detail Effigy public Effigy( Workspace workspace) Create a new effigy in the specified workspace with an empty string for its name. Parameters: workspace - The workspace for this effigy. Effigy public Effigy( CompositeEntity container,"
+    },
+    {
+      "chunk_id": 56,
+      "text": "Effigy public Effigy( CompositeEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct an effigy with the given name and container. Parameters: container - The container. name"
+    },
+    {
+      "chunk_id": 57,
+      "text": "iner. Parameters: container - The container. name - The name of the effigy. Throws: IllegalActionException - If the entity cannot be contained by the proposed container. NameDuplicationException - If the name coincides with an entity already in"
+    },
+    {
+      "chunk_id": 58,
+      "text": "If the name coincides with an entity already in the container. Method Detail attributeChanged public void attributeChanged( Attribute attribute) throws IllegalActionException If the argument is the identifier parameter, then"
+    },
+    {
+      "chunk_id": 59,
+      "text": "If the argument is the identifier parameter, then set the title of all contained Tableaux to the value of the parameter; if the argument is the uri parameter, then check to see whether it is writable, and call setModifiable() appropriately. Ove"
+    },
+    {
+      "chunk_id": 60,
+      "text": "table, and call setModifiable() appropriately. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that changed. Throws: IllegalActionException - If the base class throws it. closeTableaux public boolean closeTableaux("
+    },
+    {
+      "chunk_id": 61,
+      "text": "ws it. closeTableaux public boolean closeTableaux() Close all tableaux contained by this effigy, and by any effigies it contains. Returns: False if the user cancels on a save query, and true if all tableaux are successfully closed. findToplevelE"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ll tableaux are successfully closed. findToplevelEffigy public static Effigy findToplevelEffigy( NamedObj object) throws IllegalActionException Find the effigy associated with the top level of the object, and if not"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ted with the top level of the object, and if not found but the top level has a ContainmentExtender attribute, use that attribute to find the containment extender of the top level and continue the search. Parameters: object - The object. Returns"
+    },
+    {
+      "chunk_id": 64,
+      "text": "e search. Parameters: object - The object. Returns: The effigy, or null if not found. Throws: IllegalActionException - If attributes cannot be retrieved, or the container that an attribute points to is invalid. getTableauFactory public TableauFact"
+    },
+    {
+      "chunk_id": 65,
+      "text": "o is invalid. getTableauFactory public TableauFactory getTableauFactory() Get a tableau factory that offers views of this effigy, or null if none has been specified. The tableau factory can be used to create visual renditions of or editors for t"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ed to create visual renditions of or editors for the associated model. It can be used to find out what sorts of views are available for the model. Returns: A tableau factory offering multiple views. See Also: setTableauFactory(TableauFactory) ge"
+    },
+    {
+      "chunk_id": 67,
+      "text": "ws. See Also: setTableauFactory(TableauFactory) getWritableFile public java.io.File getWritableFile() Return a writable file for the URI given by the uri parameter of this effigy, if there is one, or return null if there is not. This will return n"
+    },
+    {
+      "chunk_id": 68,
+      "text": "return null if there is not. This will return null if the file does not exist, or it exists and is not writable, or the uri parameter has not been set. Returns: A writable file, or null if one cannot be created. isModifiable public boolean isMod"
+    },
+    {
+      "chunk_id": 69,
+      "text": "nnot be created. isModifiable public boolean isModifiable() Return whether the model data is modifiable. This is delegated to the effigy returned by masterEffigy(). If this is the master effigy, then whether the data is modifiable depends on wh"
+    },
+    {
+      "chunk_id": 70,
+      "text": "then whether the data is modifiable depends on whether setModifiable() has been called, and if not, on whether there is a URI associated with this effigy and whether that URI is writable. Returns: False to indicate that the model is not modifi"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ns: False to indicate that the model is not modifiable. See Also: masterEffigy() isModified public boolean isModified() Return the data associated with the master effigy (as returned by masterEffigy()) has been modified. This method is intended t"
+    },
+    {
+      "chunk_id": 72,
+      "text": "()) has been modified. This method is intended to be used to keep track of whether the data in the file or URI associated with this data has been modified. The method is called by an instance of TableauFrame to determine whether it is safe"
+    },
+    {
+      "chunk_id": 73,
+      "text": "of TableauFrame to determine whether it is safe to close. Returns: True if the data has been modified. See Also: masterEffigy() , setModifiable(boolean) isSystemEffigy public boolean isSystemEffigy() Return whether this effigy is a system effigy."
+    },
+    {
+      "chunk_id": 74,
+      "text": "() Return whether this effigy is a system effigy. System effigies are not automatically removed when they have no tableaux. Returns: True if the model is a system effigy. masterEffigy public Effigy masterEffigy() Return the effigy that is \"in char"
+    },
+    {
+      "chunk_id": 75,
+      "text": "masterEffigy() Return the effigy that is \"in charge\" of this effigy. In this base class, this is the same as calling topEffigy(). But in derived classes, particularly PtolemyEffigy, it will be different. Returns: The effigy in charge of this e"
+    },
+    {
+      "chunk_id": 76,
+      "text": "different. Returns: The effigy in charge of this effigy. See Also: topEffigy() numberOfOpenTableaux public int numberOfOpenTableaux() Return the total number of open tableau for this effigy effigy and all effigies it contains. Returns: A non-negati"
+    },
+    {
+      "chunk_id": 77,
+      "text": "nd all effigies it contains. Returns: A non-negative integer giving the number of open tableaux. setContainer public void setContainer( CompositeEntity container) throws IllegalActionException , NameDuplicationException Override the"
+    },
+    {
+      "chunk_id": 78,
+      "text": "nException , NameDuplicationException Override the base class so that tableaux contained by this object are removed before this effigy is removed from the ModelDirectory. This causes the frames associated with those tableaux to be closed. Also"
+    },
+    {
+      "chunk_id": 79,
+      "text": "sociated with those tableaux to be closed. Also, if the argument is null and there is a URI associated with this model, then purge any record of the model that the MoMLParser class is keeping so that future efforts to open the model result i"
+    },
+    {
+      "chunk_id": 80,
+      "text": "o that future efforts to open the model result in re-parsing. Overrides: setContainer in class CompositeEntity Parameters: container - The directory in which to list this effigy. Throws: IllegalActionException - If the proposed container is not"
+    },
+    {
+      "chunk_id": 81,
+      "text": "onException - If the proposed container is not an instance of ModelDirectory, or if the superclass throws it. NameDuplicationException - If the container already has an entity with the specified name. See Also: ComponentEntity.getContainer() se"
+    },
+    {
+      "chunk_id": 82,
+      "text": "name. See Also: ComponentEntity.getContainer() setModifiable public void setModifiable(boolean flag) If the argument is false, the specify that that the model is not modifiable, even if the URI associated with this effigy is writable. This alway"
+    },
+    {
+      "chunk_id": 83,
+      "text": "ociated with this effigy is writable. This always sets a flag in the master effigy (as returned by masterEffigy()). If the argument is true, or if this method is never called, then whether the model is modifiable is determined by whether th"
+    },
+    {
+      "chunk_id": 84,
+      "text": "model is modifiable is determined by whether the URI can be written to. Notice that this does not automatically result in any tableaux that are contained switching to being uneditable. But it will prevent them from writing to the URI. Param"
+    },
+    {
+      "chunk_id": 85,
+      "text": "will prevent them from writing to the URI. Parameters: flag - False to prevent writing to the URI. See Also: masterEffigy() , isModifiable() , isModified() , setModified(boolean) setModified public void setModified(boolean modified) Record whether"
+    },
+    {
+      "chunk_id": 86,
+      "text": "void setModified(boolean modified) Record whether the data associated with this effigy has been modified since it was first read or last saved. If you call this with a true argument, then subsequent calls to isModified() will return true. Thi"
+    },
+    {
+      "chunk_id": 87,
+      "text": "ent calls to isModified() will return true. This is used by instances of TableauFrame. This is recorded in the entity returned by topEntity(), which is the one associated with a file. This always sets a flag in the master effigy (as returned"
+    },
+    {
+      "chunk_id": 88,
+      "text": "ways sets a flag in the master effigy (as returned by masterEffigy()). Parameters: modified - True if the data has been modified. See Also: masterEffigy() , isModifiable() , isModified() , setModifiable(boolean) setSystemEffigy public void setSyste"
+    },
+    {
+      "chunk_id": 89,
+      "text": "able(boolean) setSystemEffigy public void setSystemEffigy(boolean isSystemEffigy) Set the effigy to be a system effigy if the given flag is true. System effigies are not removed automatically if they have no tableaux. Parameters: isSystemEffigy -"
+    },
+    {
+      "chunk_id": 90,
+      "text": "y have no tableaux. Parameters: isSystemEffigy - True if this is to be a system effigy. setTableauFactory public void setTableauFactory( TableauFactory factory) Specify a tableau factory that offers multiple views of this effigy. This can be used"
+    },
+    {
+      "chunk_id": 91,
+      "text": "multiple views of this effigy. This can be used by a contained tableau to set up a View menu. Parameters: factory - A tableau factory offering multiple views. See Also: getTableauFactory() showTableaux public Tableau showTableaux() Make all tablea"
+    },
+    {
+      "chunk_id": 92,
+      "text": "eaux public Tableau showTableaux() Make all tableaux associated with this effigy and any effigies it contains visible by raising or deiconifying them. If there is no tableau contained directly by this effigy, then create one by calling createPr"
+    },
+    {
+      "chunk_id": 93,
+      "text": "this effigy, then create one by calling createPrimaryTableau() in the configuration. Returns: The first tableau encountered, or a new one if there are none. topEffigy public Effigy topEffigy() Return the top-level effigy that (deeply) contains th"
+    },
+    {
+      "chunk_id": 94,
+      "text": "urn the top-level effigy that (deeply) contains this one. If this effigy is contained by another effigy, then return the result of calling this method on that other effigy; otherwise, return this effigy. Returns: The top-level effigy that (deep"
+    },
+    {
+      "chunk_id": 95,
+      "text": "s effigy. Returns: The top-level effigy that (deeply) contains this one. writeFile public void writeFile(java.io.File file) throws java.io.IOException Write the model associated with this effigy to the specified file. This base clas"
+    },
+    {
+      "chunk_id": 96,
+      "text": "is effigy to the specified file. This base class throws an exception, since it does not know how to write model data. Derived classes should override this method to write model data. Parameters: file - The file to write to. Throws: java.io.I"
+    },
+    {
+      "chunk_id": 97,
+      "text": "rs: file - The file to write to. Throws: java.io.IOException - If the write fails. _checkContainer protected void _checkContainer( CompositeEntity container) throws IllegalActionException Check that the specified container is"
+    },
+    {
+      "chunk_id": 98,
+      "text": "onException Check that the specified container is of a suitable class for this entity, i.e., ModelDirectory or Effigy. Parameters: container - The proposed container. Throws: IllegalActionException - If the container is not of an acceptable clas"
+    },
+    {
+      "chunk_id": 99,
+      "text": "- If the container is not of an acceptable class. _removeEntity protected void _removeEntity( ComponentEntity entity) Remove the specified entity from this container. If this effigy is a system effigy and there are no remaining tableaux contai"
+    },
+    {
+      "chunk_id": 100,
+      "text": "ffigy and there are no remaining tableaux contained by this effigy or any effigy it contains, then remove this object from its container. Overrides: _removeEntity in class CompositeEntity Parameters: entity - The tableau to remove. Skip navigatio"
+    },
+    {
+      "chunk_id": 101,
+      "text": "rs: entity - The tableau to remove. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    },
+    {
+      "chunk_id": 102,
+      "text": "Detail: Field | Constr | Method"
+    }
+  ]
+}

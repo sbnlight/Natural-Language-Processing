@@ -1,0 +1,57 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/DuktapeEclipseARMCortexM4",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / Duktape Eclipse ARM Cortex M4 Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / Duktape Eclipse ARM Cortex M4 Overview This"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ain / Duktape Eclipse ARM Cortex M4 Overview This section details the specific for using DUKtape on Cortex-M4 processor. In this case we select Tiva-C microcontroller . Linker File The Linker file is responsible to accommodate the produced executable"
+    },
+    {
+      "chunk_id": 3,
+      "text": "responsible to accommodate the produced executable in the target processor. It shall match the memory map specifications of the target device. For the case Tiva-C (TM4C129N), select the mem.ld file and modify as shown below. Targeting Peripherals i"
+    },
+    {
+      "chunk_id": 4,
+      "text": "and modify as shown below. Targeting Peripherals is the same as with Cortex-M3 Timer Setup As with the Cortex-M3, we used on of the built-in timers to implement the gettimeof day function. The specifics are: The peripheral frequency on the Tiva-C fo"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ics are: The peripheral frequency on the Tiva-C for timers was selected to be 16Mhz and the timers have the capability to define a prescaler, so we can set it up to have a tick of 1us and then and ISR that update a variable called seconds. The limita"
+    },
+    {
+      "chunk_id": 6,
+      "text": "that update a variable called seconds. The limitation is that when timers are used separately, they are 16-bits and the prescaler is only 8-bits. Doing the math: Tq = 1 / 16Mhz = 62.5uS Prescaler = 245 Tq_w_prescaler = 245 * 62.5uS = 0.0153s To get"
+    },
+    {
+      "chunk_id": 7,
+      "text": "245 Tq_w_prescaler = 245 * 62.5uS = 0.0153s To get 1s = 1 / Tq_w_prescaler = 65306 steps [$[Get Code]] Tiva-C counter is set to go in the down direction to have a true-prescaler behavior, so it will be necessary to subtract the top values calculated"
+    },
+    {
+      "chunk_id": 8,
+      "text": "e necessary to subtract the top values calculated and then multiplied them by Tq. The function gettimeofday is implemented as follows: int _gettimeofday ( struct timeval * tv , void * tz ) { unsigned long i , j ; tv -> tv_sec = sysSeconds ; i = ( 653"
+    },
+    {
+      "chunk_id": 9,
+      "text": "long i , j ; tv -> tv_sec = sysSeconds ; i = ( 65306 - ( TIMER1 -> TAV & 0x00FFFF ) ) ; i *= 15312 ; // Every count from prescaler = 0.0153125 // Taking the remains from prescaler j = ( ( TIMER1 -> TAV & 0xFF0000 ) >> 16 ) ; j = 245 - j ; j *= 62 ; t"
+    },
+    {
+      "chunk_id": 10,
+      "text": "V & 0xFF0000 ) >> 16 ) ; j = 245 - j ; j *= 62 ; tv -> tv_usec = i + j ; return ( 0 ) ; } [$[Get Code]] Duktape Event Example This example consist on toggling a LED every 3 seconds using DUKtape. /* * Simple LED time test. */ function main ( ) { set"
+    },
+    {
+      "chunk_id": 11,
+      "text": "Simple LED time test. */ function main ( ) { setInterval ( function ( ) { LedControl. toggle ( 2 ) ; } , 3000 ) ; } main ( ) ; [$[Get Code]] The result operation is shown below See Also Duktape Host Duktape for Small Processors Duktape Eclipse Linu"
+    },
+    {
+      "chunk_id": 12,
+      "text": "Duktape for Small Processors Duktape Eclipse Linux Duktape Eclipse Setup Duktape Eclipse ARM Cortex M3 Duktape Eclipse ARM Cortex M4 DUKtape Implementation In ARM-M4 Heap Configuration For ARM Cortex Signpost TockOS - Notes about the Hail board, whi"
+    },
+    {
+      "chunk_id": 14,
+      "text": "on December 30, 2016, at 04:08 pm"
+    }
+  ]
+}

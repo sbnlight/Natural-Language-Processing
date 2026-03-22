@@ -1,0 +1,325 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII5.0/ptII5.0.1/doc/codeDoc/ptolemy/actor/util/Time.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Time Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.util Class Time java.lang.Object ptolemy.actor.util.Time"
+    },
+    {
+      "chunk_id": 2,
+      "text": "lass Time java.lang.Object ptolemy.actor.util.Time All Implemented Interfaces: java.lang.Comparable public class Time extends java.lang.Object implements java.lang.Comparable An object of the Time class represents model time, as distinct from \"wall-"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ss represents model time, as distinct from \"wall-clock time,\" which is time in the physical world. An instance of Time has a value that is immutable. It has no limit on the magnitude. There are two time constants: NEGATIVE_INFINITY and POSITIVE_IN"
+    },
+    {
+      "chunk_id": 4,
+      "text": "time constants: NEGATIVE_INFINITY and POSITIVE_INFINITY. The time value is quantized to the time resolution specified by the timeResolution parameter of the associated director. The reason for this is that without quantization, it is extremely diff"
+    },
+    {
+      "chunk_id": 5,
+      "text": "is that without quantization, it is extremely difficult to compare two time values with digit-to-digit accuracy because of the unpredictable numerical errors introduced during computation. In practice, two time values can only be distinguished if"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ce, two time values can only be distinguished if their difference can be detected by some measuring instrument, which always has a smallest unit for measurement. This smallest unit measurement gives the physical meaning of the time resolution use"
+    },
+    {
+      "chunk_id": 7,
+      "text": "s the physical meaning of the time resolution used for quantization. The time value can be retrieved in three ways, the toString() method and the getDoubleValue() method and the getLongValue() method. The first method returns a string representatio"
+    },
+    {
+      "chunk_id": 8,
+      "text": "d. The first method returns a string representation while the second method returns a double value. There are some limitations on both methods. For the toString() method, we can not directly do numerical operations on strings. For the getDoubleVal"
+    },
+    {
+      "chunk_id": 9,
+      "text": "rical operations on strings. For the getDoubleValue() method, we can not guarantee that the returned double value preserves the time resolution because of the limited digits for double representation. We recommend to operate on time objects direc"
+    },
+    {
+      "chunk_id": 10,
+      "text": "on. We recommend to operate on time objects directly instead of the time values of time objects. getLongValue() returns an integer multiple of the director resolution. Two operations, add and subtract, can be performed on a time object, where the"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ct, can be performed on a time object, where the argument can be a double or a time object. If the argument is not a time object, the argument is quantized before the operations are performed. These operations return a new time object with a quant"
+    },
+    {
+      "chunk_id": 12,
+      "text": "operations return a new time object with a quantized result. The time value of a time object can be infinite. The add and subtract operations on infinite time values follow rules similar to the IEEE Standard 754 for Floating Point Numbers. In par"
+    },
+    {
+      "chunk_id": 13,
+      "text": "E Standard 754 for Floating Point Numbers. In particular, adding two positive/negative infinities yield a positive/negative infinity; adding a positive infinity and a negative infinity, however, triggers an ArithmeticException; the negation of a"
+    },
+    {
+      "chunk_id": 14,
+      "text": "iggers an ArithmeticException; the negation of a positive/negative infinity is a negative/positive infinity. This class implements the Comparable interface, where two time objects can be compared in the following way. If any of the two time objects"
+    },
+    {
+      "chunk_id": 15,
+      "text": "the following way. If any of the two time objects contains an infinite time value, the rules are: a negative infinity is equal to a negative infinity and less than anything else; a positive infinity is equal to a positive infinity and bigger than"
+    },
+    {
+      "chunk_id": 16,
+      "text": "y is equal to a positive infinity and bigger than anything else. If none of the time objects has an infinite time value, the time values of two time objects are compared. If the time values are the same, the two time objects are treated equal, or"
+    },
+    {
+      "chunk_id": 17,
+      "text": "same, the two time objects are treated equal, or they represent the same model time. Otherwise, the time object containing a bigger time value is regarded to happen after the time object with a smaller time value. All time objects share the same"
+    },
+    {
+      "chunk_id": 18,
+      "text": "aller time value. All time objects share the same time resolution, which is provided by the top-level director. In some domains, such as CT and DE, users can change the time resolution by configuring the timeResolution parameter. The default value"
+    },
+    {
+      "chunk_id": 19,
+      "text": "g the timeResolution parameter. The default value for this parameter \"1E-10\", which has value 10 -10 . To preserve the consistency of time values, timeResolution can not be changed when a model is running (attempting to do so will trigger an excep"
+    },
+    {
+      "chunk_id": 20,
+      "text": "running (attempting to do so will trigger an exception). Since: Ptolemy II 4.1 Version: $Id: Time.java,v 1.43 2005/04/29 20:05:27 cxh Exp $ Author: Haiyang Zheng, Edward A. Lee, Elaine Cheong Accepted Rating: Red (hyzheng) Proposed Rating: Yellow (hy"
+    },
+    {
+      "chunk_id": 21,
+      "text": "Rating: Red (hyzheng) Proposed Rating: Yellow (hyzheng) Field Summary static Time NEGATIVE_INFINITY A static and final time constant holding a negative infinity. static Time POSITIVE_INFINITY A static and final time constant holding a positive infin"
+    },
+    {
+      "chunk_id": 22,
+      "text": "c and final time constant holding a positive infinity. Constructor Summary Time ( Director director) Construct a Time object with zero as the time value. Time ( Director director, double timeValue) Construct a Time object with the specified doub"
+    },
+    {
+      "chunk_id": 23,
+      "text": "e) Construct a Time object with the specified double value as its time value. Time ( Director director, long timeValue) Construct a Time object with the specified long value as its time value. Method Summary Time add (double timeValue) Return"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Method Summary Time add (double timeValue) Return a new time object whose time value is increased by the given double value. Time add ( Time time) Return a new time object whose time value is the sum of that of this time object and of the specifi"
+    },
+    {
+      "chunk_id": 25,
+      "text": "m of that of this time object and of the specified time object. int compareTo (java.lang.Object time) Return -1, 0, or 1 if this time object is less than, equal to, or greater than the given argument. Time divide (long divisor) Return the result"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ent. Time divide (long divisor) Return the result of dividing this time by the specified integer. long divide ( Time interval) Return the result of dividing this time by the specified time interval. boolean equals (java.lang.Object time) Return t"
+    },
+    {
+      "chunk_id": 27,
+      "text": "l. boolean equals (java.lang.Object time) Return true if this time object has the same time value as that of the given time object. double getDoubleValue () Return the double representation of the time value of this time object. long getLongValue"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ime value of this time object. long getLongValue () Return the long representation of the time value of this time object. int hashCode () Return the hash code for the time object. boolean isInfinite () Return true if the current time value is inf"
+    },
+    {
+      "chunk_id": 29,
+      "text": "te () Return true if the current time value is infinite. boolean isNegativeInfinite () Return true if the current time value is a negative infinity. boolean isPositiveInfinite () Return true if the current time value is a positive infinity. double ma"
+    },
+    {
+      "chunk_id": 30,
+      "text": "rrent time value is a positive infinity. double maximumAccurateValueAsDouble () Return the maximum value of time whose representation as a double is always accurate to the specified time resolution. Time multiply (long multiplicand) Return the resu"
+    },
+    {
+      "chunk_id": 31,
+      "text": "Time multiply (long multiplicand) Return the result of multiplying this time by the specified integer. Time subtract (double timeValue) Return a new time object whose time value is decreased by the given double value. Time subtract ( Time time)"
+    },
+    {
+      "chunk_id": 32,
+      "text": "given double value. Time subtract ( Time time) Return a new time object whose time value is decreased by the time value of the specified time object. java.lang.String toString () Return the string representation of this time object. Methods inhe"
+    },
+    {
+      "chunk_id": 33,
+      "text": "g representation of this time object. Methods inherited from class java.lang.Object clone, finalize, getClass, notify, notifyAll, wait, wait, wait Field Detail NEGATIVE_INFINITY public static final Time NEGATIVE_INFINITY A static and final time const"
+    },
+    {
+      "chunk_id": 34,
+      "text": "me NEGATIVE_INFINITY A static and final time constant holding a negative infinity. POSITIVE_INFINITY public static final Time POSITIVE_INFINITY A static and final time constant holding a positive infinity. Constructor Detail Time public Time ( Direct"
+    },
+    {
+      "chunk_id": 35,
+      "text": "nity. Constructor Detail Time public Time ( Director director) throws IllegalActionException Construct a Time object with zero as the time value. This object is associated with the given director, which provides the necessary information for"
+    },
+    {
+      "chunk_id": 36,
+      "text": "or, which provides the necessary information for quantization. Parameters: director - The director with which this time object is associated. This must not be null, or subsequent uses of the class will fail. Throws: IllegalActionException - If t"
+    },
+    {
+      "chunk_id": 37,
+      "text": "s will fail. Throws: IllegalActionException - If the director has an invalid value for its time resolution Time public Time ( Director director, double timeValue) throws IllegalActionException Construct a Time object with the spec"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ionException Construct a Time object with the specified double value as its time value. The specified director provides the resolution that is used to quantize the double value so that the value of the resulting Time object is a multiple of the"
+    },
+    {
+      "chunk_id": 39,
+      "text": "f the resulting Time object is a multiple of the precision. Parameters: director - The director with which this time object is associated. timeValue - A double value as the specified time value. Throws: java.lang.ArithmeticException - If the argume"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ows: java.lang.ArithmeticException - If the argument is NaN. IllegalActionException - If the given double time value does not match the time resolution. Time public Time ( Director director, long timeValue) Construct a Time object with"
+    },
+    {
+      "chunk_id": 41,
+      "text": "long timeValue) Construct a Time object with the specified long value as its time value. Parameters: director - The director with which this time object is associated. timeValue - A double value as the specified time value. Method Detail add pub"
+    },
+    {
+      "chunk_id": 42,
+      "text": "as the specified time value. Method Detail add public Time add (double timeValue) Return a new time object whose time value is increased by the given double value. The specified double value is quantized to a multiple of the precision before it i"
+    },
+    {
+      "chunk_id": 43,
+      "text": "tized to a multiple of the precision before it is added. Parameters: timeValue - The amount of the time increment. Returns: A new time object with the incremented time value. Throws: java.lang.ArithmeticException - If the result is not a valid nu"
+    },
+    {
+      "chunk_id": 44,
+      "text": "meticException - If the result is not a valid number (the argument is NaN or the sum would be), or the given time value does not match the time resolution. add public Time add ( Time time) Return a new time object whose time value is the sum of t"
+    },
+    {
+      "chunk_id": 45,
+      "text": "a new time object whose time value is the sum of that of this time object and of the specified time object. The two time objects are expected to have directors with the same time resolution. If they do not, then the returned result is a new Tim"
+    },
+    {
+      "chunk_id": 46,
+      "text": "they do not, then the returned result is a new Time object representing the sum of the double values of the two Time objects. This would not be as accurate. Parameters: time - The time object contains the amount of time increment. Returns: A new"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ains the amount of time increment. Returns: A new time object with the quantized and incremented time value. Throws: java.lang.ArithmeticException - If the result is not a valid number (it is the sum of positive and negative infinity). compareTo p"
+    },
+    {
+      "chunk_id": 48,
+      "text": "um of positive and negative infinity). compareTo public int compareTo (java.lang.Object time) Return -1, 0, or 1 if this time object is less than, equal to, or greater than the given argument. Note that a ClassCastException will be thrown if the"
+    },
+    {
+      "chunk_id": 49,
+      "text": "that a ClassCastException will be thrown if the argument is not an instance of Time. This object expects the directors associated with this and the specified Time objects to have the same time resolution. If this is not the case, then it comp"
+    },
+    {
+      "chunk_id": 50,
+      "text": "esolution. If this is not the case, then it compares the double representations of those time values, which is not as accurate. Specified by: compareTo in interface java.lang.Comparable Parameters: time - A time object to compare to. Returns: The"
+    },
+    {
+      "chunk_id": 51,
+      "text": ": time - A time object to compare to. Returns: The integer -1, 0, or 1 if this is less than, equal to, or greater than the argument. divide public long divide ( Time interval) Return the result of dividing this time by the specified time interva"
+    },
+    {
+      "chunk_id": 52,
+      "text": "dividing this time by the specified time interval. That is, the returned value represents how many times the specified time interval fits within this time. If the two time resolutions are not the same, or if the interval is zero, then throw"
+    },
+    {
+      "chunk_id": 53,
+      "text": "he same, or if the interval is zero, then throw an exception. If the specified interval is infinite, then return 0. If this time is infinite, and the specified time is finite, then return either Long.MAX_VALUE or Long.MIN_VALUE, depending o"
+    },
+    {
+      "chunk_id": 54,
+      "text": "er Long.MAX_VALUE or Long.MIN_VALUE, depending on the sign. If the result is larger than what fits in the returned long value, then return the low-order 64 bits of the result. Note if the result is interpreted numerically, then it could be"
+    },
+    {
+      "chunk_id": 55,
+      "text": "lt is interpreted numerically, then it could be wrong by a considerable amount, including having the wrong sign. A reasonable use of the returned result is to perform a modulo operation on it by masking some low order bits. Parameters: interval"
+    },
+    {
+      "chunk_id": 56,
+      "text": "masking some low order bits. Parameters: interval - The time interval to divide by. Returns: The number of times the interval fits entirely within this time. Throws: java.lang.ArithmeticException - If the interval is zero, or if the time resol"
+    },
+    {
+      "chunk_id": 57,
+      "text": "- If the interval is zero, or if the time resolution of the specified interval is not the same as that of this object. divide public Time divide (long divisor) Return the result of dividing this time by the specified integer. If this time is"
+    },
+    {
+      "chunk_id": 58,
+      "text": "time by the specified integer. If this time is infinite, then the result will be infinite. Parameters: divisor - The number to divide by. Returns: A new Time object representing the result of division. Throws: java.lang.ArithmeticException - If"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ision. Throws: java.lang.ArithmeticException - If the divisor is zero. equals public boolean equals (java.lang.Object time) Return true if this time object has the same time value as that of the given time object. Parameters: time - The time object"
+    },
+    {
+      "chunk_id": 60,
+      "text": "en time object. Parameters: time - The time object that this time object is compared to. Returns: True if the two time objects have the same time value. getDoubleValue public double getDoubleValue () Return the double representation of the time value"
+    },
+    {
+      "chunk_id": 61,
+      "text": "Return the double representation of the time value of this time object. Note that the returned result is not necessarily as accurate as the internal representation. In particular, if the internal representation is too large, then then the re"
+    },
+    {
+      "chunk_id": 62,
+      "text": "al representation is too large, then then the returned result may be infinite. In addition, if the magnitude of the retuned number is large relative to the time resolution of the associated director, then the result may be inaccurate by more"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ector, then the result may be inaccurate by more than the time resolution. Returns: The double representation of the time value. getLongValue public long getLongValue () Return the long representation of the time value of this time object. The l"
+    },
+    {
+      "chunk_id": 64,
+      "text": "on of the time value of this time object. The long representation is a multiple of the resolution of the associated director. Note that a Time value of positive infinity will return Long.MAX_VALUE and a Time value of negative infinity will"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ALUE and a Time value of negative infinity will return Long.MIN_VALUE. hashCode public int hashCode () Return the hash code for the time object. If two time objects contains the same quantized time value, they have the same hash code. Note that"
+    },
+    {
+      "chunk_id": 66,
+      "text": "e value, they have the same hash code. Note that the quantization is performed on the time value before calculating the hash code. Returns: The hash code for the time object. isInfinite public boolean isInfinite () Return true if the current time"
+    },
+    {
+      "chunk_id": 67,
+      "text": "lean isInfinite () Return true if the current time value is infinite. Returns: true if the current time value is infinite. isNegativeInfinite public boolean isNegativeInfinite () Return true if the current time value is a negative infinity. Returns:"
+    },
+    {
+      "chunk_id": 68,
+      "text": "rrent time value is a negative infinity. Returns: true if the current time value is a negative infinity. isPositiveInfinite public boolean isPositiveInfinite () Return true if the current time value is a positive infinity. Returns: true if the curren"
+    },
+    {
+      "chunk_id": 69,
+      "text": "s a positive infinity. Returns: true if the current time value is a positive infinity. maximumAccurateValueAsDouble public double maximumAccurateValueAsDouble () Return the maximum value of time whose representation as a double is always accurate t"
+    },
+    {
+      "chunk_id": 70,
+      "text": "representation as a double is always accurate to the specified time resolution. In other words, if you ask this instance of Time for its value as a double, if the returned double is larger than the number returned by this method, then the do"
+    },
+    {
+      "chunk_id": 71,
+      "text": "the number returned by this method, then the double representation is not necessarily accurate to the specified resolution. Returns: The maximum value of time above which the double representation may not be accurate to the specified resoluti"
+    },
+    {
+      "chunk_id": 72,
+      "text": "n may not be accurate to the specified resolution. multiply public Time multiply (long multiplicand) Return the result of multiplying this time by the specified integer. If this time is infinite, then the result will be infinite. Parameters: m"
+    },
+    {
+      "chunk_id": 73,
+      "text": "then the result will be infinite. Parameters: multiplicand - The number to multiply by. Returns: A new Time object representing the product. subtract public Time subtract (double timeValue) Return a new time object whose time value is decreased by"
+    },
+    {
+      "chunk_id": 74,
+      "text": "a new time object whose time value is decreased by the given double value. Quantization is performed on both the timeValue argument and the result. Parameters: timeValue - The amount of time decrement. Returns: A new time object with time value d"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ment. Returns: A new time object with time value decremented. subtract public Time subtract ( Time time) Return a new time object whose time value is decreased by the time value of the specified time object. This method assumes that the two time"
+    },
+    {
+      "chunk_id": 76,
+      "text": "e object. This method assumes that the two time values have directors with the same time resolution. If this is not the case, then the result is a new Time object whose value is constructed from the difference between the double values for th"
+    },
+    {
+      "chunk_id": 77,
+      "text": "the difference between the double values for this and the specified Time objects, using the time resolution of the director of this one. Parameters: time - The time object contains the amount of time decrement. Returns: A new time object with ti"
+    },
+    {
+      "chunk_id": 78,
+      "text": "time decrement. Returns: A new time object with time value decremented. toString public java.lang.String toString () Return the string representation of this time object. This is actually an approximation generated by first converting to a double."
+    },
+    {
+      "chunk_id": 79,
+      "text": "mation generated by first converting to a double. Note that the string representation of infinities can not be used to construct the time objects containing infinite time values. Returns: A String representation of this time object. Overview Pack"
+    },
+    {
+      "chunk_id": 80,
+      "text": "representation of this time object. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

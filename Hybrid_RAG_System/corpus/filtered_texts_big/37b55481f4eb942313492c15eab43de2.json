@@ -1,0 +1,373 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/glookup",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. # Important Assumptions: This script runs under the run-as-class-master # wrapper, which gives it the effectiv"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ass-master # wrapper, which gives it the effective UID of the class master account, # sets PATH to /usr/bin, MASTERDIR and GRADINGDIR to the correct values, # copies HOME and PWD from the user, and clears the rest of the environment, # including e"
+    },
+    {
+      "chunk_id": 3,
+      "text": "clears the rest of the environment, # including environment variables affecting Perl. use Getopt::Std; use POSIX qw(strftime floor ceil); $noinit = 1; @ARGV0 = @ARGV; unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingB"
+    },
+    {
+      "chunk_id": 4,
+      "text": "1b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"af:d:lts:b:F:\", 0, 2); if ($opt_d) { $opt_d =~ s{ /+$ }{}x; $ENV{'GRADINGDIR'} = $opt_d; # Remove special class-master privilege, running as real user. $> = $<; } requi"
+    },
+    {
+      "chunk_id": 5,
+      "text": "vilege, running as real user. $> = $<; } require \"GradingCommon.pl\"; GetPermissions ($0, @ARGV0) unless ($opt_d); $ENV{\"PATH\"}='/usr/bin'; $LOGIN_FIELD = 0; $FIRST_NAME_FIELD = 2; $LAST_NAME_FIELD = 1; $SID_FIELD = 3; $GRADE_FILE = \"$SECRET_DI"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ELD = 1; $SID_FIELD = 3; $GRADE_FILE = \"$SECRET_DIR/grade.book\"; sub FindStudentByName { my $key = shift; my ($patn, $login); $key =~ /(.*?)(?:,(.*))?$/; $patn = \"^$1,$2\"; open (GRADES, \"$GRADE_FILE\") || Fatal (\"Could n"
+    },
+    {
+      "chunk_id": 7,
+      "text": "GRADES, \"$GRADE_FILE\") || Fatal (\"Could not open the grade book ($!).\"); my @entries = (); ; ; foreach ( ) { @_ = split; if ((lc ($_[$LAST_NAME_FIELD]) . \",\" . lc ($_[$FIRST_NAME_FIELD])) =~ /$patn/i) { push @entries, $_;"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ELD])) =~ /$patn/i) { push @entries, $_; $login = $_[$LOGIN_FIELD]; } } close (GRADES); if (not @entries) { Fatal (\"No students named $key.\"); } if ($#entries > 0) { Note (\"'$key' is ambiguous. Options are:\");"
+    },
+    {
+      "chunk_id": 9,
+      "text": "{ Note (\"'$key' is ambiguous. Options are:\"); foreach (@entries) { @_ = split; Note (\" $_[$LAST_NAME_FIELD], $_[$FIRST_NAME_FIELD] ($_[$SID_FIELD]) $_[$LOGIN_FIELD]\"); } Fatal (\"Try a more specific name, or use student's login.\");"
+    },
+    {
+      "chunk_id": 10,
+      "text": "more specific name, or use student's login.\"); } return $login; } sub SubmissionId { my $file = shift; my $result; open(SUBM, $file) or return \"\"; if ( =~ /GIT/) { ; $result = ; chomp $result; $result"
+    },
+    {
+      "chunk_id": 11,
+      "text": "$result = ; chomp $result; $result = \" ($result)\"; } else { $result = \"\"; } close(SUBM); return $result; } $me = MyLogin (); $amAuthorized = $AUTHORIZED{$me} || $opt_d; $now = time (); if (($opt_a and $#ARGV"
+    },
+    {
+      "chunk_id": 12,
+      "text": "| $opt_d; $now = time (); if (($opt_a and $#ARGV >= 0) or ($opt_f and (not $opt_a or not ($opt_f =~ /^(std|csv)$/))) or (($opt_t or $opt_a) and ($opt_l or $opt_s)) or (not $opt_t and $#ARGV > 0) or (($opt_b or $opt_F) and not $opt_s)"
+    },
+    {
+      "chunk_id": 13,
+      "text": "GV > 0) or (($opt_b or $opt_F) and not $opt_s)) { Usage (); } if ($opt_s) { @hist_cols = split (/,/, $opt_s); foreach $col (@hist_cols) { $hist_cols{$col} = 1; if ($col eq \"Total\") { next; } if (not Assi"
+    },
+    {
+      "chunk_id": 14,
+      "text": "\"Total\") { next; } if (not AssignmentExists ($col)) { Fatal (\"There is no assignment $col.\"); } if ($ASSGN_HIDDEN{$col}) { Fatal (\"Assignment $col is unavailable at this time.\\n\"); } } } if ($#ARGV"
+    },
+    {
+      "chunk_id": 15,
+      "text": "le at this time.\\n\"); } } } if ($#ARGV >= 0) { $login = $ARGV[0]; if (not StudentExists ($login)) { if (StudentExists (\"${CLASSPREFIX}$login\")) { $login = \"${CLASSPREFIX}$login\"; } } if ($login ne $me && ! $amAuthori"
+    },
+    {
+      "chunk_id": 16,
+      "text": "n\"; } } if ($login ne $me && ! $amAuthorized) { Fatal (\"You are not authorized to look at grades for $login.\"); } if (not StudentExists ($login)) { $login = FindStudentByName ($login); } } elsif ($opt_a) { if (! $amAuthoriz"
+    },
+    {
+      "chunk_id": 17,
+      "text": "n); } } elsif ($opt_a) { if (! $amAuthorized) { Fatal (\"You are not authorized to look at all grades.\"); } } else { $login = $me; } if ($opt_t) { if ($#ARGV == 1) { if (! AssignmentExists ($ARGV[1])) { Fatal"
+    },
+    {
+      "chunk_id": 18,
+      "text": "AssignmentExists ($ARGV[1])) { Fatal (\"Error: assignment $ARGV[1] not found.\"); } @assigns = ($ARGV[1]); } else { @assigns = @ASSIGNMENT_LIST; } %deadlineException = GetDeadlineExceptions (0); $nu"
+    },
+    {
+      "chunk_id": 19,
+      "text": "lineException = GetDeadlineExceptions (0); $numAssgns = 0; $assgnLen = 0; foreach $assgn (@assigns) { $assgnLen = length ($assgn) if length ($assgn) > $assgnLen; } foreach $assgn (@assigns) { if ($ASSGN_SUBMIT{$assgn}) {"
+    },
+    {
+      "chunk_id": 20,
+      "text": "n (@assigns) { if ($ASSGN_SUBMIT{$assgn}) { my @submissions = ExistingSubmissionFiles($login, $assgn); next if not @submissions; @submissions = sort SubmissionOrder @submissions; if ($numAssgns == 0) { print \"Submissions"
+    },
+    {
+      "chunk_id": 21,
+      "text": "; if ($numAssgns == 0) { print \"Submissions for $login (lateness in [+dd:hh:mm]):\\n\"; } $numAssgns += 1; printf \"%*s: \", $assgnLen + 4, $assgn; $nsubmits = 0; foreach $subm_file (@submissions) { $subm ="
+    },
+    {
+      "chunk_id": 22,
+      "text": "subm_file (@submissions) { $subm = Basename($subm_file); $subm =~ /\\.([0-9]+)$/; $time = TimeStampToTime ($1); if ($nsubmits > 0 && $nsubmits % 2 == 0) { printf \"\\n%*s\", $assgnLen + 6, \"\"; } elsif ($nsubmits > 0) {"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ssgnLen + 6, \"\"; } elsif ($nsubmits > 0) { print \", \"; } $nsubmits += 1; print strftime (\"%a %b %e %H:%M:%S\", localtime ($time)); print SubmissionId($subm_file); $due = $deadlineException{\"$assgn/$login\"} || $AS"
+    },
+    {
+      "chunk_id": 24,
+      "text": "$deadlineException{\"$assgn/$login\"} || $ASSGN_DUE{$assgn}; if ($due and $due < $time) { $late = ($time - $due) / 60; if ($late > 24*60) { printf \" [+%d:%02d:%02d]\", $late/(60*24), ($late/60)%24, $late%60; }"
+    },
+    {
+      "chunk_id": 25,
+      "text": "*24), ($late/60)%24, $late%60; } else { printf \" [+%d:%02d]\", $late/60, $late%60; } } } print \"\\n\"; } } if ($numAssgns == 0 and $#ARGV < 1) { print \"We have no submissions on file from $login.\"; } e"
+    },
+    {
+      "chunk_id": 26,
+      "text": "have no submissions on file from $login.\"; } elsif ($numAssgns == 0) { print \"We have no submissions of $ARGV[1] on file from $login.\"; } print \"\\n\"; exit (0); } open (GRADES, \"$GRADE_FILE\") || Fatal (\"Could not open the gr"
+    },
+    {
+      "chunk_id": 27,
+      "text": "GRADE_FILE\") || Fatal (\"Could not open the grade book ($!).\"); undef %notes; if (not $opt_a and open (NOTES, \"$GRADE_FILE.notes\")) { while ( ) { ($assgn, $comments) = /^\\s*$login\\s+(\\S+)(?:\\s+(.*))?/; if (! $opt_l) { $comments =~ s{"
+    },
+    {
+      "chunk_id": 28,
+      "text": "\\s+(.*))?/; if (! $opt_l) { $comments =~ s{ //.*$ }{}x; } if ($assgn) { $notes{$assgn} = $comments; } } close (NOTES); } $assgnFieldSize = 6; undef %categoryMax; undef %categoryMaxSoFar; $maxTotal = $maxTotalSoFar = 0; f"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ategoryMaxSoFar; $maxTotal = $maxTotalSoFar = 0; foreach $assgn (@ASSIGNMENT_LIST) { $category = $ASSGN_CATEGORY{$assgn}; $maxscore = $ASSGN_MAX{$assgn} * $ASSGN_WEIGHT{$assgn}; $totalInCategory{$category} += 1; if ($totalInCategory{$"
+    },
+    {
+      "chunk_id": 30,
+      "text": "tegory{$category} += 1; if ($totalInCategory{$category} > ($THROW_OUT_LOWEST{$category} || 0)) { $maxTotal += $maxscore; $categoryMax{$category} += $maxscore; } if (! $ASSGN_HIDDEN{$assgn}) { $numInCategorySoFar{$category} += 1; if ($"
+    },
+    {
+      "chunk_id": 31,
+      "text": "n}) { $numInCategorySoFar{$category} += 1; if ($numInCategorySoFar{$category} > ($THROW_OUT_LOWEST{$category} || 0)) { $categoryMaxSoFar{$category} += $maxscore; $maxTotalSoFar += $maxscore; } $assgnFieldSize = length ($assgn) if"
+    },
+    {
+      "chunk_id": 32,
+      "text": "axscore; } $assgnFieldSize = length ($assgn) if $assgnFieldSize < length ($assgn); } } # Gather list of column headings and skip the \"weights\" line. @columnNames = split (/\\s+/, ); if (! @columnNames || eq \"\") { Fatal (\"Grade book appears"
+    },
+    {
+      "chunk_id": 33,
+      "text": "nNames || eq \"\") { Fatal (\"Grade book appears to be empty.\"); } # Map column names to column numbers. for ($i = 0; $i <= $#columnNames; $i += 1) { $column{$columnNames[$i]} = $i; } if ($opt_a) { $opt_f = \"std\" if (not $opt_f); %prin"
+    },
+    {
+      "chunk_id": 34,
+      "text": "a) { $opt_f = \"std\" if (not $opt_f); %printCols = (); $allAssign = ':' . join (':', @ASSIGNMENT_LIST) . ':'; if ($opt_f eq \"std\") { printf \" Name Login SID \"; } elsif ($opt_f eq \"csv\") { printf '\"LastName\","
+    },
+    {
+      "chunk_id": 35,
+      "text": "} elsif ($opt_f eq \"csv\") { printf '\"LastName\",\"FirstName\",\"Login\",\"SID\"'; } for ($i = 4; $i <= $#columnNames; $i += 1) { if ($allAssign =~ /:$columnNames[$i]:/) { $printCols{$i} = 1; $printWidth[$i] = length ($columnNames[$i"
+    },
+    {
+      "chunk_id": 36,
+      "text": "$printWidth[$i] = length ($columnNames[$i]) < 5 ? 5 : length ($columnNames[$i]); if ($opt_f eq \"std\") { printf \" %$printWidth[$i]s\", $columnNames[$i]; } elsif ($opt_f eq \"csv\") { printf \",\\\"%s\\\"\", $columnNames[$i]; } }"
+    },
+    {
+      "chunk_id": 37,
+      "text": "{ printf \",\\\"%s\\\"\", $columnNames[$i]; } } } printf \"\\n\"; while ( ) { @line = split (/\\s+/); if ($opt_f eq \"std\") { printf \"%20s %8s %9s\", \"$line[$LAST_NAME_FIELD], $line[$FIRST_NAME_FIELD]\", $line[$LOGIN_FIELD]"
+    },
+    {
+      "chunk_id": 38,
+      "text": "line[$FIRST_NAME_FIELD]\", $line[$LOGIN_FIELD], $line[$SID_FIELD]; } elsif ($opt_f eq \"csv\") { printf \"\\\"%s\\\",\\\"%s\\\",\\\"%s\\\",\\\"%s\\\"\", $line[$LAST_NAME_FIELD], $line[$FIRST_NAME_FIELD], $line[$LOGIN_FIELD], $line[$SID_FIELD]; } fo"
+    },
+    {
+      "chunk_id": 39,
+      "text": "$line[$LOGIN_FIELD], $line[$SID_FIELD]; } for ($i = 4; $i <= $#columnNames; $i += 1) { if ($printCols{$i}) { if ($opt_f eq \"csv\") { if ($line[$i] eq \"---\") { printf ',\"\"'; } else { printf \",\\\"%s\\\"\", $line[$i]; }"
+    },
+    {
+      "chunk_id": 40,
+      "text": "} else { printf \",\\\"%s\\\"\", $line[$i]; } } elsif (IsNumeric ($line[$i])) { printf \" %$printWidth[$i].1f\", $line[$i]; } else { printf \" %$printWidth[$i]s\", \"$line[$i] \"; } } } printf \"\\n\"; } exit 0; } #"
+    },
+    {
+      "chunk_id": 41,
+      "text": "} } printf \"\\n\"; } exit 0; } # sum \\@A # The sum of the elements of @A. sub sum { my $A = shift; my ($total, $i); $total = 0; for ($i = 0; $i <= $#$A; $i += 1) { $total += $$A[$i]; } return $total; } # s"
+    },
+    {
+      "chunk_id": 42,
+      "text": "$total += $$A[$i]; } return $total; } # statistic \\@grades $p # is the nominal grade >= a fraction $p of @grades, assuming the # the latter is sorted in increasing order. sub statistic { my ($allGrades, $fraction) = @_; my $t ="
+    },
+    {
+      "chunk_id": 43,
+      "text": "my ($allGrades, $fraction) = @_; my $t = ($#$allGrades + 1) * $fraction; $l = floor($t); $u = ceil($t); return $$allGrades[$l] * ($l - $t + 1) + $$allGrades[$u] * ($t - $l); } # displayStats $maxScore, $gradeToRank, $bucket"
+    },
+    {
+      "chunk_id": 44,
+      "text": "} # displayStats $maxScore, $gradeToRank, $bucketSize, @grades # Prints statistics about @grades, assuming that $maxScore is the maximum # possible score. If $gradeToRank is positive, its rank among @grades is # printed. The statistics include a h"
+    },
+    {
+      "chunk_id": 45,
+      "text": "@grades is # printed. The statistics include a histogram, whose buckets contain a # range of $bucketSize grades, if $bucketSize is non-zero (otherwise # chooses a reasonable default). Prints to standard output. sub displayStats { my ($maxScore"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ndard output. sub displayStats { my ($maxScore, $gradeToRank, $bucketSize, @allGrades) = @_; my $nGrades = $#allGrades + 1; my $minScore; my ($mean, $stddev, @histogram, $rank); my ($i, $j); if ($nGrades < 5) { Fatal (\"Not"
+    },
+    {
+      "chunk_id": 47,
+      "text": "y ($i, $j); if ($nGrades < 5) { Fatal (\"Not enough grades to compute statistics\\n\"); } @allGrades = sort {$a <=> $b} (@allGrades); if ($allGrades[0] < 0) { $minScore = $allGrades[0]; } else { $minScore = 0; } $mean ="
+    },
+    {
+      "chunk_id": 48,
+      "text": "]; } else { $minScore = 0; } $mean = sum (\\@allGrades) / $nGrades; my $var = 0; for ($i = 0; $i < $nGrades; $i += 1) { $var += ($allGrades[$i] - $mean) * ($allGrades[$i] - $mean); } $var = $var / ($nGrades - 1); #"
+    },
+    {
+      "chunk_id": 49,
+      "text": "$mean); } $var = $var / ($nGrades - 1); # unbiased estimator uses n-1... $stddev = sqrt($var) * ($nGrades - 0.75) / ($nGrades - 1); # and to be REALLY anal, we do this # tweak to get approximately unbiased # estimate of sigm"
+    },
+    {
+      "chunk_id": 50,
+      "text": "get approximately unbiased # estimate of sigma. if ($bucketSize <= 0) { $bucketSize = sqrt($maxScore-$minScore)/2; if ($bucketSize == 0) { $bucketSize = 1; } } if ($minScore < 0) { # Avoid having"
+    },
+    {
+      "chunk_id": 51,
+      "text": "} if ($minScore < 0) { # Avoid having a bucket straddle 0. $minScore = floor($minScore / $bucketSize) * $bucketSize; } for ($i = 0; $i < $nGrades; $i += 1) { $histogram[($allGrades[$i] - $minScore) / $bucketSize] += 1;"
+    },
+    {
+      "chunk_id": 52,
+      "text": "$allGrades[$i] - $minScore) / $bucketSize] += 1; } for ($i = 1; $i <= $nGrades; $i += 1) { if ($allGrades[$nGrades-$i] == $gradeToRank) { $rank = $i; last; } } my $max_bucket; $max_bucket = 0; foreach (@histogram"
+    },
+    {
+      "chunk_id": 53,
+      "text": "cket; $max_bucket = 0; foreach (@histogram) { if ($_ > $max_bucket) { $max_bucket = $_; } } my (@modes, $ambiguousMode); for (my $i = 0; $i <= $#histogram; $i += 1) { if ($histogram[$i] == $max_bucket) { push @modes,"
+    },
+    {
+      "chunk_id": 54,
+      "text": "histogram[$i] == $max_bucket) { push @modes, $i; } } $mode = $modes[$#modes / 2]; $ambiguousMode = $#modes > 0 ? \" (ambiguous)\" : \"\"; if ($gradeToRank) { printf \"Your score: %5.1f (#%d out of %d)\\n\", $gradeTo"
+    },
+    {
+      "chunk_id": 55,
+      "text": "%5.1f (#%d out of %d)\\n\", $gradeToRank, $rank, $nGrades; } else { printf \"Number of grades reported: %5d\\n\", $nGrades; } printf \"Mean: %5.1f\\n\", $mean; printf \"Mode: %5"
+    },
+    {
+      "chunk_id": 56,
+      "text": ", $mean; printf \"Mode: %5.1f%s\\n\", $mode*$bucketSize + $minScore, $ambiguousMode; printf \"Standard deviation: %5.1f\\n\", $stddev; printf \"Minimum: %5.1f\\n\", $allGrades[0]; printf \""
+    },
+    {
+      "chunk_id": 57,
+      "text": "%5.1f\\n\", $allGrades[0]; printf \"1st quartile: %5.1f\\n\", statistic (\\@allGrades, 0.25); printf \"2nd quartile (median): %5.1f\\n\", statistic (\\@allGrades, 0.50); printf \"3rd quartile: %5."
+    },
+    {
+      "chunk_id": 58,
+      "text": "0.50); printf \"3rd quartile: %5.1f\\n\", statistic (\\@allGrades, 0.75); printf \"Maximum: %5.1f\\n\", $allGrades[$#allGrades]; printf \"Nominal max possible: %5.1f\\n\", $maxScore; printf \"Distributio"
+    },
+    {
+      "chunk_id": 59,
+      "text": "%5.1f\\n\", $maxScore; printf \"Distribution:\\n\"; $maxbucket = $histogram[0]; for ($i = 0; $i <= $#histogram; $i += 1) { $maxbucket = $histogram[$i] if ($maxbucket < $histogram[$i]); } for ($i = 0; $i <= $#histogram; $i += 1)"
+    },
+    {
+      "chunk_id": 60,
+      "text": "} for ($i = 0; $i <= $#histogram; $i += 1) { printf \"%5.1f -%5.1f:%6d \", $i*$bucketSize + $minScore, ($i+1)*$bucketSize + $minScore, $histogram[$i]; for ($j = 0; $j < 20 * $histogram[$i] / $maxbucket; $j += 1) { pr"
+    },
+    {
+      "chunk_id": 61,
+      "text": "* $histogram[$i] / $maxbucket; $j += 1) { print \"*\"; } print \"\\n\"; } } # Initialize grade map [I don't use this at the moment really]. @minScores = values %GRADE_SCALE; @letterGrades = keys %GRADE_SCALE; $worst = 0; for ($i = 1; $i <= $"
+    },
+    {
+      "chunk_id": 62,
+      "text": "eys %GRADE_SCALE; $worst = 0; for ($i = 1; $i <= $#minScores; $i += 1) { if ($minScores[$i] < $minScores[$worst]) { $worst = $i; } } # rankScoresByCategory LINE returns an array of ranks, parallel to LINE, giving # the position of ea"
+    },
+    {
+      "chunk_id": 63,
+      "text": "nks, parallel to LINE, giving # the position of each score in LINE amongst all scores in LINE with the same # category (0 means lowest). \"---\" scores count as 0. The rank is 0 for all # entries that don't correspond to an assignment or a category."
+    },
+    {
+      "chunk_id": 64,
+      "text": "don't correspond to an assignment or a category. sub rankScoresByCategory { my @line = @_; @ranks = (); for (my $j = 0; $j <= $#line; $j += 1) { my $assgn0 = $columnNames[$j]; my $rank; $rank = 0; if ($ASSIGNMENTS{$assgn0} and $ASSGN"
+    },
+    {
+      "chunk_id": 65,
+      "text": "$rank = 0; if ($ASSIGNMENTS{$assgn0} and $ASSGN_CATEGORY{$assgn0}) { my $score0 = ($line[$j] eq \"---\" ? 0 : $line[$j]) * $ASSGN_WEIGHT{$assgn0}; for (my $k = 0; $k <= $#line; $k += 1) { my $assgn1 = $columnNames[$k]; if ($k != $j"
+    },
+    {
+      "chunk_id": 66,
+      "text": "{ my $assgn1 = $columnNames[$k]; if ($k != $j and $ASSIGNMENTS{$assgn1} and $ASSGN_CATEGORY{$assgn0} eq $ASSGN_CATEGORY{$assgn1}) { my $score1 = ($line[$k] eq \"---\" ? 0 : $line[$k]) * $ASSGN_WEIGHT{$assgn1}; if ($score0"
+    },
+    {
+      "chunk_id": 67,
+      "text": "]) * $ASSGN_WEIGHT{$assgn1}; if ($score0 > $score1 or ($score0 == $score1 and $j < $k)) { $rank += 1; } } } } push (@ranks, $rank); } return @ranks; } # NOTE: much of this is cut and paste from assign-letter-grade"
+    },
+    {
+      "chunk_id": 68,
+      "text": "of this is cut and paste from assign-letter-grade. There is # redundant stuff that could well be trimmed. # categoryGrades @LINE is a map from # assignment name -> raw assignment score from LINE # \"w\" + assignment name -> weighted assignmen"
+    },
+    {
+      "chunk_id": 69,
+      "text": "# \"w\" + assignment name -> weighted assignment score # category name -> category total (minus low grades, if low grades # discarded) # \"Total\" -> total score (minus discarded low grades) # \"Grade\" -> letter grade based on tota"
+    },
+    {
+      "chunk_id": 70,
+      "text": "grades) # \"Grade\" -> letter grade based on total # \"Login\", \"Last\", \"First\", \"SID\" -> respective values from @LINE. # \"Name\" -> last, first name # \"Code\" -> code phrase registered entered login. sub categoryGrades { @line = @_; my"
+    },
+    {
+      "chunk_id": 71,
+      "text": "login. sub categoryGrades { @line = @_; my %vals; ($vals{'Login'}, $vals{'Last'}, $vals{'First'}, $vals{'SID'}) = @line; return () if (!$vals{'Login'}); $vals{'Name'} = \"$vals{'Last'}, $vals{'First'}\"; $vals{'Code'} = GetC"
+    },
+    {
+      "chunk_id": 72,
+      "text": "Last'}, $vals{'First'}\"; $vals{'Code'} = GetCode ($vals{'Login'}); foreach $assgn (@ASSIGNMENT_LIST) { if (exists ($column{$assgn}) && $column{$assgn} !~ /^-+$/) { $vals{\"w$assgn\"} = $line[$column{$assgn}] * $ASSGN_WEIGHT{$assgn};"
+    },
+    {
+      "chunk_id": 73,
+      "text": "line[$column{$assgn}] * $ASSGN_WEIGHT{$assgn}; $vals{$assgn} = $line[$column{$assgn}]; } else { $vals{\"w$assgn\"} = \"---\"; $vals{$assgn} = \"---\"; } } $vals{'Total'} = 0; foreach $category (keys %IS_CATEGORY) { @scores ="
+    },
+    {
+      "chunk_id": 74,
+      "text": "oreach $category (keys %IS_CATEGORY) { @scores = (); foreach $assgn (@ASSIGNMENT_LIST) { if ($ASSGN_CATEGORY{$assgn} eq $category) { push (@scores, $vals{\"w$assgn\"}); } } if ($THROW_OUT_LOWEST{$category}) { @scores = sort { $a <="
+    },
+    {
+      "chunk_id": 75,
+      "text": "T_LOWEST{$category}) { @scores = sort { $a <=> $b } @scores; splice @scores, 0, $THROW_OUT_LOWEST{$category}; } $vals{'Total'} += ($vals{$category} = sum (\\@scores)); } $k = $worst; $score = $vals{'Total'}; for ($i ="
+    },
+    {
+      "chunk_id": 76,
+      "text": "worst; $score = $vals{'Total'}; for ($i = 0; $i <= $#minScores; $i += 1) { if ($score >= $minScores[$i] && $minScores[$i] > $minScores[$k]) { $k = $i; } } $vals{'Grade'} = $letterGrades[$k]; return %vals; } if ($opt_s) {"
+    },
+    {
+      "chunk_id": 77,
+      "text": "erGrades[$k]; return %vals; } if ($opt_s) { # Collect all grade totals for selected assignments $maxGrade = undef; $gradeToRank = undef; %allGrades = (); while ( ) { @line = split(/\\s+/); %cgrades = categoryGrades(@line);"
+    },
+    {
+      "chunk_id": 78,
+      "text": "= split(/\\s+/); %cgrades = categoryGrades(@line); next if (not %cgrades); $grade = 0; $isGrade = 0; foreach $col (@hist_cols) { if (! exists($cgrades{$col})) { Fatal (\"Unknown grade $col.\\n\"); } if ($cgrades{$col} ne \"---\") {"
+    },
+    {
+      "chunk_id": 79,
+      "text": "\\n\"); } if ($cgrades{$col} ne \"---\") { $grade += $cgrades{$col}; $isGrade = 1; } } if ($isGrade) { if ((not $opt_F or $cgrades{$opt_F} ne \"---\") and $cgrades{'SID'} != 42) { $a"
+    },
+    {
+      "chunk_id": 80,
+      "text": "and $cgrades{'SID'} != 42) { $allGrades[$#allGrades+1] = $grade; } if (!defined($maxGrade) or $maxGrade < $grade) { $maxGrade = $grade; } } if ($login eq $cgrades{'Login"
+    },
+    {
+      "chunk_id": 81,
+      "text": "} } if ($login eq $cgrades{'Login'}) { printf \"%s: %s %s.\\n\", $cgrades{'Login'}, $cgrades{'First'}, $cgrades{'Last'}; $gradeToRank = $grade if ($isGrade); } } if (not defined $maxGrade) { Fatal"
+    },
+    {
+      "chunk_id": 82,
+      "text": "} } if (not defined $maxGrade) { Fatal (\"Where's Peter Perfect?\\n\"); } $bucketSize = 0; if ($opt_b) { $bucketSize = $opt_b } displayStats ($maxGrade, $gradeToRank, $bucketSize, @allGrades); exit 0; } while"
+    },
+    {
+      "chunk_id": 83,
+      "text": "k, $bucketSize, @allGrades); exit 0; } while ( ) { @line = split (/\\s+/); if ($login eq $line[$LOGIN_FIELD]) { @ranks = rankScoresByCategory (@line); printf \"%s: %s %s.\\n\", $login, $line[$FIRST_NAME_FIELD], $line[$LAST_NAME_FIELD];"
+    },
+    {
+      "chunk_id": 84,
+      "text": "$line[$FIRST_NAME_FIELD], $line[$LAST_NAME_FIELD]; print (\"Assn\" . (\"-\" x ($assgnFieldSize - 4))); print \"---Score/Max----Weight----Reader---Comments\\n\"; $total = 0; undef %totals; for ($i = 0; $i <= $#ASSIGNMENT_LIST; $i += 1) { $assgn ="
+    },
+    {
+      "chunk_id": 85,
+      "text": "$i <= $#ASSIGNMENT_LIST; $i += 1) { $assgn = $ASSIGNMENT_LIST[$i]; next if ($ASSGN_HIDDEN{$assgn}); $category = $ASSGN_CATEGORY{$assgn}; $reader = \"\"; $score = \"---\"; $j = $column{$assgn}; # Not in grade book yet."
+    },
+    {
+      "chunk_id": 86,
+      "text": "olumn{$assgn}; # Not in grade book yet. next if (not defined $j); $score = $line[$j]; if ($columnNames[$j+1] =~ /^rd/ && $line[$j+1] ne \"---\") { $reader = $line[$j+1]; } printf (\"%\" . ($assgnFieldSize+1) . \"s"
+    },
+    {
+      "chunk_id": 87,
+      "text": "} printf (\"%\" . ($assgnFieldSize+1) . \"s \", \"$assgn:\"); if ($ranks[$j] < ($THROW_OUT_LOWEST{$category} || 0)) { printf \"[%5s/%-3s %6s] %9s %s\\n\", $score, $ASSGN_MAX{$assgn}, $ASSGN_WEIGHT{$assgn}, $reader, $notes{$assg"
+    },
+    {
+      "chunk_id": 88,
+      "text": "n}, $ASSGN_WEIGHT{$assgn}, $reader, $notes{$assgn}; } else { printf \"%6s/%-3s %6s %9s %s\\n\", $score, $ASSGN_MAX{$assgn}, $ASSGN_WEIGHT{$assgn}, $reader, $notes{$assgn}; if (IsNumeric ($score)) { $wscore = $score * $ASSGN_WE"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ric ($score)) { $wscore = $score * $ASSGN_WEIGHT{$assgn}; $total += $wscore; $totals{$ASSGN_CATEGORY{$assgn}} += $wscore; } } } printf (\"%\" . ($assgnFieldSize+1) . \"s \", \"Total:\"); printf (\"%6.2f/%3.0f\\n\", $total, $maxTo"
+    },
+    {
+      "chunk_id": 90,
+      "text": "Total:\"); printf (\"%6.2f/%3.0f\\n\", $total, $maxTotalSoFar); $extrapolated = 0; foreach $category (keys %IS_CATEGORY) { if ($categoryMaxSoFar{$category} == 0) { undef $extrapolated; last; } $extrapolated += ($totals{$categor"
+    },
+    {
+      "chunk_id": 91,
+      "text": "} $extrapolated += ($totals{$category} / $categoryMaxSoFar{$category}) * $categoryMax{$category}; } if ($extrapolated) { printf \"Extrapolated total: %6.2f/%3.0f\\n\", $extrapolated, $maxTotal; } exit 0; } } Fatal (\"Found"
+    },
+    {
+      "chunk_id": 92,
+      "text": "ed, $maxTotal; } exit 0; } } Fatal (\"Found no entry for $login.\");"
+    }
+  ]
+}

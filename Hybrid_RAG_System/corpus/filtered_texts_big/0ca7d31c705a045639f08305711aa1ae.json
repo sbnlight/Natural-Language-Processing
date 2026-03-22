@@ -1,0 +1,173 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/report-lateness",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"aAEd:w:sX\", 1"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"aAEd:w:sX\", 1, 100); require \"GradingCommon.pl\"; require \"TestingCommon.pl\"; @assgn = @ARGV; if (defined ($opt_d) && $#ARGV > 0 or (defined ($opt_d) || defined ($opt_a) || defined ($opt_A) || define"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ed ($opt_a) || defined ($opt_A) || defined($opt_E)) && defined ($opt_s) or defined ($opt_a) + defined ($opt_A) + defined ($opt_E) > 1) { Usage (); } if (defined ($opt_d) && ! defined (ToTime ($opt_d))) { Fatal (\"Invalid t"
+    },
+    {
+      "chunk_id": 4,
+      "text": "defined (ToTime ($opt_d))) { Fatal (\"Invalid time/date format: $opt_d.\"); } %due = %ASSGN_DUE; if ($opt_d) { $due{$assgn[0]} = ToTime ($opt_d); } for $assgn (@assgn) { if (! AssignmentExists ($assgn)) { Fatal (\"Assignment $assgn does n"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ists ($assgn)) { Fatal (\"Assignment $assgn does not exist.\"); } } if ($opt_w) { if ($opt_w !~ /^(\\d+)(,\\d+)*$/) { Fatal (\"Invalid format for lateness waivers.\"); } @waive = split(',', $opt_w); } else { @waive = (0); } # U"
+    },
+    {
+      "chunk_id": 6,
+      "text": "', $opt_w); } else { @waive = (0); } # Usage: formatTime (TIME) # Convert a UNIX time to a printable string in human format. sub formatTime { @time = localtime (shift); return sprintf (\"%d/%d@%02d:%02d\", $time[4]+1, $time[3], $ti"
+    },
+    {
+      "chunk_id": 7,
+      "text": "intf (\"%d/%d@%02d:%02d\", $time[4]+1, $time[3], $time[2], $time[1]); } # Usage: readTimesForAssign (ASSGN) # Return a \"lateness report\": a reference to a hash that maps # logins to references to lists of items of the form TX, where T is"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ences to lists of items of the form TX, where T is # a timestamp and X is either the letter 'S' (successful # submission) or 'F' (failing submission). There will be one such # item for each submission of the given assignment, ASSGN, for a #"
+    },
+    {
+      "chunk_id": 9,
+      "text": "submission of the given assignment, ASSGN, for a # given login. sub readTimesForAssign { my $assgn = shift; my ($login, $timestamp, $subm, $list); my $late = { }; foreach $subm (GLOB (\"$SUBMISSION_DIR/$assgn/*\")) { if (($log"
+    },
+    {
+      "chunk_id": 10,
+      "text": "m (GLOB (\"$SUBMISSION_DIR/$assgn/*\")) { if (($login) = ($subm =~ m{ .*/([-a-zA-Z0-9_.]+)\\.[0-9]+$ }x)) { $$late{$login} = $$late{$login} || []; push (@{$$late{$login}}, $subm); } } foreach $list (values %$late) { @$"
+    },
+    {
+      "chunk_id": 11,
+      "text": "} } foreach $list (values %$late) { @$list = map { submToEntry($_) } sort SubmissionOrder @$list; } return $late; } # Usage: submToEntry SUBMFILENAME # Given a submission file name (of a file under SUBMISSION_DIR), return #"
+    },
+    {
+      "chunk_id": 12,
+      "text": "name (of a file under SUBMISSION_DIR), return # a string of the form , where is # the timestamp of the submissions and is S, F, or ? depending # on whether the submission succeeded, had errors, or is ungraded. sub submToEntry { my $sub"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ors, or is ungraded. sub submToEntry { my $subm = shift; if (my ($assgn, $basename, $timestamp) = ($subm =~ m{ .*/(.*)/([-a-zA-Z0-9_.]+\\.([0-9]+))$ }x)) { if (-e \"$LOG_DIR/$assgn/ok/$basename\") { $suffix = \"S\";"
+    },
+    {
+      "chunk_id": 14,
+      "text": "/ok/$basename\") { $suffix = \"S\"; } elsif (-e \"$LOG_DIR/$assgn/failed/$basename\") { $suffix = \"F\"; } else { $suffix = \"?\"; } return $timestamp . $suffix; } else { return \""
+    },
+    {
+      "chunk_id": 15,
+      "text": "timestamp . $suffix; } else { return \"??\"; } } # Usage: lateness $assgn $login $time \\$waive # Given that assignment ASSGN was turned in at TIME, the total lateness (in # hours) for LOGIN, adjusted by exceptions, if applicable."
+    },
+    {
+      "chunk_id": 16,
+      "text": "for LOGIN, adjusted by exceptions, if applicable. If $$WAIVE > 0, # reduce any positive lateness by up to that amount, reducing $$WAIVE # accordingly. sub lateness { my ($assgn, $login, $time, $waive) = @_; my $key = \"$assgn/$login\";"
+    },
+    {
+      "chunk_id": 17,
+      "text": "e, $waive) = @_; my $key = \"$assgn/$login\"; my $lateness = ($time - ($deadlineException{\"$assgn/$login\"} || $due{$assgn})) / 3600; if ($$waive > 0 and $lateness > 0) { my $waiver = $$waive > $lateness ? $lateness : $$waive; $$wa"
+    },
+    {
+      "chunk_id": 18,
+      "text": "= $$waive > $lateness ? $lateness : $$waive; $$waive -= $waiver; $lateness -= $waiver; } return $lateness; } # Usage: allLogins %LATEREPORTS # Given a hash mapping assignment names to late reports (see # readTimesForAssign, retur"
+    },
+    {
+      "chunk_id": 19,
+      "text": "o late reports (see # readTimesForAssign, return a sorted list of all logins mentioned in # any of the reports. sub allLogins { my $reports = shift; my (%logins, $rpt, $login); foreach $rpt (values %$reports) { foreach $login (keys"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ch $rpt (values %$reports) { foreach $login (keys %$rpt) { $logins{$login} = 1; } } return sort (keys %logins); } %printed_type = ( \"S\" => \"+\", \"F\" => \"-\", \"?\" => \"\" ); # Usage: report_a \\%LATEREPORTS \\@ASSGNS $OPTION # Given a has"
+    },
+    {
+      "chunk_id": 21,
+      "text": "t_a \\%LATEREPORTS \\@ASSGNS $OPTION # Given a hash mapping assignment names in @ASSGNS to late reports (see # readTimesForAssign), print a report to STDOUT in -a form if $OPTION is 1, # -A form, if $OPTION is 0, and -E form if $OPTION is 2. sub"
+    },
+    {
+      "chunk_id": 22,
+      "text": "if $OPTION is 0, and -E form if $OPTION is 2. sub report_a { my $reports = shift; my $assgns = shift; my $option = shift; my ($assgn, $login, $item, $timestamp, $time, $type, $subms, $lateness); my ($firstAssgn, $first); my ("
+    },
+    {
+      "chunk_id": 23,
+      "text": "$lateness); my ($firstAssgn, $first); my (@waivers, $waiver, $waiver0); foreach $login (allLogins ($reports)) { $firstAssgn = 1; @waivers = @waive; $waiver = 0; foreach $assgn (@$assgns) { $waiver += (shift @waivers); $wai"
+    },
+    {
+      "chunk_id": 24,
+      "text": "gns) { $waiver += (shift @waivers); $waiver0 = $waiver; $report = $$reports{$assgn}; $subms = $$report{$login}; next if (! defined ($subms) or $#{$subms} < 0); $first = 1; if ($option < 2) {"
+    },
+    {
+      "chunk_id": 25,
+      "text": "; if ($option < 2) { $waiver = $waiver0; ($timestamp) = ($$subms[$#{$subms}] =~ /^(.*)[SF?]/); $time = TimeStampToTime ($timestamp); if (lateness ($assgn, $login, $time, \\$w"
+    },
+    {
+      "chunk_id": 26,
+      "text": "if (lateness ($assgn, $login, $time, \\$waiver) <= 0) { next; } } foreach (@$subms) { ($timestamp, $type) = /^(.*)([SF?])/; $time = TimeStampToTime ($timestamp); $wa"
+    },
+    {
+      "chunk_id": 27,
+      "text": "])/; $time = TimeStampToTime ($timestamp); $waiver = $waiver0; $lateness = lateness ($assgn, $login, $time, \\$waiver); if ($option != 1 or $lateness > 0) { if ($firstAssgn) { print STDOUT \"$login:\\n\"; $firstAssgn = 0; }"
+    },
+    {
+      "chunk_id": 28,
+      "text": "DOUT \"$login:\\n\"; $firstAssgn = 0; } if ($first) { print STDOUT \" $assgn: \"; $first = 0; } else { print STDOUT \", \"; } if ($lateness > 0) { printf STDOUT \"%s%s (+%3.1f)\", formatTime ($time),"
+    },
+    {
+      "chunk_id": 29,
+      "text": "\"%s%s (+%3.1f)\", formatTime ($time), $printed_type{$type}, $lateness; } else { printf STDOUT \"%s%s\", formatTime ($time), $printed_type{$type}; } } } if (! $first) { print STDOUT \"\\n\";"
+    },
+    {
+      "chunk_id": 30,
+      "text": "} if (! $first) { print STDOUT \"\\n\"; } } } } # Usage: report_s \\%LATEREPORTS \\@ASSGNS # Given a hash mapping assignment names in @ASSGNS to late reports (see # readTimesForAssign), print a report to STDOUT in -s format #"
+    },
+    {
+      "chunk_id": 31,
+      "text": "rAssign), print a report to STDOUT in -s format # of total late times sub report_s { my $reports = shift; my $assgns = shift; my ($login, $assgn, $sum, $time, $timestamp, $lateness); my (@waivers, $waiver); foreach $login (all"
+    },
+    {
+      "chunk_id": 32,
+      "text": "my (@waivers, $waiver); foreach $login (allLogins ($reports)) { $sum = 0; @waivers = @waive; $waiver = 0; foreach $assgn (@$assgns) { $waiver += (shift @waivers); $report = $$reports{$assgn}; $subms = $$report{$login};"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ports{$assgn}; $subms = $$report{$login}; next if (! defined ($subms) || $#{$subms} < 0); ($timestamp) = ($$subms[$#{$subms}] =~ /^(.*)[SF?]/); $time = TimeStampToTime ($timestamp); $lateness = lateness ($assgn, $login, $time"
+    },
+    {
+      "chunk_id": 34,
+      "text": "; $lateness = lateness ($assgn, $login, $time, \\$waiver); $sum += $lateness if ($lateness > 0); } if ($sum > 0) { printf STDOUT \"%s: %4.1f\\n\", $login, $sum; } } } # Usage: report_default \\%LATEREPORTS \\@ASSGNS # Given a hash"
+    },
+    {
+      "chunk_id": 35,
+      "text": "rt_default \\%LATEREPORTS \\@ASSGNS # Given a hash mapping assignment names in @ASSGNS to late reports (see # readTimesForAssign), print a report to STDOUT in default form. sub report_default { my $reports = shift; my $assgns = shift;"
+    },
+    {
+      "chunk_id": 36,
+      "text": "my $reports = shift; my $assgns = shift; my ($assgn, $login, $item, $timestamp, $time, $type, $subms, $lateness); my $firstAssgn; my (@waivers, $waiver); foreach $login (allLogins ($reports)) { $firstAssgn = 1; @waivers = @waiv"
+    },
+    {
+      "chunk_id": 37,
+      "text": "($reports)) { $firstAssgn = 1; @waivers = @waive; $waiver = 0; foreach $assgn (@$assgns) { $waiver += (shift @waivers); $report = $$reports{$assgn}; $subms = $$report{$login}; next if (! defined ($subms) || $#{$subms} < 0);"
+    },
+    {
+      "chunk_id": 38,
+      "text": "next if (! defined ($subms) || $#{$subms} < 0); ($timestamp, $type) = ($$subms[$#{$subms}] =~ /^(.*)([SF?])/); $time = TimeStampToTime ($timestamp); $lateness = lateness ($assgn, $login, $time, \\$waiver); next if ($lateness <= 0"
+    },
+    {
+      "chunk_id": 39,
+      "text": "in, $time, \\$waiver); next if ($lateness <= 0); if ($firstAssgn) { print STDOUT \"$login:\\n\"; $firstAssgn = 0; } printf STDOUT \" %s: %s%s (+%3.1f)\\n\", $assgn, formatTime ($time), $printed_type{$type}, $lateness; } } }"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ime), $printed_type{$type}, $lateness; } } } # Rest of main procedure if (not $opt_X) { %deadlineException = GetDeadlineExceptions (1); } my ($allTimes, $assgn); $allTimes = {}; foreach $assgn (@assgn) { $$allTimes{$assgn} = readTim"
+    },
+    {
+      "chunk_id": 41,
+      "text": "$assgn (@assgn) { $$allTimes{$assgn} = readTimesForAssign ($assgn); } if ($opt_a) { report_a ($allTimes, \\@assgn, 1); } elsif ($opt_A) { report_a ($allTimes, \\@assgn, 0); } elsif ($opt_E) { report_a ($allTimes, \\@assgn, 2); } elsif ("
+    },
+    {
+      "chunk_id": 42,
+      "text": "{ report_a ($allTimes, \\@assgn, 2); } elsif ( $opt_s) { report_s ($allTimes, \\@assgn); } else { report_default ($allTimes, \\@assgn); } 1;"
+    }
+  ]
+}

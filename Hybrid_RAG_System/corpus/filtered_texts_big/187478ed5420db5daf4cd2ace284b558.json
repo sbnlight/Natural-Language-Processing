@@ -1,0 +1,857 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/data/ScalarToken.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "ScalarToken JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method p"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Constr | Method Detail: Field | Constr | Method ptolemy.data Class ScalarToken java.lang.Object ptolemy.data.Token ptolemy.data.ScalarToken All Implemented Interfaces: BitwiseOperationToken , PartiallyOrderedToken Direct Known Subclasses: BooleanTok"
+    },
+    {
+      "chunk_id": 3,
+      "text": "lyOrderedToken Direct Known Subclasses: BooleanToken , ComplexToken , ConcreteScalarToken , DoubleToken , FixToken , FloatToken , IntToken , LongToken , PetiteToken , ShortToken , UnsignedByteToken public abstract class ScalarToken extends Token impl"
+    },
+    {
+      "chunk_id": 4,
+      "text": "blic abstract class ScalarToken extends Token implements BitwiseOperationToken , PartiallyOrderedToken Abstract base class for tokens that contain a scalar. This base class extends the Token class to properly implement type conversion and the unit"
+    },
+    {
+      "chunk_id": 5,
+      "text": "o properly implement type conversion and the units portion of the standard operations for scalar tokens. It also adds methods for querying the natural ordering between scalars. This class has a number of protected abstract methods that subclasses"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ber of protected abstract methods that subclasses must implement. These methods need only implement the numerical portion of the operation between two tokens of the same type. This base class will handle the conversion of tokens from different t"
+    },
+    {
+      "chunk_id": 7,
+      "text": "l handle the conversion of tokens from different types to the same type before calling the protected method, and the proper computation of the units of the returned token afterwards. In general, any instance of a scalar token may be optionally ass"
+    },
+    {
+      "chunk_id": 8,
+      "text": "instance of a scalar token may be optionally associated with a set of units. In the arithmetic methods add(), modulo(), and subtract(), the two operands must have the same units. Otherwise, an exception will be thrown. In the methods multiply()"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ception will be thrown. In the methods multiply() and divide(), the units of the resulting token will be computed automatically. IMPORTANT: The protected methods implemented in derived classes are expected to return a new token in the case of mu"
+    },
+    {
+      "chunk_id": 10,
+      "text": "expected to return a new token in the case of multiply and divide. This new token will automatically have its units set correctly by this base class implementation. Certain cases, such as multiplication by one, cannot be optimized to simply ret"
+    },
+    {
+      "chunk_id": 11,
+      "text": "lication by one, cannot be optimized to simply return an the input token without performing the multiplication, since the units of the result may be different than the units of either input token. Since: Ptolemy II 0.2 Version: $Id$ Author: Yuhong"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ince: Ptolemy II 0.2 Version: $Id$ Author: Yuhong Xiong, Mudit Goel, Steve Neuendorffer Pt.AcceptedRating: Green (yuhong) Pt.ProposedRating: Green (neuendor) Field Summary Fields Modifier and Type Field and Description protected int[] _unitCategoryEx"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ld and Description protected int[] _unitCategoryExponents The unit category exponents. Fields inherited from class ptolemy.data. Token NIL Constructor Summary Constructors Constructor and Description ScalarToken () Method Summary All Methods Instance"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ScalarToken () Method Summary All Methods Instance Methods Abstract Methods Concrete Methods Deprecated Methods Modifier and Type Method and Description protected abstract ScalarToken _absolute () Return a ScalarToken containing the absolute value of"
+    },
+    {
+      "chunk_id": 15,
+      "text": "urn a ScalarToken containing the absolute value of the value of this token. protected abstract ScalarToken _add ( ScalarToken rightArgument) Return a new token whose value is the value of the argument token added to the value of this token. prote"
+    },
+    {
+      "chunk_id": 16,
+      "text": "nt token added to the value of this token. protected int[] _addCategoryExponents ( ScalarToken token) Add the corresponding unit category exponents. protected boolean _areUnitsEqual ( ScalarToken scalarToken) Return true if the units of this token"
+    },
+    {
+      "chunk_id": 17,
+      "text": "alarToken) Return true if the units of this token are the same as that of the argument token. protected abstract ScalarToken _bitwiseAnd ( ScalarToken rightArgument) Returns a token representing the bitwise AND of this token and the given token."
+    },
+    {
+      "chunk_id": 18,
+      "text": "bitwise AND of this token and the given token. protected abstract ScalarToken _bitwiseNot () Returns a token representing the bitwise NOT of this token. protected abstract ScalarToken _bitwiseOr ( ScalarToken rightArgument) Returns a token represe"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ScalarToken rightArgument) Returns a token representing the bitwise OR of this token and the given token. protected abstract ScalarToken _bitwiseXor ( ScalarToken rightArgument) Returns a token representing the bitwise XOR of this token and the g"
+    },
+    {
+      "chunk_id": 20,
+      "text": "esenting the bitwise XOR of this token and the given token. protected int[] _copyOfCategoryExponents () Return a copy of the unit category exponents array. protected abstract ScalarToken _divide ( ScalarToken rightArgument) Return a new token whose"
+    },
+    {
+      "chunk_id": 21,
+      "text": "calarToken rightArgument) Return a new token whose value is the value of this token divided by the value of the argument token. protected abstract BooleanToken _isCloseTo ( ScalarToken rightArgument, double epsilon) Test whether the value"
+    },
+    {
+      "chunk_id": 22,
+      "text": ", double epsilon) Test whether the value of this token is close to the first argument, where \"close\" means that the distance between them is less than or equal to the second argument. protected BooleanToken _isEqualTo ( ScalarToken toke"
+    },
+    {
+      "chunk_id": 23,
+      "text": "otected BooleanToken _isEqualTo ( ScalarToken token) Test for equality of the values of this token and the argument. protected abstract BooleanToken _isLessThan ( ScalarToken rightArgument) Test for ordering of the values of this Token and the argume"
+    },
+    {
+      "chunk_id": 24,
+      "text": "rdering of the values of this Token and the argument Token. protected boolean _isUnitless () Return true if this token does not have a unit. protected abstract ScalarToken _modulo ( ScalarToken rightArgument) Return a new token whose value is the v"
+    },
+    {
+      "chunk_id": 25,
+      "text": "tArgument) Return a new token whose value is the value of this token modulo the value of the argument token. protected abstract ScalarToken _multiply ( ScalarToken rightArgument) Return a new token whose value is the value of this token multiplie"
+    },
+    {
+      "chunk_id": 26,
+      "text": "whose value is the value of this token multiplied by the value of the argument token. protected abstract ScalarToken _subtract ( ScalarToken rightArgument) Return a new token whose value is the value of the argument token subtracted from the valu"
+    },
+    {
+      "chunk_id": 27,
+      "text": "e of the argument token subtracted from the value of this token. protected int[] _subtractCategoryExponents ( ScalarToken token) Subtract the corresponding unit category exponents of the argument token from that of this token. ScalarToken absolut"
+    },
+    {
+      "chunk_id": 28,
+      "text": "token from that of this token. ScalarToken absolute () Return a ScalarToken containing the absolute value of the value of this token. Token add ( Token rightArgument) Return a new token whose value is the sum of this token and the argument. Token"
+    },
+    {
+      "chunk_id": 29,
+      "text": "is the sum of this token and the argument. Token addReverse ( Token leftArgument) Return a new token whose value is the sum of this token and the argument. BitwiseOperationToken bitwiseAnd ( Token rightArgument) Returns a token representing the b"
+    },
+    {
+      "chunk_id": 30,
+      "text": "rightArgument) Returns a token representing the bitwise AND of this token and the given token. BitwiseOperationToken bitwiseNot () Returns a token representing the bitwise NOT of this token. BitwiseOperationToken bitwiseOr ( Token rightArgument) R"
+    },
+    {
+      "chunk_id": 31,
+      "text": "eOperationToken bitwiseOr ( Token rightArgument) Returns a token representing the bitwise OR of this token and the given token. BitwiseOperationToken bitwiseXor ( Token rightArgument) Returns a token representing the bitwise XOR of this token and"
+    },
+    {
+      "chunk_id": 32,
+      "text": "n representing the bitwise XOR of this token and the given token. byte byteValue () Return the value in the token as a byte. Complex complexValue () Return the value of this token as a Complex. Token divide ( Token rightArgument) Return a new token"
+    },
+    {
+      "chunk_id": 33,
+      "text": "n divide ( Token rightArgument) Return a new token whose value is the value of this token divided by the value of the argument token. Token divideReverse ( Token leftArgument) Return a new token whose value is the value of this token divided into"
+    },
+    {
+      "chunk_id": 34,
+      "text": "se value is the value of this token divided into the value of the argument token. double doubleValue () Return the value of this token as a double. FixPoint fixValue () Return the value of this token as a FixPoint. float floatValue () Return the va"
+    },
+    {
+      "chunk_id": 35,
+      "text": "n as a FixPoint. float floatValue () Return the value of this token as a float In this base class, we just throw an exception. abstract Type getType () Return the type of this token. int intValue () Return the value of this token as an int. ScalarT"
+    },
+    {
+      "chunk_id": 36,
+      "text": "Return the value of this token as an int. ScalarToken inUnitsOf ( ScalarToken units) Return a scalar token that contains the value of this token in the units of the argument token. BooleanToken isCloseTo ( Token rightArgument, double epsi"
+    },
+    {
+      "chunk_id": 37,
+      "text": "loseTo ( Token rightArgument, double epsilon) Test whether the value of this Token is close to the argument Token. BooleanToken isEqualTo ( Token rightArgument) Test for equality of the values of this Token and the argument Token. Boolea"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ues of this Token and the argument Token. BooleanToken isGreaterThan ( ScalarToken rightArgument) Check whether the value of this token is strictly greater than that of the argument token. BooleanToken isLessThan ( PartiallyOrderedToken rightArgu"
+    },
+    {
+      "chunk_id": 39,
+      "text": "Token isLessThan ( PartiallyOrderedToken rightArgument) Check whether the value of this token is strictly less than that of the argument token. BooleanToken isLessThan ( ScalarToken rightArgument) Check whether the value of this token is strictly l"
+    },
+    {
+      "chunk_id": 40,
+      "text": "heck whether the value of this token is strictly less than that of the argument token. ScalarToken leftShift (int bits) Returns a token representing the result of shifting the bits of this token towards the most significant bit, filling the lea"
+    },
+    {
+      "chunk_id": 41,
+      "text": "owards the most significant bit, filling the least significant bits with zeros. ScalarToken logicalRightShift (int bits) Returns a token representing the result of shifting the bits of this token towards the least significant bit, filling the m"
+    },
+    {
+      "chunk_id": 42,
+      "text": "towards the least significant bit, filling the most significant bits with zeros. long longValue () Return the value of this token as a long integer. Token modulo ( Token rightArgument) Return a new token whose value is the value of this token mod"
+    },
+    {
+      "chunk_id": 43,
+      "text": "token whose value is the value of this token modulo the value of the argument token. Token moduloReverse ( Token leftArgument) Return a new token whose value is the value of this token modulo the value of the argument token. Token multiply ( Toke"
+    },
+    {
+      "chunk_id": 44,
+      "text": "value of the argument token. Token multiply ( Token rightArgument) Return a new token whose value is the value of this token multiplied by the value of the argument token. Token multiplyReverse ( Token leftArgument) Return a new token whose value i"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ken leftArgument) Return a new token whose value is the value of this token multiplied by the value of the argument token. ScalarToken rightShift (int bits) Returns a token representing the result of shifting the bits of this token towards the le"
+    },
+    {
+      "chunk_id": 46,
+      "text": "f shifting the bits of this token towards the least significant bit, filling the most significant bits with the sign of the value. void setUnitCategory (int index) Deprecated. We need a better way of manufacturing the tokens for base units, sin"
+    },
+    {
+      "chunk_id": 47,
+      "text": "of manufacturing the tokens for base units, since this method violates the immutability of tokens. short shortValue () Return the value of this token as a short. Token subtract ( Token rightArgument) Return a new token whose value is the value o"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ent) Return a new token whose value is the value of the argument token subtracted from the value of this token. Token subtractReverse ( Token leftArgument) Return a new token whose value is the value of the argument token subtracted from the valu"
+    },
+    {
+      "chunk_id": 49,
+      "text": "e of the argument token subtracted from the value of this token. java.lang.String unitsString () Return the string representation of the units of this token. Methods inherited from class ptolemy.data. Token isCloseTo , isNil , notSupportedConversio"
+    },
+    {
+      "chunk_id": 50,
+      "text": "a. Token isCloseTo , isNil , notSupportedConversionMessage , notSupportedIncomparableConversionMessage , notSupportedIncomparableMessage , notSupportedMessage , notSupportedNullNilStringMessage , one , pow , toString , zero , zeroReturnType Methods i"
+    },
+    {
+      "chunk_id": 51,
+      "text": ", pow , toString , zero , zeroReturnType Methods inherited from class java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail _unitCategoryExponents protected int[] _unitCategoryExponents The uni"
+    },
+    {
+      "chunk_id": 52,
+      "text": "nts protected int[] _unitCategoryExponents The unit category exponents. The unit system contains a set of base unit categories and derived categories. The base categories are customizable by the user. For example, the user may choose to use the"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ser. For example, the user may choose to use the SI unit system which has 7 base categories: length, mass, time, electric current, thermodynamic temperature, amount of substance, and luminous intensity. The customization is done by defining a"
+    },
+    {
+      "chunk_id": 54,
+      "text": "intensity. The customization is done by defining a MoML file to specify the categories and the units in each category. Each category has an index, assigned by the order the category appears in the MoML file. Derived units are recorded by the ex"
+    },
+    {
+      "chunk_id": 55,
+      "text": "MoML file. Derived units are recorded by the exponents of the category. For example, the category speed, which is length/time, is stored by an exponent of 1 for the length category, and an exponent of -1 for the time category. This array r"
+    },
+    {
+      "chunk_id": 56,
+      "text": "nent of -1 for the time category. This array records the exponents of the base categories. Constructor Detail ScalarToken public ScalarToken() Method Detail absolute public final ScalarToken absolute() Return a ScalarToken containing the absolute"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ute() Return a ScalarToken containing the absolute value of the value of this token. If this token contains a non-negative number, it is returned directly; otherwise, a new token is returned. Note that it is explicitly allowable to return this"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ote that it is explicitly allowable to return this token, since the units are the same. This method defers to the _absolute() method to perform the operation, and derived classes should implement that method to provide type-specific behavior"
+    },
+    {
+      "chunk_id": 59,
+      "text": "nt that method to provide type-specific behavior. Returns: A ScalarToken with the same units, and likely to be of the same type as this token. If this token is a nil token, then Token.NIL is returned. add public final Token add( Token rightArgu"
+    },
+    {
+      "chunk_id": 60,
+      "text": "urned. add public final Token add( Token rightArgument) throws IllegalActionException Return a new token whose value is the sum of this token and the argument. Type conversion also occurs here, so that the operation is performed a"
+    },
+    {
+      "chunk_id": 61,
+      "text": "ccurs here, so that the operation is performed at the least type necessary to ensure precision. The returned type is the same as the type chosen for the operation, which is the higher of the type of this token and the argument type. Subclas"
+    },
+    {
+      "chunk_id": 62,
+      "text": "pe of this token and the argument type. Subclasses should implement the protected _add() method to perform the correct type-specific operation. Overrides: add in class Token Parameters: rightArgument - The token to add to this token. Returns:"
+    },
+    {
+      "chunk_id": 63,
+      "text": "gument - The token to add to this token. Returns: A new token containing the result. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or have different units, or the operation does not make sense fo"
+    },
+    {
+      "chunk_id": 64,
+      "text": "t units, or the operation does not make sense for the given types. addReverse public final Token addReverse( Token leftArgument) throws IllegalActionException Return a new token whose value is the sum of this token and the"
+    },
+    {
+      "chunk_id": 65,
+      "text": "en whose value is the sum of this token and the argument. Type conversion also occurs here, so that the operation is performed at the least type necessary to ensure precision. The returned type is the same as the type chosen for the operati"
+    },
+    {
+      "chunk_id": 66,
+      "text": "e is the same as the type chosen for the operation, which is the higher of the type of this token and the argument type. Subclasses should implement the protected _add() method to perform the correct type-specific operation. Overrides: addRe"
+    },
+    {
+      "chunk_id": 67,
+      "text": "orrect type-specific operation. Overrides: addReverse in class Token Parameters: leftArgument - The token to add this token to. Returns: A new token containing the result. Throws: IllegalActionException - If the argument token and this token are"
+    },
+    {
+      "chunk_id": 68,
+      "text": "tion - If the argument token and this token are of incomparable types, or have different units, or the operation does not make sense for the given types. bitwiseAnd public BitwiseOperationToken bitwiseAnd( Token rightArgument)"
+    },
+    {
+      "chunk_id": 69,
+      "text": "twiseAnd( Token rightArgument) throws IllegalActionException Returns a token representing the bitwise AND of this token and the given token. Specified by: bitwiseAnd in interface BitwiseOperationToken Parameters: ri"
+    },
+    {
+      "chunk_id": 70,
+      "text": "in interface BitwiseOperationToken Parameters: rightArgument - The ScalarToken to bitwise AND with this one. Returns: The bitwise AND. Throws: IllegalActionException - If the given token is not compatible for this operation, or the operation does"
+    },
+    {
+      "chunk_id": 71,
+      "text": "patible for this operation, or the operation does not make sense for this type. bitwiseNot public BitwiseOperationToken bitwiseNot() throws IllegalActionException Returns a token representing the bitwise NOT of this"
+    },
+    {
+      "chunk_id": 72,
+      "text": "turns a token representing the bitwise NOT of this token. Specified by: bitwiseNot in interface BitwiseOperationToken Returns: The bitwise NOT of this token. Throws: IllegalActionException - If the given token is not compatible for this operation,"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ven token is not compatible for this operation, or the operation does not make sense for this type. bitwiseOr public BitwiseOperationToken bitwiseOr( Token rightArgument) throws IllegalActionException Returns a tok"
+    },
+    {
+      "chunk_id": 74,
+      "text": "throws IllegalActionException Returns a token representing the bitwise OR of this token and the given token. Specified by: bitwiseOr in interface BitwiseOperationToken Parameters: rightArgument - The ScalarToken to bitwise OR with this one."
+    },
+    {
+      "chunk_id": 75,
+      "text": "nt - The ScalarToken to bitwise OR with this one. Returns: The bitwise OR. Throws: IllegalActionException - If the given token is not compatible for this operation, or the operation does not make sense for this type. bitwiseXor public BitwiseOper"
+    },
+    {
+      "chunk_id": 76,
+      "text": "sense for this type. bitwiseXor public BitwiseOperationToken bitwiseXor( Token rightArgument) throws IllegalActionException Returns a token representing the bitwise XOR of this token and the given token. Specified b"
+    },
+    {
+      "chunk_id": 77,
+      "text": "R of this token and the given token. Specified by: bitwiseXor in interface BitwiseOperationToken Parameters: rightArgument - The ScalarToken to bitwise XOR with this one. Returns: The bitwise XOR. Throws: IllegalActionException - If the given token"
+    },
+    {
+      "chunk_id": 78,
+      "text": "hrows: IllegalActionException - If the given token is not compatible for this operation, or the operation does not make sense for this type. byteValue public byte byteValue() throws IllegalActionException Return the value in the to"
+    },
+    {
+      "chunk_id": 79,
+      "text": "IllegalActionException Return the value in the token as a byte. In this base class, we just throw an exception. Returns: The byte value contained in this token. Throws: IllegalActionException - Always thrown. complexValue public Complex complexVal"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ays thrown. complexValue public Complex complexValue() throws IllegalActionException Return the value of this token as a Complex. In this base class, we just throw an exception. Returns: A Complex Throws: IllegalActionException"
+    },
+    {
+      "chunk_id": 81,
+      "text": "Returns: A Complex Throws: IllegalActionException - Always thrown. divide public final Token divide( Token rightArgument) throws IllegalActionException Return a new token whose value is the value of this token divided by the val"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ue is the value of this token divided by the value of the argument token. Type conversion also occurs here, so that the operation is performed at the least type necessary to ensure precision. The returned type is the same as the type chosen"
+    },
+    {
+      "chunk_id": 83,
+      "text": "he returned type is the same as the type chosen for the operation, which is the higher of the type of this token and the argument type. The returned token will also have the correct units. Subclasses should implement the protected _divide()"
+    },
+    {
+      "chunk_id": 84,
+      "text": "classes should implement the protected _divide() method to perform the correct type-specific operation. Overrides: divide in class Token Parameters: rightArgument - The token to divide into this token. Returns: A new token containing the result."
+    },
+    {
+      "chunk_id": 85,
+      "text": "oken. Returns: A new token containing the result. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operation does not make sense for the given types. divideReverse public final Token divideRe"
+    },
+    {
+      "chunk_id": 86,
+      "text": "n types. divideReverse public final Token divideReverse( Token leftArgument) throws IllegalActionException Return a new token whose value is the value of this token divided into the value of the argument token. Type conve"
+    },
+    {
+      "chunk_id": 87,
+      "text": "into the value of the argument token. Type conversion also occurs here, so that the operation is performed at the least type necessary to ensure precision. The returned type is the same as the type chosen for the operation, which is the hi"
+    },
+    {
+      "chunk_id": 88,
+      "text": "e type chosen for the operation, which is the higher of the type of this token and the argument type. The returned token will also have the correct units. Subclasses should implement the protected _divide() method to perform the correct typ"
+    },
+    {
+      "chunk_id": 89,
+      "text": "cted _divide() method to perform the correct type-specific operation. Overrides: divideReverse in class Token Parameters: leftArgument - The token to be divided into the value of this token. Returns: A new token containing the result. Throws: Ill"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ns: A new token containing the result. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operation does not make sense for the given types. doubleValue public double doubleValue()"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ubleValue public double doubleValue() throws IllegalActionException Return the value of this token as a double. In this base class, we just throw an exception. Returns: A double Throws: IllegalActionException - Always thrown fixV"
+    },
+    {
+      "chunk_id": 92,
+      "text": "hrows: IllegalActionException - Always thrown fixValue public FixPoint fixValue() throws IllegalActionException Return the value of this token as a FixPoint. In this base class, we just throw an exception. Returns: A FixPoint Thro"
+    },
+    {
+      "chunk_id": 93,
+      "text": "just throw an exception. Returns: A FixPoint Throws: IllegalActionException - Always thrown. floatValue public float floatValue() throws IllegalActionException Return the value of this token as a float In this base class, we just"
+    },
+    {
+      "chunk_id": 94,
+      "text": "is token as a float In this base class, we just throw an exception. Returns: A float Throws: IllegalActionException - Always thrown getType public abstract Type getType() Return the type of this token. Subclasses must implement this method to re"
+    },
+    {
+      "chunk_id": 95,
+      "text": "en. Subclasses must implement this method to return the correct type. Overrides: getType in class Token Returns: BaseType.SCALAR inUnitsOf public ScalarToken inUnitsOf( ScalarToken units) throws IllegalActionException Return"
+    },
+    {
+      "chunk_id": 96,
+      "text": "throws IllegalActionException Return a scalar token that contains the value of this token in the units of the argument token. The unit category of the argument token must be the same as that of this token, otherwise, an exception wil"
+    },
+    {
+      "chunk_id": 97,
+      "text": "as that of this token, otherwise, an exception will be thrown. The returned token is unitless. Parameters: units - A scalar token that represents a unit. Returns: A scalar token that does not have a unit. Throws: IllegalActionException - If the uni"
+    },
+    {
+      "chunk_id": 98,
+      "text": "unit. Throws: IllegalActionException - If the unit category of the argument token is not the same as that of this one. intValue public int intValue() throws IllegalActionException Return the value of this token as an int. In this ba"
+    },
+    {
+      "chunk_id": 99,
+      "text": "rn the value of this token as an int. In this base class, we just throw an exception. Returns: The value of this token as an int. Throws: IllegalActionException - Always thrown. isCloseTo public final BooleanToken isCloseTo( Token rightArgument,"
+    },
+    {
+      "chunk_id": 100,
+      "text": "al BooleanToken isCloseTo( Token rightArgument, double epsilon) throws IllegalActionException Test whether the value of this Token is close to the argument Token. The argument and th"
+    },
+    {
+      "chunk_id": 101,
+      "text": "lose to the argument Token. The argument and this token are converted to equivalent types, and then compared. Generally, this is the higher of the type of this token and the argument type. Subclasses should implement the protected _isCloseT"
+    },
+    {
+      "chunk_id": 102,
+      "text": "ubclasses should implement the protected _isCloseTo() method to perform the correct type-specific operation. Overrides: isCloseTo in class Token Parameters: rightArgument - The token to test closeness of this token with. epsilon - The value that we"
+    },
+    {
+      "chunk_id": 103,
+      "text": "ss of this token with. epsilon - The value that we use to determine whether two tokens are close. Returns: A boolean token that contains the value true if the units of this token and the argument token are the same, and their values are clos"
+    },
+    {
+      "chunk_id": 104,
+      "text": "t token are the same, and their values are close. Throws: IllegalActionException - If the argument token is not of a type that can be compared with this token, or the units are not the same. See Also: isEqualTo(ptolemy.data.Token) isEqualTo"
+    },
+    {
+      "chunk_id": 105,
+      "text": "See Also: isEqualTo(ptolemy.data.Token) isEqualTo public final BooleanToken isEqualTo( Token rightArgument) throws IllegalActionException Test for equality of the values of this Token and the argument Token. The argume"
+    },
+    {
+      "chunk_id": 106,
+      "text": "f this Token and the argument Token. The argument and this token are converted to equivalent types, and then compared. Generally, this is the higher of the type of this token and the argument type. This method defers to the _isEqualTo() me"
+    },
+    {
+      "chunk_id": 107,
+      "text": "type. This method defers to the _isEqualTo() method to perform a type-specific equality check. Derived classes should implement that method to provide type specific actions for equality testing. Overrides: isEqualTo in class Token Parameter"
+    },
+    {
+      "chunk_id": 108,
+      "text": "ing. Overrides: isEqualTo in class Token Parameters: rightArgument - The token with which to test equality. Returns: A boolean token that contains the value true if the values and units of this token and the argument token are the same. Throws: Ill"
+    },
+    {
+      "chunk_id": 109,
+      "text": "n and the argument token are the same. Throws: IllegalActionException - If this method is not supported by the derived class. See Also: isCloseTo(ptolemy.data.Token, double) isGreaterThan public final BooleanToken isGreaterThan( ScalarToken rightAr"
+    },
+    {
+      "chunk_id": 110,
+      "text": "al BooleanToken isGreaterThan( ScalarToken rightArgument) throws IllegalActionException Check whether the value of this token is strictly greater than that of the argument token. The argument and this token are c"
+    },
+    {
+      "chunk_id": 111,
+      "text": "gument token. The argument and this token are converted to equivalent types, and then compared. Generally, this is the higher of the type of this token and the argument type. This method defers to the _isLessThan() method to perform a type"
+    },
+    {
+      "chunk_id": 112,
+      "text": "rs to the _isLessThan() method to perform a type-specific equality check. Derived classes should implement that method to provide type specific actions for equality testing. Parameters: rightArgument - The token to compare against. Returns: A"
+    },
+    {
+      "chunk_id": 113,
+      "text": "gument - The token to compare against. Returns: A boolean token with value true if this token has the same units as the argument, and is strictly greater than the argument. Throws: IllegalActionException - If the argument token and this token a"
+    },
+    {
+      "chunk_id": 114,
+      "text": "ception - If the argument token and this token are of incomparable types, or have different units, or the operation does not make sense for the given types. isLessThan public final BooleanToken isLessThan( PartiallyOrderedToken rightArgument)"
+    },
+    {
+      "chunk_id": 115,
+      "text": "LessThan( PartiallyOrderedToken rightArgument) throws IllegalActionException Check whether the value of this token is strictly less than that of the argument token. Specified by: isLessThan in interface PartiallyOrdere"
+    },
+    {
+      "chunk_id": 116,
+      "text": "cified by: isLessThan in interface PartiallyOrderedToken Parameters: rightArgument - The token to compare against. Returns: A boolean token with value true if this token is strictly less than the argument. Throws: IllegalActionException - If the ar"
+    },
+    {
+      "chunk_id": 117,
+      "text": "gument. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or have different units, or the operation does not make sense for the given types. isLessThan public final BooleanToken isLessThan( ScalarTok"
+    },
+    {
+      "chunk_id": 118,
+      "text": "an public final BooleanToken isLessThan( ScalarToken rightArgument) throws IllegalActionException Check whether the value of this token is strictly less than that of the argument token. The argument and this token are"
+    },
+    {
+      "chunk_id": 119,
+      "text": "argument token. The argument and this token are converted to equivalent types, and then compared. Generally, this is the higher of the type of this token and the argument type. This method defers to the _isLessThan() method to perform a"
+    },
+    {
+      "chunk_id": 120,
+      "text": "defers to the _isLessThan() method to perform a type-specific equality check. Derived classes should implement that method to provide type specific actions for equality testing. Parameters: rightArgument - The token to compare against. Returns"
+    },
+    {
+      "chunk_id": 121,
+      "text": "htArgument - The token to compare against. Returns: A boolean token with value true if this token has the same units as the argument, and is strictly less than the argument. Throws: IllegalActionException - If the argument token and this token"
+    },
+    {
+      "chunk_id": 122,
+      "text": "xception - If the argument token and this token are of incomparable types, or have different units, or the operation does not make sense for the given types. leftShift public ScalarToken leftShift(int bits) throws IllegalAct"
+    },
+    {
+      "chunk_id": 123,
+      "text": "(int bits) throws IllegalActionException Returns a token representing the result of shifting the bits of this token towards the most significant bit, filling the least significant bits with zeros. Parameters: bits - The numb"
+    },
+    {
+      "chunk_id": 124,
+      "text": "icant bits with zeros. Parameters: bits - The number of bits to shift. Returns: The left shift. Throws: IllegalActionException - If the given token is not compatible for this operation, or the operation does not make sense for this type. logicalR"
+    },
+    {
+      "chunk_id": 125,
+      "text": "tion does not make sense for this type. logicalRightShift public ScalarToken logicalRightShift(int bits) throws IllegalActionException Returns a token representing the result of shifting the bits of this token toward"
+    },
+    {
+      "chunk_id": 126,
+      "text": "result of shifting the bits of this token towards the least significant bit, filling the most significant bits with zeros. This treats the value as an unsigned number, which may have the effect of destroying the sign of the value. Parameters"
+    },
+    {
+      "chunk_id": 127,
+      "text": "of destroying the sign of the value. Parameters: bits - The number of bits to shift. Returns: The right shift. Throws: IllegalActionException - If the given token is not compatible for this operation, or the operation does not make sense for t"
+    },
+    {
+      "chunk_id": 128,
+      "text": "tion, or the operation does not make sense for this type. longValue public long longValue() throws IllegalActionException Return the value of this token as a long integer. In this base class, we just throw an exception. Returns: Th"
+    },
+    {
+      "chunk_id": 129,
+      "text": "ase class, we just throw an exception. Returns: The value of this token as a long. Throws: IllegalActionException - Always thrown. modulo public final Token modulo( Token rightArgument) throws IllegalActionException Return a new to"
+    },
+    {
+      "chunk_id": 130,
+      "text": "throws IllegalActionException Return a new token whose value is the value of this token modulo the value of the argument token. Type conversion also occurs here, so that the operation is performed at the least type necessary to ensure pre"
+    },
+    {
+      "chunk_id": 131,
+      "text": "formed at the least type necessary to ensure precision. The returned type is the same as the type chosen for the operation, which is the higher of the type of this token and the argument type. Subclasses should implement the protected _modu"
+    },
+    {
+      "chunk_id": 132,
+      "text": "Subclasses should implement the protected _modulo() method to perform the correct type-specific operation. Overrides: modulo in class Token Parameters: rightArgument - The token to modulo with this token. Returns: A new token containing the resu"
+    },
+    {
+      "chunk_id": 133,
+      "text": "is token. Returns: A new token containing the result. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or have different units, or the operation does not make sense for the given types. moduloRevers"
+    },
+    {
+      "chunk_id": 134,
+      "text": "s not make sense for the given types. moduloReverse public final Token moduloReverse( Token leftArgument) throws IllegalActionException Return a new token whose value is the value of this token modulo the value of the argu"
+    },
+    {
+      "chunk_id": 135,
+      "text": "value of this token modulo the value of the argument token. Type conversion also occurs here, so that the operation is performed at the least type necessary to ensure precision. The returned type is the same as the type chosen for the opera"
+    },
+    {
+      "chunk_id": 136,
+      "text": "ype is the same as the type chosen for the operation, which is the higher of the type of this token and the argument type. Subclasses should implement the protected _modulo() method to perform the correct type-specific operation. Overrides:"
+    },
+    {
+      "chunk_id": 137,
+      "text": "the correct type-specific operation. Overrides: moduloReverse in class Token Parameters: leftArgument - The token to apply modulo to by the value of this token. Returns: A new token containing the result. Throws: IllegalActionException - If the a"
+    },
+    {
+      "chunk_id": 138,
+      "text": "result. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or have different units, or the operation does not make sense for the given types. multiply public final Token multiply( Token rightArgument"
+    },
+    {
+      "chunk_id": 139,
+      "text": "y public final Token multiply( Token rightArgument) throws IllegalActionException Return a new token whose value is the value of this token multiplied by the value of the argument token. Type conversion also occurs here, so"
+    },
+    {
+      "chunk_id": 140,
+      "text": "nt token. Type conversion also occurs here, so that the operation is performed at the least type necessary to ensure precision. The returned type is the same as the type chosen for the operation, which is the higher of the type of this token"
+    },
+    {
+      "chunk_id": 141,
+      "text": "ion, which is the higher of the type of this token and the argument type. Subclasses should implement the protected _multiply() method to perform the correct type-specific operation. Overrides: multiply in class Token Parameters: rightArgument"
+    },
+    {
+      "chunk_id": 142,
+      "text": "multiply in class Token Parameters: rightArgument - The token to multiply this token by. Returns: A new token containing the result. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operation"
+    },
+    {
+      "chunk_id": 143,
+      "text": "token are of incomparable types, or the operation does not make sense for the given types. multiplyReverse public final Token multiplyReverse( Token leftArgument) throws IllegalActionException Return a new token whose va"
+    },
+    {
+      "chunk_id": 144,
+      "text": "IllegalActionException Return a new token whose value is the value of this token multiplied by the value of the argument token. Type conversion also occurs here, so that the operation is performed at the least type necessary to ensure precisio"
+    },
+    {
+      "chunk_id": 145,
+      "text": "med at the least type necessary to ensure precision. The returned type is the same as the type chosen for the operation, which is the higher of the type of this token and the argument type. Subclasses should implement the protected _multiply"
+    },
+    {
+      "chunk_id": 146,
+      "text": "classes should implement the protected _multiply() method to perform the correct type-specific operation. Overrides: multiplyReverse in class Token Parameters: leftArgument - The token to be multiplied by the value of this token. Returns: A new"
+    },
+    {
+      "chunk_id": 147,
+      "text": "plied by the value of this token. Returns: A new token containing the result. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operation does not make sense for the given types. rightShift"
+    },
+    {
+      "chunk_id": 148,
+      "text": "not make sense for the given types. rightShift public ScalarToken rightShift(int bits) throws IllegalActionException Returns a token representing the result of shifting the bits of this token towards the least significant"
+    },
+    {
+      "chunk_id": 149,
+      "text": "its of this token towards the least significant bit, filling the most significant bits with the sign of the value. This preserves the sign of the result. Parameters: bits - The number of bits to shift. Returns: The right shift. Throws: Illegal"
+    },
+    {
+      "chunk_id": 150,
+      "text": "o shift. Returns: The right shift. Throws: IllegalActionException - If the given token is not compatible for this operation, or the operation does not make sense for this type. setUnitCategory @Deprecated public void setUnitCategory(int index) De"
+    },
+    {
+      "chunk_id": 151,
+      "text": "precated public void setUnitCategory(int index) Deprecated. We need a better way of manufacturing the tokens for base units, since this method violates the immutability of tokens. Set the unit category this token belongs to. This method is cal"
+    },
+    {
+      "chunk_id": 152,
+      "text": "egory this token belongs to. This method is called from within the units system to create tokens representing base units. This method should not be called by user code. Parameters: index - The unit category index. shortValue public short shor"
+    },
+    {
+      "chunk_id": 153,
+      "text": "unit category index. shortValue public short shortValue() throws IllegalActionException Return the value of this token as a short. In this base class, we just throw an exception. Returns: A short Throws: IllegalActionException - A"
+    },
+    {
+      "chunk_id": 154,
+      "text": "eturns: A short Throws: IllegalActionException - Always thrown subtract public final Token subtract( Token rightArgument) throws IllegalActionException Return a new token whose value is the value of the argument token subtracte"
+    },
+    {
+      "chunk_id": 155,
+      "text": "lue is the value of the argument token subtracted from the value of this token. Type conversion also occurs here, so that the operation is performed at the least type necessary to ensure precision. The returned type is the same as the type c"
+    },
+    {
+      "chunk_id": 156,
+      "text": "ion. The returned type is the same as the type chosen for the operation, which is the higher of the type of this token and the argument type. Subclasses should implement the protected _subtract() method to perform the correct type-specific"
+    },
+    {
+      "chunk_id": 157,
+      "text": "ct() method to perform the correct type-specific operation. Overrides: subtract in class Token Parameters: rightArgument - The token to subtract from this token. Returns: A new token containing the result. Throws: IllegalActionException - If the ar"
+    },
+    {
+      "chunk_id": 158,
+      "text": "result. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or have different units, or the operation does not make sense for the given types. subtractReverse public final Token subtractReverse( Token"
+    },
+    {
+      "chunk_id": 159,
+      "text": "Reverse public final Token subtractReverse( Token leftArgument) throws IllegalActionException Return a new token whose value is the value of the argument token subtracted from the value of this token. Type conversion"
+    },
+    {
+      "chunk_id": 160,
+      "text": "from the value of this token. Type conversion also occurs here, so that the operation is performed at the least type necessary to ensure precision. The returned type is the same as the type chosen for the operation, which is the higher of t"
+    },
+    {
+      "chunk_id": 161,
+      "text": "osen for the operation, which is the higher of the type of this token and the argument type. Subclasses should implement the protected _subtract() method to perform the correct type-specific operation. Overrides: subtractReverse in class Tok"
+    },
+    {
+      "chunk_id": 162,
+      "text": "operation. Overrides: subtractReverse in class Token Parameters: leftArgument - The token to subtract this token from. Returns: A new token containing the result. Throws: IllegalActionException - If the argument token and this token are of incompar"
+    },
+    {
+      "chunk_id": 163,
+      "text": "he argument token and this token are of incomparable types, or have different units, or the operation does not make sense for the given types. unitsString public java.lang.String unitsString() Return the string representation of the units of this"
+    },
+    {
+      "chunk_id": 164,
+      "text": "urn the string representation of the units of this token. The general format of the returned string is \"(l_1 * l_2 * ... * l_m) / (s_1 * s_2 * ... * s_n)\". For example: \"(meter * kilogram) / (second * second)\". If m or n is 1, then the parent"
+    },
+    {
+      "chunk_id": 165,
+      "text": "cond * second)\". If m or n is 1, then the parenthesis above or below \"/\" is omitted. For example: \"meter / second\". If there is no term above \"/\", the format becomes \"1 / (s_1 * s_2 * ... * s_n)\". For example: \"1 / meter\". If this token doe"
+    },
+    {
+      "chunk_id": 166,
+      "text": "n)\". For example: \"1 / meter\". If this token does not have a unit, return an empty string. Returns: A string representation of the units of this token. _absolute protected abstract ScalarToken _absolute() Return a ScalarToken containing the absolut"
+    },
+    {
+      "chunk_id": 167,
+      "text": "lute() Return a ScalarToken containing the absolute value of the value of this token. If this token contains a non-negative number, it is returned directly; otherwise, a new token is returned. Note that it is explicitly allowable to return thi"
+    },
+    {
+      "chunk_id": 168,
+      "text": "Note that it is explicitly allowable to return this token, since the units are the same. Derived classes must implement this method in a type-specific fashion. Returns: A ScalarToken, which is likely, but not required to be the same type as th"
+    },
+    {
+      "chunk_id": 169,
+      "text": "kely, but not required to be the same type as this token. _add protected abstract ScalarToken _add( ScalarToken rightArgument) throws IllegalActionException Return a new token whose value is the value of the argument"
+    },
+    {
+      "chunk_id": 170,
+      "text": "token whose value is the value of the argument token added to the value of this token. It is guaranteed by the caller that the type of the argument is the same as the type of this class. This method should be overridden in derived classes"
+    },
+    {
+      "chunk_id": 171,
+      "text": "method should be overridden in derived classes to provide type-specific operation and return a token of the appropriate subclass. Parameters: rightArgument - The token to add to this token. Returns: A new token containing the result. Throws: Ill"
+    },
+    {
+      "chunk_id": 172,
+      "text": "ns: A new token containing the result. Throws: IllegalActionException - If this method is not supported by the derived class. _addCategoryExponents protected int[] _addCategoryExponents( ScalarToken token) Add the corresponding unit category expone"
+    },
+    {
+      "chunk_id": 173,
+      "text": "token) Add the corresponding unit category exponents. Parameters: token - A token whose exponent will be added with the exponents of this token. Returns: An int array containing the addition result, or null if the result is unitless. _areUnits"
+    },
+    {
+      "chunk_id": 174,
+      "text": "t, or null if the result is unitless. _areUnitsEqual protected boolean _areUnitsEqual( ScalarToken scalarToken) Return true if the units of this token are the same as that of the argument token. If both tokens do not have units, return true. Par"
+    },
+    {
+      "chunk_id": 175,
+      "text": "If both tokens do not have units, return true. Parameters: scalarToken - A scalar token. Returns: True if the units of this token is the same as that of the argument token; false otherwise. _bitwiseAnd protected abstract ScalarToken _bitwiseAnd( S"
+    },
+    {
+      "chunk_id": 176,
+      "text": "eAnd protected abstract ScalarToken _bitwiseAnd( ScalarToken rightArgument) throws IllegalActionException Returns a token representing the bitwise AND of this token and the given token. Parameters: rightArgument"
+    },
+    {
+      "chunk_id": 177,
+      "text": "and the given token. Parameters: rightArgument - The ScalarToken to bitwise AND with this one. Returns: The bitwise AND. Throws: IllegalActionException - If the given token is not compatible for this operation, or the operation does not make s"
+    },
+    {
+      "chunk_id": 178,
+      "text": "this operation, or the operation does not make sense for this type. _bitwiseNot protected abstract ScalarToken _bitwiseNot() throws IllegalActionException Returns a token representing the bitwise NOT of this toke"
+    },
+    {
+      "chunk_id": 179,
+      "text": "a token representing the bitwise NOT of this token. Returns: The bitwise NOT of this token. Throws: IllegalActionException - If the given token is not compatible for this operation, or the operation does not make sense for this type. _bitwiseOr"
+    },
+    {
+      "chunk_id": 180,
+      "text": "n does not make sense for this type. _bitwiseOr protected abstract ScalarToken _bitwiseOr( ScalarToken rightArgument) throws IllegalActionException Returns a token representing the bitwise OR of this token and t"
+    },
+    {
+      "chunk_id": 181,
+      "text": "representing the bitwise OR of this token and the given token. Parameters: rightArgument - The ScalarToken to bitwise OR with this one. Returns: The bitwise OR. Throws: IllegalActionException - If the given token is not compatible for this opera"
+    },
+    {
+      "chunk_id": 182,
+      "text": "the given token is not compatible for this operation, or the operation does not make sense for this type. _bitwiseXor protected abstract ScalarToken _bitwiseXor( ScalarToken rightArgument) throws IllegalActionE"
+    },
+    {
+      "chunk_id": 183,
+      "text": "throws IllegalActionException Returns a token representing the bitwise XOR of this token and the given token. Parameters: rightArgument - The ScalarToken to bitwise XOR with this one. Returns: The bitwise XOR. Throws: I"
+    },
+    {
+      "chunk_id": 184,
+      "text": "with this one. Returns: The bitwise XOR. Throws: IllegalActionException - If the given token is not compatible for this operation, or the operation does not make sense for this type. _copyOfCategoryExponents protected int[] _copyOfCategoryExponen"
+    },
+    {
+      "chunk_id": 185,
+      "text": "ryExponents protected int[] _copyOfCategoryExponents() Return a copy of the unit category exponents array. If this token does not have a unit, return null; Returns: An int array that is a copy of the unit category exponents of this token. _divide"
+    },
+    {
+      "chunk_id": 186,
+      "text": "e unit category exponents of this token. _divide protected abstract ScalarToken _divide( ScalarToken rightArgument) throws IllegalActionException Return a new token whose value is the value of this token divided by"
+    },
+    {
+      "chunk_id": 187,
+      "text": "hose value is the value of this token divided by the value of the argument token. It is guaranteed by the caller that the type of the argument is the same as the type of this class. This method should be overridden in derived classes to pro"
+    },
+    {
+      "chunk_id": 188,
+      "text": "d should be overridden in derived classes to provide type-specific operation and return a token of the appropriate subclass. Parameters: rightArgument - The token to divide this token by. Returns: A new Token containing the result. Throws: Illega"
+    },
+    {
+      "chunk_id": 189,
+      "text": "A new Token containing the result. Throws: IllegalActionException - If this method is not supported by the derived class. _isCloseTo protected abstract BooleanToken _isCloseTo( ScalarToken rightArgument,"
+    },
+    {
+      "chunk_id": 190,
+      "text": "ument, double epsilon) throws IllegalActionException Test whether the value of this token is close to the first argument, where \"close\" means that the distance between t"
+    },
+    {
+      "chunk_id": 191,
+      "text": "where \"close\" means that the distance between them is less than or equal to the second argument. This method only makes sense for tokens where the distance between them is reasonably represented as a double. Parameters: rightArgument - The"
+    },
+    {
+      "chunk_id": 192,
+      "text": "nted as a double. Parameters: rightArgument - The token to compare to this token. epsilon - The value that we use to determine whether two tokens are close. Returns: A token containing true if the value of the first argument is close to the val"
+    },
+    {
+      "chunk_id": 193,
+      "text": "value of the first argument is close to the value of this token. Throws: IllegalActionException - If there is a problem processing the rightArgument. _isEqualTo protected BooleanToken _isEqualTo( ScalarToken token) thr"
+    },
+    {
+      "chunk_id": 194,
+      "text": "ScalarToken token) throws IllegalActionException Test for equality of the values of this token and the argument. This base class delegates to the equals() method. Parameters: token - The token to compare to this token. R"
+    },
+    {
+      "chunk_id": 195,
+      "text": "ers: token - The token to compare to this token. Returns: A token containing true if the value element of the first argument is equal to the value of this token. Throws: IllegalActionException - Not thrown in this base class. _isLessThan protected"
+    },
+    {
+      "chunk_id": 196,
+      "text": "t thrown in this base class. _isLessThan protected abstract BooleanToken _isLessThan( ScalarToken rightArgument) throws IllegalActionException Test for ordering of the values of this Token and the argument Token"
+    },
+    {
+      "chunk_id": 197,
+      "text": "the values of this Token and the argument Token. It is guaranteed by the caller that the type and units of the argument is the same as the type of this class. This method should be overridden in derived classes to provide type-specific oper"
+    },
+    {
+      "chunk_id": 198,
+      "text": "in derived classes to provide type-specific operation and return a token of the appropriate subclass. Parameters: rightArgument - The token to add to this token. Returns: A new Token containing the result. Throws: IllegalActionException - If this"
+    },
+    {
+      "chunk_id": 199,
+      "text": "e result. Throws: IllegalActionException - If this method is not supported by the derived class. _isUnitless protected boolean _isUnitless() Return true if this token does not have a unit. Returns: True if this token does not have a unit. _modulo p"
+    },
+    {
+      "chunk_id": 200,
+      "text": "True if this token does not have a unit. _modulo protected abstract ScalarToken _modulo( ScalarToken rightArgument) throws IllegalActionException Return a new token whose value is the value of this token modulo the v"
+    },
+    {
+      "chunk_id": 201,
+      "text": "se value is the value of this token modulo the value of the argument token. It is guaranteed by the caller that the type of the argument is the same as the type of this class. This method should be overridden in derived classes to provide t"
+    },
+    {
+      "chunk_id": 202,
+      "text": "ld be overridden in derived classes to provide type-specific operation and return a token of the appropriate subclass. Parameters: rightArgument - The token to modulo this token by. Returns: A new Token containing the result. Throws: IllegalActio"
+    },
+    {
+      "chunk_id": 203,
+      "text": "Token containing the result. Throws: IllegalActionException - If this method is not supported by the derived class. _multiply protected abstract ScalarToken _multiply( ScalarToken rightArgument) throws IllegalAct"
+    },
+    {
+      "chunk_id": 204,
+      "text": "throws IllegalActionException Return a new token whose value is the value of this token multiplied by the value of the argument token. It is guaranteed by the caller that the type of the argument is the same as"
+    },
+    {
+      "chunk_id": 205,
+      "text": "ler that the type of the argument is the same as the type of this class. This method should be overridden in derived classes to provide type-specific operation and return a token of the appropriate subclass. Parameters: rightArgument - The tok"
+    },
+    {
+      "chunk_id": 206,
+      "text": "iate subclass. Parameters: rightArgument - The token to multiply this token by. Returns: A new Token containing the result. Throws: IllegalActionException - If this method is not supported by the derived class. _subtract protected abstract ScalarTo"
+    },
+    {
+      "chunk_id": 207,
+      "text": "rived class. _subtract protected abstract ScalarToken _subtract( ScalarToken rightArgument) throws IllegalActionException Return a new token whose value is the value of the argument token subtracted from the value"
+    },
+    {
+      "chunk_id": 208,
+      "text": "of the argument token subtracted from the value of this token. It is guaranteed by the caller that the type of the argument is the same as the type of this class. This method should be overridden in derived classes to provide type-specific"
+    },
+    {
+      "chunk_id": 209,
+      "text": "idden in derived classes to provide type-specific operation and return a token of the appropriate subclass. Parameters: rightArgument - The token to subtract from this token. Returns: A new Token containing the result. Throws: IllegalActionExceptio"
+    },
+    {
+      "chunk_id": 210,
+      "text": "ntaining the result. Throws: IllegalActionException - If this method is not supported by the derived class. _subtractCategoryExponents protected int[] _subtractCategoryExponents( ScalarToken token) Subtract the corresponding unit category exponents"
+    },
+    {
+      "chunk_id": 211,
+      "text": "Subtract the corresponding unit category exponents of the argument token from that of this token. Parameters: token - A token whose exponent will be subtracted from the exponents of this token. Returns: An array of int containing the result, or n"
+    },
+    {
+      "chunk_id": 212,
+      "text": "turns: An array of int containing the result, or null if the result is unitless. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method De"
+    },
+    {
+      "chunk_id": 213,
+      "text": "asses Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

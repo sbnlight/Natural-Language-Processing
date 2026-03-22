@@ -1,0 +1,201 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/kernel/attributes/FileOrURLAccessor.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "FileOrURLAccessor JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Me"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ield | Constr | Method Detail: Field | Constr | Method ptolemy.kernel.attributes Interface FileOrURLAccessor All Superinterfaces: Nameable , Settable All Known Implementing Classes: DefaultModelAttribute , FileAttribute , FileParameter , FilePortPara"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ute , FileAttribute , FileParameter , FilePortParameter , JSAccessor.ActionableAttribute , LiveLink public interface FileOrURLAccessor extends Settable An interface for Attributes and Parameters that access files or URLs. This interface is necessary"
+    },
+    {
+      "chunk_id": 4,
+      "text": "access files or URLs. This interface is necessary because Java does not support multiple inheritance and we have two classes (FileParameter and FilePortParameter) that have a common interface, but do not have an immediate parent class. In addition"
+    },
+    {
+      "chunk_id": 5,
+      "text": "o not have an immediate parent class. In addition, FileAttribute shares this interface. This interface is implemented by an Attribute or Parameter that specifies a file or URL. The value of this Attribute or Parameter, accessed by getExpression()"
+    },
+    {
+      "chunk_id": 6,
+      "text": "tribute or Parameter, accessed by getExpression(), is a string that names a file or URL. If the model containing this attribute has been saved to a MoML file, then the file name can be given relative to the directory containing that MoML file. I"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ve to the directory containing that MoML file. If the model has not been saved to a file, then the classpath is used for identifying relative file names. Files can be given relative to a base , where the base is the URI of the first container abo"
+    },
+    {
+      "chunk_id": 8,
+      "text": "re the base is the URI of the first container above this one that has a URIAttribute. Normally, this URI specifies the file or URL containing the model definition. Thus, files that are referred to here can be kept in the same directory as the mod"
+    },
+    {
+      "chunk_id": 9,
+      "text": "here can be kept in the same directory as the model, or in a related directory, and can moved together with the model. The following special file names are understood: System.in: Standard input. System.out: Standard output. Note, however, that thes"
+    },
+    {
+      "chunk_id": 10,
+      "text": "tem.out: Standard output. Note, however, that these file names cannot be converted to URLs using the asURL() method. A file name can also contain the following strings that start with \"$\", which get substituted with the appropriate values Preset v"
+    },
+    {
+      "chunk_id": 11,
+      "text": "substituted with the appropriate values Preset values String Description Property $CWD The current working directory user.dir $HOME The user's home directory user.home $PTII The home directory of the Ptolemy II installation ptolemy.ptII.dir $TMPDIR"
+    },
+    {
+      "chunk_id": 12,
+      "text": "e Ptolemy II installation ptolemy.ptII.dir $TMPDIR The temporary directory java.io.tmpdir The above properties are normally set when a Ptolemy II application starts. If a file name begins with the string \"$CLASSPATH\", followed by either \"/\" or \"\\\","
+    },
+    {
+      "chunk_id": 13,
+      "text": "ing \"$CLASSPATH\", followed by either \"/\" or \"\\\", then when the file is opened for reading, the openForReading() method will search for the file relative to the classpath (using the getResource() method of the current class loader). This will onl"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ethod of the current class loader). This will only work for a file that exists, and thus the openForWriting() method will not understand the \"$CLASSPATH\" string; this makes sense since the classpath typically has several directories, and it woul"
+    },
+    {
+      "chunk_id": 15,
+      "text": "th typically has several directories, and it would not be obvious where to create the file. The asURL() method also recognizes the \"$CLASSPATH\" string, but not the asFile() method (which is typically used when accessing a file for writing). Since"
+    },
+    {
+      "chunk_id": 16,
+      "text": "lly used when accessing a file for writing). Since: Ptolemy II 6.1 Version: $Id$ Author: Christopher Brooks, based on FileAttribute by Edward A. Lee See Also: URIAttribute Pt.AcceptedRating: Red (cxh) Pt.ProposedRating: Red (cxh) Nested Class Summary"
+    },
+    {
+      "chunk_id": 17,
+      "text": "Pt.ProposedRating: Red (cxh) Nested Class Summary Nested classes/interfaces inherited from interface ptolemy.kernel.util. Settable Settable.Visibility Field Summary Fields inherited from interface ptolemy.kernel.util. Settable EXPERT , FULL , NONE ,"
+    },
+    {
+      "chunk_id": 18,
+      "text": "olemy.kernel.util. Settable EXPERT , FULL , NONE , NOT_EDITABLE Method Summary All Methods Instance Methods Abstract Methods Modifier and Type Method and Description java.io.File asFile () Return the file as a File object. java.net.URL asURL () Retur"
+    },
+    {
+      "chunk_id": 19,
+      "text": "file as a File object. java.net.URL asURL () Return the file as a URL. void close () Close the file. java.net.URI getBaseDirectory () Return the directory to use as the base for relative file or URL names. java.io.BufferedReader openForReading () Ope"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ames. java.io.BufferedReader openForReading () Open the file or URL for reading. java.io.Writer openForWriting () Open the file for writing. java.io.Writer openForWriting (boolean append) Open the file for writing or appending. void setBaseDirectory"
+    },
+    {
+      "chunk_id": 21,
+      "text": "e for writing or appending. void setBaseDirectory (java.net.URI directory) Set the directory to use as the base for relative file or URL names. Methods inherited from interface ptolemy.kernel.util. Settable addValueListener , getDefaultExpression , g"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ttable addValueListener , getDefaultExpression , getDisplayName , getExpression , getValueAsString , getVisibility , removeValueListener , setExpression , setVisibility , validate Methods inherited from interface ptolemy.kernel.util. Nameable descrip"
+    },
+    {
+      "chunk_id": 23,
+      "text": "om interface ptolemy.kernel.util. Nameable description , getContainer , getFullName , getName , getName , setName Method Detail asFile java.io.File asFile() throws IllegalActionException Return the file as a File object. This method fir"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Return the file as a File object. This method first attempts to directly use the file name to construct the File. If the resulting File is not absolute, then it attempts to resolve it relative to the base directory returned by getBaseDirectory"
+    },
+    {
+      "chunk_id": 25,
+      "text": "to the base directory returned by getBaseDirectory(). If there is no such base URI, then it simply returns the relative File object. The file need not exist for this method to succeed. Thus, this method can be used to determine whether a file"
+    },
+    {
+      "chunk_id": 26,
+      "text": "is method can be used to determine whether a file with a given name exists, prior to calling openForWriting(). A typical usage looks like this: FileAttribute fileAttribute; ... File file = fileAttribute.asFile(); if (file.exists"
+    },
+    {
+      "chunk_id": 27,
+      "text": "le = fileAttribute.asFile(); if (file.exists()) { ... Ask the user if it's OK to overwrite... ... Throw an exception if not... } // The following will overwrite an existing file. Writer writer = new PrintWrit"
+    },
+    {
+      "chunk_id": 28,
+      "text": "existing file. Writer writer = new PrintWriter(fileAttribute.openForWriting()); Returns: A File, or null if no file name has been specified. Throws: IllegalActionException - If a parse error occurs reading the file name. See Also: getBaseDir"
+    },
+    {
+      "chunk_id": 29,
+      "text": "urs reading the file name. See Also: getBaseDirectory() asURL java.net.URL asURL() throws IllegalActionException Return the file as a URL. If the file name is relative, then it is interpreted as being relative to the directory retur"
+    },
+    {
+      "chunk_id": 30,
+      "text": "terpreted as being relative to the directory returned by getBaseDirectory(). If the name begins with \"$CLASSPATH\", then search for the file relative to the classpath. If no file is found, then it throws an exception. Returns: A URL, or null if"
+    },
+    {
+      "chunk_id": 31,
+      "text": "t throws an exception. Returns: A URL, or null if no file name or URL has been specified. Throws: IllegalActionException - If the file cannot be read, or if the file cannot be represented as a URL (e.g. System.in). close void close() throws Il"
+    },
+    {
+      "chunk_id": 32,
+      "text": "(e.g. System.in). close void close() throws IllegalActionException Close the file. If it has not been opened using openForReading() or openForWriting(), then do nothing. Also, if the file is System.in or System.out, then do not close it (it"
+    },
+    {
+      "chunk_id": 33,
+      "text": "System.in or System.out, then do not close it (it does not make sense to close these files). Throws: IllegalActionException - If the file or URL cannot be closed. getBaseDirectory java.net.URI getBaseDirectory() Return the directory to use as th"
+    },
+    {
+      "chunk_id": 34,
+      "text": "tBaseDirectory() Return the directory to use as the base for relative file or URL names. If setBaseDirectory() has been called, then that directory is returned. Otherwise, the directory containing the file returned by URIAttribute.getModelURI("
+    },
+    {
+      "chunk_id": 35,
+      "text": "g the file returned by URIAttribute.getModelURI() is returned, which is the URI of the first container above this attribute in the hierarchy that has a URIAttribute, or null if there none. Returns: A directory name, or null if there is none. Se"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ns: A directory name, or null if there is none. See Also: setBaseDirectory(URI) , URIAttribute.getModelURI(NamedObj) openForReading java.io.BufferedReader openForReading() throws IllegalActionException Open the file or"
+    },
+    {
+      "chunk_id": 37,
+      "text": "throws IllegalActionException Open the file or URL for reading. If the name begins with \"$CLASSPATH\", then search for the file relative to the classpath. If the name is relative, then it is relative to the directory returned by getBaseDirect"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ative to the directory returned by getBaseDirectory(). Returns: A buffered reader. Throws: IllegalActionException - If the file or URL cannot be opened. See Also: getBaseDirectory() openForWriting java.io.Writer openForWriting()"
+    },
+    {
+      "chunk_id": 39,
+      "text": "g java.io.Writer openForWriting() throws IllegalActionException Open the file for writing. If the file does not exist, then create it. If the file name is not absolute, the it is assumed to be relative to the base directo"
+    },
+    {
+      "chunk_id": 40,
+      "text": "it is assumed to be relative to the base directory returned by getBaseDirectory(). If permitted, this method will return a Writer that will simply overwrite the contents of the file. It is up to the user of this method to check whether this i"
+    },
+    {
+      "chunk_id": 41,
+      "text": "the user of this method to check whether this is OK (by first calling asFile() and calling exists() on the returned value). Returns: A writer, or null if no file name has been specified. Throws: IllegalActionException - If the file cannot be ope"
+    },
+    {
+      "chunk_id": 42,
+      "text": "IllegalActionException - If the file cannot be opened or created. See Also: getBaseDirectory() , asFile() openForWriting java.io.Writer openForWriting(boolean append) throws IllegalActionException Open the file for writing o"
+    },
+    {
+      "chunk_id": 43,
+      "text": "IllegalActionException Open the file for writing or appending. If the file does not exist, then create it. If the file name is not absolute, the it is assumed to be relative to the base directory returned by getBaseDirectory(). If permitted,"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ry returned by getBaseDirectory(). If permitted, this method will return a Writer that will simply overwrite the contents of the file. It is up to the user of this method to check whether this is OK (by first calling asFile() and calling exis"
+    },
+    {
+      "chunk_id": 45,
+      "text": "s OK (by first calling asFile() and calling exists() on the returned value). Parameters: append - If true, then append to the file rather than overwriting. Returns: A writer, or null if no file name has been specified. Throws: IllegalActionExcep"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ame has been specified. Throws: IllegalActionException - If the file cannot be opened or created. See Also: getBaseDirectory() , asFile() setBaseDirectory void setBaseDirectory(java.net.URI directory) Set the directory to use as the base for relat"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ry) Set the directory to use as the base for relative file or URL names. If this is not called, then the default is the directory containing the file returned by URIAttribute.getModelURI(). Parameters: directory - The base directory. See Also: ge"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ters: directory - The base directory. See Also: getBaseDirectory() , URIAttribute.getModelURI(NamedObj) Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

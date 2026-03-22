@@ -1,0 +1,153 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/VersionCurrent/Input",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / Input Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / Input (redirected from VersionCurrent.Input ) Overview An ac"
+    },
+    {
+      "chunk_id": 2,
+      "text": "irected from VersionCurrent.Input ) Overview An accessor may define any number of inputs in the body of its setup() function using input ( <string> name , [ options ]): Create an input with the specified name and options. For example: exports. setup"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ied name and options. For example: exports. setup = function ( ) { this . input ( 'bridgeIPAddress' , { 'type' : 'string' , 'value' : 'localhost' } ) ; } [$[Get Code]] The input () function takes one or two arguments, a name (a required string, recom"
+    },
+    {
+      "chunk_id": 4,
+      "text": "or two arguments, a name (a required string, recommended to be camelCase with a leading lower-case character) and an object giving any of the options: type The data type of the input. If this is not specified, then any valid JavaScript value may be p"
+    },
+    {
+      "chunk_id": 5,
+      "text": "pecified, then any valid JavaScript value may be provided as an input. If it is specified, it must be one of the valid data types . value A default value for the input. Specifying a default value ensures that get () will not return null (see below)."
+    },
+    {
+      "chunk_id": 6,
+      "text": "res that get () will not return null (see below). In the Cape Code Host , an input will be a Ptolemy PortParameter if the input has a value option. (See Setting the Default Value of an Input ) options An array of possible values for this input. A use"
+    },
+    {
+      "chunk_id": 7,
+      "text": "An array of possible values for this input. A user interface may list these possible values, and a host may restrict the values to be one of these values. visibility A hint to the host of whether this input should be made visible to casual users. Th"
+    },
+    {
+      "chunk_id": 8,
+      "text": "s input should be made visible to casual users. This is a string that is one of \"full\", \"none\", \"expert\", or \"notEditable\", meaning \"full visibility\", \"no visibility\", \"expert visibility\", or \"visible, but not editable\". This option is useful for acc"
+    },
+    {
+      "chunk_id": 9,
+      "text": ", but not editable\". This option is useful for accessors that extend other accessors but do not want to make the inputs of the base accessor visible in the derived accessor. The name is required to be distinct from other inputs, outputs, and paramete"
+    },
+    {
+      "chunk_id": 10,
+      "text": "distinct from other inputs, outputs, and parameters. It may match the name of an input in a base accessor (specified by either extend() or implement() ), in which case the options will override those specified in the base. Getting Inputs The current"
+    },
+    {
+      "chunk_id": 11,
+      "text": "specified in the base. Getting Inputs The current value of an input may be retrieved in the accessor's JavaScript code using the get () function, as in the following example: var address = this . get ( 'bridgeIPAddress' ) ; [$[Get Code]] The get ()"
+    },
+    {
+      "chunk_id": 12,
+      "text": "( 'bridgeIPAddress' ) ; [$[Get Code]] The get () function takes one argument, the input name (as a string). If the input definition includes a value option, then get () will not return null unless the accessor has specifically been sent a null. If y"
+    },
+    {
+      "chunk_id": 13,
+      "text": "e accessor has specifically been sent a null. If you call get () before the accessor host has provided any input value, then the returned value will be that given in the value option. Subsequently, the returned value will be the most recent value pro"
+    },
+    {
+      "chunk_id": 14,
+      "text": "e returned value will be the most recent value provided by the accessor host. If no value option is given, then get () will return null if called before the host has provided an input. In addition, get () may return null if there is no current input"
+    },
+    {
+      "chunk_id": 15,
+      "text": "t () may return null if there is no current input value provided by the host. This enables the host to fire the accessor while providing some and not all of the inputs. Thus, it is good programming practice to test the return value of get () for null"
+    },
+    {
+      "chunk_id": 16,
+      "text": "actice to test the return value of get () for null if no value attribute is provided. Sending to Inputs An accessor may use the send () function to send values to its own inputs. Typically, this would be done in a callback function that is triggered"
+    },
+    {
+      "chunk_id": 17,
+      "text": "be done in a callback function that is triggered by some external event. It could also be done in accessor that extends another accessor and wishes to set the value of an input in the base accessor. A side effect of sending a value to its own input"
+    },
+    {
+      "chunk_id": 18,
+      "text": "A side effect of sending a value to its own input port is to trigger an input handler given using addInputHandler (). For example, suppose that the following line is executed in a callback: this . send ( 'bridgeIPAddress' , '127.0.0.1' ) ; [$[Get Cod"
+    },
+    {
+      "chunk_id": 19,
+      "text": "d ( 'bridgeIPAddress' , '127.0.0.1' ) ; [$[Get Code]] This will send the string \"127.0.0.1\" to the bridgeIPAddress input. After the callback function has completed execution, the accessor host will call any input handler that has been registered for"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ll any input handler that has been registered for this port using addInputHandler (). In the body of the handler, the accessor can call get () to retrieve the value of the input. If an accessor sends a value to its own input in an input handler or in"
+    },
+    {
+      "chunk_id": 21,
+      "text": "a value to its own input in an input handler or in the fire() function, the updated value of that input will not be available until the next reaction. An input value remains constant throughout a reaction. If you send a null value to an input, then g"
+    },
+    {
+      "chunk_id": 22,
+      "text": "tion. If you send a null value to an input, then get () on that input will return null on the next invocation, even if a value attribute is given for that input. Setting the Default Value of an Input As shown above, if a 'value' option is given when"
+    },
+    {
+      "chunk_id": 23,
+      "text": "As shown above, if a 'value' option is given when defining an input, then the input will have a default value. You can change that default value (or add one to an input that did not previously have one) using the setDefault () function. For example:"
+    },
+    {
+      "chunk_id": 24,
+      "text": "e) using the setDefault () function. For example: this . setDefault ( 'bridgeIPAddress' , '127.0.0.1' ) ; [$[Get Code]] Unlike using send (), however, this will not trigger execution of any input handler. Also unlike send (), the host may treat this"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ler. Also unlike send (), the host may treat this new default value as a persistent value, to become a permanent default, even in future executions of the same swarmlet. Setting the default in this way can be useful in an accessors that extends anoth"
+    },
+    {
+      "chunk_id": 26,
+      "text": "y can be useful in an accessors that extends another, but wishes to change the default value provided by the base accessor. In the Cape Code Host , inputs with value options are Ptolemy PortParameters. Input Handlers <handle> addInputHandler ( <strin"
+    },
+    {
+      "chunk_id": 27,
+      "text": ". Input Handlers <handle> addInputHandler ( <string> input , function , [ arguments ]): Specify a function to invoke when the input with name input (a string) receives a new input value. If additional arguments are specified, those will be passed to"
+    },
+    {
+      "chunk_id": 28,
+      "text": "arguments are specified, those will be passed to the function when it is invoked. A function may be added more than once, possibly with different arguments, in which case it will be invoked more than once. If the first argument is null, or if no na"
+    },
+    {
+      "chunk_id": 29,
+      "text": "once. If the first argument is null, or if no name argument is given and the first argument is a function, then the specified function will be invoked when any new input arrives. This function returns a handle that can be used to call removeInputHa"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ns a handle that can be used to call removeInputHandler (). Note that the handler function is not limited to observing the input that triggers its execution. It can call get() on any input. See Input . removeInputHandler ( handle ): Remove the callba"
+    },
+    {
+      "chunk_id": 31,
+      "text": ". removeInputHandler ( handle ): Remove the callback function with the specified handle (returned by addInputHandler ()). Example: exports. initialize = function ( ) { // Specify a function to invoke when a new input arrives on myInput. this . addInp"
+    },
+    {
+      "chunk_id": 32,
+      "text": "when a new input arrives on myInput. this . addInputHandler ( \"myInput\" , function ( ) { ... } ) ; // Specify a function to invoke when a new input arrives on any input. this . addInputHandler ( function ( ) { ... } ) ; } ; [$[Get Code]] Note that wh"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ion ( ) { ... } ) ; } ; [$[Get Code]] Note that when the function is invoked, it will be invoked in a context where 'this' will be some arbitrary object as determined by the host. If you need to invoke accessor functions (such as get or send ) in you"
+    },
+    {
+      "chunk_id": 34,
+      "text": "e accessor functions (such as get or send ) in your handler, then you will need to capture the value of 'this' using the common JavaScript idiom, as illustrated in this example: exports. initialize = function ( ) { // Capture the value of 'this': var"
+    },
+    {
+      "chunk_id": 35,
+      "text": "function ( ) { // Capture the value of 'this': var self = this ; this . addInputHandler ( \"myInput\" , function ( ) { self. send ( 'outputName' , 'hello world' ) ; } ) ; } ; [$[Get Code]] Alternatively, you can bind the function to 'this' as follows:"
+    },
+    {
+      "chunk_id": 36,
+      "text": ", you can bind the function to 'this' as follows: exports. initialize = function ( ) { this . addInputHandler ( \"myInput\" , myFunction. bind ( this ) ) ; } ; function myFunction ( ) { this . send ( 'outputName' , 'hello world' ) ; } [$[Get Code]] Bin"
+    },
+    {
+      "chunk_id": 37,
+      "text": "utputName' , 'hello world' ) ; } [$[Get Code]] Binding the function ensures that whenever it is invoked, from any context, the value of 'this' will the value specified in the binding. See Also Output Parameter Back to accessor specification Edit - Hi"
+    }
+  ]
+}

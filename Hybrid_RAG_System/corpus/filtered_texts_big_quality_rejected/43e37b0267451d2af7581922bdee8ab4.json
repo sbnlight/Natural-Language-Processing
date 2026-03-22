@@ -1,0 +1,173 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/g++.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/c.help /share/b/pub/cc.help /share/b/pub/c++.help /share/b/pub/g++.help /sha"
+    },
+    {
+      "chunk_id": 2,
+      "text": "p /share/b/pub/c++.help /share/b/pub/g++.help /share/b/pub/gcc.help /share/b/pub/gdb.help /share/b/pub/gcj.help Sep 27 2018 CONTENTS: Overview Compilers and Debuggers on UNIX GNU gcc, gdb: Common Errors GNU 'collector' Chez Scheme m"
+    },
+    {
+      "chunk_id": 3,
+      "text": "db: Common Errors GNU 'collector' Chez Scheme mips Cross Compiler [out of date] Overview -------- The default version of the gcc compiler is on our Linux systems is v5, in /usr/bin/gcc. For the names and locations of our computers and log"
+    },
+    {
+      "chunk_id": 4,
+      "text": "the names and locations of our computers and login servers, please see https://inst.eecs.berkeley.edu/cgi-bin/clients. (Sep 2018) gcc-7 has been installed in /usr/bin/gcc-7 on the Linux PCs in 330 Soda (https://inst.eecs.berkeley.edu/cgi-bin"
+    },
+    {
+      "chunk_id": 5,
+      "text": "330 Soda (https://inst.eecs.berkeley.edu/cgi-bin/clients?choice=330soda). The compilers and libraries are typically located in /usr/bin and /usr/lib. Please read /share/b/pub/software.help for information about setting UNIX search paths"
+    },
+    {
+      "chunk_id": 6,
+      "text": "for information about setting UNIX search paths for programs and man pages. Microsoft Visual Studio compilers are available on Windows workstations and servers. Please see /share/b/pub/microsoft.help. Compilers and Debuggers on UNIX -----"
+    },
+    {
+      "chunk_id": 7,
+      "text": "soft.help. Compilers and Debuggers on UNIX ------------------------------- These may be available in /usr/bin: gcc - GNU cc compiler gdb - GNU debugger ddd - data display debugger (with graphical X11 interface) gjdb - locally-developed Java"
+    },
+    {
+      "chunk_id": 8,
+      "text": "cal X11 interface) gjdb - locally-developed Java debugger, for CS61B jdb - Java debugger gcj - compiles Java source or byte code to native binary code gdb can work with Fortran and C code, with the commands set lang fortran set lang c"
+    },
+    {
+      "chunk_id": 9,
+      "text": "the commands set lang fortran set lang c (Pascal code is not suported, as ther is no command \"set lang pascal\".) Note that more than one version is typically available. The command \"gcc -v\" will display the current default version."
+    },
+    {
+      "chunk_id": 10,
+      "text": "\"gcc -v\" will display the current default version. You can invoke gcc with the \"-V\" option to get a specific version, such as: % gcc -V2.7.2.3 -o foo foo.c GNU gcc, gdb: Common Errors --------------------------- TEMPLATES: Older versio"
+    },
+    {
+      "chunk_id": 11,
+      "text": "------------------ TEMPLATES: Older versions of g++ and STL generate error messages about ambiguous template instantiations if the classes are not defined in a specific order. That is, this works: #include #include But this fa"
+    },
+    {
+      "chunk_id": 12,
+      "text": "is, this works: #include #include But this fails: #include #include This problem is solved with g++ 2.7.2.3 and the Moscow/SGI port of STL (available from http://www.ipmce.su/~fbp/stl/). Similarly, you may find that older C++ code"
+    },
+    {
+      "chunk_id": 13,
+      "text": ". Similarly, you may find that older C++ code does not include explicit template instantiation statements; you might want to include more of these if you find that the compiler chokes on your templated code. If you get an error message"
+    },
+    {
+      "chunk_id": 14,
+      "text": "r templated code. If you get an error message such as fatal: libstdc++.so.5: open failed: No such file or directory it is probably because the compiler does not know where the libraries are. You can solve that by giving the options co"
+    },
+    {
+      "chunk_id": 15,
+      "text": "are. You can solve that by giving the options command-line options -L/usr/lib -R/usr/lib The -R option specifies Runtime linking behavior. The -L specifies compile time linking behavior. GNU 'collector' -------------- From brg@cory.EEC"
+    },
+    {
+      "chunk_id": 16,
+      "text": "GNU 'collector' -------------- From brg@cory.EECS.Berkeley.EDU Fri May 7 10:32:32 1999 Subject: Re: g++ collector > Where is the g++ collector (i.e. collect2)? > I can't find collect2 anywhere on the instructional systems. It depends"
+    },
+    {
+      "chunk_id": 17,
+      "text": "here on the instructional systems. It depends on the architecture (target platform) and the compiler you're using. collect2 is not always used, especially if the GNU linker can be built for the target platform; when it is, it's invariably in"
+    },
+    {
+      "chunk_id": 18,
+      "text": "he target platform; when it is, it's invariably installed inside the gcc-lib tree. Which compiler are you using? I note that you sent mail from parker, which is an HP; on that machine, there are three versions of g++ installed, each with its o"
+    },
+    {
+      "chunk_id": 19,
+      "text": "three versions of g++ installed, each with its own collector (a \"thin\" interface to the HP linker, /usr/bin/ld.) /share/d/hppa1.1-hp-hpux10.20/bin/g++ (same as /usr/local/bin/g++, GCC 2.7.2.3, the most ancient compiler) uses: /usr/"
+    },
+    {
+      "chunk_id": 20,
+      "text": ".2.3, the most ancient compiler) uses: /usr/local/lib/gcc-lib/hppa1.1-hp-hpux10.20/2.7.2.3/ld /usr/sww/bin/g++ (GCC 2.8.1) uses: /usr/sww/pkg/gcc-2.8.1/lib/gcc-lib/hppa1.1-hp-hpux10.20/2.8.1/ld You can find the collector or li"
+    },
+    {
+      "chunk_id": 21,
+      "text": ".20/2.8.1/ld You can find the collector or linker using this simple heuristic: % set libgcc = `gcc --print-libgcc-file-name` ^^^-- where \"gcc\" is the compiler you're using % cd `dirname $libgcc` % ls -l `pwd`/coll"
+    },
+    {
+      "chunk_id": 22,
+      "text": "% cd `dirname $libgcc` % ls -l `pwd`/collect2 `pwd`/ld Chez Scheme ----------- Codecenter (Saber C) from Centerline, Inc., Cambridge MA, was used in some CS classes in the early 1990's but is no longer supported on the EECS Inst"
+    },
+    {
+      "chunk_id": 23,
+      "text": "90's but is no longer supported on the EECS Instructional computers. mips Cross Compiler [out of date] -------------------------------- (Sep 2018) The section is out of date and under construction. (Jul 1999) A MIPS cross compiler for the In"
+    },
+    {
+      "chunk_id": 24,
+      "text": "on. (Jul 1999) A MIPS cross compiler for the Instructional Solaris x86 workstations is available under the directory /usr/sww/lang/mips/bin. (Jan 2000) A MIPS cross compiler for the Instructional Solaris SPARC server is available under the"
+    },
+    {
+      "chunk_id": 25,
+      "text": "nal Solaris SPARC server is available under the directory /share/instsww/lang/mips/bin. To use these tools, add the directories to your path: % set path = ( /share/instsww/lang/mips/bin /usr/sww/lang/mips/bin $path ) % rehash You can a"
+    },
+    {
+      "chunk_id": 26,
+      "text": "sww/lang/mips/bin $path ) % rehash You can add the above \"set path\" command to the end of your ~/.cshrc to make it a permanent setting for future logins. Available on Solaris x86: (Jul 1999) - gcc version 2.95 19990718 (prerelease)"
+    },
+    {
+      "chunk_id": 27,
+      "text": ") - gcc version 2.95 19990718 (prerelease) - GNU binutils version 2.9.5.0.3 Available on Solaris SPARC: (Jan 2000) - gcc version 2.95.2 19991024 (release) - GNU binutils version 2.9.1.0.25 The gcc MIPS cross-compiler is an optio"
+    },
+    {
+      "chunk_id": 28,
+      "text": ".1.0.25 The gcc MIPS cross-compiler is an option for compiling binary or assembly code for the DEC MIPS architecture. The DEC MIPS architecture was used on the older DEC workstations running DEC's ULTRIX operating system. (These are not"
+    },
+    {
+      "chunk_id": 29,
+      "text": "DEC's ULTRIX operating system. (These are not the same as the new DEC Alpha systems, which run DEC UNIX, aka \"OSF1\". Type the \"uname\" command on your computer to see which type of computer you are using.) You can use this program to co"
+    },
+    {
+      "chunk_id": 30,
+      "text": "you are using.) You can use this program to compile code for Volga, the Instructional MIPS server. To compile a program named \"mycode.c\", you can type: % mips-dec-ultrix4.3-gcc -o mycode mycode.c To generate assembly code, use the \"-S\""
+    },
+    {
+      "chunk_id": 31,
+      "text": "code.c To generate assembly code, use the \"-S\" option, for example: % mips-dec-ultrix4.3-gcc -S mycode.c The following MIPS cross tools of interest are installed: mips-dec-ultrix4.3-addr2line, looks up lines in source code given"
+    },
+    {
+      "chunk_id": 32,
+      "text": "dr2line, looks up lines in source code given addresses in binary code mips-dec-ultrix4.3-ar, creates object file archives (.a files) mips-dec-ultrix4.3-as, GNU assembler for MIPS assembly language mips-dec-ultrix4.3-g++, also called"
+    },
+    {
+      "chunk_id": 33,
+      "text": "language mips-dec-ultrix4.3-g++, also called mips-dec-ultrix4.3-c++, GNU C++ compiler mips-dec-ultrix4.3-c++filt, C++ name de-mangler; run it like this: nm c++objectfile.o | c++filt to see the real method names mips-dec-ultrix"
+    },
+    {
+      "chunk_id": 34,
+      "text": "to see the real method names mips-dec-ultrix4.3-gasp, GNU Assembler macro preprocessor mips-dec-ultrix4.3-gcc, GNU C compiler mips-dec-ultrix4.3-gcj, front end to GNU Java compiler (NOT installed) mips-dec-ultrix4.3-ld, GNU linker f"
+    },
+    {
+      "chunk_id": 35,
+      "text": "installed) mips-dec-ultrix4.3-ld, GNU linker for MIPS ECOFF binary files mips-dec-ultrix4.3-nm, provides symbol table listings of ECOFF binaries mips-dec-ultrix4.3-objcopy, translates, adjusts, and extracts sections from MIPS ECOFF b"
+    },
+    {
+      "chunk_id": 36,
+      "text": "usts, and extracts sections from MIPS ECOFF binary files mips-dec-ultrix4.3-objdump, advanced GNU disassembler/ECOFF binary file lister mips-dec-ultrix4.3-protoize, inserts prototypes into C/C++ code mips-dec-ultrix4.3-ranlib, g"
+    },
+    {
+      "chunk_id": 37,
+      "text": "s into C/C++ code mips-dec-ultrix4.3-ranlib, generate indices for quick random access to archive (.a) files mips-dec-ultrix4.3-readelf, ELF-specific binary file lister mips-dec-ultrix4.3-size, lists section sizes and total in-core si"
+    },
+    {
+      "chunk_id": 38,
+      "text": "4.3-size, lists section sizes and total in-core size of a binary file mips-dec-ultrix4.3-strings, lists printable ASCII strings from files mips-dec-ultrix4.3-strip, removes debugging/symbol table info from files mips-dec-ultrix4.3-un"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ol table info from files mips-dec-ultrix4.3-unprotoize, removes prototypes from C/C++ code Note that configuring programs that use GNU autoconf to use the cross compiler can be tricky; sometimes you can get better results by configuring th"
+    },
+    {
+      "chunk_id": 40,
+      "text": "mes you can get better results by configuring the program on volga to use the native compiler and then editing the Makefiles, etc., by hand to reference mips-dec-ultrix4.3-gcc instead of gcc. (Jul 1999) Note: The C++ cross-compiler, while av"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ul 1999) Note: The C++ cross-compiler, while available, is not currently supported because the C++ standard library is not available for the DEC ULTRIX platform. (Sep 1999) EECS Instructional Support 378/384/38"
+    },
+    {
+      "chunk_id": 42,
+      "text": "EECS Instructional Support 378/384/386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

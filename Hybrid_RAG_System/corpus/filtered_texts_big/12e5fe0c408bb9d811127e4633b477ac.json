@@ -1,0 +1,137 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/ptolemy/domains/ptinyos/doc/installViptosUnderCygwin.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Ptolemy II PtinyOS Domain Installation Notes for Cygwin Ptolemy II PtinyOS Domain Installation Notes for Cygwin These are the quick instructions for setting up the Ptolemy II PtinyOS domain. If you have problems, please see the general Ptolemy II Pt"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ave problems, please see the general Ptolemy II PtinyOS Domain Installation Notes page. Follow the Ptolemy II Cygwin Installation instructions and download the Cygwin devel tools and install them. Under Windows, you will need to edit you jni_md.h fil"
+    },
+    {
+      "chunk_id": 3,
+      "text": "er Windows, you will need to edit you jni_md.h file Edit the file <jdk_root >/include/win32/jni_md.h , Where jdk_root is the installation root (eg., c:/Program Files/Java/jdk1.5.0_01 Replace the segment: typedef __int64 jlong; with: #ifdef __GNUC__"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ent: typedef __int64 jlong; with: #ifdef __GNUC__ typedef long long jlong; #else typedef __int64 jlong; #endif Make sure that /usr/local/bin is in your path before /usr/bin . Under Cygwin, the easiest way to add /usr/local/bin to your path is to"
+    },
+    {
+      "chunk_id": 5,
+      "text": "iest way to add /usr/local/bin to your path is to edit $HOME/.bashrc and add PATH=/usr/local/bin:${PATH} Another way is via the System control panel (For details, see Set the value of the PTII environment variable ). If you set you"
+    },
+    {
+      "chunk_id": 6,
+      "text": "of the PTII environment variable ). If you set your path using the System control panel, then add c:\\cygwin\\usr\\local\\bin; to your PATH. Note that you need to use backslashes here. Download the WinAVR tools: Download WinAVR-20040404-bin-install.exe"
+    },
+    {
+      "chunk_id": 7,
+      "text": "VR tools: Download WinAVR-20040404-bin-install.exe Install WinAVR in any directory, C:\\WinAVR is preferred, directories with spaces in the pathname might not work? Set the PTII environment variable to be the location of your Viptos download."
+    },
+    {
+      "chunk_id": 8,
+      "text": "to be the location of your Viptos download. Under Windows, use forward slashes. For example c:/viptos . This file should be found at $PTII/ptolemy/domains/ptinyos/doc/installViptosUnderCygwin.htm Under Cygwin bash, either do export PTII= whe"
+    },
+    {
+      "chunk_id": 9,
+      "text": ".htm Under Cygwin bash, either do export PTII= where Viptos is located for example: export PTII=c:/viptos or use the System control panel (For details, see Set the value of the PTII environment variable )/. To get the new environment variables s"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ariable )/. To get the new environment variables start a new Cygwin shell Make a directory into which to store the source code for TinyOS 1.x and nesC: mkdir -p $PTII/vendors/ptinyos Note that the value of $PTII should not have spaces in it. In"
+    },
+    {
+      "chunk_id": 11,
+      "text": "he value of $PTII should not have spaces in it. Install nesC from a .tar.gz distribution Download nesc-1.2.7a.tar.gz to $PTII/vendors/ptinyos Unzip and untar the nesc .tar.gz file: cd $PTII/vendors/ptinyos gunzip nesc-1.2.7a.tar.gz tar xf nesc-1.2.7a"
+    },
+    {
+      "chunk_id": 12,
+      "text": "inyos gunzip nesc-1.2.7a.tar.gz tar xf nesc-1.2.7a.tar This should create a directory called nesc-1.2.7a . Change to the newly created directory. cd nesc-1.2.7a Configure nesc: ./configure Install nesc: make make install Under Windows with WinAVR-200"
+    },
+    {
+      "chunk_id": 13,
+      "text": "c: make make install Under Windows with WinAVR-20040404, we had to copy c:/cygwin/usr/local/lib/ncc/ to c:/usr/local/lib/ncc/ : mkdir -p c:/usr/local/lib cd c:/usr/local/lib cp -r /usr/local/lib/ncc . The reason is that Cygwin mounts directories unde"
+    },
+    {
+      "chunk_id": 14,
+      "text": "The reason is that Cygwin mounts directories under c:/cygwin and the WinAVR binaries don't know how to handle that. Under Windows with WinAVR-20040404, we also had to modify c:\\usr\\local\\lib\\ncc\\nesc_nx.h so that #include <inttypes.h> is chang"
+    },
+    {
+      "chunk_id": 15,
+      "text": "c\\nesc_nx.h so that #include <inttypes.h> is changed to #include <sys/types.h> Otherwise, when we try to compile nesC applications, the compiler complains that it cannot find the file. We have put into the TinyOS 1.x makefiles a rule that you can"
+    },
+    {
+      "chunk_id": 16,
+      "text": "o the TinyOS 1.x makefiles a rule that you can run to create all the TinyOS libraries in one step. To use this, as of this writing, you need to get TinyOS 1.x from the CVS repository rather than getting the packaged install version. To do"
+    },
+    {
+      "chunk_id": 17,
+      "text": "r than getting the packaged install version. To do this, type: cd $PTII/vendors/ptinyos cvs -d:pserver:anonymous@tinyos.cvs.sourceforge.net:/cvsroot/tinyos login Hit Enter when prompted for a password cvs -z3 -d:pserver:anonymous@tinyos.cvs.sourc"
+    },
+    {
+      "chunk_id": 18,
+      "text": "word cvs -z3 -d:pserver:anonymous@tinyos.cvs.sourceforge.net:/cvsroot/tinyos co -P tinyos-1.x OR We've made a zipped version of the tinyos-1.x cvs repository available for archival purposes. Download tinyos-1.x-2007-01-17.zip Unzip it in $PTII/v"
+    },
+    {
+      "chunk_id": 19,
+      "text": "load tinyos-1.x-2007-01-17.zip Unzip it in $PTII/vendors/ptinyos Either method will create a directory tinyos-1.x . For more information about cvs and tinyos-1.x, see http://sourceforge.net/cvs/?group_id=28656 . Set up the necessary envi"
+    },
+    {
+      "chunk_id": 20,
+      "text": "vs/?group_id=28656 . Set up the necessary environment variables. TOSROOT sets the location of the TinyOS source tree. TOSDIR sets the tos subdirectory in the TinyOS source tree. PTINYOS_MOMLROOT sets the MoML output directory. Under Win"
+    },
+    {
+      "chunk_id": 21,
+      "text": "MOMLROOT sets the MoML output directory. Under Windows with Cygwin, you can permanently set environment variables from the System control panel. (For details, see Set the value of the PTII environment variable ). Go to Start Menu -> S"
+    },
+    {
+      "chunk_id": 22,
+      "text": "PTII environment variable ). Go to Start Menu -> Settings -> Control Panels -> System -> Advanced -> Environment Variables. Set TOSROOT to %PTII%/vendors/ptinyos/tinyos-1.x Set TOSDIR to %PTII%/vendors/ptinyos/tinyos-1.x/tos Set PTINYOS_MOMLROOT to %"
+    },
+    {
+      "chunk_id": 23,
+      "text": "s/ptinyos/tinyos-1.x/tos Set PTINYOS_MOMLROOT to %PTII%/vendors/ptinyos/moml Note: If you are using Cygwin, and configure has trouble finding TOSROOT or TOSDIR , try expanding your $PTII environment variable to /cygdrive/c/ptII or"
+    },
+    {
+      "chunk_id": 24,
+      "text": "$PTII environment variable to /cygdrive/c/ptII or something similar. Also try expanding the TOSROOT and TOSDIR environment variables if you still have problems. If you set the environment variables via the System control pan"
+    },
+    {
+      "chunk_id": 25,
+      "text": "vironment variables via the System control panel, start up a new Cygwin bash shell so that you see the new variables. Reconfigure Viptos (or Ptolemy II) to recognize the new paths: cd $PTII ./configure Compile: make Configure and install the"
+    },
+    {
+      "chunk_id": 26,
+      "text": "configure Compile: make Configure and install the TinyOS 1.x nesC tools. cd $TOSROOT/tools/src/ncc ./Bootstrap ./configure make make install See if you have installed TinyOS 1.x and nesC correctly: cd $TOSROOT/apps/Blink make pc ./build/pc/main.exe 1"
+    },
+    {
+      "chunk_id": 27,
+      "text": "$TOSROOT/apps/Blink make pc ./build/pc/main.exe 1 The Blink application should successfully compile. When running the executable, you should see TOSSIM output. See $TOSROOT/doc/tutorial/lesson5.html or the online version of tutorial le"
+    },
+    {
+      "chunk_id": 28,
+      "text": "/lesson5.html or the online version of tutorial lesson 5 for more information. Unzip the pre-generated libraries: cd $PTII/vendors/ptinyos cat $PTII/ptolemy/domains/ptinyos/util/nc2moml/nc2moml-tinyos-1.1.15Dec2005cvs-1.tar.gz | gunzip | tar -xvf - T"
+    },
+    {
+      "chunk_id": 29,
+      "text": "-1.1.15Dec2005cvs-1.tar.gz | gunzip | tar -xvf - This will create $PTII/vendors/ptinyos/moml and contains the MoML libraries corresponding to the Dec 2005 TinyOS RPM release. If you want to generate the MoML library files from scratch, see $PTII/ptol"
+    },
+    {
+      "chunk_id": 30,
+      "text": "he MoML library files from scratch, see $PTII/ptolemy/domains/ptinyos/util/nc2moml/index.htm Unzip the pre-generated applications: cd $PTII/vendors/ptinyos cat $PTII/ptolemy/domains/ptinyos/util/ncapp2moml/ncapp2moml-tinyos-1.1.15Dec2005cvs-1.tar.gz"
+    },
+    {
+      "chunk_id": 31,
+      "text": "2moml/ncapp2moml-tinyos-1.1.15Dec2005cvs-1.tar.gz | gunzip | tar -xvf - This will create $PTII/vendors/ptinyos/momlapp and contains the MoML applications corresponding to the Dec 2005 TinyOS RPM release. If you want to generate the MoML application f"
+    },
+    {
+      "chunk_id": 32,
+      "text": "se. If you want to generate the MoML application files from scratch, see $PTII/ptolemy/domains/ptinyos/util/ncapp2moml/index.htm Run $PTII/bin/viptos and run one of the demos. You should see messages on stdout and eventually the images of the m"
+    },
+    {
+      "chunk_id": 33,
+      "text": "on stdout and eventually the images of the motes should blink"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/ROS/ScarabsPoseDatatype",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | ROS / ScarabsPoseDatatype Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print ROS / ScarabsPoseDatatype Introduction Scarab publishes its cu"
+    },
+    {
+      "chunk_id": 2,
+      "text": "sPoseDatatype Introduction Scarab publishes its current position and subscribes to waypoints formatted according to the ROS geometry_msgs/Pose datatype . This is of the form: { position: {x: .., y:.., z:..} orientation: {w:.., x:."
+    },
+    {
+      "chunk_id": 3,
+      "text": ".., y:.., z:..} orientation: {w:.., x:.., y:.., z..} } Any pose data you send to the /goal topic, must be formatted according as above. The HFN package in the Scarab will then interpret it as documented below. Position There are Cartesian"
+    },
+    {
+      "chunk_id": 4,
+      "text": "as documented below. Position There are Cartesian x, y, z coordinates. z should always be set to 0, since Scarab is just a humble ground robot. Orientation This is in quaternion form . A quaternion takes a rotation axis in a unit vector form, vx , v"
+    },
+    {
+      "chunk_id": 5,
+      "text": "akes a rotation axis in a unit vector form, vx , vy , vz , a rotation angle, theta , and represents it as: ( w , x , y , z ) = (cos(0.5* theta ), vx' sin(0.5 'theta ), vy' sin(0.5 'theta ), vz *sin(0.5 theta )) Note that ( vx , vy , vz ) must be a un"
+    },
+    {
+      "chunk_id": 6,
+      "text": "5 theta )) Note that ( vx , vy , vz ) must be a unit vector. Since Scarab is just a humble ground robot, its orientation vector always has x and y set to 0. This means its rotation axis, in cartesian form, is ( vx , vy , vz ) = (0, 0, 1). When publis"
+    },
+    {
+      "chunk_id": 7,
+      "text": "form, is ( vx , vy , vz ) = (0, 0, 1). When publishing an orientation to Scarab, if you want it to face an angle theta from the x-axis just set the quartenion orientation to: ( w , x , y , z ) = (cos(0.5* theta ), 0, 0, sin(0.5* theta ) These are a f"
+    },
+    {
+      "chunk_id": 8,
+      "text": "0.5* theta ), 0, 0, sin(0.5* theta ) These are a few examples, with theta being desired rotation from x-axis in radians, and ( w , x , y , z ) being the quartenion orientation: theta 0 pi/6 pi/4 pi/3 pi/2 pi w 1 0.97 0.92 0.87 0.71 0 x 0 0 0 0 0 0 y"
+    },
+    {
+      "chunk_id": 9,
+      "text": "pi/2 pi w 1 0.97 0.92 0.87 0.71 0 x 0 0 0 0 0 0 y 0 0 0 0 0 0 z 0 0.26 0.38 0.5 0.71 1 If you publish the a quaternion orientation of: ( w , x , y , z ) = (0.707, 0, 0, 1), this is faulty data because you are setting the rotation angle: theta = pi/2,"
+    },
+    {
+      "chunk_id": 10,
+      "text": "you are setting the rotation angle: theta = pi/2, and the rotational unit vector to: ( vx , vy , vz ) = (0, 0, 0, 1/0.707). This does not make a unit vector. Scarab will ignore the w expression, assume vz = 1, and derive the angle theta from the z e"
+    },
+    {
+      "chunk_id": 11,
+      "text": "me vz = 1, and derive the angle theta from the z expression: sin(0.5* theta ) = 1\\\\ theta = pi Thus it will interpret the faulty data as: ( w , x , y , z ) = (0, 0, 0, 1), See Also ROS Edit - History - Print - Recent Changes - Search Page last modifi"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/get-submissions",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"\", 1, 2); require \"GradingCommon.pl\"; my $assgn = shift; my $patn = shift; if (! AssignmentExists ($assgn)) { Fatal (\"Error: assignment $assgn not found.\"); } $me = MyLogin (); if ($patn) { CheckPatn ("
+    },
+    {
+      "chunk_id": 3,
+      "text": "} $me = MyLogin (); if ($patn) { CheckPatn ($patn) || Fatal (\"'$patn' is not a valid regular expression pattern.\"); } else { if (! ReaderExists ($me)) { Fatal (\"No pattern supplied and you are not registered as a reader.\"); } $log"
+    },
+    {
+      "chunk_id": 4,
+      "text": "are not registered as a reader.\"); } $loginPatn = $READER_ASSIGNMENTS{$me}; } opendir (SUBMISSIONS, \"$SUBMISSION_DIR/$assgn\") || Fatal (\"No submissions for $assgn.\"); while (defined ($subm = readdir (SUBMISSIONS))) { $file = \"$SUBM"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ubm = readdir (SUBMISSIONS))) { $file = \"$SUBMISSION_DIR/$assgn/$subm\"; if (not -f $file or IsPartnerSubmission ($file)) { next; } ($login) = ($subm =~ /([^.]+)\\./); if (($patn && $subm =~ /^$patn$/o) || ($loginPatn && \"${assg"
+    },
+    {
+      "chunk_id": 6,
+      "text": "& $subm =~ /^$patn$/o) || ($loginPatn && \"${assgn}::$login\" =~ /$loginPatn/o)) { if (-e $subm) { Warn (\"File $subm already exists\"); } else { symlink ($file, $subm) || Warn (\"Could not create link to $subm.\"); } unlink (\"ok-$subm\","
+    },
+    {
+      "chunk_id": 7,
+      "text": "t create link to $subm.\"); } unlink (\"ok-$subm\", \"problem-$subm\"); if (-e \"$LOG_DIR/$assgn/ok/$subm\") { symlink (\"$LOG_DIR/$assgn/ok/$subm\", \"ok-$subm\") || Warn (\"Could not create link to log file.\"); } elsif (-e \"$LOG_DIR/$assgn/failed/$s"
+    },
+    {
+      "chunk_id": 8,
+      "text": "g file.\"); } elsif (-e \"$LOG_DIR/$assgn/failed/$subm\") { symlink (\"$LOG_DIR/$assgn/failed/$subm\", \"problem-$subm\") || Warn (\"Could not create link to log file.\"); } else { Warn (\"No log found for $subm.\"); } } } closedir (SUBMISSIO"
+    },
+    {
+      "chunk_id": 9,
+      "text": "found for $subm.\"); } } } closedir (SUBMISSIONS); exit 0;"
+    }
+  ]
+}

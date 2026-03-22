@@ -1,0 +1,105 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/TockOS/Compilation",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | TockOS / Compilation Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print TockOS / Compilation This page is about compiling the Duktape Host"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ion This page is about compiling the Duktape Host for TockOS See also Duktape2 Initial Compilation abort() / Users / cxh / src / hail / tock / userland / libtock / build / cortex-m4 / libtock.a ( sys.o ) : In function ` abort ': /Users/cxh/src/hail/t"
+    },
+    {
+      "chunk_id": 3,
+      "text": "o ) : In function ` abort ': /Users/cxh/src/hail/tock/userland/libtock/sys.c:56: multiple definition of `abort' / Users / cxh / src / hail / tock / userland / newlib / libc.a ( lib_a-abort.o ) : / home / alevy / hack / helena / tock / userland / newl"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e / alevy / hack / helena / tock / userland / newlib / newlib-2.2.0.20150423-out / arm-none-eabi / armv6-m / newlib / libc / stdlib / .. / .. / .. / .. / .. / .. / newlib-2.2.0.20150423 / newlib / libc / stdlib / abort.c: 55 : first defined here [$[G"
+    },
+    {
+      "chunk_id": 5,
+      "text": "c / stdlib / abort.c: 55 : first defined here [$[Get Code]] The solution was to edit duktape/Makefile and add -DDUK_OPT_SEGFAULT_ON_PANIC to TINY_EDUK_FLAGS . _gettimeofday() / Users / cxh / src / hail / tock / userland / newlib / libc.a ( lib_a-gett"
+    },
+    {
+      "chunk_id": 6,
+      "text": "l / tock / userland / newlib / libc.a ( lib_a-gettimeofdayr.o ) : In function ` _gettimeofday_r ': /home/alevy/hack/helena/tock/userland/newlib/newlib-2.2.0.20150423-out/arm-none-eabi/armv6-m/newlib/libc/reent/../../../../../../\\ newlib-2.2.0.2015042"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ibc/reent/../../../../../../\\ newlib-2.2.0.20150423/newlib/libc/reent/gettimeofdayr.c:71: undefined reference to `_gettimeofday' collect2: error: ld returned 1 exit status make: *** [ / Users / cxh / src / hail / tock / userland / examples / duktape"
+    },
+    {
+      "chunk_id": 8,
+      "text": "src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.elf ] Error 1 [$[Get Code]] c_eventloop.c calls gettimeofday() and usleep() , which we can ifdef out temporarily: /* Get Javascript compatible 'now' timestamp ( millisecs sin"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ascript compatible 'now' timestamp ( millisecs since 1970 ) . */ static double get_now ( void ) { struct timeval tv; int rc; #ifdef __ARM_EABI__ // FIXME: Need gettimeofday ( ) , see { $ACCESSORS_HOME } / wiki / Main / DuktapeEclipseARMCortexM4 #Time"
+    },
+    {
+      "chunk_id": 10,
+      "text": "} / wiki / Main / DuktapeEclipseARMCortexM4 #TimerSetup return 0.0 ; #else rc = gettimeofday ( & tv, NULL ) ; if ( rc ! = 0 ) { /* Should never happen, so return whatever. */ return 0.0 ; } return ( ( double ) tv.tv_sec ) * 1000.0 + ( ( double ) tv."
+    },
+    {
+      "chunk_id": 11,
+      "text": "( double ) tv.tv_sec ) * 1000.0 + ( ( double ) tv.tv_usec ) / 1000.0 ; #endif } ... // Accessors: Use usleep ( ) here instead of poll ( ) . // printf ( \"timeout -> %d \\n \" , timeout ) ; #ifndef __ARM_EABI__ // FIXME: Need usleep ( ) usleep ( timeout"
+    },
+    {
+      "chunk_id": 12,
+      "text": "EABI__ // FIXME: Need usleep ( ) usleep ( timeout * 1000 ) ; #endif // rc = poll ( poll_list, poll_count, timeout ) ; rc = 0 ; [$[Get Code]] However, even with the above, we still get a message about _gettimeofday. We need to define a _gettimeofday()"
+    },
+    {
+      "chunk_id": 13,
+      "text": "_gettimeofday. We need to define a _gettimeofday() function? Adding the following to c_eventloop.c : #ifdef __ARM_EABI__ int _gettimeofday ( struct timeval * tp , void * tzp ) { return 0 ; } #endif [$[Get Code]] solves the problem LD / Users / cxh /"
+    },
+    {
+      "chunk_id": 14,
+      "text": "[Get Code]] solves the problem LD / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.elf BIN / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.bin Compiling byteorder"
+    },
+    {
+      "chunk_id": 15,
+      "text": "/ build / cortex-m4 / app.bin Compiling byteorder v0.4.2 Compiling getopts v0.2.14 Compiling elf v0.0.6 ( https: // github.com / cole14 / rust-elf #7398e3e0) Compiling elf2tbf v0.1.0 ( file: /// Users / cxh / src / hail / tock / userland / tools / el"
+    },
+    {
+      "chunk_id": 16,
+      "text": "/ cxh / src / hail / tock / userland / tools / elf2tbf ) Finished debug [ unoptimized + debuginfo ] target ( s ) in 2.73 secs Running `/ Users / cxh / src / hail / tock / userland / tools / elf2tbf / target / debug / elf2tbf -o / Users / cxh / src /"
+    },
+    {
+      "chunk_id": 17,
+      "text": "target / debug / elf2tbf -o / Users / cxh / src / hail / tock / userland / examples / \\ duktape / build / cortex-m4 / app.bin / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.elf ` text data bss"
+    },
+    {
+      "chunk_id": 18,
+      "text": "/ cortex-m4 / app.elf ` text data bss dec hex filename 308136 3401 272 311809 4c201 / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.elf bash-3.2$ [$[Get Code]] Next step, see Duktape Eclipse"
+    },
+    {
+      "chunk_id": 19,
+      "text": "-3.2$ [$[Get Code]] Next step, see Duktape Eclipse ARM Cortex M4 -> Timer Setup for a possible gettimeofday() solution. Or, see https://github.com/helena-project/tock/blob/master/userland/libtock/timer.h for timer_read() , so we now have: #ifdef __AR"
+    },
+    {
+      "chunk_id": 20,
+      "text": "r.h for timer_read() , so we now have: #ifdef __ARM_EABI__ #include \"timer.h\" // TockOS specific, see https://github.com/helena-project/tock/blob/master/userland/libtock/timer.h int _gettimeofday ( struct timeval * tp , void * tzp ) { return timer_re"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ruct timeval * tp , void * tzp ) { return timer_read ( ) ; } #endif [$[Get Code]] usleep() Now that it compiles, we can go back and fix some of the FIXMEs. usleep() was not found: / Users / cxh / src / hail / tock / userland / examples / duktape / c_"
+    },
+    {
+      "chunk_id": 22,
+      "text": "/ hail / tock / userland / examples / duktape / c_eventloop.c: 388 : undefined reference to ` usleep ' [$[Get Code]] Happily, https://github.com/helena-project/tock/blob/master/userland/examples/blink_sync/main.c defines /* Delay for for the given mi"
+    },
+    {
+      "chunk_id": 23,
+      "text": "_sync/main.c defines /* Delay for for the given microseconds (approximately). * * For a 16 MHz CPU, 1us == 16 instructions (assuming each instruction takes * one cycle). */ static void busy_delay_us ( int duration ) { // The inner loop instructions a"
+    },
+    {
+      "chunk_id": 24,
+      "text": "int duration ) { // The inner loop instructions are: 14 NOPs + 1 SUBS/ADDS + 1 CMP while ( duration -- != 0 ) { __asm volatile ( \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \""
+    },
+    {
+      "chunk_id": 25,
+      "text": "\"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" \"nop \\n \" ) ; } } [$[Get Code]] So, we can use that for microsecond delays. Or, we can use the TockOS Timer: https://github.com/helena-project/tock/blob/master/userland/libtock/timer.h See D"
+    }
+  ]
+}

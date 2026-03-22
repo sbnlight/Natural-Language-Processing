@@ -1,0 +1,309 @@
+{
+  "url": "http://people.eecs.berkeley.edu/~ronf/srinath/glider/fsm/manual/manual.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Finite State Machine Emulation on the PIC 2520 Finite State Machine Emulation on the PIC 2520 Srinath Avadhanula Contents FSM Specification Background XML syntax for FSM description Software Installation Abstract: This report describes the software a"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ion Abstract: This report describes the software and hardware setup necessary to wirelessly program and re-program the behavior of the glider. Previously, to re-program the glider behavior, the glider board had to be partly detached from the glide"
+    },
+    {
+      "chunk_id": 3,
+      "text": "er board had to be partly detached from the glider and then connected via a ZIF (Zero Insertion Force) connector to the ICD2 port. This was a dangerous and time consuming process. We therefore developed a process where the PIC 2520 is initially lo"
+    },
+    {
+      "chunk_id": 4,
+      "text": "loped a process where the PIC 2520 is initially loaded with an FSM emulation program which can understand and model a (reasonably) arbitrary Finite State Machine. The state transition table for the FSM is communicated to the PIC wirelessly via the"
+    },
+    {
+      "chunk_id": 5,
+      "text": "FSM is communicated to the PIC wirelessly via the IR photo transistors already on the PIC. The FSM emulation program then steps through the FSM and exhibits the behavior specified therein. While stepping through the FSM, the program also monitor"
+    },
+    {
+      "chunk_id": 6,
+      "text": "tepping through the FSM, the program also monitors the photo transistor and if it receives a certain (improbable) sequence of values, it erases the current FSM and waits for a new FSM description. This way, we can reprogram wirelessly by flashing"
+    },
+    {
+      "chunk_id": 7,
+      "text": "This way, we can reprogram wirelessly by flashing a pre-determined sequence of bits at the photo transistor. Thus we completely eliminate the step of detaching the glider board from the glider and attaching the ZIF connector which makes programmi"
+    },
+    {
+      "chunk_id": 8,
+      "text": "attaching the ZIF connector which makes programming and re-programming the PIC much safer and faster. FSM Specification Background A Finite State machine or FSM is a simple way to specify (or model) the behavior of a discrete time system. Wikipedi"
+    },
+    {
+      "chunk_id": 9,
+      "text": "the behavior of a discrete time system. Wikipedia contains a somewhat detailed description of the FSM. Note that our FSM is a somewhat limited subset of a generic FSM. In short, the FSM is a way to specify behavior by describing all possible stat"
+    },
+    {
+      "chunk_id": 10,
+      "text": "o specify behavior by describing all possible states in which we want the system to be and when to transition between them. At any time instant, the system will always be in one of the specified states. When it is in a state, we specify that the ma"
+    },
+    {
+      "chunk_id": 11,
+      "text": "es. When it is in a state, we specify that the machine should perform certain actions . In our case, an action is simply setting some parameter of an output peripheral of the PIC (such as the value of an LED or the duty cycle of a PWM) to a given"
+    },
+    {
+      "chunk_id": 12,
+      "text": "of an LED or the duty cycle of a PWM) to a given value. Moreover whenever the system is in any given state, we check the transition conditions corresponding to that state. When any of the transition conditions evaluate to true, then we transition to"
+    },
+    {
+      "chunk_id": 13,
+      "text": "conditions evaluate to true, then we transition to a new state (which state to transition to is specified as a part of the transition condition). In pseudo-code, our FSM emulation can be thought of as present_state_number = 0 local_timer = 0 glob"
+    },
+    {
+      "chunk_id": 14,
+      "text": "as present_state_number = 0 local_timer = 0 global_timer = 0 BEGIN: Perform Actions of present_state_number FOREACH condition IN Transition conditions of present_state_number: IF condition IS TRUE: present_state_number = ta"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ondition IS TRUE: present_state_number = target(condition) local_timer = 0 local_timer = local_timer + 1 global_timer = global_timer + 1 GOTO BEGIN Note that we maintain two \"clocks\", a local_timer and a global_timer , bo"
+    },
+    {
+      "chunk_id": 16,
+      "text": "wo \"clocks\", a local_timer and a global_timer , both of which increment by one with every tick of the FSM. However, the local_timer resets to 0 whenever a transition is made, whereas the global_timer will increment indefinitely. Note that it is po"
+    },
+    {
+      "chunk_id": 17,
+      "text": "r will increment indefinitely. Note that it is possible for the user to reset the global_timer as one of the actions of an FSM state. XML syntax for FSM description An FSM can be completely described using a State Table which is essentially a list"
+    },
+    {
+      "chunk_id": 18,
+      "text": "d using a State Table which is essentially a list of states and their corresponding actions and transition conditions . In our case, this transition table is specified in an XML file (XML stands for eXtensible Markup Language). Wikipedia contains"
+    },
+    {
+      "chunk_id": 19,
+      "text": "r eXtensible Markup Language). Wikipedia contains a somewhat detailed description of what XML is. For our purposes, the following description of XML suffices: The basic component of an XML file is an \"element\". An element has a name, some (optiona"
+    },
+    {
+      "chunk_id": 20,
+      "text": "n \"element\". An element has a name, some (optional) \"attributes\", and some optional \"child elements\". This is specified using the following syntax: <element_name attribute1=\"value1\" attribute2=\"value2\" ...> ... child elements ... </element_name>"
+    },
+    {
+      "chunk_id": 21,
+      "text": "e2\" ...> ... child elements ... </element_name> Note that apart from a single space between attributes, additional space is ignored. An example of a minimal XML element can thus be <student name=\"foo\" roll=\"42\"></student> Notice that each element"
+    },
+    {
+      "chunk_id": 22,
+      "text": "foo\" roll=\"42\"></student> Notice that each element has what is called a start tag , which consists of the element name and the attributes surrounded by angle brackets. In the above example, the start tag is <student name=\"foo\" roll=\"42\"> . The ele"
+    },
+    {
+      "chunk_id": 23,
+      "text": "t tag is <student name=\"foo\" roll=\"42\"> . The element description ends with an end tag which consists of the element name prefixed by a single forward slash enclosed in angle brackets. In the above example, the end tag is </student> . An additiona"
+    },
+    {
+      "chunk_id": 24,
+      "text": "example, the end tag is </student> . An additional syntax feature which makes XML more readable is that if an element does not have any children, then we can skip the end tags and have the start tag itself end with a /> . For example, the above e"
+    },
+    {
+      "chunk_id": 25,
+      "text": "g itself end with a /> . For example, the above example could also have been written as: <student name=\"foo\" roll=\"42\" /> Child elements are again specified using exactly the same syntax. The supplied FSM program understands the following \"dialect\""
+    },
+    {
+      "chunk_id": 26,
+      "text": "ed FSM program understands the following \"dialect\" of the general XML syntax: The XML file should contain a single master document element within which the rest of the FSM description resides. Within the master document, there can be upto 16 state e"
+    },
+    {
+      "chunk_id": 27,
+      "text": "the master document, there can be upto 16 state elements. Note that the sequence in which the states are described automaitcally assigns each state a unique number starting from 0 and continuing upto however many states are described. This"
+    },
+    {
+      "chunk_id": 28,
+      "text": "nuing upto however many states are described. This unique number will be referred to as the state number henceforth. The parser ignores any attributes which you supply to the state element. However, for the sake of readability, it is often"
+    },
+    {
+      "chunk_id": 29,
+      "text": "However, for the sake of readability, it is often useful to include some \"comment like\" attribute, for example, something like <state number=\"0\"> . Each of the state element should contain (upto) 2 assignment elements and (upto) 2 transitio"
+    },
+    {
+      "chunk_id": 30,
+      "text": "upto) 2 assignment elements and (upto) 2 transition elements. The assignment elements describe the action to be taken when we are in the parent state. The transition elements describe the conditions under which we will transition to another"
+    },
+    {
+      "chunk_id": 31,
+      "text": "nditions under which we will transition to another state. An assignment element contains no child elements. It should however define the following attributes: lhs_addr : This attribute specifies which of the output peripherals of the PI"
+    },
+    {
+      "chunk_id": 32,
+      "text": "which of the output peripherals of the PIC we want to set. Possible Values: global_timer_w This variable can be set to any 16 bit integer. This variable does not directly any of the output pins of the PIC, but inste"
+    },
+    {
+      "chunk_id": 33,
+      "text": "the output pins of the PIC, but instead changes the value of an internally maintained clock. led1, led2 These variables can be set to either 0 or 1 and affect the state of two LEDs connected to ports"
+    },
+    {
+      "chunk_id": 34,
+      "text": "e state of two LEDs connected to ports RB3 and RB4 of the PIC. pwm1, pwm2 These variables can be set to a 10 bit integer (0 to 1023) which control the duty cycle of the PWMs, which are available on pins RC? and"
+    },
+    {
+      "chunk_id": 35,
+      "text": "PWMs, which are available on pins RC? and RC?. Note that the PWMs run at 200Hz. On the glider board, the PWMs are connected to the actuators in such a manner that the actuators bend upwards with increasi"
+    },
+    {
+      "chunk_id": 36,
+      "text": "actuators bend upwards with increasing PWM duty cycle. rhs : This attribute specifies the value to be assigned to the output peripheral chosen by lhs_addr . Possible values: global_timer_r This value refers to the"
+    },
+    {
+      "chunk_id": 37,
+      "text": "bal_timer_r This value refers to the current value of the internally maintained global timer. The global timer increments by 1 with every \"tick\" of the FSM. local_timer This value refers to the curr"
+    },
+    {
+      "chunk_id": 38,
+      "text": "l_timer This value refers to the current value of the internally local timer. The local timer increments by 1 with every tick of the FSM. However, it resets to 0 whenever a state transition occurs."
+    },
+    {
+      "chunk_id": 39,
+      "text": "whenever a state transition occurs. Thus, it measures the time (in FSM ticks) since the last transition. adc1 This value refers to the value read in by the first A/D channel. adc2 This value refers to the value"
+    },
+    {
+      "chunk_id": 40,
+      "text": "t A/D channel. adc2 This value refers to the value read in by the second A/D channel. optic_flow0_x This value refers to the optic flow value in the \"X\" direction measured in the optic field 0. Note that the \"X\""
+    },
+    {
+      "chunk_id": 41,
+      "text": "in the optic field 0. Note that the \"X\" direction is dependent on the mounting geometry. optic_flow1_x Same as optic_flow0_x except for field 1 instead of 0. optic_flow0_alt_x Same as optic_flow0_x except that an"
+    },
+    {
+      "chunk_id": 42,
+      "text": "_flow0_alt_x Same as optic_flow0_x except that an \"alternate\" optic flow calculation algorithm is used. optic_flow1_alt_x Same as above except for field 1 instead of 0. 16 bit number Instead of assigning a value read"
+    },
+    {
+      "chunk_id": 43,
+      "text": "t number Instead of assigning a value read in from one of the PIC's input peripherals, we can directly specify the value as a 16 bit integer. Output peripherals which need less than 16 bit precision"
+    },
+    {
+      "chunk_id": 44,
+      "text": "which need less than 16 bit precision will use however many bits as needed. For example, if lhs_addr=\"pwm\" , then only the lower 10 bits are used. A transition element should not have any child elements. A"
+    },
+    {
+      "chunk_id": 45,
+      "text": "lement should not have any child elements. A transition condition determines whether at any given instant of time, we should make a transition from the present state to another state. The logic used is: IF lhs_addr (cmp_op) rhs0 (bin_"
+    },
+    {
+      "chunk_id": 46,
+      "text": "The logic used is: IF lhs_addr (cmp_op) rhs0 (bin_op) rhs1: GOTO target ELSE STAY where lhs_addr is a pointer to the output peripheral whose value we want to use in the left hand side of the comparision. To implement this"
+    },
+    {
+      "chunk_id": 47,
+      "text": "nd side of the comparision. To implement this behavior, the following attributes need to be defined: lhs_addr : This attribute specifies which of the output peripherals of the PIC we want to use in the left hand side of th"
+    },
+    {
+      "chunk_id": 48,
+      "text": "we want to use in the left hand side of the comparison. Possible Values: This attribute takes the same set of values as the rhs attribute of the assignment element. cmp_op : This attribute specifies which comparision operator we want"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ibute specifies which comparision operator we want to use. Possible Values: eq gt lt The equals, greater than and less than operator respectively. alwaystrue If the comparision operator is specified as \"alwaystrue\" , then irrespective of the values o"
+    },
+    {
+      "chunk_id": 50,
+      "text": "s \"alwaystrue\" , then irrespective of the values of the left and right hand sides of the eqution, the transition condition will trivially evaluate to true and the transition will always be made on encountering t"
+    },
+    {
+      "chunk_id": 51,
+      "text": "will always be made on encountering this transition condition. Specifying this is a way to make \"pass-through\" states, where we might want to do some initialization etc. rhs0 : rhs1 : These two attribut"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ion etc. rhs0 : rhs1 : These two attributes specify the two values used to compute the right hand side of the comparison equation. Possible Values: These two attributes can take the same value as rhs attribute of the assignment elem"
+    },
+    {
+      "chunk_id": 53,
+      "text": "same value as rhs attribute of the assignment element. In addition to that, one or both of these attributes can also be directly assigned a 16 bit integer value. target : This attribute specifies the state number to transit"
+    },
+    {
+      "chunk_id": 54,
+      "text": "is attribute specifies the state number to transition to if the transition condition evaluates to true. The state number refers to the number assinged automatically to each state according to its position in the XML file as"
+    },
+    {
+      "chunk_id": 55,
+      "text": "according to its position in the XML file as described in the description of the state element. To summarize, the XML description of the FSM should have the following structure: <document> <state> <assignment lhs_addr=\"."
+    },
+    {
+      "chunk_id": 56,
+      "text": "ent> <state> <assignment lhs_addr=\"...\" rhs=\"...\" /> <assignment lhs_addr=\"...\" rhs=\"...\" /> <transition lhs_addr=\"...\" cmp_op=\"...\" rhs0=\"...\" bin_op=\"...\" rhs1=\"...\" target=\"...\" />"
+    },
+    {
+      "chunk_id": 57,
+      "text": "..\" rhs1=\"...\" target=\"...\" /> <transition lhs_addr=\"...\" cmp_op=\"...\" rhs0=\"...\" bin_op=\"...\" rhs1=\"...\" target=\"...\" /> </state> ... </document> Software Installation Note that the softwa"
+    },
+    {
+      "chunk_id": 58,
+      "text": "cument> Software Installation Note that the software list below is for a Windows machine. If you have a Unix/Linux machine, you might need to do less or more depending on what libraries/software already comes with your machine. In short, you need t"
+    },
+    {
+      "chunk_id": 59,
+      "text": "eady comes with your machine. In short, you need the following: Python with packages to make it communicate over the serial port. The pyserial 2.1 package described below is advertised to work on all platforms. A GNU C compiler with libxml"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ork on all platforms. A GNU C compiler with libxml2 and expat libraries. A detailed description of the required software for Windows XP is: Python . I have tested Python 2.4. Note that the scripts provided assume that Python has been installed"
+    },
+    {
+      "chunk_id": 61,
+      "text": "rovided assume that Python has been installed in c:/Python24/python.exe. If this is not the case, then you will need to either edit first line of the provided python scripts to point to the correct python installation, or change the"
+    },
+    {
+      "chunk_id": 62,
+      "text": "the correct python installation, or change the way you invoke the scripts. More details in the Usage section below. pywin32 : Win32 extensions for python, which is a pre-requisite for the pyserial package below. Download their late"
+    },
+    {
+      "chunk_id": 63,
+      "text": "e pyserial package below. Download their latest version from the pywin32 download page . Note that you should download the version which corresponds to the Python version you have installed. I used pywin32-204.win32-py2.4.e"
+    },
+    {
+      "chunk_id": 64,
+      "text": "e installed. I used pywin32-204.win32-py2.4.exe pyserial 2.1 : Download version 2.1 (or above) from the download page cygwin : Download the setup.exe file from their web-site and save this to some sort of \"downloads folder\". When you"
+    },
+    {
+      "chunk_id": 65,
+      "text": "to some sort of \"downloads folder\". When you run this program, it will ask you to select a \"Local Package directory\". It is a good idea to not delete some directories which cygwin saves within that directory otherwise it might fo"
+    },
+    {
+      "chunk_id": 66,
+      "text": "s within that directory otherwise it might forget what packages it has already downloaded and which it has not. When you get to the last page of the setup, you will be asked to \"Select Packages\". At this stage, make sure that in additi"
+    },
+    {
+      "chunk_id": 67,
+      "text": "Packages\". At this stage, make sure that in addition to the standard packages it selects, the following packages are also selected: devel/gcc devel/make devel/expat devel/libxml2 After installation is complete, you should be able to open a \"cygw"
+    },
+    {
+      "chunk_id": 68,
+      "text": "on is complete, you should be able to open a \"cygwin prompt\" by clicking on the Cygwin icon which the installation places on your Desktop. fsm : Lastly, you will need the python and C scripts which perform serial communication via th"
+    },
+    {
+      "chunk_id": 69,
+      "text": "pts which perform serial communication via the serial port with the PIC 2520. Extract the ZIP file above into a directory, say c:/fsm . Open a cygwin prompt and then change into this directory $ cd /cygdrive/c/fsm Note that c: is referred t"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ry $ cd /cygdrive/c/fsm Note that c: is referred to as /cygdrive/c in cygwin. From this directory, issue the command $ make pickle You should see the following output gcc -c pickle.c gcc -c crc.c gcc -c globals.c gcc -o pickle crc.o pi"
+    },
+    {
+      "chunk_id": 71,
+      "text": "gcc -c globals.c gcc -o pickle crc.o pickle.o -lexpat At the end, you should see a file called pickle.exe created in this directory. If you have this file, you are all set! Note that the software packages above are sufficient for IR"
+    },
+    {
+      "chunk_id": 72,
+      "text": "he software packages above are sufficient for IR programmming/re-programming a PIC 2520 which is already flash-loaded with the FSM emulation code. If you also need to load the FSM emulation code into the PIC, you will need MPLAB IDE and MPLAB ICD2"
+    },
+    {
+      "chunk_id": 73,
+      "text": "to the PIC, you will need MPLAB IDE and MPLAB ICD2 both of which are free downloads from microchip.com . How to program the PIC is presently outside the scope of this document. About this document ... Finite State Machine Emulation on the PIC 2520"
+    },
+    {
+      "chunk_id": 74,
+      "text": ".. Finite State Machine Emulation on the PIC 2520 This document was generated using the LaTeX 2 HTML translator Version 2002-2-1 (1.71) Copyright © 1993, 1994, 1995, 1996, Nikos Drakos , Computer Based Learning Unit, University of Leeds. Copyright ©"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ed Learning Unit, University of Leeds. Copyright © 1997, 1998, 1999, Ross Moore , Mathematics Department, Macquarie University, Sydney. The command line arguments were: latex2html -local_icons -split 0 manual.tex The translation was initiated by U-I"
+    },
+    {
+      "chunk_id": 76,
+      "text": "0 manual.tex The translation was initiated by U-IBM-37E42D9DFC1on 2005-12-07 U-IBM-37E42D9DFC1\\Srinath 2005-12-07"
+    }
+  ]
+}

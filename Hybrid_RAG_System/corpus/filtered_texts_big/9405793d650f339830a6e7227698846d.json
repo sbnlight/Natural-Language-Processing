@@ -1,0 +1,181 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyclassic/pt0.7.1/release.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Ptolemy 0.7.1 Release Notes Skip to main content UC Berkeley EECS Dept. Quick Links People Download Publications Home Objectives Ptolemy II Other software People Sponsors Publications Conferences Presentations FAQ Download Home Ptolemy 0.7.1 0.7.1 Ho"
+    },
+    {
+      "chunk_id": 2,
+      "text": "entations FAQ Download Home Ptolemy 0.7.1 0.7.1 Home Features Release Notes Download Manual Installation Bugs Skip to sidebar Ptolemy 0.7.1 Release Notes Below are some common problems that you might run across with 0.7.1. 0.7 and 0.7.1 Compatbility"
+    },
+    {
+      "chunk_id": 3,
+      "text": "run across with 0.7.1. 0.7 and 0.7.1 Compatbility EGCS and GCC-2.8 Pxgraph Vem Known problems in 0.7.1 0.7 and 0.7.1 Compatibility A Ptolemy 0.7 vem will not work with a Ptolemy 0.7.1 pigiRpc. The reason is because of a fix to a long standing vem bug"
+    },
+    {
+      "chunk_id": 4,
+      "text": "son is because of a fix to a long standing vem bug. In theory, the Itcl2.2 binaries from Ptolemy 0.7 should work with Ptolemy 0.7.1. However, if you are upgrading the compiler, you should probably recompile Itcl. The SDF Loop Scheduler library has b"
+    },
+    {
+      "chunk_id": 5,
+      "text": "compile Itcl. The SDF Loop Scheduler library has been renamed from libLS to libls . The reason is that case sensitivity issues with Samba were causing problems with the NT port. It is best if you have $PTOLEMY/bin in your path before $PTOLEMY/bin.$P"
+    },
+    {
+      "chunk_id": 6,
+      "text": "e $PTOLEMY/bin in your path before $PTOLEMY/bin.$PTARCH . pxgraph and itkwish are scripts located in $PTOLEMY/bin that try to set your environment properly before calling executables in $PTOLEMY/bin.$PTARCH . In general, .o files built under Ptolemy"
+    },
+    {
+      "chunk_id": 7,
+      "text": "PTARCH . In general, .o files built under Ptolemy 0.7 will need to be recompiled for use with Ptolemy 0.7.1 EGCS and GCC-2.8 Ptolemy 0.7.1 should compile with gcc-2.7.2.2, but the default compiler we build the binaries with is egcs-1.0.2. egcs is a"
+    },
+    {
+      "chunk_id": 8,
+      "text": "build the binaries with is egcs-1.0.2. egcs is a new compiler effort that builds on the gcc compiler. The egcs sources are made available to the gcc maintainers, so egcs changes eventually should be in egcs. It seems like egcs is much more active"
+    },
+    {
+      "chunk_id": 9,
+      "text": "in egcs. It seems like egcs is much more active than gcc, and that egcs-1.0.2 is more stable than gcc-2.8.2. Under gcc-2.8.2, compiling with -O -fPIC causes an internal compiler error when compiling Block.cc , so we are shipping with egcs. For mor"
+    },
+    {
+      "chunk_id": 10,
+      "text": "g Block.cc , so we are shipping with egcs. For more information about egcs, see http://www.cygnus.com . EGCS has a few mailing lists, egcs-bugs is archived at: http://www.findmail.com/listsaver/egcs-bugs The most common problem with using egcs is tha"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ugs The most common problem with using egcs is that libg++ is no longer used, so certain include files, such as std.h are not found at compile time and certain symbols, such as ACG::ACG(unsigned int, int) are missing at link time. Usually, doing a m"
+    },
+    {
+      "chunk_id": 12,
+      "text": "int) are missing at link time. Usually, doing a make clean; make install will solve the problem. The way we work around this is by defining -DPT_EGCS in config-egcs.mk and then including that makefile in the config- $PTARCH .mk file instead of confi"
+    },
+    {
+      "chunk_id": 13,
+      "text": "e in the config- $PTARCH .mk file instead of config-g++.mk . Note that egcs does not need libg++ , so the SYSLIBS makefile variable is set to not include -lg++ To build under egcs and under Microsoft Visual C++, it was necessary to modify many files."
+    },
+    {
+      "chunk_id": 14,
+      "text": "Visual C++, it was necessary to modify many files. In Ptolemy 0.7, The g++ -fno-for-scope command line argument was necessary. In Ptolemy 0.7.1, this argument is no longer necessary, even under gcc-2.7.2. Pxgraph Pxgraph has been converted to Java"
+    },
+    {
+      "chunk_id": 15,
+      "text": "-2.7.2. Pxgraph Pxgraph has been converted to Java. See the troubleshooting guide at. $PTOLEMY/tycho/java/ptplot/doc/internals/troubleshooting.html If you don't have Java, see ftp://ptolemy.eecs.berkeley.edu/pub/misc/xgraph/index.html for pxgraph X1"
+    },
+    {
+      "chunk_id": 16,
+      "text": "eley.edu/pub/misc/xgraph/index.html for pxgraph X11 binaries and sources. See $PTOLEMY/src/pxgraph/README.txt for details To run the Java version of pxgraph, you must do one of the following: Set the JAVAHOME environment variable to point to the dir"
+    },
+    {
+      "chunk_id": 17,
+      "text": "JAVAHOME environment variable to point to the directory where the Java Development Kit is installed. For example, your .cshrc might contain setenv JAVAHOME /opt/jdk1.1.5 If you do not set JAVAHOME , then the pxgraph script will search your path for"
+    },
+    {
+      "chunk_id": 18,
+      "text": "then the pxgraph script will search your path for the javac binary. If javac is found, then the directory above it is used for the value of JAVAHOME You can also edit $PTOLEMY/bin/pxgraph directly and adjust the JAVADEFAULT variable. Vem The vem bina"
+    },
+    {
+      "chunk_id": 19,
+      "text": "adjust the JAVADEFAULT variable. Vem The vem binary shipped with Ptolemy 0.7 will not work with Ptolemy 0.7.1. The reason is that Tom Lane fixed a long standing vem bug that occured when pigiRpc and vem try to send each other commands at the same t"
+    },
+    {
+      "chunk_id": 20,
+      "text": "vem try to send each other commands at the same time. For example, the bug appears when the user does a 'edit paramters' or 'look inside' in a vem window while pigiRpc is compiling a facet. If you do not upgrade vem to the version shipped with 0.7."
+    },
+    {
+      "chunk_id": 21,
+      "text": "o not upgrade vem to the version shipped with 0.7.1, then the error message you will see is: vem> illegal VEM function number (4) RPC Error: server: bad VEM request The number '4' in the error message is a dead giveaway, the patch says rcpInt"
+    },
+    {
+      "chunk_id": 22,
+      "text": "message is a dead giveaway, the patch says rcpInternal.h had the following #define added: #define VEM_LOCKING_FUNCTION (long) 4 If you get this error message, get the other.src tar file and octtools. Known problems in 0.7.1 Missin"
+    },
+    {
+      "chunk_id": 23,
+      "text": "file and octtools. Known problems in 0.7.1 Missing features PTARCH== nt4.vc has not been tested dsp/stars/SDFNdftVarD does not have an example universe General Problems matlab interface does not work well with statically linked binaries, such as nt4"
+    },
+    {
+      "chunk_id": 24,
+      "text": "well with statically linked binaries, such as nt4, alpha4 or linux.static parameter expressions that use tcl do not work in statically linked binaries. The Almagest has not been updated, so the installation instructions in $PTOLEMY/doc/html/install"
+    },
+    {
+      "chunk_id": 25,
+      "text": "llation instructions in $PTOLEMY/doc/html/install are out of date. ch4_a56_sVHDL_dSDF demo in vhdl/demo/cgc_s56x_vhdl/init.pal crashes pigi CG56 Bad master: Examining $PTOLEMY/src/domains/cg56/demo/cgcs56x/test/modem/matchedFilter/topMatch:schematic:"
+    },
+    {
+      "chunk_id": 26,
+      "text": "cs56x/test/modem/matchedFilter/topMatch:schematic:contents Bad master: Invalid facet(OCT): $PTOLEMY/src/domains/cg56/demo/cgcs56x/test/modem/matchedFilter/dspMatchedFilter:schematic:interface (cellPath /users/ptolemy/src/domains/cg56/demo/cgcs5"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ellPath /users/ptolemy/src/domains/cg56/demo/cgcs56x/test/modem/matchedFilter/dspMatchedFilter) The following s-56x demos fail ADPCM amtx echo canceling reverb The code compiles and runs: rshCommand: cd /users/cxh/PTOLEMY_SYSTEMS/CG56;./echocancelin"
+    },
+    {
+      "chunk_id": 28,
+      "text": "cd /users/cxh/PTOLEMY_SYSTEMS/CG56;./echocanceling & The qdm window comes up and then disappears. The message is boot: qckHostIntr: ioctl DspHost pIntr: Invalid argument\\n The only one the worked was cdVolume CG56 BPSK modem fails with: vem> Debug"
+    },
+    {
+      "chunk_id": 29,
+      "text": "as cdVolume CG56 BPSK modem fails with: vem> Debug: CompileUniv: facet = bpskTop, CGC universe Error: TclTk_Target.Send_Link_2: not supported CG56 QPSK fails with a similar message. CG56 dtmfSpectrum starts up, but pressing the buttons does not chan"
+    },
+    {
+      "chunk_id": 30,
+      "text": "starts up, but pressing the buttons does not change the plots. The CG56 Synth demo has the same problem. I think I need to cable the external box up properly SDF/CG56X Wormhole demo fails with Error: wormHoleIO.S56XIO1.oDown: not enough output toke"
+    },
+    {
+      "chunk_id": 31,
+      "text": ": wormHoleIO.S56XIO1.oDown: not enough output tokens at SDF wormhole boundary points(1) Error: wormHoleIO.S56XIO1.oGain: not enough output tokens at SDF wormhole boundary Error: wormHoleIO.FixToFloat1.input: Attempt to read from empty geodesic in Por"
+    },
+    {
+      "chunk_id": 32,
+      "text": ".input: Attempt to read from empty geodesic in PortHole::getParticle() The following bug was reported concerning KDE and Ptolemy classic From: pgunreben@lucent.com (Peter Gunreben) Subject: Ptolemy-Classic with KDE hangs at error messages Newsgroups:"
+    },
+    {
+      "chunk_id": 33,
+      "text": "assic with KDE hangs at error messages Newsgroups: comp.soft-sys.ptolemy Date: 8 Aug 2002 09:16:56 -0700 When using Ptolemy-Classic with KDE, the computer will hang for about 30 seconds if an error message occurs. The reason for this behavior is base"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ssage occurs. The reason for this behavior is based in the procedure ::tycho::Dialog::wait. To overcome this problem you may comment out the following section in $PTOLEMY/tycho/kernel/gui/Dialog.itcl # if $autoraise { # If the user mouses in anot"
+    },
+    {
+      "chunk_id": 35,
+      "text": "# if $autoraise { # If the user mouses in another window, raise # bind $instance <Button> \"+raise $instance\" # If the user moves the mouse in another window, raise # bind $instance <Motion> \"+raise $instance\" # } (12/03) The following"
+    },
+    {
+      "chunk_id": 36,
+      "text": "tion> \"+raise $instance\" # } (12/03) The following problem was reported by Shachindra Sharma in src/octtools/Packages/st/st.c where a particular string results in a negative hash code because of overflow. Ptolemy Classic does not call this function,"
+    },
+    {
+      "chunk_id": 37,
+      "text": "low. Ptolemy Classic does not call this function, but st.c appears in other locations, such as http://www.mit.edu/afs/sipb/project/ruby-lang/src/ruby-1.6.4/st.c . The fix is below: int st_strhash(string, modulus) register char *string; int"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ng, modulus) register char *string; int modulus; { register long val = 0; register int c; while ((c = *string++) != '\\0') { val = val*997 + c; } /* Shachindra Sharma writes: \".. will have a problem when the value var"
+    },
+    {
+      "chunk_id": 39,
+      "text": "\".. will have a problem when the value variable \"val\" is equal to the maximum negative integer value (for the particular OS its being run on say if its 32 bit OS the value would be -2^31 = -2147483648) val < 0 ? -val : va"
+    },
+    {
+      "chunk_id": 40,
+      "text": "be -2^31 = -2147483648) val < 0 ? -val : val will still be -val for such a case due to the property of maximum negative integer that -val == val. As an example if we have a input string to this function like the one given"
+    },
+    {
+      "chunk_id": 41,
+      "text": "string to this function like the one given below: \"TRDTOP_HIP_UHIF1_HPDMA_UHPDREG1_HPDRCH3E1MCUADDR[20]\" the value of the variable \"val\" would be -2147483648 resulting in a negative value being returned by the function"
+    },
+    {
+      "chunk_id": 42,
+      "text": "n a negative value being returned by the function which could result in problems for the user is OS was 32 bit. The hash function otherwise for any values of \"val\" larger or smaller than this value would work fine so the probabil"
+    },
+    {
+      "chunk_id": 43,
+      "text": "this value would work fine so the probabilty of such a situation is rather low. */ if (val == -val) { unsigned int newhash = -val; return (newhash%modulus); } else { return ((val < 0) ? -val : val)%modulus; } } Tycho For T"
+    },
+    {
+      "chunk_id": 44,
+      "text": "(val < 0) ? -val : val)%modulus; } } Tycho For Tycho bugs, see $PTOLEMY/tycho/doc/bugs.html Contact Update Help Copyright © 1999 - UC Regents; all rights reserved."
+    }
+  ]
+}

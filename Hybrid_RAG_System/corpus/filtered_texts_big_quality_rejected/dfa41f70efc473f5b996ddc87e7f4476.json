@@ -1,0 +1,69 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/re-register",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); if (! exists $ENV{'MASTERDIR'}) { do \"acquireD"
+    },
+    {
+      "chunk_id": 2,
+      "text": "if (! exists $ENV{'MASTERDIR'}) { do \"acquireDir.pl\"; askForMaster($#ARGV+1, 0, 0, \"Usage: register\\n or\\n re-register\", \"Enter the name of the course for which you are (re-)registering\" . \"\\n (e.g., ee245, cs164): \"); } re"
+    },
+    {
+      "chunk_id": 3,
+      "text": "tering\" . \"\\n (e.g., ee245, cs164): \"); } require \"GradingBase.pl\"; CmndLine (); require \"GradingCommon.pl\"; $reregister = 1 if ( $0 =~ /re-register$/ ); $who=MyLogin (); if ( ! -d $REGISTER_DIR ) { Fatal (\"It looks like registration isn"
+    },
+    {
+      "chunk_id": 4,
+      "text": "DIR ) { Fatal (\"It looks like registration isn't ready yet.\\n\" . \"You are NOT registered. Try again later.\"); } if ( ! \"$reregister\" && StudentExists ($who) ) { exit 0; } print STDERR \"Registration for course $COURSE (if that's the wro"
+    },
+    {
+      "chunk_id": 5,
+      "text": "Registration for course $COURSE (if that's the wrong course,\\n\" . \"please use Control-C and correct your settings first.)\\n\\n\"; $lastName = Fetch (\"Please enter your last name (family name): \"); $lastName =~ s/[\\000-\\037\\177]//g; $firstNames = F"
+    },
+    {
+      "chunk_id": 6,
+      "text": "$lastName =~ s/[\\000-\\037\\177]//g; $firstNames = Fetch (\"Please enter your first (given) and middle name(s): \"); $firstNames =~ s/[\\000-\\037\\177]//g; while (1) { $SID = Fetch (\"Please enter your student ID, \" . \"(or 0 for concurrent enrollmen"
+    },
+    {
+      "chunk_id": 7,
+      "text": "tudent ID, \" . \"(or 0 for concurrent enrollment): \"); $SID =~ s/[^0-9]//g; last if ($SID ne \"\"); Note (\"A student ID must contain at least one digit.\"); } while (1) { $emailAddress = Fetch (\"Please enter an email address: \");"
+    },
+    {
+      "chunk_id": 8,
+      "text": "s = Fetch (\"Please enter an email address: \"); last if $emailAddress eq Fetch (\"Please re-enter your email address: \"); print STDERR \"Email addresses do not match.\\n\"; } while (1) { $codename = Fetch (\"Please enter a code name or phrase"
+    },
+    {
+      "chunk_id": 9,
+      "text": "name = Fetch (\"Please enter a code name or phrase for public posting\\n\\t\" . \"(or ? for an explanation): \"); $codename =~ s/[\\000-\\037\\177]//g; last if ($codename ne \"\" && $codename !~ /^\\s*\\?/ ); print STDERR \"When posting grad"
+    },
+    {
+      "chunk_id": 10,
+      "text": "/^\\s*\\?/ ); print STDERR \"When posting grades publically, we may not use your name or\\n\" . \" SID. Instead, we'll use whatever code name you choose here.\\n\" . \" Choose one that is very unlikely to be duplicated.\\n\"; } pr"
+    },
+    {
+      "chunk_id": 11,
+      "text": "that is very unlikely to be duplicated.\\n\"; } print STDERR \"\\n\" . \"Last name: $lastName\\n\" . \"First name(s): $firstNames\\n\" . \"SID: $SID\\n\" . \"Email address: $emailAddress\\n\" . \"Code name: $codename\\n\\n\"; if (! Yorn (\"Is t"
+    },
+    {
+      "chunk_id": 12,
+      "text": "\"Code name: $codename\\n\\n\"; if (! Yorn (\"Is this correct?\")) { Fatal (\"Re-run the 'register' command to try again.\"); } System ($REGISTER_PROG, \"Last name: $lastName\", \"First name(s): $firstNames\", \"SID: $SID\", \"Code: $codename\", \"Email:"
+    },
+    {
+      "chunk_id": 13,
+      "text": "stNames\", \"SID: $SID\", \"Code: $codename\", \"Email: $emailAddress\") or Fatal (\"Registration FAILED. Could not open file for registration.\\n\" . \"Please see your TA.\"); if (defined($EXTRA_REGISTRATION_HOOK)) { System (\"$EXTRA_REGISTRATI"
+    },
+    {
+      "chunk_id": 14,
+      "text": "GISTRATION_HOOK)) { System (\"$EXTRA_REGISTRATION_HOOK $REGISTER_DIR/$who\"); } elsif (defined ($DEFAULT_REGISTRATION_HOOK) && -x $DEFAULT_REGISTRATION_HOOK) { System (\"$DEFAULT_REGISTRATION_HOOK \\\"$firstNames\\\" \\\"$lastName\\\"\"); } print STDERR"
+    },
+    {
+      "chunk_id": 15,
+      "text": "K \\\"$firstNames\\\" \\\"$lastName\\\"\"); } print STDERR ($reregister ? \"Re-r\" : \"R\") . \"egistration completed. Use the command 're-register' if you\\n\" . \"later discover an error in your registration.\\n\"; exit 0;"
+    },
+    {
+      "chunk_id": 16,
+      "text": "tration.\\n\"; exit 0;"
+    }
+  ]
+}

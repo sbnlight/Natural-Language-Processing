@@ -1,0 +1,517 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/DuktapeNotes",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Duktape Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Duktape (redirected from Main.DuktapeNotes ) This page contains"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ected from Main.DuktapeNotes ) This page contains notes about issues that came up while developing the Duktape Host . This page is useful for tracking down errors. See Duktape Host for how to use the Duktape host. Todo items testCommon.js fails beca"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Duktape host. Todo items testCommon.js fails because of 'this' Under Duktape and Node.js, testCommon.js fails because testSpontaneous.js has a missing this. . If Edward could take a look, that would be great. The this issue is fixed. 4/15/2015 tes"
+    },
+    {
+      "chunk_id": 4,
+      "text": "be great. The this issue is fixed. 4/15/2015 testCommon.js fails because of setInterval bash-3.2$ . / duktape / duktape / duk duktape / test / testCommon.js loading module: duktape / duktapeHost loading module: duktape / duktapeHost.js loaded Ecmas"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ding module: duktape / duktapeHost.js loaded Ecmascript: duktape / duktapeHost.js loading module: common / commonHost loading module: common / commonHost.js loaded Ecmascript: common / commonHost.js loading module: common / modules / util.js loading"
+    },
+    {
+      "chunk_id": 6,
+      "text": "oading module: common / modules / util.js loading module: common / modules / util.js loaded Ecmascript: common / modules / util.js loading module: common / modules / events.js loading module: common / modules / events.js loaded Ecmascript: common / m"
+    },
+    {
+      "chunk_id": 7,
+      "text": "modules / events.js loaded Ecmascript: common / modules / events.js loading module: duktape / duktape / examples / eventloop / ecma_eventloop loading module: duktape / duktape / examples / eventloop / ecma_eventloop.js loaded Ecmascript: duktape / d"
+    },
+    {
+      "chunk_id": 8,
+      "text": "/ ecma_eventloop.js loaded Ecmascript: duktape / duktape / examples / eventloop / ecma_eventloop.js loading module: common / test / testCommon loading module: common / test / testCommon.js loaded Ecmascript: common / test / testCommon.js testCommon.j"
+    },
+    {
+      "chunk_id": 9,
+      "text": "script: common / test / testCommon.js testCommon.js: pathName: . / test / TestAccessor.js testCommon.js: pathName: .. / test / TestAccessor.js testCommon.js: returning contents of .. / test / TestAccessor.js loading module: common / commonHost.js loa"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ssor.js loading module: common / commonHost.js loading module: common / commonHost.js loaded Ecmascript: common / commonHost.js Instance of TestAccessor: % j Tests: [ object Object ] Test passed: TestAccessor: getParameter Test passed: TestAccessor:"
+    },
+    {
+      "chunk_id": 11,
+      "text": "Accessor: getParameter Test passed: TestAccessor: setParameter Test passed: TestAccessor: get Test passed: TestAccessor: get with undefined Test passed: TestAccessor: get with undefined Test passed: TestAccessor: provideInput ( ) TestAccessor.fire ("
+    },
+    {
+      "chunk_id": 12,
+      "text": "estAccessor: provideInput ( ) TestAccessor.fire ( ) invoked. Test passed: TestAccessor: react, send, and latestOutput testCommon.js: pathName: . / test / TestComposite.js testCommon.js: pathName: .. / test / TestComposite.js testCommon.js: returning"
+    },
+    {
+      "chunk_id": 13,
+      "text": "test / TestComposite.js testCommon.js: returning contents of .. / test / TestComposite.js testCommon.js: pathName: . / test / TestGain.js testCommon.js: pathName: .. / test / TestGain.js testCommon.js: returning contents of .. / test / TestGain.js t"
+    },
+    {
+      "chunk_id": 14,
+      "text": "s: returning contents of .. / test / TestGain.js testCommon.js: pathName: . / test / TestAdder.js testCommon.js: pathName: .. / test / TestAdder.js testCommon.js: returning contents of .. / test / TestAdder.js Test passed: TestComposite: priority num"
+    },
+    {
+      "chunk_id": 15,
+      "text": "tAdder.js Test passed: TestComposite: priority number of destination is higher than source Test passed: TestComposite: composite accessor with manual scheduling Test passed: TestComposite: composite accessor with automatic scheduling testCommon.js: p"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ccessor with automatic scheduling testCommon.js: pathName: . / test / TestSpontaneous.js testCommon.js: pathName: .. / test / TestSpontaneous.js testCommon.js: returning contents of .. / test / TestSpontaneous.js ReferenceError: identifier 'setInterv"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ontaneous.js ReferenceError: identifier 'setInterval' undefined duk_js_var.c: 1258 anon compile: 48 preventsyield call native strict preventsyield anon common / commonHost.js: 495 strict anon common / test / testCommon: 151 preventsyield require na"
+    },
+    {
+      "chunk_id": 18,
+      "text": "/ test / testCommon: 151 preventsyield require native strict preventsyield global duktape / test / testCommon.js: 89 preventsyield error in executing file duktape / test / testCommon.js bash-3.2$ [$[Get Code]] In commonHost.js, line 495 is marked wi"
+    },
+    {
+      "chunk_id": 19,
+      "text": "Get Code]] In commonHost.js, line 495 is marked with ---> : if ( typeof this . exports . initialize === 'function' ) { // Call with 'this' being the accessor instance, not the exports // property. ----> this . exports . initialize . call ( this ) ; }"
+    },
+    {
+      "chunk_id": 20,
+      "text": "-> this . exports . initialize . call ( this ) ; } [$[Get Code]] To even get this far, for some reason, it is necessary to have duktapeHost.js define copies of setInterval() etc. See below. setInterval and setTimeout duplicate definitions hosts/dukt"
+    },
+    {
+      "chunk_id": 21,
+      "text": "al and setTimeout duplicate definitions hosts/duktape/duktapeHost.js defines setInterval() , setTimeout() and clearInterval() even though they are defined hosts/duktape/duktape/examples/eventloop/ecma_eventloop.js . We should be able to properly expo"
+    },
+    {
+      "chunk_id": 22,
+      "text": "_eventloop.js . We should be able to properly export these. If duktapeHost.js has the definitions of clearInterval() , setInterval() and setTimeout() commented out, and these lines uncommented: clearInterval = ecma_eventloop. clearInterval ; setInter"
+    },
+    {
+      "chunk_id": 23,
+      "text": "nterval = ecma_eventloop. clearInterval ; setInterval = ecma_eventloop. setInterval ; setTimeout = ecma_eventloop. setTimeout ; [$[Get Code]] Then we don't get as far: bash-3.2$ . / duktape / duktape / duk duktape / test / testCommon.js loading modul"
+    },
+    {
+      "chunk_id": 24,
+      "text": "/ duk duktape / test / testCommon.js loading module: duktape / duktapeHost loading module: duktape / duktapeHost.js loaded Ecmascript: duktape / duktapeHost.js loading module: common / commonHost loading module: common / commonHost.js loaded Ecmascri"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ing module: common / commonHost.js loaded Ecmascript: common / commonHost.js loading module: common / modules / util.js loading module: common / modules / util.js loaded Ecmascript: common / modules / util.js loading module: common / modules / events"
+    },
+    {
+      "chunk_id": 26,
+      "text": "util.js loading module: common / modules / events.js loading module: common / modules / events.js loaded Ecmascript: common / modules / events.js loading module: duktape / duktape / examples / eventloop / ecma_eventloop loading module: duktape / duk"
+    },
+    {
+      "chunk_id": 27,
+      "text": "oop / ecma_eventloop loading module: duktape / duktape / examples / eventloop / ecma_eventloop.js loaded Ecmascript: duktape / duktape / examples / eventloop / ecma_eventloop.js loading module: common / test / testCommon loading module: common / test"
+    },
+    {
+      "chunk_id": 28,
+      "text": "/ test / testCommon loading module: common / test / testCommon.js loaded Ecmascript: common / test / testCommon.js testCommon.js: pathName: . / test / TestAccessor.js testCommon.js: pathName: .. / test / TestAccessor.js testCommon.js: returning cont"
+    },
+    {
+      "chunk_id": 29,
+      "text": "st / TestAccessor.js testCommon.js: returning contents of .. / test / TestAccessor.js loading module: common / commonHost.js loading module: common / commonHost.js loaded Ecmascript: common / commonHost.js Instance of TestAccessor: % j Tests: [ objec"
+    },
+    {
+      "chunk_id": 30,
+      "text": "st.js Instance of TestAccessor: % j Tests: [ object Object ] Test passed: TestAccessor: getParameter Test passed: TestAccessor: setParameter Test passed: TestAccessor: get Test passed: TestAccessor: get with undefined Test passed: TestAccessor: get w"
+    },
+    {
+      "chunk_id": 31,
+      "text": "et with undefined Test passed: TestAccessor: get with undefined Test passed: TestAccessor: provideInput ( ) TestAccessor.fire ( ) invoked. Test passed: TestAccessor: react, send, and latestOutput testCommon.js: pathName: . / test / TestComposite.js t"
+    },
+    {
+      "chunk_id": 32,
+      "text": "Common.js: pathName: . / test / TestComposite.js testCommon.js: pathName: .. / test / TestComposite.js testCommon.js: returning contents of .. / test / TestComposite.js testCommon.js: pathName: . / test / TestGain.js testCommon.js: pathName: .. / tes"
+    },
+    {
+      "chunk_id": 33,
+      "text": "st / TestGain.js testCommon.js: pathName: .. / test / TestGain.js testCommon.js: returning contents of .. / test / TestGain.js testCommon.js: pathName: . / test / TestAdder.js testCommon.js: pathName: .. / test / TestAdder.js testCommon.js: returning"
+    },
+    {
+      "chunk_id": 34,
+      "text": ".. / test / TestAdder.js testCommon.js: returning contents of .. / test / TestAdder.js Test passed: TestComposite: priority number of destination is higher than source TypeError: undefined not callable duk_js_call.c: 776 anon common / commonHost.js:"
+    },
+    {
+      "chunk_id": 35,
+      "text": "le duk_js_call.c: 776 anon common / commonHost.js: 1421 strict anon common / commonHost.js: 1229 strict anon common / commonHost.js: 1242 strict anon common / test / testCommon: 134 preventsyield require native strict preventsyield global duktape /"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ire native strict preventsyield global duktape / test / testCommon.js: 89 preventsyield error in executing file duktape / test / testCommon.js bash-3.2$ [$[Get Code]] In common/commonHost.js , line number 1421 is marked with ---> Accessor. prototype"
+    },
+    {
+      "chunk_id": 37,
+      "text": "umber 1421 is marked with ---> Accessor. prototype . scheduleEvent = function ( accessor ) { var thiz = this . root ; var queue = thiz. eventQueue ; // If we haven't already scheduled a react() since the last react(), // schedule it now. if ( ! thiz."
+    },
+    {
+      "chunk_id": 38,
+      "text": "the last react(), // schedule it now. if ( ! thiz. reactRequestedAlready ) { thiz. reactRequestedAlready = true ; ----> setTimeout ( function ( ) { thiz. react ( ) ; } , 0 ) ; } [$[Get Code]] So, it seems like if setTimeout() is defined in ecma_event"
+    },
+    {
+      "chunk_id": 39,
+      "text": "eems like if setTimeout() is defined in ecma_eventloop.js , then it is not available at this point? Fixed! The near term solution was to modify ecma_eventloop.js so that the declarations of setInterval etc. are in the global scope: function setTimeou"
+    },
+    {
+      "chunk_id": 40,
+      "text": "l etc. are in the global scope: function setTimeout ( func , delay ) { [$[Get Code]] became setTimeout = function ( func , delay ) { [$[Get Code]] The same was done for clearTimeout() , setInterval() and clearInterval . Also, the duk_cmdline.c was mo"
+    },
+    {
+      "chunk_id": 41,
+      "text": "and clearInterval . Also, the duk_cmdline.c was modified to invoke EventLoop.run() after the files were read. fprintf ( stderr , \"calling EventLoop.run() \\n \" ) ; fflush ( stderr ) ; duk_eval_string ( ctx , \"EventLoop.run();\" ) ; duk_pop ( ctx ) ; [$"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ctx , \"EventLoop.run();\" ) ; duk_pop ( ctx ) ; [$[Get Code]] The modSearch() definition is needed in each file to be loaded. hosts/duktape/test/testCommon.js and hosts/duktape/test/testComposite.js both define modSearch() . Ideally, this would be b"
+    },
+    {
+      "chunk_id": 43,
+      "text": "oth define modSearch() . Ideally, this would be built in. Possibilities: Update or add a C definition of either require() or modSearch() to duktape. Or, have duktape read in a library definition file that defines this In Progress The idea here is to"
+    },
+    {
+      "chunk_id": 44,
+      "text": "that defines this In Progress The idea here is to use the Unix xxd utility to create a .h file that defines a string that is the contents of the duktapeHost.js file. To do this, duktape/duktape/makefile was modified: duktapeHost.h: .. / duktapeHost."
+    },
+    {
+      "chunk_id": 45,
+      "text": "ile was modified: duktapeHost.h: .. / duktapeHost.js xxd -i .. / duktapeHost.js duktapeHost.h [$[Get Code]] The top of the duktapeHost.h file looks like: unsigned char ___duktapeHost_js [ ] = { 0x2f , 0x2f , 0x20 , 0x54 , 0x68 , 0x65 , 0x20 , 0x6d ,"
+    },
+    {
+      "chunk_id": 47,
+      "text": "me warnings, remove the unsigned . In duk_cmdline.c , before the Execute any argument file(s) comment, we load in the file: // duktapeHost.h is created by running // xxd -i ../duktapeHost.js duktapeHost.h fprintf ( stderr , \"Loading C verison of dukt"
+    },
+    {
+      "chunk_id": 48,
+      "text": "st.h fprintf ( stderr , \"Loading C verison of duktapeHost \\n \" ) ; duk_eval_string ( ctx , ___duktapeHost_js ) ; duk_pop ( ctx ) ; fprintf ( stderr , \"Done loading C verison of duktapeHost \\n \" ) ; [$[Get Code]] Now, if hosts/duktape/test/testCommon."
+    },
+    {
+      "chunk_id": 49,
+      "text": "[Get Code]] Now, if hosts/duktape/test/testCommon.js contains: var testCommon = require ( \"common/test/testCommon\" ) ; console. log ( \"duktape/test/testCommon.js: end\" ) ; [$[Get Code]] and the following command is run from the hosts/ directory: dukt"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ing command is run from the hosts/ directory: duktape/duktape/duk duktape/test/testCommon.js , then the test runs! Port modules to Duktape We should start porting modules to Duktape. Generate JUnit XML Output for the tests. If we could generate JUni"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ML Output for the tests. If we could generate JUnit-compatibile output from the Duktape tests, then we could include this in the nightly build. This is lower priority, but it would be helpful require() in Duktape Duktape supports JavaScript require()"
+    },
+    {
+      "chunk_id": 52,
+      "text": ") in Duktape Duktape supports JavaScript require() , but a JavaScript method named modsearch() must be implemented. The solution was to modify Duktape's examples/cmdline/duk_cmdline.c to load fileio_readfile() from examples/eventloop/fileio.c Below i"
+    },
+    {
+      "chunk_id": 53,
+      "text": "eadfile() from examples/eventloop/fileio.c Below is the patch to examples/cmdline/duk_cmdline.c , which is checked in to the accessors repo as accessors/web/hosts/duktape/duktape/examples/cmdline/duk_cmdline.c diff - rc tmp / duktape - 1.4.0 / exampl"
+    },
+    {
+      "chunk_id": 54,
+      "text": "cmdline.c diff - rc tmp / duktape - 1.4.0 / examples / cmdline / duk_cmdline. c duktape / duktape / examples / cmdline / duk_cmdline. c *** tmp / duktape - 1.4.0 / examples / cmdline / duk_cmdline. c 2016 - 01 - 09 17 : 18 : 06.000000000 - 0800 --- d"
+    },
+    {
+      "chunk_id": 56,
+      "text": "#endif #include \"duktape.h\" + // cxh + extern void fileio_register ( duk_context * ctx ) ; + + #if defined(DUK_CMDLINE_AJSHEAP) /* Defined in duk_cmdline_ajduk.c or alljoyn.js headers. */ void ajsheap_init ( void ) ; *************** *** 750 , 755 ***"
+    },
+    {
+      "chunk_id": 57,
+      "text": "_init ( void ) ; *************** *** 750 , 755 **** --- 754 , 761 ---- } #endif + // cxh + fileio_register ( ctx ) ; return ctx ; } [$[Get Code]] In addition, examples/eventloop/fileio.c was updated to include better error checking Also, Makefile.cmd"
+    },
+    {
+      "chunk_id": 58,
+      "text": "o include better error checking Also, Makefile.cmdline was updated to include examples/eventloop/fileio.c diff - rc tmp / duktape - 1 . 4 . 0 / Makefile . cmdline duktape / duktape / Makefile . cmdline *** tmp / duktape - 1 . 4 . 0 / Makefile . cmdli"
+    },
+    {
+      "chunk_id": 60,
+      "text": "* *** 6 , 12 **** DUKTAPE_SOURCES = src / duktape . c DUKTAPE_CMDLINE_SOURCES = \\ ! examples / cmdline / duk_cmdline . c CC = gcc CCOPTS = - Os - pedantic - std = c99 - Wall - fstrict - aliasing - fomit - frame - pointer --- 6 , 13 ---- DUKTAPE_SOURC"
+    },
+    {
+      "chunk_id": 61,
+      "text": "it - frame - pointer --- 6 , 13 ---- DUKTAPE_SOURCES = src / duktape . c DUKTAPE_CMDLINE_SOURCES = \\ ! examples / cmdline / duk_cmdline . c \\ ! examples / eventloop / fileio . c CC = gcc CCOPTS = - Os - pedantic - std = c99 - Wall - fstrict - aliasin"
+    },
+    {
+      "chunk_id": 62,
+      "text": "- pedantic - std = c99 - Wall - fstrict - aliasing - fomit - frame - pointer [$[Get Code]] All of the above changes were checked in to the Accessors repo. The JavaScript side is based on code from http://wiki.duktape.org/HowtoModules.html Below is t"
+    },
+    {
+      "chunk_id": 63,
+      "text": "tp://wiki.duktape.org/HowtoModules.html Below is the version in duktapeHost.js: // The modSearch function is based on code from http://wiki.duktape.org/HowtoModules.html // The license is at https://github.com/svaarala/duktape-wiki, which refers to /"
+    },
+    {
+      "chunk_id": 64,
+      "text": "ithub.com/svaarala/duktape-wiki, which refers to // https://github.com/svaarala/duktape/blob/master/LICENSE.txt, which is reproduced below // =============== // Duktape license // =============== // (http://opensource.org/licenses/MIT) // Co"
+    },
+    {
+      "chunk_id": 65,
+      "text": "==== // (http://opensource.org/licenses/MIT) // Copyright (c) 2013-2016 by Duktape authors (see AUTHORS.rst) // Permission is hereby granted, free of charge, to any person obtaining a copy // of this software and associated documentation files (the \""
+    },
+    {
+      "chunk_id": 66,
+      "text": "software and associated documentation files (the \"Software\"), to deal // in the Software without restriction, including without limitation the rights // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell // copies of the Softwa"
+    },
+    {
+      "chunk_id": 67,
+      "text": "e, sublicense, and/or sell // copies of the Software, and to permit persons to whom the Software is // furnished to do so, subject to the following conditions: // // The above copyright notice and this permission notice shall be included in // all co"
+    },
+    {
+      "chunk_id": 68,
+      "text": "s permission notice shall be included in // all copies or substantial portions of the Software. // // THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILIT"
+    },
+    {
+      "chunk_id": 69,
+      "text": "UT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER // LIABILITY, WHETHER IN AN ACTION OF CONTRA"
+    },
+    {
+      "chunk_id": 70,
+      "text": "OTHER // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN // THE SOFTWARE // FIXME: Move the Duktape code elsewhere so as to avoid copyright iss"
+    },
+    {
+      "chunk_id": 71,
+      "text": "uktape code elsewhere so as to avoid copyright issues. Duktape. modSearch = function ( id , require , exports , module ) { /* readFile(): as above. * loadAndInitDll(): load DLL, call its init function, return true/false. */ var name ; var src ; var f"
+    },
+    {
+      "chunk_id": 72,
+      "text": ", return true/false. */ var name ; var src ; var found = false ; print ( 'loading module:' , id ) ; /* DLL check. DLL init function is platform specific. It gets 'exports' * but also 'require' so that it can require further modules if necessary. */"
+    },
+    {
+      "chunk_id": 73,
+      "text": "at it can require further modules if necessary. */ // name = '/modules/' + id + '.so'; // if (loadAndInitDll(name, require, exports, module)) { // print('loaded DLL:', name); // found = true; // } /* Ecmascript check. */ //name = 'modules/' +"
+    },
+    {
+      "chunk_id": 74,
+      "text": "// } /* Ecmascript check. */ //name = 'modules/' + id + '.js'; name = id + '.js' ; print ( 'loading module:' , name ) ; src = FileIo. readfile ( name ) ; //print('readFile returned', src); print ( 'src is of type' , typeof src ) ; if ( typeof src ==="
+    },
+    {
+      "chunk_id": 75,
+      "text": "c is of type' , typeof src ) ; if ( typeof src === 'string' ) { print ( 'loaded Ecmascript:' , name ) ; return src ; } if ( typeof src === 'buffer' ) { print ( 'loaded Ecmascript:' , name ) ; return src. toString ( ) ; } /* Must find either a DLL or"
+    },
+    {
+      "chunk_id": 76,
+      "text": "rc. toString ( ) ; } /* Must find either a DLL or an Ecmascript file (or both) */ if ( ! found ) { throw new Error ( 'module not found: ' + id ) ; } /* For pure C modules, 'src' may be undefined which is OK. */ return src ; } [$[Get Code]] require():"
+    },
+    {
+      "chunk_id": 77,
+      "text": "is OK. */ return src ; } [$[Get Code]] require(): cannot resolve module id While in accessors/web/hosts/duktape , running var commonHost = require ( \"../common/commonHost\" ) ; [$[Get Code]] Results in bash - 3.2 $ duktape / duk duktapeHost. js TypeE"
+    },
+    {
+      "chunk_id": 78,
+      "text": "n bash - 3.2 $ duktape / duk duktapeHost. js TypeError : cannot resolve module id : .. / common / commonHost duk_bi_global. c : 988 require native strict preventsyield global duktapeHost. js : 75 preventsyield error in executing file duktapeHost. js"
+    },
+    {
+      "chunk_id": 79,
+      "text": "entsyield error in executing file duktapeHost. js bash - 3.2 $ [$[Get Code]] The error comes from duktape.c : /* * CommonJS require() and modules support */ #if defined(DUK_USE_COMMONJS_MODULES) DUK_LOCAL void duk__bi_global_resolve_module_id ( duk_"
+    },
+    {
+      "chunk_id": 80,
+      "text": "LOCAL void duk__bi_global_resolve_module_id ( duk_context * ctx , const char * req_id , const char * mod_id ) { ... resolve_error : DUK_ERROR ( thr , DUK_ERR_TYPE_ERROR , \"cannot resolve module id: %s\" , ( const char * ) req_id ) ; } #endif /* DUK_U"
+    },
+    {
+      "chunk_id": 81,
+      "text": "\" , ( const char * ) req_id ) ; } #endif /* DUK_USE_COMMONJS_MODULES */ [$[Get Code]] Adding the following to duktape.c and recompiling turns on debugging: #define DUK_USE_DEBUG 1 #define DUK_USE_DDPRINT 1 [$[Get Code]] Rerunning the command produce"
+    },
+    {
+      "chunk_id": 82,
+      "text": "RINT 1 [$[Get Code]] Rerunning the command produces a lot of debugging including: [DD] duk_bi_global.c:932 (duk__bi_global_resolve_module_id): resolve error: term was '..' but nothing to backtrack which comes from if ( c == '.' && * p == '/' ) { /* T"
+    },
+    {
+      "chunk_id": 83,
+      "text": "ch comes from if ( c == '.' && * p == '/' ) { /* Term was '..', backtrack resolved name by one component. * q[-1] = previous slash (or beyond start of buffer) * q[-2] = last char of previous component (or beyond start of buffer) */ p ++; /* eat (fi"
+    },
+    {
+      "chunk_id": 84,
+      "text": "nt (or beyond start of buffer) */ p ++; /* eat (first) input slash */ DUK_ASSERT ( q >= buf_out ) ; if ( q == buf_out ) { DUK_DD ( DUK_DDPRINT ( \"resolve error: term was '..' but nothing to backtrack\" ) ) ; goto resolve_error ; } [$[Get Code]] Soluti"
+    },
+    {
+      "chunk_id": 85,
+      "text": ") ) ; goto resolve_error ; } [$[Get Code]] Solution: Running the command from the directory above and making the paths relative seems to help. Loading util.js fails The duktape host is failing: ( :source lang =bash: ) bash-3.2$ pwd / Users / cxh / p"
+    },
+    {
+      "chunk_id": 86,
+      "text": "urce lang =bash: ) bash-3.2$ pwd / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / hosts bash-3.2$ duktape / duktape / duk duktape / test / testComposite.js loading module: duktape / duktapeHost loading module: duktape / duktapeH"
+    },
+    {
+      "chunk_id": 87,
+      "text": "e / duktapeHost loading module: duktape / duktapeHost.js loaded Ecmascript: duktape / duktapeHost.js loading module: common / commonHost loading module: common / commonHost.js loaded Ecmascript: common / commonHost.js loading module: util loading mod"
+    },
+    {
+      "chunk_id": 88,
+      "text": "n / commonHost.js loading module: util loading module: util.js Error: error error ( rc - 100 ) anon native strict preventsyield anon duktape / duktapeHost: 58 preventsyield anon native strict preventsyield anon common / commonHost: 205 strict preve"
+    },
+    {
+      "chunk_id": 89,
+      "text": "tsyield anon common / commonHost: 205 strict preventsyield anon native strict preventsyield anon duktape / duktapeHost: 80 preventsyield require native strict preventsyield global duktape / test / testComposite.js: 85 preventsyield error in executi"
+    },
+    {
+      "chunk_id": 90,
+      "text": "estComposite.js: 85 preventsyield error in executing file duktape / test / testComposite.js bash-3.2$ [$[Get Code]] Line 205 of commonHost.js is: var util = require ( 'util' ) ; [$[Get Code]] So, the issue here is that we don't have a util module. Th"
+    },
+    {
+      "chunk_id": 91,
+      "text": "issue here is that we don't have a util module. The solution is covered in Require Discussion . Basically, under Duktape, we require ../common/modules/util.js . cannot resolve module id: ../commonHost.js After modifying duk_cmdline.c so that it load"
+    },
+    {
+      "chunk_id": 92,
+      "text": "t.js After modifying duk_cmdline.c so that it loads in a C version of duktapeHost.js (see The modSearch() definition is needed in each file to be loaded. ), then trying to load common/test/testCommon.js fails: bash-3.2$ pwd / Users / cxh / ptII / org"
+    },
+    {
+      "chunk_id": 93,
+      "text": "js fails: bash-3.2$ pwd / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / hosts bash-3.2$ . / duktape / duktape / duk common / test / testCommon.js Loading C verison of duktapeHost loading module: common / commonHost loading modu"
+    },
+    {
+      "chunk_id": 94,
+      "text": "t loading module: common / commonHost loading module: common / commonHost.js loaded Ecmascript: common / commonHost.js loading module: common / modules / util.js loading module: common / modules / util.js loaded Ecmascript: common / modules / util.js"
+    },
+    {
+      "chunk_id": 95,
+      "text": "l.js loaded Ecmascript: common / modules / util.js loading module: common / modules / events.js loading module: common / modules / events.js loaded Ecmascript: common / modules / events.js loading module: duktape / duktape / examples / eventloop / ec"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ule: duktape / duktape / examples / eventloop / ecma_eventloop loading module: duktape / duktape / examples / eventloop / ecma_eventloop.js loaded Ecmascript: duktape / duktape / examples / eventloop / ecma_eventloop.js Loaded duktapeHost.js Done loa"
+    },
+    {
+      "chunk_id": 97,
+      "text": "/ ecma_eventloop.js Loaded duktapeHost.js Done loading C verison of duktapeHost testCommon.js: pathName: . / test / TestAccessor.js testCommon.js: pathName: .. / test / TestAccessor.js testCommon.js: returning contents of .. / test / TestAccessor.js"
+    },
+    {
+      "chunk_id": 98,
+      "text": "returning contents of .. / test / TestAccessor.js TypeError: cannot resolve module id: .. / commonHost.js duk_bi_global.c: 988 require native strict preventsyield global common / test / testCommon.js: 68 preventsyield error in executing file common"
+    },
+    {
+      "chunk_id": 99,
+      "text": ": 68 preventsyield error in executing file common / test / testCommon.js bash-3.2$ [$[Get Code]] Enabling the debugging by editing duk_cmdline.c as per Compile with Debugging above results in [DD] duk_bi_global.c:932 (duk__bi_global_resolve_module_id"
+    },
+    {
+      "chunk_id": 100,
+      "text": "_bi_global.c:932 (duk__bi_global_resolve_module_id): resolve error: term was '..' but nothing to backtrack which is similar to require(): cannot resolve module id . Because the output is so voluminous, I disabled the debug output. One idea is to try"
+    },
+    {
+      "chunk_id": 101,
+      "text": ", I disabled the debug output. One idea is to try running in different directories, such as the common/ directory Editing Makefile.cmdline and setting CCOPTS to use -ggdb and not use -Os and then running under Mac OS X ggdb : ( gdb ) r test / testCo"
+    },
+    {
+      "chunk_id": 102,
+      "text": "ing under Mac OS X ggdb : ( gdb ) r test / testCommon.js Starting program: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / hosts / duktape / duktape / d\\ uk test / testCommon.js Loading C verison of duktapeHost loading module:"
+    },
+    {
+      "chunk_id": 103,
+      "text": "s Loading C verison of duktapeHost loading module: common / commonHost loading module: common / commonHost.js FATAL 56 : uncaught error PANIC 56 : uncaught error ( calling abort ) Program received signal SIGABRT, Aborted. 0x00007fff99058f06 in __pthr"
+    },
+    {
+      "chunk_id": 104,
+      "text": "nal SIGABRT, Aborted. 0x00007fff99058f06 in __pthread_kill ( ) from / usr / lib / system / libsystem_kernel.dylib ( gdb ) where #0 0x00007fff99058f06 in __pthread_kill () from /usr/lib/system/libsystem_kernel.dylib #1 0x00007fff84c504ec in pthread_"
+    },
+    {
+      "chunk_id": 105,
+      "text": "em_kernel.dylib #1 0x00007fff84c504ec in pthread_kill () from /usr/lib/system/libsystem_pthread.dylib #2 0x00007fff8acd86e7 in abort () from /usr/lib/system/libsystem_c.dylib #3 0x000000010001fe8e in duk_default_panic_handler (code=56, msg =0x1000"
+    },
+    {
+      "chunk_id": 106,
+      "text": "in duk_default_panic_handler (code=56, msg =0x10007903d \"uncaught error\" ) at duk_error_macros.c: 152 #4 0x0000000000000000 in ?? () ( gdb ) quit [$[Get Code]] That's not much help, so instead, enabling the debugging by editing duk_cmdline.c as per"
+    },
+    {
+      "chunk_id": 107,
+      "text": "ing the debugging by editing duk_cmdline.c as per Compile with Debugging above results in the following text after loading module: common/commonHost.js is echoed: loading module : common / commonHost. js [ DD ] duk_js_call. c : 2402 ( duk_handle_ecma"
+    },
+    {
+      "chunk_id": 108,
+      "text": "js [ DD ] duk_js_call. c : 2402 ( duk_handle_ecma_call_setup ) : handle_ecma_call_setup : thr = 0x7fec4bc083b0 , num_stack_args = 1 , call_flags = 0x00000000 ( resume = 0 , tailcall = 0 ) , idx_func = 8 , idx_args = 10 , entry_valstack_bottom_index"
+    },
+    {
+      "chunk_id": 109,
+      "text": "= 8 , idx_args = 10 , entry_valstack_bottom_index = 18 [ DD ] duk_js_call. c : 1201 ( duk__handle_call_inner ) : duk__handle_call_inner : num_stack_args = 1 , call_flags = 0x00000000 , top = 11 [ DD ] duk_js_call. c : 1247 ( duk__handle_call_inner )"
+    },
+    {
+      "chunk_id": 110,
+      "text": "duk_js_call. c : 1247 ( duk__handle_call_inner ) : duk__handle_call_inner : thr = 0x7fec4bc083b0 , num_stack_args = 1 , call_flags = 0x00000000 ( ignorerec = 0 , constructor = 0 ) , valstack_top = 11 , idx_func = 8 , idx_args = 10 , rec_depth = 3 /"
+    },
+    {
+      "chunk_id": 111,
+      "text": ", idx_func = 8 , idx_args = 10 , rec_depth = 3 / 1000 , entry_valstack_bottom_index = 18 , entry_callstack_top = 3 , entry_catchstack_top = 0 , entry_call_recursion_depth = 3 , entry_curr_thread = 0x7fec4bc083b0 , entry_thread_state = 2 [ DD ] duk_h"
+    },
+    {
+      "chunk_id": 112,
+      "text": "7fec4bc083b0 , entry_thread_state = 2 [ DD ] duk_hobject_props. c : 867 ( duk__realloc_props ) : resized hobject 0x7fec4bd00880 props ( 0 -> 50 bytes ) , from { p = NULL , e_size = 0 , e_next = 0 , a_size = 0 , h_size = 0 } to { p = 0x7fec4bd00940 ,"
+    },
+    {
+      "chunk_id": 113,
+      "text": "size = 0 , h_size = 0 } to { p = 0x7fec4bd00940 , e_size = 2 , e_next = 0 , a_size = 0 , h_size = 0 } , abandon_array = 0 , unadjusted new_e_size = 2 [ DD ] duk_hobject_props. c : 867 ( duk__realloc_props ) : resized hobject 0x7fec4bd00980 props ( 0"
+    },
+    {
+      "chunk_id": 114,
+      "text": "rops ) : resized hobject 0x7fec4bd00980 props ( 0 -> 50 bytes ) , from { p = NULL , e_size = 0 , e_next = 0 , a_size = 0 , h_size = 0 } to { p = 0x7fec4bd009c0 , e_size = 2 , e_next = 0 , a_size = 0 , h_size = 0 } , abandon_array = 0 , unadjusted new"
+    },
+    {
+      "chunk_id": 115,
+      "text": "h_size = 0 } , abandon_array = 0 , unadjusted new_e_size = 2 [ DD ] duk_hobject_props. c : 867 ( duk__realloc_props ) : resized hobject 0x7fec4bd00980 props ( 50 -> 82 bytes ) , from { p = 0x7fec4bd009c0 , e_size = 2 , e_next = 1 , a_size = 0 , h_si"
+    },
+    {
+      "chunk_id": 116,
+      "text": "09c0 , e_size = 2 , e_next = 1 , a_size = 0 , h_size = 0 } to { p = 0x7fec4bd00a00 , e_size = 2 , e_next = 1 , a_size = 2 , h_size = 0 } , abandon_array = 0 , unadjusted new_e_size = 2 [ DD ] duk_hobject_props. c : 867 ( duk__realloc_props ) : resize"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ect_props. c : 867 ( duk__realloc_props ) : resized hobject 0x7fec4bd00980 props ( 82 -> 114 bytes ) , from { p = 0x7fec4bd00a00 , e_size = 2 , e_next = 1 , a_size = 2 , h_size = 0 } to { p = 0x7fec4bd00a60 , e_size = 2 , e_next = 1 , a_size = 4 , h_"
+    },
+    {
+      "chunk_id": 118,
+      "text": "d00a60 , e_size = 2 , e_next = 1 , a_size = 4 , h_size = 0 } , abandon_array = 0 , unadjusted new_e_size = 2 [ DD ] duk_hobject_props. c : 867 ( duk__realloc_props ) : resized hobject 0x7fec4bd00980 props ( 114 -> 146 bytes ) , from { p = 0x7fec4bd00"
+    },
+    {
+      "chunk_id": 119,
+      "text": "rops ( 114 -> 146 bytes ) , from { p = 0x7fec4bd00a60 , e_size = 2 , e_next = 1 , a_size = 4 , h_size = 0 } to { p = 0x7fec4bd009c0 , e_size = 2 , e_next = 1 , a_size = 6 , h_size = 0 } , abandon_array = 0 , unadjusted new_e_size = 2 [ DD ] duk_hobje"
+    },
+    {
+      "chunk_id": 120,
+      "text": "y = 0 , unadjusted new_e_size = 2 [ DD ] duk_hobject_props. c : 867 ( duk__realloc_props ) : resized hobject 0x7fec4bd00980 props ( 146 -> 178 bytes ) , from { p = 0x7fec4bd009c0 , e_size = 2 , e_next = 1 , a_size = 6 , h_size = 0 } to { p = 0x7fec4b"
+    },
+    {
+      "chunk_id": 121,
+      "text": "= 1 , a_size = 6 , h_size = 0 } to { p = 0x7fec4bd00ae0 , e_size = 2 , e_next = 1 , a_size = 8 , h_size = 0 } , abandon_array = 0 , unadjusted new_e_size = 2 [ DD ] duk_error_augment. c : 104 ( duk__err_augment_user ) : error handler does not exist"
+    },
+    {
+      "chunk_id": 122,
+      "text": "err_augment_user ) : error handler does not exist or is not a plain value : NULL [ DD ] duk_error_augment. c : 104 ( duk__err_augment_user ) : error handler does not exist or is not a plain value : NULL [ DD ] duk_js_executor. c : 867 ( duk__handle_l"
+    },
+    {
+      "chunk_id": 123,
+      "text": "LL [ DD ] duk_js_executor. c : 867 ( duk__handle_longjmp ) : handling longjmp : type = 1 , value1 = { message / 10 : \"error error (rc -100)\" / 1 } , value2 = undefined , iserror = 0 [ DD ] duk_error_augment. c : 104 ( duk__err_augment_user ) : error"
+    },
+    {
+      "chunk_id": 124,
+      "text": "ugment. c : 104 ( duk__err_augment_user ) : error handler does not exist or is not a plain value : NULL [$[Get Code]] So, the problem here is that we have no error handler. http://duktape.org/guide.html#error-handling is useful. Solution: use duk_pev"
+    },
+    {
+      "chunk_id": 125,
+      "text": "ml#error-handling is useful. Solution: use duk_peval_string_noresult() in duk_cmdfile.c : // Use duk_peval_string_noresult() and avoid interning the string. Good // for low memoroy, see // http://duktape.org/api.html#duk_peval_string_noresult if ( d"
+    },
+    {
+      "chunk_id": 126,
+      "text": "tape.org/api.html#duk_peval_string_noresult if ( duk_peval_string_noresult ( ctx , ___duktapeHost_js ) != 0 ) { printf ( \"%s:%d: Loading C version of duktapeHost failed \\n \" , __FILE__ , __LINE__ ) ; } else { printf ( \"%s: Loading C version of duktap"
+    },
+    {
+      "chunk_id": 127,
+      "text": "} else { printf ( \"%s: Loading C version of duktapeHost worked \\n \" , __FILE__ ) ; } [$[Get Code]] Now, we get a better error message: bash-3.2$ cd common / bash-3.2$ .. / duktape / duktape / duk test / testCommon.js examples / cmdline / duk_cmdline."
+    },
+    {
+      "chunk_id": 128,
+      "text": "/ testCommon.js examples / cmdline / duk_cmdline.c Loading C verison of duktapeHost loading module: common / commonHost loading module: common / commonHost.js examples / cmdline / duk_cmdline.c: 960 : Loading C version of duktapeHost failed testComm"
+    },
+    {
+      "chunk_id": 129,
+      "text": ": Loading C version of duktapeHost failed testCommon.js: pathName: . / test / TestAccessor.js testCommon.js: pathName: .. / test / TestAccessor.js testCommon.js: pathName: .. / .. / test / TestAccessor.js testCommon.js: returning contents of .. / .."
+    },
+    {
+      "chunk_id": 130,
+      "text": "r.js testCommon.js: returning contents of .. / .. / test / TestAccessor.js TypeError: cannot resolve module id: .. / commonHost.js duk_bi_global.c: 988 require native strict preventsyield global test / testCommon.js: 68 preventsyield error in execut"
+    },
+    {
+      "chunk_id": 131,
+      "text": "/ testCommon.js: 68 preventsyield error in executing file test / testCommon.js bash-3.2$ [$[Get Code]] The problem is that duktapeHost contains var commonHost = require ( \"common/commonHost\" ) ; [$[Get Code]] when we run the duk command in the commo"
+    }
+  ]
+}

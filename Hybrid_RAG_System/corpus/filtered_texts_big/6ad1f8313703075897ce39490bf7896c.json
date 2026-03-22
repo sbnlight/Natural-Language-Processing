@@ -1,0 +1,81 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/projects/summaries/04/compositionalityAnalysis.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Compositionality Analysis Compositionality Analysis Researchers: Haiyang Zheng, Stephen Neuendorffer Advisor: Edward A. Lee Component-based design is important for design of complex embedded software. By properly defining component interfaces, we can"
+    },
+    {
+      "chunk_id": 2,
+      "text": "By properly defining component interfaces, we can form new components by composing existing components. The newly formed component may be further composed with other components. The interface of a composite model should be indistinguishable from t"
+    },
+    {
+      "chunk_id": 3,
+      "text": "composite model should be indistinguishable from the interface of a primitive component. Ptolemy II has a component architecture based on actor-oriented design. The components are actors with ports, and each actor implements a specific model of compu"
+    },
+    {
+      "chunk_id": 4,
+      "text": "nd each actor implements a specific model of computation (MOC). Connections between ports represent the communication dependance between an output port of one component and the input port of another component. Unfortunately, the communication inter"
+    },
+    {
+      "chunk_id": 5,
+      "text": "component. Unfortunately, the communication interface of a component (consisting of its ports) abstracts away the details of component. In particular, information about the dependence between input values and output ports, which we call the functio"
+    },
+    {
+      "chunk_id": 6,
+      "text": "values and output ports, which we call the functional dependence , is lost. This tends to make further composition of hierarchical components more difficult. We are experimenting with interface theories for exposing various types of functional depe"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ries for exposing various types of functional dependence for components. One example of one type of functional dependence that we are concerned with is time causality in continuous-time and disceret-event models. See figure 1. In both the continuous"
+    },
+    {
+      "chunk_id": 8,
+      "text": "vent models. See figure 1. In both the continuous and discrete models, zero-delay feedback loops are not allowed. These models require that at least one component in every loop has a delay from its input ports to its output ports, i.e. it must be s"
+    },
+    {
+      "chunk_id": 9,
+      "text": "input ports to its output ports, i.e. it must be strictly causal . We expose this causality information by annotating each component with an attribute declaring the communication dependence between individual input and output ports. This causality"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ndividual input and output ports. This causality information is composable and can be propagated across levels of hierarchy, allowing wider possibilities for semantically valid component composition. Another difficulty is that the model of computati"
+    },
+    {
+      "chunk_id": 11,
+      "text": "Another difficulty is that the model of computation (MOC) of a composite model may be different from all individual components, even if the MOC's of the individual components are the same. We want to build hierarchically heterogenous models, an exa"
+    },
+    {
+      "chunk_id": 12,
+      "text": "o build hierarchically heterogenous models, an example of which is shown in figure 2. In one iteration, the composite actor first reacts to the second input and generates some output and then reacts to the first input. In order to execute such mode"
+    },
+    {
+      "chunk_id": 13,
+      "text": "to the first input. In order to execute such models hierarchically, we apply the semantics of synchronous reactive systems to execute discrete-event models. We call this extended discrete event model of computation Timed SR . The semantics of Timed"
+    },
+    {
+      "chunk_id": 14,
+      "text": "l of computation Timed SR . The semantics of Timed SR defines the behavior of a model at a particular point in time as a fixed point computation. Each component in the model reacts (possibly more than once) to available input events until no new eve"
+    },
+    {
+      "chunk_id": 15,
+      "text": "n once) to available input events until no new events are generated at the same time. The functional dependence analysis above gives exactly the information necessary to find an optimal schedule of component reactions. An even more challenging probl"
+    },
+    {
+      "chunk_id": 16,
+      "text": "omponent reactions. An even more challenging problem deals with the compositionality of distributed components. Normal SR models have difficulty representing the asynchrony of distributed systems, which are more easily represented in a discrete-event"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ch are more easily represented in a discrete-event framework. We think Timed SR provides a better semantics for representing distributed systems. Reference: 1. Edward A. Lee, \"Embedded Software,\" Advances in Computers (M. Zelkowitz, editor), Vol. 56"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ances in Computers (M. Zelkowitz, editor), Vol. 56, Academic Press, London, 2002. 2. Stephen A. Edwards and Edward A. Lee,\"The Semantics and Execution of a Synchronous Block-Diagram Language,\" Science of Computer Programming, Vol. 48, no. 1, July 200"
+    },
+    {
+      "chunk_id": 19,
+      "text": "of Computer Programming, Vol. 48, no. 1, July 2003. 3. A. Benveniste, B. Caillaud, P. Le Guernic, Compositionality in dataLow synchronous languages: specification & distributed code generation, Inform. Comput. 163 (2) (2000) 125-171. Last updated 11"
+    }
+  ]
+}

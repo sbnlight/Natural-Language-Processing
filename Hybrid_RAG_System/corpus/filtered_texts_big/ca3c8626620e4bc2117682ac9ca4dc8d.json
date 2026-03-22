@@ -1,0 +1,73 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/Top-LevelJavaScriptFunctionsB",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / Top-LevelJavaScriptFunctionsB Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / Top-LevelJavaScriptFunctionsB This p"
+    },
+    {
+      "chunk_id": 2,
+      "text": "nt Version0 / Top-LevelJavaScriptFunctionsB This page is divided into three sections, first the vision for what this interface aspires to converge to, then the current Michigan implementation, then the current Berkeley implementation. Aspiration Reas"
+    },
+    {
+      "chunk_id": 3,
+      "text": "e current Berkeley implementation. Aspiration Reasonably Agreed Upon <T> get(<string> port_name) : Get the value of an input to a given port. <void> send(<string> port_name, <T> val) : Send a value to an output port. <string> get_parameter(<string> p"
+    },
+    {
+      "chunk_id": 4,
+      "text": "an output port. <string> get_parameter(<string> parameter_name, [<T> default]) : Get the value of a configured parameter that was passed to accessor when it was created. An optional second argument provides a default value for a parameter. Parameter"
+    },
+    {
+      "chunk_id": 5,
+      "text": "rovides a default value for a parameter. Parameters allow for configuring generic accessors to specific instances of devices. Parameters are distinct from inputs in that they are guaranteed to be immutable. Less set in stone Though I (currently) thin"
+    },
+    {
+      "chunk_id": 6,
+      "text": "table. Less set in stone Though I (currently) think they're right :) -Pat These tie somewhat into the Michigan ontological structure, in particular the concept of well-specified interfaces---collections of ports---and ports as strongly-type interface"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ns of ports---and ports as strongly-type interfaces. <void> provide_interface(<string> path) : Specify that this accessor implements a particular interface. By providing an interface, an accessor is required to implement all of the ports specified by"
+    },
+    {
+      "chunk_id": 8,
+      "text": "equired to implement all of the ports specified by the interface. In practice, this means defining a function for each interface. The function name is exactly the interface and port name, e.g. to provide the lighting.Color port, authors must define a"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ide the lighting.Color port, authors must define a global lighting.Color = function (<string> color) { ... } . <void> create_port(<string> direction, <string> name, <object> options) : Create a one-off port for this accessor. <accessor> load_dependen"
+    },
+    {
+      "chunk_id": 10,
+      "text": "f port for this accessor. <accessor> load_dependency(<string> path, <object> parameters=null) : Loads a new accessor as a dependency. Dependencies are guaranteed to exist at runtime. Current Michigan Implementation See https://github.com/lab11/access"
+    },
+    {
+      "chunk_id": 11,
+      "text": "Implementation See https://github.com/lab11/accessors/tree/master/runtimes#accessor-framework-functions . Path to aspiration (TODOs) Think through our notion of a cached get and when that does and doesn't make sense more generally. set to send Add mi"
+    },
+    {
+      "chunk_id": 12,
+      "text": "sn't make sense more generally. set to send Add missing default parameter to get_parameter . Remove the mapping dict from provide_interface . It's easier to comprehend an accessor if a port function is named exactly after the interface it implements."
+    },
+    {
+      "chunk_id": 13,
+      "text": "s named exactly after the interface it implements. Current Berkeley Implementation See Top-Level JavaScript Functions Path to aspiration (TODOs) Michigan would like to move many of the Berkeley top-level functions to modules: Deprecate addInputHandle"
+    },
+    {
+      "chunk_id": 14,
+      "text": "vel functions to modules: Deprecate addInputHandler and removeInputHandler . Currently these are dynamically bound and we're advocating for them to be statically bound to well-known names. I (Pat) don't think there is great benefit to dynamic binding"
+    },
+    {
+      "chunk_id": 15,
+      "text": "'t think there is great benefit to dynamic binding in general, and it can trivially be done internally through an indirection layer, however if there's a compelling reason for dynamic binding I'm happy to discuss revisiting this decision. Move alert"
+    },
+    {
+      "chunk_id": 16,
+      "text": "y to discuss revisiting this decision. Move alert to Built-In JavaScript Modules Move clearInterval to Built-In JavaScript Modules Move clearTimeout to Built-In JavaScript Modules Move print to Built-In JavaScript Modules Flip argument order for send"
+    },
+    {
+      "chunk_id": 17,
+      "text": "In JavaScript Modules Flip argument order for send (this way the first argument to get and send is the same) Move setInterval to Built-In JavaScript Modules Move setTimeout to Built-In JavaScript Modules Back to accessor specification Edit - History"
+    }
+  ]
+}

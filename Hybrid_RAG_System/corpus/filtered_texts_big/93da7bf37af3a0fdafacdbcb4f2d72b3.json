@@ -1,0 +1,97 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/biomimetics/Main/SoftwareDeveloperInformation?action=print",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Biomimetic Millisystems Lab Collaboration Wiki | Main / SoftwareDeveloperInformation From Biomimetic Millisystems Lab Collaboration Wiki Main: SoftwareDeveloperInformation This page will provide some documentation on the overall architecture and func"
+    },
+    {
+      "chunk_id": 2,
+      "text": "documentation on the overall architecture and function of some of the software projects that are used in the BML. ImageProc Library The \"ImageProc Library\" is a collection or source and header files, which can be found in a public GitHub repository:"
+    },
+    {
+      "chunk_id": 3,
+      "text": "which can be found in a public GitHub repository: https://github.com/biomimetics/imageproc-lib These files are designed such that each .c and .h file comprise a module of functionality associated with the ImageProc board design. SysService This modul"
+    },
+    {
+      "chunk_id": 4,
+      "text": "the ImageProc board design. SysService This module is not actively being used. The current 'roach' code project targeting the ImageProc2.5 does not use this module. This information is not useful unless you are using the 'octoroach' code project. Th"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ess you are using the 'octoroach' code project. The SysService (\"System Service\") module, was written to allow multiple modules to use the same timer interrupts. In short, the SysService module is a single module that \"owns\" all the Timer interrupt f"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ingle module that \"owns\" all the Timer interrupt functions, and allows other modules to associate functions to be executed at each timer interrupt. This is accomplished by each timer interrupt storing an array of function pointers, which are called i"
+    },
+    {
+      "chunk_id": 7,
+      "text": "an array of function pointers, which are called in order upon each timer interrupt. Functions are provided to \"install\" a function pointer into this array and to enable or disable a given installed function pointer at any time during execution. This"
+    },
+    {
+      "chunk_id": 8,
+      "text": "unction pointer at any time during execution. This is a very basic, primitive implementation of organized multi-tasking. It is beyond the scope of this manual to explain the full nature of Timers and Interrupts for an embedded target; please consult"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Interrupts for an embedded target; please consult other literature for in-depth explanations thereof. The SysService module does not always declare and \"own\" all timer interrupt functions. The file is divided into 9 self-similar sections, with each o"
+    },
+    {
+      "chunk_id": 10,
+      "text": "divided into 9 self-similar sections, with each one providing functionality for each individual timer, surrounded by an #ifdef. In your settings.h, for each timer you wish to be owned by the SysTimer module, you should have: #define SYS_SERVICE_Tn"
+    },
+    {
+      "chunk_id": 11,
+      "text": "module, you should have: #define SYS_SERVICE_Tn //n is a number from 1-9 [$[Get Code]] To get code to execute upon a timer interrupt in C source for the MicroChip compiler, a declaration such as the follow would be made: void __attribute__ ( ( inte"
+    },
+    {
+      "chunk_id": 12,
+      "text": "follow would be made: void __attribute__ ( ( interrupt , no_auto_psv ) ) _T1Interrupt ( void ) { //Do action associated with Timer 1 here } [$[Get Code]] A problem then arises is several modules wish to use to the same timer. Since there are a limit"
+    },
+    {
+      "chunk_id": 13,
+      "text": "to use to the same timer. Since there are a limited number of timers onboard the dsPIC microcontroller, a way of tying multiple functions to a single timer was needed. This could be done by directly calling functionality in one module from another m"
+    },
+    {
+      "chunk_id": 14,
+      "text": "calling functionality in one module from another module, as such: void __attribute__ ( ( interrupt , no_auto_psv ) ) _T1Interrupt ( void ) { moduleA_function ( ) ; moduleB_function ( ) ; } [$[Get Code]] The flaw with this approach is that each new so"
+    },
+    {
+      "chunk_id": 15,
+      "text": "]] The flaw with this approach is that each new software project must \"own\" the Timer ISR functions in a project-unique source file with the decorations shown above. Instead, with SysService module, code can be fully modularized such that it requires"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ode can be fully modularized such that it requires no extra external setup. It is expected that each module will implement a static service routine: static void moduleA_ServiceRoutine ( ) { //'module' is an example name moduleA_function1 ( ) ; module"
+    },
+    {
+      "chunk_id": 17,
+      "text": "is an example name moduleA_function1 ( ) ; moduleA_function2 ( ) ; //... } [$[Get Code]] Then, this service routine can be \"installed\" in the module's setup function: void moduleA_Setup ( ) { //Do module specific setup tasks here //... int retval ="
+    },
+    {
+      "chunk_id": 18,
+      "text": "dule specific setup tasks here //... int retval = sysServiceInstallTn ( moduleA_ServiceRoutine ) ; //n can be 1-9, SYS_SERVICE_Tn must also be defined in settings.h } [$[Get Code]] The return value will indicate whether or not the function pointer wa"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ll indicate whether or not the function pointer was successfully installed; the only failure mode right now is if there are already 8 other services installed on one timer. NOTE: the moduleA_ServiceRoutine() function is declared as static. Function p"
+    },
+    {
+      "chunk_id": 20,
+      "text": "utine() function is declared as static. Function pointer calls from another source file will still succeed despite this static declaration, since 'static' is only a compile-time barrier. Furthermore, the service routine should be declared as static,"
+    },
+    {
+      "chunk_id": 21,
+      "text": "the service routine should be declared as static, such that it is clear that it should never be called externally by another other module. SysService also provides a ticks counter for each timer it controls: getTn_ticks //n is a number from 1-9 [$[Ge"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ntrols: getTn_ticks //n is a number from 1-9 [$[Get Code]] IMU The IMU module abstracts access to the accelerometer and gyro to prevent bus collisions. More to be added later. PID The PID module provides an integer PID controller structure to impleme"
+    },
+    {
+      "chunk_id": 23,
+      "text": "des an integer PID controller structure to implement control loops with. The core calculations can be switched between a plain software implementation or a DSP-accelerated library implementation. Retrieved from https://wiki.eecs.berkeley.edu/biomimet"
+    }
+  ]
+}

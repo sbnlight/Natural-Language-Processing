@@ -1,0 +1,133 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/biomimetics/Main/ZumySensor",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Biomimetic Millisystems Lab Collaboration Wiki | Main / ZumySensor Recent Changes - Search : Public Wiki Internal Wiki Lab Homepage Processes Embedded Devel Projects Zumy OctoRoACH OpenRoACH Edit SideBar Main / ZumySensor Overview The Zumy board has"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Bar Main / ZumySensor Overview The Zumy board has headers at the front that expose power and 14 additional IO from the mbed. Each of the IO can be used as a digital input or output, as well as the special functions labelled below (the mbed is removed"
+    },
+    {
+      "chunk_id": 3,
+      "text": "cial functions labelled below (the mbed is removed so we can see the headers better). When referencing the IO in code, use the pin numbers in the picture (e.g. p10). In order to use additional actuators or sensor, you will need to connect them to the"
+    },
+    {
+      "chunk_id": 4,
+      "text": "rs or sensor, you will need to connect them to these headers, and modify the Python code onboard the Zumy that communicates with the mbed and bridges that information to ROS. Zumy IO Headers: The code for the Zumy is on the ODROID in coop_slam_worksp"
+    },
+    {
+      "chunk_id": 5,
+      "text": "for the Zumy is on the ODROID in coop_slam_workspace/src/ros_zumy/src. The interface between the ODROID and mbed is handled with a Remote Procedure Call (RPC) library that lets us initialize and call functions on the mbed over the USB-Serial link th"
+    },
+    {
+      "chunk_id": 6,
+      "text": "functions on the mbed over the USB-Serial link that connects the ODROID to the mbed. The pre-defined functions for these IO interfaces available for this are in mbedrpc.py. zumy.py defines a Python class \"Zumy\" that initializes a particular set of t"
+    },
+    {
+      "chunk_id": 7,
+      "text": "lass \"Zumy\" that initializes a particular set of these interfaces, and has functions for reading or writing to them. zumy_ros_bridge.py creates this Zumy class, and also handles all ROS topic subscription and publishing. In general, you will need to"
+    },
+    {
+      "chunk_id": 8,
+      "text": "tion and publishing. In general, you will need to add three things to the code: An initialization function in zumy.py Zumy.__init__ that creates an IO interface on the pin you want to use, and stores that interface as an attribute of the Zumy class."
+    },
+    {
+      "chunk_id": 9,
+      "text": "that interface as an attribute of the Zumy class. The names below are just examples, make sure you name each interface uniquely. A read/write helper function in zumy.py that wraps the appropriate call to the object created above. A publisher or subsc"
+    },
+    {
+      "chunk_id": 10,
+      "text": "to the object created above. A publisher or subscriber in zumy_ros_bridge.py that uses the above function to get information and publishes it, or writes information to outputs when a subscriber gets new information. You may also need to add to impor"
+    },
+    {
+      "chunk_id": 11,
+      "text": "new information. You may also need to add to import statements in zumy_ros_bridge.py for the message type you are using (e.g. Int32). In zumy_ros_bridge.py, you will notice that all of the calls to the zumy helper functions happen in between the line"
+    },
+    {
+      "chunk_id": 12,
+      "text": "e zumy helper functions happen in between the lines self.lock.acquire() and self.lock.release(). This is to avoid starting a new RPC transaction in the middle of one already in progress, as this would corrupt the data stream. Make sure your reads and"
+    },
+    {
+      "chunk_id": 13,
+      "text": "corrupt the data stream. Make sure your reads and writes follow this pattern. Below are some examples of using the most common types of extra IO, and what you need to add to the Zumy code to get the information as a ROS topic. Digital Input In this"
+    },
+    {
+      "chunk_id": 14,
+      "text": "information as a ROS topic. Digital Input In this example we attach a button with a pull-up resistor to p16, and publish the button state to the topic /zumyname/digital_in. In zumy.py add the following line to the end of __init__: self.di = DigitalIn"
+    },
+    {
+      "chunk_id": 15,
+      "text": "g line to the end of __init__: self.di = DigitalIn(self.mbed, p16) And the following helper function to the Zumy class: def read_di(self): return self.di.read() In zumy_ros_bridge.py add the following to the end of __init__: self.di_pub = rospy.Pub"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ng to the end of __init__: self.di_pub = rospy.Publisher('/' + self.name + '/digital_in', Int32, queue_size=1) This in the acquire/release block of the main loop: di_data = self.zumy.read_di() And the following outside the acquire/release block: self"
+    },
+    {
+      "chunk_id": 17,
+      "text": "following outside the acquire/release block: self.di_pub.publish(di_data) When you run remote_zumy.launch, you should see 1 published by default, and 0 published when the button is pushed. Digital Output In this example we attach an LED with a serie"
+    },
+    {
+      "chunk_id": 18,
+      "text": "tput In this example we attach an LED with a series resistor to p17, and control it by publishing to the topic /zumyname/digital_out. In zumy.py add the following line to end of __init__: self.do = DigitalOut(self.mbed, p17) And the following helper"
+    },
+    {
+      "chunk_id": 19,
+      "text": "gitalOut(self.mbed, p17) And the following helper function to the Zumy class: def write_do(self, value): self.do.write(value) In zumy_ros_bridge.py add the following to the end of __init__: rospy.Subscriber('/' + self.name + '/digital_out', Int32,"
+    },
+    {
+      "chunk_id": 20,
+      "text": "bscriber('/' + self.name + '/digital_out', Int32, self.do_callback) And add the following callback function to the ZumyROS class: def do_callback(self, msg): self.lock.acquire() self.zumy.write_do(msg.data) self.lock.release() When you run remo"
+    },
+    {
+      "chunk_id": 21,
+      "text": "(msg.data) self.lock.release() When you run remote_zumy.launch, you can publish to the digital out topic with rostopic pub /zumyname/digital_out std_msgs/Int32 1 The LED should be off when 0 is published, and on when anything else is published. Ana"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ished, and on when anything else is published. Analog Input In this example we attach the middle pin of a potentiometer to p18 (A3) and publish the voltage as a float. In zumy.py add the following line to end of __init__: self.ai = AnalogIn(self.mbed"
+    },
+    {
+      "chunk_id": 23,
+      "text": "e to end of __init__: self.ai = AnalogIn(self.mbed, p18) And the following helper function to the Zumy class: def read_ai(self): return self.ai.read() In zumy_ros_bridge.py add the following to the end of __init__: self.ai_pub = rospy.Publisher('/'"
+    },
+    {
+      "chunk_id": 24,
+      "text": "end of __init__: self.ai_pub = rospy.Publisher('/' + self.name + '/analog_in', Float32, queue_size=1) This in the acquire/release block of the main loop: ai_data = self.zumy.read_ai() And the following outside the acquire/release block: self.ai_pub.p"
+    },
+    {
+      "chunk_id": 25,
+      "text": "g outside the acquire/release block: self.ai_pub.publish(ai_data) This will publish a float from 0.0 to 1.0, with 1.0 corresponding to 3.3V. PWM You can use PWM to simulate an analog output. Use the same circuit and setup as digital output, but conne"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ame circuit and setup as digital output, but connected to p26 (PWM1) to dim an LED. In zumy.py add the following line to end of __init__: self.pwm = PwmOut(self.mbed, p26) And the following helper function to the Zumy class: def write_pwm(self, value"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ction to the Zumy class: def write_pwm(self, value): self.pwm.write(value) In zumy_ros_bridge.py add the following to the end of __init__: rospy.Subscriber('/' + self.name + '/pwm_out', Float32, self.pwm_callback) And add the following callback fun"
+    },
+    {
+      "chunk_id": 28,
+      "text": "f.pwm_callback) And add the following callback function to the ZumyROS class: def pwm_callback(self, msg): self.lock.acquire() self.zumy.write_pwm(msg.data) self.lock.release() When you run remote_zumy.launch, you can publish to the PWM out top"
+    },
+    {
+      "chunk_id": 29,
+      "text": "te_zumy.launch, you can publish to the PWM out topic with rostopic pub /zumyname/pwm_out std_msgs/Float32 0.5 The LED brightness will be proportional to the float, valued from 0.0 to 1.0. Servo To drive a servo, you will also use the PWM pins and fun"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ve a servo, you will also use the PWM pins and functions as above. A servo requires a pulse width between 1-2ms, with a dead time of ~10ms. You can set these with the period and puslewidth (this function is mispelled in the code on the Zumy) function"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ion is mispelled in the code on the Zumy) functions of the PwmOut object. In zumy.py add the following line to end of __init__: self.servo = PwmOut(self.mbed, p25) self.servo.period(0.01) And the following helper function to the Zumy class: def write"
+    },
+    {
+      "chunk_id": 32,
+      "text": "owing helper function to the Zumy class: def write_servo(self, value): self.servo.puslewidth(value) Then use the same subscriber model as for PWM. Publishing values between 0.001 and 0.002 will move the servo through it's normal range of motion. Ed"
+    }
+  ]
+}

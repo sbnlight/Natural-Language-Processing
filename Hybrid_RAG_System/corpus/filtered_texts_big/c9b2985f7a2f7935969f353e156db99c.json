@@ -1,0 +1,73 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/TockOS/Duktape2ToggleLED",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | TockOS / Duktape2ToggleLED Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print TockOS / Duktape2ToggleLED After setting up Duktape2 and doin"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ktape2ToggleLED After setting up Duktape2 and doing a Duktape2 Simple application, let's try toggling a LED. As a start, we can try blinking a LED, see Duktape Eclipse ARM Cortex M4 -> Duktape Event Example : /* * Simple LED time test. */ function m"
+    },
+    {
+      "chunk_id": 3,
+      "text": "xample : /* * Simple LED time test. */ function main ( ) { setInterval ( function ( ) { LedControl. toggle ( 2 ) ; } , 3000 ) ; } main ( ) ; [$[Get Code]] To get something similar to work under the Hail board, we need to define a JavaScript function"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ail board, we need to define a JavaScript function in Duktape that will invoke the appropriate C code. In the long run, we need to use a module for this, but in the short term, let's just try to get something to work. tock/userland/examples/ducktape/"
+    },
+    {
+      "chunk_id": 5,
+      "text": "omething to work. tock/userland/examples/ducktape/main-led.c contains: /* * Toggle a LED. * See {$ACCESSORS_HOME}/wiki/TockOS/Duktape2ToggleLED */ #include \"duktape.h\" #ifdef __ARM_EABI__ #include \"console.h\" int _gettimeofday ( struct timeval * tp"
+    },
+    {
+      "chunk_id": 6,
+      "text": "console.h\" int _gettimeofday ( struct timeval * tp , void * tzp ) { return 0 ; } #else #define putstr(x) fprintf(stderr, \"%s\", x); #endif void ledcontrol_register ( duk_context * ctx ) ; int main ( int argc , char * argv [ ] ) { ( void ) argc ; ( voi"
+    },
+    {
+      "chunk_id": 7,
+      "text": "t argc , char * argv [ ] ) { ( void ) argc ; ( void ) argv ; /* suppress warning */ putstr ( \"duktape/main-led.c: start \\n \" ) ; duk_context * ctx = duk_create_heap_default ( ) ; putstr ( \"duktape/main-led.c: ledcontrol_register() \\n \" ) ; ledcontrol"
+    },
+    {
+      "chunk_id": 8,
+      "text": "n-led.c: ledcontrol_register() \\n \" ) ; ledcontrol_register ( ctx ) ; duk_eval_string ( ctx , \"LedControl.toggle(2);\" ) ; duk_pop ( ctx ) ; /* pop eval result */ duk_destroy_heap ( ctx ) ; putstr ( \"duktape/main.c: done \\n \" ) ; return 0 ; } [$[Get C"
+    },
+    {
+      "chunk_id": 9,
+      "text": "uktape/main.c: done \\n \" ) ; return 0 ; } [$[Get Code]] tock/userland/examples/duktape/ledcontrol.c defines the LedControl.toggle() JavaScript function: #include \"duktape.h\" #ifdef __ARM_EABI__ #include <led.h> #include <timer.h> #endif /** * Registe"
+    },
+    {
+      "chunk_id": 10,
+      "text": "de <led.h> #include <timer.h> #endif /** * Register a JavaScript command to toggle a LED. * @author Christopher Brooks * @version $Id: ledcontrol.c 1231 2016-12-31 07:03:22Z cxh $ */ static int ledcontrol_toggle ( duk_context * ctx ) { const int led"
+    },
+    {
+      "chunk_id": 11,
+      "text": "trol_toggle ( duk_context * ctx ) { const int led = duk_to_int ( ctx , 0 ) ; #ifdef __ARM_EABI__ // led_toggle(led); // From tock/userland/examples/blink/main.c: int num_leds = led_count ( ) ; for ( int count = 0 ; ; count ++ ) { for ( int i = 0 ; i"
+    },
+    {
+      "chunk_id": 12,
+      "text": "int count = 0 ; ; count ++ ) { for ( int i = 0 ; i < num_leds ; i ++ ) { if ( count & ( 1 << i ) ) { led_on ( i ) ; } else { led_off ( i ) ; } } delay_ms ( 250 ) ; } return 1 ; #else fprintf ( stderr , \"%s:%d led not supported? \\n \" , __FILE__ , __LI"
+    },
+    {
+      "chunk_id": 13,
+      "text": ", \"%s:%d led not supported? \\n \" , __FILE__ , __LINE__ ) ; return DUK_RET_ERROR ; #endif } static duk_function_list_entry ledcontrol_funcs [ ] = { { \"toggle\" , ledcontrol_toggle , 1 } , { NULL , NULL , 0 } } ; void ledcontrol_register ( duk_context *"
+    },
+    {
+      "chunk_id": 14,
+      "text": ", 0 } } ; void ledcontrol_register ( duk_context * ctx ) { duk_push_global_object ( ctx ) ; duk_push_object ( ctx ) ; duk_put_function_list ( ctx , - 1 , ledcontrol_funcs ) ; duk_put_prop_string ( ctx , - 2 , \"LedControl\" ) ; duk_pop ( ctx ) ; } [$[G"
+    },
+    {
+      "chunk_id": 15,
+      "text": ", - 2 , \"LedControl\" ) ; duk_pop ( ctx ) ; } [$[Get Code]] tock/userland/example/duktape/Makefile-led.mk contains: C_SRCS := duktape.c ledcontrol.c main-led.c Running make clean; make -f Makefile-led.mk TOCK_BOARD=hail program compiles the demo and"
+    },
+    {
+      "chunk_id": 16,
+      "text": ".mk TOCK_BOARD=hail program compiles the demo and uploads it. ealmac23:~ cxh$ tockloader listen No serial port specified. Discovering attached serial devices... Using \"/dev/cu.usbserial-00001014 - Hail IoT Module - TockOS - Hail IoT Module - TockOS\""
+    },
+    {
+      "chunk_id": 17,
+      "text": "l IoT Module - TockOS - Hail IoT Module - TockOS\" duktape / main-led.c: start duktape / main-led.c: ledcontrol_regisduktape / main-led.c: start duktape / main-led.c: ledcontrol_register ( ) [$[Get Code]] Success : The LEDs blink! The next step is Duk"
+    }
+  ]
+}

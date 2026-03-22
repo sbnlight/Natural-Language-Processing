@@ -1,0 +1,385 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII5.0/ptII5.0.1/doc/codeDoc/ptolemy/actor/lib/hoc/IterateOverArray.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "IterateOverArray Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.lib.hoc Class IterateOverArray java.lang.Obj"
+    },
+    {
+      "chunk_id": 2,
+      "text": "actor.lib.hoc Class IterateOverArray java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.kernel.CompositeEntity ptolemy.actor.CompositeActor ptolemy.actor.Type"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ty ptolemy.actor.CompositeActor ptolemy.actor.TypedCompositeActor ptolemy.actor.lib.hoc.IterateOverArray All Implemented Interfaces: Actor , Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , HandlesInternalLinks"
+    },
+    {
+      "chunk_id": 4,
+      "text": "r , Derivable , Executable , HandlesInternalLinks , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , java.io.Serializable, TypedActor public class IterateOverArray extends TypedCompositeActor implements HandlesInternalLinks T"
+    },
+    {
+      "chunk_id": 5,
+      "text": "edCompositeActor implements HandlesInternalLinks This actor iterates the contained actor or model over input arrays. To use it, either drop an actor on it and provide arrays to the inputs, or use a default configuration where the actor contains"
+    },
+    {
+      "chunk_id": 6,
+      "text": "e a default configuration where the actor contains an instance of IterateComposite. In the latter case, you can simply look inside and populate that actor with a submodel that will be applied to the array elements. The submodel is requir"
+    },
+    {
+      "chunk_id": 7,
+      "text": "to the array elements. The submodel is required to have a director. An SDF director will often be sufficient for operations taken on array elements, but other directors can be used as well. Note that this inside director should not i"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ll. Note that this inside director should not impose a limit on the number of iterations of the inside model. If it does, then that limit will be respected, which may result in a failure to iterate over all the input data. Each input port"
+    },
+    {
+      "chunk_id": 9,
+      "text": "o iterate over all the input data. Each input port expects an array. When this actor fires, an array is read on each input port that has one, and its contents are provided sequentially to the contained actor or model. This actor then iterate"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ntained actor or model. This actor then iterates the contained actor or model until either there are no more input data for the actor or the prefire() method of the actor or model returns false. If postfire() of the actor returns false,"
+    },
+    {
+      "chunk_id": 11,
+      "text": "false. If postfire() of the actor returns false, then postfire() of this actor will return false, requesting a halt to execution of the model. The outputs from the contained actor are collected into arrays that are produced on the output"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ted into arrays that are produced on the outputs of this actor. A special variable named \"iterationCount\" can be used in any expression setting the value of a parameter of this actor or its contents. This variable has an integer value that"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ontents. This variable has an integer value that starts at 1 during the first iteration of the contained actor(s) and is incremented by 1 on each firing. If the inside actors consume one token on each firing, then its final value will be"
+    },
+    {
+      "chunk_id": 14,
+      "text": "n on each firing, then its final value will be the size of the input array(s). This actor is properly viewed as a \"higher-order component\" in that its contained actor is a parameter that specifies how to operate on input arrays. It is inspi"
+    },
+    {
+      "chunk_id": 15,
+      "text": "es how to operate on input arrays. It is inspired by the higher-order functions of functional languages, but unlike those, the contained actor need not be functional. That is, it can have state. Note that you cannot place class definitio"
+    },
+    {
+      "chunk_id": 16,
+      "text": "state. Note that you cannot place class definitions inside this actor. There should be no need to because class instances inside it can be instances of classes defined outside of it. This actor (and many of the other higher-order components)"
+    },
+    {
+      "chunk_id": 17,
+      "text": "(and many of the other higher-order components) has its intellectual roots in the higher-order functions of functional languages, which have been in use since the 1970s. Similar actors were implemented in Ptolemy Classic, and are describ"
+    },
+    {
+      "chunk_id": 18,
+      "text": "implemented in Ptolemy Classic, and are described in Lee & Parks, \"Dataflow Process Networks,\" Proceedings of the IEEE , 1995. Those were inspired by [2]. Alternative approaches are found dataflow visual programming since the beginning"
+    },
+    {
+      "chunk_id": 19,
+      "text": "dataflow visual programming since the beginning (Sutherland in the 1960s, Prograph and Labview in the 1980s), and in time-based visual languages (Simulink in the 1990s). There are a number of known bugs or limitations in this implementati"
+    },
+    {
+      "chunk_id": 20,
+      "text": "known bugs or limitations in this implementation: FIXME: When you drop in an actor, and then another actor, and then select \"undo,\" the second actor is deleted without the first one being re-created. Thus, undo is only a partial undo. T"
+    },
+    {
+      "chunk_id": 21,
+      "text": "-created. Thus, undo is only a partial undo. The fix to this is extremely complicated. Probably the only viable mechanism is to use UndoStackAttribute.getUndoInfo() to get the undo stack and then to manipulate the contents of that stack"
+    },
+    {
+      "chunk_id": 22,
+      "text": "then to manipulate the contents of that stack directly. FIXME: There should be an option to reset between firings of the inside actor. FIXME: If you drop a new actor onto an IterateOverArray in a subclass, it will replace the version inh"
+    },
+    {
+      "chunk_id": 23,
+      "text": "in a subclass, it will replace the version inherited from the prototype. This is not right, since it violates the derivation invariant. Any attempt to modify the contained object in the prototype will trigger an exception. There are two"
+    },
+    {
+      "chunk_id": 24,
+      "text": "otype will trigger an exception. There are two possible fixes. One is to relax the derivation invariant and allow derived objects to not perfectly mirror the hierarchy of the prototype. Another is for this class to somehow refuse to acce"
+    },
+    {
+      "chunk_id": 25,
+      "text": "nother is for this class to somehow refuse to accept the new object in a subclass. But it is not obvious how to do this. FIXME: If an instance of IterateOverArray in a derived class has overridden values of parameters, those are lost if cont"
+    },
+    {
+      "chunk_id": 26,
+      "text": "idden values of parameters, those are lost if contained entity of the instance in the base class is replaced and then an undo is requested. References E. A. Lee and T. M. Parks, \"Dataflow Process Networks,\" Proceedings of the IEEE, 83(5): 77"
+    },
+    {
+      "chunk_id": 27,
+      "text": "s Networks,\" Proceedings of the IEEE, 83(5): 773-801, May, 1995. H. J. Reekie, \"Toward Effective Programming for Parallel Digital Signal Processing,\" Ph.D. Thesis, University of Technology, Sydney, Sydney, Australia, 1992. Since: Ptolemy II"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ydney, Sydney, Australia, 1992. Since: Ptolemy II 4.1 Version: $Id: IterateOverArray.java,v 1.38 2005/04/29 20:04:27 cxh Exp $ Author: Edward A. Lee, Steve Neuendorffer See Also: Serialized Form Accepted Rating: Red (neuendor) Proposed Rating: Yellow"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ted Rating: Red (neuendor) Proposed Rating: Yellow (eal) Nested Class Summary static class IterateOverArray.IterateComposite This is a specialized composite actor for use in IterateOverArray. static class IterateOverArray.IteratePort This is a specia"
+    },
+    {
+      "chunk_id": 30,
+      "text": "lass IterateOverArray.IteratePort This is a specialized port for IterateOverArray. Nested classes inherited from class ptolemy.kernel. CompositeEntity CompositeEntity.ContainedObjectsIterator Field Summary Fields inherited from class ptolemy.actor. C"
+    },
+    {
+      "chunk_id": 31,
+      "text": "mmary Fields inherited from class ptolemy.actor. CompositeActor _stopRequested Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent ,"
+    },
+    {
+      "chunk_id": 32,
+      "text": "_debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Construc"
+    },
+    {
+      "chunk_id": 33,
+      "text": "le COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary IterateOverArray ( CompositeEntity container, java.lang.String name) Create an actor with a name and a container. Method Summary protected void _addEntity ( ComponentEnti"
+    },
+    {
+      "chunk_id": 34,
+      "text": "Summary protected void _addEntity ( ComponentEntity entity) Override the base class to queue a change request to remove any previously contained entity and its mirrored ports, and to mirror the ports of the added entity. protected void _addPort"
+    },
+    {
+      "chunk_id": 35,
+      "text": "orts of the added entity. protected void _addPort ( Port port) Add a port to this actor. protected java.util.List _checkTypesFromTo ( TypedIOPort sourcePort, java.util.List destinationPortList) Check types from a source port to a"
+    },
+    {
+      "chunk_id": 36,
+      "text": "tionPortList) Check types from a source port to a group of destination ports, assuming the source port is connected to all the ports in the group of destination ports. protected void _clonedFrom ( NamedObj source) Override the base class to set"
+    },
+    {
+      "chunk_id": 37,
+      "text": "( NamedObj source) Override the base class to set a flag indicating that a clone is in progress. protected void _exportMoMLContents (java.io.Writer output, int depth) Override the base class to describe contained entities, at"
+    },
+    {
+      "chunk_id": 38,
+      "text": "he base class to describe contained entities, attributes, and ports, but not inside links or relations. protected void _removeEntity ( ComponentEntity entity) Override the base class to remove the ports and inside relations of this actor. protec"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ports and inside relations of this actor. protected void _removePort ( Port port) Override the base class to remove the associated port on the inside entity and the link to it, if there is one. protected java.util.List _typeConstraintsFromTo ("
+    },
+    {
+      "chunk_id": 40,
+      "text": "rotected java.util.List _typeConstraintsFromTo ( TypedIOPort sourcePort, java.util.List destinationPortList) Return the type constraints on all connections starting from the specified source port to all the ports in a group"
+    },
+    {
+      "chunk_id": 41,
+      "text": "specified source port to all the ports in a group of destination ports. java.lang.Object clone ( Workspace workspace) Clone the object into the specified workspace. Port newPort (java.lang.String name) Override the base class to return a specialize"
+    },
+    {
+      "chunk_id": 42,
+      "text": "me) Override the base class to return a specialized port. java.util.List typeConstraintList () Override the base class to ensure that the ports of this actor all have array types. Methods inherited from class ptolemy.actor. TypedCompositeActor _add"
+    },
+    {
+      "chunk_id": 43,
+      "text": "from class ptolemy.actor. TypedCompositeActor _addRelation , newRelation , resolveTypes Methods inherited from class ptolemy.actor. CompositeActor _finishedAddEntity , _setDirector , connectionsChanged , fire , getDirector , getExecutiveDirector , ge"
+    },
+    {
+      "chunk_id": 44,
+      "text": "d , fire , getDirector , getExecutiveDirector , getFunctionDependency , getManager , initialize , inputPortList , isOpaque , iterate , newInsideReceiver , newReceiver , outputPortList , postfire , prefire , preinitialize , requestChange , setContaine"
+    },
+    {
+      "chunk_id": 45,
+      "text": "fire , preinitialize , requestChange , setContainer , setDirector , setManager , stop , stopFire , terminate , wrapup Methods inherited from class ptolemy.kernel. CompositeEntity _adjustDeferrals , _description , _removeRelation , allAtomicEntityList"
+    },
+    {
+      "chunk_id": 46,
+      "text": "escription , _removeRelation , allAtomicEntityList , allowLevelCrossingConnect , classDefinitionList , connect , connect , containedObjectsIterator , deepEntityList , deepGetEntities , entityList , entityList , exportLinks , getAttribute , getEntitie"
+    },
+    {
+      "chunk_id": 47,
+      "text": "tityList , exportLinks , getAttribute , getEntities , getEntity , getPort , getRelation , getRelations , isAtomic , numberOfClassDefinitions , numberOfEntities , numberOfRelations , numEntities , numRelations , relationList , removeAllEntities , remo"
+    },
+    {
+      "chunk_id": 48,
+      "text": "elations , relationList , removeAllEntities , removeAllRelations , uniqueName , validateSettables Methods inherited from class ptolemy.kernel. ComponentEntity _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate ,"
+    },
+    {
+      "chunk_id": 49,
+      "text": "propagateExistence , getContainer , instantiate , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity connectedPortList , connectedPorts , getPorts , linkedRela"
+    },
+    {
+      "chunk_id": 50,
+      "text": "dPortList , connectedPorts , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getElementName , g"
+    },
+    {
+      "chunk_id": 51,
+      "text": "nt , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug ,"
+    },
+    {
+      "chunk_id": 53,
+      "text": "geListener , addDebugListener , attributeChanged , attributeList , attributeList , attributeTypeChanged , clone , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exp"
+    },
+    {
+      "chunk_id": 54,
+      "text": "uests , exportMoML , exportMoML , exportMoML , exportMoML , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError ,"
+    },
+    {
+      "chunk_id": 55,
+      "text": "etName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateValue , propagateValues , removeChangeListener , removeDebugListener , setClassName , setDeferringChangeRequests , setDeriv"
+    },
+    {
+      "chunk_id": 56,
+      "text": "tClassName , setDeferringChangeRequests , setDerivedLevel , setModelErrorHandler , setNormalDebugging , setPersistent , setSource , setVerboseDebugging , sortContainedObjects , toplevel , toString , workspace Methods inherited from class java.lang.Ob"
+    },
+    {
+      "chunk_id": 57,
+      "text": "orkspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor getDirector , getExecutiveDirector , getFunctionDependency , getMan"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ExecutiveDirector , getFunctionDependency , getManager , inputPortList , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable fire , initialize , iterate , postfire , prefire , preinitialize , stop , stopFire , term"
+    },
+    {
+      "chunk_id": 59,
+      "text": ", prefire , preinitialize , stop , stopFire , terminate , wrapup Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getFullName , getName , getName , setName Methods inherited from interface ptolemy.kernel.uti"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ethods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Constructor Detail IterateOverArray public IterateOverArray ( CompositeEntity container, java.lang.String name)"
+    },
+    {
+      "chunk_id": 61,
+      "text": ", java.lang.String name) throws IllegalActionException , NameDuplicationException Create an actor with a name and a container. The container argument must not be null, or a NullPointerException will be thr"
+    },
+    {
+      "chunk_id": 62,
+      "text": "t be null, or a NullPointerException will be thrown. This actor will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to the empty string. Increment the version of"
+    },
+    {
+      "chunk_id": 63,
+      "text": "t to the empty string. Increment the version of the workspace. This actor will have no local director initially, and its executive director will be simply the director of the container. You should set a director before attempting to execute"
+    },
+    {
+      "chunk_id": 64,
+      "text": "should set a director before attempting to execute it. Parameters: container - The container actor. name - The name of this actor. Throws: IllegalActionException - If the container is incompatible with this actor. NameDuplicationException - If the"
+    },
+    {
+      "chunk_id": 65,
+      "text": "with this actor. NameDuplicationException - If the name coincides with an actor already in the container. Method Detail clone public java.lang.Object clone ( Workspace workspace) throws java.lang.CloneNotSupportedException C"
+    },
+    {
+      "chunk_id": 66,
+      "text": "throws java.lang.CloneNotSupportedException Clone the object into the specified workspace. This overrides the base class to set up the associations in the mirror ports and to set a flag indicating that cloning is complete. Overrides: clone i"
+    },
+    {
+      "chunk_id": 67,
+      "text": "ating that cloning is complete. Overrides: clone in class CompositeActor Parameters: workspace - The workspace for the new object. Returns: A new NamedObj. Throws: java.lang.CloneNotSupportedException - If any of the attributes cannot be cloned. S"
+    },
+    {
+      "chunk_id": 68,
+      "text": "- If any of the attributes cannot be cloned. See Also: InstantiableNamedObj.exportMoML(Writer, int, String) newPort public Port newPort (java.lang.String name) throws NameDuplicationException Override the base class to return a speci"
+    },
+    {
+      "chunk_id": 69,
+      "text": "xception Override the base class to return a specialized port. This port is specified to always be derived, so it can only be deleted via kernel calls (not via the UI or via MoML). Overrides: newPort in class TypedCompositeActor Parameters: nam"
+    },
+    {
+      "chunk_id": 70,
+      "text": "wPort in class TypedCompositeActor Parameters: name - The name of the port to create. Returns: A new instance of IteratePort, an inner class. Throws: NameDuplicationException - If the container already has a port with this name. typeConstraintList"
+    },
+    {
+      "chunk_id": 71,
+      "text": "y has a port with this name. typeConstraintList public java.util.List typeConstraintList () throws IllegalActionException Override the base class to ensure that the ports of this actor all have array types. Speci"
+    },
+    {
+      "chunk_id": 72,
+      "text": "ports of this actor all have array types. Specified by: typeConstraintList in interface TypedActor Overrides: typeConstraintList in class TypedCompositeActor Returns: A list of instances of Inequality. Throws: IllegalActionException - If the typeC"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ity. Throws: IllegalActionException - If the typeConstraintList of one of the deeply contained objects throws it. See Also: Inequality _addEntity protected void _addEntity ( ComponentEntity entity) throws IllegalActionException ,"
+    },
+    {
+      "chunk_id": 74,
+      "text": "throws IllegalActionException , NameDuplicationException Override the base class to queue a change request to remove any previously contained entity and its mirrored ports, and to mirror the ports of the added entity. Overrides"
+    },
+    {
+      "chunk_id": 75,
+      "text": "to mirror the ports of the added entity. Overrides: _addEntity in class TypedCompositeActor Parameters: entity - Entity to contain. Throws: IllegalActionException - If the entity has no name, or the action would result in a recursive containment s"
+    },
+    {
+      "chunk_id": 76,
+      "text": "action would result in a recursive containment structure, or the argument does not implement the TypedActor interface. NameDuplicationException - If the name collides with a name already on the actor contents list, or if the added element is"
+    },
+    {
+      "chunk_id": 77,
+      "text": "e actor contents list, or if the added element is a class definition. _addPort protected void _addPort ( Port port) throws IllegalActionException , NameDuplicationException Add a port to this actor. This overrides the base class t"
+    },
+    {
+      "chunk_id": 78,
+      "text": "ort to this actor. This overrides the base class to mirror the new port in the contained actor, if there is one, and to establish a connection to a port on the contained actor. Overrides: _addPort in class TypedCompositeActor Parameters: port - T"
+    },
+    {
+      "chunk_id": 79,
+      "text": "in class TypedCompositeActor Parameters: port - The TypedIOPort to add to this actor. Throws: IllegalActionException - If the port is not an instance of IteratePort, or the port has no name. NameDuplicationException - If the port name collides wi"
+    },
+    {
+      "chunk_id": 80,
+      "text": "uplicationException - If the port name collides with a name already in the actor. _checkTypesFromTo protected java.util.List _checkTypesFromTo ( TypedIOPort sourcePort, java.util.List destinationPortList)"
+    },
+    {
+      "chunk_id": 81,
+      "text": "java.util.List destinationPortList) Check types from a source port to a group of destination ports, assuming the source port is connected to all the ports in the group of destination ports. Return a list of instances of Inequali"
+    },
+    {
+      "chunk_id": 82,
+      "text": "n ports. Return a list of instances of Inequality that have type conflicts. This overrides the base class so that if one of the ports belongs to this IterateOverArray actor, then its element type is compared against the inside port. Overrides"
+    },
+    {
+      "chunk_id": 83,
+      "text": "ype is compared against the inside port. Overrides: _checkTypesFromTo in class TypedCompositeActor Parameters: sourcePort - The source port. destinationPortList - A list of destination ports. Returns: A list of instances of Inequality indicating the"
+    },
+    {
+      "chunk_id": 84,
+      "text": "A list of instances of Inequality indicating the type constraints that are not satisfied. _clonedFrom protected void _clonedFrom ( NamedObj source) Override the base class to set a flag indicating that a clone is in progress. That flag is reset"
+    },
+    {
+      "chunk_id": 85,
+      "text": "that a clone is in progress. That flag is reset by the clone method prior to returning the constructed object. Parameters: source - The object from which this was cloned. _exportMoMLContents protected void _exportMoMLContents (java.io.Writer out"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ected void _exportMoMLContents (java.io.Writer output, int depth) throws java.io.IOException Override the base class to describe contained entities, attributes, and ports, but not insid"
+    },
+    {
+      "chunk_id": 87,
+      "text": "d entities, attributes, and ports, but not inside links or relations. The rest of the contents are generated automatically when a contained entity is inserted. Overrides: _exportMoMLContents in class CompositeEntity Parameters: output - The out"
+    },
+    {
+      "chunk_id": 88,
+      "text": "class CompositeEntity Parameters: output - The output to write to. depth - The depth in the hierarchy, to determine indenting. Throws: java.io.IOException - If an I/O error occurs. _removeEntity protected void _removeEntity ( ComponentEntity entity)"
+    },
+    {
+      "chunk_id": 89,
+      "text": "cted void _removeEntity ( ComponentEntity entity) Override the base class to remove the ports and inside relations of this actor. This method assumes the caller has write access on the workspace. Overrides: _removeEntity in class CompositeEntity"
+    },
+    {
+      "chunk_id": 90,
+      "text": "Overrides: _removeEntity in class CompositeEntity Parameters: entity - The entity being removed from this entity. _removePort protected void _removePort ( Port port) Override the base class to remove the associated port on the inside entity and the"
+    },
+    {
+      "chunk_id": 91,
+      "text": "the associated port on the inside entity and the link to it, if there is one. This method assumes the caller has write access on the workspace. Overrides: _removePort in class Entity Parameters: port - The port being removed from this entity. _"
+    },
+    {
+      "chunk_id": 92,
+      "text": "port - The port being removed from this entity. _typeConstraintsFromTo protected java.util.List _typeConstraintsFromTo ( TypedIOPort sourcePort, java.util.List destinationPortList) Return the type cons"
+    },
+    {
+      "chunk_id": 93,
+      "text": "til.List destinationPortList) Return the type constraints on all connections starting from the specified source port to all the ports in a group of destination ports. This overrides the base class to ensure that if the source port or the destin"
+    },
+    {
+      "chunk_id": 94,
+      "text": "to ensure that if the source port or the destination port is a port of this composite, then the port is forced to be an array type and the proper constraint on the element type of the array is made. If the source port has no possible sources"
+    },
+    {
+      "chunk_id": 95,
+      "text": "made. If the source port has no possible sources of data, then no type constraints are added for it. Overrides: _typeConstraintsFromTo in class TypedCompositeActor Parameters: sourcePort - The source port. destinationPortList - The destination po"
+    },
+    {
+      "chunk_id": 96,
+      "text": "rce port. destinationPortList - The destination port list. Returns: A list of instances of Inequality. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETA"
+    }
+  ]
+}

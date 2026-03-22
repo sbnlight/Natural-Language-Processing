@@ -1,0 +1,213 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/actor/lib/Subscriber.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Subscriber Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.lib Class Subscriber java.lang.Object ptolemy.kern"
+    },
+    {
+      "chunk_id": 2,
+      "text": "lib Class Subscriber java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.actor.AtomicActor ptolemy.actor.TypedAtomicActor ptolemy.actor.lib.Subscriber All Impl"
+    },
+    {
+      "chunk_id": 3,
+      "text": "dAtomicActor ptolemy.actor.lib.Subscriber All Implemented Interfaces: Actor , Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , java.io.Se"
+    },
+    {
+      "chunk_id": 4,
+      "text": "MoMLExportable , Moveable , Nameable , java.io.Serializable, TypedActor Direct Known Subclasses: SubscriptionAggregator public class Subscriber extends TypedAtomicActor This actor subscribes to tokens on a named channel. The tokens are \"tunneled\" f"
+    },
+    {
+      "chunk_id": 5,
+      "text": "s on a named channel. The tokens are \"tunneled\" from an instance of Publisher that names the same channel and that is under the control of the same director. That is, it can be at a different level of the hierarchy, or in an entirely different co"
+    },
+    {
+      "chunk_id": 6,
+      "text": "of the hierarchy, or in an entirely different composite actor, as long as the relevant composite actors are transparent (have no director). Any number of instances of Subscriber can subscribe to the same channel. This actor actually has a hidden"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e same channel. This actor actually has a hidden input port that is connected to the publisher via hidden \"liberal links\" (links that are allowed to cross levels of the hierarchy). Consequently, any data dependencies that the director might assu"
+    },
+    {
+      "chunk_id": 8,
+      "text": "any data dependencies that the director might assume on a regular \"wired\" connection will also be assumed across Publisher-Subscriber pairs. Similarly, type constraints will propagate across Publisher-Subscriber pairs. That is, the type of the Su"
+    },
+    {
+      "chunk_id": 9,
+      "text": "sher-Subscriber pairs. That is, the type of the Subscriber output will match the type of the Publisher input. Since: Ptolemy II 5.2 Version: $Id: Subscriber.java,v 1.10.4.4 2007/01/06 20:01:58 cxh Exp $ Author: Edward A. Lee, Raymond A. Cardillo See"
+    },
+    {
+      "chunk_id": 10,
+      "text": "p $ Author: Edward A. Lee, Raymond A. Cardillo See Also: Serialized Form Accepted Rating: Red (cxh) Proposed Rating: Green (cxh) Nested Class Summary Nested classes inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Sum"
+    },
+    {
+      "chunk_id": 11,
+      "text": ". Entity Entity.ContainedObjectsIterator Field Summary protected java.lang.String _channel Cached channel name. protected boolean _updatedLinks An indicator that _updateLinks has been called at least once. StringParameter channel The name of the ch"
+    },
+    {
+      "chunk_id": 12,
+      "text": "t once. StringParameter channel The name of the channel. TypedIOPort input The input port. TypedIOPort output The output port. Fields inherited from class ptolemy.actor. AtomicActor _stopRequested Fields inherited from class ptolemy.kernel.util. Name"
+    },
+    {
+      "chunk_id": 13,
+      "text": "lds inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULL"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary Subscriber ( CompositeEntity container, java.lang.String na"
+    },
+    {
+      "chunk_id": 15,
+      "text": "teEntity container, java.lang.String name) Construct a subscriber with the specified container and name. Method Summary protected void _updateLinks () Update the connection to the publisher, if there is one. void attributeChanged ( Attrib"
+    },
+    {
+      "chunk_id": 16,
+      "text": "r, if there is one. void attributeChanged ( Attribute attribute) If the attribute is the channel, increment the workspace version to force cached receiver lists to be updated, and invalidate the schedule and resolved types of the director, if the"
+    },
+    {
+      "chunk_id": 17,
+      "text": "chedule and resolved types of the director, if there is one. protected boolean channelMatches (java.lang.String channelName) Determine whether a channel name matches this subscriber. void fire () Read at most one input token from each input channe"
+    },
+    {
+      "chunk_id": 18,
+      "text": "d at most one input token from each input channel and send it to the output. void preinitialize () Override the base class to ensure that there is a publisher. void setContainer ( CompositeEntity container) Override the base class to remove prior l"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ntainer) Override the base class to remove prior links, if any, and to create new links, if appropriate. Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChanged , clone , newPort , typeConstraintList Methods inh"
+    },
+    {
+      "chunk_id": 20,
+      "text": ", clone , newPort , typeConstraintList Methods inherited from class ptolemy.actor. AtomicActor _createReceivers , clone , connectionsChanged , getDirector , getExecutiveDirector , getFunctionDependency , getManager , initialize , inputPortList , isFi"
+    },
+    {
+      "chunk_id": 21,
+      "text": "y , getManager , initialize , inputPortList , isFireFunctional , isStrict , iterate , newReceiver , outputPortList , postfire , prefire , pruneDependencies , removeDependency , stop , stopFire , terminate , wrapup Methods inherited from class ptolemy"
+    },
+    {
+      "chunk_id": 22,
+      "text": "nate , wrapup Methods inherited from class ptolemy.kernel. ComponentEntity _adjustDeferrals , _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , isAtomic , isOpaque , moveDown , moveToFirst , moveToIndex , move"
+    },
+    {
+      "chunk_id": 23,
+      "text": "aque , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _description , _exportMoMLContents , _removePort , _validateSettables , connectedPortList , connected"
+    },
+    {
+      "chunk_id": 24,
+      "text": "_validateSettables , connectedPortList , connectedPorts , containedObjectsIterator , getAttribute , getPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition , uniqueName Methods inherited from class p"
+    },
+    {
+      "chunk_id": 25,
+      "text": "nition , uniqueName Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition , isWithinClassDefinition Methods inherited from class pto"
+    },
+    {
+      "chunk_id": 27,
+      "text": "tIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeList , attributeList , deepContains , depthInHierarchy , description ,"
+    },
+    {
+      "chunk_id": 28,
+      "text": ", deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel ,"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ChangeListeners , getClassName , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagate"
+    },
+    {
+      "chunk_id": 30,
+      "text": "isOverridden , isPersistent , message , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersiste"
+    },
+    {
+      "chunk_id": 31,
+      "text": "etDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait,"
+    },
+    {
+      "chunk_id": 32,
+      "text": "lize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor getDirector , getExecutiveDirector , getFunctionDependency , getManager , inputPortList , newReceiver , outputPortList Methods inherit"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ist , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable initialize , isFireFunctional , isStrict , iterate , postfire , prefire , stop , stopFire , terminate , wrapup Methods inherited from interface ptolemy.kern"
+    },
+    {
+      "chunk_id": 34,
+      "text": "apup Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedLi"
+    },
+    {
+      "chunk_id": 35,
+      "text": "nel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Field Detail channel public StringParameter channel The name of the channel. Subscribers that reference this same channel will receive any transmissions to this port. This is"
+    },
+    {
+      "chunk_id": 36,
+      "text": "receive any transmissions to this port. This is a string that defaults to \"channel1\". input public TypedIOPort input The input port. This base class imposes no type constraints except that the type of the input cannot be greater than the type of"
+    },
+    {
+      "chunk_id": 37,
+      "text": "pe of the input cannot be greater than the type of the output. output public TypedIOPort output The output port. By default, the type of this output is constrained to be at least that of the input. This port is hidden by default and the actor h"
+    },
+    {
+      "chunk_id": 38,
+      "text": ". This port is hidden by default and the actor handles creating connections to it. _channel protected java.lang.String _channel Cached channel name. _updatedLinks protected boolean _updatedLinks An indicator that _updateLinks has been called at lea"
+    },
+    {
+      "chunk_id": 39,
+      "text": "indicator that _updateLinks has been called at least once. Constructor Detail Subscriber public Subscriber ( CompositeEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Const"
+    },
+    {
+      "chunk_id": 40,
+      "text": "alActionException , NameDuplicationException Construct a subscriber with the specified container and name. Parameters: container - The container actor. name - The name of the actor. Throws: IllegalActionException - If the actor is not of an acceptabl"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ionException - If the actor is not of an acceptable class for the container. NameDuplicationException - If the name coincides with an actor already in the container. Method Detail attributeChanged public void attributeChanged ( Attribute attrib"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ed public void attributeChanged ( Attribute attribute) throws IllegalActionException If the attribute is the channel, increment the workspace version to force cached receiver lists to be updated, and invalidate the schedule"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ists to be updated, and invalidate the schedule and resolved types of the director, if there is one. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that changed. Throws: IllegalActionException - If the change is"
+    },
+    {
+      "chunk_id": 44,
+      "text": "Throws: IllegalActionException - If the change is not acceptable to this container. channelMatches protected boolean channelMatches (java.lang.String channelName) Determine whether a channel name matches this subscriber. This base class returns"
+    },
+    {
+      "chunk_id": 45,
+      "text": "matches this subscriber. This base class returns true if the specified string is equal to the value of the channel parameter. Parameters: channelName - A channel name. Returns: True if this subscriber subscribes to the specified channel. fire pub"
+    },
+    {
+      "chunk_id": 46,
+      "text": "iber subscribes to the specified channel. fire public void fire () throws IllegalActionException Read at most one input token from each input channel and send it to the output. Specified by: fire in interface Executable Overrides: fire in"
+    },
+    {
+      "chunk_id": 47,
+      "text": "y: fire in interface Executable Overrides: fire in class AtomicActor Throws: IllegalActionException - If there is no director, or if there is no input connection. preinitialize public void preinitialize () throws IllegalActionEx"
+    },
+    {
+      "chunk_id": 48,
+      "text": "alize () throws IllegalActionException Override the base class to ensure that there is a publisher. Specified by: preinitialize in interface Executable Overrides: preinitialize in class AtomicActor Throws: IllegalActionException -"
+    },
+    {
+      "chunk_id": 49,
+      "text": "lass AtomicActor Throws: IllegalActionException - If there is no matching publisher. setContainer public void setContainer ( CompositeEntity container) throws IllegalActionException , NameDuplicationException Override the base cl"
+    },
+    {
+      "chunk_id": 50,
+      "text": "on , NameDuplicationException Override the base class to remove prior links, if any, and to create new links, if appropriate. Overrides: setContainer in class AtomicActor Parameters: container - The proposed container. Throws: IllegalActionExceptio"
+    },
+    {
+      "chunk_id": 51,
+      "text": "proposed container. Throws: IllegalActionException - If the action would result in a recursive containment structure, or if this entity and container are not in the same workspace. NameDuplicationException - If the container already has an"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ionException - If the container already has an entity with the name of this entity. _updateLinks protected void _updateLinks () throws IllegalActionException Update the connection to the publisher, if there is one. Throws: Ill"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ion to the publisher, if there is one. Throws: IllegalActionException - If creating the link triggers an exception. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONS"
+    }
+  ]
+}

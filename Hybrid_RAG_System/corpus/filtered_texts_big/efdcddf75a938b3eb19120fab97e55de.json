@@ -1,0 +1,121 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/IMUSensor",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / IMUSensor Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / IMUSensor Module for connecting to Roozbeh's IMU Sensors"
+    },
+    {
+      "chunk_id": 2,
+      "text": "sor Module for connecting to Roozbeh's IMU Sensors over bluetooth. API start ( sensor port ): Start a bluetooth connection and stream between this sensor and the serial port specified by sensor port . getSample (): Returns the next new sample from a"
+    },
+    {
+      "chunk_id": 3,
+      "text": "getSample (): Returns the next new sample from a Java-side sample buffer. If no new sample is available, it waits for a new one to arrive. stop (): Closes the bluetooth serial port connection with the sensor. It is important to note that before star"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e sensor. It is important to note that before starting a connection the bluetooth sensor itself must be in some way paired to the device running the swarmlet, and a serial port must be assigned. In Windows, this process is done automatically via 'add"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ndows, this process is done automatically via 'add device' in the Devices and Printers menu. In Linux/Mac systems, the process is not automatic. Details for connecting a Linux device to the sensor are included in the IMUSensor demo, and will be repea"
+    },
+    {
+      "chunk_id": 6,
+      "text": "included in the IMUSensor demo, and will be repeated here. Auto-generated documentation can be found here and full source here . Usage Firstly, the model should be using the DE (Discrete Event) Director, with the setting 'synchronizeToRealTime' tick"
+    },
+    {
+      "chunk_id": 7,
+      "text": "tor, with the setting 'synchronizeToRealTime' ticked. This ensures that when a sampling rate is set, it is a real time sampling rate and that the model does not get ahead of incoming samples. Import the IMUSensor module. var imuSensor = require('IMUS"
+    },
+    {
+      "chunk_id": 8,
+      "text": "he IMUSensor module. var imuSensor = require('IMUSensor'); Two parameters are needed - a sampling rate parameter and a port parameter. These tell the real time sampling rate (in ms) and the serial port the sensor is connected to. exports.setup = func"
+    },
+    {
+      "chunk_id": 9,
+      "text": "t the sensor is connected to. exports.setup = function() { accessor.author('Hunter'); accessor.version('0.1 $$Date: 2015-05-29 05:03:32 -0700 (Fri, 29 May 2015) $$'); accessor.parameter('port', { 'type' : 'number',"
+    },
+    {
+      "chunk_id": 10,
+      "text": "r('port', { 'type' : 'number', 'description' : 'The port used by the sensor' }); accessor.parameter('samplingRate', {'description':'Sampling rate of sensor, rate to grab data from buffer in ms'}); accessor.outp"
+    },
+    {
+      "chunk_id": 11,
+      "text": "grab data from buffer in ms'}); accessor.output('stream', { 'description' : 'The stream obtained from the sensor' }); }; Set up a new Stream (see here as well as a handle for setInterval. var stream = new imuSensor.Stream"
+    },
+    {
+      "chunk_id": 12,
+      "text": "for setInterval. var stream = new imuSensor.Stream(); var handle; Initialize by hooking to sensor port and setting interval for obtaining samples to the sampling rate exports.initialize = function() { stream.start(getParameter('port')); handl"
+    },
+    {
+      "chunk_id": 13,
+      "text": "stream.start(getParameter('port')); handle = setInterval(getLatestSample, getParameter('samplingRate')); } This is setup to work with the GMTK, so format of packet is [[accelerometer X, accelerometer Y, accelerometer Z, gyroscope X, gyroscop"
+    },
+    {
+      "chunk_id": 14,
+      "text": "erometer Y, accelerometer Z, gyroscope X, gyroscope Y, gyroscope Z, magnetometer X, magnetometer Y, magnetometer Z],[]] The function used to obtain sample data. Due to the way data is obtained, we must check the current sample to see if it is a new o"
+    },
+    {
+      "chunk_id": 15,
+      "text": "t check the current sample to see if it is a new one by comparing against the previous sample. var prevSample = [[0,0,0,0,0,0,0,0,0],[]]; // function to invoke on interval, grab a sample from the buffer. Have to determine if sample is a new one. get"
+    },
+    {
+      "chunk_id": 16,
+      "text": "fer. Have to determine if sample is a new one. getLatestSample = function() { var sample = stream.getSample(); if (prevSample[0][0] == sample[0][0]) { } else { prevSample = sample; sample = sample[0]."
+    },
+    {
+      "chunk_id": 17,
+      "text": "revSample = sample; sample = sample[0].map(Number); // convert the samples to real values from their ADC values sample[0] = sample[0]/16384; // accelerometer X sample[1] = sample[1]/16384; // accelerometer"
+    },
+    {
+      "chunk_id": 18,
+      "text": "sample[1] = sample[1]/16384; // accelerometer Y sample[2] = sample[2]/16384; // accelerometer Z sample[3] = sample[3]/131; // gyroscope X sample[4] = sample[4]/131; // gyroscope Y sample[5] = sampl"
+    },
+    {
+      "chunk_id": 19,
+      "text": "131; // gyroscope Y sample[5] = sample[5]/131; // gyroscope Z sample[6] = sample[6]/3.3; // magnetometer X sample[7] = sample[7]/3.3; // magnetometer Y sample[8] = sample[8]/3.3; // magnetometer Z"
+    },
+    {
+      "chunk_id": 20,
+      "text": "sample[8] = sample[8]/3.3; // magnetometer Z sample = JSON.stringify([sample,[]]); send('stream', sample); } } Stop the sensor connection exports.wrapup = function() { if (stream != null) { stream.stop("
+    },
+    {
+      "chunk_id": 21,
+      "text": ") { if (stream != null) { stream.stop(); } clearInterval(handle); } Connecting sensor in a Windows environment Navigate to Control Panel -> Devices and Printers (windows 7 and up). Select 'Add a Device'. Assuming your computer has"
+    },
+    {
+      "chunk_id": 22,
+      "text": "Select 'Add a Device'. Assuming your computer has bluetooth capabilities and the sensor is powered on, the computer should find it automatically with a scan. Select the device and add it to your computer. To determine the COM port of the sensor, sel"
+    },
+    {
+      "chunk_id": 23,
+      "text": "uter. To determine the COM port of the sensor, select Properties, and under hardware there should be listed COMX - where X is the serial port number needed to connect to the sensor. Connecting sensor in a Linux environment (should apply in some capac"
+    },
+    {
+      "chunk_id": 24,
+      "text": "in a Linux environment (should apply in some capacity to Macs too) To connect one of the IMUs in Linux systems, follow the following steps (note that for many of these steps you will need sudo or root permissions): -Install bluez: > sudo apt-get inst"
+    },
+    {
+      "chunk_id": 25,
+      "text": "permissions): -Install bluez: > sudo apt-get install bluez -Check that the system has a bluetooth-enabled device: > hcitool dev Devices: hci0 00:1B:DC:06:9F:29 -Scan for available bluetooth sensors: > hcitool scan Scanning ... EC:FE:7E:10"
+    },
+    {
+      "chunk_id": 26,
+      "text": "nsors: > hcitool scan Scanning ... EC:FE:7E:10:DE:FF BlueRadios10DEFF -Modify /etc/bluetooth/rfcomm.conf. The bluetooth address is found during hcitool scan step above : # # # RFCOMM configuration file. # rfcomm0 { # # Automatically bind th"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ion file. # rfcomm0 { # # Automatically bind the device at startup # bind yes; # # Bluetooth address of the device # device EC:FE:7E:10:DE:FF; # # RFCOMM channel for the connection # channel 1 # # Description of the connection # comment \"B"
+    },
+    {
+      "chunk_id": 28,
+      "text": "1 # # Description of the connection # comment \"Bluetooth device 1\"; } -Create a bluetooth-agent: > sudo bluetooth-agent 1234 & -Connect rfcomm to device: > sudo rfcomm connect hci0 EC:FE:7E:10:DE:FF & -Link ttyS port: > sudo ln -s /dev/rfcomm0 /dev"
+    },
+    {
+      "chunk_id": 29,
+      "text": "& -Link ttyS port: > sudo ln -s /dev/rfcomm0 /dev/ttyS40 '40' in above could be any number, so long as the number is currently unused. This ttyS number is what is used as a parameter in the accessor to connect to the sensor - the serial port connect"
+    }
+  ]
+}

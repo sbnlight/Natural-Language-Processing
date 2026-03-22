@@ -1,0 +1,165 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/CompositeAccessors",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / CompositeAccessor Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / CompositeAccessor (redirected from Main.CompositeAccesso"
+    },
+    {
+      "chunk_id": 2,
+      "text": "iteAccessor (redirected from Main.CompositeAccessors ) A composite accessor is a .js file that defines a Container that contains one or more connected accessors. A composite accessor is a type of Swarmlet . All of the Accessor Hosts should be able to"
+    },
+    {
+      "chunk_id": 3,
+      "text": "mlet . All of the Accessor Hosts should be able to execute a composite accessor, though not all the Accessor hosts define all the modules that can be used in the accessors. In otherwords, it is possible to define a composite accessor that will not ru"
+    },
+    {
+      "chunk_id": 4,
+      "text": "le to define a composite accessor that will not run on all accessor hosts because the composite accessor uses accessors that use modules that are not defined on all accessor hosts. Below is JavaScript for composite accessor that consists of a TestSpo"
+    },
+    {
+      "chunk_id": 5,
+      "text": "for composite accessor that consists of a TestSpontaneous accessor connected to a JavaScriptRamp which is the connected to both a TestDisplay and a TrainableTest . This composite accessor should work on all accessor hosts because the accessors do n"
+    },
+    {
+      "chunk_id": 6,
+      "text": "k on all accessor hosts because the accessors do not use accessor host-specific modules. The implementation of the JavaScriptRamp actor is contained within the composite accessor, whereas the implementation of the other accessors are downloaded from"
+    },
+    {
+      "chunk_id": 7,
+      "text": "tation of the other accessors are downloaded from the accessors website. exports. setup = function ( ) { var TestSpontaneous = this . instantiate ( 'TestSpontaneous' , 'test/TestSpontaneous.js' ) ; TestSpontaneous. setParameter ( 'interval' , 1000.0"
+    },
+    {
+      "chunk_id": 8,
+      "text": "stSpontaneous. setParameter ( 'interval' , 1000.0 ) ; var JavaScriptRamp = new Accessor ( 'JavaScriptRamp' , '/** Output a sequence with a given step in values. \\n * \\n * @accessor test/TestRamp \\n * @param init The value produced on its first iter"
+    },
+    {
+      "chunk_id": 9,
+      "text": "@param init The value produced on its first iteration. The \\n * initial default is 0. \\n * @input trigger The trigger \\n * @output output The output \\n * @param step The amount by which the output is incremented. The \\n * default is 1. \\n *"
+    },
+    {
+      "chunk_id": 10,
+      "text": "put is incremented. The \\n * default is 1. \\n * @author Christopher Brooks \\n * @version $$Id: RampJSTestDisplay.xml 74761 2016-04-28 01:13:33Z cxh $$ \\n */ \\n exports.setup = function() { \\n // FIXME: this only supports numbers, unlike the Cape C"
+    },
+    {
+      "chunk_id": 11,
+      "text": "XME: this only supports numbers, unlike the Cape Code Ramp \\n // actor, which supports many types. \\n this.parameter( \\' init \\' , { \\' type \\' : \\' number \\' , \\' value \\' :0}); \\n this.input( \\' trigger \\' ); \\n this.output( \\' output \\' , { \\' typ"
+    },
+    {
+      "chunk_id": 12,
+      "text": "gger \\' ); \\n this.output( \\' output \\' , { \\' type \\' : \\' number \\' }); \\n this.parameter( \\' step \\' , { \\' type \\' : \\' number \\' , \\' value \\' :1}); \\n }; \\n \\n var _lastValue = 0; \\n \\n exports.initialize = function() { \\n _lastValue = this.get"
+    },
+    {
+      "chunk_id": 13,
+      "text": "initialize = function() { \\n _lastValue = this.getParameter( \\' init \\' ); \\n } \\n exports.fire = function() { \\n _lastValue += this.getParameter( \\' step \\' ); \\n this.send( \\' output \\' , _lastValue); \\n };' , null , null , null , null ) ; JavaScri"
+    },
+    {
+      "chunk_id": 14,
+      "text": "); \\n };' , null , null , null , null ) ; JavaScriptRamp. container = this ; this . containedAccessors . push ( JavaScriptRamp ) ; JavaScriptRamp. setParameter ( 'init' , 0.0 ) ; JavaScriptRamp. setParameter ( 'step' , 1.0 ) ; var TestDisplay = this"
+    },
+    {
+      "chunk_id": 15,
+      "text": "rameter ( 'step' , 1.0 ) ; var TestDisplay = this . instantiate ( 'TestDisplay' , 'test/TestDisplay.js' ) ; var TrainableTest = this . instantiate ( 'TrainableTest' , 'test/TrainableTest.js' ) ; TrainableTest. setParameter ( 'correctValues' , [ 1 , 2"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ableTest. setParameter ( 'correctValues' , [ 1 , 2 , 3 , 4 , 5 ] ) ; TrainableTest. setParameter ( 'trainingMode' , false ) ; TrainableTest. setParameter ( 'tolerance' , 1.0E - 9 ) ; this . connect ( TestSpontaneous , 'output' , JavaScriptRamp , 'tri"
+    },
+    {
+      "chunk_id": 17,
+      "text": "TestSpontaneous , 'output' , JavaScriptRamp , 'trigger' ) ; this . connect ( JavaScriptRamp , 'output' , TestDisplay , 'input' ) ; this . connect ( JavaScriptRamp , 'output' , TrainableTest , 'input' ) ; } [$[Get Code]] A version of the above with mo"
+    },
+    {
+      "chunk_id": 18,
+      "text": ") ; } [$[Get Code]] A version of the above with more comments may be found at https://ptolemy.berkeley.edu/accessors/test/auto/RampJSTestDisplay.js This composite accessor should run under all accessor hosts. Running a composite accessor in Node.js T"
+    },
+    {
+      "chunk_id": 19,
+      "text": "r hosts. Running a composite accessor in Node.js To run a composite accessor in Node.js: bash-3.2$ cd / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / auto bash-3.2$ node .. / .. / hosts / node / nodeHostInvoke.js -timeou"
+    },
+    {
+      "chunk_id": 20,
+      "text": ".. / .. / hosts / node / nodeHostInvoke.js -timeout 6000 test / auto / RampJSTestDisplay Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / auto / RampJSTestDisplay.js Reading accessor at: / Users / cxh"
+    },
+    {
+      "chunk_id": 21,
+      "text": "STestDisplay.js Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / TestSpontaneous.js Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / TestDisplay.js Re"
+    },
+    {
+      "chunk_id": 22,
+      "text": "essor / accessors / web / test / TestDisplay.js Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / TrainableTest.js Instantiated accessor RampJSTestDisplay with class test / auto / RampJSTestDisplay 1 2"
+    },
+    {
+      "chunk_id": 23,
+      "text": "lay with class test / auto / RampJSTestDisplay 1 2 3 4 5 nodeHostInvoke.js: Timeout of 6000 ms. has occurred. About to invoke wrapup ( ) . bash-3.2$ [$[Get Code]] For more information, see Node Host -> Invoking Composite Accessor - The Node Host can"
+    },
+    {
+      "chunk_id": 24,
+      "text": "> Invoking Composite Accessor - The Node Host can invoke a Composite Accessor Duktape To invoke the Duktape Host on a composite accessor, do the following: bash-3.2$ cd accessors / web / hosts bash-3.2$ . / duktape / duktape / duk --timeout 5000 --ac"
+    },
+    {
+      "chunk_id": 25,
+      "text": "2$ . / duktape / duktape / duk --timeout 5000 --accessor test / auto / RampJSTestDisplay.js duk: About to instantiate test / auto / RampJSTestDisplay.js 1 2 3 4 bash-3.2$ [$[Get Code]] For more information see Duktape Host -> Invoke Composite Accesso"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ation see Duktape Host -> Invoke Composite Accessor - The Duktape Host can invoke a Composite Accessor (as can the other hosts) Cape Code To create a composite accessor, one may create a JavaScript file by hand. In addition, the Cape Code Host may b"
+    },
+    {
+      "chunk_id": 27,
+      "text": "le by hand. In addition, the Cape Code Host may be used to create a model that then generates the JavaScript file by hand using Code Generation . The Cape Code model below was used to generate the composite accessor JavaScript file above. The source"
+    },
+    {
+      "chunk_id": 28,
+      "text": "mposite accessor JavaScript file above. The source model may be found at $PTII/ptolemy/cg/kernel/generic/accessor/test/auto/RampJSTestDisplay.xml . Note that the model includes only actors that are JSAccessors or JavaScript actors. In particular, o"
+    },
+    {
+      "chunk_id": 29,
+      "text": "SAccessors or JavaScript actors. In particular, other actors that are not JSAccessors or JavaScript actors are not used because other accessor hosts would not be able to run the composite accessor if these other actors were present. The DE Director"
+    },
+    {
+      "chunk_id": 30,
+      "text": "these other actors were present. The DE Director and the Code Generator are attributes and do not appear in the generated code. The accessor host that runs the composite accessor provides the execution environment, so the DE Director is not needed"
+    },
+    {
+      "chunk_id": 31,
+      "text": "tion environment, so the DE Director is not needed. The Code Generator attribute is used during code generation and is not needed after code generation completes. Below is a more complex Composite Accessor that contains a feedback loop. See Cape Cod"
+    },
+    {
+      "chunk_id": 32,
+      "text": "cessor that contains a feedback loop. See Cape Code Zero Delay Loops . The source model may be found at $PTII/org/terraswarm/accessor/test/auto/WebSocketClientJS.xml . Starting a Composite Accessor (Spontaneous ports) In a Composite Accessor, to star"
+    },
+    {
+      "chunk_id": 33,
+      "text": "pontaneous ports) In a Composite Accessor, to start execution, there are various methods: test/TestSpontaneous.js is an accessor that uses setInterval() to send data periodically See Output for how to mark a port as being spontaneous The output shoul"
+    },
+    {
+      "chunk_id": 34,
+      "text": "mark a port as being spontaneous The output should be marked as spontaneous And setTimeout() should be used in initialize: exports. setup = function ( ) { this . input ( 'input' ) ; this . output ( 'output' , { spontaneous : true , 'type' : 'number'"
+    },
+    {
+      "chunk_id": 35,
+      "text": "output' , { spontaneous : true , 'type' : 'number' } ) ; } ; exports. initialize = function ( ) { // Capture the value of 'this': var self = this ; this . addInputHandler ( 'input' , function ( ) { var inputValue = self. get ( 'input' ) ; setTimeout"
+    },
+    {
+      "chunk_id": 36,
+      "text": "r inputValue = self. get ( 'input' ) ; setTimeout ( function ( ) { self. send ( 'output' , inputValue + 1 ) ; } , 0 ) ; } ) ; } ; [$[Get Code]] A Composite Accessor can alternatively have an input port. Then providing an input to that port should tri"
+    },
+    {
+      "chunk_id": 37,
+      "text": "t. Then providing an input to that port should trigger a reaction. Testing using Mocha We use Mocha to test the Node accessor host, see Testing . See Also Cape Code Host Cape Code Host -> Code Generation - how to use code generation in Cape Code to g"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ion - how to use code generation in Cape Code to generate a Composite Accessor. Cape Code Script Parameter - notes about the script parameter used in the TrainableTest accessor for use in composite accessors. Cape Code Zero Delay Loops - How to avoid"
+    },
+    {
+      "chunk_id": 39,
+      "text": "cessors. Cape Code Zero Delay Loops - How to avoid zero-delay loops in Cape Code. Deployment Duktape Host -> Invoke Composite Accessor - The Duktape Host can invoke a Composite Accessor (as can the other hosts) Node Host -> Invoking Composite Accesso"
+    },
+    {
+      "chunk_id": 40,
+      "text": "her hosts) Node Host -> Invoking Composite Accessor - The Node Host can invoke a Composite Accessor Resources For Host Authors - An accessor host should make the Accessor constructor visible so that composite accessors can instantiate an accessor dir"
+    }
+  ]
+}

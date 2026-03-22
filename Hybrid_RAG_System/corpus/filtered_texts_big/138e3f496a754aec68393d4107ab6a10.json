@@ -1,0 +1,113 @@
+{
+  "url": "http://chess.eecs.berkeley.edu/softdevel/faq/5.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Cygwin CR/NL problems Workspaces ---- 337staff act actionwebs actionwebslocal agv apesless apon automotive bcvtb bhc bipeds capecode certafcs cg chess chessadmin chesslocal chessworkshop clotho cosmoi cps cpslab croquet cyphysim dataflow ddosos denso"
+    },
+    {
+      "chunk_id": 2,
+      "text": "cps cpslab croquet cyphysim dataflow ddosos denso densoeal densosas design dgc3 dgc3exec directors drosonetsim dsc eecs124 eecs149 eecs149lab eecs20 escher gm gsoc handsimdroid hcddes hcssas hilv hybrid hyper iab ieee1588 instructors mast metropolis"
+    },
+    {
+      "chunk_id": 3,
+      "text": "rid hyper iab ieee1588 instructors mast metropolis modelica naomi nes nsferc pa presenters pret pss ptalon ptango ptconf ptdb ptemaf ptesdf ptexternal pthomas ptides ptidesarch ptolemy ptopenmodelica ptpresenters pturing reactable reap researchers sc"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ptpresenters pturing reactable reap researchers scos softdevel softwalls spfsos superb tbd thales triq vw Note: JavaScript is disabled , see the Site Map for navigation links View Questions Software Development FAQ CVS Previous section | This section"
+    },
+    {
+      "chunk_id": 5,
+      "text": "evelopment FAQ CVS Previous section | This section | Next section Previous question | This question | Next question Cygwin CR/NL problems Christopher Brooks , 9 Aug 2010 Last updated: 17 Nov 2010 After about 2009, Cygwin installs with line endings t"
+    },
+    {
+      "chunk_id": 6,
+      "text": "r about 2009, Cygwin installs with line endings that are set up for Linux gurus that fail for most Windows users. See Ptolemy II Cygwin installation instructions for details, which are partially reproduced below: Set bash to ignore carriage return"
+    },
+    {
+      "chunk_id": 7,
+      "text": "roduced below: Set bash to ignore carriage returns '\\r' The problem is that shell scripts such as $PTII/bin/vergil will fail: $ export PTII=c:/user/ptII $ $PTII/bin/vergil c:/user/ptII/bin/vergil: line 30: $'\\r': command not found c:/user/ptII/"
+    },
+    {
+      "chunk_id": 8,
+      "text": ": line 30: $'\\r': command not found c:/user/ptII/bin/vergil: line 40: $'\\r': command not found c:/user/ptII/bin/vergil: line 43: $'\\r': command not found c:/user/ptII/bin/vergil: line 48: $'\\r': command not found c:/user/ptII/bin/vergil: line 67:"
+    },
+    {
+      "chunk_id": 9,
+      "text": "mmand not found c:/user/ptII/bin/vergil: line 67: syntax error near unexpected token `$'in\\r'' ':/user/ptII/bin/vergil: line 67: ` case \"`uname -s`\" in Another possible solution is to create a ~/.bash_profile that contains export SHELLOPTS set"
+    },
+    {
+      "chunk_id": 10,
+      "text": ".bash_profile that contains export SHELLOPTS set -o igncr To find your home directory, start up Cygwin bash and type cd;pwd . Then use an editor like Wordpad. See also: http://cygwin.com/ml/cygwin-announce/2006-12/msg00026.html - The 2006 Cygwin"
+    },
+    {
+      "chunk_id": 11,
+      "text": "n-announce/2006-12/msg00026.html - The 2006 Cygwin announcement that covers this. This problem is similar to the Cygwin CR/NL problems below. What has changed is that the Cygwin installer appears to no longer offer the possibility of selecting D"
+    },
+    {
+      "chunk_id": 12,
+      "text": "to no longer offer the possibility of selecting DOS as the default file type. http://comments.gmane.org/gmane.os.cygwin/115453 - discussion about the issue. http://cygwin.com/cygwin-ug-net/using.html#using-pathnames - info about why paths like c:/"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ml#using-pathnames - info about why paths like c:/ do not use /etc/fstab . http://cygwin.com/cygwin-ug-net/using.html#mount-table - Cygwin manual for /etc/fstab . OLD Information below here When Cygwin is installed, you should be sure to select DOS f"
+    },
+    {
+      "chunk_id": 14,
+      "text": "n is installed, you should be sure to select DOS for the Default Text File Type . If you do not, then when you check in files, there will be problems with the DOS CR/NL line endings. In particular, what will happen is that when you check in a file"
+    },
+    {
+      "chunk_id": 15,
+      "text": "hat will happen is that when you check in a file and then someone checks it out, it will have extra \\r or ^M characters. The way to tell if this is a problem is to run the mount command under Cygwin bash and note whether the c: drive is mounted t"
+    },
+    {
+      "chunk_id": 16,
+      "text": "n bash and note whether the c: drive is mounted textmode or not. If the c: drive is mounted textmode , then your setup is ok: $ mount c:\\cygwin\\bin on /usr/bin type system (textmode) c:\\cygwin\\lib on /usr/lib type system (textmode) c:\\cygwin on"
+    },
+    {
+      "chunk_id": 17,
+      "text": "b on /usr/lib type system (textmode) c:\\cygwin on / type system (textmode) c: on /cygdrive/c type user (textmode,noumount) However, if c: is mounted binmode , then you have problems: $ mount c:\\cygwin2\\bin on /usr/bin type system (binmode) c:\\cy"
+    },
+    {
+      "chunk_id": 18,
+      "text": "gwin2\\bin on /usr/bin type system (binmode) c:\\cygwin2\\lib on /usr/lib type system (binmode) c:\\cygwin2 on / type system (binmode) c: on /cygdrive/c type user (binmode,noumount) The fastest solution is to reinstall Cygwin, see How do I edit pages"
+    },
+    {
+      "chunk_id": 19,
+      "text": "n is to reinstall Cygwin, see How do I edit pages in a group with the \"CVS Authoring\" option? and properly select DOS for the Default Text File Type . Another possible alternative is to use these mount commands: We have tried these commands but they"
+    },
+    {
+      "chunk_id": 20,
+      "text": "nt commands: We have tried these commands but they have not quite worked for us mount -f -t -s c:\\\\cygwin\\\\lib /usr/lib mount -f -t -s c:\\\\cygwin\\\\bin /usr/bin mount -f -t -s c:\\\\cygwin / mount -f -t c: /cygdrive/c If you have a d: drive,you may"
+    },
+    {
+      "chunk_id": 21,
+      "text": "-t c: /cygdrive/c If you have a d: drive,you may need to do: mount -f -t d: /cygdrive/c When you are done, run mount , which should show all the mounts as textmode . The reason that this is a problem with CVS is that CVS handles end of line transl"
+    },
+    {
+      "chunk_id": 22,
+      "text": "m with CVS is that CVS handles end of line translation between Unix and Windows. If, under Cygwin, the directories are mounted binmode , then Cygwin CVS will not do the proper translations. For details, see How is the DOS/Unix CR/LF thing handled?"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ils, see How is the DOS/Unix CR/LF thing handled? in the Cygwin FAQ See also http://cygwin.com/cygwin-ug-net/using-textbinary.html To replicate the problem, install Cygwin with Unix line endings, check out a file using CVS, edit the file using word"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ck out a file using CVS, edit the file using wordpad and check in your changes. When you check out the file under Unix, it will have \\r\\n line endings. Note that there is some contention about whether DOS or Unix line endings are correct. The T"
+    },
+    {
+      "chunk_id": 25,
+      "text": "her DOS or Unix line endings are correct. The TinyOS community has required Cygwin to be set up with Unix line endings, which works great if your users are technically sophisticated. However, if your windows users do not have much exposure to"
+    },
+    {
+      "chunk_id": 26,
+      "text": "f your windows users do not have much exposure to Unix, then configuring Cygwin to use DOS line endings is more correct. Previous section | This section | Next section Previous question | This question | Next question ©2002-2018 Chess"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ion | Next question ©2002-2018 Chess"
+    }
+  ]
+}

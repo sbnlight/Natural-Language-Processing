@@ -1,0 +1,41 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/nisplus.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional & Electronics Support Group /share/b/pub/nisplus.help"
+    },
+    {
+      "chunk_id": 2,
+      "text": "July 1, 2004 FAQ on some common problems and questions concerning NIS+ Fixing moebius from a wedged state ---------------------------------- Symptom: Moebius or any NIS+ server fills it's"
+    },
+    {
+      "chunk_id": 3,
+      "text": "-- Symptom: Moebius or any NIS+ server fills it's /var directory because the NIS+ transactions logs have grown so big as to prevent the NIS+ server from updating. This causes the machines which bind to it to receive old information with regards to p"
+    },
+    {
+      "chunk_id": 4,
+      "text": "to it to receive old information with regards to passwds or user information. Fix: Stop the NIS+ services cleanout the log files from /var/nis/data and restart the NIS+ services. After which you re-sync the replica with the master. Here is the comm"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ync the replica with the master. Here is the commands you issue to do this... % /etc/init.d/rpc stop ;; Stops the nis+ services % cd /var/nis/data; rm -rf *.log ;; Remove the logs % /etc/init.d/rpc start ;; Start the nis+ services % nispi"
+    },
+    {
+      "chunk_id": 6,
+      "text": ".d/rpc start ;; Start the nis+ services % nisping -C -a ;; RE-sync the replica with the master Correcting re-sync errors ------------------------- Symptom: you change your password on po, but other machines don't notice Possible Cause: moebiu"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ther machines don't notice Possible Cause: moebius's disk is full, and nisd will refuse to resync with other servers when this happens. Solution: Something you can try if moebius's partitions start to fill up and the moebius NIS server doesn't resy"
+    },
+    {
+      "chunk_id": 8,
+      "text": "to fill up and the moebius NIS server doesn't resync itself with the Cory Hall servers anymore is: 1. Stop the NIS servers using /etc/init.d/rpc stop 2. Remove all the /var/nis/data/*.log files 3. Restart the NIS servers using /etc/init.d/rpc sta"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Restart the NIS servers using /etc/init.d/rpc start 4. Re-run the checkpoint procedure using nisping -C -a More to come later......"
+    }
+  ]
+}

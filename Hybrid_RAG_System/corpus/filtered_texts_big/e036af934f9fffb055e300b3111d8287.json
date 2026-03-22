@@ -1,0 +1,229 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/actor/Executable.html",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "Interface Executable All Known Subinterfaces: Actor , BranchActor , CTDynamicActor , CTEventGenerator , CTStatefulActor , CTStepSizeControlActor , CTWaveformGenerator , DDI , TMActor , TypedActor , WirelessChannel All Known Implementing Classes: Abst"
+    },
+    {
+      "chunk_id": 3,
+      "text": "relessChannel All Known Implementing Classes: AbstractDDI , AtomicActor , AtomicWirelessChannel , Barrier , CompositeActor , CSP , CSPActor , CTBaseIntegrator , CTCase , CTCompositeActor , CTPeriodicSampler , CTRefinement , CTTriggeredSampler , Dataf"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ampler , CTRefinement , CTTriggeredSampler , Dataflow , Director , FirstOrderHold , FSMActor , LevelCrossingDetector , ParameterSet , ThresholdMonitor , TMCompositeFacade , TypedAtomicActor , TypedCompositeActor , TypeOpaqueCompositeActor , ZeroOrder"
+    },
+    {
+      "chunk_id": 5,
+      "text": "positeActor , TypeOpaqueCompositeActor , ZeroOrderHold public interface Executable This interface defines the action methods , which determine how an object can be invoked. It should be implemented by actors and directors. In an execution of an app"
+    },
+    {
+      "chunk_id": 6,
+      "text": "y actors and directors. In an execution of an application, the preinitialize() and initialize() methods should be invoked exactly once, followed by any number of iterations, followed by exactly one invocation of the wrapup() method. An iteration"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e invocation of the wrapup() method. An iteration is defined to be any number of invocations of prefire() and fire(), where fire() is invoked only if prefire() returns true, followed by exactly one invocation of the postfire() method. The postfire"
+    },
+    {
+      "chunk_id": 8,
+      "text": "invocation of the postfire() method. The postfire() method returns false if no further iterations should occur. The initialize(), fire() and postfire() methods may produce output data. The preinitialize() method runs before type resolution has b"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ialize() method runs before type resolution has been done, and is permitted to make changes in the topology of the model. Since: Ptolemy II 0.2 Version: $Id: Executable.java,v 1.62 2006/08/21 23:09:43 cxh Exp $ Author: Mudit Goel, Edward A. Lee, Lu"
+    },
+    {
+      "chunk_id": 10,
+      "text": "43 cxh Exp $ Author: Mudit Goel, Edward A. Lee, Lukito Muliadi, Steve Neuendorffer Accepted Rating: Green (davisj) Proposed Rating: Green (eal) Field Summary static int COMPLETED An indicator that the iterate() method completed successfully. static i"
+    },
+    {
+      "chunk_id": 11,
+      "text": "iterate() method completed successfully. static int NOT_READY An indicator that the iterate() method did not complete because the actor was not ready (prefire() returned false). static int STOP_ITERATING An indicator that the actor does not wish t"
+    },
+    {
+      "chunk_id": 12,
+      "text": "RATING An indicator that the actor does not wish to be fired again. Method Summary void fire () Fire the actor. void initialize () Begin execution of the actor. boolean isFireFunctional () Return true if this executable does not change state in eithe"
+    },
+    {
+      "chunk_id": 13,
+      "text": "if this executable does not change state in either the prefire() or the fire() method. boolean isStrict () Return true if this executable is strict, meaning all inputs must be known before iteration. int iterate (int count) Invoke a specified nu"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ion. int iterate (int count) Invoke a specified number of iterations of the actor. boolean postfire () This method should be invoked once per iteration, after the last invocation of fire() in that iteration. boolean prefire () This method should be"
+    },
+    {
+      "chunk_id": 15,
+      "text": "teration. boolean prefire () This method should be invoked prior to each invocation of fire(). void preinitialize () This method should be invoked exactly once per execution of a model, before any of these other methods are invoked. void stop () Re"
+    },
+    {
+      "chunk_id": 16,
+      "text": "f these other methods are invoked. void stop () Request that execution of this Executable stop as soon as possible. void stopFire () Request that execution of the current iteration complete. void terminate () Terminate any currently executing model"
+    },
+    {
+      "chunk_id": 17,
+      "text": "rminate () Terminate any currently executing model with extreme prejudice. void wrapup () This method is invoked exactly once per execution of an application. Field Detail COMPLETED public static final int COMPLETED An indicator that the iterate()"
+    },
+    {
+      "chunk_id": 18,
+      "text": "nal int COMPLETED An indicator that the iterate() method completed successfully. See Also: Constant Field Values NOT_READY public static final int NOT_READY An indicator that the iterate() method did not complete because the actor was not ready (pr"
+    },
+    {
+      "chunk_id": 19,
+      "text": "not complete because the actor was not ready (prefire() returned false). See Also: Constant Field Values STOP_ITERATING public static final int STOP_ITERATING An indicator that the actor does not wish to be fired again. See Also: Constant Field Val"
+    },
+    {
+      "chunk_id": 20,
+      "text": "sh to be fired again. See Also: Constant Field Values Method Detail fire public void fire () throws IllegalActionException Fire the actor. This may be invoked several times between invocations of prefire() and postfire(). Output data may"
+    },
+    {
+      "chunk_id": 21,
+      "text": "tions of prefire() and postfire(). Output data may (and normally will) be produced. Typically, the fire() method performs the computation associated with an actor. This method is not required to have bounded execution. However, after endFire"
+    },
+    {
+      "chunk_id": 22,
+      "text": "have bounded execution. However, after endFire() is called, this method should return in bounded time. Throws: IllegalActionException - If firing is not permitted. initialize public void initialize () throws IllegalActionExcepti"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ize () throws IllegalActionException Begin execution of the actor. This is invoked exactly once after the preinitialization phase. Since type resolution is done in the preinitialization phase, along with topology changes that"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ization phase, along with topology changes that may be requested by higher-order function actors, an actor can produce output data and schedule events in the initialize() method. Throws: IllegalActionException - If execution is not permitted. i"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ActionException - If execution is not permitted. isFireFunctional public boolean isFireFunctional () Return true if this executable does not change state in either the prefire() or the fire() method. A class that returns true is said to obey the"
+    },
+    {
+      "chunk_id": 26,
+      "text": ". A class that returns true is said to obey the actor abstract semantics . In particular, such an actor can be used in domains that have a fixed point semantics and may repeatedly fire the actor before committing to state changes. Returns: Tr"
+    },
+    {
+      "chunk_id": 27,
+      "text": "before committing to state changes. Returns: True if this executable only updates its states during an iteration in the postfire() method. isStrict public boolean isStrict () Return true if this executable is strict, meaning all inputs must b"
+    },
+    {
+      "chunk_id": 28,
+      "text": "executable is strict, meaning all inputs must be known before iteration. Normally, classes that implement this interface are strict, so this method will return true. However, some classes can perform an iteration even if some inputs are not"
+    },
+    {
+      "chunk_id": 29,
+      "text": "erform an iteration even if some inputs are not known (i.e., these classes tolerate a return value of false from the isKnown() method of Receiver). Returns: True if this executable is strict, meaning all inputs must be known before iteration."
+    },
+    {
+      "chunk_id": 30,
+      "text": "ing all inputs must be known before iteration. iterate public int iterate (int count) throws IllegalActionException Invoke a specified number of iterations of the actor. An iteration here is equivalent to invoking prefire(), fire(),"
+    },
+    {
+      "chunk_id": 31,
+      "text": "here is equivalent to invoking prefire(), fire(), and postfire(), in that order. In an iteration, if prefire() returns true, then fire() will be called once, followed by postfire(). Otherwise, if prefire() returns false, fire() and postfire()"
+    },
+    {
+      "chunk_id": 32,
+      "text": "f prefire() returns false, fire() and postfire() are not invoked, and this method returns NOT_READY. If postfire() returns false, then no more iterations are invoked, and this method returns STOP_ITERATING. Otherwise, it returns COMPLETED. An"
+    },
+    {
+      "chunk_id": 33,
+      "text": "P_ITERATING. Otherwise, it returns COMPLETED. An implementation of this method is not required to actually invoke prefire(), fire(), and postfire(). An implementation of this method must, however, perform the equivalent operations. Note that"
+    },
+    {
+      "chunk_id": 34,
+      "text": "r, perform the equivalent operations. Note that this method for iterating an actor should be used only in domains where a single invocation of prefire() and fire() is sufficient in an iteration. Parameters: count - The number of iterations to p"
+    },
+    {
+      "chunk_id": 35,
+      "text": "Parameters: count - The number of iterations to perform. Returns: NOT_READY, STOP_ITERATING, or COMPLETED. Throws: IllegalActionException - If iterating is not permitted, or if prefire(), fire(), or postfire() throw it. postfire public boolean po"
+    },
+    {
+      "chunk_id": 36,
+      "text": "or postfire() throw it. postfire public boolean postfire () throws IllegalActionException This method should be invoked once per iteration, after the last invocation of fire() in that iteration. The postfire() method should not p"
+    },
+    {
+      "chunk_id": 37,
+      "text": "at iteration. The postfire() method should not produce output data on output ports of the actor. It returns true if the execution can proceed into the next iteration, false if the actor does not wish to be fired again. This method typically w"
+    },
+    {
+      "chunk_id": 38,
+      "text": "wish to be fired again. This method typically wraps up an iteration, which may involve updating local state or updating displays. Returns: True if the execution can continue. Throws: IllegalActionException - If postfiring is not permitted. prefi"
+    },
+    {
+      "chunk_id": 39,
+      "text": "nException - If postfiring is not permitted. prefire public boolean prefire () throws IllegalActionException This method should be invoked prior to each invocation of fire(). It returns true if the the fire() method can be invoked,"
+    },
+    {
+      "chunk_id": 40,
+      "text": "rns true if the the fire() method can be invoked, given the current status of the inputs and parameters of the actor. Thus this method will typically check preconditions for a firing, if there are any. In an opaque, non-atomic entity, it may"
+    },
+    {
+      "chunk_id": 41,
+      "text": "re any. In an opaque, non-atomic entity, it may move data into an inner subsystem. Returns: True if the iteration can proceed. Throws: IllegalActionException - If prefiring is not permitted. preinitialize public void preinitialize ()"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ialize public void preinitialize () throws IllegalActionException This method should be invoked exactly once per execution of a model, before any of these other methods are invoked. For actors, this is invoked prior to type res"
+    },
+    {
+      "chunk_id": 43,
+      "text": "d. For actors, this is invoked prior to type resolution and may trigger changes in the topology, changes in the type constraints. Throws: IllegalActionException - If initializing is not permitted. stop public void stop () Request that execution"
+    },
+    {
+      "chunk_id": 44,
+      "text": "d. stop public void stop () Request that execution of this Executable stop as soon as possible. An implementation of this method should pass on the request to any contained executable objects. An implementation should also return false from po"
+    },
+    {
+      "chunk_id": 45,
+      "text": "An implementation should also return false from postfire() to indicate to the caller that no further execution of this Executable is appropriate. After this method is called, the executable object should not be fired again. The stopFire() me"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ect should not be fired again. The stopFire() method, by contrast, requests that the current iteration be completed, but not that the entire execution be stopped. I.e., the Executable may be fired again after stopFire() is called. stopFire p"
+    },
+    {
+      "chunk_id": 47,
+      "text": "red again after stopFire() is called. stopFire public void stopFire () Request that execution of the current iteration complete. If an iteration is always a finite computation (the usual case), i.e. the fire() method always returns in finite"
+    },
+    {
+      "chunk_id": 48,
+      "text": "i.e. the fire() method always returns in finite time, then nothing needs to be done in this method, except possibly to pass on the request to any contained executable objects. This method is used to request that an unbounded computation su"
+    },
+    {
+      "chunk_id": 49,
+      "text": "used to request that an unbounded computation suspend, returning control to the caller. Thus, if the fire() method does not normally return in finite time, then this method is used to request that it return. It should suspend execution in s"
+    },
+    {
+      "chunk_id": 50,
+      "text": "hat it return. It should suspend execution in such a way that if the fire() method is called again, execution will resume at the point where it was suspended. However, it should not assume the fire() method will be called again. It is poss"
+    },
+    {
+      "chunk_id": 51,
+      "text": "fire() method will be called again. It is possible that the wrapup() method will be called next. terminate public void terminate () Terminate any currently executing model with extreme prejudice. This method is not intended to be used as a no"
+    },
+    {
+      "chunk_id": 52,
+      "text": ". This method is not intended to be used as a normal route of stopping execution. To normally stop execution, call the finish() method instead. This method should be called only when execution fails to terminate by normal means due to certain"
+    },
+    {
+      "chunk_id": 53,
+      "text": "fails to terminate by normal means due to certain kinds of programming errors (infinite loops, threading errors, etc.). After this method completes, all resources in use should be released and any sub-threads should be killed. However, a consi"
+    },
+    {
+      "chunk_id": 54,
+      "text": "y sub-threads should be killed. However, a consistent state is not guaranteed. The topology should probably be recreated before attempting any further operations. This method should not be synchronized because it must happen as soon as po"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ynchronized because it must happen as soon as possible, no matter what. wrapup public void wrapup () throws IllegalActionException This method is invoked exactly once per execution of an application. None of the other action methods"
+    },
+    {
+      "chunk_id": 56,
+      "text": "an application. None of the other action methods should be be invoked after it. It finalizes an execution, typically closing files, displaying final results, etc. When this method is called, no further execution should occur. Throws: Illegal"
+    },
+    {
+      "chunk_id": 57,
+      "text": "no further execution should occur. Throws: IllegalActionException - If wrapup is not permitted. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIE"
+    }
+  ]
+}

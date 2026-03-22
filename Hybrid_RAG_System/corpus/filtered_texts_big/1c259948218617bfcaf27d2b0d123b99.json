@@ -1,0 +1,121 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII5.0/ptII5.0.1/doc/design/usingVergil/usingVergila4.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "2.3 Tokens and Data Types 2.3 Tokens and Data Types In the example of figure 2.10 , the Const actor creates a sequence of values on its output port. The values are encapsulated as tokens , and sent to the Display actor, which consumes them and disp"
+    },
+    {
+      "chunk_id": 2,
+      "text": "to the Display actor, which consumes them and displays them in the run window. The tokens produced by the Const actor can have any value that can be expressed in the Ptolemy II expression language . We will say more about the expression language in c"
+    },
+    {
+      "chunk_id": 3,
+      "text": "e will say more about the expression language in chapter 3, \"Expressions\", but for now, try giving the value 1 (the integer with value one), or 1.0 (the floating-point number with value one), or {1.0} (an array containing a one), or {value=1, name=\"o"
+    },
+    {
+      "chunk_id": 4,
+      "text": "(an array containing a one), or {value=1, name=\"one\"} (a record with two elements: an integer named \"value\" and a string named \"name\"), or even [1,0;0,1] (the two-by-two identity matrix). These are all expressions. The Const actor is able to produce"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ll expressions. The Const actor is able to produce data with different types , and the Display actor is able to display data with different types. Most actors in the actor library are polymorphic , meaning that they can operate on or produce data wit"
+    },
+    {
+      "chunk_id": 6,
+      "text": "aning that they can operate on or produce data with multiple types. The behavior may even be different for different types. Multiplying matrices, for example, is not the same as multiplying integers, but both are accomplished by the MultiplyDivide ac"
+    },
+    {
+      "chunk_id": 7,
+      "text": "but both are accomplished by the MultiplyDivide actor in the math library . Ptolemy II includes a sophisticated type system that allows this to be done efficiently and safely. To explore data types a bit further, try creating the model in figure 2.16"
+    },
+    {
+      "chunk_id": 8,
+      "text": "bit further, try creating the model in figure 2.16 . The Ramp actor is listed under Sources , SequenceSources , and the AddSubtract actor is listed under Math . Set the value parameter of the constant to be 0 and the iterations parameter of the direc"
+    },
+    {
+      "chunk_id": 9,
+      "text": "to be 0 and the iterations parameter of the director to 5. Running the model should result in 5 numbers between 0 and 4, as shown in the figure. These are the values produced by the Ramp , which are having the value of the Const actor subtracted fro"
+    },
+    {
+      "chunk_id": 10,
+      "text": "having the value of the Const actor subtracted from them. Experiment with changing the value of the Const actor and see how it changes the 5 numbers at the output. Now for the real test: change the value of the Const actor back to \"Hello World\". When"
+    },
+    {
+      "chunk_id": 11,
+      "text": "lue of the Const actor back to \"Hello World\". When you execute the model, you should see an exception window, as shown in figure 2.17 . Do not worry; exceptions are a normal part of constructing (and debugging) models. In this case, the exception win"
+    },
+    {
+      "chunk_id": 12,
+      "text": "debugging) models. In this case, the exception window is telling you that you have tried to subtract a string value from an integer value, which doesn't make much sense at all (following Java, adding strings is allowed). This is an example of a type"
+    },
+    {
+      "chunk_id": 13,
+      "text": "strings is allowed). This is an example of a type error. Exceptions can be a very useful debugging tool, particularly if you are developing your own components in Java. To illustrate how to use them, click on the Display Stack Trace button in the exc"
+    },
+    {
+      "chunk_id": 14,
+      "text": "click on the Display Stack Trace button in the exception window of figure 2.17 . You should see the stack trace shown in figure 2.18 . This window displays the execution sequence that resulted in the exception. For example, the line at ptolemy.data.I"
+    },
+    {
+      "chunk_id": 15,
+      "text": "exception. For example, the line at ptolemy.data.IntToken.subtract(IntToken.java:547) indicates that the exception occurred within the subtract() method of the class ptolemy.data.IntToken, at line 547 of the source file IntToken.java. Since Ptolemy I"
+    },
+    {
+      "chunk_id": 16,
+      "text": "of the source file IntToken.java. Since Ptolemy II is distributed with source code (most installation mechanisms at least offer the option of installing the source), this can be very useful information. For type errors, you probably do not need to s"
+    },
+    {
+      "chunk_id": 17,
+      "text": "on. For type errors, you probably do not need to see the stack trace, but if you have extended the system with your own Java code, or you encounter a subtle error that you do not understand, then looking at the stack trace can be very illuminating. T"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ing at the stack trace can be very illuminating. To find the file IntToken.java referred to above, find the Ptolemy II installation directory. If that directory is $PTII, then the location of this file is given by the full class name, but with the pe"
+    },
+    {
+      "chunk_id": 19,
+      "text": "e is given by the full class name, but with the periods replaced by slashes; in this case, it is at $PTII/ptolemy/data/IntToken.java (the slashes might be backslashes under Windows). Let's try a small change to the model to get something that does no"
+    },
+    {
+      "chunk_id": 20,
+      "text": "change to the model to get something that does not trigger an exception. Disconnect the Const from the lower port of the AddSubtract actor and connect it instead to the upper port, as shown in figure 2.19 . You can do this by selecting the connectio"
+    },
+    {
+      "chunk_id": 21,
+      "text": "2.19 . You can do this by selecting the connection and deleting it (using the delete key), then adding a new connection, or by selecting it and dragging one of its endpoints to the new location. Notice that the upper port is an unfilled triangle; th"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ce that the upper port is an unfilled triangle; this indicates that it is a multiport , meaning that you can make more than one connection to it. Now when you run the model you should see strings like \"0HelloWorld\", as shown in the figure. There are"
+    },
+    {
+      "chunk_id": 23,
+      "text": "\"0HelloWorld\", as shown in the figure. There are two interesting things going on here. The first is that, as in Java, strings are added by concatenating them. The second is that the integers from the Ramp are converted to strings and concatenated wi"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Ramp are converted to strings and concatenated with the string \"Hello World\". All the connections to a multiport must have the same type. In this case, the multiport has a sequence of integers coming in (from the Ramp ) and a sequence of strings (fr"
+    },
+    {
+      "chunk_id": 25,
+      "text": "in (from the Ramp ) and a sequence of strings (from the Const ). Ptolemy II automatically converts the integers to strings when integers are provided to an actor that requires strings. But in this case, why does the AddSubtract actor require strings"
+    },
+    {
+      "chunk_id": 26,
+      "text": "se, why does the AddSubtract actor require strings? Because it would not work to require integers; the string \"Hello World\" would have to be converted to an integer. As a rough guideline, Ptolemy II will perform automatic type conversions when there"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ill perform automatic type conversions when there is no loss of information. An integer can be converted to a string, but not vice versa. An integer can be converted to a double, but not vice versa. An integer can be converted to a long, but not vice"
+    },
+    {
+      "chunk_id": 28,
+      "text": "n integer can be converted to a long, but not vice versa. The details are explained in the Data chapter of Volume 2, but many users will not need to understand the full sophistication of the system. You should find that most of the time it will just"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ou should find that most of the time it will just do what you expect. To further explore data types, try modifying the Ramp so that its parameters have different types. For example, try making init and step strings."
+    }
+  ]
+}

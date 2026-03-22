@@ -1,0 +1,229 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/AprilTags",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / AprilTags Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / AprilTags An AprilTag is a pattern of dark and light squares s"
+    },
+    {
+      "chunk_id": 2,
+      "text": "AprilTag is a pattern of dark and light squares similar to a QR code but easier for cameras to detect robustly and at a distance. AprilTags were created by Associate Professor Edwin Olson (ebolson@umich.edu), EECS, University of Michigan. See https:"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ich.edu), EECS, University of Michigan. See https://april.eecs.umich.edu/ . This page contains random notes about AprilTags. For more formal documentation, see the [[Version0/AprilTags | AprilTags module documentation JavaScript We would like to use"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ule documentation JavaScript We would like to use AprilTags in the Node Host and Browser Host . This requires access from JavaScript. Searching for a JavaScript interface to AprilTags found nothing. Below are alternatives The quickest way to get som"
+    },
+    {
+      "chunk_id": 5,
+      "text": "Below are alternatives The quickest way to get somethin working would be to create a C binary and invoke it from a server written in node. The downside of this is that if we are trying to get data many times per second, then the C binary process wil"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ny times per second, then the C binary process will run many times per second, which will cripple the machine. Also, this is not very portable as it requires compiling the C binary. A slightly better way would be to create a C binary that would commu"
+    },
+    {
+      "chunk_id": 7,
+      "text": "way would be to create a C binary that would communicate with the server using Unix domain sockets or named pipes. This is slightly better than #1 above because the C process does not start each time. An even better way would be to have a Node inter"
+    },
+    {
+      "chunk_id": 8,
+      "text": ". An even better way would be to have a Node interface to the the AprilTags C code. We have a Node interface to the GDP, so it should not be that difficult. However, this has portability issues and requires compiling C code. This will not work on"
+    },
+    {
+      "chunk_id": 9,
+      "text": "requires compiling C code. This will not work on the Browser Host . There is a ROS AprilTags interface: http://wiki.ros.org/apriltags_ros https://github.com/personalrobotics/apriltags . This will not work on the Browser Host. The best way would be"
+    },
+    {
+      "chunk_id": 10,
+      "text": "t work on the Browser Host. The best way would be to port the AprilTags C code to JavaScript. There are two ways to do this: one is a brute force port of the C code, the other is to use emscripten to convert the C code to JavaScript. The AprilTags C"
+    },
+    {
+      "chunk_id": 11,
+      "text": "convert the C code to JavaScript. The AprilTags C code uses pthreads. Pthreads have experimental support in Emscripten, but only run in the FireFox nightly channel. However, if only one thread is selected, then pthreads is not required. See below"
+    },
+    {
+      "chunk_id": 12,
+      "text": "elected, then pthreads is not required. See below . The Emscripten version is almost 100x slower than the C version. See below . Emscripten Download Emscripten View the README.md and install. Under Mac: . / emsdk update . / emsdk install latest . /"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ac: . / emsdk update . / emsdk install latest . / emsdk activate latest source . / emsdk_env.sh [$[Get Code]] Optional: Create a test file and compile it: bash-3.2$ cat main.c #include <stdio.h> int main ( ) { printf ( \"hello, world! \\n \" ) ; return"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ain ( ) { printf ( \"hello, world! \\n \" ) ; return 0 ; } bash-3.2$ emcc main.c INFO:root:generating system library: libc.bc... ( this will be cached in \"/Users/cxh/.emscripten_cache/asmjs/libc.bc\" for subsequent builds ) INFO:root: - ok INFO:root:gene"
+    },
+    {
+      "chunk_id": 15,
+      "text": "subsequent builds ) INFO:root: - ok INFO:root:generating system library: dlmalloc.bc... ( this will be cached in \"/Users/cxh/.emscripten_cache/asmjs/dlmalloc.bc\" for subsequent builds ) INFO:root: - ok bash-3.2$ node a.out hello, world ! bash-3.2$ [$"
+    },
+    {
+      "chunk_id": 16,
+      "text": "k bash-3.2$ node a.out hello, world ! bash-3.2$ [$[Get Code]] Download build AprilTags Go to https://april.eecs.umich.edu/software/apriltag.html and get the latest tar file, untar it and build it wget https: // april.eecs.umich.edu / media / apriltag"
+    },
+    {
+      "chunk_id": 17,
+      "text": "https: // april.eecs.umich.edu / media / apriltag / apriltag- 2016 - 12 -01.tgz tar -zxf apriltags- 2015 - 12 -01.tgz apriltag- 2016 - 12 -01 make [$[Get Code]] Download a jpg tag (based on $PTII/org/terraswarm/accessor/demo/AprilTags/tag36_11_00586"
+    },
+    {
+      "chunk_id": 18,
+      "text": "/terraswarm/accessor/demo/AprilTags/tag36_11_00586.pdf ) Run a demo: bash-3.2$ . / example / apriltag_demo -h Usage: . / example / apriltag_demo [ options ] < input files > -h | --help [ true ] Show this help -d | --debug [ false ] Enable debugging o"
+    },
+    {
+      "chunk_id": 19,
+      "text": "his help -d | --debug [ false ] Enable debugging output ( slow ) -q | --quiet [ false ] Reduce output -f | --family [ tag36h11 ] Tag family to use --border [ 1 ] Set tag family border size -i | --iters [ 1 ] Repeat processing on input set this many t"
+    },
+    {
+      "chunk_id": 20,
+      "text": "s [ 1 ] Repeat processing on input set this many times -t | --threads [ 4 ] Use this many CPU threads -x | --decimate [ 1.0 ] Decimate input image by this factor -b | --blur [ 0.0 ] Apply low-pass blur to input; negative sharpens -0 | --refine-edges"
+    },
+    {
+      "chunk_id": 21,
+      "text": "r to input; negative sharpens -0 | --refine-edges [ true ] Spend more time trying to align edges of tags -1 | --refine-decode [ false ] Spend more time trying to decode tags -2 | --refine-pose [ false ] Spend more time trying to precisely localize ta"
+    },
+    {
+      "chunk_id": 22,
+      "text": "] Spend more time trying to precisely localize tags bash-3.2$ . / example / apriltag_demo ~ / Downloads / tag36_11_00586.jpg loading / Users / cxh / Downloads / tag36_11_00586.jpg pjepg: Unknown marker ee at offset 0f56 detection 0 : id ( 36x11 ) -"
+    },
+    {
+      "chunk_id": 26,
+      "text": "1 bash-3.2$ [$[Get Code]] Compile with emcc Edit the apriltag-2016-12-01 Makefile and add apriltags_demo . js : $ ( APRILTAG_SRCS ) emcc - I . - s ALLOW_MEMORY_GROWTH = 1 - o $@ $^ example / apriltag_demo . c [$[Get Code]] Compile: make apriltags_dem"
+    },
+    {
+      "chunk_id": 27,
+      "text": "demo . c [$[Get Code]] Compile: make apriltags_demo.js [$[Get Code]] Test: bash-3.2$ node apriltags_demo.js -h Unknown option -h Usage: / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js [ options ] < input files > -h | --help [ false"
+    },
+    {
+      "chunk_id": 28,
+      "text": "s [ options ] < input files > -h | --help [ false ] Show this help -d | --debug [ false ] Enable debugging output ( slow ) -q | --quiet [ false ] Reduce output -f | --family [ tag36h11 ] Tag family to use --border [ 1 ] Set tag family border size -i"
+    },
+    {
+      "chunk_id": 29,
+      "text": "use --border [ 1 ] Set tag family border size -i | --iters [ 1 ] Repeat processing on input set this many times -t | --threads [ 4 ] Use this many CPU threads -x | --decimate [ 1.0 ] Decimate input image by this factor -b | --blur [ 0.0 ] Apply low-"
+    },
+    {
+      "chunk_id": 30,
+      "text": "mage by this factor -b | --blur [ 0.0 ] Apply low-pass blur to input; negative sharpens -0 | --refine-edges [ true ] Spend more time trying to align edges of tags -1 | --refine-decode [ false ] Spend more time trying to decode tags -2 | --refine-pose"
+    },
+    {
+      "chunk_id": 31,
+      "text": "more time trying to decode tags -2 | --refine-pose [ false ] Spend more time trying to precisely localize tags bash-3.2$ [$[Get Code]] Note that -h is unknown. There seems to be an issue with getopt. Try a real run: bash-3.2$ node apriltags_demo.js"
+    },
+    {
+      "chunk_id": 32,
+      "text": "Try a real run: bash-3.2$ node apriltags_demo.js ~ / Downloads / tag36_11_00586.jpg exception thrown: Assertion failed: goo ! = NULL, at: common / getopt.c, 421 ,getopt_get_string at Error at jsStackTrace ( / Users / cxh / src / apriltag- 2016 - 12"
+    },
+    {
+      "chunk_id": 33,
+      "text": "kTrace ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 1127 : 13 ) at stackTrace ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 1144 : 12 ) at ___assert_fail ( / Users / cxh / src / apriltag- 2016 - 12 -01 /"
+    },
+    {
+      "chunk_id": 34,
+      "text": "( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 1665 : 210 ) at _getopt_get_string ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 20038 : 3 ) at _getopt_get_bool ( / Users / cxh / src / apriltag- 2016 - 12"
+    },
+    {
+      "chunk_id": 35,
+      "text": "_bool ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 20114 : 8 ) at _main ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 72391 : 9 ) at Object.asm._main ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apr"
+    },
+    {
+      "chunk_id": 36,
+      "text": "Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 86844 : 19 ) at Object.callMain ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 87117 : 30 ) at doRun ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_d"
+    },
+    {
+      "chunk_id": 37,
+      "text": "cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 87181 : 60 ) at run ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 87195 : 5 ) / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 112 throw ex; ^ Assertio"
+    },
+    {
+      "chunk_id": 38,
+      "text": "-01 / apriltags_demo.js: 112 throw ex; ^ Assertion failed: goo ! = NULL, at: common / getopt.c, 421 ,getopt_get_string at Error at jsStackTrace ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 1127 : 13 ) at stackTrace ( / Users"
+    },
+    {
+      "chunk_id": 39,
+      "text": "tags_demo.js: 1127 : 13 ) at stackTrace ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 1144 : 12 ) at ___assert_fail ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 1665 : 210 ) at _getopt_get_string ( / Use"
+    },
+    {
+      "chunk_id": 40,
+      "text": "emo.js: 1665 : 210 ) at _getopt_get_string ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 20038 : 3 ) at _getopt_get_bool ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 20114 : 8 ) at _main ( / Users / cxh"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ags_demo.js: 20114 : 8 ) at _main ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 72391 : 9 ) at Object.asm._main ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 86844 : 19 ) at Object.callMain ( / Users / cx"
+    },
+    {
+      "chunk_id": 42,
+      "text": "js: 86844 : 19 ) at Object.callMain ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 87117 : 30 ) at doRun ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 87181 : 60 ) at run ( / Users / cxh / src / apriltag-"
+    },
+    {
+      "chunk_id": 43,
+      "text": "1 : 60 ) at run ( / Users / cxh / src / apriltag- 2016 - 12 -01 / apriltags_demo.js: 87195 : 5 ) bash-3.2$ [$[Get Code]] Download april_tag_demo.c.txt (pmwiki does not allow .c files, so we use .c.txt ) and replace examples/april_tag_demo.c Recompil"
+    },
+    {
+      "chunk_id": 44,
+      "text": ") and replace examples/april_tag_demo.c Recompile and run: bash-3.2$ rm apriltags_demo.js; make apriltags_demo.js emcc -I. -o apriltags_demo.js apriltag.c apriltag_quad_thresh.c common / g2d.c common / getopt.c common / homography.c common / image_"
+    },
+    {
+      "chunk_id": 45,
+      "text": "n / getopt.c common / homography.c common / image_f32.c common / image_u8.\\ c common / image_u8x3.c common / image_u8x4.c common / matd.c common / pam.c common / pjpeg-idct.c common / pjpeg.c common / pnm.c common / string_util.c common / svd\\ 22 .c"
+    },
+    {
+      "chunk_id": 46,
+      "text": "pnm.c common / string_util.c common / svd\\ 22 .c common / time_util.c common / unionfind.c common / workerpool.c common / zarray.c common / zhash.c common / zmaxheap.c tag16h5.c tag25h7.c tag25h9.c tag36a\\ rtoolkit.c tag36h10.c tag36h11.c -s ALLOW_M"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ag36a\\ rtoolkit.c tag36h10.c tag36h11.c -s ALLOW_MEMORY_GROWTH = 1 example / apriltag_demo.c warning: emitted code will contain very large numbers of local variables, which is bad for performance ( build to JS with -O2 or above to avoid this \\ - make"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ild to JS with -O2 or above to avoid this \\ - make sure to do so both on source files, and during 'linking' ) bash-3.2$ node apriltags_demo.js ~ / Downloads / tag36_11_00586.jpg Arg: / Users / cxh / Downloads / tag36_11_00586.jpg enlarged memory arr"
+    },
+    {
+      "chunk_id": 49,
+      "text": "Downloads / tag36_11_00586.jpg enlarged memory arrays from 16777216 to 67108864 , took 16 ms ( has ArrayBuffer.transfer? false ) Warning: Enlarging memory arrays, this is not fast ! 16777216 , 67108864 loading / Users / cxh / Downloads / tag36_11_005"
+    },
+    {
+      "chunk_id": 50,
+      "text": "4 loading / Users / cxh / Downloads / tag36_11_00586.jpg pjpeg error 0 Summary hamm 0 0 0 0 0 0 0 0 0 0 0.000 0 bash-3.2$ [$[Get Code]] Now the issue is that we need to enable the file system, see File System API , which means we add the following #i"
+    },
+    {
+      "chunk_id": 51,
+      "text": "e System API , which means we add the following #ifdef JS #include <emscripten.h> #endif // Invoke: // // tagtest [options] input.pnm int main ( int argc , char * argv [ ] ) { #ifdef JS EM_ASM ( FS. mkdir ( '/working' ) ; FS. mount ( NODEFS , { root"
+    },
+    {
+      "chunk_id": 52,
+      "text": "kdir ( '/working' ) ; FS. mount ( NODEFS , { root : '.' } , '/working' ) ; ) ; #endif [$[Get Code]] After recompiling, running fails: bash-3.2$ node apriltags_demo.js / working / tag36_11_00586.jpg Arg: / working / tag36_11_00586.jpg loading / workin"
+    },
+    {
+      "chunk_id": 53,
+      "text": "g: / working / tag36_11_00586.jpg loading / working / tag36_11_00586.jpg pjpeg: / working / tag36_11_00586.jpg, 0x27dd578 pjpeg: / working / tag36_11_00586.jpg, buflen: 47060 pjepg: Unknown marker ee at offset 0f56 pthread_create: No error informatio"
+    },
+    {
+      "chunk_id": 54,
+      "text": "at offset 0f56 pthread_create: No error information bash-3.2$ [$[Get Code]] Emscripten has pthreads support but it only works with FireFox Nightly channel: \"Any code that is compiled with pthreads support enabled will currently only work in the Firef"
+    },
+    {
+      "chunk_id": 55,
+      "text": "port enabled will currently only work in the Firefox Nightly channel, since the SharedArrayBuffer specification is still in an experimental research stage before standardization. \" So, if apriltag_demo.c is modified so that only one thread is used: t"
+    },
+    {
+      "chunk_id": 56,
+      "text": "o.c is modified so that only one thread is used: td -> nthreads = 1 ; [$[Get Code]] then when we run we get different results: bash-3.2$ node apriltags_demo.js / working / tag36_11_00586.jpg Arg: / working / tag36_11_00586.jpg loading / working / tag"
+    },
+    {
+      "chunk_id": 57,
+      "text": "rking / tag36_11_00586.jpg loading / working / tag36_11_00586.jpg pjpeg: / working / tag36_11_00586.jpg, 0x27dd578 pjpeg: / working / tag36_11_00586.jpg, buflen: 47060 pjepg: Unknown marker ee at offset 0f56 detection 0 : id ( 36x11 ) - 586 , hamming"
+    },
+    {
+      "chunk_id": 61,
+      "text": "0 0 0 0 0 3707.000 1 bash-3.2$ [$[Get Code]] This is roughly 100x slower than the C-based version above. Java The CapeCode Host uses a Java interface to AprilTags that is found in $PTII/edu/umich/eecs/april. Edwin Olson wrote that the Java interface"
+    },
+    {
+      "chunk_id": 62,
+      "text": "/april. Edwin Olson wrote that the Java interface is much slower than the C interface. See Also https://april.eecs.umich.edu/ Version 0 AprilTags [ http://docs.opencv.org/3.1.0/d5/dae/tutorial_aruco_detection.html Aruco tag recognition with OpenCV]"
+    }
+  ]
+}

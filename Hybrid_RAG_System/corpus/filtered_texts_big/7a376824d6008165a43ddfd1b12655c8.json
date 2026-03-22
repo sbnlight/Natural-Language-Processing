@@ -1,0 +1,109 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/Top-LevelJavaScriptFunctions",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / Top-LevelJavaScriptFunctions Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / Top-LevelJavaScriptFunctions This pag"
+    },
+    {
+      "chunk_id": 2,
+      "text": "t Version0 / Top-LevelJavaScriptFunctions This page describes the top-level JavaScript functions required to be provided by a swarmlet host. Input Handlers <handle> addInputHandler ( <string> input , function , [ arguments ]): Specify a function to i"
+    },
+    {
+      "chunk_id": 3,
+      "text": "function , [ arguments ]): Specify a function to invoke when the input with name input (a string) receives a new input value. If additional arguments are specified, those will be passed to the function when it is invoked. A function may be added more"
+    },
+    {
+      "chunk_id": 4,
+      "text": "n when it is invoked. A function may be added more than once, possibly with different arguments, in which case it will be invoked more than once. If the first argument is null, or if no name argument is given and the first argument is a function, th"
+    },
+    {
+      "chunk_id": 5,
+      "text": "is given and the first argument is a function, then the specified function will be invoked when any new input arrives. This function returns a handle that can be used to call removeInputHandler (). Note that the handler function is not limited to ob"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ote that the handler function is not limited to observing the input that triggers its execution. It can call get() on any input. See Input . removeInputHandler ( handle ): Remove the callback function with the specified handle (returned by addInputHa"
+    },
+    {
+      "chunk_id": 7,
+      "text": "with the specified handle (returned by addInputHandler ()). Example: exports.initialize = function() { // Specify a function to invoke when a new input arrives on myInput. addInputHandler(\"myInput\", function () { ... }); // Specify a fun"
+    },
+    {
+      "chunk_id": 8,
+      "text": "t\", function () { ... }); // Specify a function to invoke when a new input arrives on any input. addInputHandler(function() { ... }); }; Reading Inputs and Parameters, and Sending Outputs get ( <string> input ): Get the value of an in"
+    },
+    {
+      "chunk_id": 9,
+      "text": "uts get ( <string> input ): Get the value of an input with name input (a string). See Input . getParameter ( <string> parameter ): Get the value of a parameter with name parameter (a string). See Parameter . send ( <string> name , value ): Send a val"
+    },
+    {
+      "chunk_id": 10,
+      "text": "meter . send ( <string> name , value ): Send a value to an input or output with the specified name (a string). See Input and Output . setDefault ( <string> name , value ): Set the default value of an input with the specified name (a string) to value"
+    },
+    {
+      "chunk_id": 11,
+      "text": "input with the specified name (a string) to value . See Input . setParameter ( <string> name , value ): Set a parameter with the specified name (a string) to have value value . See Parameter . Module Dependencies require ( <string> @accessors-modules"
+    },
+    {
+      "chunk_id": 12,
+      "text": "Dependencies require ( <string> @accessors-modules/module-name ): Load the specified module by name (a string) and return a reference to the module. The reference can be used to invoke any functions, constructors, or variables exported by the module"
+    },
+    {
+      "chunk_id": 13,
+      "text": "constructors, or variables exported by the module (see Module Specification and Require ). Delaying Execution <handle> setInterval ( function , milliseconds ): Set the specified function to execute after specified time in milliseconds and again at mu"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ter specified time in milliseconds and again at multiples of that time, and return a handle. The specified function may send data to outputs or inputs and may get data from inputs. If additional arguments are provided beyond the first two, then those"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ents are provided beyond the first two, then those arguments are passed to the function when it is called. <handle> setTimeout ( function , milliseconds ): Set the specified function to execute after specified time in milliseconds and return a handle"
+    },
+    {
+      "chunk_id": 16,
+      "text": "specified time in milliseconds and return a handle. The specified function may send data to outputs or inputs. If additional arguments are provided beyond the first two, then those arguments are passed to the function when it is called. If the interv"
+    },
+    {
+      "chunk_id": 17,
+      "text": "d to the function when it is called. If the interval is zero, then the specified function will be invoked in the next reaction, which will occur immediately after the conclusion of the current reaction. If several setTimeout requests have an interval"
+    },
+    {
+      "chunk_id": 18,
+      "text": "n. If several setTimeout requests have an interval of zero, then they will be invoked in successive reactions in the order in which they have been requested. clearInterval ( handle ): Clear a timer interval action with the specified handle (see setIn"
+    },
+    {
+      "chunk_id": 19,
+      "text": "terval action with the specified handle (see setInterval ()). clearTimeout ( handle ): Clear a timeout with the specified handle (see setTimeout ()). For the callback functions given by setInterval () and setTimeout (), after the specified function i"
+    },
+    {
+      "chunk_id": 20,
+      "text": "and setTimeout (), after the specified function is called, the fire () function of the accessor will be called, if it exists. If the specified function is null, then only the fire () function of the accessor will be called. Error Handling error(stri"
+    },
+    {
+      "chunk_id": 21,
+      "text": "accessor will be called. Error Handling error(string) : Report an error with the specified message. This should be used by an accessor to report non-fatal errors, where it is OK to continue executing. For fatal errors, throw an exception. Getting Res"
+    },
+    {
+      "chunk_id": 22,
+      "text": "For fatal errors, throw an exception. Getting Resources getResource(uri, timeout) : Get a resource, which may be a relative file name or a URL, and return the value of the resource as a string. Implementations of this function will likely restrict t"
+    },
+    {
+      "chunk_id": 23,
+      "text": "mentations of this function will likely restrict the locations from which resources can be retrieved. A recommended policy for swarmlet hosts is to at least permit http and https accesses. Local files may be allowed, if for example they are given as"
+    },
+    {
+      "chunk_id": 24,
+      "text": "s may be allowed, if for example they are given as relative file names relative to be in the same directory where the swarmlet model is located or in a subdirectory. Deprecated Functions The following functions may be provided by an accessor host in"
+    },
+    {
+      "chunk_id": 25,
+      "text": "functions may be provided by an accessor host in order to support version 0.0 accessors (of which there are very few): httpRequest(url, method, properties, body, timeout) : Blocking HTTP request (GET, POST, PUT, etc.). Use the http module instead. r"
+    },
+    {
+      "chunk_id": 26,
+      "text": ", POST, PUT, etc.). Use the http module instead. readURL(string) : Read the specified URL and return its contents as a string (HTTP GET). Use the http module instead. valueOf(parameter) : Retrieve the value of a parameter. Use get() instead. In versi"
+    }
+  ]
+}

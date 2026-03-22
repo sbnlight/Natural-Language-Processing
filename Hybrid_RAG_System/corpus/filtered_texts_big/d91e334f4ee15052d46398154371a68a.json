@@ -1,0 +1,49 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/ConstructorFunctionWithAnExplicitPrototype",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / ConstructorFunctionWithAnExplicitPrototype Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / ConstructorFunctionWithAnExplic"
+    },
+    {
+      "chunk_id": 2,
+      "text": "story Print Main / ConstructorFunctionWithAnExplicitPrototype Here is a simple demonstration of use of constructors with inheritance (this example works with the current infrastructure): exports. BaseAccessor = function ( ) { accessor. input ( 'foo'"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Accessor = function ( ) { accessor. input ( 'foo' ) ; } exports. DerivedAccessor = function ( ) { accessor. input ( 'bar' ) ; } exports. DerivedAccessor . prototype = new exports. BaseAccessor ( ) ; exports. setup = function ( ) { var test = new expo"
+    },
+    {
+      "chunk_id": 4,
+      "text": "xports. setup = function ( ) { var test = new exports. DerivedAccessor ( ) ; } [$[Get Code]] BaseAccessor and DerivedAccessor could each be in their own CommonJS module, in which case we could use \"requires\" to import it. Alternatively, we could defi"
+    },
+    {
+      "chunk_id": 5,
+      "text": "quires\" to import it. Alternatively, we could define a utility function so that the definition of the derived accessor would look like this: exports. DerivedAccessor = function ( ) { accessor. input ( 'bar' ) ; } inherits ( exports. DerivedAccessor ,"
+    },
+    {
+      "chunk_id": 6,
+      "text": "'bar' ) ; } inherits ( exports. DerivedAccessor , 'BaseAccessor' ) ; [$[Get Code]] The inherits function combines requires() and the setting of the prototype. A more elaborate example below, which also works in the current infrastructure, demonstrat"
+    },
+    {
+      "chunk_id": 7,
+      "text": "so works in the current infrastructure, demonstrates inheritance of functions and invocation of the prototype function: // Base class for all accessors, with temporary implementation // to bridge to the current design. Accessor = function ( ) { this"
+    },
+    {
+      "chunk_id": 8,
+      "text": "he current design. Accessor = function ( ) { this . input = function ( args ) { accessor. input ( args ) ; } } MyAccessor = function ( ) { this . input ( 'bar' ) ; this . initialize = function ( ) { console. log ( \"MyAccessor initialize.\" ) ; } } MyA"
+    },
+    {
+      "chunk_id": 9,
+      "text": "onsole. log ( \"MyAccessor initialize.\" ) ; } } MyAccessor. prototype = new Accessor ( ) ; DerivedAccessor = function ( ) { this . input ( 'foo' ) ; this . initialize = function ( ) { console. log ( \"DerivedAccessor initialize.\" ) ; // Song and dance"
+    },
+    {
+      "chunk_id": 10,
+      "text": "erivedAccessor initialize.\" ) ; // Song and dance to invoke the prototype's initialize() function. DerivedAccessor. prototype . initialize . apply ( this ) ; } } DerivedAccessor. prototype = new MyAccessor ( ) ; // Temporary bridge to current accesso"
+    },
+    {
+      "chunk_id": 11,
+      "text": "essor ( ) ; // Temporary bridge to current accessor functionality. var test ; exports. setup = function ( ) { test = new DerivedAccessor ( ) ; } exports. initialize = function ( ) { test. initialize ( ) ; } [$[Get Code]] Back to Research and Open Is"
+    }
+  ]
+}

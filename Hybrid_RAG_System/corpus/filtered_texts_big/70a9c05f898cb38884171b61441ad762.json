@@ -1,0 +1,165 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/CapeCodeScriptParameter",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / CapeCodeScriptParameter Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / CapeCodeScriptParameter Below are notes about the"
+    },
+    {
+      "chunk_id": 2,
+      "text": "CapeCodeScriptParameter Below are notes about the script parameter in the JavaScript actor in the Cape Code Host . Problem Statement We would like to write JavaScript that replicates the Cape Code NonStrictTest actor and share that JavaScript code be"
+    },
+    {
+      "chunk_id": 3,
+      "text": "StrictTest actor and share that JavaScript code between multiple Composite Accessors . We now have https://ptolemy.berkeley.edu/accessors/test/TrainableTest.js , which implements a subset of that functionality. The problem is how to use it? The scrip"
+    },
+    {
+      "chunk_id": 4,
+      "text": "tionality. The problem is how to use it? The script Parameter of the JavaScript actor. One way would be to use the script parameter of the JavaScript actor. File Reader The Ptolemy way is to drag in a FileReader, set the fileOrURL to https://ptolemy."
+    },
+    {
+      "chunk_id": 5,
+      "text": "FileReader, set the fileOrURL to https://ptolemy.berkeley.edu/accessors/test/TrainableTest.js and connect it to the script port parameter of a JavaScript actor. The problems here are: Running the model does not invoke the FileReader because the mode"
+    },
+    {
+      "chunk_id": 6,
+      "text": "el does not invoke the FileReader because the model of computation is DE and the trigger port is not connected The ports of the JavaScript actor are not updated So, we connect the trigger port: Note that the ports of the JavaScript actor are not upda"
+    },
+    {
+      "chunk_id": 7,
+      "text": "hat the ports of the JavaScript actor are not updated. After we run the model the ports of the JavaScript actor are updated. If we run the model, we get this stack trace: ptolemy. kernel . util . IllegalActionException : Failure executing the react f"
+    },
+    {
+      "chunk_id": 8,
+      "text": "galActionException : Failure executing the react function : Error : After seeing 0 tokens, the value of the input was null ? Perhaps the input is not connected ? in < function > at line number 55 at column number 16 in . RampJSTestJS . JavaScript Bec"
+    },
+    {
+      "chunk_id": 9,
+      "text": "olumn number 16 in . RampJSTestJS . JavaScript Because : Error : After seeing 0 tokens, the value of the input was null ? Perhaps the input is not connected ? in < function > at line number 55 at column number 16 at ptolemy. actor . lib . jjs . JavaS"
+    },
+    {
+      "chunk_id": 10,
+      "text": "mn number 16 at ptolemy. actor . lib . jjs . JavaScript ._invokeMethodInContext ( JavaScript. java : 1856 ) at ptolemy. actor . lib . jjs . JavaScript . fire ( JavaScript. java : 904 ) at ptolemy. domains . de . kernel . DEDirector ._fire ( DEDirecto"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ains . de . kernel . DEDirector ._fire ( DEDirector. java : 1955 ) at ptolemy. domains . de . kernel . DEDirector . fire ( DEDirector. java : 501 ) at ptolemy. actor . CompositeActor . fire ( CompositeActor. java : 454 ) at ptolemy. actor . Manager ."
+    },
+    {
+      "chunk_id": 12,
+      "text": "eActor. java : 454 ) at ptolemy. actor . Manager . iterate ( Manager. java : 841 ) at ptolemy. actor . Manager . execute ( Manager. java : 367 ) at ptolemy. actor . Manager . run ( Manager. java : 1252 ) at ptolemy. actor . Manager $PtolemyRunThread."
+    },
+    {
+      "chunk_id": 13,
+      "text": "2 ) at ptolemy. actor . Manager $PtolemyRunThread. run ( Manager. java : 1903 ) Caused by : javax. script . ScriptException : Error : After seeing 0 tokens, the value of the input was null ? Perhaps the input is not connected ? in < function > at lin"
+    },
+    {
+      "chunk_id": 14,
+      "text": "he input is not connected ? in < function > at line number 55 at column number 16 at jdk. nashorn . api . scripting . NashornScriptEngine . throwAsScriptException ( NashornScriptEngine. java : 467 ) at jdk. nashorn . api . scripting . NashornScriptEn"
+    },
+    {
+      "chunk_id": 15,
+      "text": "t jdk. nashorn . api . scripting . NashornScriptEngine . invokeImpl ( NashornScriptEngine. java : 389 ) at jdk. nashorn . api . scripting . NashornScriptEngine . invokeMethod ( NashornScriptEngine. java : 199 ) at ptolemy. actor . lib . jjs . JavaScr"
+    },
+    {
+      "chunk_id": 16,
+      "text": "va : 199 ) at ptolemy. actor . lib . jjs . JavaScript ._invokeMethodInContext ( JavaScript. java : 1833 ) ... 8 more Caused by : < function >: 55 : 16 Error : After seeing 0 tokens, the value of the input was null ? Perhaps the input is not connected"
+    },
+    {
+      "chunk_id": 17,
+      "text": "nput was null ? Perhaps the input is not connected ? at jdk. nashorn . internal . objects . NativeError . initException ( NativeError. java : 137 ) at jdk. nashorn . internal . objects . NativeError . < init > ( NativeError. java : 102 ) at jdk. nash"
+    },
+    {
+      "chunk_id": 18,
+      "text": "< init > ( NativeError. java : 102 ) at jdk. nashorn . internal . objects . NativeError . < init > ( NativeError. java : 106 ) at jdk. nashorn . internal . objects . NativeError . < init > ( NativeError. java : 110 ) at jdk. nashorn . internal . obj"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ror. java : 110 ) at jdk. nashorn . internal . objects . NativeError . constructor ( NativeError. java : 129 ) at jdk. nashorn . internal . scripts . Script $Recompilation$18991$1677$\\ ^ function\\_. L : 1 $fire ( < function >: 55 ) at jdk. nashorn ."
+    },
+    {
+      "chunk_id": 20,
+      "text": ": 1 $fire ( < function >: 55 ) at jdk. nashorn . internal . scripts . Script $Recompilation$18990$57155A$require. L : 1 $react ( / Users / cxh / ptII / ptolemy / actor / lib / jjs / external / require. js # 325 : 30 < eval >: 1353 ) at jdk. nashorn"
+    },
+    {
+      "chunk_id": 21,
+      "text": "e. js # 325 : 30 < eval >: 1353 ) at jdk. nashorn . internal . runtime . ScriptFunctionData . invoke ( ScriptFunctionData. java : 662 ) at jdk. nashorn . internal . runtime . ScriptFunction . invoke ( ScriptFunction. java : 228 ) at jdk. nashorn . in"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ScriptFunction. java : 228 ) at jdk. nashorn . internal . runtime . ScriptRuntime . apply ( ScriptRuntime. java : 393 ) at jdk. nashorn . api . scripting . ScriptObjectMirror . callMember ( ScriptObjectMirror. java : 199 ) at jdk. nashorn . api . sc"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ectMirror. java : 199 ) at jdk. nashorn . api . scripting . NashornScriptEngine . invokeImpl ( NashornScriptEngine. java : 383 ) ... 10 more Caused by : javax. script . ScriptException : Error : After seeing 0 tokens, the value of the input was null"
+    },
+    {
+      "chunk_id": 24,
+      "text": "seeing 0 tokens, the value of the input was null ? Perhaps the input is not connected ? in < function > at line number 55 at column number 16 at jdk. nashorn . api . scripting . NashornScriptEngine . throwAsScriptException ( NashornScriptEngine. jav"
+    },
+    {
+      "chunk_id": 25,
+      "text": "throwAsScriptException ( NashornScriptEngine. java : 467 ) at jdk. nashorn . api . scripting . NashornScriptEngine . invokeImpl ( NashornScriptEngine. java : 389 ) at jdk. nashorn . api . scripting . NashornScriptEngine . invokeMethod ( NashornScrip"
+    },
+    {
+      "chunk_id": 26,
+      "text": "NashornScriptEngine . invokeMethod ( NashornScriptEngine. java : 199 ) at ptolemy. actor . lib . jjs . JavaScript ._invokeMethodInContext ( JavaScript. java : 1833 ) at ptolemy. actor . lib . jjs . JavaScript . fire ( JavaScript. java : 904 ) at pto"
+    },
+    {
+      "chunk_id": 27,
+      "text": "avaScript . fire ( JavaScript. java : 904 ) at ptolemy. domains . de . kernel . DEDirector ._fire ( DEDirector. java : 1955 ) at ptolemy. domains . de . kernel . DEDirector . fire ( DEDirector. java : 501 ) at ptolemy. actor . CompositeActor . fire ("
+    },
+    {
+      "chunk_id": 28,
+      "text": "501 ) at ptolemy. actor . CompositeActor . fire ( CompositeActor. java : 454 ) at ptolemy. actor . Manager . iterate ( Manager. java : 841 ) at ptolemy. actor . Manager . execute ( Manager. java : 367 ) at ptolemy. actor . Manager . run ( Manager. j"
+    },
+    {
+      "chunk_id": 29,
+      "text": "7 ) at ptolemy. actor . Manager . run ( Manager. java : 1252 ) at ptolemy. actor . Manager $PtolemyRunThread. run ( Manager. java : 1903 ) Caused by : < function >: 55 : 16 Error : After seeing 0 tokens, the value of the input was null ? Perhaps the"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ns, the value of the input was null ? Perhaps the input is not connected ? at jdk. nashorn . internal . objects . NativeError . initException ( NativeError. java : 137 ) at jdk. nashorn . internal . objects . NativeError . < init > ( NativeError. jav"
+    },
+    {
+      "chunk_id": 31,
+      "text": "bjects . NativeError . < init > ( NativeError. java : 102 ) at jdk. nashorn . internal . objects . NativeError . < init > ( NativeError. java : 106 ) at jdk. nashorn . internal . objects . NativeError . < init > ( NativeError. java : 110 ) at jdk. na"
+    },
+    {
+      "chunk_id": 32,
+      "text": ". < init > ( NativeError. java : 110 ) at jdk. nashorn . internal . objects . NativeError . constructor ( NativeError. java : 129 ) at jdk. nashorn . internal . scripts . Script $Recompilation$18991$1677$\\ ^ function\\_. L : 1 $fire ( < function >: 5"
+    },
+    {
+      "chunk_id": 33,
+      "text": "1677$\\ ^ function\\_. L : 1 $fire ( < function >: 55 ) at jdk. nashorn . internal . scripts . Script $Recompilation$18990$57155A$require. L : 1 $react ( / Users / cxh / ptII / ptolemy / actor / lib / jjs / external / require. js # 325 : 30 < eval >: 1"
+    },
+    {
+      "chunk_id": 34,
+      "text": "js / external / require. js # 325 : 30 < eval >: 1353 ) at jdk. nashorn . internal . runtime . ScriptFunctionData . invoke ( ScriptFunctionData. java : 662 ) at jdk. nashorn . internal . runtime . ScriptFunction . invoke ( ScriptFunction. java : 228"
+    },
+    {
+      "chunk_id": 35,
+      "text": "iptFunction . invoke ( ScriptFunction. java : 228 ) at jdk. nashorn . internal . runtime . ScriptRuntime . apply ( ScriptRuntime. java : 393 ) at jdk. nashorn . api . scripting . ScriptObjectMirror . callMember ( ScriptObjectMirror. java : 199 ) at j"
+    },
+    {
+      "chunk_id": 36,
+      "text": "callMember ( ScriptObjectMirror. java : 199 ) at jdk. nashorn . api . scripting . NashornScriptEngine . invokeImpl ( NashornScriptEngine. java : 383 ) ... 10 more [$[Get Code]] So, we connect the input and set the training mode and then run the model"
+    },
+    {
+      "chunk_id": 37,
+      "text": "t and set the training mode and then run the model. After running in training mode, the problem is that the correctValues parameter has the value [5] , which is from the last iteration because each time we iterate, the FileOrURL actor is fired, which"
+    },
+    {
+      "chunk_id": 38,
+      "text": "me we iterate, the FileOrURL actor is fired, which reads the script and presumably resets the list of previously seen values. Code Generation for Composites Accessors. Even worse, the FileReaderActor cannot be used in a composite accessor, so the Acc"
+    },
+    {
+      "chunk_id": 39,
+      "text": "cannot be used in a composite accessor, so the Accessor code generator will fail. Possible Solution A possible solution would be to have the body of the JavaScript file read the contents of the script. However, this probably causes problems with the"
+    },
+    {
+      "chunk_id": 40,
+      "text": ". However, this probably causes problems with the same-origin policy. Also, I'm not sure how to do it. Solution We decided to make TrainableTest be an accessor. See How To Create A Node Module -> When to create an accessor . Edit - History - Print"
+    }
+  ]
+}

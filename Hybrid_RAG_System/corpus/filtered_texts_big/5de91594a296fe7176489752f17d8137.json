@@ -1,0 +1,457 @@
+{
+  "url": "http://people.eecs.berkeley.edu/%7Eronf/jat/orthotweezers/usermanual.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Ortho-tweezers User Manual Ortho-tweezers User Manual This page has the following sections: Ortho-tweezers Setup Ortho-tweezers User Guide Source Code and Programmer's Guide Ortho-tweezers Setup The hardware and computer I/O interface to the ortho-tw"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ardware and computer I/O interface to the ortho-tweezers system is described in Eiji Shimada's Hardware Manual . The only addition is an external relay board with eight relays, where relay 1 is used for the Heater On/Off interface. There is one wire"
+    },
+    {
+      "chunk_id": 3,
+      "text": "or the Heater On/Off interface. There is one wire to the relay board from the original digital I/O board (which is used for the stepper motor control). The digital outputs are shown in Figure 11 of the Hardware Manual. The heater would be added as di"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e Hardware Manual. The heater would be added as digital output 13 in this figure. (Note that the 16 digital outputs are split into two 8 bit outputs in the AdvantechPCL711B interface. Thus digital output 13 is output 5 of the second 8 bits, which is"
+    },
+    {
+      "chunk_id": 5,
+      "text": "put 13 is output 5 of the second 8 bits, which is a bit mask of 0x20. See the description below of how the heater interface is added to the code.) Ortho-tweezers User Guide Ortho-tweezers is a Java application which provides a user interface for mani"
+    },
+    {
+      "chunk_id": 6,
+      "text": "plication which provides a user interface for manipulating the ortho-tweezers hardware and also allows you to run Python scripts. To install and compile Ortho-tweezers, see the Source Code and Programmer's Guide section below. Starting Ortho-Tweezers"
+    },
+    {
+      "chunk_id": 7,
+      "text": "mer's Guide section below. Starting Ortho-Tweezers Before starting the Ortho-tweezers application, make sure that the power to the ortho-tweezers hardware is turned on. (On our system, don't forget to also turn on the power amplifier for the X probe"
+    },
+    {
+      "chunk_id": 8,
+      "text": "also turn on the power amplifier for the X probe piezoactuator.) From time to time, you should also calibrate the strain gauge amplifiers to set the offset to zero and the gain to 100. But the Ortho-tweezers application also does software calibratio"
+    },
+    {
+      "chunk_id": 9,
+      "text": "tweezers application also does software calibration so the hardware calibration of the amplifiers is not so critical. See the description of the Reset Arm Offsets, Reset Tip Offsets and Calibrate functions in the Tweezers menu item section below. As"
+    },
+    {
+      "chunk_id": 10,
+      "text": "tions in the Tweezers menu item section below. As a Java application, Ortho-tweezers runs in the Java virtual machine. The main class is Orthotweezers in the package orthotweezers. Thus the full class name is orthotweezers.Orthotweezers. The director"
+    },
+    {
+      "chunk_id": 11,
+      "text": "name is orthotweezers.Orthotweezers. The directory structure in which the compiled class files exist follows the package hierarchy. So, when you execute a class from the command line, you should be in the directory at the \"top\" of the directory stru"
+    },
+    {
+      "chunk_id": 12,
+      "text": "n the directory at the \"top\" of the directory structure, which in this case means in the directory which contains the orthotweezers directory. For example on our workstation in 333 Cory, the class files (including Orthotweezers.class) are in d:\\Users"
+    },
+    {
+      "chunk_id": 13,
+      "text": "es (including Orthotweezers.class) are in d:\\Users\\jat\\orthotweezers, so in a command prompt, I do the following: cd \\Users\\jat java orthotweezers.Orthotweezers You can set up a Windows shortcut. In our case, there is a shortcut on the desktop where"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ur case, there is a shortcut on the desktop where the \"Start In\" directory is set to d:\\users\\jat and the \"Target\" is set to java orthotweezers.Orthotweezers . (If you are working on the source code within Forte, you can run the application by select"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ithin Forte, you can run the application by selecting menu item Project/Execute Project. Make sure that the main class for the project is set to Orthotweezers.) Ortho-tweezers Windows There are two main windows, the control box and the monitor. The c"
+    },
+    {
+      "chunk_id": 16,
+      "text": "in windows, the control box and the monitor. The control box has buttons to move the stage and the probes. It also has the menu which is described in the next section, \"Menu Items\". Also in the control box there are buttons for quick access which dup"
+    },
+    {
+      "chunk_id": 17,
+      "text": "l box there are buttons for quick access which duplicate the menu items for \"Add Frame To Script\", \"Run Script\" and \"Use Python Console\". The monitor window constantly displays the stage position, probe positions and tip forces. It also displays a gr"
+    },
+    {
+      "chunk_id": 18,
+      "text": "be positions and tip forces. It also displays a graphic of the probe positions and tip forces. The graphic shows a green \"cross hare\" where one green line is the grip axis which connects the two probe tips and the other green line is at right angles"
+    },
+    {
+      "chunk_id": 19,
+      "text": "tips and the other green line is at right angles to this. The tip forces are shown as red lines which extend perpendicularly from the tips (in the direction of the force). There is also a red line which extends from the center of the green crasher w"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ich extends from the center of the green crasher which is a composite of the two tip forces and represents the force balance. When a grip force is balanced, this red line should align with the green crasher line. Menu Items In addition to the control"
+    },
+    {
+      "chunk_id": 21,
+      "text": "rasher line. Menu Items In addition to the control box described above, the Ortho-tweezers system is controlled from the menu items described here. File menu: New Script , Open Script , Save Script , Save Script As . These are the typical menu items"
+    },
+    {
+      "chunk_id": 22,
+      "text": "Save Script As . These are the typical menu items to open and save an editor window. The script editor window contains the Python script used by the Run Script and Add Frame To Script menu items described below. Exit . This exits the application, pro"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ibed below. Exit . This exits the application, prompting you to save the script if necessary. Upon exit, the application turns off the heaters. If the probes have been moved during the session, this raises the probes to clear any obstacles and reset"
+    },
+    {
+      "chunk_id": 24,
+      "text": "aises the probes to clear any obstacles and reset the probe positions to zero (so that we know there is zero voltage on the piezoelectric actuators.) This also saves the preferences file which contains the current calibration of the strain gauges, th"
+    },
+    {
+      "chunk_id": 25,
+      "text": "s the current calibration of the strain gauges, the locations (see Set Location below) and the current script working directory. Script menu: Grasp Block . This runs Sweep Probe X To Contact and Sweep Probe Y To Contact and then the Grasp manipulatio"
+    },
+    {
+      "chunk_id": 26,
+      "text": "Probe Y To Contact and then the Grasp manipulation primitive. Then it lifts the object off the surface and uses Seek Z Axis Angle to rotate to 45 degrees. It assumes that the Z level is already correct to contact the side of the object. See the gras"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ct to contact the side of the object. See the grasp Java method for more details. Heater 1 On and Heater 1 Off . These turn on and off heater number one. Set Location . This provides a sub menu with items Set Location 0 , Set Location 1 and Set Locat"
+    },
+    {
+      "chunk_id": 28,
+      "text": "tems Set Location 0 , Set Location 1 and Set Location 2 which set location 0, 1 or 2 to the present stage location. If location names are defined, these are also shown. Locations are used in Python scripts. See the Python Console section below for mo"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ripts. See the Python Console section below for more details. Go To Location . This provides a sub menu with items Go To Location 0 , Go To Location 1 and Go To Location 2 which provide a Go To XYZ dialog box for location 0, 1 or 2. The initial value"
+    },
+    {
+      "chunk_id": 30,
+      "text": "alog box for location 0, 1 or 2. The initial values for X, Y and Z in the dialog box are for the location which you can modify if you wish. For example, you may want to keep the X and Y values of the location, but increase the Z value. If location na"
+    },
+    {
+      "chunk_id": 31,
+      "text": "location, but increase the Z value. If location names are defined, these are also shown. Locations are used in Python scripts. See the Python Console section below for more details. Use Python Console . This transfers control to the command line cons"
+    },
+    {
+      "chunk_id": 32,
+      "text": ". This transfers control to the command line console for you to type Python commands. This performs the same action as the Console button in the control box. See Python Console below for more details. Add Frame To Script . This appends a moveToXYZ a"
+    },
+    {
+      "chunk_id": 33,
+      "text": ". Add Frame To Script . This appends a moveToXYZ and a seekXYArmDeflection command to the end of the Python script in the script editor window representing the current positions of the stage and probes. This is useful to make a \"key frame\" script. Yo"
+    },
+    {
+      "chunk_id": 34,
+      "text": "s. This is useful to make a \"key frame\" script. You can move to a certain position, click Add Frame To Script, move to the next position and click again, etc. When you run the script, the system will move from each position to the next. Run Script ."
+    },
+    {
+      "chunk_id": 35,
+      "text": "move from each position to the next. Run Script . Run the script which is in the Python script editor window. You should click Run in the Run Script dialog box. When the script has finished, you may click Run to run it again or Close to return to the"
+    },
+    {
+      "chunk_id": 36,
+      "text": "lick Run to run it again or Close to return to the application. You may click Cancel at any time to cancel the operation. The script may command the system to perform some actions. Or more often, the script may define several functions which you can"
+    },
+    {
+      "chunk_id": 37,
+      "text": "script may define several functions which you can call from the Python Console. See the Python Console section below. Stage menu: Go To XYZ . Presents the Go To XYZ dialog box where the initial values contain the current X, Y, Z coordinates in millim"
+    },
+    {
+      "chunk_id": 38,
+      "text": "contain the current X, Y, Z coordinates in millimeters. You may modify the coordinates and click Go To. You may Cancel the operation at any time. This menu item performs the same function as the Go button in the control box in the middle of the stag"
+    },
+    {
+      "chunk_id": 39,
+      "text": "utton in the control box in the middle of the stage control buttons. Reset XY and Reset Z . Reset XY makes the present position of the stage zero for the X and Y coordinates. Reset Z makes the present position zero for the Z coordinate. These are use"
+    },
+    {
+      "chunk_id": 40,
+      "text": "position zero for the Z coordinate. These are useful for defining the coordinate system. For example, you may want to move to the surface and use Reset Z to make the Z value zero. Seek Z Surface . This decreases the Z value until probe X detects the"
+    },
+    {
+      "chunk_id": 41,
+      "text": "is decreases the Z value until probe X detects the surface and then stops. If it moves 2 millimeters without detecting the surface, it also stops. See the Seek Z Surface Java method for more details. Tweezers menu: Calibrate : This calibrates the str"
+    },
+    {
+      "chunk_id": 42,
+      "text": "Tweezers menu: Calibrate : This calibrates the strain errors and scaling factors for the probe arms and tips. Before using Calibrate, you should manually use Reset Arm Offsets (immediately below) to set the zero positions for the probe deflections. A"
+    },
+    {
+      "chunk_id": 43,
+      "text": "et the zero positions for the probe deflections. Although the arm and tip zero offsets (described immediately below) should be performed frequently, this Calibration routine should be performed once a day. The arm scaling factor calibration is perfor"
+    },
+    {
+      "chunk_id": 44,
+      "text": "day. The arm scaling factor calibration is performed against a static barrier on the surface, such as a block which will not slide on the surface. Before selecting Calibrate, the probes must be positioned so that if probe X moves to the left, or pro"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ioned so that if probe X moves to the left, or probe Y is moved downward, it will contact the block. Calibrate first gathers statistics on strain gauge readings to characterize the error range. This takes a few seconds. Then it calibrates the scaling"
+    },
+    {
+      "chunk_id": 46,
+      "text": "akes a few seconds. Then it calibrates the scaling factor for the arm deflection. To do this, it moves the stage until the barrier contacts the probe, then it uses the stage to move the barrier a known distance away, then deflects the arm until it co"
+    },
+    {
+      "chunk_id": 47,
+      "text": "n distance away, then deflects the arm until it contacts the barrier again, thus determining the scaling factor between the arm strain gauge deflection reading and the known distance. Likewise, to calibrate the tip scaling factor, it moves one probe"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ibrate the tip scaling factor, it moves one probe tip until it is touching the other. Then it moves the probe arm a known distance and reads the resulting tip deflection which is now calibrated to the known distance. Reset Arm Offsets : First use the"
+    },
+    {
+      "chunk_id": 49,
+      "text": "known distance. Reset Arm Offsets : First use the probe controls in the control box place the probe tips so they just touch at the tips. Then select Reset Arm Offsets. The arm deflection for both probes now reads zero. You should perform this proced"
+    },
+    {
+      "chunk_id": 50,
+      "text": "bes now reads zero. You should perform this procedure often since the strain gauges can drift with time and temperature changes. Reset Tip Offsets : First use the probe controls in the control box to separate the probe tips so that they are not touch"
+    },
+    {
+      "chunk_id": 51,
+      "text": "separate the probe tips so that they are not touching anything. Then select Reset Tip Offsets. The tip deflection and force for both probes now reads zero. This is especially important for manipulation primitives such as Decrease Probe X To Contact s"
+    },
+    {
+      "chunk_id": 52,
+      "text": "n primitives such as Decrease Probe X To Contact since contact is defined as a small deviation of the tip force from zero. (If the tip offset is not properly zeroized then it will think it is in contact when it is not.) Note that at any point in your"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ct when it is not.) Note that at any point in your Python script when you know that the probes tips are not touching anything, you should call resetTipStrains() . Go To Deflection : Presents the Go To Probes dialog box where the initial values contai"
+    },
+    {
+      "chunk_id": 54,
+      "text": "Probes dialog box where the initial values contain the current probe X and probe Y deflections in millimeters. You may modify the values and click Go To. You may Cancel the operation at any time. This menu item performs the same function as the Go b"
+    },
+    {
+      "chunk_id": 55,
+      "text": "s menu item performs the same function as the Go button in the control box next to the probe control buttons. Increase Probe X To Contact , Decrease Probe X To Contact , Increase Probe Y To Contact and Decrease Probe Y To Contact : These perform the"
+    },
+    {
+      "chunk_id": 56,
+      "text": "d Decrease Probe Y To Contact : These perform the functions of the same name described in the OrthoTweezersTools page. For example, Decrease Probe X To Contact will move probe X to the left until it contacts an object. This may be useful when setting"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ontacts an object. This may be useful when setting up to grasp an object. Python Console When you select Use Python Console or Run Script, the application invokes the Python Console. For an introduction to Python, see the Python Tutorial . Accessing"
+    },
+    {
+      "chunk_id": 58,
+      "text": "on to Python, see the Python Tutorial . Accessing Ortho-tweezers manipulation functions There are two ways to access the ortho-tweezers functions from Python: The global Python variable control points to the application's OrthoTweezersControl object"
+    },
+    {
+      "chunk_id": 59,
+      "text": "to the application's OrthoTweezersControl object and tools points to the application's OrthoTweezersTools object. This means you can access every method listed in the javadoc pages for OrthoTweezersControl and OrthoTweezersTools . For example, you c"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ontrol and OrthoTweezersTools . For example, you can place control.moveToXY(.1, .2) in your Python script to move to position (.1, .2). Better yet, when invoking the Python console, the application creates easy access functions so that you don't have"
+    },
+    {
+      "chunk_id": 61,
+      "text": "eates easy access functions so that you don't have to type control. or tools. (and you don't have to remember whether the function you want is in control or tools.) For example, you can just type moveToXY(.1, .2) . In general, you should use the easy"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ToXY(.1, .2) . In general, you should use the easy access functions. I only mention the first method because in rare cases you may want to access an obscure methods for which there is not an easy access function, such as control.calibrateStrainErrors"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ss function, such as control.calibrateStrainErrors() . Locations The menu items Set Location and Get Location above described the location variables which the Ortho-Tweezers application maintains. These location points are saved in the preferences fi"
+    },
+    {
+      "chunk_id": 64,
+      "text": "se location points are saved in the preferences file so that they are available each time you run the application. The Python variable MAX_LOCATIONS gives the number of location points available (currently 10) and the function location(n) returns loc"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ently 10) and the function location(n) returns location number n, where n ranges from 0 to MAX_LOCATIONS-1. Note that the type of a location is Point3d . See the description on the javax.vecmath.Point3d page. Basically, you access the x, y and z memb"
+    },
+    {
+      "chunk_id": 66,
+      "text": "3d page. Basically, you access the x, y and z members. For example, moveToXY(location(0).x, location(0).y) will move to the X,Y coordinates in location(0). Because Point3d is a real class, you can also use all the useful methods like add, scale, dist"
+    },
+    {
+      "chunk_id": 67,
+      "text": "o use all the useful methods like add, scale, distance, etc. Note that Point3d is also used by stagePoint and moveToPoint . Although not used in any of the functions, each location can also have a name associated with it. These names appear in the me"
+    },
+    {
+      "chunk_id": 68,
+      "text": "e associated with it. These names appear in the menu and serve as reminders of what the point is for. You can set and get these names with the python array locationNames . For example, in the console you can type locationNames[0]=\"pallet\" to remind t"
+    },
+    {
+      "chunk_id": 69,
+      "text": "you can type locationNames[0]=\"pallet\" to remind the user that location zero is used for the pallet. Using the Data Capture File From a script, you can use the functions openCapture, startCapture, captureComment, stopCapture and closeCapture to captu"
+    },
+    {
+      "chunk_id": 70,
+      "text": "tureComment, stopCapture and closeCapture to capture the stage position, probe position and force data to a log file. See the description in the OrthoTweezersMonitor page. For example, to open a capture file and capture the data every 100 millisecond"
+    },
+    {
+      "chunk_id": 71,
+      "text": "re file and capture the data every 100 milliseconds, use the following Python commands: openCapture (\"c:\\\\mydata\\\\capture.txt\", 0) startCapture (100) The data in the capture file is tab delimited and you can read it into a spreadsheet or Matlab file."
+    },
+    {
+      "chunk_id": 72,
+      "text": "you can read it into a spreadsheet or Matlab file. Imports For your convenience, when the Python console is started, the following commands are executed: from javax.vecmath import * from math import * This way, your Python scripts can include math fu"
+    },
+    {
+      "chunk_id": 73,
+      "text": "This way, your Python scripts can include math functions such as cos() . Note that the constant pi is also defined. Source Code and Programmer's Guide Compiling Ortho-tweezers To compile Ortho-tweezers, you must first have the Java software developm"
+    },
+    {
+      "chunk_id": 74,
+      "text": "rs, you must first have the Java software development kit installed which you can get from the Sun Java SDK site . Ortho-tweezers is written with the Forte for Java development environment. The source code is distributed in the file orthotweezers.zip"
+    },
+    {
+      "chunk_id": 75,
+      "text": "code is distributed in the file orthotweezers.zip . The zip file includes the .java files as well as .form files used by Forte. (On the development Windows workstation in 333 Cory, the source code is in D:\\Users\\jat\\orthotweezers.) Every class in Ja"
+    },
+    {
+      "chunk_id": 76,
+      "text": "in D:\\Users\\jat\\orthotweezers.) Every class in Java belongs to a package. In this case, each class is in the orthotweezers package. Strictly speaking, you are supposed to pick a globally unique package name which by convention is based on a domain n"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ge name which by convention is based on a domain name you control. In this case, perhaps the package should be \"edu.berkeley.eecs.robotics.orthotweezers\". But right now, the package is just orthotweezers. In addition to the Ortho-Tweezers source code"
+    },
+    {
+      "chunk_id": 78,
+      "text": "ers. In addition to the Ortho-Tweezers source code, you need three jar files as follows: jython.jar - This contains the Jython classes which interface Python to Java. If needed, you can download it from the Jython web site . vecmath.jar - This contai"
+    },
+    {
+      "chunk_id": 79,
+      "text": "om the Jython web site . vecmath.jar - This contains the javax.vecmath classes such as Point3d which are used by OrthoTweezersTools. vecmath.jar is distributed as part of Java 3D and can be downloaded from the Java 3D web site . portio.jar - This con"
+    },
+    {
+      "chunk_id": 80,
+      "text": "from the Java 3D web site . portio.jar - This contains the class dk.eos.io.port.IOPort which provides the interface to the I/O bus which is used by AdvantechPCL711B and AdvantechPCL726 to communicate with the analog and digital I/O boards. It can be"
+    },
+    {
+      "chunk_id": 81,
+      "text": "with the analog and digital I/O boards. It can be downloaded from the eos.dk PortIO site . These jar files belong in the extensions directory of the Java runtime environment. For example, on the development workstation these are in C:\\jdk1.3\\jre\\lib"
+    },
+    {
+      "chunk_id": 82,
+      "text": "lopment workstation these are in C:\\jdk1.3\\jre\\lib\\ext. To compile, in Forte you can create a project called OrthoTweezers and add all the .java files provided in the source distribution. When compiling, Forte should find all the needed classes from"
+    },
+    {
+      "chunk_id": 83,
+      "text": "ng, Forte should find all the needed classes from the jar files because they are in the extensions directory for the runtime environment which Forte is using. Tour of Source Files The majority of the documentation is in the source files (where it is"
+    },
+    {
+      "chunk_id": 84,
+      "text": "documentation is in the source files (where it is easier to update when the source code changes) in comment blocks which generate the javadoc documentation . The javadoc documentation in this web page is only a snapshot of the Ortho-tweezers code. To"
+    },
+    {
+      "chunk_id": 85,
+      "text": "is only a snapshot of the Ortho-tweezers code. To recompile the javadoc files in Forte, go to the file explorer, right click on the orthotweezers folder containing the source code and select Tools/Generate Javadoc. As a tour of the Ortho-tweezers co"
+    },
+    {
+      "chunk_id": 86,
+      "text": "nerate Javadoc. As a tour of the Ortho-tweezers code and as an overview of what all the class files do, here is a record of how I added a digital output to the system to implement the Heater On/Off primitive. The source code now contains the statemen"
+    },
+    {
+      "chunk_id": 87,
+      "text": "imitive. The source code now contains the statements I added. We start with the lowest level classes and work up to the user interface. AdvantechPCL711B.java - This is the interface to the I/O board which has the digital inputs and outputs as well as"
+    },
+    {
+      "chunk_id": 88,
+      "text": "hich has the digital inputs and outputs as well as the 12 bit A/D converter which we use to read the gauges. To add our Heater On/Off primitive, we do not have to modify this file. Just note that when the class is created, it sets all digital outputs"
+    },
+    {
+      "chunk_id": 89,
+      "text": "the class is created, it sets all digital outputs to one. This is because most outputs, like the stepper motor control are active low. AdvantechPCL726.java - This is the interface the the D/A analog output used to control the piezoelectric actuators"
+    },
+    {
+      "chunk_id": 90,
+      "text": "output used to control the piezoelectric actuators. We do not have to modify this to implement the Heater On/Off primitive. OrthoTweezersControl.java - This class interfaces with all the hardware. Among other things, it creates member _motorAndGauge"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ong other things, it creates member _motorAndGauges of type AdvantechPCL711B which contains the digital outputs we want to use. At the bottom of the file there are sections of defined constants labelled \"bit masks for _motorAndGauges digital output 0"
+    },
+    {
+      "chunk_id": 92,
+      "text": "ed \"bit masks for _motorAndGauges digital output 0\" and \"bit masks for _motorAndGauges digital output 1\". We assign the relay which controls the heater to digital output 1, so I added the following code: private final static int RELAY_1 = 0x20; We al"
+    },
+    {
+      "chunk_id": 93,
+      "text": "de: private final static int RELAY_1 = 0x20; We also want to track the state of the relay, so I added a class member: private boolean _relay1State; To turn the relay on and off I added relay1On(), relay1Off() and relay1State(). See the source code f"
+    },
+    {
+      "chunk_id": 94,
+      "text": "ay1Off() and relay1State(). See the source code for details and comments. As mentioned, in the OrthoTweezersControl constructor, when _motorAndGauges is created all the digital outputs are set to one, but we want RELAY_1 to be zero, so in the constr"
+    },
+    {
+      "chunk_id": 95,
+      "text": ", but we want RELAY_1 to be zero, so in the constructor we add: relay1Off (); Likewise, the reset() method is called when the application exits, and we want to ensure that the relay is off, so we add the following to reset(): _motorAndGauges.out1Clea"
+    },
+    {
+      "chunk_id": 96,
+      "text": "the following to reset(): _motorAndGauges.out1ClearBits (RELAY_1); OrthoTweezersTools.java - This class builds on OrthoTweezersControl to add more useful tools. The constructor takes a pointer to the OrthoTweezersControl object and stores it as _cont"
+    },
+    {
+      "chunk_id": 97,
+      "text": "OrthoTweezersControl object and stores it as _control for later reference. OrthoTweezersControl now gives us access to the relays on the relay board, but we want to assign some of the relays to a heater. We will put heater 1 on relay 1, and we antici"
+    },
+    {
+      "chunk_id": 98,
+      "text": "er. We will put heater 1 on relay 1, and we anticipate adding more heaters later, so we design the heater control methods to take a parameter heaterNumber to specify the relay. Here is the code I added for heaterOn(): public void heaterOn (int heater"
+    },
+    {
+      "chunk_id": 99,
+      "text": "d for heaterOn(): public void heaterOn (int heaterNumber) { if (heaterNumber == 1) _control.relayOn(); Likewise I added heaterOff() and heaterState(). See the source code for details and comments. OrthoTweezersMonitor.java - This class displays the d"
+    },
+    {
+      "chunk_id": 100,
+      "text": "hoTweezersMonitor.java - This class displays the dialog box which shows the positions of the stage and probes, and also handles writing to the capture file. We want to add a component to the display which shows the state of heater 1. To modify a grap"
+    },
+    {
+      "chunk_id": 101,
+      "text": "hich shows the state of heater 1. To modify a graphical element like the dialog box, be sure to open OrthoTweezersMonitor under the \"GUI Editing\" tab in Forte. It shows the Form for OrthoTweezersMonitor. In the toolbar, I click on the Swing tab and t"
+    },
+    {
+      "chunk_id": 102,
+      "text": "or. In the toolbar, I click on the Swing tab and then on the button for adding a JLabel. Now I click in the Form where I want the label. In the Component Inspector window, I click on this newly added JLabel and rename it to _heater1State. This form a"
+    },
+    {
+      "chunk_id": 103,
+      "text": "JLabel and rename it to _heater1State. This form already has a timer configured which periodically calls monitorOnTime(). We need to add code to this method to display the state of the heater. Inside the if (doDisplay) block I add: _heater1State.setT"
+    },
+    {
+      "chunk_id": 104,
+      "text": "the if (doDisplay) block I add: _heater1State.setText (_tools.heaterState(1) ? \"Heater 1 ON\" : \"Heater 1 OFF\"); OrthoTweezers.java - This is the main class which creates OrthoTweezersControl, OrthoTweezersTools and OrthoTweezersMonitor and presents t"
+    },
+    {
+      "chunk_id": 105,
+      "text": "ezersTools and OrthoTweezersMonitor and presents the dialog box with the main menu and controls for the stage and probes. We want to add a menu item to control heater 1. Again, while under the \"GUI Editing\" tab, we open the OrthoTweezers class. In th"
+    },
+    {
+      "chunk_id": 106,
+      "text": "iting\" tab, we open the OrthoTweezers class. In the Component Inspector window, under Non-visual Components, under jMenuBar1, I right-click on menuScript and select New JMenuItem. I rename the newly added item to menuScriptHeater1On. In the list of p"
+    },
+    {
+      "chunk_id": 107,
+      "text": "dded item to menuScriptHeater1On. In the list of properties for this item, I set text to \"Heater 1 On\". I click on the Events tab and click on the value for actionPerformed. It offers the default method name menuScriptHeater1OnActionPerformed which I"
+    },
+    {
+      "chunk_id": 108,
+      "text": "od name menuScriptHeater1OnActionPerformed which I accept. Now Forte has added a method in the source code with this name, so in the body of the method I write: _tools.heaterOn(1); I follow a similar procedure to add a menu item heater1Off which turn"
+    },
+    {
+      "chunk_id": 109,
+      "text": "procedure to add a menu item heater1Off which turns heater number 1 off. We also want access to heater 1 from Python scripts. The OrthoTweezers class has a method establishConsole() which is called the first time a user runs a Python script or opens"
+    },
+    {
+      "chunk_id": 110,
+      "text": "e first time a user runs a Python script or opens the Python console. Among other things, this method calls _console.set (\"tools\", _tools) to give the Python variable \"tools\" access to the OrthoTweezersTools object. Thus, it is possible in a Python s"
+    },
+    {
+      "chunk_id": 111,
+      "text": "rsTools object. Thus, it is possible in a Python script to call \" tools.heaterOn(1) \". But it is easier to have direct access functions, so we define these in establishConsole() in the section labelled \"Set up easy access functions for tools\", to whi"
+    },
+    {
+      "chunk_id": 112,
+      "text": "d \"Set up easy access functions for tools\", to which I added (alphabetically): _console.exec (\"def heaterOff(heaterNumber):\\n tools.heaterOff(heaterNumber)\"); _console.exec (\"def heaterOn(heaterNumber):\\n tools.heaterOn(heaterNumber)\"); _console.exec"
+    },
+    {
+      "chunk_id": 113,
+      "text": "):\\n tools.heaterOn(heaterNumber)\"); _console.exec (\"def heaterState(heaterNumber):\\n return tools.heaterState(heaterNumber)\"); This completes the process of adding an interface to the heater. back to Ortho-tweezers main page"
+    }
+  ]
+}

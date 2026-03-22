@@ -1,0 +1,233 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/actor/lib/Source.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Source JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method ptolem"
+    },
+    {
+      "chunk_id": 2,
+      "text": "tr | Method Detail: Field | Constr | Method ptolemy.actor.lib Class Source java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity <T> ptolemy.kernel.ComponentEntity <T> ptolemy.actor.AtomicActor < Type"
+    },
+    {
+      "chunk_id": 3,
+      "text": "mponentEntity <T> ptolemy.actor.AtomicActor < TypedIOPort > ptolemy.actor.TypedAtomicActor ptolemy.actor.lib.Source All Implemented Interfaces: java.lang.Cloneable, Actor , Executable , FiringsRecordable , Initializable , TypedActor , Changeable , De"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ble , Initializable , TypedActor , Changeable , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: AudioReader , CSPSource , DatabaseQuery , DatabaseSelect , Dummy"
+    },
+    {
+      "chunk_id": 5,
+      "text": "CSPSource , DatabaseQuery , DatabaseSelect , DummySource , EventButton , GetCausalityInterface , HadamardCode , ImageReader , ImageSequence , JAIConstant , JAIImageReader , JopReadPort , JopSerialRead , LimitedFiringSource , LineReader , ModelGenerat"
+    },
+    {
+      "chunk_id": 6,
+      "text": ", LimitedFiringSource , LineReader , ModelGenerator , MovieReader , PGMReader , PullConsumer , PushConsumer , RandomSource , RandomSource , Reader , SecretKey , SliderSource , SplitReader , SQLStatement , StreamLoader , TaskReceiver , TimedSource ,"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ent , StreamLoader , TaskReceiver , TimedSource , Undefined , URLReader , VideoCamera , WallClockTime public abstract class Source extends TypedAtomicActor Base for simple data sources. This provides an output port and a trigger input port, both ex"
+    },
+    {
+      "chunk_id": 8,
+      "text": "an output port and a trigger input port, both exposed as public variables. The trigger port is a multiport with undeclared type, meaning that you can supply it with any data type. The trigger port can also be left unconnected. The purpose of t"
+    },
+    {
+      "chunk_id": 9,
+      "text": "t can also be left unconnected. The purpose of the trigger input is to (optionally) supply events that cause the actor to fire. If the port is connected to something, then this actor will check it for a token and return false from prefire() if"
+    },
+    {
+      "chunk_id": 10,
+      "text": "t for a token and return false from prefire() if there is no token. each channel of the trigger input, if any, and then discards the token. Some derived classes may attach additional significance to an input on the trigger port. For example, they"
+    },
+    {
+      "chunk_id": 11,
+      "text": "o an input on the trigger port. For example, they might fix the type and attach some significance to the value. Note that it is not recommend to use getWidth() on the port to determine whether the port is connected, since the width may be greate"
+    },
+    {
+      "chunk_id": 12,
+      "text": "port is connected, since the width may be greater than zero even if there is no actual source of data. This can occur, for example, if a trigger port is connected to the inside of a port of an opaque composite actor, and there is nothing connec"
+    },
+    {
+      "chunk_id": 13,
+      "text": "aque composite actor, and there is nothing connected to the outside of that port. It is not recommended to make the behavior of an actor dependent on a global property such as whether there is ultimately a source of data. Any type of data on is ac"
+    },
+    {
+      "chunk_id": 14,
+      "text": "mately a source of data. Any type of data on is accepted on the trigger port, therefore no type is declared. Instead, the type resolution algorithm finds the least fixed point. If backward type inference is enabled, and no type has been declared f"
+    },
+    {
+      "chunk_id": 15,
+      "text": "rence is enabled, and no type has been declared for the trigger, it is constrained to be equal to BaseType.GENERAL . This will result in upstream ports resolving to the most general type rather than the most specific. Since: Ptolemy II 0.3 Version"
+    },
+    {
+      "chunk_id": 16,
+      "text": "n the most specific. Since: Ptolemy II 0.3 Version: $Id$ Author: Edward A. Lee Pt.AcceptedRating: Green (bilung) Pt.ProposedRating: Green (eal) Nested Class Summary Nested classes/interfaces inherited from class ptolemy.kernel. Entity Entity.Containe"
+    },
+    {
+      "chunk_id": 17,
+      "text": "from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary Fields Modifier and Type Field and Description protected boolean _triggered Indicator of whether trigger inputs have arrived since the last output. TypedIOPort output"
+    },
+    {
+      "chunk_id": 18,
+      "text": "rived since the last output. TypedIOPort output The output port. TypedIOPort trigger The trigger port. Fields inherited from class ptolemy.actor. TypedAtomicActor _typesValid Fields inherited from class ptolemy.actor. AtomicActor _actorFiringListen"
+    },
+    {
+      "chunk_id": 20,
+      "text": "k , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. E"
+    },
+    {
+      "chunk_id": 21,
+      "text": "S Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary Constructors Constructor and Description Source ( CompositeEntity container, java.lang.String name) Construct an actor with t"
+    },
+    {
+      "chunk_id": 22,
+      "text": "java.lang.String name) Construct an actor with the given container and name. Method Summary All Methods Instance Methods Concrete Methods Modifier and Type Method and Description protected java.util.Set< Inequality > _customTypeConstraints () Set t"
+    },
+    {
+      "chunk_id": 23,
+      "text": ".Set< Inequality > _customTypeConstraints () Set the input port greater than or equal to BaseType.GENERAL in case backward type inference is enabled and the input port has no type declared. void fire () Read at most one input token from each channe"
+    },
+    {
+      "chunk_id": 24,
+      "text": "e () Read at most one input token from each channel of the trigger input and discard it. boolean prefire () If the trigger input is connected and it has no input or an unknown state, then return false. Methods inherited from class ptolemy.actor."
+    },
+    {
+      "chunk_id": 25,
+      "text": "alse. Methods inherited from class ptolemy.actor. TypedAtomicActor _containedTypeConstraints , _defaultTypeConstraints , _fireAt , _fireAt , attributeTypeChanged , clone , clone , isBackwardTypeInferenceEnabled , newPort , typeConstraintList , typeCo"
+    },
+    {
+      "chunk_id": 26,
+      "text": "nceEnabled , newPort , typeConstraintList , typeConstraints Methods inherited from class ptolemy.actor. AtomicActor _actorFiring , _actorFiring , _declareDelayDependency , addActorFiringListener , addInitializable , connectionsChanged , createReceive"
+    },
+    {
+      "chunk_id": 27,
+      "text": "Initializable , connectionsChanged , createReceivers , declareDelayDependency , getCausalityInterface , getDirector , getExecutiveDirector , getManager , initialize , inputPortList , isFireFunctional , isStrict , iterate , newReceiver , outputPortLis"
+    },
+    {
+      "chunk_id": 28,
+      "text": ", isStrict , iterate , newReceiver , outputPortList , postfire , preinitialize , pruneDependencies , recordFiring , removeActorFiringListener , removeDependency , removeInitializable , setContainer , stop , stopFire , terminate , wrapup Methods inher"
+    },
+    {
+      "chunk_id": 29,
+      "text": "stop , stopFire , terminate , wrapup Methods inherited from class ptolemy.kernel. ComponentEntity _adjustDeferrals , _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , isAtomic , isOpaque , moveDown , moveToFir"
+    },
+    {
+      "chunk_id": 30,
+      "text": "tiate , isAtomic , isOpaque , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _addPort , _description , _exportMoMLContents , _removePort , _validateSettabl"
+    },
+    {
+      "chunk_id": 31,
+      "text": "xportMoMLContents , _removePort , _validateSettables , connectedPortList , connectedPorts , containedObjectsIterator , getAttribute , getPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition , uniqueN"
+    },
+    {
+      "chunk_id": 32,
+      "text": "st , removeAllPorts , setClassDefinition , uniqueName Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition , isWithinClassDefinitio"
+    },
+    {
+      "chunk_id": 33,
+      "text": "eList , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _containedDecorators , _copyChangeRequestList , _debug , _debug"
+    },
+    {
+      "chunk_id": 34,
+      "text": "rators , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _prop"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ge , _notifyHierarchyListenersBeforeChange , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , addHierarchyListener , attributeChanged , attributeDeleted , attributeList , attributeList , d"
+    },
+    {
+      "chunk_id": 36,
+      "text": "tributeDeleted , attributeList , attributeList , decorators , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttrib"
+    },
+    {
+      "chunk_id": 37,
+      "text": "tMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName ,"
+    },
+    {
+      "chunk_id": 38,
+      "text": "lName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateValue , propagateValues , removeAttribu"
+    },
+    {
+      "chunk_id": 39,
+      "text": ", propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPer"
+    },
+    {
+      "chunk_id": 40,
+      "text": "l , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll,"
+    },
+    {
+      "chunk_id": 41,
+      "text": "finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor createReceivers , getCausalityInterface , getDirector , getExecutiveDirector , getManager , inputPortList , newReceiver , outputP"
+    },
+    {
+      "chunk_id": 42,
+      "text": "getManager , inputPortList , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable isFireFunctional , isStrict , iterate , postfire , stop , stopFire , terminate Methods inherited from interface ptolemy.actor. Initia"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ods inherited from interface ptolemy.actor. Initializable addInitializable , initialize , preinitialize , removeInitializable , wrapup Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFul"
+    },
+    {
+      "chunk_id": 44,
+      "text": "scription , getContainer , getDisplayName , getFullName , getName , getName , setName Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Field Detail output public TypedIOPort output The"
+    },
+    {
+      "chunk_id": 45,
+      "text": "Field Detail output public TypedIOPort output The output port. The type of this port is unspecified. Derived classes may set it. trigger public TypedIOPort trigger The trigger port. The type of this port is undeclared, meaning that it will reso"
+    },
+    {
+      "chunk_id": 46,
+      "text": "is port is undeclared, meaning that it will resolve to any data type. _triggered protected transient boolean _triggered Indicator of whether trigger inputs have arrived since the last output. Constructor Detail Source public Source( CompositeEnti"
+    },
+    {
+      "chunk_id": 47,
+      "text": "tructor Detail Source public Source( CompositeEntity container, java.lang.String name) throws NameDuplicationException , IllegalActionException Construct an actor with the given container and name. The output and trigger ports"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ontainer and name. The output and trigger ports are also constructed. Parameters: container - The container. name - The name of this actor. Throws: IllegalActionException - If the entity cannot be contained by the proposed container. NameDuplica"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ontained by the proposed container. NameDuplicationException - If the container already has an actor with this name. Method Detail fire public void fire() throws IllegalActionException Read at most one input token from each channel of"
+    },
+    {
+      "chunk_id": 50,
+      "text": "Read at most one input token from each channel of the trigger input and discard it. If the trigger input is not connected or has no actual sources (it might be connected to other inputs, for example, or to an unconnected input port at a hig"
+    },
+    {
+      "chunk_id": 51,
+      "text": "xample, or to an unconnected input port at a higher level in the hierarchy) then this method does nothing. Derived classes should be sure to call super.fire(), or to consume the trigger input tokens themselves, so that they aren't left uncon"
+    },
+    {
+      "chunk_id": 52,
+      "text": "tokens themselves, so that they aren't left unconsumed. Specified by: fire in interface Executable Overrides: fire in class AtomicActor < TypedIOPort > Throws: IllegalActionException - Not thrown in this base class. prefire public boolean prefire()"
+    },
+    {
+      "chunk_id": 53,
+      "text": "this base class. prefire public boolean prefire() throws IllegalActionException If the trigger input is connected and it has no input or an unknown state, then return false. Otherwise, return true. Specified by: prefire in interface"
+    },
+    {
+      "chunk_id": 54,
+      "text": "e, return true. Specified by: prefire in interface Executable Overrides: prefire in class AtomicActor < TypedIOPort > Returns: True, unless the trigger input is connected and has no input. Throws: IllegalActionException - If checking the trigger f"
+    },
+    {
+      "chunk_id": 55,
+      "text": "IllegalActionException - If checking the trigger for a token throws it or if the super class throws it. _customTypeConstraints protected java.util.Set< Inequality > _customTypeConstraints() Set the input port greater than or equal to BaseType.GENE"
+    },
+    {
+      "chunk_id": 56,
+      "text": "input port greater than or equal to BaseType.GENERAL in case backward type inference is enabled and the input port has no type declared. Overrides: _customTypeConstraints in class TypedAtomicActor Returns: A set of inequalities. Skip navigation li"
+    },
+    {
+      "chunk_id": 57,
+      "text": "Returns: A set of inequalities. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ail: Field | Constr | Method"
+    }
+  ]
+}

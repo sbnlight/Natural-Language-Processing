@@ -1,0 +1,129 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/domains/csp/kernel/MultiwayBranchController.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "MultiwayBranchController Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.domains.csp.kernel Class MultiwayBranchCon"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ptolemy.domains.csp.kernel Class MultiwayBranchController java.lang.Object ptolemy.domains.csp.kernel.AbstractBranchController ptolemy.domains.csp.kernel.MultiwayBranchController All Implemented Interfaces: Debuggable public class MultiwayBranchContr"
+    },
+    {
+      "chunk_id": 3,
+      "text": "faces: Debuggable public class MultiwayBranchController extends AbstractBranchController implements Debuggable This controller manages branches for performing multiway rendezvous within the CSP (Communication Sequential Processes) domain. Any CSP a"
+    },
+    {
+      "chunk_id": 4,
+      "text": "unication Sequential Processes) domain. Any CSP actors (either atomic or composite) that multiway rendezvous should contain an instance of this class. In addition, they also needs to implement the BranchActor interface. The multiway branches are"
+    },
+    {
+      "chunk_id": 5,
+      "text": "BranchActor interface. The multiway branches are created within the parent actor that contains this controller. The executeBranches() method takes those branches (an array) as an argument, and returns when every branch is successful. A successful"
+    },
+    {
+      "chunk_id": 6,
+      "text": "urns when every branch is successful. A successful branch is a branch that succeeds with its communication. Only branches whose guards are true are enabled . If no branch is enabled, i.e. if all the guards are false, then executeBranches() return"
+    },
+    {
+      "chunk_id": 7,
+      "text": "he guards are false, then executeBranches() returns immediately. If exactly one branch is enabled, then the corresponding communication is an ordinary rendezvous. If more than one branch is enabled, a separate thread is created and started for ea"
+    },
+    {
+      "chunk_id": 8,
+      "text": ", a separate thread is created and started for each enabled branch. The executeBranches() method then waits for all of the branches to succeed. When the last branch thread has finished, the method returns, allowing the parent actor thread to cont"
+    },
+    {
+      "chunk_id": 9,
+      "text": "returns, allowing the parent actor thread to continue. Since: Ptolemy II 5.2 Version: $Id: MultiwayBranchController.java,v 1.17 2006/03/30 16:35:46 cxh Exp $ Author: Edward A. Lee See Also: ConditionalBranch , BranchActor , ConditionalReceive , Cond"
+    },
+    {
+      "chunk_id": 10,
+      "text": "alBranch , BranchActor , ConditionalReceive , ConditionalSend Accepted Rating: Red (bilung) Proposed Rating: Yellow (eal) Field Summary Fields inherited from class ptolemy.domains.csp.kernel. AbstractBranchController _branches , _branchesActive , _de"
+    },
+    {
+      "chunk_id": 11,
+      "text": "BranchController _branches , _branchesActive , _debugging , _threadList Constructor Summary MultiwayBranchController ( Actor container) Construct a controller in the specified container, which should be an actor that implements BranchActor. Method"
+    },
+    {
+      "chunk_id": 12,
+      "text": "be an actor that implements BranchActor. Method Summary protected void _branchFailed (int branchNumber) Register the calling branch as failed. protected void _branchNotReady (int branchNumber) Indicate that the branch is not ready to rendezvous."
+    },
+    {
+      "chunk_id": 13,
+      "text": "icate that the branch is not ready to rendezvous. protected void _branchSucceeded (int branchID) Register the calling branch as a successful branch. protected boolean _isBranchReady (int branchNumber) Return true if all branches under the control o"
+    },
+    {
+      "chunk_id": 14,
+      "text": "r) Return true if all branches under the control of this controller are ready. boolean executeBranches ( ConditionalBranch [] branches) Execute a multiway rendezvous using the specified branches. Methods inherited from class ptolemy.domains.csp.ker"
+    },
+    {
+      "chunk_id": 15,
+      "text": "thods inherited from class ptolemy.domains.csp.kernel. AbstractBranchController _branchBlocked , _branchUnblocked , _debug , _getDirector , addDebugListener , getParent , removeDebugListener , terminate Methods inherited from class java.lang.Object c"
+    },
+    {
+      "chunk_id": 16,
+      "text": "te Methods inherited from class java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait Methods inherited from interface ptolemy.kernel.util. Debuggable addDebugListener , removeDebugListener Constr"
+    },
+    {
+      "chunk_id": 17,
+      "text": "able addDebugListener , removeDebugListener Constructor Detail MultiwayBranchController public MultiwayBranchController ( Actor container) Construct a controller in the specified container, which should be an actor that implements BranchActor. Para"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ld be an actor that implements BranchActor. Parameters: container - The parent actor that contains this object. Method Detail executeBranches public boolean executeBranches ( ConditionalBranch [] branches) throws IllegalActi"
+    },
+    {
+      "chunk_id": 19,
+      "text": "anches) throws IllegalActionException Execute a multiway rendezvous using the specified branches. If the guard for any branch is false, then that branch is not enabled and it is ignored. If no branch is enabled, then thi"
+    },
+    {
+      "chunk_id": 20,
+      "text": "it is ignored. If no branch is enabled, then this method returns immediately. Otherwise, it does not return until either all the branches are terminated or all have successfully completed a rendezvous. If exactly one branch is enabled, then t"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ndezvous. If exactly one branch is enabled, then the communication is performed directly as an ordinary rendezvous. If more than one branch is enabled, a thread is created and started for each enabled branch. These threads try to rendezvous"
+    },
+    {
+      "chunk_id": 22,
+      "text": "enabled branch. These threads try to rendezvous until all succeed. Parameters: branches - The set of branches involved. Returns: True if the branches all succeed, false if any them is terminated before completing the rendezvous. Throws: IllegalA"
+    },
+    {
+      "chunk_id": 23,
+      "text": "before completing the rendezvous. Throws: IllegalActionException - If the rendezvous fails (e.g. because of incompatible types). _branchFailed protected void _branchFailed (int branchNumber) Register the calling branch as failed. This reduces the"
+    },
+    {
+      "chunk_id": 24,
+      "text": "er the calling branch as failed. This reduces the count of active branches, and if all the active branches have finished, it notifies the internal lock so any threads that are blocked on it can continue. This is called by a conditional branch"
+    },
+    {
+      "chunk_id": 25,
+      "text": "continue. This is called by a conditional branch just before it dies. Overrides: _branchFailed in class AbstractBranchController Parameters: branchNumber - The ID assigned to the calling branch upon creation. _branchNotReady protected void _bran"
+    },
+    {
+      "chunk_id": 26,
+      "text": "pon creation. _branchNotReady protected void _branchNotReady (int branchNumber) Indicate that the branch is not ready to rendezvous. This method does nothing. Specified by: _branchNotReady in class AbstractBranchController Parameters: branchNumber"
+    },
+    {
+      "chunk_id": 27,
+      "text": "AbstractBranchController Parameters: branchNumber - The ID assigned to the branch upon creation. _branchSucceeded protected void _branchSucceeded (int branchID) Register the calling branch as a successful branch. This reduces the count of active br"
+    },
+    {
+      "chunk_id": 28,
+      "text": "sful branch. This reduces the count of active branches, and notifies the internal lock so that any threads blocked on it can continue. Overrides: _branchSucceeded in class AbstractBranchController Parameters: branchID - The ID assigned to the cal"
+    },
+    {
+      "chunk_id": 29,
+      "text": "Parameters: branchID - The ID assigned to the calling branch upon creation. _isBranchReady protected boolean _isBranchReady (int branchNumber) Return true if all branches under the control of this controller are ready. Specified by: _isBranchReady"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ntroller are ready. Specified by: _isBranchReady in class AbstractBranchController Parameters: branchNumber - The ID assigned to the calling branch upon creation. Returns: True if the calling branch is ready to rendezvous, otherwise false. Ov"
+    },
+    {
+      "chunk_id": 31,
+      "text": "nch is ready to rendezvous, otherwise false. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

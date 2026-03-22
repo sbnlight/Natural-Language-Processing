@@ -1,0 +1,25 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/get-bug",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"\", 2, 2); req"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"\", 2, 2); require \"GradingCommon.pl\"; require \"TestingCommon.pl\"; $assgn = shift; $patn = shift; if (! AssignmentExists ($assgn)) { Fatal (\"Assignment $assgn does not exist.\"); } if ($patn =~ /\\./) { if"
+    },
+    {
+      "chunk_id": 3,
+      "text": "does not exist.\"); } if ($patn =~ /\\./) { if (! -e \"$BUG_SUBMISSION_DIR/$assgn/$patn\") { Fatal (\"Cannot find submission $patn for assignment $assgn.\"); } $file = \"$BUG_SUBMISSION_DIR/$assgn/$patn\"; } else { if (@allEntries = GLOB ("
+    },
+    {
+      "chunk_id": 4,
+      "text": "ssgn/$patn\"; } else { if (@allEntries = GLOB (\"$BUG_SUBMISSION_DIR/$assgn/$patn.*\")) { $file = pop (@allEntries); } else { Fatal (\"No entries by $patn for assignment $assgn.\"); } } ($base) = ($file =~ m\" [^/]+$ \"x); Note (\"Unpacking s"
+    },
+    {
+      "chunk_id": 5,
+      "text": "se) = ($file =~ m\" [^/]+$ \"x); Note (\"Unpacking submission $base for assignment $assgn\\n\" . \" into current directory.\"); UnpackSubmission ($assgn, $file, \".\", 1) || Fatal (\"Could not unpack submission.\");"
+    }
+  ]
+}

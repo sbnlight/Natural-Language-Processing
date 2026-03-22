@@ -1,0 +1,41 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/MaximPegasusLimitsProblem",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / MaximPegasusLimitsProblem Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / MaximPegasusLimitsProblem limits Problem Addin"
+    },
+    {
+      "chunk_id": 2,
+      "text": "s / MaximPegasusLimitsProblem limits Problem Adding debugging fails: D0 duk_heap_alloc.c:621 (duk__dump_type_sizes): duk_re_compiler_ctx=196 D0 duk_heap_alloc.c:624 (duk__dump_type_limits): limits [$[Get Code]] However, it works under the host platfo"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Get Code]] However, it works under the host platform. To compile on the host platform (the Mac): gcc ../duktape2/src/duktape.c ../eduk2/duk_stack.c ../eduk2/nofileio.c ../eduk2/c_eventloop.c ../eduk2/modSearch.c ../duktape2/extras/print-alert/duk_pri"
+    },
+    {
+      "chunk_id": 4,
+      "text": "modSearch.c ../duktape2/extras/print-alert/duk_print_alert.c ../duktape2/extras/console/duk_console.c ../duktape2/extras/logging/duk_logging.c ../duktape2/extras/module-duktape/duk_module_duktape.c -I../duktape2/src -I../eduk2 -I../duktape2 -c g++"
+    },
+    {
+      "chunk_id": 5,
+      "text": "-I../duktape2/src -I../eduk2 -I../duktape2 -c g++ *.o *.cpp -I../duktape2/src -I../eduk2 -I../duktape2 D0 duk_heap_alloc.c:605 (duk__dump_type_sizes): duk_re_compiler_ctx=336 D0 duk_heap_alloc.c:608 (duk__dump_type_limits): limits D0 duk_heap_alloc"
+    },
+    {
+      "chunk_id": 6,
+      "text": "(duk__dump_type_limits): limits D0 duk_heap_alloc.c:611 (duk__dump_type_limits): DUK_INT8_{MIN,MAX}=[-128,127]=[-128.000000,127.000000] D0 duk_heap_alloc.c:612 (duk__dump_type_limits): DUK_UINT8_{MIN,MAX}=[0,255]=[0.000000,255.000000] [$[Get Code]]"
+    },
+    {
+      "chunk_id": 7,
+      "text": ",MAX}=[0,255]=[0.000000,255.000000] [$[Get Code]] Here's where the failure occurs in duktape.c: DUK_LOCAL void duk__dump_type_limits ( void ) { DUK_D ( DUK_DPRINT ( \"limits\" ) ) ; /* basic types */ DUK__DUMPLM_SIGNED ( INT8 ) ; ... [$[Get Code]] #def"
+    },
+    {
+      "chunk_id": 8,
+      "text": "K__DUMPLM_SIGNED ( INT8 ) ; ... [$[Get Code]] #define DUK__DUMPLM_SIGNED_RAW(t,a,b) do { \\ DUK_D(DUK_DPRINT(t \"=[%ld,%ld]=[%lf,%lf]\", \\ (long) (a), (long) (b), \\ (double) (a), (double) (b))); \\ } while (0) [$[Get Code]] The workaround is to edit duk"
+    },
+    {
+      "chunk_id": 9,
+      "text": "le (0) [$[Get Code]] The workaround is to edit duktape.c and make the following change: #if defined(DUK_USE_DEBUG) duk__dump_misc_options ( ) ; duk__dump_type_sizes ( ) ; // duk__dump_type_limits(); #endif [$[Get Code]] Back to Maxim Pegasus Edit - H"
+    }
+  ]
+}

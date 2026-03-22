@@ -1,0 +1,505 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/Socket",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Socket Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Socket This page contains random notes about the @accessors-modul"
+    },
+    {
+      "chunk_id": 2,
+      "text": "e contains random notes about the @accessors-modules/socket module. See The JSDoc page for user-level information. Problems with the Node socket implementation. TCPSocketServer is not receiving data events '''This issue is solved, the notes are left"
+    },
+    {
+      "chunk_id": 3,
+      "text": "events '''This issue is solved, the notes are left here for future reference. The port of the @accessors-modules/socket module to node is not working. The TCPSocketServer in a composite accessor is not receiving data events. Running this command: (cd"
+    },
+    {
+      "chunk_id": 4,
+      "text": "t receiving data events. Running this command: (cd $PTII/org/terraswarm/accessor/accessors/web/; node hosts/node/nodeHostInvoke.js hosts/node/node_modules/@accessors-modules/socket/test/auto/TCPSocketUnsignedShort.js) causes an error because the test"
+    },
+    {
+      "chunk_id": 5,
+      "text": "UnsignedShort.js) causes an error because the test actor connected to the TCPSocketServer is not getting input Details Below are the files in question: $PTII/ptolemy/actor/lib/jjs/modules/socket/SocketHelper.java Cape Code Java Implementation $PTII/p"
+    },
+    {
+      "chunk_id": 6,
+      "text": "tHelper.java Cape Code Java Implementation $PTII/ptolemy/actor/lib/jjs/modules/socket/socket.js Cape Code socket module implementation that uses SocketHelper $PTII/org/terraswarm/accessor/accessors/web/node_modules/@accessors-hosts/node/node_modules/"
+    },
+    {
+      "chunk_id": 7,
+      "text": "b/node_modules/@accessors-hosts/node/node_modules/@accessors-modules/socket/socket.js Node socket module implementation $PTII/org/terraswarm/accessor/test/auto/TCPSocketUnsignedShort.xml The Cape Code model $PTII/org/terraswarm/accessor/accessors/web"
+    },
+    {
+      "chunk_id": 8,
+      "text": "model $PTII/org/terraswarm/accessor/accessors/web/node_modules/@accessors-hosts/node/node_modules/@accessors-modules/socket/test/auto/TCPSocketUnsignedShort.js The composite accessor to be run by node A model was updated to include only accessors: T"
+    },
+    {
+      "chunk_id": 9,
+      "text": "e A model was updated to include only accessors: To run the model: $PTII/bin/capecode $PTII/org/terraswarm/accessor/test/auto/TCPSocketUnsignedShort.xml The model works fine in Cape Code: TrainableTest, which is connected to the TCPSocketServer has c"
+    },
+    {
+      "chunk_id": 10,
+      "text": "t, which is connected to the TCPSocketServer has correctValues of {65535, 0, 1, 65535, 0} TrainableTest2, which is connected to the TCPSocketClient has correctValues of {0, 1, 2, 0, 1} The issue is that when we drag in a code generator and generate c"
+    },
+    {
+      "chunk_id": 11,
+      "text": "at when we drag in a code generator and generate code, then the generated code fails because TrainableTest is not seeing any data. To run the generated code: (cd $PTII/org/terraswarm/accessor/accessors/web/cg; node ../node_modules/@accessors-hosts/no"
+    },
+    {
+      "chunk_id": 12,
+      "text": "s/web/cg; node ../node_modules/@accessors-hosts/node/nodeHostInvoke.js cg/TCPSocketUnsignedShort) The generated model with the stopTime increased slightly is checked in as PTII/org/terraswarm/accessor/accessors/web/hosts/node/node_modules/@accessors-"
+    },
+    {
+      "chunk_id": 13,
+      "text": "/accessors/web/hosts/node/node_modules/@accessors-modules/socket/test/auto/TCPSocketUnsignedShort.js The checked in version may be run with: (cd $PTII/org/terraswarm/accessor/accessors/web/; node hosts/node/nodeHostInvoke.js hosts/node/node_modules/@"
+    },
+    {
+      "chunk_id": 14,
+      "text": "s/node/nodeHostInvoke.js hosts/node/node_modules/@accessors-modules/socket/test/auto/TCPSocketUnsignedShort.js) TCPSocketServer.js and TCPSocketClient.js have had debugging statements temporarily added to them. Comparing the output of the Cape Code r"
+    },
+    {
+      "chunk_id": 15,
+      "text": "d to them. Comparing the output of the Cape Code run and the Node run indicates that the server is not getting socket data. Below is the output of the Node version of the model, which was created with (cd $PTII/org/terraswarm/accessor/accessors/web/;"
+    },
+    {
+      "chunk_id": 16,
+      "text": "(cd $PTII/org/terraswarm/accessor/accessors/web/; node hosts/node/nodeHostInvoke.js hosts/node/node_modules/@accessors-modules/socket/test/auto/TCPSocketUnsignedShort.js) socket.js: SocketServer._socketCreated ( ) : socket localPort: undefined, remo"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ketCreated ( ) : socket localPort: undefined, remotePort ( ) : 52288 socket.js: Socket.remotePort ( ) TCPSocketServer.js: initialize ( ) connection: localPort: undefined, remotePort: 52288 socket.js: Socket.remoteHost ( ) socket.js: Socket.remotePort"
+    },
+    {
+      "chunk_id": 18,
+      "text": "Socket.remoteHost ( ) socket.js: Socket.remotePort ( ) TCPSocketClient.js: toSendInputHandler ( ) TCPSocketClient.js: send ( ) TCPSocketClient.js: isOpen ( ) socket.js: SocketClient.send ( - 1 , 0 , 1 , 65535 , 65536 ) , typeof data: object, Array.is"
+    },
+    {
+      "chunk_id": 19,
+      "text": ", 65535 , 65536 ) , typeof data: object, Array.isArray ( data ) : true socket.js: SocketClient.send ( - 1 , 0 , 1 , 65535 , 65536 ) : converted from array socket.js: SocketClient.send ( - 1 , 0 , 1 , 65535 , 65536 ) : calling this.wrapper.send ( ) s"
+    },
+    {
+      "chunk_id": 20,
+      "text": "65535 , 65536 ) : calling this.wrapper.send ( ) socket.js: SocketWrapper.send ( ) : this.eventEmitter: SocketClient ( 52287 , localhost, options ) socket.js: SocketWrapper.send ( - 1 , 0 , 1 , 65535 , 65536 ) : about to invoke write ( ) on socket ["
+    },
+    {
+      "chunk_id": 21,
+      "text": ", 65536 ) : about to invoke write ( ) on socket [ object Object ] remoteAddress: 127.0.0.1: 52287 . Writing - 1 , 0 , 1 , 65535 , 65536 socket.js SocketWrapper.send ( - 1 , 0 , 1 , 65535 , 65536 ) : handle case where data is an array. socket.js: Soc"
+    },
+    {
+      "chunk_id": 22,
+      "text": "handle case where data is an array. socket.js: SocketWrapper.send ( 65535 , 0 , 1 , 65535 , 65536 ) : added element 65535 to buffer: 0xffff0000000000000000 socket.js: SocketWrapper.send ( 65535 , 0 , 1 , 65535 , 65536 ) : added element 0 to buffer: 0"
+    },
+    {
+      "chunk_id": 23,
+      "text": "1 , 65535 , 65536 ) : added element 0 to buffer: 0xffff0000000000000000 socket.js: SocketWrapper.send ( 65535 , 0 , 1 , 65535 , 65536 ) : added element 1 to buffer: 0xffff0000000100000000 socket.js: SocketWrapper.send ( 65535 , 0 , 1 , 65535 , 65536"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ocketWrapper.send ( 65535 , 0 , 1 , 65535 , 65536 ) : added element 65535 to buffer: 0xffff00000001ffff0000 socket.js: SocketWrapper.send ( 65535 , 0 , 1 , 65535 , 0 ) : added element 0 to buffer: 0xffff00000001ffff0000 socket.js: SocketWrapper.send"
+    },
+    {
+      "chunk_id": 25,
+      "text": "fff00000001ffff0000 socket.js: SocketWrapper.send ( 65535 , 0 , 1 , 65535 , 0 ) , : about to invoke write ( ) on socket [ object Object ] . local: 127.0.0.1: 52288 , remote: 127.0.0.1: 52287 . Writing buffer: < Buffer ff ff 00 00 00 01 ff ff 00 00 >"
+    },
+    {
+      "chunk_id": 26,
+      "text": "buffer: < Buffer ff ff 00 00 00 01 ff ff 00 00 > socket.js: SocketWrapper.send ( 65535 , 0 , 1 , 65535 , 0 ) : write returned true socket.js: SocketWrapper.send ( undefined ) : write callback: undefined socket.js: SocketWrapper ( ) : data event: thi"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ned socket.js: SocketWrapper ( ) : data event: this.eventEmitter: Socket ( ) socket buffer: & #65533;&#65533;^@^@^@&#65533;&#65533;^@^@ socket.js: SocketWrapper.processBuffer ( ) : this.eventEmitter: Socket ( ) , buffer: & #65533;&#65533;^@^@^@&#6553"
+    },
+    {
+      "chunk_id": 28,
+      "text": "Socket ( ) , buffer: & #65533;&#65533;^@^@^@&#65533;&#65533;^@^@ socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numer"
+    },
+    {
+      "chunk_id": 29,
+      "text": "cketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 1 socket.js: SocketWrapper.pr"
+    },
+    {
+      "chunk_id": 30,
+      "text": "Socket ( ) Reading: 1 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ("
+    },
+    {
+      "chunk_id": 31,
+      "text": "e: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 socket.js: Socket netSocket on data: & #65533;&#65533;^@^@^@&#65533;&#65533;^@^@ [$[Get Code]] and then the output hangs until the model times out and fails. TCPSocketClient.js: wrapup ("
+    },
+    {
+      "chunk_id": 32,
+      "text": "times out and fails. TCPSocketClient.js: wrapup ( ) socket.js: SocketClient.close ( ) socket.js: SocketWrapper.close ( ) TCPSocketClient: close Connection closed. Status: Connection closed in wrapup. TCPSocketServer.js: wrapup ( ) socket.js: SocketSe"
+    },
+    {
+      "chunk_id": 33,
+      "text": "TCPSocketServer.js: wrapup ( ) socket.js: SocketServer.stop ( ) nodeHost.js: Error: Error: TCPSocketUnsignedShort.TrainableTest: The input handler of this accessor was never invoked. Usually, this is an error indicating that starvation is occurring."
+    },
+    {
+      "chunk_id": 34,
+      "text": "an error indicating that starvation is occurring. at Accessor.exports.wrapup ( eval at Accessor ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / node_modules /@ accessors-hosts / common / commonHost.js: 611 : 19 ) , < anonymou"
+    },
+    {
+      "chunk_id": 35,
+      "text": "/ common / commonHost.js: 611 : 19 ) , < anonymous > : 272 : 23 ) at Accessor.wrapup ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / node_modules /@ accessors-hosts / common / commonHost.js: 748 : 37 ) at Accessor.wrapup ( /"
+    },
+    {
+      "chunk_id": 36,
+      "text": "/ commonHost.js: 748 : 37 ) at Accessor.wrapup ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / node_modules /@ accessors-hosts / common / commonHost.js: 741 : 52 ) at Accessor.stop ( / Users / cxh / ptII / org / terraswarm /"
+    },
+    {
+      "chunk_id": 37,
+      "text": ".stop ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / node_modules /@ accessors-hosts / common / commonHost.js: 2240 : 15 ) at / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / node_modules /@ accessors-h"
+    },
+    {
+      "chunk_id": 38,
+      "text": "or / accessors / web / node_modules /@ accessors-hosts / common / commonHost.js: 2251 : 14 at executeCallbacks ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / node_modules /@ accessors-hosts / common / modules / deterministic"
+    },
+    {
+      "chunk_id": 39,
+      "text": "accessors-hosts / common / modules / deterministicTemporalSemantics.js: 303 : 50 ) at Timeout.executeAndSetNextTick [ as _onTimeout ] ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / node_modules /@ accessors-hosts / common /"
+    },
+    {
+      "chunk_id": 40,
+      "text": "web / node_modules /@ accessors-hosts / common / modules / deterministicTemporalSemantics.js: 256 : 9 ) at ontimeout ( timers.js: 380 : 14 ) at tryOnTimeout ( timers.js: 244 : 5 ) at Timer.listOnTimeout ( timers.js: 214 : 5 ) nodeHost.js: Error: Nod"
+    },
+    {
+      "chunk_id": 41,
+      "text": "out ( timers.js: 214 : 5 ) nodeHost.js: Error: Node will exit and return 1 , which should be zero. nodeHost.js: Error: Node will exit and return 1 , which should be zero. [$[Get Code]] Below is the Cape Code output, created with: $PTII/bin/capecode $"
+    },
+    {
+      "chunk_id": 42,
+      "text": "pe Code output, created with: $PTII/bin/capecode $PTII/org/terraswarm/accessor/test/auto/TCPSocketUnsignedShort.xml which works fine: socket.js: SocketServer._socketCreated ( ) : socket localPort: undefined, remotePort ( ) : 52307 socket.js: Socket.r"
+    },
+    {
+      "chunk_id": 43,
+      "text": "efined, remotePort ( ) : 52307 socket.js: Socket.remotePort ( ) TCPSocketServer.js: initialize ( ) connection: localPort: undefined, remotePort: 52307 socket.js: Socket.remoteHost ( ) socket.js: Socket.remotePort ( ) TCPSocketClient.js: toSendInputHa"
+    },
+    {
+      "chunk_id": 44,
+      "text": "t.remotePort ( ) TCPSocketClient.js: toSendInputHandler ( ) TCPSocketClient.js: send ( ) TCPSocketClient.js: isOpen ( ) socket.js: SocketClient.send ( - 1 , 0 , 1 , 65535 , 65536 ) socket.js: SocketClient.send ( [ Ljava.lang.Object; @ 124b20e4 ) : co"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ient.send ( [ Ljava.lang.Object; @ 124b20e4 ) : converted from array socket.js: SocketClient.send ( [ Ljava.lang.Object; @ 124b20e4 ) : calling this.wrapper.send ( ) SocketHelper.SocketWrapper.send ( ) : _eventEmitter: SocketClient ( 52306 , localhos"
+    },
+    {
+      "chunk_id": 46,
+      "text": ") : _eventEmitter: SocketClient ( 52306 , localhost, options ) SocketHelper.SocketWrapper.send ( [ Ljava.lang.Object; @ 124b20e4 ) : handle case where data is an array. SocketHelper.SocketWrapper.send ( [ Ljava.lang.Object; @ 124b20e4 ) : added eleme"
+    },
+    {
+      "chunk_id": 47,
+      "text": "( [ Ljava.lang.Object; @ 124b20e4 ) : added element -1 to buffer: 0xffff SocketHelper.SocketWrapper.send ( [ Ljava.lang.Object; @ 124b20e4 ) : added element 0 to buffer: 0xffff0000 SocketHelper.SocketWrapper.send ( [ Ljava.lang.Object; @ 124b20e4 )"
+    },
+    {
+      "chunk_id": 48,
+      "text": "tWrapper.send ( [ Ljava.lang.Object; @ 124b20e4 ) : added element 1 to buffer: 0xffff00000001 SocketHelper.SocketWrapper.send ( [ Ljava.lang.Object; @ 124b20e4 ) : added element 65535 to buffer: 0xffff00000001ffff SocketHelper.SocketWrapper.send ( ["
+    },
+    {
+      "chunk_id": 49,
+      "text": "f00000001ffff SocketHelper.SocketWrapper.send ( [ Ljava.lang.Object; @ 124b20e4 ) : added element 65536 to buffer: 0xffff00000001ffff0000 SocketHelper.SocketWrapper.send ( [ Ljava.lang.Object; @ 124b20e4 ) : about to invoke write ( ) on socket io.ver"
+    },
+    {
+      "chunk_id": 50,
+      "text": "0e4 ) : about to invoke write ( ) on socket io.vertx.core.net.impl.NetSocketImpl @ 6313f97b, local: 127.0.0.1: 52307 , remote: 127.0.0.1: 52306 . Writing buffer: ffff00000001ffff0000 SocketHelper.SocketWrapper.send ( [ Ljava.lang.Object; @ 124b20e4"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ketWrapper.send ( [ Ljava.lang.Object; @ 124b20e4 ) : after write ( ) on socket io.vertx.core.net.impl.NetSocketImpl @ 6313f97b. SocketHelper.SocketWrapper ( ) : _eventEmitter: Socket ( ) _socket.handler ( ) SocketHelper.SocketWrapper._processBuffer"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ler ( ) SocketHelper.SocketWrapper._processBuffer ( ) start: _eventEmitter: Socket ( ) SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 TCPSocketServer.js: initialize ( ) dat"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ding: 65535 TCPSocketServer.js: initialize ( ) data: 65535 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 TCPSocketServer.js: initialize ( ) data: 0 SocketHelper.SocketWrapper."
+    },
+    {
+      "chunk_id": 54,
+      "text": "initialize ( ) data: 0 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 1 TCPSocketServer.js: initialize ( ) data: 1 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Nu"
+    },
+    {
+      "chunk_id": 55,
+      "text": "SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 TCPSocketServer.js: initialize ( ) data: 65535 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements >"
+    },
+    {
+      "chunk_id": 56,
+      "text": "( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 TCPSocketServer.js: initialize ( ) data: 0 TestDisplayServerReceived: 65535 TestDisplayServerReceived: 0 TestDisplayServerReceived: 1 TestDisplayServerReceived: 65535 Tes"
+    },
+    {
+      "chunk_id": 57,
+      "text": "erReceived: 1 TestDisplayServerReceived: 65535 TestDisplayServerReceived: 0 TCPSocketServer.js: toSendInputHandler ( ) start. TCPSocketServer.js: toSendInputHandler ( ) socket [ 0 ] . TCPSocketServer.js: toSendInputHandler ( ) socket [ 1 ] . TCPSocke"
+    },
+    {
+      "chunk_id": 58,
+      "text": "js: toSendInputHandler ( ) socket [ 1 ] . TCPSocketServer.js: toSendInputHandler ( ) socket [ 1 ] . sending: 65536 socket.js: Socket.send ( ) : 65536 SocketHelper.SocketWrapper.send ( ) : _eventEmitter: Socket ( ) SocketHelper.SocketWrapper.send ( 65"
+    },
+    {
+      "chunk_id": 59,
+      "text": "r: Socket ( ) SocketHelper.SocketWrapper.send ( 65536 ) : is not an array. TCPSocketServer.js: toSendInputHandler ( ) socket [ 1 ] . done sending: 65536 TCPSocketServer.js: toSendInputHandler ( ) end. SocketHelper.SocketWrapper.send ( 65536 ) : about"
+    },
+    {
+      "chunk_id": 60,
+      "text": "SocketHelper.SocketWrapper.send ( 65536 ) : about to invoke write ( ) on socket io.vertx.core.net.impl.NetSocketImpl @ 200af59c, local: 127.0.0.1: 52306 , remote: 127.0.0.1: 52307 . Writing buffer: 0000 [$[Get Code]] The two outputs are slightly di"
+    },
+    {
+      "chunk_id": 61,
+      "text": "0000 [$[Get Code]] The two outputs are slightly different because of platform dependencies, below is a more detailed analysis of the above outputs. The Node and Cape Code output match fairly closely until processBuffer(). The Node output calls emit s"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ntil processBuffer(). The Node output calls emit socket.js: SocketWrapper ( ) : data event: this.eventEmitter: Socket ( ) socket buffer: & #65533;&#65533;^@^@^@&#65533;&#65533;^@^@ socket.js: SocketWrapper.processBuffer ( ) : this.eventEmitter: Socke"
+    },
+    {
+      "chunk_id": 63,
+      "text": "apper.processBuffer ( ) : this.eventEmitter: Socket ( ) , buffer: & #65533;&#65533;^@^@^@&#65533;&#65533;^@^@ socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 socket.js: SocketW"
+    },
+    {
+      "chunk_id": 64,
+      "text": "emit: Socket ( ) Reading: 65535 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Sock"
+    },
+    {
+      "chunk_id": 65,
+      "text": "sponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 1 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Nu"
+    },
+    {
+      "chunk_id": 66,
+      "text": "SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 socket.js: Socket netSocket on data: & #65533;&#65533;^@^@^@&#65533;&#65533;^@^@ [$[Get Code]] The difference is that the Cape Code output bel"
+    },
+    {
+      "chunk_id": 67,
+      "text": "]] The difference is that the Cape Code output below shows that TCPSocketServer.js is getting data events, whereas the node output is not. SocketHelper.SocketWrapper ( ) : _eventEmitter: Socket ( ) _socket.handler ( ) SocketHelper.SocketWrapper._proc"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ocket.handler ( ) SocketHelper.SocketWrapper._processBuffer ( ) start: _eventEmitter: Socket ( ) SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 TCPSocketServer.js: initiali"
+    },
+    {
+      "chunk_id": 69,
+      "text": "et ( ) Reading: 65535 TCPSocketServer.js: initialize ( ) data: 65535 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 TCPSocketServer.js: initialize ( ) data: 0 SocketHelper.Sock"
+    },
+    {
+      "chunk_id": 70,
+      "text": "erver.js: initialize ( ) data: 0 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 1 TCPSocketServer.js: initialize ( ) data: 1 SocketHelper.SocketWrapper._processBuffer ( ) issueRe"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 TCPSocketServer.js: initialize ( ) data: 65535 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfE"
+    },
+    {
+      "chunk_id": 72,
+      "text": "cessBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 TCPSocketServer.js: initialize ( ) data: 0 [$[Get Code]] Looking at the source code is helpful. In Cape Code, the way _processBuffer() gets invoked is that $PTI"
+    },
+    {
+      "chunk_id": 73,
+      "text": "the way _processBuffer() gets invoked is that $PTII/ptolemy/actor/lib/jjs/modules/socket/SocketHelper.java has: public SocketWrapper ( ScriptObjectMirror eventEmitter, Object socket, ... boolean emitBatchDataAsAvailable ) { ... _socket = ( NetSocket"
+    },
+    {
+      "chunk_id": 74,
+      "text": "atchDataAsAvailable ) { ... _socket = ( NetSocket ) socket ; ... // Handler for received data. _socket. handler ( buffer -> { System . out . println ( \"SocketHelper.SocketWrapper(): _eventEmitter: \" + _eventEmitter. get ( \"iama\" ) + \" _socket.handler"
+    },
+    {
+      "chunk_id": 75,
+      "text": "_eventEmitter. get ( \"iama\" ) + \" _socket.handler()\" ) ; _processBuffer ( buffer ) ; } ) ; [$[Get Code]] In Cape Code, _processBuffer() is defined as below. The code above emits a data event on the _eventEmitter . (BTW - To make it easier to track _"
+    },
+    {
+      "chunk_id": 76,
+      "text": "eventEmitter . (BTW - To make it easier to track _eventEmitter , in socket.js , a field was added to SocketClient , SocketServer and Socket so that we can easily print out the name of the object. In both Cape Code and Node, we are calling emit on a"
+    },
+    {
+      "chunk_id": 77,
+      "text": "both Cape Code and Node, we are calling emit on a Socket ) private void _processBuffer ( Buffer buffer ) { System . out . println ( \"SocketHelper.SocketWrapper._processBuffer() start: _eventEmitter: \" + _eventEmitter. get ( \"iama\" ) ) ; ... // Defer"
+    },
+    {
+      "chunk_id": 78,
+      "text": "+ _eventEmitter. get ( \"iama\" ) ) ; ... // Defer this to the director thread. // This ensures that if the handler responds to a \"data\" event by // producing multiple outputs, then all those outputs appear simultaneously // (with the same time stamp)"
+    },
+    {
+      "chunk_id": 79,
+      "text": "ppear simultaneously // (with the same time stamp) on the accessor output. _issueResponse ( ( ) -> { if ( _receiveType == DATA_TYPE. STRING ) { System . out . println ( \"SocketHelper.SocketWrapper._processBuffer() issueResponse: String emit\" ) ; _eve"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ocessBuffer() issueResponse: String emit\" ) ; _eventEmitter. callMember ( \"emit\" , \"data\" , finalBuffer. getString ( 0 , finalBuffer. length ( ) ) ) ; } else if ( _receiveType == DATA_TYPE. IMAGE ) { ... } else { // Assume a numeric type. int size ="
+    },
+    {
+      "chunk_id": 81,
+      "text": "... } else { // Assume a numeric type. int size = _sizeOfType ( _receiveType ) ; int length = finalBuffer. length ( ) ; int numberOfElements = length / size ; if ( numberOfElements == 1 ) { System . out . println ( \"SocketHelper.SocketWrapper._proces"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ut . println ( \"SocketHelper.SocketWrapper._processBuffer() issueResponse: Numeric numberOfElements == 1 emit\" ) ; _eventEmitter. callMember ( \"emit\" , \"data\" , _extractFromBuffer ( finalBuffer, _receiveType, 0 ) ) ; } else if ( numberOfElements > 1"
+    },
+    {
+      "chunk_id": 83,
+      "text": "iveType, 0 ) ) ; } else if ( numberOfElements > 1 ) { if ( _rawBytes && ! _emitBatchDataAsAvailable ) { int position = 0 ; for ( int i = 0 ; i < numberOfElements ; i ++ ) { System . out . println ( \"SocketHelper.SocketWrapper._processBuffer() issueRe"
+    },
+    {
+      "chunk_id": 84,
+      "text": "ocketHelper.SocketWrapper._processBuffer() issueResponse: Numeric A: numberOfElements > 1 emit: \" + _eventEmitter. get ( \"iama\" ) + \" Reading: \" + _extractFromBuffer ( finalBuffer, _receiveType, position ) ) ; _eventEmitter. callMember ( \"emit\" , \"da"
+    },
+    {
+      "chunk_id": 85,
+      "text": "ion ) ) ; _eventEmitter. callMember ( \"emit\" , \"data\" , _extractFromBuffer ( finalBuffer, _receiveType, position ) ) ; position += size ; } } else { // Using message framing, so we output a single array. [$[Get Code]] In Cape Code, when we run the ab"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ay. [$[Get Code]] In Cape Code, when we run the above, we generate the following output SocketHelper.SocketWrapper._processBuffer ( ) start: _eventEmitter: Socket ( ) SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfEle"
+    },
+    {
+      "chunk_id": 87,
+      "text": "ssBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 [$[Get Code]] $PTII/org/terraswarm/accessor/accessors/web/net/TCPSocketServer.js contains the following: exports. initialize = function ( ) { console. log ( '"
+    },
+    {
+      "chunk_id": 88,
+      "text": "orts. initialize = function ( ) { console. log ( 'TCPSocketServer.js: initialize() start: port: ' + this . getParameter ( 'port' ) ) ; ... server . on ( 'connection' , function ( serverSocket ) { console. log ( 'TCPSocketServer.js: initialize() conne"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ole. log ( 'TCPSocketServer.js: initialize() connection: localPort: ' + serverSocket. localPort + ', remotePort: ' + serverSocket. remotePort ( ) ) ; ... serverSocket . on ( 'data' , function ( data ) { console. log ( 'TCPSocketServer.js: initialize("
+    },
+    {
+      "chunk_id": 90,
+      "text": "{ console. log ( 'TCPSocketServer.js: initialize() data: ' + data ) ; self. send ( 'received' , data ) ; self. send ( 'receivedID' , connectionCount ) ; } ) ; [$[Get Code]] Which, in Cape Code, correctly produces: TCPSocketServer.js: initialize ( )"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ctly produces: TCPSocketServer.js: initialize ( ) data: 65535 [$[Get Code]] For the Node socket module, a SocketWrapper was added, which is a partial port of the SocketWrapper from the Cape Code SocketWrapper defined in SocketHelper.java Looking at t"
+    },
+    {
+      "chunk_id": 92,
+      "text": "tWrapper defined in SocketHelper.java Looking at the socket module in node at $PTII/org/terraswarm/accessor/accessors/web/hosts/node/node_modules/@accessors-modules/socket/socket.js exports.SocketWrapper = function ( helper, eventEmitter, socket, sen"
+    },
+    {
+      "chunk_id": 93,
+      "text": "per = function ( helper, eventEmitter, socket, sendType, receiveType, rawBytes, emitBatchDataAsAvailab\\ le ) { this.eventEmitter = eventEmitter; // FIXME: I Am A is for debugging so that we can identify objects. console.log ( 'socket.js: SocketWrappe"
+    },
+    {
+      "chunk_id": 94,
+      "text": "fy objects. console.log ( 'socket.js: SocketWrapper(): this.eventEmitter: ' + this.eventEmitter.iama ) ; this.socket = socket; this.sendType = sendType; this.receiveType = receiveType; this.rawBytes = rawBytes; this.emitBatchDataAsAvailable = emitBat"
+    },
+    {
+      "chunk_id": 95,
+      "text": "rawBytes; this.emitBatchDataAsAvailable = emitBatchDataAsAvailable; // If we get a data event, then process the buffer. var self = this; this.socket.on ( 'data' , function ( buffer ) { console.log ( 'socket.js: SocketWrapper(): data event: this.even"
+    },
+    {
+      "chunk_id": 96,
+      "text": "'socket.js: SocketWrapper(): data event: this.eventEmitter: ' + self.eventEmitter.iama + ' socket \\ buffer: ' + buffer ) ; self.processBuffer ( buffer ) ; } ) ; } ; util.inherits ( exports.SocketWrapper, EventEmitter ) ; ... /** Process new buffer da"
+    },
+    {
+      "chunk_id": 97,
+      "text": "er, EventEmitter ) ; ... /** Process new buffer data. * @ param buffer The buffer, or null to process previously received data. */ exports.SocketWrapper.prototype.processBuffer = function ( buffer ) { // FIXME: not sure if we should export this funct"
+    },
+    {
+      "chunk_id": 98,
+      "text": "// FIXME: not sure if we should export this function console.log ( 'socket.js: SocketWrapper.processBuffer(): this.eventEmitter: ' + this.eventEmitter.iama + ', buffer: ' + buffer ) ; // Assume a numeric type. // int size = _sizeOfType ( this.receiv"
+    },
+    {
+      "chunk_id": 99,
+      "text": "eric type. // int size = _sizeOfType ( this.receiveType ) ; var size = 2 ; var length = buffer.length; var numberOfElements = length / size ; if ( numberOfElements == 1 ) { console.log ( 'socket.js: SocketWrapper.processBuffer() issueResponse: Numeri"
+    },
+    {
+      "chunk_id": 100,
+      "text": "ocketWrapper.processBuffer() issueResponse: Numeric numberOfElements == 1 emit' ) ; this.eventEmitter.emit ( 'data' , buffer ) ; } else { var position = 0 ; for ( var i = 0 ; i < numberOfElements; i++ ) { console.log ( 'socket.js: SocketWrapper.proce"
+    },
+    {
+      "chunk_id": 101,
+      "text": ") { console.log ( 'socket.js: SocketWrapper.processBuffer() issueResponse: Numeric A: numberOfElements > 1 emit: ' + this.eventEmitter.iama + ' Reading: ' + buffer.readUInt16BE ( position ) ) ; this.eventEmitter.emit ( \"emit\" , \"data\" , buffer.readU"
+    },
+    {
+      "chunk_id": 102,
+      "text": "eventEmitter.emit ( \"emit\" , \"data\" , buffer.readUInt16BE ( position ) ) ; position += size ; } } } [$[Get Code]] In the Node host, the above generates socket.js: SocketWrapper ( ) : data event: this.eventEmitter: Socket ( ) socket buffer: & #65533;&"
+    },
+    {
+      "chunk_id": 103,
+      "text": "eventEmitter: Socket ( ) socket buffer: & #65533;&#65533;^@^@^@&#65533;&#65533;^@^@ socket.js: SocketWrapper.processBuffer ( ) : this.eventEmitter: Socket ( ) , buffer: & #65533;&#65533;^@^@^@&#65533;&#65533;^@^@ socket.js: SocketWrapper.processBuffe"
+    },
+    {
+      "chunk_id": 104,
+      "text": "&#65533;^@^@ socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 [$[Get Code]] However, it seems that the data event that is emitted is never acted upon. Solution to emit problem I"
+    },
+    {
+      "chunk_id": 105,
+      "text": "ed is never acted upon. Solution to emit problem In hosts/node/node_modules/@accessors-modules/socket/socket.js , one fix was to change: this.eventEmitter.emit(\"emit\", \"data\", buffer.readUInt16BE(position)); to this.eventEmitter.emit('data', buffer.r"
+    },
+    {
+      "chunk_id": 106,
+      "text": "tion)); to this.eventEmitter.emit('data', buffer.readUInt16BE(position)); Node: Downstream Actors Don't See Tokens. To replicate: $PTII/bin/capecode $PTII/org/terraswarm/accessor/test/auto/TCPSocketUnsignedShortSimple.xml This model works fine under"
+    },
+    {
+      "chunk_id": 107,
+      "text": "signedShortSimple.xml This model works fine under CapeCode. Under Node, when we generate code, it fails because the TrainableTest actor sees a 2 instead of 65536. This is because under Node, the TCPSocketServer produces 65535,0,1,65535,0,2 and the Tr"
+    },
+    {
+      "chunk_id": 108,
+      "text": "cketServer produces 65535,0,1,65535,0,2 and the TrainableTest sees the last 2. In the CapeCode output below, we can see that we are emitting the data and then the Test accessor is getting the inputs SocketHelper.SocketWrapper._processBuffer ( ) issue"
+    },
+    {
+      "chunk_id": 109,
+      "text": "ocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 TCPSocketServer.js: serverSocket data listener: 65535 65535 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numer"
+    },
+    {
+      "chunk_id": 110,
+      "text": "ketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 TCPSocketServer.js: serverSocket data listener: 0 0 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1"
+    },
+    {
+      "chunk_id": 111,
+      "text": ") issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 1 TCPSocketServer.js: serverSocket data listener: 1 1 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 6"
+    },
+    {
+      "chunk_id": 112,
+      "text": ": numberOfElements > 1 emit: Socket ( ) Reading: 65535 TCPSocketServer.js: serverSocket data listener: 65535 65535 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 TCPSocketServe"
+    },
+    {
+      "chunk_id": 113,
+      "text": "nts > 1 emit: Socket ( ) Reading: 0 TCPSocketServer.js: serverSocket data listener: 0 0 SocketHelper.SocketWrapper._processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 2 TCPSocketServer.js: serverSocket data lis"
+    },
+    {
+      "chunk_id": 114,
+      "text": "ading: 2 TCPSocketServer.js: serverSocket data listener: 2 2 Test: 0 , input: 65535 , referenceToken: 65535 Test: 1 , input: 0 , referenceToken: 0 Test: 2 , input: 1 , referenceToken: 1 Test: 3 , input: 65535 , referenceToken: 65535 Test: 4 , input:"
+    },
+    {
+      "chunk_id": 115,
+      "text": "t: 65535 , referenceToken: 65535 Test: 4 , input: 0 , referenceToken: 0 Test: 5 , input: 2 , referenceToken: 2 TCPSocketClient.js: wrapup ( ) [$[Get Code]] In the node example, which was created from the Cape Code model and run with: ( cd $PTII / org"
+    },
+    {
+      "chunk_id": 116,
+      "text": "the Cape Code model and run with: ( cd $PTII / org / terraswarm / accessor / accessors / web / cg; node .. / hosts / node / nodeHostInvoke.js cg / TCPSocketUnsignedShortSimple ) [$[Get Code]] we can see that we are getting a 2 as the first data item"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ee that we are getting a 2 as the first data item instead of 65535 : socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 TCPSocketServer.js: serverSocket data listener: 65535 65535"
+    },
+    {
+      "chunk_id": 118,
+      "text": "Server.js: serverSocket data listener: 65535 65535 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 TCPSocketServer.js: serverSocket data listener: 0 0 socket.js: SocketWrapper.proc"
+    },
+    {
+      "chunk_id": 119,
+      "text": "t data listener: 0 0 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 1 TCPSocketServer.js: serverSocket data listener: 1 1 socket.js: SocketWrapper.processBuffer ( ) issueResponse: N"
+    },
+    {
+      "chunk_id": 120,
+      "text": ": SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 65535 TCPSocketServer.js: serverSocket data listener: 65535 65535 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOf"
+    },
+    {
+      "chunk_id": 121,
+      "text": "ocessBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 0 TCPSocketServer.js: serverSocket data listener: 0 0 socket.js: SocketWrapper.processBuffer ( ) issueResponse: Numeric A: numberOfElements > 1 emit: Socket ( )"
+    },
+    {
+      "chunk_id": 122,
+      "text": "Numeric A: numberOfElements > 1 emit: Socket ( ) Reading: 2 TCPSocketServer.js: serverSocket data listener: 2 2 socket.js: Socket netSocket on data: & #65533;&#65533;^@^@^@&#65533;&#65533;^@^@^@ nodeHost.js: Error: Error: commonHost.js, react ( ) ,"
+    },
+    {
+      "chunk_id": 123,
+      "text": "Host.js: Error: Error: commonHost.js, react ( ) , invoking a specific handler for \"input\" : Exception occurred in input handler, which has now has been removed. Exception was: Error: TCPSocketUnsignedShortSimple.TrainableTest: The input \"2\" is not w"
+    },
+    {
+      "chunk_id": 124,
+      "text": "dShortSimple.TrainableTest: The input \"2\" is not within \"1e-9\" of the expected value \"65535\" Stacktrace was: Error: TCPSocketUnsignedShortSimple.TrainableTest: The input \"2\" is not within \"1e-9\" of the expected value \"65535\" at Accessor.eval ( eval a"
+    },
+    {
+      "chunk_id": 125,
+      "text": "e expected value \"65535\" at Accessor.eval ( eval at Accessor ( / Users / cxh / src / ptII11.0.devel / org / terraswarm / accessor / accessors / web / hosts / common / commonHost.js: 617 : 19 ) , < anonymous > : 179 : 27 ) [$[Get Code]] Edit - History"
+    }
+  ]
+}

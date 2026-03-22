@@ -1,0 +1,273 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/apphost.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/apphost.help (last updated January 2026) CONTENTS: Introduction"
+    },
+    {
+      "chunk_id": 2,
+      "text": "st updated January 2026) CONTENTS: Introduction Getting started Running your application on server startup Using Docker containers Using the MariaDB database Introduction ------------ The Instructional Support Group operates a somewhat-exper"
+    },
+    {
+      "chunk_id": 3,
+      "text": "tructional Support Group operates a somewhat-experimental apphosting setup, for use by instructors and course staff only, for course-related applications such as custom class websites. This service provides: * A server on which you can run arbitrar"
+    },
+    {
+      "chunk_id": 4,
+      "text": "rovides: * A server on which you can run arbitrary applications or Docker containers; * A webserver (nginx) which listens for HTTP and HTTPS requests and proxies them to your application; * A MariaDB (MySQL-compatible) database installation that y"
+    },
+    {
+      "chunk_id": 5,
+      "text": "DB (MySQL-compatible) database installation that you are free to use to store your application's data in. To expose a web application to the Internet, you have it listen for HTTP requests on a Unix domain socket at an agreed-upon location -- our i"
+    },
+    {
+      "chunk_id": 6,
+      "text": "domain socket at an agreed-upon location -- our infrastructure will handle TLS termination and pass requests on to you. You can also run non-web applications on this service, but you'll have to ask us to open a port on the firewall for your applica"
+    },
+    {
+      "chunk_id": 7,
+      "text": "us to open a port on the firewall for your application. As noted above, your application can run directly on the server (an Ubuntu 22.04 system), or in one or more Docker containers. Note that this is a separate service from the class websites we o"
+    },
+    {
+      "chunk_id": 8,
+      "text": "is a separate service from the class websites we offer for each class at https://inst.eecs.berkeley.edu/~YOURCLASSNAME/. Getting started --------------- Assuming you're an instructor or on a course's staff, you can gain access to the apphosting se"
+    },
+    {
+      "chunk_id": 9,
+      "text": "'s staff, you can gain access to the apphosting setup by contacting inst@eecs.berkeley.edu with a description of the application you want to host, along with a proposed berkeley.edu hostname (ideally in eecs.berkeley.edu or cs.berkeley.edu) for your"
+    },
+    {
+      "chunk_id": 10,
+      "text": "in eecs.berkeley.edu or cs.berkeley.edu) for your application. Once your request is approved and we complete the setup for your hosting, you'll be able to log in to instapphost.eecs.berkeley.edu over SSH using your pre-existing instructor account (t"
+    },
+    {
+      "chunk_id": 11,
+      "text": "SSH using your pre-existing instructor account (the one that shares its name with your course: cs61a, ee123, etc.): ssh -l YOURUSERNAME instapphost.eecs.berkeley.edu (You can of course use any other SSH client.) If you don't have access to yo"
+    },
+    {
+      "chunk_id": 12,
+      "text": "other SSH client.) If you don't have access to your course's instructor account, email inst@eecs.berkeley.edu with an SSH public key corresponding to a private key you want to use to access the account. To expose a web application to the Internet,"
+    },
+    {
+      "chunk_id": 13,
+      "text": "nt. To expose a web application to the Internet, you need to arrange for it to listen for HTTP requests on a world-writable Unix domain socket located at /srv/appsockets/YOURUSERNAME/main/app.sock . We can't in general provide instructions for ever"
+    },
+    {
+      "chunk_id": 14,
+      "text": "We can't in general provide instructions for every application in existence, but for a number of common web application servers, this is relatively easy to do: * Node.js: for most Node.js applications, you can set PORT=/srv/appsockets/YOURUSERNAM"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ns, you can set PORT=/srv/appsockets/YOURUSERNAME/main/app.sock in the application's environment. * Ruby (Rails/etc.) applications: with the Puma application server, pass `-b unix:///srv/appsockets/YOURUSERNAME/main/app.sock` on the command lin"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ets/YOURUSERNAME/main/app.sock` on the command line. For other application servers, check the documentation. * Python applications: with the gunicorn WSGI application server, pass `-b unix:/srv/appsockets/YOURUSERNAME/main/app.sock` on the comma"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ppsockets/YOURUSERNAME/main/app.sock` on the command line. For other application servers, check the documentation. Note that the socket must be world-writable so that our frontend web server can write incoming requests to it. You can ensure this"
+    },
+    {
+      "chunk_id": 18,
+      "text": "rite incoming requests to it. You can ensure this by changing the permissions on the socket when your application creates it, or by temporarily setting umask to 000 when creating the socket. If you're using an application server like Puma or gunico"
+    },
+    {
+      "chunk_id": 19,
+      "text": "re using an application server like Puma or gunicorn, consult that server's documentation for more information. If you can't get your application to set the correct permissions on the socket itself, you may also modify its systemd unit file to chang"
+    },
+    {
+      "chunk_id": 20,
+      "text": "you may also modify its systemd unit file to change the permissions after service start (see below). If your application lacks support for listening on Unix sockets and retrofitting that support is challenging, you can consider a couple of options:"
+    },
+    {
+      "chunk_id": 21,
+      "text": "hallenging, you can consider a couple of options: * Use a tool like ip2unix (https://github.com/nixcloud/ip2unix) to convert regular network listening sockets into Unix domain sockets. * For applications that run in a container, use a proxy contai"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ations that run in a container, use a proxy container that takes requests on the Unix socket and forwards them to a network port in a container. We have an example configuration that you can reference -- see https://github.berkeley.edu/EECS-IN"
+    },
+    {
+      "chunk_id": 23,
+      "text": "rence -- see https://github.berkeley.edu/EECS-INST/apphost-proxy for more information. To help in debugging any problems, you can look at the last few days' worth of server logs for your application under /var/log/apphost/YOURUSERNAME on the insta"
+    },
+    {
+      "chunk_id": 24,
+      "text": "n under /var/log/apphost/YOURUSERNAME on the instapphost server. NOTE: The public_html/ folder in your instructor account's home directory belongs to the https://inst.eecs.berkeley.edu/~YOURCLASSNAME/ website. DO NOT put files for your application"
+    },
+    {
+      "chunk_id": 25,
+      "text": "/ website. DO NOT put files for your application there, unless you want them available to the public on your inst.eecs.berkeley.edu website! Running your application on server startup ------------------------------------------ Once your applicati"
+    },
+    {
+      "chunk_id": 26,
+      "text": "----------------------------- Once your application is set up, you'll need to ensure it runs when the server boots. You can do this by creating a systemd user unit file for the service. For example, you could put the following in a file named ~/.co"
+    },
+    {
+      "chunk_id": 27,
+      "text": "you could put the following in a file named ~/.config/systemd/user/YOURAPPNAME.service: [Unit] Description=Description of your service ConditionPathExists=/etc/is-instapphost [Service] Type=simple Restart=always Exe"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ervice] Type=simple Restart=always ExecStartPre=-/bin/rm -f /srv/appsockets/USERNAME/main/app.sock ExecStart=[command to start your app] [Install] WantedBy=default.target Once you've created this service file, you need t"
+    },
+    {
+      "chunk_id": 29,
+      "text": "Once you've created this service file, you need to enable it so that the server will run it automatically on startup: systemd --user enable YOURAPPNAME You can then start the service immediately with systemd --user start YOURAPPNAME and"
+    },
+    {
+      "chunk_id": 30,
+      "text": "y with systemd --user start YOURAPPNAME and stop it with systemd --user stop YOURAPPNAME Some additional hints: * It's recommended that you run your application in the foreground and allow systemd to supervise it, rather than the tradi"
+    },
+    {
+      "chunk_id": 31,
+      "text": "w systemd to supervise it, rather than the traditional background-daemon configuration -- this makes `systemctl --user status YOURAPPNAME` show useful logging output. If your application won't stay in the foreground, set Type=forking instead"
+    },
+    {
+      "chunk_id": 32,
+      "text": "stay in the foreground, set Type=forking instead of Type=simple in the unit file. * In addition to any logs your application typically produces, anything written to standard output will be stored in the systemd journal: journalctl --user -u"
+    },
+    {
+      "chunk_id": 33,
+      "text": "in the systemd journal: journalctl --user -u YOURAPPNAME * You can use ExecStartPre= in the unit file to run commands before the main service startup command, or Environment= to set environment variables for the service. If you need a more"
+    },
+    {
+      "chunk_id": 34,
+      "text": "t variables for the service. If you need a more complicated startup script, you can always write a shell script and use that as the command in ExecStart=. * If your service needs a command on stop, run that with ExecStop= in the unit file. * I"
+    },
+    {
+      "chunk_id": 35,
+      "text": "p, run that with ExecStop= in the unit file. * If you need to change the permissions on the service's Unix socket, you can do so through systemd by adding something like ExecStartPost=/bin/chmod go+rw /srv/appsockets/USERNAME/main/app.sock"
+    },
+    {
+      "chunk_id": 36,
+      "text": "mod go+rw /srv/appsockets/USERNAME/main/app.sock to your unit file. * For advanced users, you can use most of systemd's service supervision features in writing your unit file, though note that changing the user your service runs as, or other t"
+    },
+    {
+      "chunk_id": 37,
+      "text": "anging the user your service runs as, or other things that require root privileges, will not work. The important bit to leave in is the ConditionPathExists= line, which will prevent your service from attempting to start on machines other than t"
+    },
+    {
+      "chunk_id": 38,
+      "text": "from attempting to start on machines other than the apphosting server. (If you're curious, you can have a look at the systemd.service(5) and systemd.exec(5) man pages to get an idea of what can be done with systemd unit files.) Using Docker"
+    },
+    {
+      "chunk_id": 39,
+      "text": "be done with systemd unit files.) Using Docker containers ----------------------- In order to use Docker containers, you first need to enable Docker for your account on the apphost. Log in to instapphost.eecs.berkeley.edu via SSH, then run"
+    },
+    {
+      "chunk_id": 40,
+      "text": "stapphost.eecs.berkeley.edu via SSH, then run inst-dockerd-rootless-setup.sh to configure the Docker daemon and ensure that it's running for your account. You should now be able to use Docker and tools such as Docker Compose normally. If you'r"
+    },
+    {
+      "chunk_id": 41,
+      "text": "nd tools such as Docker Compose normally. If you're trying to use something that communicates with the Docker daemon over the API socket, and it's not aware of Docker contexts, you need to set DOCKER_HOST=\"unix://$XDG_RUNTIME_DIR/docker.sock\" in your"
+    },
+    {
+      "chunk_id": 42,
+      "text": "HOST=\"unix://$XDG_RUNTIME_DIR/docker.sock\" in your environment (you can set this in your .bashrc or other login script). To make your container's service available via the apphost's webserver, it needs to be listening on a Unix domain socket at /srv"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ds to be listening on a Unix domain socket at /srv/appsockets/USERNAME/main/app.sock. The easiest way to do this is to bind mount the /srv/appsockets/USERNAME/main directory somewhere in your container using the -v option to `docker run` -- for exam"
+    },
+    {
+      "chunk_id": 44,
+      "text": "er using the -v option to `docker run` -- for example, `-v /srv/appsockets/USERNAME/main:/run/sockets` would mount the socket directory to /run/sockets in your container -- and then configure your application server to listen on a socket named app.so"
+    },
+    {
+      "chunk_id": 45,
+      "text": "lication server to listen on a socket named app.sock in your chosen directory in the container. To get your container to run automatically when the apphost starts up, you need to create a systemd service unit for it. Here's a simple example: ["
+    },
+    {
+      "chunk_id": 46,
+      "text": "vice unit for it. Here's a simple example: [Unit] Description=Description of your container's service (free-form text) ConditionPathExists=/etc/is-instapphost After=docker.service Requires=docker.service [Service] T"
+    },
+    {
+      "chunk_id": 47,
+      "text": "Requires=docker.service [Service] Type=simple Restart=always ExecStartPre=-docker stop container-name ExecStartPre=-rm -f /srv/appsockets/USERNAME/main/app.sock ExecStart=docker start -a container-name ExecStop=dock"
+    },
+    {
+      "chunk_id": 48,
+      "text": "t=docker start -a container-name ExecStop=docker stop container-name [Install] WantedBy=default.target Note that we're using the -a option to `docker start` -- this allows systemd to stay attached to the container's output, which wi"
+    },
+    {
+      "chunk_id": 49,
+      "text": "stay attached to the container's output, which will give you useful logging output if you run `systemctl --user status container-name`. Write this to ~/.config/systemd/user/container-name.service in your home directory, then enable the service:"
+    },
+    {
+      "chunk_id": 50,
+      "text": "your home directory, then enable the service: systemctl --user enable container-name You can now start the container with systemctl --user start container-name If you prefer to recreate the container every time you start it, replace the ["
+    },
+    {
+      "chunk_id": 51,
+      "text": "e container every time you start it, replace the [Service] block of that file with something like [Service] Type=simple Restart=always ExecStartPre=-docker stop container-name ExecStartPre=-docker rm container-name ExecStartP"
+    },
+    {
+      "chunk_id": 52,
+      "text": "cStartPre=-docker rm container-name ExecStartPre=-rm -f /srv/appsockets/USERNAME/main/app.sock ExecStart=docker run --rm --name container-name [other arguments to docker run] container-image ExecStop=docker stop container-name Again, not"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ExecStop=docker stop container-name Again, notice that we haven't instructed Docker to detach from the container with the -d option to `docker run` -- this will give you useful output from `systemctl --user status container-name`. If you're usin"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ctl --user status container-name`. If you're using Docker Compose, try something like [Service] Type=simple Restart=always WorkingDirectory=/full/path/to/docker-compose/configuration ExecStartPre=-docker compose down ExecSta"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ExecStartPre=-docker compose down ExecStartPre=-rm -f /srv/appsockets/USERNAME/main/app.sock ExecStart=docker compose up ExecStop=docker compose down Note the use of the WorkingDirectory= option to cd into the right location before"
+    },
+    {
+      "chunk_id": 56,
+      "text": "tory= option to cd into the right location before running Docker Compose. Other hints and notes: * If you're using our MySQL/MariaDB service: make sure you set the database server name to instapphost.eecs.berkeley.edu in your application -- local"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ost.eecs.berkeley.edu in your application -- localhost refers to the container itself and isn't going to work. * You should use named volumes in Docker (https://docs.docker.com/storage/volumes/) for persistent storage whenever possible -- bind"
+    },
+    {
+      "chunk_id": 58,
+      "text": "or persistent storage whenever possible -- bind mounts will have confusing behavior due to our rootless Docker setup (see below). * If you bind mount a file or directory into a container, you'll notice that the ownership of files in that bind m"
+    },
+    {
+      "chunk_id": 59,
+      "text": "otice that the ownership of files in that bind mount looks different inside the container. Specifically, files that you own outside the container are owned by the root user inside the container, and files that are owned by any other user out"
+    },
+    {
+      "chunk_id": 60,
+      "text": ", and files that are owned by any other user outside the container will be owned by the special user nobody inside the container. You will need to adjust file permissions accordingly to ensure that your container's application can access those"
+    },
+    {
+      "chunk_id": 61,
+      "text": "that your container's application can access those files, particularly if that application is running as a non-root user inside the container. * If you bind mount a file or directory from your home directory into a container, you will (probably)"
+    },
+    {
+      "chunk_id": 62,
+      "text": "directory into a container, you will (probably) not be able to write to it from the container except as the root user. This is a limitation of rootless containers on NFS filesystems, and a big reason why we encourage you to use named volumes"
+    },
+    {
+      "chunk_id": 63,
+      "text": "reason why we encourage you to use named volumes rather than bind mounts where possible. Using the MariaDB database -------------------------- If you need a MariaDB (MySQL-compatible) database, run makemysql on the apphosting server to set"
+    },
+    {
+      "chunk_id": 64,
+      "text": "un makemysql on the apphosting server to set up your database. This will: * create a new database with the same name as your username; * create a database user (for logging in to MariaDB) with the same name as your username; * set a random"
+    },
+    {
+      "chunk_id": 65,
+      "text": "the same name as your username; * set a random password for the new database user. It will then show you the password it just set, along with your database's name and your database username. If you forget your database password, just run makemys"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ou forget your database password, just run makemysql again to reset it. Once set up, you can connect to the MariaDB server on localhost port 3306 or instapphost.eecs.berkeley.edu port 3306. (If you're using Docker containers, you'll need to use the"
+    },
+    {
+      "chunk_id": 67,
+      "text": "re using Docker containers, you'll need to use the instapphost.eecs hostname, as localhost would refer to the container itself.)"
+    }
+  ]
+}

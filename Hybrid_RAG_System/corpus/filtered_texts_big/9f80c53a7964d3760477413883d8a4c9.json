@@ -1,0 +1,245 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/Ptolemy-NashornBasicFunctions",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / Ptolemy-NashornBasicFunctions Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / Ptolemy-NashornBasicFunctions Below"
+    },
+    {
+      "chunk_id": 2,
+      "text": "nt Version0 / Ptolemy-NashornBasicFunctions Below is an implementation of the basic top-level accessor functions in Ptolemy II using the Nashorn JavaScript engine (this is probably not up to date, but will give you an idea): // JavaScript functions f"
+    },
+    {
+      "chunk_id": 3,
+      "text": "will give you an idea): // JavaScript functions for a Ptolemy II (Nashorn) accessor host. // Copyright (c) 2015 The Regents of the University of California. // All rights reserved. // Permission is hereby granted, without written agreement and witho"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ereby granted, without written agreement and without // license or royalty fees, to use, copy, modify, and distribute this // software and its documentation for any purpose, provided that the above // copyright notice and the following two paragraphs"
+    },
+    {
+      "chunk_id": 5,
+      "text": "copyright notice and the following two paragraphs appear in all copies // of this software. // IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY // FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES // ARISING OU"
+    },
+    {
+      "chunk_id": 6,
+      "text": "INCIDENTAL, OR CONSEQUENTIAL DAMAGES // ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF // THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF // SUCH DAMAGE. // THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAI"
+    },
+    {
+      "chunk_id": 7,
+      "text": "THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES, // INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE // PROVIDED HEREUNDER IS ON AN \"AS IS\" BASIS, AND T"
+    },
+    {
+      "chunk_id": 8,
+      "text": "/ PROVIDED HEREUNDER IS ON AN \"AS IS\" BASIS, AND THE UNIVERSITY OF // CALIFORNIA HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, // ENHANCEMENTS, OR MODIFICATIONS. /** JavaScript functions for a Ptolemy II (Nashorn) accessor host. * * <p"
+    },
+    {
+      "chunk_id": 9,
+      "text": "for a Ptolemy II (Nashorn) accessor host. * * <p>This file includes basic utility functions assumed by version 0 * accessors.</p> * * <h2>References</h2> * * <p><name=\"VisionOfSwarmLets\">Elizabeth Latronico, Edward A. Lee, * Marten Lohstroh, Chris"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Latronico, Edward A. Lee, * Marten Lohstroh, Chris Shaver, Armin Wasicek, Matt Weber.</a> * <a href=\"http://www.terraswarm.org/pubs/332.html\">A Vision of Swarmlets</a>, * <i>IEEE Internet Computing, Special Issue on Building Internet * of Things Soft"
+    },
+    {
+      "chunk_id": 11,
+      "text": "pecial Issue on Building Internet * of Things Software</i>, 19(2):20-29, March 2015.</p> * * @author Edward A. Lee, Contributor: Christopher Brooks * @version $Id: basicFunctions.js 72261 2015-05-08 08:45:30Z marten $ * @since Ptolemy II 11.0 */ // S"
+    },
+    {
+      "chunk_id": 12,
+      "text": "8:45:30Z marten $ * @since Ptolemy II 11.0 */ // Stop extra messages from jslint. Note that there should be no // space between the / and the * and global. /*globals Java, actor */ // Flag that will cause debug output to the console if set to true."
+    },
+    {
+      "chunk_id": 13,
+      "text": "cause debug output to the console if set to true. var _debug = false ; /** Pop up a dialog with the specified message. * @param message The message */ function alert ( message ) { var MessageHandler = Java. type ( 'ptolemy.util.MessageHandler' ) ; M"
+    },
+    {
+      "chunk_id": 14,
+      "text": "= Java. type ( 'ptolemy.util.MessageHandler' ) ; MessageHandler. message ( message ) ; } /** Clear an interval timer with the specified handle. * @param handle The handle * @see setInterval(). */ function clearInterval ( handle ) { actor. clearTime"
+    },
+    {
+      "chunk_id": 15,
+      "text": "nction clearInterval ( handle ) { actor. clearTimeout ( handle ) ; } /** Clear a timeout with the specified handle. * @param handle The handle * @see setTimeout(). */ function clearTimeout ( handle ) { actor. clearTimeout ( handle ) ; } /** Handle"
+    },
+    {
+      "chunk_id": 16,
+      "text": ") { actor. clearTimeout ( handle ) ; } /** Handle an error. This just throws an exception. * @param message The message for the exception. * @deprecated Just use throw(message). */ function error ( message ) { throw message ; } /** Perform a blocki"
+    },
+    {
+      "chunk_id": 17,
+      "text": "message ) { throw message ; } /** Perform a blocking HTTP request. * @param url The url for the request, method, properties, body, timeout) { * @param method the request method for the url connection. * @param properties An array of properties for"
+    },
+    {
+      "chunk_id": 18,
+      "text": "n. * @param properties An array of properties for the connection. * @param body If non-empty, the body to be written to the output * stream of the connection. * @param timeout If specified, the connect and read timeout in milliseconds. * * @depr"
+    },
+    {
+      "chunk_id": 19,
+      "text": "nnect and read timeout in milliseconds. * * @deprecated: Use the http module instead, which provides non-blocking requests. */ function httpRequest ( url , method , properties , body , timeout ) { if ( _debug ) { console. log ( \"httpRequest(\" + ( fu"
+    },
+    {
+      "chunk_id": 20,
+      "text": "( _debug ) { console. log ( \"httpRequest(\" + ( function ( obj ) { result = [ ] ; for ( p in obj ) { result. push ( JSON. stringify ( obj [ p ] ) ) ; } ; return result ; } ) ( arguments ) + \")\" ) ; } var theURL = new ( Java. type ( 'java.net.URL' ) )"
+    },
+    {
+      "chunk_id": 21,
+      "text": "var theURL = new ( Java. type ( 'java.net.URL' ) ) ( url ) ; var protocol = theURL. getProtocol ( ) . toLowerCase ( ) ; if ( actor. isRestricted && ! ( protocol. equals ( \"http\" ) || protocol. equals ( \"https\" ) ) ) { throw \"Actor is restricted. Only"
+    },
+    {
+      "chunk_id": 22,
+      "text": "( \"https\" ) ) ) { throw \"Actor is restricted. Only HTTP(S) requests will be honored by httpRequest().\" ; } var connection = theURL. openConnection ( ) ; for ( key in properties ) { connection. setRequestProperty ( key , properties [ key ] ) ; } conne"
+    },
+    {
+      "chunk_id": 23,
+      "text": "estProperty ( key , properties [ key ] ) ; } connection. setRequestMethod ( method ) ; // If a timeout has been specified, set it. if ( timeout && timeout >= 0 ) { connection. setConnectTimeout ( timeout ) ; connection. setReadTimeout ( timeout ) ; }"
+    },
+    {
+      "chunk_id": 24,
+      "text": "out ) ; connection. setReadTimeout ( timeout ) ; } // Send body if applicable. if ( body && ! body. equals ( '' ) ) { connection. setDoOutput ( true ) ; var writer = new ( Java. type ( 'java.io.OutputStreamWriter' ) ) ( connection . getOutputStream ("
+    },
+    {
+      "chunk_id": 25,
+      "text": "StreamWriter' ) ) ( connection . getOutputStream ( ) ) ; writer. write ( body ) ; writer. flush ( ) ; writer. close ( ) ; } // Wait for response. return Java. type ( 'ptolemy.actor.lib.jjs.JavaScript' ) . readFromInputStream ( connection. getInputStr"
+    },
+    {
+      "chunk_id": 26,
+      "text": ") . readFromInputStream ( connection. getInputStream ( ) ) ; } // Print a message to the console. // print is built in to Nashorn. /** Synchronously read a URL. * @param url The url. * @param timeout The timeout in milliseconds * * @deprecated: U"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ut The timeout in milliseconds * * @deprecated: Use the http module, which provides non-blocking functions. */ function readURL ( url , timeout ) { if ( ! timeout ) { timeout = 3000 ; } if ( _debug ) { console. log ( \"readURL('\" + url + \"')\" ) ; } v"
+    },
+    {
+      "chunk_id": 28,
+      "text": "{ console. log ( \"readURL('\" + url + \"')\" ) ; } var theURL = new ( Java. type ( 'java.net.URL' ) ) ( url ) ; if ( actor. isRestricted && ! theURL. getProtocol ( ) . toLowerCase ( ) . equals ( \"http\" ) ) { throw \"Actor is restricted. Only HTTP reques"
+    },
+    {
+      "chunk_id": 29,
+      "text": ") ) { throw \"Actor is restricted. Only HTTP requests will be honored by readURL().\" ; } var request = new ( Java. type ( 'org.ptolemy.ptango.lib.HttpRequest' ) ) ( ) ; request. setUrl ( theURL ) ; request. setTimeout ( timeout ) ; // In milliseconds."
+    },
+    {
+      "chunk_id": 30,
+      "text": "uest. setTimeout ( timeout ) ; // In milliseconds. var response = request. execute ( ) ; if ( ! response. isSuccessful ( ) ) { throw \"Failed to read URL: \" + url + \" \\n Response code: \" + response. getResponseCode ( ) + \" \\n Response message: \" + res"
+    },
+    {
+      "chunk_id": 31,
+      "text": "tResponseCode ( ) + \" \\n Response message: \" + response. getResponseMessage ( ) ; } return response. getBody ( ) ; } /** A string giving the full path to the root directory for installed modules. */ var moduleRoot = Java. type ( 'ptolemy.util.FileUti"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ar moduleRoot = Java. type ( 'ptolemy.util.FileUtilities' ) . nameToFile ( '$CLASSPATH/ptolemy/actor/lib/jjs/' , null ) . getAbsolutePath ( ) ; /** * Require the named module. This function imports modules formatted * according to the CommonJS standa"
+    },
+    {
+      "chunk_id": 33,
+      "text": "dules formatted * according to the CommonJS standard. * * <p>If the name begins with './' or '/', then it is assumed to * specify a file or directory on the local disk. If it is a file, the * '.js' suffix may be optionally omitted. If it is a directo"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ffix may be optionally omitted. If it is a directory, then * this function will look for a package.json file in that directory * and load the file specified by the 'main' property the JSON object * defined in that file. If there is no package.json fi"
+    },
+    {
+      "chunk_id": 35,
+      "text": "fined in that file. If there is no package.json file, then it * will load an 'index.js' file, if there is one.</p> * * <p>If the name does not begin with './' or '/', then it is assumed * to specify a module installed in this accessor host.</p> * * <"
+    },
+    {
+      "chunk_id": 36,
+      "text": "module installed in this accessor host.</p> * * <p>In both cases, this function returns an object that includes as * properties any properties that have been added to the 'exports' * property. For example, to export a function, the module JavaScript"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ample, to export a function, the module JavaScript * file could define the function as follows:</p> * * <pre> * exports.myFunction = function() {...}; * </pre> * * <p>Alternatively, the module JavaScript file can explicitly define * the exports obj"
+    },
+    {
+      "chunk_id": 38,
+      "text": "cript file can explicitly define * the exports object as follows:<p> * * <pre> * var myFunction = function() {...}; * module.exports = { * myFunction : myFunction * }; * </pre> * * <p>This implementation uses the requires() function imple"
+    },
+    {
+      "chunk_id": 39,
+      "text": "implementation uses the requires() function implemented by Walter Higgins, * found here: <a href=\"https://github.com/walterhiggins/commonjs-modules-javax-script.\">https://github.com/walterhiggins/commonjs-modules-javax-script</a>.</p> * * @see http:"
+    },
+    {
+      "chunk_id": 40,
+      "text": "monjs-modules-javax-script</a>.</p> * * @see http://nodejs.org/api/modules.html#modules_the_module_object * @see also: http://wiki.commonjs.org/wiki/Modules */ var require = load ( moduleRoot + '/external/require.js' ) ( // Invoke the function return"
+    },
+    {
+      "chunk_id": 41,
+      "text": "rnal/require.js' ) ( // Invoke the function returned by 'load' immediately with the following arguments. // - a root directory in which to look for modules. // - an array of paths in which to look for modules. // - an optional hook object th"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ok for modules. // - an optional hook object that includes two callback functions for notification. moduleRoot , [ moduleRoot + '/' , moduleRoot + '/modules/' , moduleRoot + '/node/' ] ) ; //////////////////// // Pull in the util and console modul"
+    },
+    {
+      "chunk_id": 43,
+      "text": "//////////// // Pull in the util and console modules. var util = require ( 'util' ) ; var console = require ( 'console' ) ; //////////////////// // Use a single Timer object for all timeout functions // (since they all have to execute in the same thr"
+    },
+    {
+      "chunk_id": 44,
+      "text": "// (since they all have to execute in the same thread anyway). var _timer ; /** * Set a timeout to call the specified function after the specified * time and repeatedly at multiples of that time. * * <p> Return a handle to use in clearInterval(). If"
+    },
+    {
+      "chunk_id": 45,
+      "text": "<p> Return a handle to use in clearInterval(). If there are * additional arguments beyond the first two, then those arguments * will be passed to the function when it is invoked. This * implementation uses fireAt() of the director in charge of the ho"
+    },
+    {
+      "chunk_id": 46,
+      "text": "uses fireAt() of the director in charge of the host * JavaScript actor in Ptolemy II. Hence, actors that use this should * be used with a director that respects fireAt(), such as DE. If the * director has synchronizeToRealTime set to true, then it"
+    },
+    {
+      "chunk_id": 47,
+      "text": "or has synchronizeToRealTime set to true, then it will * approximate real-time behavior reasonably closely. Otherwise, the * timeout will only be simulated. Either way, the timing is much more * precise and well-defined than usual for JavaScript envi"
+    },
+    {
+      "chunk_id": 48,
+      "text": "se and well-defined than usual for JavaScript environments. If * two actors specify the same timeout time in, say, their * initialize() function, then they will be invoked at the same model * time, and their outputs will be simultaneous. Any downstre"
+    },
+    {
+      "chunk_id": 49,
+      "text": "d their outputs will be simultaneous. Any downstream actor * will see them simultaneously.</p> * * <p>Note with this implementation, it is not necessary to * call clearInterval() in the actor's wrapup() function. * Nevertheless, it is a good idea to"
+    },
+    {
+      "chunk_id": 50,
+      "text": "() function. * Nevertheless, it is a good idea to do that in an accessor * since other accessor hosts may not work the same way. * * @param func The callback function. * @param milliseconds The interval in milliseconds. */ function setInterval ( func"
+    },
+    {
+      "chunk_id": 51,
+      "text": "al in milliseconds. */ function setInterval ( func , milliseconds ) { var callback = func ; // If there are arguments to the callback, create a new function. // Get an array of arguments excluding the first two. var tail = Array . prototype . slice ."
+    },
+    {
+      "chunk_id": 52,
+      "text": "first two. var tail = Array . prototype . slice . call ( arguments , 2 ) ; if ( tail. length !== 0 ) { callback = function ( ) { func. apply ( this , tail ) ; } ; } var id = actor. setInterval ( callback , milliseconds ) ; return id ; } /** * Set a"
+    },
+    {
+      "chunk_id": 53,
+      "text": "back , milliseconds ) ; return id ; } /** * Set a timeout to call the specified function after the specified time. * * <p>Return a handle to use in clearTimeout(). If there are * additional arguments beyond the first two, then those arguments * will"
+    },
+    {
+      "chunk_id": 54,
+      "text": "beyond the first two, then those arguments * will be passed to the function when it is invoked. This * implementation uses fireAt() of the director in charge of the host * JavaScript actor in Ptolemy II. Hence, actors that use this should * be used w"
+    },
+    {
+      "chunk_id": 55,
+      "text": "II. Hence, actors that use this should * be used with a director that respects fireAt(), such as DE. If the * director has synchronizeToRealTime set to true, then it will * approximate real-time behavior reasonably closely. Otherwise, the * timeout"
+    },
+    {
+      "chunk_id": 56,
+      "text": "vior reasonably closely. Otherwise, the * timeout will only be simulated. Either way, the timing is much more * precise and well-defined than usual for JavaScript environments. If * two actors specify the same timeout time in, say, their * initialize"
+    },
+    {
+      "chunk_id": 57,
+      "text": "the same timeout time in, say, their * initialize() function, then they will be invoked at the same model * time, and their outputs will be simultaneous. Any downstream actor * will see them simultaneously.</p> * * <p>Note with this implementation,"
+    },
+    {
+      "chunk_id": 58,
+      "text": "eously.</p> * * <p>Note with this implementation, it is not necessary to * call clearTimeout() in the actor's wrapup() function. * Nevertheless, it is a good idea to do that in an accessor * since other accessor hosts may not work the same way.</p> *"
+    },
+    {
+      "chunk_id": 59,
+      "text": "er accessor hosts may not work the same way.</p> * @param func The callback function. * @param milliseconds The interval in milliseconds. */ function setTimeout ( func , milliseconds ) { var callback = func ; // If there are arguments to the callback"
+    },
+    {
+      "chunk_id": 60,
+      "text": "= func ; // If there are arguments to the callback, create a new function. // Get an array of arguments excluding the first two. var tail = Array . prototype . slice . call ( arguments , 2 ) ; if ( tail. length !== 0 ) { callback = function ( ) { fun"
+    }
+  ]
+}

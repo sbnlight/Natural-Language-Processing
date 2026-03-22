@@ -1,0 +1,321 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/other/tmath/tmath0.2/README.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "TMath TMath 0.2: A Tcl Interface to MATLAB and Mathematica Brian L. Evans (1) and Steve X. Gu (2) (1) Dept. of ECE, The University of Texas at Austin, Austin, TX 78712-1084 E-mail: bevans at ece utexas edu , Web: http://www.ece.utexas.edu/~bevans (2)"
+    },
+    {
+      "chunk_id": 2,
+      "text": "s edu , Web: http://www.ece.utexas.edu/~bevans (2) NORTEL, 2305 Mission College Blvd., Santa Clara, CA. 95052-8173 E-mail: stevegu at nt com with code from Joseph T. Buck, Wan-Teh Chang, Christopher X. Hylands, Edward A. Lee, D"
+    },
+    {
+      "chunk_id": 3,
+      "text": "h Chang, Christopher X. Hylands, Edward A. Lee, David G. Messerschmitt, Jose Luis Pino, Kennard D. White. with help from Steven Eddins at The MathWorks, Inc., John Novak and Todd Gayley at Wolfram Research, Inc., and Wade Schwartzk"
+    },
+    {
+      "chunk_id": 4,
+      "text": "lfram Research, Inc., and Wade Schwartzkopf at The University of Texas at Austin 07/08/97 -- Table of Contents -- 1.0 Introduction 5.0 Examples 2.0 System Requirements 6.0 References 3.0 Inst"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ements 6.0 References 3.0 Installation 7.0 Copyright 4.0 New Tcl Commands 8.0 Acknowledgements 1.0 Introduction The TMath package is an extension to Tcl that allows Tcl to control MATLAB [Han96] a"
+    },
+    {
+      "chunk_id": 6,
+      "text": "to Tcl that allows Tcl to control MATLAB [Han96] and Mathematica [Wol91] processes and to evaluate MATLAB 5.0 and Mathematica 3.0 commands. It provides two new Tcl commands matlab and mathematica, a framework for registering Tcl commands implemented"
+    },
+    {
+      "chunk_id": 7,
+      "text": "framework for registering Tcl commands implemented as C++ methods, C++ interfaces for MATLAB and Mathematica, and C++ objects to control multiple MATLAB and Mathematica processes. TMath does not use pipes to control MATLAB and Mathematica processes."
+    },
+    {
+      "chunk_id": 8,
+      "text": "ipes to control MATLAB and Mathematica processes. Instead, it uses the MATLAB Engine interface and the Mathematica MathLink protocol. The Engine interface is based on memory-to-memory writes and reads. MathLink is based on exchanging data packets."
+    },
+    {
+      "chunk_id": 9,
+      "text": "s. MathLink is based on exchanging data packets. TMath is based on an implementation [Eva95] developed for the Ptolemy design environment [Pin95] for specifying, simulating, and synthesizing signal processing and communications systems. TMath source"
+    },
+    {
+      "chunk_id": 10,
+      "text": "rocessing and communications systems. TMath source code and pre-built binaries are available from the FTP site ptolemy.eecs.berkeley.edu in the directory pub/misc/tmath/tmath0.2, i.e., http://ptolemy.eecs.berkeley.edu/other/tmath/tmath0.2 . 2.0 Syste"
+    },
+    {
+      "chunk_id": 11,
+      "text": "eecs.berkeley.edu/other/tmath/tmath0.2 . 2.0 System Requirements TMath works with the following software: MATLAB 4 or 5 Mathematica 2.2 or 3.0 Tcl 7.4, 7.5, or 7.6 The pre-compiled binaries are compiled with MATLAB 5.0 Mathematica 3.0 Tcl 7.6 under S"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ed with MATLAB 5.0 Mathematica 3.0 Tcl 7.6 under Solaris 2.5.1 and HP-UX 10.20 using version 2.7.2.2 of the GNU C/C++ compiler. For the pre-compiled binaries to run, Matlab 5.0 must be installed on the local machine. TMath includes dummy include fil"
+    },
+    {
+      "chunk_id": 13,
+      "text": "he local machine. TMath includes dummy include files and libraries that allow TMath to compile and run without Mathematica being installed locally. If the code is compiled with Matlab 5.0, then Matlab must be present for tmath to run. During compila"
+    },
+    {
+      "chunk_id": 14,
+      "text": "must be present for tmath to run. During compilation, TMath requires include files and libraries from either version 7.4, 7.5, or 7.6 of Tcl. At startup, TMath sources the standard init.tcl Tcl script. TMath will compile on the following Unix archi"
+    },
+    {
+      "chunk_id": 15,
+      "text": "pt. TMath will compile on the following Unix architectures: Sparc Solaris 2.4, Solaris 2.5, and Sun OS 4.1.3 SGI Irix 5.3 and Irix 6.0 HP HP-UX 9 and HP-UX 10 DEC Alpha DEC Unix OSF 3.2 IBM RS/6000 AIX 3.2.5 and AIX 4.1"
+    },
+    {
+      "chunk_id": 16,
+      "text": "C Unix OSF 3.2 IBM RS/6000 AIX 3.2.5 and AIX 4.1 PC Linux Slackware 3.0, NetBSD 1.0, and FreeBSD 2.1-Stable The disk space requirements are compilation from sources: 1 Mb + 1.5 Mb/architecture installed installation of tmath binary: 50 Kb"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ure installed installation of tmath binary: 50 Kb + 500 Kb/architecture installed shared libraries: 4.5 Mb/architecture To compile TMath, you will need the GNU make utility. To check if GNU make is on your path, type the following in Unix: make -v T"
+    },
+    {
+      "chunk_id": 18,
+      "text": "n your path, type the following in Unix: make -v This command should return GNU Make version 3.74, by Richard Stallman and Roland McGrath.... If you get something other than GNU make, e.g. make: Fatal error: Unknown option `-v' then the default Unix"
+    },
+    {
+      "chunk_id": 19,
+      "text": "error: Unknown option `-v' then the default Unix make utility is the first 'make' to appear on your Unix path. Move the GNU directory before /bin/make (and before /usr/ccs/bin if it is listed) in the path specification in your ~/.cshrc file. The G"
+    },
+    {
+      "chunk_id": 20,
+      "text": "e path specification in your ~/.cshrc file. The GNU directory is sometimes called /usr/local/gnu/bin. If GNU make is not installed, then ask your system administrator to install it. GNU tools are on the FTP site is prep.ai.mit.edu in /pub/gnu. To c"
+    },
+    {
+      "chunk_id": 21,
+      "text": "the FTP site is prep.ai.mit.edu in /pub/gnu. To compile TMath, you will need to have Tcl installed and know where it is installed. If you do not know where it has been installed, type the following in Unix to see if tclsh exists on your path: which"
+    },
+    {
+      "chunk_id": 22,
+      "text": "in Unix to see if tclsh exists on your path: which tclsh You will also need a C++ compiler. The makefiles will by default expect version 2.7.2 of the GNU C/C++ compiler, g++. You can find out which version of g++ you have by typing g++ --version If"
+    },
+    {
+      "chunk_id": 23,
+      "text": "version of g++ you have by typing g++ --version If g++ does not recognize the --version option, then it is too old to use. If you are using the GNU C/C++ 2.6 compiler, then edit the file 'tmath/settings.mk' and comment out the line USE_GNU_COMPILER_"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ngs.mk' and comment out the line USE_GNU_COMPILER_272 = 1 You can also use the standard C++ compilers on Sparc and HP workstations. To do this, edit the 'tmath/settings.mk' and comment out the line USE_GNU_COMPILER = 1 In this case, the arch will be"
+    },
+    {
+      "chunk_id": 25,
+      "text": "E_GNU_COMPILER = 1 In this case, the arch will be appended with the string 'cfront' signifying that it is a non-GNU compiler. The C++ compiler will be invoked by using the CC command. Once the cfront version has been built, set setenv PTARCH `$TMAT"
+    },
+    {
+      "chunk_id": 26,
+      "text": "t version has been built, set setenv PTARCH `$TMATH_HOME/bin/ptarch`.cfront The release has been tested with the GNU C/C++ 2.7.2.2 compiler under Solaris 2.5.1 and HP-UX 10.20. It has also been tested using the CC compiler under Solaris 2.5.1 and HP"
+    },
+    {
+      "chunk_id": 27,
+      "text": "d using the CC compiler under Solaris 2.5.1 and HP-UX 10.20. 3.0 Installation Before proceeding, make sure that you have the proper system requirements and settings, as described in Section 2.0. 3.1 Installation of pre-compiled binaries Pre-compiled"
+    },
+    {
+      "chunk_id": 28,
+      "text": "nstallation of pre-compiled binaries Pre-compiled binaries of the tmath program and files it requires are available for the Solaris 2.5.1 and HP-UX 10.20 architectures as the compressed archived files tmath0.2.sol2.tar.Z tmath0.2.hppa.tar.Z Installin"
+    },
+    {
+      "chunk_id": 29,
+      "text": "tmath0.2.sol2.tar.Z tmath0.2.hppa.tar.Z Installing them is simple. First, uncompress tmath0.2.sol2.tar.Z tar xf tmath0.2.sol2.tar Then, set the TMATH_HOME Unix environment variable to the full pathname where you have installed tmath. For examp"
+    },
+    {
+      "chunk_id": 30,
+      "text": "athname where you have installed tmath. For example, setenv TMATH_HOME /users/tmath Finally, run the tmath program: $TMATH_HOME/bin/tmath where arch is the architecture you are on, e.g. sol2.5 or hppa. If tmath complains about TCL_LIBRARY , then you"
+    },
+    {
+      "chunk_id": 31,
+      "text": "a. If tmath complains about TCL_LIBRARY , then you can try the following: setenv TCL_LIBRARY $TMATH_HOME/lib/tcl echo >$TCL_LIBRARY/init.tcl to create an empty init.tcl file on the Tcl library path. Then, rerun the tmath program. 3.2 Installatio"
+    },
+    {
+      "chunk_id": 32,
+      "text": "h. Then, rerun the tmath program. 3.2 Installation from sources First, extract the contents of the TMath release: uncompress tmath0.2.src.tar.Z tar xf tmath0.2.src.tar The 'tar xf' command will create a subdirectory called 'tmath'. Second, set t"
+    },
+    {
+      "chunk_id": 33,
+      "text": "reate a subdirectory called 'tmath'. Second, set the TMATH_HOME Unix environment variable to the full pathname where you have installed tmath. For example, setenv TMATH_HOME /users/tmath Third, edit 'tmath/override.mk', which will be included by oth"
+    },
+    {
+      "chunk_id": 35,
+      "text": "t directory of where Tcl is installed). For example, if Tcl is installed in /usr/sww/lib, then TCL_ROOT = /usr/sww GNULIB should be set to the directory in which the GNU C/C++ libraries are installed, for example GNULIB = /users/ptolemy/gnu/$(PTARCH"
+    },
+    {
+      "chunk_id": 36,
+      "text": ", for example GNULIB = /users/ptolemy/gnu/$(PTARCH)/lib Note that PTARCH is a make variable that is automatically set to the machine architecture (sol2.5, hppa, etc.). Its value is returned by the 'bin/ptarch' script. Fourth, build the tmath binary:"
+    },
+    {
+      "chunk_id": 37,
+      "text": "in/ptarch' script. Fourth, build the tmath binary: cd tmath make all The 'make all' command will first build the architecture-specific directories (e.g. bin.sol2.5, lib.sol2.5, and obj.sol2.5 for Solaris 2.5 architectures), then compile tmath, an"
+    },
+    {
+      "chunk_id": 38,
+      "text": "Solaris 2.5 architectures), then compile tmath, and finally install it in the bin. arch directory. The tmath binary will be called by the tmath script, which you can run by typing bin/tmath After you have built tmath, only the bin, bin. arch , lib,"
+    },
+    {
+      "chunk_id": 39,
+      "text": "have built tmath, only the bin, bin. arch , lib, and lib. arch directories are required for tmath to run. You may want to delete the obj. arch , mk, and src directories if you do not plan to recompile tmath in the future. The bin directory holds s"
+    },
+    {
+      "chunk_id": 40,
+      "text": "le tmath in the future. The bin directory holds several shell scripts, such as ptarch which determines what the arch setting is. 4.0 New Tcl Commands TMath introduces two new Tcl commands, matlab and mathematica. They are implemented as C++ methods"
+    },
+    {
+      "chunk_id": 41,
+      "text": "mathematica. They are implemented as C++ methods. The commands have a similar syntax: matlab command ?arg1? ?arg2? ... mathematica command ?arg1? ?arg2? ... The matlab command controls the interaction with a shared MATLAB process. The possible"
+    },
+    {
+      "chunk_id": 42,
+      "text": "raction with a shared MATLAB process. The possible commands and arguments are: matlab end terminate a session with MATLAB matlab eval script evaluate a MATLAB script and print the result matlab get name ?script? evaluate a MATLAB script and get the n"
+    },
+    {
+      "chunk_id": 43,
+      "text": "me ?script? evaluate a MATLAB script and get the named MATLAB matrix as Tcl lists of numbers matlab getpairs name ?script? evaluate a MATLAB script and get the named MATLAB matrix as ordered pairs of numbers matlab send script evaluat"
+    },
+    {
+      "chunk_id": 44,
+      "text": "pairs of numbers matlab send script evaluate a MATLAB script and suppress the output matlab set name rows cols real ?imag? set the named MATLAB matrix with real and imaginary values matlab start start a new MATLAB session matlab status return"
+    },
+    {
+      "chunk_id": 45,
+      "text": "t start a new MATLAB session matlab status return the status of the Tcl/MATLAB connection (0 means connected, -1 means not initialized, and 1 means error) matlab unset name unset the named MATLAB matrix The mathematica command controls the in"
+    },
+    {
+      "chunk_id": 46,
+      "text": "LAB matrix The mathematica command controls the interaction with a shared Mathematica process. The possible commands and arguments are mathematica end terminate a session with Mathematica mathematica eval ?script? evaluate a Mathematica script and pr"
+    },
+    {
+      "chunk_id": 47,
+      "text": "eval ?script? evaluate a Mathematica script and print the result mathematica get name ?script? evaluate a Mathematica script and get the named Mathematica variable as a Tcl string mathematica send script evaluate a Mathematica script and supp"
+    },
+    {
+      "chunk_id": 48,
+      "text": "send script evaluate a Mathematica script and suppress the output mathematica start start a new Mathematica session mathematica status return the status of the Tcl/Mathematica connection (0 means connected, -1 means not initialized, and 1 mea"
+    },
+    {
+      "chunk_id": 49,
+      "text": "connected, -1 means not initialized, and 1 means error) Other Tcl commands are introduced by means of the lib/tcl/mathexpr.tcl Tcl script. They are listed below. listApplyExpression tclexpr list Produces a new list by applying each item in list"
+    },
+    {
+      "chunk_id": 50,
+      "text": "Produces a new list by applying each item in list to the tclexpr by substituting for the variable i in tclexpr. The tclexpr should be in an unevaluated form, e.g. { cos($i) }. makeOrderedPairs x-values ? y-values ? Converts two lists"
+    },
+    {
+      "chunk_id": 51,
+      "text": "eredPairs x-values ? y-values ? Converts two lists, x-values and y-values , into ordered pairs; e.g., makeOrderedPairs \"1 2 3\" \"3 2 1\" returns \"(1,3) (2,2) (3,1)\". max x1 x2 ... Computes the maximum of the arguments according to the g"
+    },
+    {
+      "chunk_id": 52,
+      "text": "es the maximum of the arguments according to the greater than operator, which also compares strings. min x1 x2 ... Computes the minimum of the arguments according to the less than operator, which also compares strings. range min max ?"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ator, which also compares strings. range min max ? increment ? Produces an ordered list of numbers running from min to max at increments of increment. If the sequence of numbers will never reach max, then the routine will return an e"
+    },
+    {
+      "chunk_id": 54,
+      "text": "never reach max, then the routine will return an empty list. rangeApplyExpression tclexpr min max ? increment ? Evaluate tclexpr at values of i running from min to max at increments of increment to produce a list. If the sequence of"
+    },
+    {
+      "chunk_id": 55,
+      "text": "nt to produce a list. If the sequence of numbers will never reach max, then the routine will return an empty list. The tclexpr should be in an unevaluated form, e.g. { cos($i) }. sign x Returns 1 if x is greater than 0, -1 i"
+    },
+    {
+      "chunk_id": 56,
+      "text": ") }. sign x Returns 1 if x is greater than 0, -1 if x is less than 0, and 0 otherwise. Comparison is based on the Tcl operators less than and greater than, which also compare strings. Of these commands, only the makeOrderedPairs command is used to"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ands, only the makeOrderedPairs command is used to support new matlab and mathematica Tcl commands. 5.0 Examples This section presents examples of using the new matlab and mathematica Tcl commands defined by TMath. For an example of how we interface"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ined by TMath. For an example of how we interfaced the C++ simulation program Ptolemy to MATLAB, see the files \"MatlabPtIfc.h\" and \"MatlabPtIfc.cc\" in the interfaces/ptolemy directory. Note that these files will not compile because we have not ship"
+    },
+    {
+      "chunk_id": 59,
+      "text": "se files will not compile because we have not shipped the files on which they depend. Once TMath is running, you can start, interact with, and end MATLAB and Mathematica processes. To initiate a connection to a MATLAB and Mathematica process, use ma"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ection to a MATLAB and Mathematica process, use matlab start mathematica start Generate a simple plot of a straight line in MATLAB and Mathematica by matlab send { plot( [0 1 2 3] ) } mathematica send { Plot[ x, {x, 0, 3} ] } Graphics are dis"
+    },
+    {
+      "chunk_id": 61,
+      "text": "ica send { Plot[ x, {x, 0, 3} ] } Graphics are displayed in a separate window, just as the command line tty interfaces to MATLAB and Mathematica display them. The send command suppresses the output normally returned by interacting with the program u"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ormally returned by interacting with the program using the command interface. The eval command, on the other hand, returns the dialog: mathematica eval { Plot[x, {x, 0, 3}] } -Graphics- We can use MATLAB to compute eigenvalues of a matrix: matla"
+    },
+    {
+      "chunk_id": 63,
+      "text": "e MATLAB to compute eigenvalues of a matrix: matlab getpairs c { c = eig( [1 2; 2 1] ) } -1.0 3.0 Similarly, we can use Mathematica to derive formulas to be used as parameters: mathematica get c {c=Integrate[A x, {x, 0, 1}]} A/2 To terminate"
+    },
+    {
+      "chunk_id": 64,
+      "text": "c=Integrate[A x, {x, 0, 1}]} A/2 To terminate the connection, use matlab end mathematica end 6.0 References [Eva95] B. L. Evans, S. X. Gu, A. Kalavade, and E. A. Lee, \"Symbolic Computation in System Simulation and Design,\" Invited Paper, Proc"
+    },
+    {
+      "chunk_id": 65,
+      "text": "System Simulation and Design,\" Invited Paper, Proc. of SPIE Int. Sym. on Advanced Signal Processing Algorithms, Architectures, and Implementations , July 9-16, 1995, San Diego, CA, pp. 396-407. http://ptolemy.eecs.berkeley.edu/papers/spie95symcomp/ ["
+    },
+    {
+      "chunk_id": 66,
+      "text": "/ptolemy.eecs.berkeley.edu/papers/spie95symcomp/ [Han96] Duane Hanselman and Bruce Littlefield, Mastering MATLAB , Prentice Hall, ISBN 0-13-191594-0, 542 pages, 1996. [Pin95] J. L. Pino, S. Ha, E. A. Lee, and J. T. Buck, ``Software Synthesis for DSP"
+    },
+    {
+      "chunk_id": 67,
+      "text": "Lee, and J. T. Buck, ``Software Synthesis for DSP Using Ptolemy,'' Journal on VLSI Signal Processing , vol. 9, no. 1, pp. 7-21, Jan., 1995. http://ptolemy.eecs.berkeley.edu/papers/jvsp_codegen/ [Wol91] Stephen Wolfram, Mathematica: A System for Doing"
+    },
+    {
+      "chunk_id": 68,
+      "text": "] Stephen Wolfram, Mathematica: A System for Doing Mathematics by Computer , Addison-Wesley, ISBN 0-201-51502-4, 1991. 7.0 Copyright TMath is covered by the standard freely distributable U.C. Berkeley copyright shown below. Copyright (c) 1990-1997 Th"
+    },
+    {
+      "chunk_id": 69,
+      "text": "copyright shown below. Copyright (c) 1990-1997 The Regents of the University of California. All rights reserved. Permission is hereby granted, without written agreement and without license or royalty fees, to use, copy, modify, and distribute this s"
+    },
+    {
+      "chunk_id": 70,
+      "text": "fees, to use, copy, modify, and distribute this software and its documentation for any purpose, provided that the above copyright notice and the following two paragraphs appear in all copies of this software. IN NO EVENT SHALL THE UNIVERSITY OF CALI"
+    },
+    {
+      "chunk_id": 71,
+      "text": "software. IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA"
+    },
+    {
+      "chunk_id": 72,
+      "text": "CUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND F"
+    },
+    {
+      "chunk_id": 73,
+      "text": "O, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN \"AS IS\" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR M"
+    },
+    {
+      "chunk_id": 74,
+      "text": "MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS. 8.0 Acknowledgements TMath is based on code from the Ptolemy design environment. The code that was used was authored by Joseph T. Buck, Wan-Teh Chang, Christopher X. Hylands, Edward A."
+    },
+    {
+      "chunk_id": 75,
+      "text": ", Wan-Teh Chang, Christopher X. Hylands, Edward A. Lee, David G. Messerschmitt, Jose Luis Pino, and Kennard D. White. The Ptolemy project is supported by the Advanced Research Projects Agency and the U.S. Air Force (under the RASSP program, contract"
+    },
+    {
+      "chunk_id": 76,
+      "text": "U.S. Air Force (under the RASSP program, contract F33615-93-C-1317), Semiconductor Research Corporation (project 95-DC-324), National Science Foundation (MIP-9201605), the State of California MICRO program, and the following companies: Cadence, Dolb"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ogram, and the following companies: Cadence, Dolby Laboratories, Hitachi, Lucky/Goldstar, Mentor Graphics, Mitsubishi, Motorola, NEC, NORTEL (formerly Bell Northern Research), Pacific Bell, Philips, and Rockwell. In dealing with the finer points of"
+    },
+    {
+      "chunk_id": 78,
+      "text": "and Rockwell. In dealing with the finer points of interfacing to MATLAB, Steven Eddins at The MathWorks, Inc., was very helpful. For the interface to Mathematica, the MathLink tutorial by Todd Gayley and proof-of-concept code by John Novak were very"
+    },
+    {
+      "chunk_id": 79,
+      "text": "and proof-of-concept code by John Novak were very helpful. Todd Gayley and John Novak are at Wolfram Research, Inc. For more information, visit the following Web sites and news groups: MATLAB: http://www.mathworks.com/ , comp.soft-sys.matlab Mathem"
+    },
+    {
+      "chunk_id": 80,
+      "text": "//www.mathworks.com/ , comp.soft-sys.matlab Mathematica: http://www.wolfram.com/ , comp.soft-sys.math.mathematica Ptolemy: http://ptolemy.eecs.berkeley.edu/ , comp.soft-sys.ptolemy"
+    }
+  ]
+}

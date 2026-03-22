@@ -1,0 +1,241 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/C/CModulesInNode",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | C / CModulesInNode Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print C / CModulesInNode Summary Accessors will need to bind interactions w"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Summary Accessors will need to bind interactions with novel technologies -- both software and hardware, which are inaccessible from JavaScript. Cape Code provides Nashorn to provide a JS bindings for Java methods. Node allows developers to author \"ad"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Java methods. Node allows developers to author \"add-ons\" in C++, which can be accessed from Node using `require` keyword. Node is an amalgam of: libuv -- a cross-platform C library for asynchronous I/O that governs Node's event loop & provides thread"
+    },
+    {
+      "chunk_id": 4,
+      "text": "O that governs Node's event loop & provides threading operations Node libraries -- a set of C++ libraries for built-in Node functions (including Buffers, sockets, etc.) V8 -- Google's C++ implementation of ECMAScript, which provides javascript bindin"
+    },
+    {
+      "chunk_id": 5,
+      "text": "on of ECMAScript, which provides javascript bindings for the above The problem with Node is that all three of the above are moving targets, developed by different teams. That is, the \"RTFM\" mantra is particularly difficult to put into practice, as yo"
+    },
+    {
+      "chunk_id": 6,
+      "text": "particularly difficult to put into practice, as you need to read 3 manuals, with at least 3 of these frequently lying due to API changes. This page is set up to collate various bits of practical advice for anyone wishing to bind their C/C++ libraries"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e for anyone wishing to bind their C/C++ libraries into Node modules to build accessors. Audience This document assumes familiarity with C, C++, and threads. TODO: outline C++11 features used in code examples as I write the code examples... Documenta"
+    },
+    {
+      "chunk_id": 8,
+      "text": "examples as I write the code examples... Documentation Resources official Node documentation | libuv book V8 embedder's guide node-gyp github wiki , node-gyp is a build system for compiling C++ add-ons gyp homepage (better documentation than node-gyp"
+    },
+    {
+      "chunk_id": 9,
+      "text": "s gyp homepage (better documentation than node-gyp... Addressing Documentation Shortcomings: Node/V8 native binding guide list of recent breaking changes in v8 \"how not to access node.js from c worker threads Code Snippets for Common Tasks To build a"
+    },
+    {
+      "chunk_id": 10,
+      "text": "threads Code Snippets for Common Tasks To build anything, you will need `node-gyp` installed globally: sudo npm install -g node-gyp [$[Get Code]] For more information on how to use it, see the node-gyp section below. Addon Basics Write a C++ file Cr"
+    },
+    {
+      "chunk_id": 11,
+      "text": "yp section below. Addon Basics Write a C++ file Create a bindings.gyp file (in essence, a Makefile) run node-gyp rebuild or node-gyp configure && node-gyp build to build your add-on run node and test: myAddon = require('./build/Release/myaddon'); Sto"
+    },
+    {
+      "chunk_id": 12,
+      "text": "myAddon = require('./build/Release/myaddon'); Storing Persistent Variables C++ functions that are accessed from a Node module will have the following signature: void myFunction ( const v8 :: FunctionCallbackInfo < Value > & args ) [$[Get Code]] The"
+    },
+    {
+      "chunk_id": 13,
+      "text": "CallbackInfo < Value > & args ) [$[Get Code]] The args variable can be used to: 1. args.GetIsolate() to get a pointer to the javascript VM (for doing anything useful); 2. args.Length() to inquire as to the number of arguments 3. args[0]->IntegerValue"
+    },
+    {
+      "chunk_id": 14,
+      "text": "o the number of arguments 3. args[0]->IntegerValue() and alike functions to get to the data from JavaScript variables. Note that when getting values from javascript, V8 will pass a v8::Local<T> handle to a Javascript datatype. v8::Local handles will"
+    },
+    {
+      "chunk_id": 15,
+      "text": "to a Javascript datatype. v8::Local handles will be garbage collected as soon as they will exit the scope, \"even if you are attempting to store them in some global variable\". This is not a problem for data, as you usually will cast it to a C++ datat"
+    },
+    {
+      "chunk_id": 16,
+      "text": "r data, as you usually will cast it to a C++ datatype for storage, but storing a Javascript callback and calling it from some other function requires to use v8::Persistent<T> handle. To store a javascript callback: v8 :: Persistent < v8 :: Function >"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ript callback: v8 :: Persistent < v8 :: Function > storedJsCallback ; // for clarity, as a global variable ... void functionToStoreCallback ( const v8 :: FunctionCallbackInfo < Value > & args ) { auto isolate = args. GetIsolate ( ) ; // get a pointer"
+    },
+    {
+      "chunk_id": 18,
+      "text": "isolate = args. GetIsolate ( ) ; // get a pointer to the V8 javascript VM v8 :: Local < v8 :: Function > jsCallback = v8 :: Local < v8 :: Function > :: Cast ( args [ 0 ] ) ; // get a Local handle to a callback passed to your function storedJsCallbac"
+    },
+    {
+      "chunk_id": 19,
+      "text": "a callback passed to your function storedJsCallback. Reset ( isolate, jsCallback ) ; // due to breaking changes this call is poorly documented } [$[Get Code]] Note that as of V8 v0.12, v8::Persistent<T>::New and v8::Persistent<T>::operator= are priva"
+    },
+    {
+      "chunk_id": 20,
+      "text": "T>::New and v8::Persistent<T>::operator= are private . At the time of writing, you set a persistent handle by calling .Reset() and passing a local handle as a constructor argument: storedJsCallback.Reset( isolate, jsCallback ); (see above) To call a"
+    },
+    {
+      "chunk_id": 21,
+      "text": "set( isolate, jsCallback ); (see above) To call a stored Persistent<Function> , you will first need to convert it to a Local<Function> , as Persistent<Function> is not callable : //Persistent<Function> storedJsCallback is a global as above void funct"
+    },
+    {
+      "chunk_id": 22,
+      "text": "> storedJsCallback is a global as above void functionToCallTheCallback ( const FunctionCallbackInfo < Value > & args ) { auto isolate = args. GetIsolate ( ) ; Local < Function > callable = Local < Function > :: New ( isolate, storedJsCallback ) ; //"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ction > :: New ( isolate, storedJsCallback ) ; // obtain a local handle // generate an array of javascript values to be passed as function arguments callable - > Call ( isolate - > GetCurrentContext ( ) , ... argc ..., ... argv ... ) ; // for example"
+    },
+    {
+      "chunk_id": 24,
+      "text": ") , ... argc ..., ... argv ... ) ; // for example: // callable->Call(isolate->GetCurrentContext(), args.Length(), args ); // will call the stored callback with the arguments passed to this function } [$[Get Code]] Async Operation Asynchronous operat"
+    },
+    {
+      "chunk_id": 25,
+      "text": "[$[Get Code]] Async Operation Asynchronous operations with Node require interacting with libuv . The primary guideline for Node extensions is that the only thread that can access javascript is the Node event loop. The TLDR of this section that point"
+    },
+    {
+      "chunk_id": 26,
+      "text": "de event loop. The TLDR of this section that points to the necessary documentation is: spawning an async operation: uv_work_t uv_queue_work() waking up the Node event loop (V8 / javascript) from a different thread: * uv_async_t * uv_async_send() You"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ferent thread: * uv_async_t * uv_async_send() You own the new thread: That is, you would like to spawn a new thread that will do some work. After completion, you will need the main event loop in Node to call a javascript function with the results of"
+    },
+    {
+      "chunk_id": 28,
+      "text": "to call a javascript function with the results of the computation as arguments. This requires some setup: define the function that is called from javascript that prepares the async operation # convert javascript arguments to C++ datatypes # store the"
+    },
+    {
+      "chunk_id": 29,
+      "text": "javascript arguments to C++ datatypes # store these C++ datatypes in a structure that will be accessible to the worker thread define the function that will be called from a different thread that does the work # this function is a plain vanilla C++ f"
+    },
+    {
+      "chunk_id": 30,
+      "text": "the work # this function is a plain vanilla C++ function that has no access to the V8 Isolate, or any JavaScript variables define the third function that will be called from the event thread when the operation completes # this function will be calle"
+    },
+    {
+      "chunk_id": 31,
+      "text": "operation completes # this function will be called from the event loop thread, and therefore can interact with V8/Javascript # use Isolate::GetCurrent() to obtain a pointer to the V8 instance for creating javascript variables & calling functions Not"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ating javascript variables & calling functions Note that because we are dealing with Javascript callbacks, we will be using Persistent<Function> handle. If the mechanism seems confusing, review Storing Persistent Variables above. #include <node.h> #i"
+    },
+    {
+      "chunk_id": 33,
+      "text": "g Persistent Variables above. #include <node.h> #include <uv.h> #include <iostream> #include <string> #include <thread> using namespace v8 ; using namespace std ; // the structure for data accessible from different threads: struct Baton { // the uv_w"
+    },
+    {
+      "chunk_id": 34,
+      "text": "from different threads: struct Baton { // the uv_work_t must be the initial element to ensure safe casts of uv_work_t* to Baton* uv_work_t request ; Persistent < Function > callback ; // callback if you need data back in JS int countdown ; // whateve"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ou need data back in JS int countdown ; // whatever else data fields as necessary } ; void AsyncTestWork ( uv_work_t * req ) ; void AsyncTestAfter ( uv_work_t * req, int status ) ; void AsyncTestPrep ( const FunctionCallbackInfo < Value > & args ) //"
+    },
+    {
+      "chunk_id": 36,
+      "text": "( const FunctionCallbackInfo < Value > & args ) // this function is called from Node { cout << \"AsyncTestPrep called from thread \" << std :: this_thread :: get_id ( ) << ' \\n ' ; auto isolate = args. GetIsolate ( ) ; Baton * baton = new Baton ( ) ; b"
+    },
+    {
+      "chunk_id": 37,
+      "text": "GetIsolate ( ) ; Baton * baton = new Baton ( ) ; baton - > request. data = baton ; // set the uv_work_t data field to point to our Baton baton - > callback. Reset ( isolate, Local < Function > :: Cast ( args [ 0 ] ) ) ; baton - > countdown = 3 ; uv_q"
+    },
+    {
+      "chunk_id": 38,
+      "text": "( args [ 0 ] ) ) ; baton - > countdown = 3 ; uv_queue_work ( uv_default_loop ( ) , & baton - > request, AsyncTestWork, AsyncTestAfter ) ; args. GetReturnValue ( ) . Set ( Undefined ( isolate ) ) ; } void AsyncTestWork ( uv_work_t * req ) { // This m"
+    },
+    {
+      "chunk_id": 39,
+      "text": "void AsyncTestWork ( uv_work_t * req ) { // This method will run in a separate thread where you can do your blocking background work. // In this function, you cannot under any circumstances access any V8/node js variables. (Use the Baton) cout << \"As"
+    },
+    {
+      "chunk_id": 40,
+      "text": "V8/node js variables. (Use the Baton) cout << \"AsyncTestWork Enter \\n \" ; cout << \"AsyncTestWork called from thread \" << std :: this_thread :: get_id ( ) << ' \\n ' ; Baton * baton = static_cast < Baton * > ( req - > data ) ; // data field of req poi"
+    },
+    {
+      "chunk_id": 41,
+      "text": "on * > ( req - > data ) ; // data field of req points to the Baton as per above baton - > countdown - = 1 ; // async subtraction -- the work we're doing cout << \"AsyncTestWork Exit \\n \" ; } void AsyncTestAfter ( uv_work_t * req, int status ) { // Thi"
+    },
+    {
+      "chunk_id": 42,
+      "text": "TestAfter ( uv_work_t * req, int status ) { // This is what is called after the 'task' is done, you can now move any data from // Baton to the V8/Nodejs space and invoke callback functions cout << \"AsyncTestAfter Enter \\n \" ; cout << \"AsyncTestAfter"
+    },
+    {
+      "chunk_id": 43,
+      "text": "yncTestAfter Enter \\n \" ; cout << \"AsyncTestAfter called from thread \" << std :: this_thread :: get_id ( ) << ' \\n ' ; Baton * baton = static_cast < Baton * > ( req - > data ) ; cout << \"baton countdown is : \" << baton - > countdown << ' \\n ' ; auto"
+    },
+    {
+      "chunk_id": 44,
+      "text": "wn is : \" << baton - > countdown << ' \\n ' ; auto isolate = Isolate :: GetCurrent ( ) ; // get the JS VM HandleScope scope ( isolate ) ; Local < Value > argv1 [ ] = { Number :: New ( isolate, baton - > countdown ) } ; cout << \"created javascript argu"
+    },
+    {
+      "chunk_id": 45,
+      "text": "> countdown ) } ; cout << \"created javascript arguments from countdown \\n \" ; // Call back to the JS function(s): auto callbackHandle = Local < Function > :: New ( isolate, baton - > callback ) ; callbackHandle - > Call ( isolate - > GetCurrentContex"
+    },
+    {
+      "chunk_id": 46,
+      "text": "backHandle - > Call ( isolate - > GetCurrentContext ( ) - > Global ( ) , 1 , argv1 ) ; // resubmit if we're not done, otherwise cleanup: if ( baton - > countdown > 0 ) { uv_queue_work ( uv_default_loop ( ) , & baton - > request, AsyncTestWork, AsyncT"
+    },
+    {
+      "chunk_id": 47,
+      "text": "p ( ) , & baton - > request, AsyncTestWork, AsyncTestAfter ) ; } else { baton - > callback. Reset ( ) ; delete baton ; } } void Init ( Local < Object > exports ) { NODE_SET_METHOD ( exports, \"asyncTest\" , AsyncTestPrep ) ; } NODE_MODULE ( addon, Init"
+    },
+    {
+      "chunk_id": 48,
+      "text": "t\" , AsyncTestPrep ) ; } NODE_MODULE ( addon, Init ) [$[Get Code]] The `bindings.gyp` file for creating the add-on: { \"targets\" : [ { \"target_name\" : \"async\" , \"sources\" : [ \"threadworker.cpp\" ] , \"cflags\" : [ \"-Wall\" , \"-std=c++11\" ] , 'xcode_settin"
+    },
+    {
+      "chunk_id": 49,
+      "text": "lags\" : [ \"-Wall\" , \"-std=c++11\" ] , 'xcode_settings' : { 'OTHER_CFLAGS' : [ '-std=c++11' ] , } , 'msvs_settings' : { 'VCCLCompilerTool' : { 'ExceptionHandling' : 1 # /EHsc } } , 'configurations' : { 'Release' : { 'msvs_settings' : { 'VCCLCompilerToo"
+    },
+    {
+      "chunk_id": 50,
+      "text": "'Release' : { 'msvs_settings' : { 'VCCLCompilerTool' : { 'ExceptionHandling' : 1 , } } } } , \"conditions\" : [ [ 'OS==\"mac\"' , { \"xcode_settings\" : { 'OTHER_CPLUSPLUSFLAGS' : [ '-std=c++11' , '-stdlib=libc++' ] , 'OTHER_LDFLAGS' : [ '-stdlib=libc++' ]"
+    },
+    {
+      "chunk_id": 51,
+      "text": "libc++' ] , 'OTHER_LDFLAGS' : [ '-stdlib=libc++' ] , 'MACOSX_DEPLOYMENT_TARGET' : '10.7' } } ] ] } ] } [$[Get Code]] Sample output: > require('./build/Release/async').asyncTest(function(v){ console.log(\"hello from javascript : \" + v); }); AsyncTestPr"
+    },
+    {
+      "chunk_id": 52,
+      "text": "g(\"hello from javascript : \" + v); }); AsyncTestPrep called from thread 0x7fff7b9e6000 AsyncTestWork Enter AsyncTestWork called from thread 0x70000221b000 AsyncTestWork Exit undefined > AsyncTestAfter Enter AsyncTestAfter called from thread 0x7fff7b9"
+    },
+    {
+      "chunk_id": 53,
+      "text": "Enter AsyncTestAfter called from thread 0x7fff7b9e6000 baton countdown is : 2 created javascript arguments from countdown hello from javascript : 2 AsyncTestWork Enter AsyncTestWork called from thread 0x700001215000 AsyncTestWork Exit AsyncTestAfter"
+    },
+    {
+      "chunk_id": 54,
+      "text": "d 0x700001215000 AsyncTestWork Exit AsyncTestAfter Enter AsyncTestAfter called from thread 0x7fff7b9e6000 baton countdown is : 1 created javascript arguments from countdown hello from javascript : 1 AsyncTestWork Enter AsyncTestWork called from threa"
+    },
+    {
+      "chunk_id": 55,
+      "text": "syncTestWork Enter AsyncTestWork called from thread 0x700001a18000 AsyncTestWork Exit AsyncTestAfter Enter AsyncTestAfter called from thread 0x7fff7b9e6000 baton countdown is : 0 created javascript arguments from countdown hello from javascript : 0 ["
+    },
+    {
+      "chunk_id": 56,
+      "text": "guments from countdown hello from javascript : 0 [$[Get Code]] Notice that although AsyncTestWork is called in various threads, both AsyncTestPrep and AsyncTestAfter are always called from the main event loop thread ( 0x7fff7b9e6000 in the sample out"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ent loop thread ( 0x7fff7b9e6000 in the sample output above). Hardware owns the new thread: Node-GYP Notes If you were thinking \"I love learning new build systems because I love it when I have to learn entirely unfamiliar ways to pass some flags to m"
+    },
+    {
+      "chunk_id": 58,
+      "text": "n entirely unfamiliar ways to pass some flags to my compiler\" boy do I have good news for you! Node uses GYP (Generate Your Projects) meta build system, which Google wrote out of spite for CMake. (This sounds like a joke, but I assure you it isn't.)"
+    },
+    {
+      "chunk_id": 59,
+      "text": "s sounds like a joke, but I assure you it isn't.) To build a node addon, you need to write a bindings.gyp makefile. TODO: post my own that build on Mac & Linux and write something snarky about Windows. (TODO: check if Microsoft is our sponsor before"
+    }
+  ]
+}

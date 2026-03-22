@@ -1,0 +1,121 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/projects/chess/escher/developers/index.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Notes for ESCHER Developers Workspaces ---- 337staff act actionwebs actionwebslocal agv apesless apon automotive bcvtb bhc bipeds capecode certafcs cg chess chessadmin chesslocal chessworkshop clotho cosmoi cps cpslab croquet cyphysim dataflow ddosos"
+    },
+    {
+      "chunk_id": 4,
+      "text": "elica ptpresenters pturing reactable reap researchers scos softdevel softwalls spfsos superb tbd thales triq vw Note: JavaScript is disabled , see the Site Map for navigation links home overview developers Topics of interest: Cross-compiling STLPort"
+    },
+    {
+      "chunk_id": 5,
+      "text": "opers Topics of interest: Cross-compiling STLPort Gumstix/Waysmall Information for ESCHER Developers [ home ] [ overview ] [ developers ] [ about escher ] This page contains information regarding things to download, files to plu"
+    },
+    {
+      "chunk_id": 6,
+      "text": "rmation regarding things to download, files to plugin, and basic info to be shared among developers for the ESCHER@Berkeley Project. Please check out the FAQ if you have other questions not answered here. See also the Gumstix faq. F"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ons not answered here. See also the Gumstix faq. For information on building STLPort for your use, go here . Modus Operandi for Escher Developers By far the easiest thing to do is use a crosscompiler which we have built on a local Berkeley machin"
+    },
+    {
+      "chunk_id": 8,
+      "text": "which we have built on a local Berkeley machine, and use it to build your sources. There are several possibilities for this: ransom.eecs.berkeley.edu This is a dual processor Pentium Xeon machine with all of the drivespace"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ine with all of the drivespace and processor space you could want. It is running Microsoft Windows Terminal Server, and can handle arbitrarily many concurrent logins through Remote Des"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ncurrent logins through Remote Desktop (a.k.a. Microsoft Terminal Server Client, mstsc.exe). You must be a member of the permitted users list to use this machine, e-mail sprinkle@EECS in order to"
+    },
+    {
+      "chunk_id": 11,
+      "text": "achine, e-mail sprinkle@EECS in order to gain access. On this machine are located several crosscompilers. Use the following steps to select a crosscompiler on that ma"
+    },
+    {
+      "chunk_id": 12,
+      "text": "crosscompiler on that machine, after logging in and starting up a cygwin shell: [ sprinkle@ransom ~ ] $ cd /usr/local/escher/crosscompile [ sprinkle@ransom /usr/local/escher/crosscompile ] $ source select_cros"
+    },
+    {
+      "chunk_id": 13,
+      "text": "r/local/escher/crosscompile ] $ source select_crosscompiler See the crosscompiler page for more information on this tool. bruce.eecs.berkeley.edu This is an Apple Mac Mini machine, with IBM PowerPC processor, running Terrasoft"
+    },
+    {
+      "chunk_id": 14,
+      "text": "IBM PowerPC processor, running Terrasoft Yellow Dog Linux (YDL), and can handle arbitrarily many concurrent logins through ssh. If you feel more comfortable with SSH, you can use this machine, and its several"
+    },
+    {
+      "chunk_id": 15,
+      "text": "you can use this machine, and its several crosscompilers. You must be a member of the permitted users list to use this machine, e-mail sprinkle@EECS in order to gain access. Use the following steps to select"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ccess. Use the following steps to select a crosscompiler on that machine, after logging in and starting up a bash shell: [ sprinkle@bruce ~ ] $ cd /usr/local/escher/crosscompiler [ sprinkle@bruce"
+    },
+    {
+      "chunk_id": 17,
+      "text": "d /usr/local/escher/crosscompiler [ sprinkle@bruce /usr/local/escher/crosscompile ] $ source select_crosscompiler See the crosscompiler page for more information on this tool. Programs you need to download Makefile, Project and Work"
+    },
+    {
+      "chunk_id": 18,
+      "text": "eed to download Makefile, Project and Workspace Creator (MPC) (from OCI) Download this (I am using version 3.3.0) and install it somewhere in your Cygwin/*nix path I chose /usr/local/MPC/MPC-3.3.0/ as the directory. We might later"
+    },
+    {
+      "chunk_id": 19,
+      "text": "al/MPC/MPC-3.3.0/ as the directory. We might later add this to the ESCHER code release. Buildroot (from busybox ) You don't need to download this tool if you use the checkout file available in the CVS module. As long as you"
+    },
+    {
+      "chunk_id": 20,
+      "text": "file available in the CVS module. As long as you have subversion on your machine, everything else should be taken care of. Files and commands for cygwin/*nix development Syntax highlighting file for MPC files using vi ( mpc.vim )."
+    },
+    {
+      "chunk_id": 21,
+      "text": "ting file for MPC files using vi ( mpc.vim ). Source this file from your .vimrc file. Note this file is a hack, and I welcome anyone who is willing to clean it up. If you end up creating a better one for vi, or one for e"
+    },
+    {
+      "chunk_id": 22,
+      "text": "eating a better one for vi, or one for emacs, please let me know and I will post it online. We are using MPC, which means you should have these declarations somewhere in your login scripts. I recommend .bash_lo"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ewhere in your login scripts. I recommend .bash_login # please substitute the the appropriate directory export MPC_HOME=/usr/local/MPC/MPC-3.3.0 alias mpc='perl $MPC_HOME/mpc.pl' alias mwc='perl $MPC_HOME/mwc.pl' Source Code Modules As of 11/26, all"
+    },
+    {
+      "chunk_id": 24,
+      "text": "HOME/mwc.pl' Source Code Modules As of 11/26, all source code is contained in the main escher module on source.eecs.berkeley.edu. What you find here are the directories inside there and explanations of what is contained therein. cross"
+    },
+    {
+      "chunk_id": 25,
+      "text": "d explanations of what is contained therein. crosscompile This module is dedicated to the tools and setup required to execute cross-compilation of the ESCHER code. This module is a good place to"
+    },
+    {
+      "chunk_id": 26,
+      "text": "good place to start if you want to test to see if all of your development tools are correctly configured. Included in this module is a test folder, as well as some files inclu"
+    },
+    {
+      "chunk_id": 27,
+      "text": "st folder, as well as some files including checkout , which will allow you to get a copy of buildroot via SVN and will aid you in configuring it to behave better than buildroot does out of the box. Inve"
+    },
+    {
+      "chunk_id": 28,
+      "text": "an buildroot does out of the box. Investigate the file for more info. To run checkout, at the shell, sprinkle@ransom /usr/bin/crosscompile $ ./checkout xscale Will produce buildroot_xscale as a buildroot tree. Inside that"
+    },
+    {
+      "chunk_id": 29,
+      "text": "droot_xscale as a buildroot tree. Inside that tree type make menuconfig and go off to the races. Check the Crosscompiler FAQ regarding known issues with building buildroot on cygwin. Once buildroot"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ing buildroot on cygwin. Once buildroot is built, you should be able to specify the target compiler from there as your cross compiler prefix in the HelloWorld example, and download that to your target platfor"
+    },
+    {
+      "chunk_id": 31,
+      "text": "and download that to your target platform. EOCP The Embedded OCP directory. Currently contains the entire source tree for compilation. We will eventually populate this with the full documentation and other informatio"
+    }
+  ]
+}

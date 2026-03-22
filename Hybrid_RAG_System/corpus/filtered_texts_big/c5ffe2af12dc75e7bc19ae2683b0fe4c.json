@@ -1,0 +1,81 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/check-reader-grades",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"n\", 0); requi"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"n\", 0); require \"GradingCommon.pl\"; if (@ARGV) { @readerLogins = @ARGV; foreach $reader (@readerLogins) { if (! ReaderExists ($reader)) { Fatal (\"Reader $reader is unknown.\"); } } } else {"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ader $reader is unknown.\"); } } } else { @readerLogins = keys %READERS; } $now = time (); if (not -x $ALL_GRADE_DIR or (-f $ALL_GRADES and not -r _)) { Fatal (\"You don't have access to the grade log.\"); } # Put scores in %score. if (o"
+    },
+    {
+      "chunk_id": 4,
+      "text": "the grade log.\"); } # Put scores in %score. if (open (ALL_GRADES, \"$ALL_GRADES\")) { while ( ) { if (/^==/) { ($reader, $assgn) = /^==\\s*(\\S+)\\s+(\\S+)/; } elsif (/^\\#/) { next; } elsif (($login,$score,$team) = /^\\s*(\\S+)\\s+\\S+\\s+(\\S+"
+    },
+    {
+      "chunk_id": 5,
+      "text": "f (($login,$score,$team) = /^\\s*(\\S+)\\s+\\S+\\s+(\\S+)(?:.*\\[from\\s+([A-Z][-a-zA-Z0-9_.]*)\\])?/) { $score{\"$login,$assgn\"} = \"$reader:$score\"; if ($team) { $score{\"$team,$assgn\"} = \"$reader:$score\"; } } } close (ALL_GRADES); }"
+    },
+    {
+      "chunk_id": 6,
+      "text": "score\"; } } } close (ALL_GRADES); } CHECK: { # Check for missing grades. # Find all submissions, and record in @submitted. opendir (ASSGNS, \"$SUBMISSION_DIR\") || do { last CHECK; }; @submitted = (); while (define"
+    },
+    {
+      "chunk_id": 7,
+      "text": "t CHECK; }; @submitted = (); while (defined ($assgn = readdir (ASSGNS))) { if ($assgn =~ /^\\./ || ! $ASSGN_ASSIGNED_READERS{$assgn} || $ASSGN_READER_DUE{$assgn} >= $now) { next; } if (opendir (SUBMITS, \"$SUBMISSION_DIR/$assgn\"))"
+    },
+    {
+      "chunk_id": 8,
+      "text": "if (opendir (SUBMITS, \"$SUBMISSION_DIR/$assgn\")) { while (defined ($_ = readdir (SUBMITS))) { next if (/^\\./); if (($login) = /^([^.]+)\\./) { push (@submitted, $login, $assgn); } } closedir (SUBMITS); } } closedi"
+    },
+    {
+      "chunk_id": 9,
+      "text": "} closedir (SUBMITS); } } closedir (ASSGNS); # For each reader in @readerLogins # For each submission in @submitted # If there is no grade for the submission recorded in %score, # and the reader is"
+    },
+    {
+      "chunk_id": 10,
+      "text": "orded in %score, # and the reader is responsible for the submission, # record the missing assignment # Report missing assignments, and also mail reminder to reader if # -n not specified. foreach $reade"
+    },
+    {
+      "chunk_id": 11,
+      "text": "if # -n not specified. foreach $reader (@readerLogins) { next unless ($READER_REMIND{$reader}); undef %missing; for ($i = 0; $i < $#submitted; $i += 2) { ($login, $assgn) = @submitted[$i .. $i+1]; next if ((exists $score{\"$"
+    },
+    {
+      "chunk_id": 12,
+      "text": "itted[$i .. $i+1]; next if ((exists $score{\"$login,$assgn\"}) && ($score{\"$login,$assgn\"} !~ /^-+$/)); if (($ASSGN_USE_READERS{$assgn} || $READER_IS_INSTRUCTOR{$reader}) && $ASSGN_ASSIGNED_READERS{$assgn} && \"${assgn}::$logi"
+    },
+    {
+      "chunk_id": 13,
+      "text": "SGN_ASSIGNED_READERS{$assgn} && \"${assgn}::$login\" =~ /$READER_ASSIGNMENTS{$reader}/) { $missing{$assgn} .= \"$login 1 \"; } } if (%missing) { Warn (\"\\nReader $reader has missing assignments:\\n\"); $mailing = ! $opt_n; if"
+    },
+    {
+      "chunk_id": 14,
+      "text": "signments:\\n\"); $mailing = ! $opt_n; if ($mailing) { $readerAddr = MailingAddress ($reader); if (! defined ($readerAddr)) { $readerAddr = $reader; } Note (\"Mailing to $re"
+    },
+    {
+      "chunk_id": 15,
+      "text": "$reader; } Note (\"Mailing to $reader ($readerAddr) about missing assignments.\\n\"); if (! open (MSG, \"| $MAIL_PROG -s 'Reminders about assignments needing grades' $readerAddr\")) { $mailing = 0; Warn (\"Could not mail to"
+    },
+    {
+      "chunk_id": 16,
+      "text": "$mailing = 0; Warn (\"Could not mail to $reader.\\n\"); } } print MSG \"According to our records, the following electronically\\n\" . \"submitted work is assigned to you for grading, but as yet\\n\" . \"no grades are recorded.\\n"
+    },
+    {
+      "chunk_id": 17,
+      "text": ", but as yet\\n\" . \"no grades are recorded.\\n\\n\" if ($mailing); while (($assgn, $loginsStr) = each %missing) { print MSG \"For $assgn:\\n\" if ($mailing); print STDERR \"For $assgn:\\n\"; %logins = (split (/\\s/, $loginsStr)); @logins = so"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ogins = (split (/\\s/, $loginsStr)); @logins = sort (keys %logins); while (@logins) { $line = sprintf \"\\t%s %s %s %s %s %s\\n\", @logins[0 .. 5]; splice (@logins, 0, 6); printf MSG $line if ($mailing); print STDERR $line; }"
+    },
+    {
+      "chunk_id": 19,
+      "text": "$line if ($mailing); print STDERR $line; } } close (MSG) if ($mailing); } } } exit 0;"
+    }
+  ]
+}

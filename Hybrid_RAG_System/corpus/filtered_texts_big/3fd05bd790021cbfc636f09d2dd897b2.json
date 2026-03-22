@@ -1,0 +1,25 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/grade-entries",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"\", 1, 1); req"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"\", 1, 1); require \"GradingCommon.pl\"; $assgn = shift; $me = MyLogin (); if (! $AUTHORIZED{$me}) { Fatal (\"You are not authorized to run this command.\"); } if (! AssignmentExists ($assgn)) { Fatal (\"Err"
+    },
+    {
+      "chunk_id": 3,
+      "text": "if (! AssignmentExists ($assgn)) { Fatal (\"Error: assignment $assgn not found.\"); } undef %scores; if (open (SCORES, $ALL_GRADES)) { # First from swept grades. while ( ) { if (($tmpReader, $tmpAssgn) = /^==\\s*(\\S+)\\s+(\\S+)/) { $old"
+    },
+    {
+      "chunk_id": 4,
+      "text": "r, $tmpAssgn) = /^==\\s*(\\S+)\\s+(\\S+)/) { $oldReader = $tmpReader; $oldAssgn = $tmpAssgn; next; } if (/^\\s*(\\#.*)$/) { next; } if ($oldAssgn eq $assgn && (($login, $oldScore) = /^\\s*(\\S+)\\s+\\S+\\s+(\\S+)/)) { $scores{$login"
+    },
+    {
+      "chunk_id": 5,
+      "text": "/^\\s*(\\S+)\\s+\\S+\\s+(\\S+)/)) { $scores{$login} = $_; } } close (SCORES); } foreach (sort (keys %scores)) { print STDOUT $scores{$_}; } exit 0;"
+    }
+  ]
+}

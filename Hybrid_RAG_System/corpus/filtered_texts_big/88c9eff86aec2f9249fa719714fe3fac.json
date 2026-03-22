@@ -1,0 +1,181 @@
+{
+  "url": "https://www2.eecs.berkeley.edu/Pubs/TechRpts/2018/EECS-2018-92.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Avoiding Communication in First Order Methods for Optimization | EECS at UC Berkeley Avoiding Communication in First Order Methods for Optimization Aditya Devarakonda EECS Department, University of California, Berkeley Technical Report No. UCB/EECS-2"
+    },
+    {
+      "chunk_id": 2,
+      "text": "lifornia, Berkeley Technical Report No. UCB/EECS-2018-92 July 24, 2018 http://www2.eecs.berkeley.edu/Pubs/TechRpts/2018/EECS-2018-92.pdf Machine learning has gained renewed interest in recent years due to advances in computer hardware (proce"
+    },
+    {
+      "chunk_id": 3,
+      "text": "years due to advances in computer hardware (processing power and high-capacity storage) and the availability of large amounts of data which can be used to develop accurate, robust models. While hardware improvements have facilitated the development"
+    },
+    {
+      "chunk_id": 4,
+      "text": "are improvements have facilitated the development of machine learning models in a single machine, the analysis of large amounts of data still requires parallel computing to obtain shorter running times or where the dataset cannot be stored on a singl"
+    },
+    {
+      "chunk_id": 5,
+      "text": "s or where the dataset cannot be stored on a single machine. In addition to hardware improvements, algorithm redesign is also an important direction to further reduce running times. On modern computer architectures, the cost of moving data (communica"
+    },
+    {
+      "chunk_id": 6,
+      "text": "architectures, the cost of moving data (communication) from main memory to caches in a single machine is orders of magnitude more expensive than the cost of performing floating-point operations (computation). On parallel machines the cost of moving"
+    },
+    {
+      "chunk_id": 7,
+      "text": "utation). On parallel machines the cost of moving data from one processor to another over an interconnection network is the most expensive operation. The large gap between computation and communication suggests that algorithm redesign should be drive"
+    },
+    {
+      "chunk_id": 8,
+      "text": "n suggests that algorithm redesign should be driven by the goal of avoiding communication and, if necessary, decreasing communication at the expense of additional computation. Many problems in machine learning solve mathematical optimization problems"
+    },
+    {
+      "chunk_id": 9,
+      "text": "learning solve mathematical optimization problems which, in most non-linear and non-convex cases, requires iterative methods. This thesis is focused on deriving communication-avoiding variants of the block coordinate descent method, which is a first"
+    },
+    {
+      "chunk_id": 10,
+      "text": "block coordinate descent method, which is a first-order method that has strong convergence rates for many optimization problems. Block coordinate descent is an iterative algorithm which at each iteration samples a small subset of rows or columns of"
+    },
+    {
+      "chunk_id": 11,
+      "text": "tion samples a small subset of rows or columns of the input matrix, solves a subproblem using just the chosen rows or columns, and obtains a partial solution. This solution is then iteratively refined until the optimal solution is reached or until co"
+    },
+    {
+      "chunk_id": 12,
+      "text": "until the optimal solution is reached or until convergence criteria are met. In the parallel case, each iteration of block coordinate descent requires communication. Therefore, avoiding communication is key to attaining high performance. This thesis"
+    },
+    {
+      "chunk_id": 13,
+      "text": "is key to attaining high performance. This thesis adapts well-known techniques from existing work on communication-avoiding (CA) Krylov and s-step Krylov methods. CA-Krylov methods unroll vector recurrences and rearrange the sequence of computation"
+    },
+    {
+      "chunk_id": 14,
+      "text": "rrences and rearrange the sequence of computation in way that defers communication for s iterations, where s is a tunable parameter. For CA-Krylov methods the reduction in communication cost comes at the expense of numerical instability for large val"
+    },
+    {
+      "chunk_id": 15,
+      "text": "the expense of numerical instability for large values of s. We apply a similar recurrence unrolling technique to block coordinate descent in order to obtain communication-avoiding variants which solve the L2-regularized least-squares, L1-regularized"
+    },
+    {
+      "chunk_id": 16,
+      "text": "the L2-regularized least-squares, L1-regularized least-squares, Support Vector Machines, and Kernel problems. Our communication-avoiding variants reduce the latency cost by a tunable factor of s at the expense of a factor of s increase in computatio"
+    },
+    {
+      "chunk_id": 17,
+      "text": "he expense of a factor of s increase in computational and bandwidth costs for the L2 and L1 least-squares and SVM problems. The CA-variants for these problems require additional computation and bandwidth in order to update the residual vector. For CA"
+    },
+    {
+      "chunk_id": 18,
+      "text": "dth in order to update the residual vector. For CA-kernel methods the computational and bandwidth costs do not increase. This is because the CA-variants of kernel methods can reuse elements of the kernel matrix already computed and therefore do not n"
+    },
+    {
+      "chunk_id": 19,
+      "text": "nel matrix already computed and therefore do not need to compute and communicate additional elements of the kernel matrix. Our experimental results illustrate that our new, communication-avoiding methods can obtain speedups of up to 6.1x on a Cray XC"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ods can obtain speedups of up to 6.1x on a Cray XC30 supercomputer using MPI for parallel processing. For CA-kernel methods we show modeled speedups of 26x, 120x, and 197x for MPI on a predicted Exascale system, Spark on a predicted Exascale system,"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ale system, Spark on a predicted Exascale system, and Spark on a cloud system, respectively. Furthermore we also experimentally confirm that our algorithms are numerically stable for large values of s. Advisors: James Demmel and Michael William Mahon"
+    },
+    {
+      "chunk_id": 22,
+      "text": ". Advisors: James Demmel and Michael William Mahoney BibTeX citation: @phdthesis{Devarakonda:EECS-2018-92, Author= {Devarakonda, Aditya}, Title= {Avoiding Communication in First Order Methods for Optimization}, School= {EECS Department, U"
+    },
+    {
+      "chunk_id": 23,
+      "text": "for Optimization}, School= {EECS Department, University of California, Berkeley}, Year= {2018}, Month= {Jul}, Url= {http://www2.eecs.berkeley.edu/Pubs/TechRpts/2018/EECS-2018-92.html}, Number= {UCB/EECS-2018-92}, Abstract= {Ma"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Number= {UCB/EECS-2018-92}, Abstract= {Machine learning has gained renewed interest in recent years due to advances in computer hardware (processing power and high-capacity storage) and the availability of large amounts of data which can be"
+    },
+    {
+      "chunk_id": 25,
+      "text": "vailability of large amounts of data which can be used to develop accurate, robust models. While hardware improvements have facilitated the development of machine learning models in a single machine, the analysis of large amounts of data still requir"
+    },
+    {
+      "chunk_id": 26,
+      "text": "the analysis of large amounts of data still requires parallel computing to obtain shorter running times or where the dataset cannot be stored on a single machine. In addition to hardware improvements, algorithm redesign is also an important direct"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ts, algorithm redesign is also an important direction to further reduce running times. On modern computer architectures, the cost of moving data (communication) from main memory to caches in a single machine is orders of magnitude more expensive than"
+    },
+    {
+      "chunk_id": 28,
+      "text": "machine is orders of magnitude more expensive than the cost of performing floating-point operations (computation). On parallel machines the cost of moving data from one processor to another over an interconnection network is the most expensive operat"
+    },
+    {
+      "chunk_id": 29,
+      "text": "terconnection network is the most expensive operation. The large gap between computation and communication suggests that algorithm redesign should be driven by the goal of avoiding communication and, if necessary, decreasing communication at the expe"
+    },
+    {
+      "chunk_id": 30,
+      "text": "if necessary, decreasing communication at the expense of additional computation. Many problems in machine learning solve mathematical optimization problems which, in most non-linear and non-convex cases, requires iterative methods. This thesis is"
+    },
+    {
+      "chunk_id": 31,
+      "text": "cases, requires iterative methods. This thesis is focused on deriving communication-avoiding variants of the block coordinate descent method, which is a first-order method that has strong convergence rates for many optimization problems. Block coord"
+    },
+    {
+      "chunk_id": 32,
+      "text": "rates for many optimization problems. Block coordinate descent is an iterative algorithm which at each iteration samples a small subset of rows or columns of the input matrix, solves a subproblem using just the chosen rows or columns, and obtains a"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ng just the chosen rows or columns, and obtains a partial solution. This solution is then iteratively refined until the optimal solution is reached or until convergence criteria are met. In the parallel case, each iteration of block coordinate descen"
+    },
+    {
+      "chunk_id": 34,
+      "text": "el case, each iteration of block coordinate descent requires communication. Therefore, avoiding communication is key to attaining high performance. This thesis adapts well-known techniques from existing work on communication-avoiding (CA) Krylov"
+    },
+    {
+      "chunk_id": 35,
+      "text": "isting work on communication-avoiding (CA) Krylov and s-step Krylov methods. CA-Krylov methods unroll vector recurrences and rearrange the sequence of computation in way that defers communication for s iterations, where s is a tunable parameter. For"
+    },
+    {
+      "chunk_id": 36,
+      "text": "s iterations, where s is a tunable parameter. For CA-Krylov methods the reduction in communication cost comes at the expense of numerical instability for large values of s. We apply a similar recurrence unrolling technique to block coordinate des"
+    },
+    {
+      "chunk_id": 37,
+      "text": "rrence unrolling technique to block coordinate descent in order to obtain communication-avoiding variants which solve the L2-regularized least-squares, L1-regularized least-squares, Support Vector Machines, and Kernel problems. Our communication-avoi"
+    },
+    {
+      "chunk_id": 38,
+      "text": "hines, and Kernel problems. Our communication-avoiding variants reduce the latency cost by a tunable factor of s at the expense of a factor of s increase in computational and bandwidth costs for the L2 and L1 least-squares and SVM problems. The CA-va"
+    },
+    {
+      "chunk_id": 39,
+      "text": "2 and L1 least-squares and SVM problems. The CA-variants for these problems require additional computation and bandwidth in order to update the residual vector. For CA-kernel methods the computational and bandwidth costs do not increase. This is beca"
+    },
+    {
+      "chunk_id": 40,
+      "text": "and bandwidth costs do not increase. This is because the CA-variants of kernel methods can reuse elements of the kernel matrix already computed and therefore do not need to compute and communicate additional elements of the kernel matrix. Our exp"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ditional elements of the kernel matrix. Our experimental results illustrate that our new, communication-avoiding methods can obtain speedups of up to 6.1x on a Cray XC30 supercomputer using MPI for parallel processing. For CA-kernel methods we sho"
+    },
+    {
+      "chunk_id": 42,
+      "text": "parallel processing. For CA-kernel methods we show modeled speedups of 26x, 120x, and 197x for MPI on a predicted Exascale system, Spark on a predicted Exascale system, and Spark on a cloud system, respectively. Furthermore we also experimentally co"
+    },
+    {
+      "chunk_id": 43,
+      "text": "espectively. Furthermore we also experimentally confirm that our algorithms are numerically stable for large values of s.}, } EndNote citation: %0 Thesis %A Devarakonda, Aditya %T Avoiding Communication in First Order Methods for Optimization %I EEC"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ion in First Order Methods for Optimization %I EECS Department, University of California, Berkeley %D 2018 %8 July 24 %@ UCB/EECS-2018-92 %U http://www2.eecs.berkeley.edu/Pubs/TechRpts/2018/EECS-2018-92.html %F Devarakonda:EECS-2018-92"
+    }
+  ]
+}

@@ -1,0 +1,661 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/cadence-ic5.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/cadence-ic5.help /share/b/pub/orcad.help /share/b/pub/softmems.help /share/b"
+    },
+    {
+      "chunk_id": 2,
+      "text": "pub/orcad.help /share/b/pub/softmems.help /share/b/pub/virtuoso.help Jan 28 2021 CONTENTS Cadence on EECS Instructional Computers Cadence Quick-Start Scripts for starting Cadence tools Cadence Disclaimer Alternate Versions Unsuppor"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Cadence Disclaimer Alternate Versions Unsupported Versions Cadence Tools Cadence Assura Cadence Spectre Cadence Config Files Printing Cadence Plots Cadence Licenses and the \"client\" File Cadence File Locking and the \"proxy\" File OrCAD Re"
+    },
+    {
+      "chunk_id": 4,
+      "text": "dence File Locking and the \"proxy\" File OrCAD References Troubleshooting Cadence 6 SoftMEMS Xplorer \"8-bit color display\" error Cadence on EECS Instructional Computers --------------------------------------- Cadence (http://www.cadence.co"
+    },
+    {
+      "chunk_id": 5,
+      "text": "---------------- Cadence (http://www.cadence.com) is a suite of design kits for integrated circuits. Cadence is a registered trademark of Cadence Design Systems, Inc., 2655 Seely Avenue, San Jose, CA 95134. EECS is proud to be a Cadence"
+    },
+    {
+      "chunk_id": 6,
+      "text": "n Jose, CA 95134. EECS is proud to be a Cadence University Program Member. (http://www.cadence.com/support/university/ww_usp.aspx) Cadence tools are commonly used in EE141, EE142, EE240 and EE241. The default version is IC 5.15 on the Inst"
+    },
+    {
+      "chunk_id": 7,
+      "text": "241. The default version is IC 5.15 on the Instructional systems. See below for how to run IC 6.14. It is installed for Instructional users on these Linux servers and workstations: eda-1.eecs.berkeley.edu (Centos 64-bit Linux server)"
+    },
+    {
+      "chunk_id": 8,
+      "text": "-1.eecs.berkeley.edu (Centos 64-bit Linux server) eda-2.eecs.berkeley.edu (Centos 64-bit Linux server) eda-3.eecs.berkeley.edu (Centos 64-bit Linux server) eda-4.eecs.berkeley.edu (Centos 64-bit Linux server) eda-5.eecs.berkeley.edu (Centos 64-bi"
+    },
+    {
+      "chunk_id": 9,
+      "text": "nux server) eda-5.eecs.berkeley.edu (Centos 64-bit Linux server) eda-6.eecs.berkeley.edu (Centos 64-bit Linux server) eda-7.eecs.berkeley.edu (Centos 64-bit Linux server) eda-8.eecs.berkeley.edu (Centos 64-bit Linux server) c125m-6 .. c125m-24"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Centos 64-bit Linux server) c125m-6 .. c125m-24 (Centos workstations in 125 Cory) See http://inst.eecs.berkeley.edu/connecting.html#labs for current lists of all of our computers. See http://inst.eecs.berkeley.edu/connecting.html for inform"
+    },
+    {
+      "chunk_id": 11,
+      "text": "/inst.eecs.berkeley.edu/connecting.html for information about getting an account, and using XWindows. To display graphics from the UNIX server to your desktop system, you can login using ssh and Xming, or X2Go. For help and documentation, c"
+    },
+    {
+      "chunk_id": 12,
+      "text": "Xming, or X2Go. For help and documentation, click on the \"Help\" button on each Cadence window, or login to https://inst.eecs.berkeley.edu/~inst/pub/. Cadence Quick-Start ------------------- To run the current version of Cadence: 1) Log"
+    },
+    {
+      "chunk_id": 13,
+      "text": "To run the current version of Cadence: 1) Login to one of the servers or worktations above. Start an XWindows server on your local computer if it's not already running. 2) In a UNIX command window, type '/share/b/bin/cadence-setup.csh"
+    },
+    {
+      "chunk_id": 14,
+      "text": "mmand window, type '/share/b/bin/cadence-setup.csh'. You only need to do this once, to set up your configuration files. 3) In a UNIX command window, type '/share/b/bin/icfb2'. The Cadence \"log file\" window should pop up on your screen"
+    },
+    {
+      "chunk_id": 15,
+      "text": "\"log file\" window should pop up on your screen, and you can start using Cadence. 4) Commands that start Cadence tools on the Instructional UNIX systems include: /share/b/bin/icfb2 /share/b/bin/layout2 /share/b/bin/spectr"
+    },
+    {
+      "chunk_id": 16,
+      "text": "n/icfb2 /share/b/bin/layout2 /share/b/bin/spectre2 /share/b/bin/cdsdoc2 (The *2 indicates that it is a script that EECS Instruction developed.) 5) For help and documentation, click on the \"Help\" button on each Cadence window, or log"
+    },
+    {
+      "chunk_id": 17,
+      "text": "\"Help\" button on each Cadence window, or login to https://inst.eecs.berkeley.edu/~inst/pub/. Scripts for starting Cadence tools ---------------------------------- There are wrapper scripts to start Cadence on the Instructional systems: /"
+    },
+    {
+      "chunk_id": 18,
+      "text": "to start Cadence on the Instructional systems: /share/b/bin/icfb2 (for version 5) /share/b/bin/virtuoso6 (for version 6) source /share/b/bin/cds6; virtuoso (for customizing version 6) You can set your path and libraries for particular ver"
+    },
+    {
+      "chunk_id": 19,
+      "text": "can set your path and libraries for particular versions like this: V_CDS=\"615.151\" V_MMSIM=141 source /share/b/bin/cds6 virtuoso To load the Spectre toolbox for reading results with Matlab: V_CDS=\"615.151\" V_MMSIM=141 source /share/b/bin/cds6"
+    },
+    {
+      "chunk_id": 20,
+      "text": "CDS=\"615.151\" V_MMSIM=141 source /share/b/bin/cds6 /share/instsww/pkg//matlab-r2016a/bin/matlab The wrapper scripts indicate where Cadence is installed for each operating system and version. It's mostly under /share/instsww/cadence. Cadence"
+    },
+    {
+      "chunk_id": 21,
+      "text": "t's mostly under /share/instsww/cadence. Cadence Disclaimer ------------------ Because EECS has created some additional programs to help you start Cadence tools on our systems, Cadence would like us to post this disclaimer about their respon"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ke us to post this disclaimer about their responsibility: \"Information is provided 'as is' without warranty of any kind. No statement is made and no attempt has been made to examine the information, either with respect to operability, ori"
+    },
+    {
+      "chunk_id": 23,
+      "text": "formation, either with respect to operability, origin, authorship, or otherwise. Please use this information at your own risk. We recommend using it on a copy of your data to be sure you understand what it does under your conditions. Keep your"
+    },
+    {
+      "chunk_id": 24,
+      "text": "d what it does under your conditions. Keep your master intact until you are satisfied with the use of this information within your environment.\" Alternate Versions ------------------ Versions for EECS Instructional users are in /share/insts"
+    },
+    {
+      "chunk_id": 25,
+      "text": "s for EECS Instructional users are in /share/instsww/cadence. To see what versions are installed, type 'ls /share/instsww/cadence'. Each version has an associated config file called cadence.cshrc that sets up your UNIX login session to run tha"
+    },
+    {
+      "chunk_id": 26,
+      "text": "that sets up your UNIX login session to run that version. To run the current version, see \"Cadence Quick-Start\" above. To run an alternate version (using version 'IC5141USR4' for example), type source /share/instsww/cadence/IC5141USR4"
+    },
+    {
+      "chunk_id": 27,
+      "text": "type source /share/instsww/cadence/IC5141USR4/cadence.cshrc icfb & Unsupported Versions -------------------- There are currently several old versions of Cadence tools available under /usr/eesww/cadence. These are past their product l"
+    },
+    {
+      "chunk_id": 28,
+      "text": "usr/eesww/cadence. These are past their product life and are no longer supported by the vendor. To start the old version (IC 5.0.33) of Cadence on the Instructional UNIX systems, type this shortcut: /share/b/bin/icfb1 You can run"
+    },
+    {
+      "chunk_id": 29,
+      "text": "shortcut: /share/b/bin/icfb1 You can run other old versions of Cadence by running these UNIX commands first: setenv CDS_INST_DIR /usr/eesww/cadence/current/IC5.0.33 setenv CDS_SITE $CDS_INST_DIR/tools/dfII/samples/local setenv CAD_PRO"
+    },
+    {
+      "chunk_id": 30,
+      "text": "_INST_DIR/tools/dfII/samples/local setenv CAD_PROCESS NCSU_CDK_10 setenv CADENCE_CSHRC /usr/eesww/cadence/setup/config/cadence.cshrc if (-e $CADENCE_CSHRC) source $CADENCE_CSHRC setenv SKIP_CDS_DIALOG setenv CADENCE_DIR $CDS_INST_DIR The c"
+    },
+    {
+      "chunk_id": 31,
+      "text": "DIALOG setenv CADENCE_DIR $CDS_INST_DIR The commands are typically in old versions: /usr/eesww/cadence/current/IC5.0.33/tools.sun4v/dfII/bin new versions: /share/instsww/cadence/tools/dfII/bin Cadence Tools ------------- The Cadence"
+    },
+    {
+      "chunk_id": 32,
+      "text": "/bin Cadence Tools ------------- The Cadence command \"icfb\" makes all the licensed tools available, and you can check out licenses from the Options\\Licenses... menu. However, you can help reduce unnecessary license usage by running only th"
+    },
+    {
+      "chunk_id": 33,
+      "text": "educe unnecessary license usage by running only the tools you need. The tools are: Command For using these sets of tools: ------------ ----------------------------------------------------------- layout Layout only (and DRC). spectre Spe"
+    },
+    {
+      "chunk_id": 34,
+      "text": "---- layout Layout only (and DRC). spectre SpectreRF Circuit Simulator (like spice). msfb Layout, schematic capture, VHDL, and Simulation tools. icca Place and Route tools. icde Schematic capture only (and netlisting). icds Schematic"
+    },
+    {
+      "chunk_id": 35,
+      "text": "capture only (and netlisting). icds Schematic capture and VHDL. icms Schematic capture, VHDL, Simulation, & Analog Artist. icfb Everything... ------------ ----------------------------------------------------------- A list of available"
+    },
+    {
+      "chunk_id": 36,
+      "text": "--------------------------- A list of available products can be found in: /share/instsww/cadence/share/license/license.836caff8 And a description of the different products can be found in: /share/instsww/cadence/share/license/products.dfII"
+    },
+    {
+      "chunk_id": 37,
+      "text": "are/instsww/cadence/share/license/products.dfII All of the Cadence products are available except for the Digital PCB Bundle. The current products include: Custom Integrated Cicruits Bundle Digital Integrated Cicruits Bundle Verification Bund"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ital Integrated Cicruits Bundle Verification Bundle Silicon-Package-Board Bundle Cadence Assura -------------- Assura is a Cadence product that includes rule files to perform verification within the Virtuoso XL Layout tool. Assura is inclu"
+    },
+    {
+      "chunk_id": 39,
+      "text": "hin the Virtuoso XL Layout tool. Assura is included in the Cadence GPDK (Generic Process Design Kit) device-level foundry process libraries. To run Assura on the Instructional systems: 1) start /share/b/bin/icfb2 2) In the \"icfb\" window,"
+    },
+    {
+      "chunk_id": 40,
+      "text": "art /share/b/bin/icfb2 2) In the \"icfb\" window, select File->New->Library 3) A \"New Library\" window pops up. Type in a name for the new library and type in the UNIX path where it will be stored (\".\" will store it in the direcory you we"
+    },
+    {
+      "chunk_id": 41,
+      "text": "red (\".\" will store it in the direcory you were in when you started \"icfb2\"). 4) An \"Attach Design Library...\" window will pop up. Click on the Technology Library pulldown menu and select \"gpdk090\". 5) In the \"icfb\" window, select Fil"
+    },
+    {
+      "chunk_id": 42,
+      "text": "t \"gpdk090\". 5) In the \"icfb\" window, select File->New->CellView 6) A \"Create New File\" window pops up. Type in a Cell Name for the new cell. Select a Library Name from the pulldown menu. Click on the Tool pulldown menu and select \"V"
+    },
+    {
+      "chunk_id": 43,
+      "text": "Click on the Tool pulldown menu and select \"Virtuoso\". (The View Name should automatically change to \"layout\"). 7) In the Virtuoso window that opens, Assura should be an option in the horizontal menu at the top of the window. Here"
+    },
+    {
+      "chunk_id": 44,
+      "text": "horizontal menu at the top of the window. Here are references for Assura and GPDK: http://www.cadence.com/products/rf/apv/Pages/default.aspx http://w2.cadence.com/datasheets/umc_analog_flow_datasheet.pdf Cadence Spectre ---------------"
+    },
+    {
+      "chunk_id": 45,
+      "text": "atasheet.pdf Cadence Spectre --------------- Update Sep 2015: Cadence tools no longer run on Solaris, so this section about Spectre is obsolete. The Spectre tool for IC5 only works with older, obsolete versions of the SUNWlibC C++ share"
+    },
+    {
+      "chunk_id": 46,
+      "text": "er, obsolete versions of the SUNWlibC C++ shared libraries on Solaris. To enable Spectre, we cannot update the 119963-* patches beyond version 119963-07 (from 2009). This, of course, is bad for all the other users on the system, so we have"
+    },
+    {
+      "chunk_id": 47,
+      "text": "for all the other users on the system, so we have only enabled it on a few Solaris servers. The command /share/b/bin/spectre2 on an Instructional UNIX system tells you where it is enabled. 'showrev -p | grep 119963' shows the current versio"
+    },
+    {
+      "chunk_id": 48,
+      "text": "showrev -p | grep 119963' shows the current version of this patch on a Solaris system. On a system that does not have the required patch level, Spectre will fail with an error message such as ld.so.1: spectre: fatal: relocation error:"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ld.so.1: spectre: fatal: relocation error: file /share/instsww/cadence/IC5141USR5/tools.sun4v/spectre/bin/32bit/spectre: symbol __SUNW_init_wiostreams: referenced symbol not found Killed Cadence Config Files -------------------- Cade"
+    },
+    {
+      "chunk_id": 50,
+      "text": "Cadence Config Files -------------------- Cadence loads data from these user files, if they are found in your UNIX current working directory (where you are 'cd'ed to): cds.lib - loads libraries of devices .cdsinit - LISP script that finds"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ies of devices .cdsinit - LISP script that finds and reads config files .cdsenv - config file that customizes various tools .cdsplotinit - config file that defines printers display.drf - config file that customizes screen colors, etc *.il"
+    },
+    {
+      "chunk_id": 52,
+      "text": "g file that customizes screen colors, etc *.il - bindkey definitions for a tool If you are in a class such as EE141, the instructor may give you these files to put in your working directory (typically ~/ee141). If you have a previous, o"
+    },
+    {
+      "chunk_id": 53,
+      "text": "typically ~/ee141). If you have a previous, older version of the .cdsinit file in your home directory or in your working directory, it may conflict with newer settings (such as hot keys) that are set in cadence.cshrc. You may wish to dele"
+    },
+    {
+      "chunk_id": 54,
+      "text": "at are set in cadence.cshrc. You may wish to delete the old .cdsinit files if you have not customized them. Printing Cadence Plots ---------------------- 1) setenv PRINTER PrinterOfYourChoice, eg lw199 or 353hp8000 Make sure you can che"
+    },
+    {
+      "chunk_id": 55,
+      "text": ", eg lw199 or 353hp8000 Make sure you can check the printer queue using lpq Make sure the .cdsplotinit file in the dir you are starting cadence from contains an entry: default|Generic 600 dpi Adobe PostScript Level 1 Plotter: \\"
+    },
+    {
+      "chunk_id": 56,
+      "text": "600 dpi Adobe PostScript Level 1 Plotter: \\ :spool=lpr -P$PRINTER: \\ :query=lpq -P$PRINTER: \\ :remove=lprm -P$PRINTER $3: \\ :manufacturer=Adobe: \\ :type=postscript1: \\ :maximumPages#30: \\ :resol"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ipt1: \\ :maximumPages#30: \\ :resolution#600: \\ :paperSize=\"A\" 4800 6300 150 200: 2) Start a Cadence program such as layout or icfb 3) When the design you have selected shows up on the screen, click on Design --> P"
+    },
+    {
+      "chunk_id": 58,
+      "text": "hows up on the screen, click on Design --> Plot --> Submit. 4) You can also send the plot to a file by going to Design --> Plot --> Submit --> Plot Options --> Send Plot only to file. You can then print the file at a later"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ile. You can then print the file at a later date. The file is saved in the directory from which you started cadence. 5) If you want to print to a non-Instructional printer, you should save the prit job to a Postscript file, copy"
+    },
+    {
+      "chunk_id": 60,
+      "text": "save the prit job to a Postscript file, copy the file to an account that can access that printer and print from that account. If the remote printer allows it, you may be able to print directly to it using a printer name such a"
+    },
+    {
+      "chunk_id": 61,
+      "text": "t directly to it using a printer name such as \"lw123@print.berkeley.edu\", where \"print.berkeley.edu\" is the computer that spools for that printer. Cadence Licenses and the \"client\" File -------------------------------------- EECS pur"
+    },
+    {
+      "chunk_id": 62,
+      "text": "-------------------------------------- EECS purchases the Cadence University Bundle each year. The licenses can be shared with other *.berkeley.edu sites. If you wish to be enabled for Cadence licenses, please email inst@eecs.berkeley.edu wi"
+    },
+    {
+      "chunk_id": 63,
+      "text": "e licenses, please email inst@eecs.berkeley.edu with your contact information, affiliation with UC Berkeley, and the hostnames and IP addresses of the computers where you will run Cadence tools. We cannot help you obtain or install the softwa"
+    },
+    {
+      "chunk_id": 64,
+      "text": "We cannot help you obtain or install the software for your computers, but we may be able to refer you to our recharge IT service group for that. We may also ask you to contribute to the cost of the licenses if your usage is significant."
+    },
+    {
+      "chunk_id": 65,
+      "text": "f the licenses if your usage is significant. The FlexLM license server runs on bisc.eecs, which is managed by CUSG for BSAC. Kevin M. renews them each June by submitting a purchase order via the IRIS purchasing staff. ISG (inst@eecs)"
+    },
+    {
+      "chunk_id": 66,
+      "text": "a the IRIS purchasing staff. ISG (inst@eecs) manages the license renewal. BSAC sys admins (cusg@eecs) manage the license server (bisc.eecs). ISG manages the /share/instsww/cadence repository for instructional users. BSAC manages the /usr"
+    },
+    {
+      "chunk_id": 67,
+      "text": "y for instructional users. BSAC manages the /usr/eesww/cadence repository for research users. For UCB-affiliated grad students, faculty and staff, there is password- protected information at https://inst.eecs.berkeley.edu/~inst/cadence/ abou"
+    },
+    {
+      "chunk_id": 68,
+      "text": "tps://inst.eecs.berkeley.edu/~inst/cadence/ about accessing the EECS Cadence license server and listing the licensed products. The Cadence licenses are listed in /share/instsww/cadence/share/license/license.836caff8 Computers that are a"
+    },
+    {
+      "chunk_id": 69,
+      "text": "e/license/license.836caff8 Computers that are authorized to run Cadence tools are listed in /usr/eesww/share/cadence/admin/license/clients Which tools are included in the license: https://inst.eecs.berkeley.edu/~inst/pub/cas/?file=Cadence/"
+    },
+    {
+      "chunk_id": 70,
+      "text": "nst.eecs.berkeley.edu/~inst/pub/cas/?file=Cadence/doc/Software-Selection-2017.pdf Cadence File Locking and the \"proxy\" File ----------------------------------------- Cadence uses its own proprietary file locking progam ('cdsd'). Computers that"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ary file locking progam ('cdsd'). Computers that do not run 'cdsd' need to be listed in the file /usr/eesww/share/cadence/admin/license/proxy You can locate all of the Cadence lock files in your UNIX home directory with the command: find ~"
+    },
+    {
+      "chunk_id": 72,
+      "text": "r UNIX home directory with the command: find ~ -name \\*cdslck OrCAD ----- OrCAD (http://www.orcad.com) is a PCB design tool from Cadence that includes PSpice. The EECS Cadence University license package does not include OrCAD. EECS cla"
+    },
+    {
+      "chunk_id": 73,
+      "text": "icense package does not include OrCAD. EECS classes do not use OrCAD. Alternatives include: 1) MultiSim from National Instruments (/share/b/pub/multisim.help). 2) Allegro PCB tools from Cadence (http://www.cadence.com/products/pcb/),"
+    },
+    {
+      "chunk_id": 74,
+      "text": "ence (http://www.cadence.com/products/pcb/), which are included in our University licenses. You can download demo versions of OrCAD from https://www.cadence.com/products/orcad/pages/downloads.aspx. OrCAD was once available on a CD that c"
+    },
+    {
+      "chunk_id": 75,
+      "text": "s.aspx. OrCAD was once available on a CD that came with this text book for EE100: James W. Nilsson and Susan A. Riedel, \"Electric Circuits\", 8th Ed. ISBN-10: 0131989251 ISBN-13: 9780131989252 Publisher: Prentice Hall The text is available"
+    },
+    {
+      "chunk_id": 76,
+      "text": "Publisher: Prentice Hall The text is available from the campus bookstore, but the current version for EE100 does not include OrCAD. If you are looking for OrCAD, perhaps you could ask the bookstore if they have the OrCAD edition, or buy a c"
+    },
+    {
+      "chunk_id": 77,
+      "text": "okstore if they have the OrCAD edition, or buy a copy from the publisher. References ---------- - manuals on the Instructional WEB site (password required): https://inst.eecs.berkeley.edu/~inst/pub/nis/?file=Cadence - Documentation Sys"
+    },
+    {
+      "chunk_id": 78,
+      "text": "~inst/pub/nis/?file=Cadence - Documentation System on the Cadence WEB site: http://www.cadence.com/support/education/cdsdoc.aspx - Which tools are available for which operating system: http://www.cadence.com/support/computing/Pages/defa"
+    },
+    {
+      "chunk_id": 79,
+      "text": "ttp://www.cadence.com/support/computing/Pages/default.aspx - \"Cadence Platform Support Roadmap\": http://www.cadence.com/support/computing/Documents/Cadence_Platform_Support_Plan.pdf - documentation in $CADENCE_DIR/doc - the email group"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ntation in $CADENCE_DIR/doc - the email group cadence-users @ lists.eecs.berkeley.edu - EE141 lab instructions: http://bwrc.eecs.berkeley.edu/classes/icdesign/ee141_f06/CadenceLabs/Lab2/soft_lab2.pdf http://bwrc.eecs.berkeley.edu/c"
+    },
+    {
+      "chunk_id": 81,
+      "text": "/soft_lab2.pdf http://bwrc.eecs.berkeley.edu/classes/icdesign/ee141_f06/SoftwareLabs/Lab2/VirtuosoTutorial.htm - Excellent SKILL scripting resource offered by its author (Feb 2008): http://www.geocities.com/theperlconnection//TheCadConnec"
+    },
+    {
+      "chunk_id": 82,
+      "text": "/www.geocities.com/theperlconnection//TheCadConnection.pdf http://www.geocities.com/theperlconnection/CadScriptingLanguage_csl.pdf - Help pages on auto place and route using Silicon Ensemble by Seth Hollar and on mixed-mode simulations by"
+    },
+    {
+      "chunk_id": 83,
+      "text": "Seth Hollar and on mixed-mode simulations by Michael Scott (Nov 2001). See http://www-bsac.EECS.Berkeley.EDU/~cadence/ Troubleshooting --------------- ---------------------------------------------------------------------------- Sympto"
+    },
+    {
+      "chunk_id": 84,
+      "text": "----------------------------------------- Symptom: There are messages in your log file (such as \"libManager.log\") saying: \"It appears that you are trying to run an OA executable on CDB data.\" Solution: You are trying to read Caden"
+    },
+    {
+      "chunk_id": 85,
+      "text": "a.\" Solution: You are trying to read Cadence 5 libraries with Cadence 6 tools. Cadence converted its library format from \"CDB\" to \"OA\" formats with the release of Cadence version 6. If you get that error for libraries that you ha"
+    },
+    {
+      "chunk_id": 86,
+      "text": "If you get that error for libraries that you have created, then you can convert your libraries from \"CDB\" to \"OA\" formats using the Cadence \"cds2oa\" tool. For more information about that, please see https://community.cadence.com/ca"
+    },
+    {
+      "chunk_id": 87,
+      "text": ", please see https://community.cadence.com/cadence_technology_forums/f/38/t/22549 If you get that error for libraries from Cadence, then you may have old directories embedded in your LD_LIBRARY_PATH UNIX environment variable (such"
+    },
+    {
+      "chunk_id": 88,
+      "text": "_LIBRARY_PATH UNIX environment variable (such as \"/share/instsww/cadence/IC5141USR5/..\"). That may be set in your .bashrc file or in a script that you are running to start Cadence or Matlab tools. Probably you'll need to remove the"
+    },
+    {
+      "chunk_id": 89,
+      "text": "tlab tools. Probably you'll need to remove the old directories from LD_LIBRARY_PATH in your .bashrc (make a backup copy first), or run newer scripts. See the section \"Scripts for starting Cadence tools\" (above) about running our stan"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ting Cadence tools\" (above) about running our standard scripts. We recommend that you convert your libraries and LD_LIBRARY_PATH to the newest Cadence version, because there is no guarantee that the old versions will continue to be lic"
+    },
+    {
+      "chunk_id": 91,
+      "text": "that the old versions will continue to be licensed to us. ---------------------------------------------------------------------------- Symptom: You get a pop-up \"OK?\" dialog box such as (icLic-23) License Analog_Design_Envir"
+    },
+    {
+      "chunk_id": 92,
+      "text": "uch as (icLic-23) License Analog_Design_Environment_L (\"95200\") is not available to run ADE-L. Would you like to try checking out the license Analog_Design_Environment_XL (\"95210\" instead)? Solution: XL versions have more f"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ad)? Solution: XL versions have more features than L, and would be more expensive in a corporate environment. So this warning is really a request for permission to use the better (more expensive) version, rather than the"
+    },
+    {
+      "chunk_id": 94,
+      "text": "r (more expensive) version, rather than the denial of a better version. The Cadence tools default to the cheapest versions, but the University Bundle of licenses that we purchase already includes the best versions. So click \"OK\" an"
+    },
+    {
+      "chunk_id": 95,
+      "text": "y includes the best versions. So click \"OK\" and enjoy the high-quality University licenses! ---------------------------------------------------------------------------- Symptom: 'icfb2' or other command gives this error in the UNIX shel"
+    },
+    {
+      "chunk_id": 96,
+      "text": "or other command gives this error in the UNIX shell: X Error of failed request: BadName (named color or font does not exist) Solution: This usually means the XWindow manager on your local computer is either not running or is missin"
+    },
+    {
+      "chunk_id": 97,
+      "text": "l computer is either not running or is missing fonts. If you are on a Windows computer, you can install then Exceed XWindow manager, which has the fonts. If you are using Xming, be sure it is running and also that the xming-fonts are"
+    },
+    {
+      "chunk_id": 98,
+      "text": "e it is running and also that the xming-fonts are installed. For more information about the XWindow managers, please see http://inst.eecs.berkeley.edu/connecting.html#xwindows http://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=xwindows."
+    },
+    {
+      "chunk_id": 99,
+      "text": "t.eecs.berkeley.edu/cgi-bin/pub.cgi?file=xwindows.help The initial Cadence logo screen may be the only cause of this error. You can bypass that screen by starting it with the '-nosplash' option, ie '/share/b/bin/icfb2 -nosplash'. ----"
+    },
+    {
+      "chunk_id": 100,
+      "text": "on, ie '/share/b/bin/icfb2 -nosplash'. ---------------------------------------------------------------------------- To resolve errors in netlists in LVS, we have set this UNIX environment variable in the default 'cadence.cshrc' on the Ins"
+    },
+    {
+      "chunk_id": 101,
+      "text": "variable in the default 'cadence.cshrc' on the Instructional systems: setenv CDS_Netlisting_Mode Analog The CDS_Netlisting_Mode variable controls how component description format (CDF) properties are interpreted during netlisting. More infor"
+    },
+    {
+      "chunk_id": 102,
+      "text": "ies are interpreted during netlisting. More information can be found at https://inst.eecs.berkeley.edu/~inst/pub/nis/?file=Cadence/compverref/appA.html [thanks to Eric Chin for this solution, Sep 19 2007] ---------------------------------"
+    },
+    {
+      "chunk_id": 104,
+      "text": "icfb ---------------------------------------------------------------------------- You can create a log of the Cadence tools activity in the local /tmp directory by starting Cacence with the UNIX command: /share/b/bin/icfb2 -log /tmp/${USER"
+    },
+    {
+      "chunk_id": 105,
+      "text": "IX command: /share/b/bin/icfb2 -log /tmp/${USER}.log & ---------------------------------------------------------------------------- If you run synergy with the -TEXT option, you'll see error messages that might otherwise be lost in windowi"
+    },
+    {
+      "chunk_id": 106,
+      "text": "messages that might otherwise be lost in windowing mode. ---------------------------------------------------------------------------- Symptom: User's Cadence session appears to launch correctly (LSW show appropriate layers, etc.), bu"
+    },
+    {
+      "chunk_id": 107,
+      "text": "ectly (LSW show appropriate layers, etc.), but when he draws shapes they don't appear in the window. Using Ctrl+a for \"select all\" however shows that they are there, and are drawn on the correct layer. These shapes can also be selecte"
+    },
+    {
+      "chunk_id": 108,
+      "text": "e correct layer. These shapes can also be selected by drawing a selection box around them, but they *cannot* be selected in the there, and drawn on the correct layer. These shapes can also be selected by drawing a selection box around"
+    },
+    {
+      "chunk_id": 109,
+      "text": "be selected by drawing a selection box around them, but they *cannot* be selected in the normal way by clicking on them. Also, markers from DRC checks, etc. do not show up. Solution: Be sure that the Window manager is set"
+    },
+    {
+      "chunk_id": 110,
+      "text": "tion: Be sure that the Window manager is set for \"PseudoColor\" (on PCs) or PSEUDOCOLOR_VISUAL (on UNIX) as described above. If you have a previous, older version of the .cdsinit file in your UNIX home directory or in your working"
+    },
+    {
+      "chunk_id": 111,
+      "text": "your UNIX home directory or in your working directory, it may conflict with newer settings (such as hot keys) that are set in /usr/eesww/cadence/setup/config/cadence.cshrc. You can just delete your old .cdsinit files if you have n"
+    },
+    {
+      "chunk_id": 112,
+      "text": "t delete your old .cdsinit files if you have not customized them. If you have a Cadence process already running on the UNIX computer you are logged into, kill it using: pkill -9 -f cadence Start it again after updating your .c"
+    },
+    {
+      "chunk_id": 113,
+      "text": "cadence Start it again after updating your .cdsinit file(s). ---------------------------------------------------------------------------- Symptom: 'wrong authentication' error message. Cause: An X Windows program can't open"
+    },
+    {
+      "chunk_id": 114,
+      "text": ". Cause: An X Windows program can't open a window on your workstation screen. Solution: See http://inst.eecs.berkeley.edu/connecting.html#xwindows for instructions about using X Windows on the Instructional computers. -----"
+    },
+    {
+      "chunk_id": 115,
+      "text": "X Windows on the Instructional computers. ---------------------------------------------------------------------------- Symptoms: 'wrong authentication' error message. Saved files are size 0. Causes: You are over your disk quota,"
+    },
+    {
+      "chunk_id": 116,
+      "text": "e 0. Causes: You are over your disk quota, which prevents X Windows and Cadence from writing files. Solution: Use our temporary expansion disk and create a symbolic link to it from your UNIX home directory so that Cadence can"
+    },
+    {
+      "chunk_id": 117,
+      "text": "your UNIX home directory so that Cadence can find it. Example: Say your login is \"jdoe\" and you have a Cadence project called \"Project1\". Here is how to put that project on the temporary disk space so Cadence it will find"
+    },
+    {
+      "chunk_id": 118,
+      "text": "temporary disk space so Cadence it will find it: 1) Log into your Instructional UNIX account (jdoe@cory.eecs, etc). 2) Create a directory for yourself on our temporary disk space: /home/tmp/mkhometmpdir See http://ins"
+    },
+    {
+      "chunk_id": 119,
+      "text": "/home/tmp/mkhometmpdir See http://inst.eecs.berkeley.edu/share/b/pub/disk.quotas fo details. 3) Create a symbolic link to it in your home directory: mkdir home/tmp/jdoe ~jdoe/tmp (If you already have a ~jdoe/tmp di"
+    },
+    {
+      "chunk_id": 120,
+      "text": "oe/tmp (If you already have a ~jdoe/tmp directory or file, you'll need to pick a different name.) 4) Move the Project1 directory to the tmp space and make a sym link to it for Cadence: mv ~jdoe/Project1 ~jdoe/tmp/Projec"
+    },
+    {
+      "chunk_id": 121,
+      "text": "for Cadence: mv ~jdoe/Project1 ~jdoe/tmp/Project1 ln -s ~jdoe/tmp/Project1 ~jdoe/Project1 ---------------------------------------------------------------------------- Symptom: Error checking out licenses, such as *WARNING* f"
+    },
+    {
+      "chunk_id": 122,
+      "text": "checking out licenses, such as *WARNING* feature ###: not available - NOT checked out Solution: 'hostname' of your computer must match exactly (case-sensitive) the name as it's listed in /usr/eesww/share/cadence/admin/license/"
+    },
+    {
+      "chunk_id": 123,
+      "text": "listed in /usr/eesww/share/cadence/admin/license/clients. Change one so it agrees with the other and restart the Cadence tools. ---------------------------------------------------------------------------- Symptom: \"Hot Keys\" are not"
+    },
+    {
+      "chunk_id": 124,
+      "text": "-------------- Symptom: \"Hot Keys\" are not enabled. Cause: The user is failing to load the expected \"leBindKeys.il\" file. Solution: See below for details about the \"leBindKeys.il\" file. The directory in which you start"
+    },
+    {
+      "chunk_id": 125,
+      "text": ".il\" file. The directory in which you start cadence may have a .cdsinit or cds.lib file tbat is old or incorrect. Make sure your cds.lib does not have INCLUDE /usr/eesww/cadence/local/cdssetup/cds.lib which is an obsolete refere"
+    },
+    {
+      "chunk_id": 126,
+      "text": "/cdssetup/cds.lib which is an obsolete reference. There are current (Nov 2005) cds.lib files in /usr/eesww/cadence/setup/config /usr/eesww/cadence/NCSU_CDK/cdssetup --------------------------------------------------------------------"
+    },
+    {
+      "chunk_id": 127,
+      "text": "---------------------------------------------------------- Symptom: \"Hot Keys\" are not enabled. Unable to use R, or Ctrl-R, or i ,etc as hotkeys for Rectangle, screen refresh, or Insert Instance. Cadence does not show the hotkeys"
+    },
+    {
+      "chunk_id": 128,
+      "text": "nstance. Cadence does not show the hotkeys in the menu, which should show | Reload R | Aim A | Fire F | Brush B | Teeth Ctrl-T The user needs to have the \"leBindKeys.il\" file loaded, which can be done by entering it into"
+    },
+    {
+      "chunk_id": 129,
+      "text": "loaded, which can be done by entering it into one of the .cdsinit startup files. Cadence first looks in $CDS_INST_DIR/tools/dfII/local/ then in ~/ and then in ./ . The .cdinit files contain many startup items including an instruction to"
+    },
+    {
+      "chunk_id": 130,
+      "text": "ain many startup items including an instruction to load the hotkeys files (e.g. leBindKeys.il). But the current system local/.cdsinit file doesn't set the ACEHOME environment variable and some NSCU variable, and it ends without l"
+    },
+    {
+      "chunk_id": 131,
+      "text": "able and some NSCU variable, and it ends without looking for other .cdinit files. So the user can't load \"leBindKeys.il\". Solution: Users on Instructional systems should create their own .cdsinit files that load \"leBindKeys.il\" and"
+    },
+    {
+      "chunk_id": 132,
+      "text": ".cdsinit files that load \"leBindKeys.il\" and start Cadence from the directory that has that file. Also look for old ~/.cdsinit and ./.cdsinit files that are incorrect. You can create a new .cdsinit file on the Instructional sys"
+    },
+    {
+      "chunk_id": 133,
+      "text": "e a new .cdsinit file on the Instructional systems by running '/share/b/bin/cadence-setup.csh'. ---------------------------------------------------------------------------- Symptom: X connection to cory.EECS.Berkeley.EDU:10.0 broken \\"
+    },
+    {
+      "chunk_id": 134,
+      "text": "nnection to cory.EECS.Berkeley.EDU:10.0 broken \\ (explicit kill or server shutdown) Solution: This means you have logged into cory.EECS.Berkeley.EDU (for example) and started an XWindows command (such as 'icfb') but you do not have"
+    },
+    {
+      "chunk_id": 135,
+      "text": "ows command (such as 'icfb') but you do not have an XWindows server running on your desktop computer. See http://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=XWindows.help for more information. ----------------------------------------"
+    },
+    {
+      "chunk_id": 136,
+      "text": "ation. ---------------------------------------------------------------------------- Symptom: Segmentation errors. Solution: This means there is a bug in the cadence software or the Operating System. Please email inst@imail.E"
+    },
+    {
+      "chunk_id": 137,
+      "text": "he Operating System. Please email inst@imail.EECS.Berkeley.EDU the following information: the output of uname -a ; ssh -V ; java -fullversion ; date '+DATE:%a %d %b %Y TIME:%H:%M:%S' ; dirs -v ; echo $PATH ------------------------------"
+    },
+    {
+      "chunk_id": 138,
+      "text": "-v ; echo $PATH ---------------------------------------------------------------------------- Symptom: You get errors like *WARNING* file /home/aa/users/jdoe/CDS.log.1 Malformed Lock-Stake file. *WARNING* file /home/aa/users/jdo"
+    },
+    {
+      "chunk_id": 139,
+      "text": "-Stake file. *WARNING* file /home/aa/users/jdoe/CDS.log.2 Malformed Lock-Stake file. Solution: Delete obsolete lock files from a previous session. The lock file names are determined by adding \".cdslck\" to the name of the file in the"
+    },
+    {
+      "chunk_id": 140,
+      "text": "y adding \".cdslck\" to the name of the file in the error message. So for the file /home/aa/users/jdoe/CDS.log.1 the lock file is /home/aa/users/jdoe/CDS.log.1.cdslck You can delete it with the UNIX command rm /home/aa/users/jdoe"
+    },
+    {
+      "chunk_id": 141,
+      "text": "it with the UNIX command rm /home/aa/users/jdoe/CDS.log.1.cdslck You can locate all of the Cadence lock files in your UNIX home directory with the command: find ~ -name \\*cdslck -------------------------------------------------------"
+    },
+    {
+      "chunk_id": 142,
+      "text": "----------------------------------------------------------------------- Symptom: The \"Help\" button does not do anything. Solution: The Cadence \"Help\" buttons look specifically for a progam called \"netscape\", and it must be in t"
+    },
+    {
+      "chunk_id": 143,
+      "text": "progam called \"netscape\", and it must be in the search path that Cadence is using. An easy way to ensure that is to create a sym link called \"netscape\" in a Cadence \"bin\" directory that points to an actual WEB browser on your system."
+    },
+    {
+      "chunk_id": 144,
+      "text": "at points to an actual WEB browser on your system. ---------------------------------------------------------------------------- Symptom: Spectre fails with an error such as ld.so.1: spectre: fatal: relocation error: ... symbo"
+    },
+    {
+      "chunk_id": 145,
+      "text": ": spectre: fatal: relocation error: ... symbol __SUNW_init_wiostreams: referenced symbol not found Killed Solution: See the \"Cadence Spectre\" section above. -------------------------------------------------------------------------"
+    },
+    {
+      "chunk_id": 146,
+      "text": "----------------------------------------------------- Cadence 6 --------- (Dec 2010) Cadence 6.14 is installed for EE240 in Spring 2011. To run IC 6.14: 1) Login to an Instructional server as described at the top of this document."
+    },
+    {
+      "chunk_id": 147,
+      "text": "as described at the top of this document. To display graphics from the UNIX server to your desktop system, you can login usin ssh and Xming, ssh and Exceed, x2go or nx. 2) In a UNIX command window, type '/share/b/bin/cadence-set"
+    },
+    {
+      "chunk_id": 148,
+      "text": "NIX command window, type '/share/b/bin/cadence-setup6.csh'. You only need to do this once, to set up your configuration files. 3) In a UNIX command window, type '/share/b/bin/virtuoso6'. The Cadence \"log file\" window should pop up on y"
+    },
+    {
+      "chunk_id": 149,
+      "text": "Cadence \"log file\" window should pop up on your screen, and you can start using Cadence tools. SoftMEMS Xplorer ---------------- [Jan 2016: this section is obsolete; nova and the SunRays are gone] [January 2011] SoftMEMS MEMS X"
+    },
+    {
+      "chunk_id": 150,
+      "text": "Rays are gone] [January 2011] SoftMEMS MEMS XPlorer v5.0 (http://www.softmems.com/xplorer50/) is a set of tools and libraries created for the design of microsystems. The SoftMEMS suite is MEMS Xplorer Design Suite, Solid Modeler, Technolo"
+    },
+    {
+      "chunk_id": 151,
+      "text": "MEMS Xplorer Design Suite, Solid Modeler, Technology Manager, MemsMaster and MemsModeler. It is an add-on to the Cadence icfb tool, for Cadence IC5* (the vendor does not support it for IC6*). It was installed for EE147 (Prof Long-Sheng Fan)"
+    },
+    {
+      "chunk_id": 152,
+      "text": "It was installed for EE147 (Prof Long-Sheng Fan) for Spring 2011 on the Instructional Solaris SPARC servers (such as nova.cs.berkeley.edu and the SunRay xterminals in 273 Soda). To run it: /share/b/bin/xmems_cds For example: /share/b"
+    },
+    {
+      "chunk_id": 153,
+      "text": "/share/b/bin/xmems_cds For example: /share/b/bin/xmems_cds -version /share/b/bin/xmems_cds -t PolyMUMPs See http://inst.eecs.berkeley.edu/connecting.html for information about enabling graphical output if you are logged into our server us"
+    },
+    {
+      "chunk_id": 154,
+      "text": "phical output if you are logged into our server using 'ssh' or 'Putty'. Other SoftMEMS programs are in /share/instsww/cadence/MEMS_Xplorer/bin. You can run them on Instructional Solaris SPARC servers. You can initialize your UNIX environme"
+    },
+    {
+      "chunk_id": 155,
+      "text": "ervers. You can initialize your UNIX environment for them by running one of these scripts: /share/instsww/cadence/MEMS_Xplorer/softmems.cshrc (for csh and tcsh users) /share/instsww/cadence/MEMS_Xplorer/softmems.bashrc (for bash users)"
+    },
+    {
+      "chunk_id": 156,
+      "text": "nce/MEMS_Xplorer/softmems.bashrc (for bash users) \"8-bit color display\" error --------------------------- Symptom: Displays properly on an 8-bit color display, but not on 24-bit color. Error message such as: *WARNING* atr: cannot ha"
+    },
+    {
+      "chunk_id": 157,
+      "text": "Error message such as: *WARNING* atr: cannot handle 24 planes Solution: The XWindow manager where you are sitting needs to be reconfigured for this. Although XMing is the easiest XWindow manager for Microsoft Windows com"
+    },
+    {
+      "chunk_id": 158,
+      "text": "iest XWindow manager for Microsoft Windows computers, it does not have the ability to reset the number of color planes. So for Cadence users on remote PCs, we recommend the Exceed XWindow manager for Windows users. Exceed is available"
+    },
+    {
+      "chunk_id": 159,
+      "text": "w manager for Windows users. Exceed is available for free to UCB students from http://software.berkeley.edu. On a PC running Exceed, configure Exceed video to use \"PseudoColor\" instead of \"Auto Select\". To do this, start Exceed, th"
+    },
+    {
+      "chunk_id": 160,
+      "text": "d of \"Auto Select\". To do this, start Exceed, then right-click on the \"Exceed\" box at the bottom of the screen. This brings up the \"Exceed\" menu. Select Tools\\Configuration\\Screen Definition and change the \"Server Visual\" field."
+    },
+    {
+      "chunk_id": 161,
+      "text": "tion and change the \"Server Visual\" field. On the SunRays (199 Cory), the sys admins may have to run \"/opt/SUNWut/bin/utxconfig -a -p\" to enable PSEUDOCOLOR_VISUAL for the window managers. You can check to see it this has been don"
+    },
+    {
+      "chunk_id": 162,
+      "text": "nagers. You can check to see it this has been done by running \"/opt/SUNWut/bin/utxconfig -l\" from a SunRay, which should show: RESOLUTION=1280x1024 ENABLE_PSEUDOCOLOR_VISUAL=yes DEFAULT_PSEUDOCOLOR_VISUAL=no ENABLE_AUTO_SIZING=yes ENABLE_M"
+    },
+    {
+      "chunk_id": 163,
+      "text": "OCOLOR_VISUAL=no ENABLE_AUTO_SIZING=yes ENABLE_MULTISCREEN=yes ENABLE_XINERAMA=no SCREEN_GEOMETRY=1x1 SCREEN_ORDER=0 On Linux, it may be necessary to select a specific GUI when logging in at the console, ie, GNOME vs KDE. At the login"
+    },
+    {
+      "chunk_id": 164,
+      "text": "the console, ie, GNOME vs KDE. At the login desktop, use the \"Sessions\" button to select \"GNOME\" and make it the default. Alternatively, ssh in and edit ~/.dmrc changing default to gnome. (\"Session=gnome\"). EECS Instructi"
+    },
+    {
+      "chunk_id": 165,
+      "text": "nome. (\"Session=gnome\"). EECS Instructional Support 378/384/386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

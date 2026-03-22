@@ -1,0 +1,173 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/Vertx",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / Vertx Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / Vertx Vert.x is a rich Java-based library with many other la"
+    },
+    {
+      "chunk_id": 2,
+      "text": ".x is a rich Java-based library with many other language bindings, including JavaScript, that provides an event-driven style of concurrent and distributed programming, a publish-and-subscribed event bus, and a library of communication utilities. Vert"
+    },
+    {
+      "chunk_id": 3,
+      "text": "us, and a library of communication utilities. Vert.x is developed under the Eclipse foundation and is open source using the Apache 2.0 license. Event Bus The vertxbus module supports publishing and subscribing via a Vert.x event bus. A Vert.x bus is"
+    },
+    {
+      "chunk_id": 4,
+      "text": "bscribing via a Vert.x event bus. A Vert.x bus is configured and runs on some accessible host. Clients (which are not required to run Vert.x) may then connect to this bus and send and receive messages. This page covers: Overview and configuration op"
+    },
+    {
+      "chunk_id": 5,
+      "text": "s. This page covers: Overview and configuration options Messaging paradigms Client API Publish and subscribe accessors Server-side bus startup Browser host client Node.js host client (TODO) Java host client (Ptolemy - already implemented - needs writ"
+    },
+    {
+      "chunk_id": 6,
+      "text": "client (Ptolemy - already implemented - needs writeup and testing with latest) (TODO) Vert.x host client All source files are checked into the swarmos respository. For repository access, see: https://www.terraswarm.org/swarmos/wiki/Main/SwarmOSReposi"
+    },
+    {
+      "chunk_id": 7,
+      "text": "www.terraswarm.org/swarmos/wiki/Main/SwarmOSRepository Overview and options The Vert.x event bus offers a few different configuration options . Here's a brief overview: Addresses Messages are sent to an address, which can be any string, although a n"
+    },
+    {
+      "chunk_id": 8,
+      "text": "an address, which can be any string, although a naming scheme is recommended. Some examples of valid addresses are \" europe.news.feed1 , acme.games.pacman , sausages , and X .\" Handlers \"A handler is a thing that receives messages from the bus. You"
+    },
+    {
+      "chunk_id": 9,
+      "text": "a thing that receives messages from the bus. You register a handler at an address.\" A single handler can be registered at multiple addresses, and multiple handlers can be registered at a single address. Security: Screening traffic The event bus can"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ss. Security: Screening traffic The event bus can be setup to allow traffic only to certain address patterns or message patterns. See the \"Server\" section for more details. Messaging paradigms Vert.x supports different messaging strategies. All mes"
+    },
+    {
+      "chunk_id": 11,
+      "text": "supports different messaging strategies. All messages are transient. A persistent work queue model can be used to store messages if needed. Publish / subscribe Messages are published to an address and delivered to all handlers registered at that a"
+    },
+    {
+      "chunk_id": 12,
+      "text": "and delivered to all handlers registered at that address. Point to point Messages are sent to an addresses. One of the handlers registered at that address will receive it, using a round-robin algorithm. Request / response This adds a reply handler t"
+    },
+    {
+      "chunk_id": 13,
+      "text": "hm. Request / response This adds a reply handler to point to point scheme. The sender specifies a reply handler, which the recipient calls upon handling the message. The recipient can again supply a reply handler, which the sender uses. This facil"
+    },
+    {
+      "chunk_id": 14,
+      "text": "reply handler, which the sender uses. This facilitates a request / response pattern. Client API The client API is based on the Vertx event bus bridge library vertxbus.js . This library is discussed here and can be downloaded here as part of Vert.x"
+    },
+    {
+      "chunk_id": 15,
+      "text": "here and can be downloaded here as part of Vert.x distribution. The client requires an implementation of the webSocket module. Note that the implementation may emulate websockets in lieu of supporting true websockets. For example, the SockJS libra"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ng true websockets. For example, the SockJS library uses the browser host to establish the connection, and will establish a non-websocket connection if the browser does not support websockets. The Vertx bus client provides the following methods: Eve"
+    },
+    {
+      "chunk_id": 17,
+      "text": "rtx bus client provides the following methods: EventBus(url, opts) : Create a new Vertx bus connection to the given url with the given options. login(username, password, replyHandler) : Login with the given credentials. A callback handler may be sp"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e given credentials. A callback handler may be specified. send(address, message, replyHandler) : Send a message to the given address using the point-to-point paradigm. (A single recipient is chosen). A callback handler may be specified. publish(ad"
+    },
+    {
+      "chunk_id": 19,
+      "text": ". A callback handler may be specified. publish(address, message) : Publish a message to the given address using the pub/sub paradigm. (All handlers registered at this address will receive the message). registerHandler(address, handler) : Register a"
+    },
+    {
+      "chunk_id": 20,
+      "text": "e). registerHandler(address, handler) : Register a handler at the given address to receive messages. unregisterHandler(address, handler) : Unregister a handler at the given address to stop receiving messages. readyState() : Returns one of EventBus.C"
+    },
+    {
+      "chunk_id": 21,
+      "text": "essages. readyState() : Returns one of EventBus.CONNECTING , EventBus.OPEN , EventBus.CLOSING , EventBus.CLOSED . The Vertx bus client defines the following methods with no implementation, for callback purposes: onopen() : Called when a connection i"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ck purposes: onopen() : Called when a connection is established onclose() : Called when a connection is closed The Vertx bus client provides implementations for these webSocket methods: WebSocket.onopen() : Called when the WebSocket connection is est"
+    },
+    {
+      "chunk_id": 23,
+      "text": "en() : Called when the WebSocket connection is established. WebSocket.onclose() : Called when the WebSocket connection is closed. WebSocket.onmessage() : Called when the a message is received over the connection. It requires these methods from webSoc"
+    },
+    {
+      "chunk_id": 24,
+      "text": "connection. It requires these methods from webSocket: WebSocket(url) : Create a new WebSocket connection to the given url. WebSocket.send(message) : Send a message over the WebSocket connection. WebSocket.close() : Close the WebSocket connection. Pu"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ocket.close() : Close the WebSocket connection. Publish and subscribe accessors The latest accessors are in the swarmos repository under: /hosts/browser/public/accessors , VertxBusPublish.xml and VertxBusSubscribe.xml . Each accessor may define input"
+    },
+    {
+      "chunk_id": 26,
+      "text": "xBusSubscribe.xml . Each accessor may define inputs and outputs, the initialize(), fire(), and wrapup() methods plus any additional local code. The accessors may be used on any supported host. No changes to the accessor are required. These accessor"
+    },
+    {
+      "chunk_id": 27,
+      "text": "nges to the accessor are required. These accessors are written in Javascript. Server-side bus startup A Vert.x instance is needed to host the bus. Code for a simple bus server can be found in the swarmos repository at: /hosts/vertx/simpleeventbus.j"
+    },
+    {
+      "chunk_id": 28,
+      "text": "armos repository at: /hosts/vertx/simpleeventbus.js This script will start the event bus and bridge (for connecting to non-Vert.x clients) and register a listener at the address x . It accepts traffic from all hosts bound for all addresses. It does"
+    },
+    {
+      "chunk_id": 29,
+      "text": "c from all hosts bound for all addresses. It does not implement any of the many security features available. To run, install Vert.x , then type: vertx run simpleeventbus.js [$[Get Code]] Messages published to address x will be echoed to the screen."
+    },
+    {
+      "chunk_id": 30,
+      "text": "lished to address x will be echoed to the screen. Browser host client Together with a few helper files, the accessor files can be opened with a browser. The latest accessors are in the swarmos repository under: /hosts/browser/public/accessors , Vertx"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ory under: /hosts/browser/public/accessors , VertxBusPublish and VertxBusSubscribe . The browser uses the stylesheet renderHTML.xsl , located in the same directory, to load script libraries and render the accessor as a web page. See Browser Accessor"
+    },
+    {
+      "chunk_id": 32,
+      "text": "the accessor as a web page. See Browser Accessor Hosts on the wiki for more info. This is the procedure used to render accessors on the TerraSwarm accessors page. To run, Open the accessor file in a browser. Enter an address to publish/subscribe t"
+    },
+    {
+      "chunk_id": 33,
+      "text": "a browser. Enter an address to publish/subscribe to, such as x . Click the \"initialize\" button to connect to the bus. For the publisher, enter a message and click \"fire\" to send it. For the subscriber, click \"fire\" once to subscribe to messages. Rec"
+    },
+    {
+      "chunk_id": 34,
+      "text": ", click \"fire\" once to subscribe to messages. Received messages will appear under \"Outputs\" in the \"message\" field. Click \"wrapup\" to disconnect from the bus. These clients will send messages to and receive messages from any other clients connected"
+    },
+    {
+      "chunk_id": 35,
+      "text": "receive messages from any other clients connected to the bus. renderHTML.xsl loads the following Javascript libraries for these accessors: basicFunctions.js , which defines methods for establishing HTTP connections and reading URLs browserHost.js , w"
+    },
+    {
+      "chunk_id": 36,
+      "text": "TP connections and reading URLs browserHost.js , which defines base implementations of initialize(), fire(), wrapup(), get() and send() sockjs.js , a websocket and emulator connection library from the SockJS CDN vertxbus.js , part of the Vert.x distr"
+    },
+    {
+      "chunk_id": 37,
+      "text": "SockJS CDN vertxbus.js , part of the Vert.x distribution Node.js host client The swarmos repository also contains code for hosting accessors on Node.js. Two Javascript scripts /hosts/node/pubhost.js and /hosts/node/subhost.js will connect to the bu"
+    },
+    {
+      "chunk_id": 38,
+      "text": "and /hosts/node/subhost.js will connect to the bus and allow the user to publish messages and subscribe to messages using standard input and ouput. Node uses the vertx-eventbus-client package to interface with the bus. This package will be automati"
+    },
+    {
+      "chunk_id": 39,
+      "text": "rface with the bus. This package will be automatically downloaded during the setup step below. To run, 1. Download the swarmos repository and set up Node.js according to the Node.js host instructions . 2. Make sure a Vert.x instance is running somew"
+    },
+    {
+      "chunk_id": 40,
+      "text": ". 2. Make sure a Vert.x instance is running somewhere to host the bus. See \"Server-side bus startup\". 3. The scripts use a URL to locate the accessors. In /hosts/node , start fileserver.js for a simple file server: node fileserver.js& [$[Get Code]"
+    },
+    {
+      "chunk_id": 41,
+      "text": "mple file server: node fileserver.js& [$[Get Code]] 4. The publisher will prompt for user input on stdin. To publish, in /hosts/node , run pubhost.js : node pubhost.js [$[Get Code]] 5. The subscriber echoes messages published to address x on the scr"
+    },
+    {
+      "chunk_id": 42,
+      "text": "echoes messages published to address x on the screen. To subscribe, in a separate command window, in /hosts/node , run subhost.js : node subhost.js [$[Get Code]] 6. Type q to quit. 7. Kill the file server process by using ps to find the process id,"
+    }
+  ]
+}

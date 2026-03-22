@@ -1,0 +1,89 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/~cxh/ptpub/nt/ptxpinstall.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Ptolemy Windows XP Installation Ptolemy Windows XP Installation Quick nt4 Installation Instructions Download and install Cygwin http://www.cygwin.com Install the gnu compiler Download Ptolemy using CVS cd c:/foo cvs -d :pserver:anon@source.eecs.berke"
+    },
+    {
+      "chunk_id": 2,
+      "text": "S cd c:/foo cvs -d :pserver:anon@source.eecs.berkeley.edu:/home/cvs/cvsanon login # No password needed, hit enter cvs -d :pserver:anon@source.eecs.berkeley.edu:/home/cvs/cvsanon co ptclassic mv ptclassic ptolemy cd ptolemy export PTOLEMY=`pwd` export"
+    },
+    {
+      "chunk_id": 3,
+      "text": "sic ptolemy cd ptolemy export PTOLEMY=`pwd` export PTARCH=`bin/ptarch` export PT_USE_X11_PXGRAPH=yes export PATH=${PTOLEMY}/bin:${PTOLEMY}/bin.xp:${PATH} Note that PTOLEMY should be set to /cygdrive/c/ yourDirectory , not c:/ yourDirectory . This wil"
+    },
+    {
+      "chunk_id": 4,
+      "text": "/ yourDirectory , not c:/ yourDirectory . This will avoid problems in configure. Download gcc-2.95.3 from http://ptolemy.eecs.berkeley.edu/~cxh/pt0.7.2/pt0.7.2devel.gnu.tar.gz user: ptdevel password: ptrules cd $PTOLEMY/.. tar -xzf /tmp/pt0.7.2deve"
+    },
+    {
+      "chunk_id": 5,
+      "text": ": ptrules cd $PTOLEMY/.. tar -xzf /tmp/pt0.7.2devel.gnu.tar.gz cd $PTOLEMY make install_gnu You may need to create a link for gcc: cd /usr/bin ln -s gcc.exe cc.exe and the rerun make: cd $PTOLEMY rm -rf obj.xp/gnu make install_gnu Problem: ptolemy/sr"
+    },
+    {
+      "chunk_id": 6,
+      "text": "rf obj.xp/gnu make install_gnu Problem: ptolemy/src/gnu/src/gcc/gcc/prefix.c:69: windows.h: No such file or directory I had to edit ptolemy/src/gnu/src/gcc-2.95.3/gcc/prefix.c and insert \"w32api/\": #ifdef _WIN32 #include #endif I had to edit ptolemy/"
+    },
+    {
+      "chunk_id": 7,
+      "text": "fdef _WIN32 #include #endif I had to edit ptolemy/obj.xp/gnu/gcc/gcc/Makefile and add \"-I/usr/include/w32api\" prefix.o: prefix.c $(CONFIG_H) system.h Makefile prefix.h $(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) -I/usr/include/w32api \\ -DPREFIX"
+    },
+    {
+      "chunk_id": 8,
+      "text": "AGS) $(INCLUDES) -I/usr/include/w32api \\ -DPREFIX=\\\"$(prefix)\\\" \\ -c `echo $(srcdir)/prefix.c | sed 's,^\\./,,'` and then run cd $PTOLEMY make install_gnu Download the \"other.src\" tar file, which includes Tcl/Tk. Note that we need to untar it in a"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ncludes Tcl/Tk. Note that we need to untar it in a separate directory and then copy the Tcl/Tk installation over. Download http://ptolemy.eecs.berkeley.edu/~cxh/pt0.7.2/pt0.7.2devel.other.src.tar.gz anonomous class type problem: /cygdrive/c/cxh/src/p"
+    },
+    {
+      "chunk_id": 10,
+      "text": "nonomous class type problem: /cygdrive/c/cxh/src/ptolemy/obj.xp/gnu/gcc/gcc/xgcc -B/cygdrive/c/cxh/src/ptolemy/obj.xp/gnu/gcc/gcc/ -B/cygdrive/c/cxh/src/ptolemy/gnu/xp/i686-pc-cygwin32/bin/ -c -g -O2 -fno-implicit-templates -I. -I/cygdrive/c"
+    },
+    {
+      "chunk_id": 11,
+      "text": "-g -O2 -fno-implicit-templates -I. -I/cygdrive/c/cxh/src/ptolemy/src/gnu/src/gcc/libio -I/cygdrive/c/cxh/src/ptolemy/src/gnu/src/gcc/libio/../winsup/include -nostdinc++ -fpic /cygdrive/c/cxh/src/ptolemy/src/gnu/src/gcc/libio/filebuf.cc"
+    },
+    {
+      "chunk_id": 12,
+      "text": "h/src/ptolemy/src/gnu/src/gcc/libio/filebuf.cc -o pic/filebuf.o cc1plus: warning: -fpic ignored for target (all code is position independent) In file included from /usr/include/sys/signal.h:107, from /usr/include/signal.h:5,"
+    },
+    {
+      "chunk_id": 13,
+      "text": "from /usr/include/signal.h:5, from /usr/include/time.h:150, from /usr/include/sys/stat.h:9, from /cygdrive/c/cxh/src/ptolemy/src/gnu/src/gcc/libio/filebuf.cc:29: /usr/include/cygwin/si"
+    },
+    {
+      "chunk_id": 14,
+      "text": "rc/gcc/libio/filebuf.cc:29: /usr/include/cygwin/signal.h:67: anonymous class type not used to declare any objects /usr/include/cygwin/signal.h:71: anonymous class type not used to declare any objects /usr/include/cygwin/signal.h:80: anonymous class t"
+    },
+    {
+      "chunk_id": 15,
+      "text": "/usr/include/cygwin/signal.h:80: anonymous class type not used to declare any objects make[5]: *** [filebuf.o] Error 1 make[5]: Leaving directory `/cygdrive/c/cxh/src/ptolemy/obj.xp/gnu/gcc/i686-pc-c ygwin32/libio' make[4]: *** [all-target-libio] Err"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ygwin32/libio' make[4]: *** [all-target-libio] Error 2 make[4]: Leaving directory `/cygdrive/c/cxh/src/ptolemy/obj.xp/gnu/gcc' Solution: edit ptolemy/obj.xp/gnu/gcc/i686-pc-cygwin32/libio/Makefile and add -fpermissive CXXINCLUDES = -I. -I$(srcdir) -I"
+    },
+    {
+      "chunk_id": 17,
+      "text": "add -fpermissive CXXINCLUDES = -I. -I$(srcdir) -I$(srcdir)/../winsup/include $(NOSTDINC) -fpermissive and .cc.o: test x\"$(enable_shared)\" != xyes || \\ $(COMPILE.cc) -fpermissive $(PICFLAG) $< -o pic/$@ $(COMPILE.cc) $< See also http://gcc.gnu.o"
+    },
+    {
+      "chunk_id": 18,
+      "text": "pic/$@ $(COMPILE.cc) $< See also http://gcc.gnu.org/ml/gcc-bugs/1999-08n/msg00914.html cd $PTOLEMY/.. mkdir tmp cd tmp tar -xf /tmp/pt0.7.2devel.other.src.tar.gz cd ptolemy/src/tcltk mv tcl8.0.5pt $PTOLEMY/src/tcltk/tcl/8.0.5 mv tk8.0.5pt $PTOLEMY/"
+    },
+    {
+      "chunk_id": 19,
+      "text": "PTOLEMY/src/tcltk/tcl/8.0.5 mv tk8.0.5pt $PTOLEMY/src/tcltk/tk8.0.5 Download and install X11 development libraries and headers by running the Cygwin setup program. Do some setup, creating $PTOLEMY/obj.xp and creating makefiles from make.template cd $"
+    },
+    {
+      "chunk_id": 20,
+      "text": ".xp and creating makefiles from make.template cd $PTOLEMY ./MAKEARCH make makefiles cd octtools make makefiles Run the builds make ntbuild This rule build tcltk, octtools and Ptolemy Classic See also The Ptolemy Window NT Installation page Copyright"
+    },
+    {
+      "chunk_id": 21,
+      "text": "The Ptolemy Window NT Installation page Copyright © 2005 The Regents of the University of California. All rights reserved. Last updated: $Date: 2005/08/25 01:47:43 $ comments to: cxh at eecs"
+    }
+  ]
+}

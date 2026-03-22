@@ -1,0 +1,625 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII3.0/ptII3.0.2/doc/codegen.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Code Generation Code Generation Contents Overview Deep Code Generation Deep Code Generation Demonstration Tree Shaking GCJ Shallow Code Generation Shallow Code Generation Demonstration Applet Code Generation Applet Code Generation Demonstration Inter"
+    },
+    {
+      "chunk_id": 2,
+      "text": "eration Applet Code Generation Demonstration Interpreted Code Generation The Code Generator User Interface Code Generation History Soot Future Plans Resources Overview Ptolemy II includes the very beginnings a code generation framework. Currently, th"
+    },
+    {
+      "chunk_id": 3,
+      "text": "innings a code generation framework. Currently, there are four types of code generators: deep Reads in a .xml model and generates optimized .class files that have few dependencies on the Ptolemy II packages. shallow Reads in a .xml file and generates"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ckages. shallow Reads in a .xml file and generates a single unoptimized .class file that has many dependencies on the Ptolemy II packages. applet Reads in a .xml file and generates files suitable for putting a model up on a web page as an applet. int"
+    },
+    {
+      "chunk_id": 5,
+      "text": "putting a model up on a web page as an applet. interpreted Reads in a .xml file and writes out the .xml file. The interpreted code generator does very little code generation and is used primary to compare the other code generators with the standard P"
+    },
+    {
+      "chunk_id": 6,
+      "text": "pare the other code generators with the standard Ptolemy II interpreted mode that is used when the user does View -> Run . The implementation here should be viewed as highly preliminary. It is likely to fail on all but a few simple test cases. It is"
+    },
+    {
+      "chunk_id": 7,
+      "text": "to fail on all but a few simple test cases. It is at the stage of being a concept demonstration only. We expect it to mature considerably in the near future. The following limitations apply to all of the code generators: The primary interface to the"
+    },
+    {
+      "chunk_id": 8,
+      "text": "the code generators: The primary interface to the code generator is through the makefiles and the $PTII/ptolemy/copernicus/kernel/Copernicus.java class. The user interface is highly preliminary, and its limitations are discussed in the User Interfa"
+    },
+    {
+      "chunk_id": 9,
+      "text": "its limitations are discussed in the User Interface Limitations section. The limitations for the individual code generators are discussed below: Deep Limitations Shallow Limitations Applet Limitations Interpreted Limitations Deep Code Generation De"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ns Interpreted Limitations Deep Code Generation Deep code generation is by the most interesting of the code generators so we cover it first. Stephen Neuendorffer is the primary author of the deep code generator. The Ptolemy II code generation system"
+    },
+    {
+      "chunk_id": 11,
+      "text": "e generator. The Ptolemy II code generation system parses Ptolemy II actor code, generates an Abstract Syntax Tree (AST), optimizes the tree using standard and custom compiler optimization techniques and then generates .class files that use very few"
+    },
+    {
+      "chunk_id": 12,
+      "text": "and then generates .class files that use very few of the Ptolemy II java classes. This approach is different from the Ptolemy Classic code generation approach, where each actor contains target specific code. Most of the code generator uses Soot to a"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ic code. Most of the code generator uses Soot to analyze a model and generate a set of Java .class files. Our current deep code generator generates Java .class files, so the user interface refers to the deep code generator as the java code generator."
+    },
+    {
+      "chunk_id": 14,
+      "text": "he deep code generator as the java code generator. The deep code generator is implemented in the $PTII/ptolemy/copernicus/ java directory. Other deep code generators could generate code in different backend languages. Professor Shuvra S. Bhattachar"
+    },
+    {
+      "chunk_id": 15,
+      "text": "backend languages. Professor Shuvra S. Bhattacharyya of the University of Maryland is working on C code generation for Ptolemy II Models using Soot, but his work is still under development and not being released at this time. For details about the s"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ing released at this time. For details about the status of the C code generation effort, see the reports on the Ptolemy II website at http://ptolemy.eecs.berkeley.edu/projects Deep code generation has the following limitations: Deep code generation s"
+    },
+    {
+      "chunk_id": 17,
+      "text": "the following limitations: Deep code generation still requires the ptolemy.math and ptolemy.data packages. Our hope is to eventually implement token unboxing so that the only the ptolemy.math package is required at runtime. Deep code generation onl"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e is required at runtime. Deep code generation only works on flat SDF models. Composite SDF models and domains other than SDF are not supported. In Ptolemy II 3.0.x, the deep code generator does not work on actors that have a FileAttribute parameter"
+    },
+    {
+      "chunk_id": 19,
+      "text": "work on actors that have a FileAttribute parameter. Such actors include ExpressionReader, FileReader, LineReader, LineWriter. Deep code generation consumes quite a bit of memory. We usually exec the deep code generator as a separate process with th"
+    },
+    {
+      "chunk_id": 20,
+      "text": "deep code generator as a separate process with the -Xmx256 java command line argument, which sets the initial heap size to 256Mb. Deep code generation may not work on a on memory-limited platforms. Currently, in Ptolemy II, it is not possible to g"
+    },
+    {
+      "chunk_id": 21,
+      "text": "Currently, in Ptolemy II, it is not possible to generate custom code for an individual actor using a codeblock. If you run deep code generation of a model that uses a plot, then a plot will be displayed while the deep code generator is run. This is"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ayed while the deep code generator is run. This is because the code generator calls initialize() and the plot actors render the plotter during initialize(). The deep code generator does not handle plot configurations, so if your model has a custom co"
+    },
+    {
+      "chunk_id": 23,
+      "text": "t configurations, so if your model has a custom configuration for a plot, then that information is lost. Deep code generation does not work under Mac OSX because the deep code generator cannot find the Java rt.jar Below is a simple demonstration: Not"
+    },
+    {
+      "chunk_id": 24,
+      "text": "e Java rt.jar Below is a simple demonstration: Note that codegen will not work in an applet, you must download the Web Start version, or the Windows Installer version or rebuild from source. Open up the SDF Orthogonal Communication Model Select View"
+    },
+    {
+      "chunk_id": 25,
+      "text": "he SDF Orthogonal Communication Model Select View -> Code Generator Hit the Generate Button The code generator will invoke an separate java process that generates code in $PTII/ptolemy/copernicus/ java /cg/OrthogonalCom The deep code generator takes"
+    },
+    {
+      "chunk_id": 26,
+      "text": "a /cg/OrthogonalCom The deep code generator takes about 90 seconds to generate code. The code generators print out statistics about how long the run took and how much memory was consumed. A typical run will look like: OrthogonalCom: Stats before exe"
+    },
+    {
+      "chunk_id": 27,
+      "text": "un will look like: OrthogonalCom: Stats before execution: 0 ms. Memory: 1984K Free: 1805K (91%) 0 1 0 etc. 0 1 OrthogonalCom: Execution stats: 280 ms. Memory: 1984K Free: 1741K (88%) OrthogonalCom: After Garbage Collection: 1392 ms. Mem"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ogonalCom: After Garbage Collection: 1392 ms. Memory: 1984K Free: 1804K (91%) OrthogonalCom: construction size: 1984K - 1805K = 179K OrthogonalCom: model alloc. while exec. : 1805K - 1804K = 1K OrthogonalCom: model alloc. runtime data: 1804K"
+    },
+    {
+      "chunk_id": 29,
+      "text": "1K OrthogonalCom: model alloc. runtime data: 1804K - 1741K = 63K 280 ms. Memory: 1984K Free: 1741K (88%) Stat: 179K StatRT: 1K DynRT: 63K All Done. The last line is the most significant, it indicates that the run took 280 milliseconds Consumed at mos"
+    },
+    {
+      "chunk_id": 30,
+      "text": "that the run took 280 milliseconds Consumed at most 1984K of memory Before garbage collection at the end of the run, there was 1741K or 88% memory free. That means that before garbage collection, the model consumed 243K (1984K-1741K) of memory. Th"
+    },
+    {
+      "chunk_id": 31,
+      "text": "he model consumed 243K (1984K-1741K) of memory. The remaining three numbers are somewhat more subjective: 179K of Memory was allocated during construction of the model 1K was allocated while the model was running 63K of data that was garbage collecte"
+    },
+    {
+      "chunk_id": 32,
+      "text": "was running 63K of data that was garbage collected. To run the generated code again, click on the compile radio button and turn it off, then hit the Generate button. This will show and run the generated code without rerunning the 90 second long gen"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ated code without rerunning the 90 second long generator process. Things to note: After a model is run, Ptolemy II prints out the amount of time and memory the model consumed. Usually, this output goes to standard out, which could be hidden if Vergi"
+    },
+    {
+      "chunk_id": 34,
+      "text": "es to standard out, which could be hidden if Vergil was started by clicking on an icon. The interpreted code generator runs a model in the usual Ptolemy II interpreted mode, but displays the runtime statistics in the code generator tableau window."
+    },
+    {
+      "chunk_id": 35,
+      "text": "statistics in the code generator tableau window. To run the interpreted code generator: Go to the code generator window and change codeGenerator to interpreted Hit the Generate Button Deep codegen shows a more significant improvement in speed when"
+    },
+    {
+      "chunk_id": 36,
+      "text": "hows a more significant improvement in speed when the model is run for a larger number of iterations. To increase the number of iterations in the model: Close the code generator window and go to the graph editor Click on the green SDF Director Icon"
+    },
+    {
+      "chunk_id": 37,
+      "text": "graph editor Click on the green SDF Director Icon and change the number of iterations from 20 to 2000. Save the model with File -> Save Bring up the code generator with View -> Code Generator -> Generate. Run the model using the interpreted code gene"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ate. Run the model using the interpreted code generator by going to the code generator window and change codeGenerator to interpreted Hit the Generate Button You should see times like: 3254 ms. Memory: 1984K Free: 1412K (71%) OrthogonalCom: Execution"
+    },
+    {
+      "chunk_id": 39,
+      "text": ": 1984K Free: 1412K (71%) OrthogonalCom: Execution stats: 5097 ms. Memory: 1984K Free: 1411K (71%) OrthogonalCom: After Garbage Collection: 6299 ms. Memory: 1984K Free: 1519K (77%) OrthogonalCom: construction size: 1984K - 1104K ="
+    },
+    {
+      "chunk_id": 40,
+      "text": "alCom: construction size: 1984K - 1104K = 880K OrthogonalCom: model alloc. while exec. : 1104K - 1519K = -415K OrthogonalCom: model alloc. runtime data: 1519K - 1411K = 108K 5097 ms. Memory: 1984K Free: 1411K (71%) Stat: 880K StatRT: -415K Dy"
+    },
+    {
+      "chunk_id": 41,
+      "text": "984K Free: 1411K (71%) Stat: 880K StatRT: -415K DynRT: 108 Change the codeGenerator to java Hit the Generate Button You should see statistics like OrthogonalCom: Execution stats: 941 ms. Memory: 1984K Free: 1494K (75%) OrthogonalCom: After"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ory: 1984K Free: 1494K (75%) OrthogonalCom: After Garbage Collection: 2103 ms. Memory: 1984K Free: 1804K (91%) OrthogonalCom: construction size: 1984K - 1805K = 179K OrthogonalCom: model alloc. while exec. : 1805K - 1804K = 1K OrthogonalCom:"
+    },
+    {
+      "chunk_id": 43,
+      "text": "c. while exec. : 1805K - 1804K = 1K OrthogonalCom: model alloc. runtime data: 1804K - 1494K = 310K 941 ms. Memory: 1984K Free: 1494K (75%) Stat: 179K StatRT: 1K DynRT: 310K Comparing the run times for 2000 iterations, we can see that the interpreted"
+    },
+    {
+      "chunk_id": 44,
+      "text": "2000 iterations, we can see that the interpreted version took 5097 ms. compared with the deep code generation version taking 941 ms, so in in this case, deep code generation was roughly 5 times faster than the regular interpreted version. Soot produ"
+    },
+    {
+      "chunk_id": 45,
+      "text": "r than the regular interpreted version. Soot produces .class files, and we can run a disassembler convert the .class files back to .java files. Unfortunately, there are various reasons that the resulting .java files will not compile. See the Disasse"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ting .java files will not compile. See the Disassemblers section for information about disassemblers. Tree Shaking Tree shaking is a form of optimization where a system is run and unused code is removed. Tree shaking is one way of reducing the code"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ed. Tree shaking is one way of reducing the code foot print, which is especially important in embedded applications with small amounts of memory. The deep code generator includes a prototype tree shaker that is implemented using a shell script at $P"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ker that is implemented using a shell script at $PTII/util/testsuite/treeshake . (This script requires shell utilities, so it will probably only work when Ptolemy II was built from scratch, it is not likely to work under Web Start.) The treeshaker ru"
+    },
+    {
+      "chunk_id": 49,
+      "text": "likely to work under Web Start.) The treeshaker runs the model using java -v to generate a list of classes, creates a jar file using those classes, and then runs the model using the new jar file. The treeShakeAll rule in $PTII/ptolemy/copernicus/java"
+    },
+    {
+      "chunk_id": 50,
+      "text": "treeShakeAll rule in $PTII/ptolemy/copernicus/java/makefile runs treeshake : on the standard .xml file, which is similar to using the interpreted code generator The various intermediate stages of the deep compiler The final output of the deep compile"
+    },
+    {
+      "chunk_id": 51,
+      "text": "deep compiler The final output of the deep compiler At the end, the treeShakeAll rule prints out the sizes of the jar files. For the OrthogonalCom demo, the standard interpreted run treeshakes down to a 570k jar file, and the final output is a 283k"
+    },
+    {
+      "chunk_id": 52,
+      "text": "o a 570k jar file, and the final output is a 283k jar file. The 283k jar file uncompresses in to about 657k of files, distributed as follows: 1 ptolemy/actor/lib 1 ptolemy/actor 37 ptolemy/copernicus/java/cg/OrthogonalCom 37 ptolemy/copernicus/java/c"
+    },
+    {
+      "chunk_id": 53,
+      "text": "java/cg/OrthogonalCom 37 ptolemy/copernicus/java/cg 37 ptolemy/copernicus/java 37 ptolemy/copernicus 153 ptolemy/data/expr 90 ptolemy/data/type 399 ptolemy/data 59 ptolemy/graph 19 ptolemy/kernel/util 19 ptolemy/kernel 142 ptolemy/math 657 ptolemy On"
+    },
+    {
+      "chunk_id": 54,
+      "text": "19 ptolemy/kernel 142 ptolemy/math 657 ptolemy Once we have token unboxing, we should be able to eliminate the ptolemy/data packages, which account for 399k of the 657k. The treeshaking script performs tree shaking on a per class basis, where if on"
+    },
+    {
+      "chunk_id": 55,
+      "text": "rms tree shaking on a per class basis, where if one method from a class is reported in the java -v output, then the entire class is included. Another optimization would be to do tree shaking on a per method basis, which would result in further reduc"
+    },
+    {
+      "chunk_id": 56,
+      "text": "method basis, which would result in further reductions, especially in the ptolemy/math package. GCJ GCJ is the GNU compiler for Java. GCJ reads in .java or .class files and generates native code. Building GCJ is a fairly complex task, and as of 1/"
+    },
+    {
+      "chunk_id": 57,
+      "text": "uilding GCJ is a fairly complex task, and as of 1/02, GCJ would not build under Cygwin because the Windows file system is badly designed and case insensitive but case preserving. Under Solaris 8 with GCJ installed in /users/ptII/vendors/gcj , we were"
+    },
+    {
+      "chunk_id": 58,
+      "text": "GCJ installed in /users/ptII/vendors/gcj , we were able to build a native OrthogonalCom executable that ran about 20% faster than the regular deep code generation output: set path = ( /users/ptII/vendors/gcj/bin $path) setenv LD_LIBRARY_PATH /users/p"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ors/gcj/bin $path) setenv LD_LIBRARY_PATH /users/ptII/vendors/gcj/lib:/usr/local/lib cd $PTII/ptolemy/copernicus make gcj GCJ support in Ptolemy II is extremely experimental and not likely to work. Shallow Code Generation Shallow code generation conv"
+    },
+    {
+      "chunk_id": 60,
+      "text": "allow Code Generation Shallow code generation converts a model that has been specified in MoML (typically using Vergil) into a Java class definition. This class definition can be used in an applet, which results in faster download times because less"
+    },
+    {
+      "chunk_id": 61,
+      "text": "hich results in faster download times because less of the Ptolemy II infrastructure is required to execute it. Shallow code generation uses components built into the Ptolemy II tree. We primarily use shallow code generation as a test bed for the code"
+    },
+    {
+      "chunk_id": 62,
+      "text": "shallow code generation as a test bed for the code generation facility itself. Below is a simple demonstration: Open up the SDF Orthogonal Communication Model Select View -> Code Generator Change the CodeGenerator combo box from java to shallow Hit t"
+    },
+    {
+      "chunk_id": 63,
+      "text": "CodeGenerator combo box from java to shallow Hit the Generate Button The code generator will invoke an separate java process that generates code in $PTII/ptolemy/copernicus/ shallow /cg/OrthogonalCom If you do not have write permission to the Ptolemy"
+    },
+    {
+      "chunk_id": 64,
+      "text": "If you do not have write permission to the Ptolemy II tree, then the generated code will end up in the directory listed in the ptIIUserDirectory parameter. Things to note: When the MoML version Orthogonal Communication model is run through shallow co"
+    },
+    {
+      "chunk_id": 65,
+      "text": "onal Communication model is run through shallow code generation and a .class file is created, then the .class file runs faster than the original MoML file because the MoML parser is not invoked. For 20 iterations, the shallow code generation print ou"
+    },
+    {
+      "chunk_id": 66,
+      "text": "0 iterations, the shallow code generation print out the following: 361 ms. Memory: 1984K Free: 1145K (58%) Which is almost half the 661 ms. that the interpreted version ran for Shallow Limitations The shallow code generator does not have any shallow"
+    },
+    {
+      "chunk_id": 67,
+      "text": "shallow code generator does not have any shallow specific limitations. Applet Code Generation The Applet code generator takes a model and creates HTML files for use as a web based applet. The applet generator uses the soot framework, though in prin"
+    },
+    {
+      "chunk_id": 68,
+      "text": "generator uses the soot framework, though in principle a shell script could be used instead. The applet generator reads template files that end in .in from $PTII/ptolemy/copernicus/applet , substitutes keywords and writes out the files in the desti"
+    },
+    {
+      "chunk_id": 69,
+      "text": "tes keywords and writes out the files in the destination directory. Users may modify the template files to match their local setup Making an applet available via the web is somewhat complex because the Java Plugin has two sections, one for Netscape,"
+    },
+    {
+      "chunk_id": 70,
+      "text": "he Java Plugin has two sections, one for Netscape, the other for Internet Explorer, so changes to the htm files must be replicated in both sections. The codebase and the location of the jar files also add to the problems. If a model is named MyMode"
+    },
+    {
+      "chunk_id": 71,
+      "text": "so add to the problems. If a model is named MyModel , and the user selects foo.bar as the package, then saving the model as an applet will create a directory called $PTII/foo/bar/MyModel and create the following files for that model: makefile make de"
+    },
+    {
+      "chunk_id": 72,
+      "text": "e following files for that model: makefile make demo will run appletviewer on the HTML files MyModel.xml A local copy of the model MyModel.htm An HTML file containing the code necessary to MyModel.xml MyModelVergil.htm An HTML file containing the cod"
+    },
+    {
+      "chunk_id": 73,
+      "text": "MyModelVergil.htm An HTML file containing the code necessary to display MyModel.xml graphically, using ptolemy.vergil.VergilApplet and in text format Below is a simple demonstration: The OrthogonalCom model generates prints output to standard out,"
+    },
+    {
+      "chunk_id": 74,
+      "text": "m model generates prints output to standard out, so when this model is run as an applet, the output will appear in the Java Plugin console. Instead, we generate an applet for the Butterfly model, which will generate display a nice plot. Note that"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ich will generate display a nice plot. Note that the Butterfly model uses the Expression actor so that while we cannot use deep code generation on the Butterfly actor, we can generate an applet for this model. Open up the SDF Butterfly Model Select"
+    },
+    {
+      "chunk_id": 76,
+      "text": "his model. Open up the SDF Butterfly Model Select View -> Code Generator Change the CodeGenerator combo box from java to applet Hit the Generate Button The code generator will invoke an separate java process that generates code in $PTII/ptolemy/coper"
+    },
+    {
+      "chunk_id": 77,
+      "text": "process that generates code in $PTII/ptolemy/copernicus/ applet /cg/Butterfly If you would like to generate an applet in a directory outside of the Ptolemy tree, follow these steps: Open your model Select View -> Code Generator Change the CodeGenerat"
+    },
+    {
+      "chunk_id": 78,
+      "text": "lect View -> Code Generator Change the CodeGenerator combo box from java to applet Change the ptIIUserDirectory to the directory where you would like the applet to be created. Be sure to place the directory name in double quotes: \"d:/tmp/testapplet2\""
+    },
+    {
+      "chunk_id": 79,
+      "text": "ectory name in double quotes: \"d:/tmp/testapplet2\" Note that the directory must already exist. If it does not exist, then the default directory will automatically be used. Change the targetPath to the string modelName . Note that no double quotes a"
+    },
+    {
+      "chunk_id": 80,
+      "text": "e string modelName . Note that no double quotes are used here. Hit the Parameters button, which will update the parameters and display their values. Hit the Generate Button The code generator will invoke an separate java process that generates an ap"
+    },
+    {
+      "chunk_id": 81,
+      "text": "voke an separate java process that generates an applet. See the limitations below for information about how to handle missing classes at runtime. Applet Limitations Under Web Start, you may need to add classes to the necessaryClasses parameter so tha"
+    },
+    {
+      "chunk_id": 82,
+      "text": "d classes to the necessaryClasses parameter so that the necessaryClassPath parameter will get updated with the appropriate jar files and passed to the subprocess that invokes the applet code generator. The reason this is necessary is because Web Star"
+    },
+    {
+      "chunk_id": 83,
+      "text": ". The reason this is necessary is because Web Start is invoked using a special class loader that accesses separate jar files in the Web Start cache. The applet code generator does not have direct access to the Web Start class loader, so we tell it wh"
+    },
+    {
+      "chunk_id": 84,
+      "text": "ss to the Web Start class loader, so we tell it what classes we need so that they can be added to the class path. It would be nice if the applet code generator would bundle up the necessary class files in a single jar file so that it was easier to in"
+    },
+    {
+      "chunk_id": 85,
+      "text": "s in a single jar file so that it was easier to install an applet. The applet code generator could use tree shaking to create a much smaller jar file that contains only the classes that are used. One issue is that the user would need to exercise the"
+    },
+    {
+      "chunk_id": 86,
+      "text": "issue is that the user would need to exercise the applet by invoking all the features of the GUI, such as the plot format window. The applet code generator should read the value of the _vergilSize attribute and use it when generating the xxx Model.h"
+    },
+    {
+      "chunk_id": 87,
+      "text": "tribute and use it when generating the xxx Model.htm file. The applet code generator should grab the top level text annotations from the MoML file and use them as comments. The following models may require that a jar file be copied and the generated"
+    },
+    {
+      "chunk_id": 88,
+      "text": "quire that a jar file be copied and the generated html file be modified to refer to that jar file If the model is a FSM modal Model, then diva.jar is not included automatically. If the model is a DT modal, then sdf.jar is not included automatically."
+    },
+    {
+      "chunk_id": 89,
+      "text": "odal, then sdf.jar is not included automatically. This problem only occurs in html files generated outside the Ptolemy II tree or the .class files are not present. Generating applets for hierarchical models may fail if the the domain(s) underneath"
+    },
+    {
+      "chunk_id": 90,
+      "text": "l models may fail if the the domain(s) underneath the top level domain is(are) different from the top level domain and html file is generated outside the Ptolemy II tree or the .class files are not present. The solution is to copy the appropriate jar"
+    },
+    {
+      "chunk_id": 91,
+      "text": "esent. The solution is to copy the appropriate jar files and add them to the html file. Rather than copying multiple jar files, another solution is to use a jar file that contains all standard domains: ( ptolemy/domains/domains.jar ) or all the exper"
+    },
+    {
+      "chunk_id": 92,
+      "text": ": ( ptolemy/domains/domains.jar ) or all the experimental domains ( ptolemy/domains/experimentalDomains.jar ). For example, if dt.jar is necessary and dt.jar requires sdf.jar, and the html file was created in cg/Eye , then copy over the sdf.jar with"
+    },
+    {
+      "chunk_id": 93,
+      "text": "eated in cg/Eye , then copy over the sdf.jar with mkdir cg/Eye/ptolemy/domains/sdf cp $PTII/ptolemy/domains/sdf/sdf.jar cg/Eye/ptolemy/domains/sdf Then edit cg/Eye/Eye.htm and everywhere dt.jar is referred to, add sdf.jar , VALUE = \"ptolemy/ptsupport"
+    },
+    {
+      "chunk_id": 94,
+      "text": "erred to, add sdf.jar , VALUE = \"ptolemy/ptsupport.jar,ptolemy/domains/dt/dt.jar\" > \\ to VALUE = \"ptolemy/ptsupport.jar,ptolemy/domains/dt/dt.jar,ptolemy/domains/sdf/sdf.jar\" > \\ and make the following change in two locations: archive = \"ptolemy/ptsu"
+    },
+    {
+      "chunk_id": 95,
+      "text": "g change in two locations: archive = \"ptolemy/ptsupport.jar,ptolemy/domains/dt/dt.jar\" \\ to archive = \"ptolemy/ptsupport.jar,ptolemy/domains/dt/dt.jar,ptolemy/domains/sdf/sdf.jar\" \\ Interpreted Code Generation The interpreted code generator is really"
+    },
+    {
+      "chunk_id": 96,
+      "text": "eneration The interpreted code generator is really not a code generator. It reads in a MoML file and writes out a MoML file, with very little processing. The interpreted code generator is used as to compare the performance of the other code generat"
+    },
+    {
+      "chunk_id": 97,
+      "text": "compare the performance of the other code generators. Interpreted Limitations The interpreted code generator does not have any interpreted specific limitations. The Code Generator User Interface Christopher Hylands and Professor Edward A. Lee develo"
+    },
+    {
+      "chunk_id": 98,
+      "text": "stopher Hylands and Professor Edward A. Lee developed an initial draft of a graphical user interface to control code generation. The user interface reads its parameters from a moml file, the default is $PTII/ptolemy/copernicus/kernel/Generator.xml ."
+    },
+    {
+      "chunk_id": 99,
+      "text": "is $PTII/ptolemy/copernicus/kernel/Generator.xml . This file lists the parameters, the initial default value the documentation for the parameter. The documentation for a parameter is viewable as a tool tip. Try moving the mouse over the name of the p"
+    },
+    {
+      "chunk_id": 100,
+      "text": "l tip. Try moving the mouse over the name of the parameter, a tool tip should pop up. There are quite a few different parameters, and parameters can refer to each other by name. The values of some parameters, such as the modelName and iterations are"
+    },
+    {
+      "chunk_id": 101,
+      "text": "rameters, such as the modelName and iterations are derived from the model itself and not actually settable. There are several buttons: More Info Brings up this file. Parameters Display the name of the parameter, the value, the value the parameter eva"
+    },
+    {
+      "chunk_id": 102,
+      "text": "parameter, the value, the value the parameter evaluates to and the documentation. Generate Run the code generator. Note that the compile , show and run checkboxes determine whether code is generated shown and run. Cancel Stop a Generation that is i"
+    },
+    {
+      "chunk_id": 103,
+      "text": "shown and run. Cancel Stop a Generation that is in progress Clear Clear the output display How the user interface works The code generator is controlled by a GeneratorAttribute that contains parameters read in from the initialParametersURL parameter"
+    },
+    {
+      "chunk_id": 104,
+      "text": "rs read in from the initialParametersURL parameter. When the user hits View -> Code Generator, the model is queried and any necessary updates to the Parameters occurs. When the user hits the Generate button, the model is again queried and any necessa"
+    },
+    {
+      "chunk_id": 105,
+      "text": "button, the model is again queried and any necessary updates occur. Each of the code generators contains template files that determine what command is actually run. For example, the java code generator uses $PTII/ptolemy/copernicus/java/compileComman"
+    },
+    {
+      "chunk_id": 106,
+      "text": "r uses $PTII/ptolemy/copernicus/java/compileCommandTemplate.txt to determine what command to run to generate the code and $PTII/ptolemy/copernicus/java/runCommandTemplate.txt to determine what command to run the generated code. The format of the file"
+    },
+    {
+      "chunk_id": 107,
+      "text": "to run the generated code. The format of the files is fairly straightforward, parameters are substituted in and the command is executed. We use template files so that the code generator can be run without requiring the make program. User Interface"
+    },
+    {
+      "chunk_id": 108,
+      "text": "ithout requiring the make program. User Interface Limitations Unfortunately, this UI has many design issues: The UI uses a GeneratorAttribute to manage the values of the various settings for the code generator. When you select View -> Code Generator"
+    },
+    {
+      "chunk_id": 109,
+      "text": "generator. When you select View -> Code Generator, the GeneratorAttribute is added to the model, which may require that the model be saved - even though the user has not set any of the code generator settings yet. If the code generator is run on a m"
+    },
+    {
+      "chunk_id": 110,
+      "text": "settings yet. If the code generator is run on a model, and the GeneratorAttribute is added to the model, then if the model is saved and then opened in the Ptiny version of Ptolemy II (that does not include the code generator), then a dialog will po"
+    },
+    {
+      "chunk_id": 111,
+      "text": "nclude the code generator), then a dialog will pop up about how the GeneratorAttribute is not present. The interface is cluttered because there are many different possible parameters to set. It is fairly easy to make have an interface that generat"
+    },
+    {
+      "chunk_id": 112,
+      "text": "fairly easy to make have an interface that generates code in a default directory with default names. However, generating code in non-default locations requires understanding how the parameter values affect code generation. The interface uses Ptolemy"
+    },
+    {
+      "chunk_id": 113,
+      "text": "affect code generation. The interface uses Ptolemy Parameters so that we can refer to other Parameters by name and use their values. This means that simple strings need to be enclosed in double quotes. It would be nice if there was an easier way to"
+    },
+    {
+      "chunk_id": 114,
+      "text": "es. It would be nice if there was an easier way to see what a parameter evaluated to. Code Generation History Ptolemy Classic code generation In Ptolemy Classic code generation, each separate platform had a separate domain. This was a slight misuse o"
+    },
+    {
+      "chunk_id": 115,
+      "text": "had a separate domain. This was a slight misuse of the domain concept, since all most all of the separate platforms really had SDF semantics, and each separate platform was really a target for the SDF domain. However, because of assumptions in the"
+    },
+    {
+      "chunk_id": 116,
+      "text": "F domain. However, because of assumptions in the Ptolemy Classic software architecture, it was easier to add new code generation targets as separate domains. In Ptolemy Classic, if you wanted to generate code for a new processor, you had to create a"
+    },
+    {
+      "chunk_id": 117,
+      "text": "rate code for a new processor, you had to create a new domain and then populate the domain with new basic blocks that contained codeblocks of code that were generated when the basic block was used. This is a bit of a simplification, but basically it"
+    },
+    {
+      "chunk_id": 118,
+      "text": "his is a bit of a simplification, but basically it meant that for each new processor, the author had to generate a new Ramp basic block, a new Add basic block etc. This was very time consuming, and tended to have problems, since if a bug was fixed i"
+    },
+    {
+      "chunk_id": 119,
+      "text": "ended to have problems, since if a bug was fixed in one Ramp actor, the bug needed to be fixed in other Ramp actors in each domain. The Adaptive Computing System (ACS) domain was an effort to work around this issue, where the interface to each actor"
+    },
+    {
+      "chunk_id": 120,
+      "text": "und this issue, where the interface to each actor was shared between multiple implementations. This helped make it easier to switch between different target implementations, since the ACS Ramp actor always had the same interface, whereas if there we"
+    },
+    {
+      "chunk_id": 121,
+      "text": "always had the same interface, whereas if there were two Ramp actors in two separate domains, then they might have different port names, which made switching between the domains difficult. More information about the ACS domain can be found in E. K. P"
+    },
+    {
+      "chunk_id": 122,
+      "text": "ation about the ACS domain can be found in E. K. Pauer, C. S. Myers, P. D. Fiore, J. M. Smith, C. M. Crawford, E. A. Lee, J. Lundblad and C. Hylands, \"Algorithm Analysis and Mapping Environment for Adaptive Computing Systems,\" Presented at the Second"
+    },
+    {
+      "chunk_id": 123,
+      "text": "aptive Computing Systems,\" Presented at the Second Annual Workshop on High Performance Embedded Computing, MIT Labs, Lexington, MA, September, 1998. The ACS domain is part of Ptolemy 0.7.2devel, see http://ptolemy.eecs.berkeley.edu/ptolemyclassic/pt"
+    },
+    {
+      "chunk_id": 124,
+      "text": "http://ptolemy.eecs.berkeley.edu/ptolemyclassic/pt0.7.2/ The Ptolemy Classic style of code generation was used to customize different actors to take advantage of different features of a processor. For example, the Motorola 56x FIR filter actor would"
+    },
+    {
+      "chunk_id": 125,
+      "text": "r example, the Motorola 56x FIR filter actor would pick a different codeblock depending on how the FIR filter was configured. However, the downside of this approach is that the inter-actor communication tended to consume quite a bit of time, so even"
+    },
+    {
+      "chunk_id": 126,
+      "text": "on tended to consume quite a bit of time, so even with really great actor implementations, we were getting performance hits when data was passed between these actors. It seems to us that looking at the whole model would yield further performance imp"
+    },
+    {
+      "chunk_id": 127,
+      "text": "he whole model would yield further performance improvements. Deep Generation History Deep code generation parses Java component definitions, and provides an API for accessing the abstract syntax tree. It is possible, in principle, to generate implem"
+    },
+    {
+      "chunk_id": 128,
+      "text": "It is possible, in principle, to generate implementations in languages other than Java from this AST. Thus, we hope that in the future, we will have code generators that produce C code for embedded processors, or VHDL code for hardware design. In"
+    },
+    {
+      "chunk_id": 129,
+      "text": "processors, or VHDL code for hardware design. In 2000, Jeff Tsay created an initial implementation of Deep code generation as part of his his Masters project: Jeff Tsay, \" A Code Generation Framework for Ptolemy II ,\" ERL Technical Report UCB/ERL N"
+    },
+    {
+      "chunk_id": 130,
+      "text": "k for Ptolemy II ,\" ERL Technical Report UCB/ERL No. M00/25, Dept. EECS, University of California, Berkeley, CA 94720, May 19, 2000. There is a shorter summary of Jeff's work at: Jeff Tsay, Christopher Hylands and Edward Lee, \"A Code Generation Fram"
+    },
+    {
+      "chunk_id": 131,
+      "text": "er Hylands and Edward Lee, \"A Code Generation Framework for Java Component-Based Designs,\" CASES 00, November 17-19, 2000, San Jose, CA. Jeff's work was a prototype of how we could do code generation in a different manner, described in the above refe"
+    },
+    {
+      "chunk_id": 132,
+      "text": "in a different manner, described in the above references and below. Unfortunately, his prototype code was not easy to extend to match changes in the Ptolemy type system. More specifically, the type system is Yuhong Xiong's area of research, and Jeff"
+    },
+    {
+      "chunk_id": 133,
+      "text": "ystem is Yuhong Xiong's area of research, and Jeff's work was not easy to extend to deal with ArrayTokens. Soot Stephen Neuendorffer developed the framework for the current code generators using Soot, which is a Java optimization framework from http"
+    },
+    {
+      "chunk_id": 134,
+      "text": ", which is a Java optimization framework from http://www.sable.mcgill.ca/soot/ Soot operates on class files by applying a series of transformations that usually do compiler things like common subexpression elimination or loop unrolling. We can add t"
+    },
+    {
+      "chunk_id": 135,
+      "text": "ssion elimination or loop unrolling. We can add transformations that do things like flattening a model into one class for shallow code generation, or further processing the AST for deep code generation. The advantage of Soot over Jeff Tsay's work is"
+    },
+    {
+      "chunk_id": 136,
+      "text": "on. The advantage of Soot over Jeff Tsay's work is that by using soot, we do not have to parse java files, and the name resolution of objects is done. In Jeff's code, we spent a lot of time trying to figure out the fully dot qualified name of an obj"
+    },
+    {
+      "chunk_id": 137,
+      "text": "figure out the fully dot qualified name of an object who's base name was 'String'. Jeff Tsay's work was a proof of concept demonstration on what could be done. We hope that by using Soot, we can generate a stable system for use in a production envi"
+    },
+    {
+      "chunk_id": 138,
+      "text": "erate a stable system for use in a production environment. Multiprocessors and DSP targets Partitioning a model between multiple processors is fairly tricky, and was a large area of research in Ptolemy Classic. Only models with a high degree of para"
+    },
+    {
+      "chunk_id": 139,
+      "text": "y Classic. Only models with a high degree of parallelism are amenable to running on multiple processors. Simply assigning each actor to a processor is not likely to yield performance improvements, since the inter-actor communication will really bog"
+    },
+    {
+      "chunk_id": 140,
+      "text": "ince the inter-actor communication will really bog things down, especially on a high latency system like a switched ethernet network. Java can take advantage of multiple processors, so in theory, if we use the process domains in Ptolemy II without co"
+    },
+    {
+      "chunk_id": 141,
+      "text": "e use the process domains in Ptolemy II without code generation on a multi processor machine, we should see that each Java thread will be run on a separate processor. However we have not done much work in this area. We'd like to see someone take th"
+    },
+    {
+      "chunk_id": 142,
+      "text": "rk in this area. We'd like to see someone take the PN domain and work on running it on multiple processors and seeing what sort of improvements can be made. In theory, once we have deep code generation, and we are creating an AST and generating .cla"
+    },
+    {
+      "chunk_id": 143,
+      "text": "on, and we are creating an AST and generating .class files, we can generate code for any processor by either writing a new back end, or using a native Java compiler like gcj. Future Plans Deep code generation needs to have the tokens unboxed so that"
+    },
+    {
+      "chunk_id": 144,
+      "text": "neration needs to have the tokens unboxed so that it no longer depends on ptolemy.data Generating C code from a Ptolemy Model is in progress. We have demonstrated that the Ptolemy code generation framework can be used to generate FGPA code using JHDL"
+    },
+    {
+      "chunk_id": 145,
+      "text": "ework can be used to generate FGPA code using JHDL from Brigham Young University ( http://www.jhdl.org ) Resources Below are links to various resources: Soot uses jasmin Jasmin a Java Assembler Interface (1997) Jasmin emacs mode Disassemblers Soot w"
+    },
+    {
+      "chunk_id": 146,
+      "text": "face (1997) Jasmin emacs mode Disassemblers Soot works with byte codes. A Java decompiler or disassembler can help with debugging jode http://jode.sourceforge.net/download.php - Written in Java, but full GPL, so we can't distribute it. $PTII/bin/co"
+    },
+    {
+      "chunk_id": 147,
+      "text": "full GPL, so we can't distribute it. $PTII/bin/configure looks for jode in $PTII/vendors/jode/1.1.1 , and if it finds it, then $PTII/bin/jode can be used to invoke jode. Download http://prdownloads.sourceforge.net/jode/jode-1.1.1.jar and save it as"
+    },
+    {
+      "chunk_id": 148,
+      "text": "ourceforge.net/jode/jode-1.1.1.jar and save it as $PTII/ptolemy/vendors/jode/1.1.1/jode.jar Rerun configure: cd $PTII rm config.* ./configure Update $PTII/bin/jode : cd $PTII/bin make Test it out be decompiling NamedObj: $PTII/bin/jode ptolemy.kernel"
+    },
+    {
+      "chunk_id": 149,
+      "text": "ecompiling NamedObj: $PTII/bin/jode ptolemy.kernel.util.NamedObj For example, this command will decompile the Main class that is generated by the deep code generator: $PTII/bin/jode ptolemy.copernicus.java.cg.OrthogonalCom.Main javap http://java.sun"
+    },
+    {
+      "chunk_id": 150,
+      "text": "s.java.cg.OrthogonalCom.Main javap http://java.sun.com/j2se/1.3/docs/tooldocs/solaris/javap.html - Shipped with Sun's JDK. Source Again http://www.ahpah.com/sourceagain/ - Commercial product WingDis http://www.wingsoft.com/wingdis.html - Commercial p"
+    },
+    {
+      "chunk_id": 151,
+      "text": "ttp://www.wingsoft.com/wingdis.html - Commercial product jad http://www.geocities.com/SiliconValley/Bridge/8617/jad.html - Jad home page - used to have binaries only, but now broken. http://www.geocities.com/zz_xu/jad.html#download - Mirror site from"
+    },
+    {
+      "chunk_id": 152,
+      "text": "ies.com/zz_xu/jad.html#download - Mirror site from 1999 - Jad 1.5.7 http://www.jproof.com/faq/MoreInfo.html - Jad 1.5.7 Mirror, though downloads do not work Other possibilities: http://bcel.sourceforge.net/ Java To C converters Java Coffee Break Deco"
+    },
+    {
+      "chunk_id": 153,
+      "text": "e.net/ Java To C converters Java Coffee Break Decompiler links http://www.javacoffeebreak.com/directory/index(32).html GCJ - The GNU Compiler for Java http://gcc.gnu.org/java/ : JDK1.2 compliant Java source code directly to native machine code, Java"
+    },
+    {
+      "chunk_id": 154,
+      "text": "source code directly to native machine code, Java source code to Java bytecode (class files), and Java bytecode to native machine code. Jolt: Converting bytecode to C http://www.meurrens.org/ip-Links/Java/codeEngineering/blackDown/jolt.html : initial"
+    },
+    {
+      "chunk_id": 155,
+      "text": "Java/codeEngineering/blackDown/jolt.html : initial hack Harissa http://compose.labri.fr/prototypes/harissa : 1999: JDK1.0.2? Toba: A Java-to-C Translater http://www.cs.arizona.edu/sumatra/toba/ : Does not support JDK1.2"
+    }
+  ]
+}

@@ -1,0 +1,845 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/actor/Director.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Director Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor Class Director java.lang.Object ptolemy.kernel.util."
+    },
+    {
+      "chunk_id": 2,
+      "text": "ass Director java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.util.Attribute ptolemy.actor.Director All Implemented Interfaces: Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , ModelErrorHandler , Mo"
+    },
+    {
+      "chunk_id": 3,
+      "text": ", Derivable , Executable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , java.io.Serializable Direct Known Subclasses: CaseDirector , CIDirector , DDFDirector , DEDirector , DistributedDirector , FSMDirector , PetriNetDirector , Process"
+    },
+    {
+      "chunk_id": 4,
+      "text": "irector , FSMDirector , PetriNetDirector , ProcessDirector , PtinyOSDirector , StaticSchedulingDirector , TMDirector public class Director extends Attribute implements Executable A Director governs the execution within a CompositeActor. A composite"
+    },
+    {
+      "chunk_id": 5,
+      "text": "e execution within a CompositeActor. A composite actor that contains a director is said to be opaque , and the execution model within the composite actor is determined by the contained director. This director is called the local director of a c"
+    },
+    {
+      "chunk_id": 6,
+      "text": "This director is called the local director of a composite actor. A composite actor is also aware of the director of its container, which is referred to as its executive director . A director may also be contained by a CompositeEntity that is not"
+    },
+    {
+      "chunk_id": 7,
+      "text": "lso be contained by a CompositeEntity that is not a CompositeActor, in which case it acts like any other entity within that composite. A top-level composite actor is generally associated with a manager as well as a local director. The Manager has"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ger as well as a local director. The Manager has overall responsibility for executing the application, and is often associated with a GUI. Top-level composite actors have no executive director and getExecutiveDirector() will return null. A loca"
+    },
+    {
+      "chunk_id": 9,
+      "text": "d getExecutiveDirector() will return null. A local director is responsible for invoking the actors contained by the composite. If there is no local director, then the executive director is given the responsibility. The getDirector() method of Co"
+    },
+    {
+      "chunk_id": 10,
+      "text": "he responsibility. The getDirector() method of CompositeActor, therefore, returns the local director, if there is one, and otherwise returns the executive director. Thus, it returns whichever director is responsible for executing the contained a"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ctor is responsible for executing the contained actors, or null if there is none. Whatever it returns is called simply the director (vs. local director or executive director). A director implements the action methods (preinitialize(), initialize("
+    },
+    {
+      "chunk_id": 12,
+      "text": "the action methods (preinitialize(), initialize(), prefire(), fire(), postfire(), iterate(), and wrapup()). In this base class, default implementations are provided that may or may not be useful in specific domains. In general, these methods"
+    },
+    {
+      "chunk_id": 13,
+      "text": "in specific domains. In general, these methods will perform domain-dependent actions, and then call the respective methods in all contained actors. The director also provides methods to optimize the iteration portion of an execution. This is don"
+    },
+    {
+      "chunk_id": 14,
+      "text": "he iteration portion of an execution. This is done by setting the workspace to be read-only during an iteration. In this base class, the default implementation results in a read/write workspace. Derived classes (e.g. domain specific directors) sh"
+    },
+    {
+      "chunk_id": 15,
+      "text": "rived classes (e.g. domain specific directors) should override the _writeAccessRequired() method to report that write access is not required. If none of the directors in a simulation require write access, then it is safe to set the workspace to be"
+    },
+    {
+      "chunk_id": 16,
+      "text": "access, then it is safe to set the workspace to be read-only, which will result in faster execution. This class also specifies a parameter timeResolution . This is a double with default 1E-10, which is 10 -10 . All time values are rounded to the n"
+    },
+    {
+      "chunk_id": 17,
+      "text": "is 10 -10 . All time values are rounded to the nearest multiple of this value. If the value is changed during a run, an exception is thrown. This is a shared parameter, which means that all instances of Director in the model will have the same v"
+    },
+    {
+      "chunk_id": 18,
+      "text": "nces of Director in the model will have the same value for this parameter. Changing one of them changes all of them. The timeResolution parameter is not visible to the user by default. Subclasses can make it visible by calling timeResolution.setVis"
+    },
+    {
+      "chunk_id": 19,
+      "text": "n make it visible by calling timeResolution.setVisibility(Settable.FULL); in their constructors. Since: Ptolemy II 0.2 Version: $Id: Director.java,v 1.255.2.1 2006/12/30 22:18:27 cxh Exp $ Author: Mudit Goel, Edward A. Lee, Lukito Muliadi, Steve Neue"
+    },
+    {
+      "chunk_id": 20,
+      "text": "it Goel, Edward A. Lee, Lukito Muliadi, Steve Neuendorffer, John Reekie See Also: Serialized Form Accepted Rating: Yellow (neuendor) Proposed Rating: Green (eal) Nested Class Summary Nested classes inherited from class ptolemy.kernel.util. NamedObj N"
+    },
+    {
+      "chunk_id": 21,
+      "text": "herited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary protected java.util.Set _actorsFinishedExecution Set of actors that have returned false from postfire(), indicating that they do not wish to be itera"
+    },
+    {
+      "chunk_id": 22,
+      "text": "(), indicating that they do not wish to be iterated again. protected Time _currentTime The current time of the model. protected boolean _stopRequested Indicator that a stop has been requested by a call to stop(). SharedParameter timeResolution The"
+    },
+    {
+      "chunk_id": 23,
+      "text": "call to stop(). SharedParameter timeResolution The time precision used by this director. Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPer"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ebugging , _debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATIN"
+    },
+    {
+      "chunk_id": 25,
+      "text": ". Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary Director () Construct a director in the default workspace with an empty string as its name. Director ( CompositeEntity container, java.lang.String name) Construct a di"
+    },
+    {
+      "chunk_id": 26,
+      "text": "er, java.lang.String name) Construct a director in the given container with the given name. Director ( Workspace workspace) Construct a director in the workspace with an empty name. Method Summary protected java.lang.String _description (in"
+    },
+    {
+      "chunk_id": 27,
+      "text": "mmary protected java.lang.String _description (int detail, int indent, int bracket) Return a description of the object. protected boolean _isEmbedded () Return true if this director is embedded inside an opaque composite"
+    },
+    {
+      "chunk_id": 28,
+      "text": "director is embedded inside an opaque composite actor contained by another composite actor. protected boolean _isTopLevel () Return true if this is a top-level director. protected boolean _transferInputs ( IOPort port) Transfer at most one data"
+    },
+    {
+      "chunk_id": 29,
+      "text": "erInputs ( IOPort port) Transfer at most one data token from the given input port of the container to the ports it is connected to on the inside. protected boolean _transferOutputs ( IOPort port) Transfer at most one data token from the given outp"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ransfer at most one data token from the given output port of the container to the ports it is connected to on the outside. void attributeChanged ( Attribute attribute) Override the base class to update local variables. void fire () Iterate all the"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ate local variables. void fire () Iterate all the deeply contained actors of the container of this director exactly once. void fireAt ( Actor actor, double time) Deprecated. Instead of using double as time argument, use a time object inste"
+    },
+    {
+      "chunk_id": 32,
+      "text": "double as time argument, use a time object instead. As of Ptolemy 4.1, replaced by fireAt(Actor, Time) void fireAt ( Actor actor, Time time) Request a firing of the given actor at the given absolute time. void fireAtCurrentTime ( Actor actor) Req"
+    },
+    {
+      "chunk_id": 33,
+      "text": "time. void fireAtCurrentTime ( Actor actor) Request a firing of the given actor as soon as possible. double getCurrentTime () Deprecated. As of Ptolemy II 4.1, replaced by getModelTime() double getErrorTolerance () Return the error tolerance, if a"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ErrorTolerance () Return the error tolerance, if any, of this director. Time getModelNextIterationTime () Return the next time of interest in the model being executed by this director or the director of any enclosing model up the hierarchy. Time"
+    },
+    {
+      "chunk_id": 35,
+      "text": "r of any enclosing model up the hierarchy. Time getModelStartTime () Get the start time of the model. Time getModelStopTime () Get the stop time of the model. Time getModelTime () Return the current time object of the model being executed by this"
+    },
+    {
+      "chunk_id": 36,
+      "text": "time object of the model being executed by this director. double getNextIterationTime () Deprecated. As of Ptolemy II 4.1, replaced by getModelNextIterationTime() double getStartTime () Deprecated. As of Ptolemy II 4.1, replaced by getModelStartTi"
+    },
+    {
+      "chunk_id": 37,
+      "text": "As of Ptolemy II 4.1, replaced by getModelStartTime() double getStopTime () Deprecated. As of Ptolemy II 4.1, replaced by getModelStopTime() double getTimeResolution () Get the time resolution of the model. void initialize () Initialize the model co"
+    },
+    {
+      "chunk_id": 38,
+      "text": "model. void initialize () Initialize the model controlled by this director. void initialize ( Actor actor) Initialize the given actor. void invalidateResolvedTypes () Indicate that resolved types in the model may no longer be valid. void invalidateS"
+    },
+    {
+      "chunk_id": 39,
+      "text": "the model may no longer be valid. void invalidateSchedule () Indicate that a schedule for the model may no longer be valid, if there is a schedule. boolean isFireFunctional () Return false. boolean isStopRequested () Return true if stop has been re"
+    },
+    {
+      "chunk_id": 40,
+      "text": "isStopRequested () Return true if stop has been requested. boolean isStrict () Return true. int iterate (int count) Invoke a specified number of iterations of this director. Receiver newReceiver () Return a new receiver of a type compatible with this"
+    },
+    {
+      "chunk_id": 41,
+      "text": "turn a new receiver of a type compatible with this director. boolean postfire () Return true if the director wishes to be scheduled for another iteration. boolean prefire () Return true if the director is ready to fire. void preinitialize () Valida"
+    },
+    {
+      "chunk_id": 42,
+      "text": "tor is ready to fire. void preinitialize () Validate the attributes and then invoke the preinitialize() methods of all its deeply contained actors. void requestInitialization ( Actor actor) Queue an initialization request with the manager. void set"
+    },
+    {
+      "chunk_id": 43,
+      "text": "initialization request with the manager. void setContainer ( NamedObj container) Specify the container. void setCurrentTime (double newTime) Deprecated. As of Ptolemy 4.1, replaced by setModelTime(ptolemy.actor.util.Time) void setModelTime ( Time ne"
+    },
+    {
+      "chunk_id": 44,
+      "text": "olemy.actor.util.Time) void setModelTime ( Time newTime) Set a new value to the current time of the model, where the new time must be no earlier than the current time. void stop () Request that the director cease execution altogether. void stopFire"
+    },
+    {
+      "chunk_id": 45,
+      "text": "director cease execution altogether. void stopFire () Request that execution of the current iteration stop. java.lang.String[] suggestedModalModelDirectors () Return an array of suggested directors to be used with ModalModel. boolean supportMultira"
+    },
+    {
+      "chunk_id": 46,
+      "text": "be used with ModalModel. boolean supportMultirateFiring () Return a boolean to indicate whether a ModalModel under control of this director supports multirate firing. void terminate () Terminate any currently executing model with extreme prejudi"
+    },
+    {
+      "chunk_id": 47,
+      "text": "any currently executing model with extreme prejudice. boolean transferInputs ( IOPort port) Transfer data from an input port of the container to the ports it is connected to on the inside. boolean transferOutputs ( IOPort port) Transfer data from a"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ransferOutputs ( IOPort port) Transfer data from an output port of the container to the ports it is connected to on the outside. void wrapup () Invoke the wrapup() method of all the actors contained in the director's container. Methods inherited"
+    },
+    {
+      "chunk_id": 49,
+      "text": "in the director's container. Methods inherited from class ptolemy.kernel.util. Attribute _getContainedObject , _propagateExistence , clone , getContainer , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , setName , updateContent Method"
+    },
+    {
+      "chunk_id": 50,
+      "text": "veToLast , moveUp , setName , updateContent Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _exportMoMLContents , _getI"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ug , _debug , _debug , _exportMoMLContents , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , _validateSettables , addChangeListener , addDebugListener , attributeLi"
+    },
+    {
+      "chunk_id": 52,
+      "text": "addChangeListener , addDebugListener , attributeList , attributeList , attributeTypeChanged , clone , containedObjectsIterator , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , e"
+    },
+    {
+      "chunk_id": 53,
+      "text": "xecuteChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getDisplayName , getElement"
+    },
+    {
+      "chunk_id": 54,
+      "text": "vel , getDerivedList , getDisplayName , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateExistence"
+    },
+    {
+      "chunk_id": 55,
+      "text": "dden , isPersistent , message , propagateExistence , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler ,"
+    },
+    {
+      "chunk_id": 56,
+      "text": "vedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode,"
+    },
+    {
+      "chunk_id": 57,
+      "text": ".lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail timeResolution public SharedParameter timeResolution The time precision used by this director. All time values are rounded to the nearest multiple o"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ime values are rounded to the nearest multiple of this number. This is a double that defaults to \"1E-10\" which is 10 -10 . This is a shared parameter, meaning that changing one instance in a model results in all instances being changed. _acto"
+    },
+    {
+      "chunk_id": 59,
+      "text": "odel results in all instances being changed. _actorsFinishedExecution protected java.util.Set _actorsFinishedExecution Set of actors that have returned false from postfire(), indicating that they do not wish to be iterated again. _currentTime prot"
+    },
+    {
+      "chunk_id": 60,
+      "text": "o not wish to be iterated again. _currentTime protected Time _currentTime The current time of the model. _stopRequested protected boolean _stopRequested Indicator that a stop has been requested by a call to stop(). Constructor Detail Director public"
+    },
+    {
+      "chunk_id": 61,
+      "text": "all to stop(). Constructor Detail Director public Director () Construct a director in the default workspace with an empty string as its name. The director is added to the list of objects in the workspace. Increment the version number of the works"
+    },
+    {
+      "chunk_id": 62,
+      "text": "rkspace. Increment the version number of the workspace. Director public Director ( CompositeEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct a director in the given c"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ationException Construct a director in the given container with the given name. The container argument must not be null, or a NullPointerException will be thrown. If the name argument is null, then the name is set to the empty string. Increme"
+    },
+    {
+      "chunk_id": 64,
+      "text": "hen the name is set to the empty string. Increment the version number of the workspace. Create the timeResolution parameter. Parameters: container - The container. name - The name of this director. Throws: IllegalActionException - If the name has"
+    },
+    {
+      "chunk_id": 65,
+      "text": ". Throws: IllegalActionException - If the name has a period in it, or the director is not compatible with the specified container, or if the time resolution parameter is malformed. NameDuplicationException - If the container already contains"
+    },
+    {
+      "chunk_id": 66,
+      "text": "onException - If the container already contains an entity with the specified name. Director public Director ( Workspace workspace) Construct a director in the workspace with an empty name. The director is added to the list of objects in the work"
+    },
+    {
+      "chunk_id": 67,
+      "text": "rector is added to the list of objects in the workspace. Increment the version number of the workspace. Parameters: workspace - The workspace of this object. Method Detail attributeChanged public void attributeChanged ( Attribute attribute)"
+    },
+    {
+      "chunk_id": 68,
+      "text": "id attributeChanged ( Attribute attribute) throws IllegalActionException Override the base class to update local variables. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that changed. Throws"
+    },
+    {
+      "chunk_id": 69,
+      "text": "rs: attribute - The attribute that changed. Throws: IllegalActionException - If timeResolution is being changed and the model is executing (and not in preinitialize()). fire public void fire () throws IllegalActionException Iterate al"
+    },
+    {
+      "chunk_id": 70,
+      "text": "throws IllegalActionException Iterate all the deeply contained actors of the container of this director exactly once. This method is not functional, since an iteration of the deeply contained actors may change state in their postfire("
+    },
+    {
+      "chunk_id": 71,
+      "text": "ained actors may change state in their postfire() method. The actors are iterated in the order that they appear on the list returned by deepEntityList(), which is normally the order in which they were created. This method is not synchronized on"
+    },
+    {
+      "chunk_id": 72,
+      "text": "y were created. This method is not synchronized on the workspace, so the caller should be. In this base class, an attempt is made to fire each actor exactly once, in the order they were created. Prefire is called once, and if prefire returns t"
+    },
+    {
+      "chunk_id": 73,
+      "text": "Prefire is called once, and if prefire returns true, then fire is called once, followed by postfire. The return value from postfire is ignored. If the container is not an instance of CompositeActor, however, then this method does nothing. Sp"
+    },
+    {
+      "chunk_id": 74,
+      "text": "ctor, however, then this method does nothing. Specified by: fire in interface Executable Throws: IllegalActionException - If any called method of one of the associated actors throws it. fireAt public void fireAt ( Actor actor,"
+    },
+    {
+      "chunk_id": 75,
+      "text": "lic void fireAt ( Actor actor, double time) throws IllegalActionException Deprecated. Instead of using double as time argument, use a time object instead. As of Ptolemy 4.1, replaced by fireAt(Actor, Time) Request a f"
+    },
+    {
+      "chunk_id": 76,
+      "text": "y 4.1, replaced by fireAt(Actor, Time) Request a firing of the given actor at the given absolute time. This method is only intended to be called from within main simulation thread. Actors that create their own asynchronous threads should used"
+    },
+    {
+      "chunk_id": 77,
+      "text": "reate their own asynchronous threads should used the fireAtCurrentTime() method to schedule firings. This method calls fireAt(Actor, Time) method. Parameters: actor - The actor scheduled to be fired. time - The scheduled time. Throws: IllegalA"
+    },
+    {
+      "chunk_id": 78,
+      "text": "fired. time - The scheduled time. Throws: IllegalActionException - If the operation is not permissible (e.g. the given time is in the past). fireAt public void fireAt ( Actor actor, Time time) throws IllegalActionException Request a f"
+    },
+    {
+      "chunk_id": 79,
+      "text": "throws IllegalActionException Request a firing of the given actor at the given absolute time. This method is only intended to be called from within main simulation thread. Actors that create their own asynchronous threads should used"
+    },
+    {
+      "chunk_id": 80,
+      "text": "reate their own asynchronous threads should used the fireAtCurrentTime() method to schedule firings. This method does nothing in this base class. Derived classes should override this method. Note that this method is not made abstract to fa"
+    },
+    {
+      "chunk_id": 81,
+      "text": "Note that this method is not made abstract to facilitate the use of the test suite. Parameters: actor - The actor scheduled to be fired. time - The scheduled time. Throws: IllegalActionException - If the operation is not permissible (e.g. the g"
+    },
+    {
+      "chunk_id": 82,
+      "text": "f the operation is not permissible (e.g. the given time is in the past). fireAtCurrentTime public void fireAtCurrentTime ( Actor actor) throws IllegalActionException Request a firing of the given actor as soon as possible."
+    },
+    {
+      "chunk_id": 83,
+      "text": "a firing of the given actor as soon as possible. If this method is called from within the main simulation thread, then this will result in the actor being fired at the current time. This method may also be invoked from a thread other than"
+    },
+    {
+      "chunk_id": 84,
+      "text": "od may also be invoked from a thread other than the main simulation thread, making it useful for actors that perform asynchronous processing, such as waiting for data in another thread. In these cases, calling fireAt(actor, getCurrentTime())"
+    },
+    {
+      "chunk_id": 85,
+      "text": "cases, calling fireAt(actor, getCurrentTime()) is not sufficient, since there is no way for an asynchronous thread to ensure that time does not advance in the model. When invoked from an asynchronous thread, this method will attempt to fire"
+    },
+    {
+      "chunk_id": 86,
+      "text": "hronous thread, this method will attempt to fire the actor at the earliest time that this director is fired. This base class checks to see if the director is embedded within a hierarchical model and, if so, calls the fireAtCurrentTime meth"
+    },
+    {
+      "chunk_id": 87,
+      "text": "del and, if so, calls the fireAtCurrentTime method of its executive director. Derived classes may should extend this behavior to ensure that the given actor is fired as soon as possible. Note that this method is not made abstract to facilitat"
+    },
+    {
+      "chunk_id": 88,
+      "text": "at this method is not made abstract to facilitate the use of the test suite. Parameters: actor - The actor to be fired. Throws: IllegalActionException - If this method is called before the model is running. getCurrentTime public double getCurre"
+    },
+    {
+      "chunk_id": 89,
+      "text": "is running. getCurrentTime public double getCurrentTime () Deprecated. As of Ptolemy II 4.1, replaced by getModelTime() Return the current time value of the model being executed by this director. This time can be set with the setCurrentTime method"
+    },
+    {
+      "chunk_id": 90,
+      "text": "his time can be set with the setCurrentTime method. In this base class, time never increases, and there are no restrictions on valid times. Returns: The current time value. See Also: setCurrentTime(double) getErrorTolerance public double getError"
+    },
+    {
+      "chunk_id": 91,
+      "text": "e(double) getErrorTolerance public double getErrorTolerance () Return the error tolerance, if any, of this director. By default, a director has no error tolerance, so this method returns 0.0. Some directors override this to allow computed value"
+    },
+    {
+      "chunk_id": 92,
+      "text": "directors override this to allow computed values to be approximate with a specified precision. Returns: the error tolerance. getModelNextIterationTime public Time getModelNextIterationTime () Return the next time of interest in the model being exe"
+    },
+    {
+      "chunk_id": 93,
+      "text": "n the next time of interest in the model being executed by this director or the director of any enclosing model up the hierarchy. If this director is at the top level, then this default implementation simply returns the current time, since th"
+    },
+    {
+      "chunk_id": 94,
+      "text": "tation simply returns the current time, since this director does not advance time. If this director is not at the top level, then return whatever the enclosing director returns. This method is useful for domains that perform speculative execu"
+    },
+    {
+      "chunk_id": 95,
+      "text": "seful for domains that perform speculative execution (such as CT). Such a domain in a hierarchical model (i.e. CT inside DE) uses this method to determine how far into the future to execute. This is simply an optimization that reduces the li"
+    },
+    {
+      "chunk_id": 96,
+      "text": "is is simply an optimization that reduces the likelihood of having to roll back. Derived classes should override this method to provide an appropriate value, if possible. For example, the DEDirector class returns the time value of the next even"
+    },
+    {
+      "chunk_id": 97,
+      "text": "or class returns the time value of the next event in the event queue. Returns: The time of the next iteration. See Also: getModelTime() getModelStartTime public Time getModelStartTime () throws IllegalActionException Get the"
+    },
+    {
+      "chunk_id": 98,
+      "text": "throws IllegalActionException Get the start time of the model. This base class returns a Time object with 0.0 as the value of the start time. Subclasses need to override this method to get a different start time. For example, CT d"
+    },
+    {
+      "chunk_id": 99,
+      "text": "get a different start time. For example, CT director and DE director use the value of the startTime parameter to specify the real start time. Returns: The start time of the model. Throws: IllegalActionException - If the specified start time"
+    },
+    {
+      "chunk_id": 100,
+      "text": "alActionException - If the specified start time is invalid. getModelStopTime public Time getModelStopTime () throws IllegalActionException Get the stop time of the model. This base class returns a new Time object with Doubl"
+    },
+    {
+      "chunk_id": 101,
+      "text": "base class returns a new Time object with Double.POSITIVE_INFINITY as the value of the stop time. Subclasses need to override this method to get a different stop time. For example, CT director and DE director use the value of the stopTim"
+    },
+    {
+      "chunk_id": 102,
+      "text": "tor and DE director use the value of the stopTime parameter to specify the real stop time. Returns: The stop time of the model. Throws: IllegalActionException - If the specified stop time is invalid. getModelTime public Time getModelTime () Retu"
+    },
+    {
+      "chunk_id": 103,
+      "text": "lid. getModelTime public Time getModelTime () Return the current time object of the model being executed by this director. This time can be set with the setModelTime method. In this base class, time never increases, and there are no restriction"
+    },
+    {
+      "chunk_id": 104,
+      "text": "time never increases, and there are no restrictions on valid times. Returns: The current time. See Also: setModelTime(Time) getNextIterationTime public double getNextIterationTime () Deprecated. As of Ptolemy II 4.1, replaced by getModelNextIterati"
+    },
+    {
+      "chunk_id": 105,
+      "text": "of Ptolemy II 4.1, replaced by getModelNextIterationTime() Return the next time of interest in the model being executed by this director. This method is useful for domains that perform speculative execution (such as CT). Such a domain in a hiera"
+    },
+    {
+      "chunk_id": 106,
+      "text": "execution (such as CT). Such a domain in a hierarchical model (i.e. CT inside DE) uses this method to determine how far into the future to execute. In this base class, we return the current time. Derived classes should override this method to"
+    },
+    {
+      "chunk_id": 107,
+      "text": ". Derived classes should override this method to provide an appropriate value, if possible. Note that this method is not made abstract to facilitate the use of the test suite. Returns: The time of the next iteration. getStartTime public double"
+    },
+    {
+      "chunk_id": 108,
+      "text": "of the next iteration. getStartTime public double getStartTime () throws IllegalActionException Deprecated. As of Ptolemy II 4.1, replaced by getModelStartTime() Get the start time of the model. This base class returns a Time ob"
+    },
+    {
+      "chunk_id": 109,
+      "text": "of the model. This base class returns a Time object with 0.0 as the value of the start time. Subclasses need to override this method to get a different start time. For example, CT director and DE director use the value of the startTime par"
+    },
+    {
+      "chunk_id": 110,
+      "text": "d DE director use the value of the startTime parameter to specify the real start time. Returns: The start time of the model. Throws: IllegalActionException - If the specified start time is invalid. getStopTime public double getStopTime ()"
+    },
+    {
+      "chunk_id": 111,
+      "text": "d. getStopTime public double getStopTime () throws IllegalActionException Deprecated. As of Ptolemy II 4.1, replaced by getModelStopTime() Get the stop time of the model. This base class returns a new Time object with Double.MAX_"
+    },
+    {
+      "chunk_id": 112,
+      "text": "class returns a new Time object with Double.MAX_VALUE as the value of the stop time. Subclasses need to override this method to get a different stop time. For example, CT director and DE director use the value of the stopTime parameter to"
+    },
+    {
+      "chunk_id": 113,
+      "text": "ector use the value of the stopTime parameter to specify the real stop time. Returns: The stop time of the model. Throws: IllegalActionException - If the specified stop time is invalid. getTimeResolution public final double getTimeResolution ()"
+    },
+    {
+      "chunk_id": 114,
+      "text": "solution public final double getTimeResolution () Get the time resolution of the model. The time resolution is the value of the timeResolution parameter. This is the smallest time unit for the model. Returns: The time resolution of the model. ini"
+    },
+    {
+      "chunk_id": 115,
+      "text": "el. Returns: The time resolution of the model. initialize public void initialize () throws IllegalActionException Initialize the model controlled by this director. Set the current time to the start time or the current time of the"
+    },
+    {
+      "chunk_id": 116,
+      "text": "ime to the start time or the current time of the executive director, and then invoke the initialize() method of this director on each actor that is controlled by this director. If the container is not an instance of CompositeActor, do nothing."
+    },
+    {
+      "chunk_id": 117,
+      "text": "is not an instance of CompositeActor, do nothing. This method should typically be invoked once per execution, after the preinitialization phase, but before any iteration. It may be invoked in the middle of an execution, if reinitialization is"
+    },
+    {
+      "chunk_id": 118,
+      "text": "the middle of an execution, if reinitialization is desired. Since type resolution has been completed and the current time is set, the initialize() method of a contained actor may produce output or schedule events. If stop() is called during"
+    },
+    {
+      "chunk_id": 119,
+      "text": "or schedule events. If stop() is called during this methods execution, then stop initializing actors immediately. This method is not synchronized on the workspace, so the caller should be. Specified by: initialize in interface Executable T"
+    },
+    {
+      "chunk_id": 120,
+      "text": "Specified by: initialize in interface Executable Throws: IllegalActionException - If the initialize() method of one of the associated actors throws it. initialize public void initialize ( Actor actor) throws IllegalActionException"
+    },
+    {
+      "chunk_id": 121,
+      "text": "or) throws IllegalActionException Initialize the given actor. This method is generally called by the initialize() method of the director, and by the manager whenever an actor is added to an executing model as a mutation. This"
+    },
+    {
+      "chunk_id": 122,
+      "text": "dded to an executing model as a mutation. This method will generally perform domain-specific initialization on the specified actor and call its initialize() method. In this base class, only the actor's initialize() method of the actor is ca"
+    },
+    {
+      "chunk_id": 123,
+      "text": "e actor's initialize() method of the actor is called and no domain-specific initialization is performed. Typical actions a director might perform include starting threads to execute the actor or checking to see whether the actor can be manag"
+    },
+    {
+      "chunk_id": 124,
+      "text": "or checking to see whether the actor can be managed by this director. For example, a time-based domain (such as CT) might reject sequence based actors. Parameters: actor - The actor that is to be initialized. Throws: IllegalActionException - If"
+    },
+    {
+      "chunk_id": 125,
+      "text": "e initialized. Throws: IllegalActionException - If the actor is not acceptable to the domain. Not thrown in this base class. invalidateResolvedTypes public void invalidateResolvedTypes () Indicate that resolved types in the model may no longer be"
+    },
+    {
+      "chunk_id": 126,
+      "text": "that resolved types in the model may no longer be valid. This will force type resolution to be redone on the next iteration. This method simply defers to the manager, notifying it. If there is no container, or the container is not an instance"
+    },
+    {
+      "chunk_id": 127,
+      "text": "no container, or the container is not an instance of CompositeActor, or if it has no manager, do nothing. invalidateSchedule public void invalidateSchedule () Indicate that a schedule for the model may no longer be valid, if there is a schedule."
+    },
+    {
+      "chunk_id": 128,
+      "text": "may no longer be valid, if there is a schedule. This method should be called when topology changes are made, or for that matter when any change that may invalidate the schedule is made. In this base class, the method does nothing. In derive"
+    },
+    {
+      "chunk_id": 129,
+      "text": "s base class, the method does nothing. In derived classes, it will cause any static schedule information to be recalculated in the prefire method of the director. isFireFunctional public boolean isFireFunctional () Return false. This director i"
+    },
+    {
+      "chunk_id": 130,
+      "text": "isFireFunctional () Return false. This director iterates actors in its fire() method, which includes an invocation of their postfire() methods, so its fire method changes the state of the model. Specified by: isFireFunctional in interface Execut"
+    },
+    {
+      "chunk_id": 131,
+      "text": "Specified by: isFireFunctional in interface Executable Returns: False. isStrict public boolean isStrict () Return true. The transferInputs() method does not check whether the inputs are known before calling hasToken(), and consequently will throw"
+    },
+    {
+      "chunk_id": 132,
+      "text": "calling hasToken(), and consequently will throw an exception if inputs are not known. Thus, this director requires that inputs be known in order to be able to iterate. Derived classes that can tolerate unknown inputs should override this me"
+    },
+    {
+      "chunk_id": 133,
+      "text": "tolerate unknown inputs should override this method to return false. Specified by: isStrict in interface Executable Returns: True. isStopRequested public boolean isStopRequested () Return true if stop has been requested. Returns: True if stop() ha"
+    },
+    {
+      "chunk_id": 134,
+      "text": "top has been requested. Returns: True if stop() has been called. See Also: stop() iterate public int iterate (int count) throws IllegalActionException Invoke a specified number of iterations of this director. An iteration is equivalent"
+    },
+    {
+      "chunk_id": 135,
+      "text": "ns of this director. An iteration is equivalent to invoking prefire(), fire(), and postfire(), in that order. In an iteration, if prefire() returns true, then fire() will be called once, followed by postfire(). Otherwise, if prefire() returns"
+    },
+    {
+      "chunk_id": 136,
+      "text": "d by postfire(). Otherwise, if prefire() returns false, fire() and postfire() are not invoked, and this method returns NOT_READY. If postfire() returns false, then no more iterations are invoked, and this method returns STOP_ITERATING. Othe"
+    },
+    {
+      "chunk_id": 137,
+      "text": "ed, and this method returns STOP_ITERATING. Otherwise, it returns COMPLETED. Also, if the stop() is called during this execution, then immediately stop iterating and return STOP_ITERATING. This base class method actually invokes prefire(), fir"
+    },
+    {
+      "chunk_id": 138,
+      "text": "base class method actually invokes prefire(), fire(), and postfire(), as described above, but a derived class may override the method to execute more efficient code. Specified by: iterate in interface Executable Parameters: count - The number of"
+    },
+    {
+      "chunk_id": 139,
+      "text": "rface Executable Parameters: count - The number of iterations to perform. Returns: NOT_READY, STOP_ITERATING, or COMPLETED. Throws: IllegalActionException - If iterating is not permitted, or if prefire(), fire(), or postfire() throw it. newReceive"
+    },
+    {
+      "chunk_id": 140,
+      "text": "fire(), fire(), or postfire() throw it. newReceiver public Receiver newReceiver () Return a new receiver of a type compatible with this director. In this base class, this returns an instance of Mailbox. Returns: A new Mailbox. postfire public boole"
+    },
+    {
+      "chunk_id": 141,
+      "text": "box. Returns: A new Mailbox. postfire public boolean postfire () throws IllegalActionException Return true if the director wishes to be scheduled for another iteration. This method is called by the container of this director to"
+    },
+    {
+      "chunk_id": 142,
+      "text": "is called by the container of this director to see whether the director wishes to execute anymore. It should not , in general, call postfire() on the contained actors. In this base class, return the false if stop() has been called since prei"
+    },
+    {
+      "chunk_id": 143,
+      "text": "n the false if stop() has been called since preinitialize(), and true otherwise. Derived classes that override this method need to respect this semantics. The protected variable _stopRequested indicates whether stop() has been called. Specifi"
+    },
+    {
+      "chunk_id": 144,
+      "text": "ndicates whether stop() has been called. Specified by: postfire in interface Executable Returns: True to continue execution, and false otherwise. Throws: IllegalActionException - Not thrown in this base class. prefire public boolean prefire ()"
+    },
+    {
+      "chunk_id": 145,
+      "text": "base class. prefire public boolean prefire () throws IllegalActionException Return true if the director is ready to fire. This method is called by the container of this director to determine whether the director is ready to execut"
+    },
+    {
+      "chunk_id": 146,
+      "text": "etermine whether the director is ready to execute. It does not call prefire() on the contained actors. If this director is not at the top level of the hierarchy, and the current time of the enclosing model is greater than the current time of"
+    },
+    {
+      "chunk_id": 147,
+      "text": "osing model is greater than the current time of this director, then this base class updates current time to match that of the enclosing model. In this base class, assume that the director is always ready to be fired, and so return true. Domain"
+    },
+    {
+      "chunk_id": 148,
+      "text": "s ready to be fired, and so return true. Domain directors should probably override this method to provide domain-specific behavior. However, they should call super.prefire() if they wish to propagate time as done here. Specified by: prefire i"
+    },
+    {
+      "chunk_id": 149,
+      "text": "opagate time as done here. Specified by: prefire in interface Executable Returns: True. Throws: IllegalActionException - Not thrown in this base class. preinitialize public void preinitialize () throws IllegalActionException Valida"
+    },
+    {
+      "chunk_id": 150,
+      "text": "throws IllegalActionException Validate the attributes and then invoke the preinitialize() methods of all its deeply contained actors. This method is invoked once per execution, before any iteration, and before the initialize() met"
+    },
+    {
+      "chunk_id": 151,
+      "text": "e any iteration, and before the initialize() method. Time is not set during this stage. So preinitialize() method of actors should not make use of time. They should wait until the initialize phase of the execution. This method also resets the"
+    },
+    {
+      "chunk_id": 152,
+      "text": "hase of the execution. This method also resets the protected variable _stopRequested to false, so if a derived class overrides this method, then it should also do that. This method is not synchronized on the workspace, so the caller should be."
+    },
+    {
+      "chunk_id": 153,
+      "text": "ized on the workspace, so the caller should be. Specified by: preinitialize in interface Executable Throws: IllegalActionException - If the preinitialize() method of one of the associated actors throws it. requestInitialization public void reque"
+    },
+    {
+      "chunk_id": 154,
+      "text": "throws it. requestInitialization public void requestInitialization ( Actor actor) Queue an initialization request with the manager. The specified actor will be initialized at an appropriate time, between iterations, by calling its preinitialize()"
+    },
+    {
+      "chunk_id": 155,
+      "text": "between iterations, by calling its preinitialize() and initialize() methods. This method is called by CompositeActor when an actor sets its container to that composite actor. Typically, that will occur when a model is first constructed, and du"
+    },
+    {
+      "chunk_id": 156,
+      "text": "ll occur when a model is first constructed, and during the execute() method of a ChangeRequest. In this base class, the request is delegated to the manager. If there is no manager, or if the container is not an instance of CompositeActor, the"
+    },
+    {
+      "chunk_id": 157,
+      "text": "tainer is not an instance of CompositeActor, then do nothing. Parameters: actor - The actor to initialize. setContainer public void setContainer ( NamedObj container) throws IllegalActionException , NameDuplicationException Specif"
+    },
+    {
+      "chunk_id": 158,
+      "text": "lActionException , NameDuplicationException Specify the container. If the specified container is an instance of CompositeActor, then this becomes the active director for that composite. Otherwise, this is an attribute like any other within th"
+    },
+    {
+      "chunk_id": 159,
+      "text": "e, this is an attribute like any other within the container. If the container is not in the same workspace as this director, throw an exception. If this director is already an attribute of the container, then this has the effect only of makin"
+    },
+    {
+      "chunk_id": 160,
+      "text": "ontainer, then this has the effect only of making it the active director. If this director already has a container, remove it from that container first. Otherwise, remove it from the directory of the workspace, if it is present. If the arg"
+    },
+    {
+      "chunk_id": 161,
+      "text": "y of the workspace, if it is present. If the argument is null, then remove it from its container. This director is not added to the workspace directory, so calling this method with a null argument could result in this director being garbage c"
+    },
+    {
+      "chunk_id": 162,
+      "text": "nt could result in this director being garbage collected. If this method results in removing this director from a container that is a CompositeActor, then this director ceases to be the active director for that CompositeActor. Moreover, if the"
+    },
+    {
+      "chunk_id": 163,
+      "text": "irector for that CompositeActor. Moreover, if the composite actor contains any other directors, then the most recently added of those directors becomes the active director. This method is write-synchronized to the workspace and increments its"
+    },
+    {
+      "chunk_id": 164,
+      "text": "ynchronized to the workspace and increments its version number. Overrides: setContainer in class Attribute Parameters: container - The proposed container. Throws: IllegalActionException - If the action would result in a recursive containment str"
+    },
+    {
+      "chunk_id": 165,
+      "text": "ion would result in a recursive containment structure, or if this director and container are not in the same workspace, or if the protected method _checkContainer() throws it. NameDuplicationException - If the name of this director collid"
+    },
+    {
+      "chunk_id": 166,
+      "text": "Exception - If the name of this director collides with a name already in the container. This will not be thrown if the container argument is an instance of CompositeActor. See Also: Attribute.getContainer() setCurrentTime public void setCur"
+    },
+    {
+      "chunk_id": 167,
+      "text": "e.getContainer() setCurrentTime public void setCurrentTime (double newTime) throws IllegalActionException Deprecated. As of Ptolemy 4.1, replaced by setModelTime(ptolemy.actor.util.Time) Set a new value to the current time of the"
+    },
+    {
+      "chunk_id": 168,
+      "text": ".Time) Set a new value to the current time of the model, where the new time must be no earlier than the current time. Derived classes will likely override this method to ensure that the time is valid. Parameters: newTime - The new current simul"
+    },
+    {
+      "chunk_id": 169,
+      "text": "valid. Parameters: newTime - The new current simulation time. Throws: IllegalActionException - If the new time is less than the current time returned by getCurrentTime(). See Also: getCurrentTime() setModelTime public void setModelTime ( Time newT"
+    },
+    {
+      "chunk_id": 170,
+      "text": "setModelTime public void setModelTime ( Time newTime) throws IllegalActionException Set a new value to the current time of the model, where the new time must be no earlier than the current time. Derived classes will likely over"
+    },
+    {
+      "chunk_id": 171,
+      "text": "e current time. Derived classes will likely override this method to ensure that the time is valid. Parameters: newTime - The new current simulation time. Throws: IllegalActionException - If the new time is less than the current time returned b"
+    },
+    {
+      "chunk_id": 172,
+      "text": "w time is less than the current time returned by getCurrentTime(). See Also: getModelTime() stop public void stop () Request that the director cease execution altogether. This causes a call to stop() on all actors contained by the container of"
+    },
+    {
+      "chunk_id": 173,
+      "text": "op() on all actors contained by the container of this director, and sets a flag so that the next call to postfire() returns false. Specified by: stop in interface Executable stopFire public void stopFire () Request that execution of the current i"
+    },
+    {
+      "chunk_id": 174,
+      "text": "topFire () Request that execution of the current iteration stop. In this base class, the request is simply passed on to all actors that are deeply contained by the container of this director. For most domains, an iteration is a finite computati"
+    },
+    {
+      "chunk_id": 175,
+      "text": "r most domains, an iteration is a finite computation, so nothing further needs to be done here. However, for some process-oriented domains, the fire() method of the director is an unbounded computation. Those domains should override this metho"
+    },
+    {
+      "chunk_id": 176,
+      "text": "tation. Those domains should override this method so that when it is called, it does whatever it needs to do to get the fire() method to return. Typically, it will set flags that will cause all executing threads to suspend. These domains sho"
+    },
+    {
+      "chunk_id": 177,
+      "text": "executing threads to suspend. These domains should suspend execution in such a way that if the fire() method is called again, execution will resume at the point where it was suspended. However, they should not assume the fire() method will"
+    },
+    {
+      "chunk_id": 178,
+      "text": ", they should not assume the fire() method will be called again. It is possible that the wrapup() method will be called next. If the container is not an instance of CompositeActor, then this method does nothing. Specified by: stopFire in int"
+    },
+    {
+      "chunk_id": 179,
+      "text": "method does nothing. Specified by: stopFire in interface Executable suggestedModalModelDirectors public java.lang.String[] suggestedModalModelDirectors () Return an array of suggested directors to be used with ModalModel. Each director is specified"
+    },
+    {
+      "chunk_id": 180,
+      "text": "used with ModalModel. Each director is specified by its full class name. The first director in the array will be the default director used by a modal model. Returns: An array of suggested directors to be used with ModalModel. supportMultirateF"
+    },
+    {
+      "chunk_id": 181,
+      "text": "tors to be used with ModalModel. supportMultirateFiring public boolean supportMultirateFiring () Return a boolean to indicate whether a ModalModel under control of this director supports multirate firing. In this class, false is always returned."
+    },
+    {
+      "chunk_id": 182,
+      "text": "iring. In this class, false is always returned. Subclasses may override this method to return true. Returns: False indicating a ModalModel under control of this director does not support multirate firing. terminate public void terminate () Termin"
+    },
+    {
+      "chunk_id": 183,
+      "text": "firing. terminate public void terminate () Terminate any currently executing model with extreme prejudice. This method is not intended to be used as a normal route of stopping execution. To normally stop execution, call the finish() method ins"
+    },
+    {
+      "chunk_id": 184,
+      "text": "lly stop execution, call the finish() method instead. This method should be called only when execution fails to terminate by normal means due to certain kinds of programming errors (infinite loops, threading errors, etc.). There is no assuran"
+    },
+    {
+      "chunk_id": 185,
+      "text": "ps, threading errors, etc.). There is no assurance that the topology will be in a consistent state after this method returns. The topology should probably be recreated before attempting any further operations. This base class recursively cal"
+    },
+    {
+      "chunk_id": 186,
+      "text": "urther operations. This base class recursively calls terminate() on all actors deeply contained by the container of this director. Derived classes should override this method to release all resources in use and kill any sub-threads. Derived cl"
+    },
+    {
+      "chunk_id": 187,
+      "text": "ces in use and kill any sub-threads. Derived classes should not synchronize this method because it should execute as soon as possible. If the container is not an instance of CompositeActor, then this method does nothing. Specified by: termin"
+    },
+    {
+      "chunk_id": 188,
+      "text": "n this method does nothing. Specified by: terminate in interface Executable transferInputs public boolean transferInputs ( IOPort port) throws IllegalActionException Transfer data from an input port of the container to the po"
+    },
+    {
+      "chunk_id": 189,
+      "text": "data from an input port of the container to the ports it is connected to on the inside. The implementation in this base class transfers at most one token. Derived classes may override this method to transfer a domain-specific number of tokens"
+    },
+    {
+      "chunk_id": 190,
+      "text": "hod to transfer a domain-specific number of tokens. Parameters: port - The port to transfer tokens from. Returns: True if at least one data token is transferred. Throws: IllegalActionException - If the port is not an opaque input port. transferOut"
+    },
+    {
+      "chunk_id": 191,
+      "text": "e port is not an opaque input port. transferOutputs public boolean transferOutputs ( IOPort port) throws IllegalActionException Transfer data from an output port of the container to the ports it is connected to on the out"
+    },
+    {
+      "chunk_id": 192,
+      "text": "ainer to the ports it is connected to on the outside. The implementation in this base class transfers at most one token, but derived classes may transfer more than one token. Parameters: port - The port to transfer tokens from. Returns: True"
+    },
+    {
+      "chunk_id": 193,
+      "text": "- The port to transfer tokens from. Returns: True if at least one data token is transferred. Throws: IllegalActionException - If the port is not an opaque output port. wrapup public void wrapup () throws IllegalActionException Invoke"
+    },
+    {
+      "chunk_id": 194,
+      "text": "throws IllegalActionException Invoke the wrapup() method of all the actors contained in the director's container. In this base class wrapup() is called on the associated actors in the order of their creation. If the container is"
+    },
+    {
+      "chunk_id": 195,
+      "text": "he order of their creation. If the container is not an instance of CompositeActor, then this method does nothing. This method should be invoked once per execution. None of the other action methods should be invoked after it in the execution."
+    },
+    {
+      "chunk_id": 196,
+      "text": "ds should be invoked after it in the execution. This method is not synchronized on the workspace, so the caller should be. Specified by: wrapup in interface Executable Throws: IllegalActionException - If the wrapup() method of one of the assoc"
+    },
+    {
+      "chunk_id": 197,
+      "text": "on - If the wrapup() method of one of the associated actors throws it. _description protected java.lang.String _description (int detail, int indent, int bracket) Retur"
+    },
+    {
+      "chunk_id": 198,
+      "text": "int bracket) Return a description of the object. The level of detail depends on the argument, which is an or-ing of the static final constants defined in the NamedObj class. Lines are indented according to to t"
+    },
+    {
+      "chunk_id": 199,
+      "text": "Obj class. Lines are indented according to to the level argument using the protected method _getIndentPrefix(). Zero, one or two brackets can be specified to surround the returned description. If one is specified it is the the leading bracket"
+    },
+    {
+      "chunk_id": 200,
+      "text": "If one is specified it is the the leading bracket. This is used by derived classes that will append to the description. Those derived classes are responsible for the closing bracket. An argument other than 0, 1, or 2 is taken to be equivalent"
+    },
+    {
+      "chunk_id": 201,
+      "text": "t other than 0, 1, or 2 is taken to be equivalent to 0. This method is read-synchronized on the workspace. Overrides: _description in class NamedObj Parameters: detail - The level of detail. indent - The amount of indenting. bracket - The number of"
+    },
+    {
+      "chunk_id": 202,
+      "text": "- The amount of indenting. bracket - The number of surrounding brackets (0, 1, or 2). Returns: A description of the object. _isEmbedded protected boolean _isEmbedded () Return true if this director is embedded inside an opaque composite actor conta"
+    },
+    {
+      "chunk_id": 203,
+      "text": "embedded inside an opaque composite actor contained by another composite actor. Returns: True if this directory is embedded inside an opaque composite actor contained by another composite actor. _isTopLevel protected boolean _isTopLevel () Retur"
+    },
+    {
+      "chunk_id": 204,
+      "text": "_isTopLevel protected boolean _isTopLevel () Return true if this is a top-level director. Parts of this method is read synchronized on the workspace. Returns: True if this director is at the top-level. _transferInputs protected boolean _transferInp"
+    },
+    {
+      "chunk_id": 205,
+      "text": "el. _transferInputs protected boolean _transferInputs ( IOPort port) throws IllegalActionException Transfer at most one data token from the given input port of the container to the ports it is connected to on the inside."
+    },
+    {
+      "chunk_id": 206,
+      "text": "er to the ports it is connected to on the inside. This method delegates the operation to the IOPort, so that the subclass of IOPort, TypedIOPort, can override this method to perform run-time type conversion. Parameters: port - The port to trans"
+    },
+    {
+      "chunk_id": 207,
+      "text": "e conversion. Parameters: port - The port to transfer tokens from. Returns: True if at least one data token is transferred. Throws: IllegalActionException - If the port is not an opaque input port. See Also: IOPort.transferInputs() _transferOutput"
+    },
+    {
+      "chunk_id": 208,
+      "text": "See Also: IOPort.transferInputs() _transferOutputs protected boolean _transferOutputs ( IOPort port) throws IllegalActionException Transfer at most one data token from the given output port of the container to the ports"
+    },
+    {
+      "chunk_id": 209,
+      "text": "given output port of the container to the ports it is connected to on the outside. Parameters: port - The port to transfer tokens from. Returns: True if the port has an inside token that was successfully transferred. Otherwise return false (or"
+    },
+    {
+      "chunk_id": 210,
+      "text": "sfully transferred. Otherwise return false (or throw an exception). Throws: IllegalActionException - If the port is not an opaque output port. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes"
+    }
+  ]
+}

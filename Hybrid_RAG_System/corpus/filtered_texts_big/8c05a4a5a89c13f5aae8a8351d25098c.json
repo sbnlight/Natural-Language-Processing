@@ -1,0 +1,265 @@
+{
+  "url": "http://chess.eecs.berkeley.edu/ptexternal/src/ptII/doc/codeDoc/ptolemy/cg/lib/EmbeddedCodeActor.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "EmbeddedCodeActor JavaScript is disabled on your browser. Package ptolemy.cg.lib Class EmbeddedCodeActor java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity <T> ptolemy.kernel.ComponentEntity ptolem"
+    },
+    {
+      "chunk_id": 2,
+      "text": "l.Entity <T> ptolemy.kernel.ComponentEntity ptolemy.kernel.CompositeEntity ptolemy.actor.CompositeActor ptolemy.actor.TypedCompositeActor ptolemy.cg.lib.CompiledCompositeActor ptolemy.cg.lib.EmbeddedCodeActor All Implemented Interfaces: java.lang.Clo"
+    },
+    {
+      "chunk_id": 3,
+      "text": "odeActor All Implemented Interfaces: java.lang.Cloneable , Actor , Executable , FiringsRecordable , Initializable , TypedActor , Changeable , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Name"
+    },
+    {
+      "chunk_id": 4,
+      "text": "delErrorHandler , MoMLExportable , Moveable , Nameable public class EmbeddedCodeActor extends CompiledCompositeActor An actor of this class executes compiled embedded code. FIXME: Currently, it seems this only works with embedded Java code, but in"
+    },
+    {
+      "chunk_id": 5,
+      "text": "this only works with embedded Java code, but in theory it should work with any embedded code that can be executed within Java. To use this actor within Vergil, double click on the actor and insert Java code into the code templates, as indicated b"
+    },
+    {
+      "chunk_id": 6,
+      "text": "Java code into the code templates, as indicated by the sample template. Normally you will also need to add ports to the actor. You may need to set the types of these ports as well. This actor is actually a composite actor that contains a single"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ctually a composite actor that contains a single embedded actor that actually executes the generated code. The reason for the extra level of hierarchy is so that the director adapter code that handles conversion and transport across the boundary"
+    },
+    {
+      "chunk_id": 8,
+      "text": "les conversion and transport across the boundary can be consolidated in one place. In its preinitialize() method, this actor will create an instance of whatever director is in charge of executing it. The presumption is that that director has a co"
+    },
+    {
+      "chunk_id": 9,
+      "text": "t. The presumption is that that director has a code generation adapter that knows how to transport data from the simulation world in Java to the generated code world within. Since: Ptolemy II 10.0 Version: $Id$ Author: Bert Rodiers, Gang Zhou, Edw"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Version: $Id$ Author: Bert Rodiers, Gang Zhou, Edward A. Lee, Jia Zou Pt.AcceptedRating: Red (zgang) Pt.ProposedRating: Red (zgang) Nested Class Summary Nested Classes Modifier and Type Class Description static class EmbeddedCodeActor.EmbeddedActor A"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ion static class EmbeddedCodeActor.EmbeddedActor An actor inside the embeddedJavaActor that is used as a dummy placeholder. Nested classes/interfaces inherited from class ptolemy.kernel. CompositeEntity CompositeEntity.ContainedObjectsIterator Fiel"
+    },
+    {
+      "chunk_id": 12,
+      "text": "tity CompositeEntity.ContainedObjectsIterator Field Summary Fields Modifier and Type Field Description protected EmbeddedCodeActor.EmbeddedActor _embeddedActor The embedded actor used to contain the ports to the C implementation. StringAttribute emb"
+    },
+    {
+      "chunk_id": 13,
+      "text": "orts to the C implementation. StringAttribute embeddedCode The Java code that specifies the function of this actor. Fields inherited from class ptolemy.cg.lib. CompiledCompositeActor codeDirectory , executeEmbeddedCode , generatorPackage , inline ,"
+    },
+    {
+      "chunk_id": 14,
+      "text": "executeEmbeddedCode , generatorPackage , inline , overwriteFiles Fields inherited from class ptolemy.actor. CompositeActor _actorFiringListeners , _causalityInterface , _derivedPiggybacks , _initializables , _notifyingActorFiring , _piggybacks , _pub"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ables , _notifyingActorFiring , _piggybacks , _publishedPorts , _publisherRelations , _stopRequested , _subscribedPorts Fields inherited from class ptolemy.kernel. CompositeEntity _levelCrossingLinks Fields inherited from class ptolemy.kernel.util. N"
+    },
+    {
+      "chunk_id": 16,
+      "text": "Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLET"
+    },
+    {
+      "chunk_id": 17,
+      "text": "se , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary Constructors Constructor Description Embedde"
+    },
+    {
+      "chunk_id": 18,
+      "text": "mmary Constructors Constructor Description EmbeddedCodeActor ​( CompositeEntity container, java.lang.String name) Construct an actor with the given container and name. Method Summary All Methods Instance Methods Concrete Methods Modi"
+    },
+    {
+      "chunk_id": 19,
+      "text": "All Methods Instance Methods Concrete Methods Modifier and Type Method Description protected java.lang.String _getFileDependencies () Get the fileDependencies part of the generated code. protected java.lang.String _getFireBlock () Get the fireBlock p"
+    },
+    {
+      "chunk_id": 20,
+      "text": "a.lang.String _getFireBlock () Get the fireBlock part of the generated code. protected java.lang.String _getInitBlock () Get the initBlock part of the generated code. protected java.lang.String _getPreinitBlock () Get the preinitBlock part of the gen"
+    },
+    {
+      "chunk_id": 21,
+      "text": "einitBlock () Get the preinitBlock part of the generated code. protected java.lang.String _getWrapupBlock () Get the wrapupBlock part of the generated code. void preinitialize () Create the embedded actor and add ports to it. protected void setEmbedd"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ctor and add ports to it. protected void setEmbeddedActor () Create a new instance instance of EmbeddedActor. void wrapup () Remove inside relations. Methods inherited from class ptolemy.cg.lib. CompiledCompositeActor _compileJNICode , _generateAndCo"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ledCompositeActor _compileJNICode , _generateAndCompileEmbeddedCode , _generateAndCompileJNICode , _transferOutputs , fire , getSanitizedName , initialize Methods inherited from class ptolemy.actor. TypedCompositeActor _addEntity , _addPort , _addRel"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ypedCompositeActor _addEntity , _addPort , _addRelation , _checkTypesFromTo , _destinationTypeConstraints , attributeChanged , attributeTypeChanged , isBackwardTypeInferenceEnabled , newPort , newRelation , resolveTypes , typeConstraintList , typeCon"
+    },
+    {
+      "chunk_id": 25,
+      "text": "tion , resolveTypes , typeConstraintList , typeConstraints Methods inherited from class ptolemy.actor. CompositeActor _actorFiring , _actorFiring , _finishedAddEntity , _setDirector , _transferPortParameterInputs , addActorFiringListener , addInitial"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ameterInputs , addActorFiringListener , addInitializable , addPiggyback , clone , connectionsChanged , createReceivers , createSchedule , getCausalityInterface , getDirector , getExecutiveDirector , getManager , getPublishedPort , getPublishedPortCha"
+    },
+    {
+      "chunk_id": 27,
+      "text": "etManager , getPublishedPort , getPublishedPortChannel , getPublishedPorts , getSubscribedPortChannel , inferringWidths , inferWidths , inputPortList , isFireFunctional , isOpaque , isPublishedPort , isStrict , iterate , linkToPublishedPort , linkToP"
+    },
+    {
+      "chunk_id": 28,
+      "text": "isStrict , iterate , linkToPublishedPort , linkToPublishedPort , linkToPublishedPort , linkToPublishedPort , needsWidthInference , newInsideReceiver , newReceiver , notifyConnectivityChange , outputPortList , postfire , prefire , recordFiring , regis"
+    },
+    {
+      "chunk_id": 29,
+      "text": "rtList , postfire , prefire , recordFiring , registerPublisherPort , registerPublisherPort , removeActorFiringListener , removeInitializable , removePiggyback , requestChange , setContainer , setDirector , setManager , stop , stopFire , terminate , u"
+    },
+    {
+      "chunk_id": 30,
+      "text": "tor , setManager , stop , stopFire , terminate , unlinkToPublishedPort , unlinkToPublishedPort , unlinkToPublishedPort , unlinkToPublishedPort , unregisterPublisherPort , unregisterPublisherPort Methods inherited from class ptolemy.kernel. CompositeE"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ds inherited from class ptolemy.kernel. CompositeEntity _adjustDeferrals , _containedDecorators , _deepOpaqueEntityList , _description , _exportMoMLContents , _removeEntity , _removeRelation , _validateSettables , allAtomicEntityList , allowLevelCros"
+    },
+    {
+      "chunk_id": 32,
+      "text": "teSettables , allAtomicEntityList , allowLevelCrossingConnect , classDefinitionList , connect , connect , containedObjectsIterator , deepCompositeEntityList , deepEntityList , deepGetEntities , deepNamedObjList , deepOpaqueEntityList , deepRelationSe"
+    },
+    {
+      "chunk_id": 33,
+      "text": "medObjList , deepOpaqueEntityList , deepRelationSet , entityList , entityList , exportLinks , exportMoML , getAttribute , getEntities , getEntity , getPort , getRelation , getRelations , isAtomic , lazyAllAtomicEntityList , lazyAllCompositeEntityList"
+    },
+    {
+      "chunk_id": 34,
+      "text": "zyAllAtomicEntityList , lazyAllCompositeEntityList , lazyAllCompositeTransparentAndOpaqueEntityList , lazyClassDefinitionList , lazyDeepEntityList , lazyEntityList , lazyRelationList , numberOfEntities , numberOfRelations , numEntities , numRelations"
+    },
+    {
+      "chunk_id": 35,
+      "text": "s , numberOfRelations , numEntities , numRelations , relationList , removeAllEntities , removeAllRelations , setClassDefinition , statistics , uniqueName Methods inherited from class ptolemy.kernel. ComponentEntity _checkContainer , _getContainedObje"
+    },
+    {
+      "chunk_id": 36,
+      "text": "omponentEntity _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _r"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ods inherited from class ptolemy.kernel. Entity _removePort , connectedPortList , connectedPorts , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParen"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ass ptolemy.kernel. InstantiableNamedObj _setParent , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride"
+    },
+    {
+      "chunk_id": 39,
+      "text": "nel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived ,"
+    },
+    {
+      "chunk_id": 40,
+      "text": "refix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , addHierar"
+    },
+    {
+      "chunk_id": 41,
+      "text": ", addChangeListener , addDebugListener , addHierarchyListener , attributeDeleted , attributeList , attributeList , clone , decorators , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportM"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ent , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList ,"
+    },
+    {
+      "chunk_id": 43,
+      "text": "torAttributes , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , messa"
+    },
+    {
+      "chunk_id": 44,
+      "text": "sPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , setClassName , setDeferringChangeRequests , setDer"
+    },
+    {
+      "chunk_id": 45,
+      "text": "setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited from class java.lang.Object"
+    },
+    {
+      "chunk_id": 46,
+      "text": "pace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor createReceivers , getCausalityInterface , getDirector , getExecutiveDir"
+    },
+    {
+      "chunk_id": 47,
+      "text": "CausalityInterface , getDirector , getExecutiveDirector , getManager , inputPortList , newReceiver , outputPortList Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited fr"
+    },
+    {
+      "chunk_id": 48,
+      "text": "tDerivedList , propagateValue Methods inherited from interface ptolemy.actor. Executable isFireFunctional , isStrict , iterate , postfire , prefire , stop , stopFire , terminate Methods inherited from interface ptolemy.actor. Initializable addInitial"
+    },
+    {
+      "chunk_id": 49,
+      "text": "interface ptolemy.actor. Initializable addInitializable , removeInitializable Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Field Detail embedde"
+    },
+    {
+      "chunk_id": 50,
+      "text": ", getName , getName , setName Field Detail embeddedCode public StringAttribute embeddedCode The Java code that specifies the function of this actor. The default value is the code necessary to implement a identity function. _embeddedActor protect"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ment a identity function. _embeddedActor protected EmbeddedCodeActor.EmbeddedActor _embeddedActor The embedded actor used to contain the ports to the C implementation. Constructor Detail EmbeddedCodeActor public EmbeddedCodeActor​( CompositeEntity"
+    },
+    {
+      "chunk_id": 52,
+      "text": "deActor public EmbeddedCodeActor​( CompositeEntity container, java.lang.String name) throws NameDuplicationException , IllegalActionException Construct an actor with the given container and name. In additi"
+    },
+    {
+      "chunk_id": 53,
+      "text": "tor with the given container and name. In addition to invoking the base class constructor, create the embeddedCode parameter, and initialize it to provide an empty template. Parameters: container - The container. name - The name of this actor."
+    },
+    {
+      "chunk_id": 54,
+      "text": "r - The container. name - The name of this actor. Throws: NameDuplicationException - If the container already has an actor with this name. IllegalActionException - If the actor cannot be contained by the proposed container. Method Detail preini"
+    },
+    {
+      "chunk_id": 55,
+      "text": "by the proposed container. Method Detail preinitialize public void preinitialize() throws IllegalActionException Create the embedded actor and add ports to it. Specified by: preinitialize in interface Initializable Overrides: pr"
+    },
+    {
+      "chunk_id": 56,
+      "text": "nitialize in interface Initializable Overrides: preinitialize in class CompositeActor Throws: IllegalActionException - If there is no director, or if the director's preinitialize() method throws it, or if this actor is not opaque. wrapup public"
+    },
+    {
+      "chunk_id": 57,
+      "text": ", or if this actor is not opaque. wrapup public void wrapup() throws IllegalActionException Remove inside relations. Specified by: wrapup in interface Initializable Overrides: wrapup in class CompiledCompositeActor Throws: IllegalActio"
+    },
+    {
+      "chunk_id": 58,
+      "text": "class CompiledCompositeActor Throws: IllegalActionException - If there is no director, or if the director's wrapup() method throws it, or if this actor is not opaque. setEmbeddedActor protected void setEmbeddedActor()"
+    },
+    {
+      "chunk_id": 59,
+      "text": "void setEmbeddedActor() throws IllegalActionException , NameDuplicationException Create a new instance instance of EmbeddedActor. Derived classes should override this method and create their own instances as necessary. Thr"
+    },
+    {
+      "chunk_id": 60,
+      "text": "and create their own instances as necessary. Throws: NameDuplicationException - If the container already has an actor with this name. IllegalActionException - If the actor cannot be contained by the proposed container. _getFileDependencies pr"
+    },
+    {
+      "chunk_id": 61,
+      "text": "by the proposed container. _getFileDependencies protected java.lang.String _getFileDependencies() Get the fileDependencies part of the generated code. Returns: The string containing the codegen fileDependencies function. _getFireBlock protected java."
+    },
+    {
+      "chunk_id": 62,
+      "text": "pendencies function. _getFireBlock protected java.lang.String _getFireBlock() Get the fireBlock part of the generated code. Returns: The string containing the codegen fireBlock function. _getInitBlock protected java.lang.String _getInitBlock() Get th"
+    },
+    {
+      "chunk_id": 63,
+      "text": "protected java.lang.String _getInitBlock() Get the initBlock part of the generated code. Returns: The string containing the codegen initBlock function. _getPreinitBlock protected java.lang.String _getPreinitBlock() Get the preinitBlock part of the g"
+    },
+    {
+      "chunk_id": 64,
+      "text": "tPreinitBlock() Get the preinitBlock part of the generated code. Returns: The string containing the codegen preinitBlock function. _getWrapupBlock protected java.lang.String _getWrapupBlock() Get the wrapupBlock part of the generated code. Returns: T"
+    },
+    {
+      "chunk_id": 65,
+      "text": "wrapupBlock part of the generated code. Returns: The string containing the codegen wrapupBlock function."
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "url": "http://rail.eecs.berkeley.edu/deeprlcourse-fa15/index.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "CS 294 Deep Reinforcement Learning, Fall 2015 CS 294: Deep Reinforcement Learning, Fall 2015 Instructors : John Schulman, Pieter Abbeel GSI : Rocky Duan Lectures : Mondays and Wednesday, Session 1: 10:00am-11:30am in 405 Soda Hall / Session 2: 2:30pm"
+    },
+    {
+      "chunk_id": 2,
+      "text": ":00am-11:30am in 405 Soda Hall / Session 2: 2:30pm-4:00pm in 250 Sutardja Dai Hall. Office Hours : Tuesday 4pm-5pm, Thursday 11am-12pm, both in 511 Soda Hall. Communication : Piazza will be used for announcements, general questions about the course,"
+    },
+    {
+      "chunk_id": 3,
+      "text": "nnouncements, general questions about the course, clarifications about assignments, student questions to each other, discussions about material, and so on. To sign up, go to the Piazza website and sign up with “UC Berkeley” and “CS294-112” for your s"
+    },
+    {
+      "chunk_id": 4,
+      "text": "n up with “UC Berkeley” and “CS294-112” for your school and class. Table of Contents Prerequisites Assignments Grading Syllabus Lecture Videos Related Materials Feedback Prerequisites This course will assume some familiarity with reinforcement learni"
+    },
+    {
+      "chunk_id": 5,
+      "text": "assume some familiarity with reinforcement learning, numerical optimization and machine learning. Students who are not familiar with the concepts below are encouraged to brush up using the references provided right below this list. We’ll review this"
+    },
+    {
+      "chunk_id": 6,
+      "text": "provided right below this list. We’ll review this material in class, but it will be rather cursory. Reinforcement learning and MDPs Definition of MDPs Exact algorithms: policy and value iteration Search algorithms Numerical Optimization gradient des"
+    },
+    {
+      "chunk_id": 7,
+      "text": "rch algorithms Numerical Optimization gradient descent, stochastic gradient descent backpropagation algorithm Machine Learning Classification and regression problems: what loss functions are used, how to fit linear and nonlinear models Training/test"
+    },
+    {
+      "chunk_id": 8,
+      "text": "to fit linear and nonlinear models Training/test error, overfitting. For introductory material on RL and MDPs, see CS188 EdX course , starting with Markov Decision Processes I Sutton & Barto , Ch 3 and 4. For a concise intro to MDPs, see Ch 1-2 of A"
+    },
+    {
+      "chunk_id": 9,
+      "text": "nd 4. For a concise intro to MDPs, see Ch 1-2 of Andrew Ng’s thesis David Silver’s course, links below For introductory material on machine learning and neural networks, see Andrej Karpathy’s course Geoff Hinton on Coursera Andrew Ng on Coursera Yase"
+    },
+    {
+      "chunk_id": 10,
+      "text": "eoff Hinton on Coursera Andrew Ng on Coursera Yaser Abu-Mostafa’s course Syllabus Below you can find a tentative outline of the course. Slides, videos, and references will be posted as the course proceeds. Dates are tentative . Course Introduction an"
+    },
+    {
+      "chunk_id": 11,
+      "text": "eeds. Dates are tentative . Course Introduction and Overview Date: 8/26 Topics: What is deep reinforcement learning? Current applications of RL Frontiers: where might deep RL be applied? Slides References and further reading See Powell textbook for m"
+    },
+    {
+      "chunk_id": 12,
+      "text": "nces and further reading See Powell textbook for more information on applications in operations research. See Stephane Ross’ thesis (Introduction) for more info on structured prediction as reinforcement learning and how is RL difference from supervis"
+    },
+    {
+      "chunk_id": 13,
+      "text": "nt learning and how is RL difference from supervised learning? Markov Decision Processes Date: 8/31 MDP Cheatsheet Review of Backpropagation and Numerical Optimization Date: 9/2 For a very thorough analysis of reverse mode automatic differentiation,"
+    },
+    {
+      "chunk_id": 14,
+      "text": "alysis of reverse mode automatic differentiation, see Griewank and Walther’s textbook Evaluating Derivatives . Chances are, you’re computing derivatives all day, so it pays off to go into some depth on this topic! Policy Gradient Methods General refe"
+    },
+    {
+      "chunk_id": 15,
+      "text": "n this topic! Policy Gradient Methods General references on policy gradients: Peters & Schaal: Reinforcement learning of motor skills with policy gradients : solid review article on policy gradient methods. Sham Kakade’s thesis, chapter 4 : nice hist"
+    },
+    {
+      "chunk_id": 16,
+      "text": "thods. Sham Kakade’s thesis, chapter 4 : nice historical overview and theoretical study, with an alternative perspective based on advantage functions. Greensmith, Baxter, & Bartlett: Variance Reduction Techniques for Gradient Estimates in Reinforceme"
+    },
+    {
+      "chunk_id": 17,
+      "text": "n Techniques for Gradient Estimates in Reinforcement Learning , and also see the paper Infinite-Horizon Policy-Gradient Estimation which introduces the theoretical framework. Trust region / proximal / batch methods Kakade & Langford: Approximately op"
+    },
+    {
+      "chunk_id": 18,
+      "text": "batch methods Kakade & Langford: Approximately optimal approximate reinforcement learning – Conservative policy iteration algorithm, providing some nice intuition about policy gradient methods, and some generally useful theoretical ideas. Kakade: A"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ome generally useful theoretical ideas. Kakade: A Natural Policy Gradient Schulman, Levine, Moritz, Jordan, Abbeel: Trust Region Policy Optimization : combines theoretical ideas from conservative policy gradient algorithm to prove that monotonic impr"
+    },
+    {
+      "chunk_id": 20,
+      "text": "cy gradient algorithm to prove that monotonic improvement can be guaranteed when one solves a series of subproblems of optimizing a bound on the policy performance. The conclusion is that one should use KL-divergence constraint. Schulman, Moritz, Lev"
+    },
+    {
+      "chunk_id": 21,
+      "text": "se KL-divergence constraint. Schulman, Moritz, Levine, Jordan, Abbeel: High-Dimensional Continuous Control Using Generalized Advantage Estimation : Better estimation of advantage function for policy gradient algorithms, using a λ parameter. Approxima"
+    },
+    {
+      "chunk_id": 22,
+      "text": "radient algorithms, using a λ parameter. Approximate Dynamic Programming Methods Q-Learning / Q-Value Iteration Q-learning convergence result is originally due to Watkins . A compact and general alternative proof is provided by Jordan, Jaakola, and S"
+    },
+    {
+      "chunk_id": 23,
+      "text": "native proof is provided by Jordan, Jaakola, and Singh: On the Convergence of Stochastic Iterative Dynamic Programming Algorithm , which also applies to TD(λ) Neural Fitted Q Iteration (NFQ) by Riedmiller Deep Q Network (DQN) by Mnih et al. of DeepMi"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ller Deep Q Network (DQN) by Mnih et al. of DeepMind: ArXiv , Nature Approximate Policy Iteration methods Scherrer et al., Approximate Modified Policy Iteration . A very general framework that subsumes many other ADP algorithms as special cases. Also"
+    },
+    {
+      "chunk_id": 25,
+      "text": "s many other ADP algorithms as special cases. Also see the related paper with more practical tips: Approximate Dynamic Programming Finally Performs Well in the Game of Tetris . See Bertsekas’ textbook, 2ed for a very extensive treatment of approximat"
+    },
+    {
+      "chunk_id": 26,
+      "text": ", 2ed for a very extensive treatment of approximate value function estimation methods, and approximate policy iteration. Least Squares Policy Iteration : policy iteration with Q function. Search + Supervised Learning DAGGER and related ideas based on"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ervised Learning DAGGER and related ideas based on querying an expert (or search algorithm) while executing agent’s policy: A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning - DAGGER Reinforcement and Imitation"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ine Learning - DAGGER Reinforcement and Imitation Learning via Interactive No-Regret Learning AGGREVATE – same authors as DAGGER, cleaner and more general framework (in my opinion). Deep Learning for Real-Time Atari Game Play Using Offline Monte-Carl"
+    },
+    {
+      "chunk_id": 29,
+      "text": "Real-Time Atari Game Play Using Offline Monte-Carlo Tree Search Planning Monte-Carlo Tree Search + DAGGER SEARN in Practice - similar to DAGGER/AGGREVATE but using a stochastic policy, and targeted at structured prediction problems. Stephane Ross’ th"
+    },
+    {
+      "chunk_id": 30,
+      "text": "structured prediction problems. Stephane Ross’ thesis has a nice explanation of SEARN. Trajectory Optimization + Supervised Learning: Guided Policy Search : use (modification of) importance sampling to get policy gradient, where samples are obtained"
+    },
+    {
+      "chunk_id": 31,
+      "text": "to get policy gradient, where samples are obtained via trajectory optimization. Constrained Guided Policy Search : Formulates an objective that jointly includes a collection of trajectories and a policy, and encourages them to become consistent. End-"
+    },
+    {
+      "chunk_id": 32,
+      "text": "cy, and encourages them to become consistent. End-To-End Training of Deep Visuomotor Policies uses CGPS learn mapping from image pixels to low-level control signal in robotic manipulation problems. Combining the Benefits of Function Approximation and"
+    },
+    {
+      "chunk_id": 33,
+      "text": "mbining the Benefits of Function Approximation and Trajectory Optimization jointly optimizing trajectories and policies, with some different design choices from CGPS. (Igor has written a new NIPS paper on this topic, it will be linked when it’s ready"
+    },
+    {
+      "chunk_id": 34,
+      "text": "r on this topic, it will be linked when it’s ready) Slides from lecture on DAGGER and friends Frontiers: Slides on exploration and intrinisic rewards Lecture Videos We did not record lecture videos for the course, but I (John) gave a lecture series a"
+    },
+    {
+      "chunk_id": 35,
+      "text": "r the course, but I (John) gave a lecture series at MLSS, and videos are available: Lecture 1 : intro, derivative free optimization Lecture 2 : score function gradient estimation and policy gradients Lecture 3 : actor critic methods Lecture 4 : trust"
+    },
+    {
+      "chunk_id": 36,
+      "text": "Lecture 3 : actor critic methods Lecture 4 : trust region and natural gradient methods, open problems Related Materials Courses Dave Silver’s course on reinforcement learning / Lecture Videos Nando de Freitas’ course on machine learning Andrej Karpat"
+    },
+    {
+      "chunk_id": 37,
+      "text": "Freitas’ course on machine learning Andrej Karpathy’s course on neural networks Textbooks Sutton & Barto, Reinforcement Learning: An Introduction Szepesvari, Algorithms for Reinforcement Learning Bertsekas, Dynamic Programming and Optimal Control, V"
+    },
+    {
+      "chunk_id": 38,
+      "text": "tsekas, Dynamic Programming and Optimal Control, Vols I and II Puterman, Markov Decision Processes: Discrete Stochastic Dynamic Programming Powell, Approximate Dynamic Programming Misc Links A collection of deep learning resources Feedback Send feedb"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ion of deep learning resources Feedback Send feedback to the instructor . Feel free to remain anonymous."
+    }
+  ]
+}

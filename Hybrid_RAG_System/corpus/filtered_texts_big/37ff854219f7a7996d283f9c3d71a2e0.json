@@ -1,0 +1,169 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII7.0/ptII7.0.1/doc/design/usingVergil/usingVergila8.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "2.7 Classes and Inheritance 2.7 Classes and Inheritance Ptolemy II includes the ability to define actor-oriented classes with instances and subclasses with inheritance. The key idea is that you can specify that a component definition is a class , i"
+    },
+    {
+      "chunk_id": 2,
+      "text": "specify that a component definition is a class , in which case all instances and subclasses inherit its structure. This improves modularity in designs. We will illustrate this capability with an example. 2.7.1 Creating and Using Actor-Oriented Clas"
+    },
+    {
+      "chunk_id": 3,
+      "text": "le. 2.7.1 Creating and Using Actor-Oriented Classes Consider the model that we developed in section 2.4 , shown for reference in figure 2.34 . Suppose that we wish to create multiple instances of the channel, as shown in figure 2.35 . In that figur"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e channel, as shown in figure 2.35 . In that figure, the sinewave signal passes through five distinct channels (note the use of a relation to broadcast the same signal to each of the five channels). The outputs of the channels are added together and"
+    },
+    {
+      "chunk_id": 5,
+      "text": "he outputs of the channels are added together and plotted. The result is a significantly cleaner sine wave than the one that results from one channel alone 1 . However, this is a poor design, for two reasons. First, the number of channels is hardwire"
+    },
+    {
+      "chunk_id": 6,
+      "text": "reasons. First, the number of channels is hardwired into the diagram. We will deal with that problem in the next section. Second, each of the channels is a copy of the composite actor in figure 2.34 . This results in a far less maintainable or scalab"
+    },
+    {
+      "chunk_id": 7,
+      "text": "This results in a far less maintainable or scalable model than we would like. Consider, for example, what it would take to change the design of the channel. Each of the five copies would have to be changed individually. A better solution is to defin"
+    },
+    {
+      "chunk_id": 8,
+      "text": "hanged individually. A better solution is to define a channel class. To do this, begin with the design in figure 2.34 , and remove the connections to the channel, as shown in figure 2.36 . Then right click and select \"Convert to Class\". (Note that if"
+    },
+    {
+      "chunk_id": 9,
+      "text": "click and select \"Convert to Class\". (Note that if you fail to first remove the connections, you will get an error message when you try to convert to class. A class is not permitted to have connections.) The actor icon acquires a blue halo, which ser"
+    },
+    {
+      "chunk_id": 10,
+      "text": "s.) The actor icon acquires a blue halo, which serves as a visual indication that it is a class, rather than an ordinary actor (which is an instance). Classes play no role in the execution of the model, and merely serve as definitions of components t"
+    },
+    {
+      "chunk_id": 11,
+      "text": "l, and merely serve as definitions of components that must then be instantiated. By convention, we put classes at the top of the model, near the director, since they function as declarations. Once you have a class, you can create an instance by right"
+    },
+    {
+      "chunk_id": 12,
+      "text": "have a class, you can create an instance by right clicking and selecting \"Create Instance\" or typing Control-N. Do this five times to create five instances of the class, as shown in figure 2.36 . Although this looks similar to the design in figure 2"
+    },
+    {
+      "chunk_id": 13,
+      "text": "hough this looks similar to the design in figure 2.35 , it is, in fact, a much better design. To verify this, try making a change to the class, for example by creating a custom icon for it, as shown in figure 2.37 . Note that the changes propagate to"
+    },
+    {
+      "chunk_id": 14,
+      "text": "n figure 2.37 . Note that the changes propagate to each of the instances of the class. A more subtle advantage is that the XML file representation of the model is much smaller, since the design of the class is given only once rather than five times."
+    },
+    {
+      "chunk_id": 15,
+      "text": "class is given only once rather than five times. If you invoke \"Open Actor\" any of the instances (or the class) in figure 2.37 , you will see the same channel model. In fact, you will see the class definition. Any change you make inside this hierarc"
+    },
+    {
+      "chunk_id": 16,
+      "text": "efinition. Any change you make inside this hierarchical model will be automatically propagated to all the instances. Try changing the value of the noisePower parameter, for example. 2.7.2 Overriding Parameter Values in Instances By default, all ins"
+    },
+    {
+      "chunk_id": 17,
+      "text": "Parameter Values in Instances By default, all instances of Channel in figure 2.37 have the same icon and the same parameter values. However, each instance can be customized by overriding these values. In figure 2.38 , for example, we have modified t"
+    },
+    {
+      "chunk_id": 18,
+      "text": ". In figure 2.38 , for example, we have modified the custom icons so that each has a different color, and the fifth one has an extra graphical element. To do this, just right click on the icon of the instance and select \"Edit Custom Icon.\" 2.7.3 Su"
+    },
+    {
+      "chunk_id": 19,
+      "text": "instance and select \"Edit Custom Icon.\" 2.7.3 Subclassing and Inheritance Suppose now that we wish to modify some of the channels to add interference in the form of another sinewave. A good way to do this is to create a subclass of the Channel clas"
+    },
+    {
+      "chunk_id": 20,
+      "text": "o this is to create a subclass of the Channel class, as shown in figure 2.39 . A subclass is created by right clicking on the class icon and selecting \"Create Subclass.\" The resulting icon for the subclass appears right on top of the icon for the cla"
+    },
+    {
+      "chunk_id": 21,
+      "text": "class appears right on top of the icon for the class, so it needs to be moved over, as shown in the figure. Looking inside the subclass reveals that it contains all the elements of the class, but with their icons now surrounded by a dashed pink outli"
+    },
+    {
+      "chunk_id": 22,
+      "text": "their icons now surrounded by a dashed pink outline. These elements are inherited . They cannot be removed from the subclass (try to do so, and you will get an error message). You can, however, change their parameter values and add additional elemen"
+    },
+    {
+      "chunk_id": 23,
+      "text": "e their parameter values and add additional elements. Consider the design shown in figure 2.40 , which adds an additional pair of parameters named \"interferenceAmplitude\" and \"interferenceFrequency\" and an additional pair of actors implementing the i"
+    },
+    {
+      "chunk_id": 24,
+      "text": "nd an additional pair of actors implementing the interference. A model that replaces the last channel with an instance of the subclass is shown in figure 2.41 , along with a plot where you can see the sinusoidal interference. An instance of a class m"
+    },
+    {
+      "chunk_id": 25,
+      "text": "sinusoidal interference. An instance of a class may be created anywhere in a hierarchical model that is either in the same composite as the class or in a composite contained by that composite. To put an instance into a submodel, simply copy (or cut)"
+    },
+    {
+      "chunk_id": 26,
+      "text": "an instance into a submodel, simply copy (or cut) an instance from the composite where the class is, and then paste that instance into the composite. 2.7.4 Sharing Classes Across Models A class may be shared across multiple models by saving the cl"
+    },
+    {
+      "chunk_id": 27,
+      "text": "be shared across multiple models by saving the class definition in its own file. We will illustrate how to do that with the Channel class. First, invoke \"Open Actor\" on the Channel class, and then select Save As from the File menu. The dialog that a"
+    },
+    {
+      "chunk_id": 28,
+      "text": "lect Save As from the File menu. The dialog that appears is shown in figure 2.42 . The checkbox at the right, labeled \"Save submodel only\" is by default unchecked, and if left unchecked, what will be saved will be the entire model. In our case, we wi"
+    },
+    {
+      "chunk_id": 29,
+      "text": "saved will be the entire model. In our case, we wish to save the Channel submodel only, so we must check the box. A key issue is to decide where to save the file. As always with files, there is an issue that models that use a class defined in an exte"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ue that models that use a class defined in an external file have to be able to find that file. In general Ptolemy II searches for class definitions relative to the classpath , which is given by an environment variable called CLASSPATH. In principle,"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ironment variable called CLASSPATH. In principle, you can set this environment variable to include any particular directory that you would like searched. In practice, changing the CLASSPATH variable often causes problems with programs, so we recommen"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ften causes problems with programs, so we recommend, when possible, simply storing the file in a directory within the Ptolemy II installation directory. 2 In figure 2.42 , the Channel class is saved to a file called Channel.xml in the directory $PTII"
+    },
+    {
+      "chunk_id": 33,
+      "text": "o a file called Channel.xml in the directory $PTII/myActors, where $PTII is the location of the Ptolemy II installation. This class definition can now be used in any model as follows. Open the model, and select \"Instantiate Entity\" in the Graph menu,"
+    },
+    {
+      "chunk_id": 34,
+      "text": "and select \"Instantiate Entity\" in the Graph menu, as shown in figure 2.43 . Simply enter the fully qualified class name relative to the $PTII entry in the classpath, which in this case is \"myActors.Channel\". Once you have an instance of the Channel"
+    },
+    {
+      "chunk_id": 35,
+      "text": "hannel\". Once you have an instance of the Channel class that is defined in its own file, you can add it to the UserLibrary that appears in the library browser to the left in Vergil windows, as shown in figure 2.44 . To do this, right click on the ins"
+    },
+    {
+      "chunk_id": 36,
+      "text": "n figure 2.44 . To do this, right click on the instance and select \"Save Actor in Library.\" As shown in the figure, this causes another window to open, which is actually the user library. The user library is a Ptolemy II model like any other, stored"
+    },
+    {
+      "chunk_id": 37,
+      "text": "rary is a Ptolemy II model like any other, stored in an XML file. If you now save that library model, then the class instance will be available in the UserLibrary henceforth in any Vergil window. One subtle point is that it would not accomplish the s"
+    },
+    {
+      "chunk_id": 38,
+      "text": "subtle point is that it would not accomplish the same objective if the class definition itself (vs. an instance of the class) were to be saved in the user library. If you were to do that, then the user library would provide a new class definition rat"
+    },
+    {
+      "chunk_id": 39,
+      "text": "r library would provide a new class definition rather than an instance of the class when you drag from it. 1 In communication systems, this technique is known as diversity , where multiple channels with independent noise are used to achieve more reli"
+    },
+    {
+      "chunk_id": 40,
+      "text": "th independent noise are used to achieve more reliable communication. 2 If you don't know where Ptolemy II is installed on your system, you can find out by invoking File, New, Expression Evaluator and typing PTII followed by Enter."
+    },
+    {
+      "chunk_id": 41,
+      "text": "typing PTII followed by Enter."
+    }
+  ]
+}

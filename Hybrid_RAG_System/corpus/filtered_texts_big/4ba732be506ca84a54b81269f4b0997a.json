@@ -1,0 +1,85 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version1/ActionFunctions",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / ActionFunctions Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / ActionFunctions An accessor may define some number"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ActionFunctions An accessor may define some number of action functions that are invoked by the host as described below. The only required function is the setup() function. An accessor may implement any subset of the rest. These functions are made ava"
+    },
+    {
+      "chunk_id": 3,
+      "text": "y subset of the rest. These functions are made available to the host by setting them as fields of the exports object in the accessor script with the corresponding name. For instance, the initialize() function is exposed in the accessor source code by"
+    },
+    {
+      "chunk_id": 4,
+      "text": "function is exposed in the accessor source code by setting the exports.initialize field equal to the desired function in the script. For example, exports. initialize = function ( ) { console. log ( 'Hello World!' ) ; } [$[Get Code]] An execution of a"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ello World!' ) ; } [$[Get Code]] An execution of an accessor consists of: Loading the accessor script, executing any top-level statements, and invoking the setup() function. Invoking the initialize() function, if it is defined. Executing the accessor"
+    },
+    {
+      "chunk_id": 6,
+      "text": "function, if it is defined. Executing the accessor, which performs the following actions repeatedly: Invoke any timeout callbacks whose timeout matches current time of the host; Invoke any input handlers that have been added to inputs that have new d"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ers that have been added to inputs that have new data; If any input has new data, invoke any generic input handlers that have been added; Invoke the fire() function, if it has been defined. Invoking the wrapup() function of the accessor. fire() If pr"
+    },
+    {
+      "chunk_id": 8,
+      "text": "he wrapup() function of the accessor. fire() If provided, the host will invoke this function when any new input is provided, or if there are no inputs at all, then whenever the host chooses to invoke it. initialize() This function, if provided, will"
+    },
+    {
+      "chunk_id": 9,
+      "text": "it. initialize() This function, if provided, will be invoked once by the host when the application using the accessor starts up, and possibly again each time the swarmlet is re-initialized. The accessor may get any inputs that have default values, re"
+    },
+    {
+      "chunk_id": 10,
+      "text": "or may get any inputs that have default values, read parameters, and initialize state variables. It may also send outputs, but note that downstream accessors will not see this data in their initialize function. They will see it in an input handler, i"
+    },
+    {
+      "chunk_id": 11,
+      "text": "function. They will see it in an input handler, if they have registered one. Input handlers An input handler is a function that is invoked when a new input arrives. See Input Handlers . latestOutput( name ) Return the most recent output sent via the"
+    },
+    {
+      "chunk_id": 12,
+      "text": "name ) Return the most recent output sent via the named output. provideInput( name , value ) Provide the specified input with the specified value. react() React to any provided inputs by invoking any associated input handlers and also invoking the f"
+    },
+    {
+      "chunk_id": 13,
+      "text": "associated input handlers and also invoking the fire() function, if there is one. setParameter( name , value ) Set the specified parameter to have the specified value. setup() Set up the actor interface, defining inputs, outputs, and parameters. wra"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ace, defining inputs, outputs, and parameters. wrapup() If provided, the host will invoke this function once when the application shuts down. This function should not send outputs. Discussion With these action functions, there is a variety of pattern"
+    },
+    {
+      "chunk_id": 15,
+      "text": "se action functions, there is a variety of patterns of accessor behavior: Event reactor: An accessor provides input handlers for one or more inputs. In these handlers, it may read inputs using get(), update state variables, and/or send outputs. Spont"
+    },
+    {
+      "chunk_id": 16,
+      "text": "update state variables, and/or send outputs. Spontaneous accessor: The accessor sends outputs at times of its choosing, not in reaction to inputs. For example, it may send an output in a function invoked after a timeout. The accessor can do this by c"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ked after a timeout. The accessor can do this by calling setTimeout(function, time) in initialize() , for example. It may also send outputs in any callback function, for example one that handles a response to an asynchronous HTTP request or to a time"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ponse to an asynchronous HTTP request or to a timeout. See Output . Note that it is an error to send outputs before the host has invoked initialize or after it has invoked wrapup() (before the next initialize() ). Therefore, an accessor should use it"
+    },
+    {
+      "chunk_id": 19,
+      "text": "itialize() ). Therefore, an accessor should use its wrapup() function to, for example, cancel any pending timeouts or event handlers. Note also that action functions are called \"functions\" even though they are not mathematical functions, because Java"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ified on November 20, 2017, at 04:27 pm"
+    }
+  ]
+}

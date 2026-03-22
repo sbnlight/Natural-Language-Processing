@@ -1,0 +1,1917 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII5.0/BasicGraphFrame.java",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "/* A simple graph view for Ptolemy models Copyright (c) 1998-2005 The Regents of the University of California. All rights reserved. Permission is hereby granted, without written agreement and without license or royalty fees, to use, copy, modify, an"
+    },
+    {
+      "chunk_id": 2,
+      "text": "license or royalty fees, to use, copy, modify, and distribute this software and its documentation for any purpose, provided that the above copyright notice and the following two paragraphs appear in all copies of this software. IN NO EVENT SHALL TH"
+    },
+    {
+      "chunk_id": 3,
+      "text": "all copies of this software. IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF THE UNIVERS"
+    },
+    {
+      "chunk_id": 4,
+      "text": "OFTWARE AND ITS DOCUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERC"
+    },
+    {
+      "chunk_id": 5,
+      "text": "BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN \"AS IS\" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, E"
+    },
+    {
+      "chunk_id": 6,
+      "text": "GATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS. PT_COPYRIGHT_VERSION_2 COPYRIGHTENDKEY 2 */ package ptolemy.vergil.basic; import ptolemy.actor.IOPort; import ptolemy.actor.IORelation; import ptolemy.actor.TypedCompo"
+    },
+    {
+      "chunk_id": 7,
+      "text": ".actor.IORelation; import ptolemy.actor.TypedCompositeActor; import ptolemy.actor.gui.Configuration; import ptolemy.actor.gui.PtolemyEffigy; import ptolemy.actor.gui.PtolemyFrame; import ptolemy.actor.gui.RunTableau; import ptolemy.actor.gui.SizeAttr"
+    },
+    {
+      "chunk_id": 8,
+      "text": ".gui.RunTableau; import ptolemy.actor.gui.SizeAttribute; import ptolemy.actor.gui.Tableau; import ptolemy.actor.gui.WindowPropertiesAttribute; import ptolemy.data.ArrayToken; import ptolemy.data.DoubleToken; import ptolemy.data.Token; import ptolemy."
+    },
+    {
+      "chunk_id": 9,
+      "text": "eToken; import ptolemy.data.Token; import ptolemy.data.expr.ExpertParameter; import ptolemy.data.expr.Parameter; import ptolemy.kernel.ComponentEntity; import ptolemy.kernel.CompositeEntity; import ptolemy.kernel.Entity; import ptolemy.kernel.undo.Re"
+    },
+    {
+      "chunk_id": 10,
+      "text": "olemy.kernel.Entity; import ptolemy.kernel.undo.RedoChangeRequest; import ptolemy.kernel.undo.UndoChangeRequest; import ptolemy.kernel.undo.UndoStackAttribute; import ptolemy.kernel.util.Attribute; import ptolemy.kernel.util.ChangeListener; import pt"
+    },
+    {
+      "chunk_id": 11,
+      "text": "port ptolemy.kernel.util.ChangeListener; import ptolemy.kernel.util.ChangeRequest; import ptolemy.kernel.util.IllegalActionException; import ptolemy.kernel.util.InternalErrorException; import ptolemy.kernel.util.KernelException; import ptolemy.kernel"
+    },
+    {
+      "chunk_id": 12,
+      "text": "kernel.util.KernelException; import ptolemy.kernel.util.Locatable; import ptolemy.kernel.util.Location; import ptolemy.kernel.util.NamedObj; import ptolemy.kernel.util.Settable; import ptolemy.kernel.util.Workspace; import ptolemy.moml.LibraryAttribu"
+    },
+    {
+      "chunk_id": 13,
+      "text": "util.Workspace; import ptolemy.moml.LibraryAttribute; import ptolemy.moml.MoMLChangeRequest; import ptolemy.moml.MoMLUndoEntry; import ptolemy.util.CancelException; import ptolemy.util.MessageHandler; import ptolemy.util.StringUtilities; import ptole"
+    },
+    {
+      "chunk_id": 14,
+      "text": "import ptolemy.util.StringUtilities; import ptolemy.vergil.toolbox.MenuItemFactory; import ptolemy.vergil.toolbox.MoveAction; import ptolemy.vergil.tree.EntityTreeModel; import ptolemy.vergil.tree.PTree; import ptolemy.vergil.tree.PTreeMenuCreator;"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ree; import ptolemy.vergil.tree.PTreeMenuCreator; import ptolemy.vergil.tree.VisibleTreeModel; import diva.canvas.CanvasUtilities; import diva.canvas.Figure; import diva.canvas.JCanvas; import diva.canvas.Site; import diva.canvas.connector.FixedNorm"
+    },
+    {
+      "chunk_id": 16,
+      "text": "anvas.Site; import diva.canvas.connector.FixedNormalSite; import diva.canvas.connector.Terminal; import diva.canvas.event.LayerAdapter; import diva.canvas.event.LayerEvent; import diva.canvas.interactor.SelectionModel; import diva.graph.GraphControll"
+    },
+    {
+      "chunk_id": 17,
+      "text": "or.SelectionModel; import diva.graph.GraphController; import diva.graph.GraphEvent; import diva.graph.GraphModel; import diva.graph.GraphPane; import diva.graph.GraphUtilities; import diva.graph.JGraph; import diva.graph.basic.BasicLayoutTarget; impo"
+    },
+    {
+      "chunk_id": 18,
+      "text": "h; import diva.graph.basic.BasicLayoutTarget; import diva.graph.layout.LayoutTarget; import diva.graph.layout.LevelLayout; import diva.gui.GUIUtilities; import diva.gui.toolbox.JCanvasPanner; import diva.gui.toolbox.JContextMenu; import diva.util.jav"
+    },
+    {
+      "chunk_id": 19,
+      "text": "iva.gui.toolbox.JContextMenu; import diva.util.java2d.ShapeUtilities; import java.awt.BorderLayout; import java.awt.Color; import java.awt.Component; import java.awt.Dimension; import java.awt.Event; import java.awt.Frame; import java.awt.Graphics;"
+    },
+    {
+      "chunk_id": 20,
+      "text": "import java.awt.Frame; import java.awt.Graphics; import java.awt.Toolkit; import java.awt.datatransfer.Clipboard; import java.awt.datatransfer.ClipboardOwner; import java.awt.datatransfer.DataFlavor; import java.awt.datatransfer.StringSelection; imp"
+    },
+    {
+      "chunk_id": 21,
+      "text": "import java.awt.datatransfer.StringSelection; import java.awt.datatransfer.Transferable; import java.awt.event.ActionEvent; import java.awt.event.ActionListener; import java.awt.event.KeyEvent; import java.awt.geom.AffineTransform; import java.awt.g"
+    },
+    {
+      "chunk_id": 22,
+      "text": "t java.awt.geom.AffineTransform; import java.awt.geom.NoninvertibleTransformException; import java.awt.geom.Point2D; import java.awt.geom.Rectangle2D; import java.awt.print.PageFormat; import java.awt.print.Printable; import java.awt.print.PrinterExc"
+    },
+    {
+      "chunk_id": 23,
+      "text": ".print.Printable; import java.awt.print.PrinterException; import java.io.File; import java.io.IOException; import java.io.StringWriter; import java.net.URL; import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; import java.ut"
+    },
+    {
+      "chunk_id": 24,
+      "text": "HashSet; import java.util.Iterator; import java.util.List; import javax.swing.AbstractAction; import javax.swing.Action; import javax.swing.BoxLayout; import javax.swing.ImageIcon; import javax.swing.JComponent; import javax.swing.JFileChooser; impo"
+    },
+    {
+      "chunk_id": 25,
+      "text": ".JComponent; import javax.swing.JFileChooser; import javax.swing.JMenu; import javax.swing.JMenuItem; import javax.swing.JPanel; import javax.swing.JScrollPane; import javax.swing.JSplitPane; import javax.swing.JToolBar; import javax.swing.JTree; imp"
+    },
+    {
+      "chunk_id": 26,
+      "text": "avax.swing.JToolBar; import javax.swing.JTree; import javax.swing.KeyStroke; import javax.swing.SwingUtilities; ////////////////////////////////////////////////////////////////////////// //// BasicGraphFrame /** A simple graph view for ptolemy"
+    },
+    {
+      "chunk_id": 27,
+      "text": "raphFrame /** A simple graph view for ptolemy models. This represents a level of the hierarchy of a ptolemy model as a diva graph. Cut, copy and paste operations are supported using MoML. @author Steve Neuendorffer, Edward A. Lee, Co"
+    },
+    {
+      "chunk_id": 28,
+      "text": "@author Steve Neuendorffer, Edward A. Lee, Contributor: Chad Berkeley (Kepler) @version $Id$ @since Ptolemy II 2.0 @Pt.ProposedRating Red (neuendor) @Pt.AcceptedRating Red (johnr) */ public abstract class BasicGraphFrame extends Ptol"
+    },
+    {
+      "chunk_id": 29,
+      "text": "public abstract class BasicGraphFrame extends PtolemyFrame implements Printable, ClipboardOwner, ChangeListener { /** Construct a frame associated with the specified Ptolemy II"
+    },
+    {
+      "chunk_id": 30,
+      "text": "t a frame associated with the specified Ptolemy II model * or object. After constructing this, it is necessary * to call setVisible(true) to make the frame appear. * This is typically done by calling show() on the controlling tablea"
+    },
+    {
+      "chunk_id": 31,
+      "text": "y done by calling show() on the controlling tableau. * This constructor results in a graph frame that obtains its library * either from the model (if it has one) or the default library defined * in the configuration. * @see Ta"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ined * in the configuration. * @see Tableau#show() * @param entity The model or object to put in this frame. * @param tableau The tableau responsible for this frame. */ public BasicGraphFrame(NamedObj entity, Tableau"
+    },
+    {
+      "chunk_id": 33,
+      "text": "public BasicGraphFrame(NamedObj entity, Tableau tableau) { this(entity, tableau, null); } /** Construct a frame associated with the specified Ptolemy II model. * After constructing this, it is necessary * to call setVis"
+    },
+    {
+      "chunk_id": 34,
+      "text": "cting this, it is necessary * to call setVisible(true) to make the frame appear. * This is typically done by calling show() on the controlling tableau. * This constructor results in a graph frame that obtains its library * eit"
+    },
+    {
+      "chunk_id": 35,
+      "text": "a graph frame that obtains its library * either from the model (if it has one), or the defaultLibrary * argument (if it is non-null), or the default library defined * in the configuration. * @see Tableau#show() * @param entit"
+    },
+    {
+      "chunk_id": 36,
+      "text": ". * @see Tableau#show() * @param entity The model or object to put in this frame. * @param tableau The tableau responsible for this frame. * @param defaultLibrary An attribute specifying the default library * to use if"
+    },
+    {
+      "chunk_id": 37,
+      "text": "specifying the default library * to use if the model does not have a library. */ public BasicGraphFrame(NamedObj entity, Tableau tableau, LibraryAttribute defaultLibrary) { super(entity, tableau); entity.a"
+    },
+    {
+      "chunk_id": 38,
+      "text": "super(entity, tableau); entity.addChangeListener(this); getContentPane().setLayout(new BorderLayout()); GraphPane pane = _createGraphPane(); pane.getForegroundLayer().setPickHalo(2); _jgraph = new"
+    },
+    {
+      "chunk_id": 39,
+      "text": "undLayer().setPickHalo(2); _jgraph = new JGraph(pane); _dropTarget = new EditorDropTarget(_jgraph); ActionListener deletionListener = new ActionListener() { /** Delete any nodes or edges from the graph that"
+    },
+    {
+      "chunk_id": 40,
+      "text": "/** Delete any nodes or edges from the graph that are * currently selected. In addition, delete any edges * that are connected to any deleted nodes. */ public void actionPerformed("
+    },
+    {
+      "chunk_id": 41,
+      "text": "*/ public void actionPerformed(ActionEvent e) { delete(); } }; _jgraph.registerKeyboardAction(deletionListener, \"Delete\", KeyStroke.getKeyStroke(KeyEvent.VK_D"
+    },
+    {
+      "chunk_id": 42,
+      "text": "KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW); _jgraph.registerKeyboardAction(deletionListener, \"BackSpace\", KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0),"
+    },
+    {
+      "chunk_id": 43,
+      "text": "eyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW); _jgraph.setRequestFocusEnabled(true); pane.getForegroundEventLayer().setConsuming(false); pane.getForegroundEventLayer().se"
+    },
+    {
+      "chunk_id": 44,
+      "text": "(false); pane.getForegroundEventLayer().setEnabled(true); pane.getForegroundEventLayer().addLayerListener(new LayerAdapter() { /** Invoked when the mouse is pressed on a layer * or figure."
+    },
+    {
+      "chunk_id": 45,
+      "text": "a layer * or figure. */ public void mousePressed(LayerEvent event) { Component component = event.getComponent(); if (!component.hasFocus()) {"
+    },
+    {
+      "chunk_id": 46,
+      "text": "if (!component.hasFocus()) { component.requestFocus(); } } }); // We used to do this, but it would result in context menus // getting lost on the mac."
+    },
+    {
+      "chunk_id": 47,
+      "text": "t menus // getting lost on the mac. // _jgraph.addMouseListener(new FocusMouseListener()); _jgraph.setAlignmentX(1); _jgraph.setAlignmentY(1); _jgraph.setBackground(BACKGROUND_COLOR); try {"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ound(BACKGROUND_COLOR); try { // The SizeAttribute property is used to specify the size // of the JGraph component. Unfortunately, with Swing's // mysterious and undocumented handling of component sizes,"
+    },
+    {
+      "chunk_id": 49,
+      "text": "us and undocumented handling of component sizes, // there appears to be no way to control the size of the // JGraph from the size of the Frame, which is specified // by the WindowPropertiesAttribute. Si"
+    },
+    {
+      "chunk_id": 50,
+      "text": "/ by the WindowPropertiesAttribute. SizeAttribute size = (SizeAttribute) getModel().getAttribute(\"_vergilSize\", SizeAttribute.class); if (size != null) { size.setSize(_jgraph);"
+    },
+    {
+      "chunk_id": 51,
+      "text": "size.setSize(_jgraph); } else { // Set the default size. // Note that the location is of the frame, while the size // is of the scrollpane. _jgraph.setMinimumS"
+    },
+    {
+      "chunk_id": 52,
+      "text": "he scrollpane. _jgraph.setMinimumSize(new Dimension(200, 200)); _jgraph.setPreferredSize(new Dimension(600, 400)); _jgraph.setSize(600, 400); } // Set the zoom factor."
+    },
+    {
+      "chunk_id": 53,
+      "text": "} // Set the zoom factor. Parameter zoom = (Parameter) getModel().getAttribute(\"_vergilZoomFactor\", Parameter.class); if (zoom != null) { zoom(((DoubleToken) zoom.getToken())"
+    },
+    {
+      "chunk_id": 54,
+      "text": "zoom(((DoubleToken) zoom.getToken()).doubleValue()); // Make sure the visibility is only expert. zoom.setVisibility(Settable.EXPERT); } // Set the pan position. Param"
+    },
+    {
+      "chunk_id": 55,
+      "text": "// Set the pan position. Parameter pan = (Parameter) getModel().getAttribute(\"_vergilCenter\", Parameter.class); if (pan != null) { ArrayToken panToken = (ArrayToken) pan.getToken();"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ArrayToken panToken = (ArrayToken) pan.getToken(); Point2D center = new Point2D.Double(((DoubleToken) panToken .getElement(0)).doubleValue(), ((Double"
+    },
+    {
+      "chunk_id": 57,
+      "text": ")).doubleValue(), ((DoubleToken) panToken.getElement(1)).doubleValue()); setCenter(center); // Make sure the visibility is only expert. pan.setVisibility(Settable.EXPERT);"
+    },
+    {
+      "chunk_id": 58,
+      "text": "pan.setVisibility(Settable.EXPERT); } } catch (Throwable throwable) { // Ignore problems here. Errors simply result in a default // size and location. } // Create the panner."
+    },
+    {
+      "chunk_id": 59,
+      "text": "ion. } // Create the panner. _graphPanner = new JCanvasPanner(_jgraph); _graphPanner.setPreferredSize(new Dimension(200, 150)); _graphPanner.setMaximumSize(new Dimension(200, 150)); _graphPanner.setSiz"
+    },
+    {
+      "chunk_id": 60,
+      "text": "Dimension(200, 150)); _graphPanner.setSize(200, 150); // NOTE: Border causes all kinds of problems! // _graphPanner.setBorder(BorderFactory.createEtchedBorder()); // Create the library of actors, or use the one in th"
+    },
+    {
+      "chunk_id": 61,
+      "text": "Create the library of actors, or use the one in the entity, // if there is one. // FIXME: How do we make changes to the library persistent? boolean gotLibrary = false; try { LibraryAttribute libraryAttribu"
+    },
+    {
+      "chunk_id": 62,
+      "text": "try { LibraryAttribute libraryAttribute = (LibraryAttribute) entity .getAttribute(\"_library\", LibraryAttribute.class); if (libraryAttribute != null) { // The model contains a library."
+    },
+    {
+      "chunk_id": 63,
+      "text": "// The model contains a library. try { _topLibrary = libraryAttribute.getLibrary(); gotLibrary = true; } catch (SecurityException ex) { System.out.pr"
+    },
+    {
+      "chunk_id": 64,
+      "text": "yException ex) { System.out.println(\"Warning: failed to parse \" + \"_library attribute (running in an applet \" + \"or sandbox always causes this)\"); }"
+    },
+    {
+      "chunk_id": 65,
+      "text": "always causes this)\"); } } } catch (Exception ex) { try { MessageHandler.warning(\"Invalid library in the model.\", ex); } catch (CancelException e) { } }"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ch (CancelException e) { } } if (!gotLibrary) { try { if (defaultLibrary != null) { // A default library has been specified. _topLibrary = defaultLibrary"
+    },
+    {
+      "chunk_id": 67,
+      "text": ". _topLibrary = defaultLibrary.getLibrary(); gotLibrary = true; } } catch (SecurityException ex) { // Ignore, we are in an applet or sandbox. // We al"
+    },
+    {
+      "chunk_id": 68,
+      "text": "in an applet or sandbox. // We already printed a message, why print it again? } catch (Exception ex) { try { MessageHandler.warning(\"Invalid default library for the frame.\","
+    },
+    {
+      "chunk_id": 69,
+      "text": "valid default library for the frame.\", ex); } catch (CancelException e) { } } } if (!gotLibrary) { // Neither the model nor the argument have specifi"
+    },
+    {
+      "chunk_id": 70,
+      "text": "// Neither the model nor the argument have specified a library. // See if there is a default library in the configuration. _topLibrary = _createDefaultLibrary(entity.workspace()); } _libraryModel = new Visible"
+    },
+    {
+      "chunk_id": 71,
+      "text": ")); } _libraryModel = new VisibleTreeModel(_topLibrary); _library = new PTree(_libraryModel); _library.setRootVisible(false); _library.setBackground(BACKGROUND_COLOR); // If you want to expand the top"
+    },
+    {
+      "chunk_id": 72,
+      "text": "_COLOR); // If you want to expand the top-level libraries, uncomment this. /* Object[] path = new Object[2]; path[0] = topLibrary; Iterator libraries = topLibrary.entityList().iterator(); while"
+    },
+    {
+      "chunk_id": 73,
+      "text": "opLibrary.entityList().iterator(); while (libraries.hasNext()) { path[1] = libraries.next(); _library.expandPath(new TreePath(path)); } */ _libraryContextMenuCreator = new PTreeMenuCreator();"
+    },
+    {
+      "chunk_id": 74,
+      "text": "aryContextMenuCreator = new PTreeMenuCreator(); _libraryContextMenuCreator.addMenuItemFactory(new OpenLibraryMenuItemFactory()); _library.addMouseListener(_libraryContextMenuCreator); _libraryScrollPane = new JScrollPane(_lib"
+    },
+    {
+      "chunk_id": 75,
+      "text": "_libraryScrollPane = new JScrollPane(_library); _libraryScrollPane.setMinimumSize(new Dimension(200, 200)); _libraryScrollPane.setPreferredSize(new Dimension(200, 200)); // create the palette on the left. _pa"
+    },
+    {
+      "chunk_id": 76,
+      "text": "// create the palette on the left. _palettePane = new JPanel(); _palettePane.setBorder(null); _palettePane.setLayout(new BoxLayout(_palettePane, BoxLayout.Y_AXIS)); _palettePane.add(_libraryScrollPane, BorderLayou"
+    },
+    {
+      "chunk_id": 77,
+      "text": "_palettePane.add(_libraryScrollPane, BorderLayout.CENTER); _palettePane.add(_graphPanner, BorderLayout.SOUTH); _splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true); _splitPane.setLeftComponent(_palettePane);"
+    },
+    {
+      "chunk_id": 78,
+      "text": "_splitPane.setLeftComponent(_palettePane); _splitPane.setRightComponent(_jgraph); getContentPane().add(_splitPane, BorderLayout.CENTER); _toolbar = new JToolBar(); getContentPane().add(_toolbar, BorderLayout.NORTH);"
+    },
+    {
+      "chunk_id": 79,
+      "text": "etContentPane().add(_toolbar, BorderLayout.NORTH); GUIUtilities.addToolBarButton(_toolbar, _zoomInAction); GUIUtilities.addToolBarButton(_toolbar, _zoomResetAction); GUIUtilities.addToolBarButton(_toolbar, _zoomFitAction);"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ies.addToolBarButton(_toolbar, _zoomFitAction); GUIUtilities.addToolBarButton(_toolbar, _zoomOutAction); _cutAction = new CutAction(); _copyAction = new CopyAction(); _pasteAction = new PasteAction(); _moveTo"
+    },
+    {
+      "chunk_id": 81,
+      "text": "_pasteAction = new PasteAction(); _moveToBackAction = new MoveToBackAction(); _moveToFrontAction = new MoveToFrontAction(); } /////////////////////////////////////////////////////////////////// ////"
+    },
+    {
+      "chunk_id": 82,
+      "text": "/////////////////// //// public methods //// /** React to the fact that a change has been successfully executed * by marking the data associated with this window modified. This * will t"
+    },
+    {
+      "chunk_id": 83,
+      "text": "ed with this window modified. This * will trigger a dialog when the window is closed, prompting the * user to save the data. * @param change The change that has been executed. */ public void changeExecuted(ChangeRequest ch"
+    },
+    {
+      "chunk_id": 84,
+      "text": "*/ public void changeExecuted(ChangeRequest change) { boolean persistent = true; // If the change is null, do not mark the model modified, // but do update the graph panner. if (change != null) { persi"
+    },
+    {
+      "chunk_id": 85,
+      "text": "r. if (change != null) { persistent = change.isPersistent(); // Note that we don't want to accidently reset to false here. if (persistent) { setModified(persistent); } }"
+    },
+    {
+      "chunk_id": 86,
+      "text": "setModified(persistent); } } if (_graphPanner != null) { _graphPanner.repaint(); } } /** React to the fact that a change has triggered an error by * doing nothing (the effigy is also l"
+    },
+    {
+      "chunk_id": 87,
+      "text": "ror by * doing nothing (the effigy is also listening and will report * the error). * @param change The change that was attempted. * @param exception The exception that resulted. */ public void changeFailed(ChangeReque"
+    },
+    {
+      "chunk_id": 88,
+      "text": ". */ public void changeFailed(ChangeRequest change, Exception exception) { // Do not report if it has already been reported. if (change == null) { MessageHandler.error(\"Change failed\", exception); } else i"
+    },
+    {
+      "chunk_id": 89,
+      "text": "rror(\"Change failed\", exception); } else if (!change.isErrorReported()) { change.setErrorReported(true); MessageHandler.error(\"Change failed\", exception); } } /** Get the currently selected objects fro"
+    },
+    {
+      "chunk_id": 90,
+      "text": "} /** Get the currently selected objects from this document, if any, * and place them on the clipboard in MoML format. */ public void copy() { HashSet namedObjSet = _getSelectionSet(); StringWriter buffer = new St"
+    },
+    {
+      "chunk_id": 91,
+      "text": "lectionSet(); StringWriter buffer = new StringWriter(); try { NamedObj container = (NamedObj) _getGraphModel().getRoot(); // NOTE: The order in the model must be respected. Iterator elements = con"
+    },
+    {
+      "chunk_id": 92,
+      "text": "be respected. Iterator elements = container.sortContainedObjects(namedObjSet) .iterator(); while (elements.hasNext()) { NamedObj element = (NamedObj) elements.next(); // first"
+    },
+    {
+      "chunk_id": 93,
+      "text": "medObj) elements.next(); // first level to avoid obnoxiousness with // toplevel translations. element.exportMoML(buffer, 0); } if (container instanceof CompositeEntity) {"
+    },
+    {
+      "chunk_id": 94,
+      "text": "if (container instanceof CompositeEntity) { buffer.write(((CompositeEntity) container).exportLinks(1, namedObjSet)); } Clipboard clipboard = java.awt.Toolkit.getDefaultToo"
+    },
+    {
+      "chunk_id": 95,
+      "text": "ipboard clipboard = java.awt.Toolkit.getDefaultToolkit() .getSystemClipboard(); // The code below does not use a PtolemyTransferable, // to work around // a bug in the JDK that should be fixed as o"
+    },
+    {
+      "chunk_id": 96,
+      "text": "// a bug in the JDK that should be fixed as of jdk1.3.1. The bug // is that cut and paste through the system clipboard to native // applications doesn't work unless you use string selection. clipboard.setCont"
+    },
+    {
+      "chunk_id": 97,
+      "text": "se string selection. clipboard.setContents(new StringSelection(buffer.toString()), this); } catch (IOException ex) { MessageHandler.error(\"Copy failed\", ex); } } /** Create a typed composite actor that"
+    },
+    {
+      "chunk_id": 98,
+      "text": "} /** Create a typed composite actor that contains the selected actors * and connections. The created typed composite actor is transparent. * The resulting topology is the same in the sense * of deep connectivities. */"
+    },
+    {
+      "chunk_id": 99,
+      "text": "the sense * of deep connectivities. */ public void createHierarchy() { GraphController controller = _getGraphController(); SelectionModel model = controller.getSelectionModel(); GraphModel graphModel = controll"
+    },
+    {
+      "chunk_id": 100,
+      "text": "nModel(); GraphModel graphModel = controller.getGraphModel(); Object[] selection = model.getSelectionAsArray(); // A set, because some objects may represent the same // ptolemy object. HashSet namedObjSet = ne"
+    },
+    {
+      "chunk_id": 101,
+      "text": "/ ptolemy object. HashSet namedObjSet = new HashSet(); HashSet nodeSet = new HashSet(); StringBuffer newPorts = new StringBuffer(); StringBuffer extRelations = new StringBuffer(); StringBuffer extConnections ="
+    },
+    {
+      "chunk_id": 102,
+      "text": "ingBuffer(); StringBuffer extConnections = new StringBuffer(); StringBuffer intRelations = new StringBuffer(); StringBuffer intConnections = new StringBuffer(); // First get all the nodes. try { fi"
+    },
+    {
+      "chunk_id": 103,
+      "text": "st get all the nodes. try { final NamedObj container = (NamedObj) graphModel.getRoot(); if (!(container instanceof CompositeEntity)) { // This is an internal error because a reasonable GUI should not"
+    },
+    {
+      "chunk_id": 104,
+      "text": "ternal error because a reasonable GUI should not // provide access to this functionality. throw new InternalErrorException( \"Cannot create hierarchy if the container is not a CompositeEntity.\");"
+    },
+    {
+      "chunk_id": 105,
+      "text": "rchy if the container is not a CompositeEntity.\"); } final String name = container.uniqueName(\"CompositeActor\"); final TypedCompositeActor compositeActor = new TypedCompositeActor((CompositeEntity) container,"
+    },
+    {
+      "chunk_id": 106,
+      "text": "edCompositeActor((CompositeEntity) container, name); double[] location = new double[2]; boolean gotLocation = false; for (int i = 0; i < selection.length; i++) { if (selection["
+    },
+    {
+      "chunk_id": 107,
+      "text": "tion.length; i++) { if (selection[i] instanceof Figure) { if (!gotLocation) { location[0] = ((Figure) selection[i]).getBounds() .getCenterX();"
+    },
+    {
+      "chunk_id": 108,
+      "text": ".getCenterX(); location[1] = ((Figure) selection[i]).getBounds() .getCenterY(); gotLocation = true; } Object userObje"
+    },
+    {
+      "chunk_id": 109,
+      "text": "} Object userObject = ((Figure) selection[i]).getUserObject(); if (graphModel.isNode(userObject)) { nodeSet.add(userObject); NamedObj actual = (Nam"
+    },
+    {
+      "chunk_id": 110,
+      "text": "); NamedObj actual = (NamedObj) graphModel .getSemanticObject(userObject); namedObjSet.add(actual); } } } for (i"
+    },
+    {
+      "chunk_id": 111,
+      "text": "} } for (int i = 0; i < selection.length; i++) { if (selection[i] instanceof Figure) { Object userObject = ((Figure) selection[i]).getUserObject(); if (g"
+    },
+    {
+      "chunk_id": 112,
+      "text": "on[i]).getUserObject(); if (graphModel.isEdge(userObject)) { // Check to see if the head and tail are both being // selected. Object head = graphModel.getHea"
+    },
+    {
+      "chunk_id": 113,
+      "text": "Object head = graphModel.getHead(userObject); //System.out.println(\"head:\" +((NamedObj)head).getName()); Object tail = graphModel.getTail(userObject); //Syst"
+    },
+    {
+      "chunk_id": 114,
+      "text": "tTail(userObject); //System.out.println(\"tail:\" +((NamedObj)tail).getName()); boolean headOK = nodeSet.contains(head); boolean tailOK = nodeSet.contains(tail);"
+    },
+    {
+      "chunk_id": 115,
+      "text": "tailOK = nodeSet.contains(tail); Iterator objects = nodeSet.iterator(); while (!(headOK && tailOK) && objects.hasNext()) { Object object = objects.next();"
+    },
+    {
+      "chunk_id": 116,
+      "text": "Object object = objects.next(); if (!headOK && GraphUtilities.isContainedNode( head, object, graphModel)) { h"
+    },
+    {
+      "chunk_id": 117,
+      "text": ", graphModel)) { headOK = true; } if (!tailOK && GraphUtilities.isContainedNode("
+    },
+    {
+      "chunk_id": 118,
+      "text": "Node( tail, object, graphModel)) { tailOK = true; } } // For the edges at the boundary."
+    },
+    {
+      "chunk_id": 119,
+      "text": "// For the edges at the boundary. if ((!headOK && tailOK) || (headOK && !tailOK)) { IOPort port = null; IORelation relation = null; boo"
+    },
+    {
+      "chunk_id": 120,
+      "text": "n relation = null; boolean duplicateRelation = false; if (head instanceof IOPort) { port = (IOPort) head; if (tail instanceof IO"
+    },
+    {
+      "chunk_id": 121,
+      "text": "if (tail instanceof IOPort) { relation = (IORelation) graphModel .getSemanticObject(userObject); duplicateRela"
+    },
+    {
+      "chunk_id": 122,
+      "text": "duplicateRelation = true; } else { relation = (IORelation) graphModel .getSemanticObject(tail);"
+    },
+    {
+      "chunk_id": 123,
+      "text": ".getSemanticObject(tail); } } else if (tail instanceof IOPort) { port = (IOPort) tail; relation = (IORelation)"
+    },
+    {
+      "chunk_id": 124,
+      "text": "relation = (IORelation) graphModel .getSemanticObject(head); } if (port != null) { ComponentEntity"
+    },
+    {
+      "chunk_id": 125,
+      "text": "{ ComponentEntity entity = (ComponentEntity) ((IOPort) port) .getContainer(); String portName = \"port_\" + i; boolean i"
+    },
+    {
+      "chunk_id": 126,
+      "text": "t_\" + i; boolean isInput = ((IOPort) port).isInput(); boolean isOutput = ((IOPort) port).isOutput(); newPorts.append(\" \\n\");"
+    },
+    {
+      "chunk_id": 127,
+      "text": "Ports.append(\" \\n\"); if (namedObjSet.contains(entity)) { // The port is inside the hierarchy. // The relation must be outside."
+    },
+    {
+      "chunk_id": 128,
+      "text": "/ The relation must be outside. // Create composite port. if (isInput) { newPorts.append("
+    },
+    {
+      "chunk_id": 129,
+      "text": "( \" \"); } if (isOutput) { newPorts.append("
+    },
+    {
+      "chunk_id": 130,
+      "text": "nd( \" \"); } newPorts.append(\"\\n \\n\"); // Create internal relation and links."
+    },
+    {
+      "chunk_id": 131,
+      "text": "reate internal relation and links. // Note we can only partially reuse // the relation name, one original relation // can be two internal rela"
+    },
+    {
+      "chunk_id": 132,
+      "text": "// can be two internal relations. String relationName = relation.getName() + \"_\" + i; intRelations.append(\" \\n\");"
+    },
+    {
+      "chunk_id": 133,
+      "text": "intRelations.append(\" \\n\"); intConnections.append(\" \\n\"); intConnections.append(\" \\n\"); // Create external links."
+    },
+    {
+      "chunk_id": 134,
+      "text": "// Create external links. if (duplicateRelation) { extRelations.append(\" \\n\"); IOPort otherPort = (IOPort) tail;"
+    },
+    {
+      "chunk_id": 135,
+      "text": "IOPort otherPort = (IOPort) tail; ComponentEntity otherEntity = (ComponentEntity) otherPort .getContainer(); if"
+    },
+    {
+      "chunk_id": 136,
+      "text": "ner(); if (otherEntity == container) { // This is a boundy port at a higher level. extConnections.append("
+    },
+    {
+      "chunk_id": 137,
+      "text": "extConnections.append( \" \\n\"); } else { extConnections.append("
+    },
+    {
+      "chunk_id": 138,
+      "text": "ns.append( \" \\n\"); } } extConnections.append(\" \\n\");"
+    },
+    {
+      "chunk_id": 139,
+      "text": "ns.append(\" \\n\"); } else { // The port is outside the hierarchy. // The relation must be inside. if (isInput)"
+    },
+    {
+      "chunk_id": 140,
+      "text": "if (isInput) { newPorts.append( \" \"); } if (isOutput"
+    },
+    {
+      "chunk_id": 141,
+      "text": "if (isOutput) { newPorts.append( \" \"); } newPorts.a"
+    },
+    {
+      "chunk_id": 142,
+      "text": "} newPorts.append(\"\\n \\n\"); String relationName = relation.getName() + \"_\" + i; extRelations.append"
+    },
+    {
+      "chunk_id": 143,
+      "text": "extRelations.append(\" \\n\"); extConnections.append(\" \\n\"); extConnections.append(\" \\n\"); // Create external lin"
+    },
+    {
+      "chunk_id": 144,
+      "text": "// Create external links. if (duplicateRelation) { intRelations.append(\" \\n\"); IOPort otherPort = (IOPort"
+    },
+    {
+      "chunk_id": 145,
+      "text": "IOPort otherPort = (IOPort) tail; ComponentEntity otherEntity = (ComponentEntity) otherPort .getContainer();"
+    },
+    {
+      "chunk_id": 146,
+      "text": ".getContainer(); intConnections.append(\" \\n\"); } intConnections.append(\" \\n\"); }"
+    },
+    {
+      "chunk_id": 147,
+      "text": "} } } else if (!headOK && !tailOK) { // We only selected an edge. Build one input // port, one output port for it, and"
+    },
+    {
+      "chunk_id": 148,
+      "text": "// port, one output port for it, and build // a direct connection. } } } } //System.out.println(\" new port:\" + newPorts);"
+    },
+    {
+      "chunk_id": 149,
+      "text": "//System.out.println(\" new port:\" + newPorts); //final Point2D point = new Point2D.Double(); // Copy the selection. copy(); _deleteWithoutUndo(); // Create the MoML command. S"
+    },
+    {
+      "chunk_id": 150,
+      "text": "// Create the MoML command. StringBuffer moml = new StringBuffer(); // If the dropObj defers to something else, then we // have to check the parent of the object // for import attributes, and"
+    },
+    {
+      "chunk_id": 151,
+      "text": "object // for import attributes, and then we have to // generate import statements. Note that everything // imported by the parent will be imported now by // the object into which this is dropped."
+    },
+    {
+      "chunk_id": 152,
+      "text": "// the object into which this is dropped. moml.append(\" \\n\"); moml.append(\" \\n\"); moml.append(\"\\t \\n\"); moml.append(\"\\t \\n\"); moml.append(newPorts); // additional ports."
+    },
+    {
+      "chunk_id": 153,
+      "text": "nd(newPorts); // additional ports. Clipboard clipboard = java.awt.Toolkit.getDefaultToolkit() .getSystemClipboard(); Transferable transferable = clipboard.getContents(this); try {"
+    },
+    {
+      "chunk_id": 154,
+      "text": "ipboard.getContents(this); try { moml.append((String) transferable.getTransferData( DataFlavor.stringFlavor)); } catch (Exception ex) { MessageHandler.error("
+    },
+    {
+      "chunk_id": 155,
+      "text": "eption ex) { MessageHandler.error(\"Paste within Create Hierarchy failed\", ex); } // internal connections moml.append(intRelations); moml.append(intConnections); moml.append("
+    },
+    {
+      "chunk_id": 156,
+      "text": "l.append(intConnections); moml.append(\" \\n\"); // external relations. moml.append(extRelations); moml.append(extConnections); // external connections. moml.append(\" \\n\");"
+    },
+    {
+      "chunk_id": 157,
+      "text": "onnections. moml.append(\" \\n\"); //System.out.println(moml.toString()); ChangeRequest request = null; request = new MoMLChangeRequest(this, container, moml.toString()) { protected v"
+    },
+    {
+      "chunk_id": 158,
+      "text": "moml.toString()) { protected void _execute() throws Exception { super._execute(); NamedObj newObject = ((CompositeEntity) container) .getEntity(name);"
+    },
+    {
+      "chunk_id": 159,
+      "text": ") .getEntity(name); //_setLocation(compositeActor, point); } }; container.requestChange(request); } catch (Throwable throwable) {"
+    },
+    {
+      "chunk_id": 160,
+      "text": "} catch (Throwable throwable) { MessageHandler.error(\"Creating hierarchy failed\", throwable); } } /** Remove the currently selected objects from this document, if any, * and place them on the clipboard."
+    },
+    {
+      "chunk_id": 161,
+      "text": "any, * and place them on the clipboard. */ public void cut() { copy(); delete(); } /** Delete the currently selected objects from this document. */ public void delete() { // Note that we previo"
+    },
+    {
+      "chunk_id": 162,
+      "text": "lic void delete() { // Note that we previously a delete was handled at the model level. // Now a delete is handled by generating MoML to carry out the delete // and handing that MoML to the parser GraphController contr"
+    },
+    {
+      "chunk_id": 163,
+      "text": "t MoML to the parser GraphController controller = _getGraphController(); SelectionModel model = controller.getSelectionModel(); AbstractBasicGraphModel graphModel = (AbstractBasicGraphModel) controller .getGraphMo"
+    },
+    {
+      "chunk_id": 164,
+      "text": "asicGraphModel) controller .getGraphModel(); Object[] selection = model.getSelectionAsArray(); // First collect selected objects into the userObjects array // and deselect them. Object[] userObjects = new"
+    },
+    {
+      "chunk_id": 165,
+      "text": "deselect them. Object[] userObjects = new Object[selection.length]; for (int i = 0; i < selection.length; i++) { userObjects[i] = ((Figure) selection[i]).getUserObject(); model.removeSelection(selection[i]);"
+    },
+    {
+      "chunk_id": 166,
+      "text": "model.removeSelection(selection[i]); } // Create a set to hold those elements whose deletion // does not go through MoML. This is only links that // are not connected to another port or a relation."
+    },
+    {
+      "chunk_id": 167,
+      "text": "t connected to another port or a relation. HashSet edgeSet = new HashSet(); // Generate the MoML to carry out the deletion StringBuffer moml = new StringBuffer(\" \\n\"); // Delete edges then nodes, since deleting relat"
+    },
+    {
+      "chunk_id": 168,
+      "text": "// Delete edges then nodes, since deleting relations may // result in deleting links to that relation. for (int i = 0; i < selection.length; i++) { Object userObject = userObjects[i]; if (graphModel.isEdge(u"
+    },
+    {
+      "chunk_id": 169,
+      "text": "erObjects[i]; if (graphModel.isEdge(userObject)) { NamedObj actual = (NamedObj) graphModel.getSemanticObject(userObject); // If there is no semantic object, then this edge is // not fully"
+    },
+    {
+      "chunk_id": 170,
+      "text": "t, then this edge is // not fully connected, so we can't go through MoML. if (actual == null) { edgeSet.add(userObject); } else { moml.append(graphModel.getDelete"
+    },
+    {
+      "chunk_id": 171,
+      "text": "moml.append(graphModel.getDeleteEdgeMoML(userObject)); } } } for (int i = 0; i < selection.length; i++) { Object userObject = userObjects[i]; if (graphModel.isNod"
+    },
+    {
+      "chunk_id": 172,
+      "text": "userObjects[i]; if (graphModel.isNode(userObject)) { moml.append(graphModel.getDeleteNodeMoML(userObject)); } } moml.append(\" \\n\"); // Have both MoML to perform deletion and set of o"
+    },
+    {
+      "chunk_id": 173,
+      "text": "// Have both MoML to perform deletion and set of objects whose // deletion does not go through MoML. This set of objects // should be very small and so far consists of only links that are not // connected to a relation"
+    },
+    {
+      "chunk_id": 174,
+      "text": "are not // connected to a relation try { // First manually delete any objects whose deletion does not go // through MoML and so are not undoable // Note that we turn off event dispatching so that ea"
+    },
+    {
+      "chunk_id": 175,
+      "text": "Note that we turn off event dispatching so that each individual // removal does not trigger graph redrawing. graphModel.setDispatchEnabled(false); Iterator edges = edgeSet.iterator(); while (edges.has"
+    },
+    {
+      "chunk_id": 176,
+      "text": "edgeSet.iterator(); while (edges.hasNext()) { Object nextEdge = edges.next(); if (graphModel.isEdge(nextEdge)) { graphModel.disconnectEdge(this, nextEdge); }"
+    },
+    {
+      "chunk_id": 177,
+      "text": "tEdge(this, nextEdge); } } } finally { graphModel.setDispatchEnabled(true); } // Next process the deletion MoML. This should be the large majority // of most deletions."
+    },
+    {
+      "chunk_id": 178,
+      "text": "ge majority // of most deletions. try { // Finally create and request the change NamedObj container = graphModel.getPtolemyModel(); MoMLChangeRequest change = new MoMLChangeRequest(this, container,"
+    },
+    {
+      "chunk_id": 179,
+      "text": "t change = new MoMLChangeRequest(this, container, moml.toString()); change.setUndoable(true); container.requestChange(change); } catch (Exception ex) { MessageHandler.error(\"Delete faile"
+    },
+    {
+      "chunk_id": 180,
+      "text": ") { MessageHandler.error(\"Delete failed, changeRequest was:\" + moml, ex); } graphModel.dispatchGraphEvent(new GraphEvent(this, GraphEvent.STRUCTURE_CHANGED, graphModel.getRoot"
+    },
+    {
+      "chunk_id": 181,
+      "text": "GraphEvent.STRUCTURE_CHANGED, graphModel.getRoot())); } /** Override the dispose method to unattach any listeners that may keep * this model from getting garbage collected. */ public void dispose() { // Remove the as"
+    },
+    {
+      "chunk_id": 182,
+      "text": "public void dispose() { // Remove the association with the library. This is necessary to allow // this frame, and the rest of the model to be properly garbage // collected _libraryModel.setRoot(null); super.d"
+    },
+    {
+      "chunk_id": 183,
+      "text": "_libraryModel.setRoot(null); super.dispose(); } /** Return the center location of the visible part of the pane. * @return The center of the visible part. */ public Point2D getCenter() { Rectangle2D rect ="
+    },
+    {
+      "chunk_id": 184,
+      "text": "c Point2D getCenter() { Rectangle2D rect = getVisibleCanvasRectangle(); return new Point2D.Double(rect.getCenterX(), rect.getCenterY()); } /** Return the JGraph instance that this view uses to represent the * ptolemy mo"
+    },
+    {
+      "chunk_id": 185,
+      "text": "this view uses to represent the * ptolemy model. */ public JGraph getJGraph() { return _jgraph; } /** Return the rectangle representing the visible part of the * pane, transformed into canvas coordinates. This i"
+    },
+    {
+      "chunk_id": 186,
+      "text": "pane, transformed into canvas coordinates. This is the range * of locations that are visible, given the current pan and zoom. * @return The rectangle representing the visible part. */ public Rectangle2D getVisibleCanvasRectangle"
+    },
+    {
+      "chunk_id": 187,
+      "text": "/ public Rectangle2D getVisibleCanvasRectangle() { AffineTransform current = _jgraph.getCanvasPane().getTransformContext() .getTransform(); AffineTransform inverse; try { inverse = current.createIn"
+    },
+    {
+      "chunk_id": 188,
+      "text": "try { inverse = current.createInverse(); } catch (NoninvertibleTransformException e) { throw new RuntimeException(e.toString()); } Rectangle2D visibleRect = getVisibleRectangle(); return"
+    },
+    {
+      "chunk_id": 189,
+      "text": "sibleRect = getVisibleRectangle(); return ShapeUtilities.transformBounds(visibleRect, inverse); } /** Return the rectangle representing the visible part of the * pane, in pixel coordinates on the screen. * @return A rect"
+    },
+    {
+      "chunk_id": 190,
+      "text": "coordinates on the screen. * @return A rectangle whose upper left corner is at (0, 0) and whose * size is the size of the canvas component. */ public Rectangle2D getVisibleRectangle() { Dimension size = _jgraph.getSize()"
+    },
+    {
+      "chunk_id": 191,
+      "text": "gle() { Dimension size = _jgraph.getSize(); return new Rectangle2D.Double(0, 0, size.getWidth(), size.getHeight()); } /** Layout the graph view. */ public void layoutGraph() { GraphController controller = _ge"
+    },
+    {
+      "chunk_id": 192,
+      "text": "Graph() { GraphController controller = _getGraphController(); AbstractBasicGraphModel model = _getGraphModel(); LayoutTarget target = new PtolemyLayoutTarget(controller); PtolemyLayout layout = new PtolemyLayout(target"
+    },
+    {
+      "chunk_id": 193,
+      "text": "PtolemyLayout layout = new PtolemyLayout(target); layout.setOrientation(LevelLayout.HORIZONTAL); layout.setRandomizedPlacement(false); // Before doing the layout, need to take a copy of all the current // node loca"
+    },
+    {
+      "chunk_id": 194,
+      "text": "ake a copy of all the current // node locations which can be used to undo the effects of the move. try { NamedObj composite = model.getPtolemyModel(); StringBuffer moml = new StringBuffer(); moml.a"
+    },
+    {
+      "chunk_id": 195,
+      "text": "ffer moml = new StringBuffer(); moml.append(\" \\n\"); // NOTE: this gives at iteration over locations. Iterator nodes = model.nodes(composite); while (nodes.hasNext()) { Location locatio"
+    },
+    {
+      "chunk_id": 196,
+      "text": "odes.hasNext()) { Location location = (Location) nodes.next(); // Get the containing element NamedObj element = (NamedObj) location.getContainer(); // Give default values in case the p"
+    },
+    {
+      "chunk_id": 197,
+      "text": "// Give default values in case the previous locations value // has not yet been set String expression = location.getExpression(); if (expression == null) { expression"
+    },
+    {
+      "chunk_id": 198,
+      "text": "ression == null) { expression = \"0, 0\"; } // Create the MoML, wrapping the location attribute // in an element refering to the container String containingElementName"
+    },
+    {
+      "chunk_id": 199,
+      "text": "ainer String containingElementName = element.getElementName(); moml.append(\"<\" + containingElementName + \" name=\\\"\" + element.getName() + \"\\\" >\\n\"); // NOTE: use the moml info e"
+    },
+    {
+      "chunk_id": 200,
+      "text": "n\"); // NOTE: use the moml info element name here in case the // location is a vertex moml.append(\"<\" + location.getElementName() + \" name=\\\"\" + location.getName() + \"\\\" value=\\"
+    },
+    {
+      "chunk_id": 201,
+      "text": "+ location.getName() + \"\\\" value=\\\"\" + expression + \"\\\" />\\n\"); moml.append(\" \\n\"); } moml.append(\" \\n\"); // Push the undo entry onto the stack"
+    },
+    {
+      "chunk_id": 202,
+      "text": "// Push the undo entry onto the stack MoMLUndoEntry undoEntry = new MoMLUndoEntry(composite, moml.toString()); UndoStackAttribute undoInfo = UndoStackAttribute.getUndoInfo(composite); undoInfo.p"
+    },
+    {
+      "chunk_id": 203,
+      "text": "ute.getUndoInfo(composite); undoInfo.push(undoEntry); } catch (Throwable throwable) { // operation not undoable } // Perform the layout and repaint layout.layout(model.getRoot()); _jgra"
+    },
+    {
+      "chunk_id": 204,
+      "text": "layout.layout(model.getRoot()); _jgraph.repaint(); _graphPanner.repaint(); } /** Do nothing. */ public void lostOwnership(Clipboard clipboard, Transferable transferable) { } /** Assuming the contents of"
+    },
+    {
+      "chunk_id": 205,
+      "text": "ferable) { } /** Assuming the contents of the clipboard is MoML code, paste it into * the current model by issuing a change request. */ public void paste() { Clipboard clipboard = java.awt.Toolkit.getDefaultToolkit()"
+    },
+    {
+      "chunk_id": 206,
+      "text": "clipboard = java.awt.Toolkit.getDefaultToolkit() .getSystemClipboard(); Transferable transferable = clipboard.getContents(this); GraphModel model = _getGraphModel(); if (transferable == null) { return;"
+    },
+    {
+      "chunk_id": 207,
+      "text": "if (transferable == null) { return; } try { NamedObj container = (NamedObj) model.getRoot(); StringBuffer moml = new StringBuffer(); // The pasted version will have the names genera"
+    },
+    {
+      "chunk_id": 208,
+      "text": "// The pasted version will have the names generated by the // uniqueName() method of the container, to ensure that they // do not collide with objects already in the container. moml.append(\" \\n\"); //"
+    },
+    {
+      "chunk_id": 209,
+      "text": "r. moml.append(\" \\n\"); // Pasted items no longer line up on top of each other. moml.append(offsetPastedMomlLocation( (String) transferable.getTransferData("
+    },
+    {
+      "chunk_id": 210,
+      "text": "ferable.getTransferData( DataFlavor.stringFlavor), 10, 10)); moml.append(\" \\n\"); MoMLChangeRequest change = new MoMLChangeRequest(this, container, moml.toString());"
+    },
+    {
+      "chunk_id": 211,
+      "text": ", container, moml.toString()); change.setUndoable(true); container.requestChange(change); } catch (Exception ex) { MessageHandler.error(\"Paste failed\", ex); } } /** Prin"
+    },
+    {
+      "chunk_id": 212,
+      "text": "\"Paste failed\", ex); } } /** Print the visible portion of the graph to a printer, * which is represented by the specified graphics object. * @param graphics The context into which the page is drawn. * @param format"
+    },
+    {
+      "chunk_id": 213,
+      "text": "to which the page is drawn. * @param format The size and orientation of the page being drawn. * @param index The zero based index of the page to be drawn. * @return PAGE_EXISTS if the page is rendered successfully, or * NO_SU"
+    },
+    {
+      "chunk_id": 214,
+      "text": "e page is rendered successfully, or * NO_SUCH_PAGE if pageIndex specifies a non-existent page. * @exception PrinterException If the print job is terminated. */ public int print(Graphics graphics, PageFormat format, int index)"
+    },
+    {
+      "chunk_id": 215,
+      "text": "raphics graphics, PageFormat format, int index) throws PrinterException { if (_jgraph != null) { Rectangle2D view = getVisibleRectangle(); return _jgraph.print(graphics, format, index, view); } else"
+    },
+    {
+      "chunk_id": 216,
+      "text": "int(graphics, format, index, view); } else { return NO_SUCH_PAGE; } } /** Redo the last undone change on the model */ public void redo() { GraphModel model = _getGraphModel(); try {"
+    },
+    {
+      "chunk_id": 217,
+      "text": "del model = _getGraphModel(); try { NamedObj toplevel = (NamedObj) model.getRoot(); RedoChangeRequest change = new RedoChangeRequest(this, toplevel); toplevel.requestChange(change); } catch (Except"
+    },
+    {
+      "chunk_id": 218,
+      "text": "vel.requestChange(change); } catch (Exception ex) { MessageHandler.error(\"Redo failed\", ex); } } /** Open a file browser and save the given entity in the file specified * by the user. * @param entity T"
+    },
+    {
+      "chunk_id": 219,
+      "text": "ified * by the user. * @param entity The entity to save. * @exception If something goes wrong. * @since Ptolemy 4.0 */ public void saveComponentInFile(Entity entity) throws Exception { // NOTE: This mirrors si"
+    },
+    {
+      "chunk_id": 220,
+      "text": "hrows Exception { // NOTE: This mirrors similar code in Top and TableauFrame, but // I can't find any way to re-use that code, since the details // are slightly different at each step here. JFileChooser fileDialog = ne"
+    },
+    {
+      "chunk_id": 221,
+      "text": "ch step here. JFileChooser fileDialog = new JFileChooser(); fileDialog.setDialogTitle(\"Save actor as...\"); if (_directory != null) { fileDialog.setCurrentDirectory(_directory); } else { // The"
+    },
+    {
+      "chunk_id": 222,
+      "text": "(_directory); } else { // The default on Windows is to open at user.home, which is // typically not what we want. // So we use the current directory instead. // This will fail with a security ex"
+    },
+    {
+      "chunk_id": 223,
+      "text": ". // This will fail with a security exception in applets. String currentWorkingDirectory = StringUtilities.getProperty( \"user.dir\"); if (currentWorkingDirectory != null) { fileD"
+    },
+    {
+      "chunk_id": 224,
+      "text": "tWorkingDirectory != null) { fileDialog.setCurrentDirectory(new File(currentWorkingDirectory)); } } fileDialog.setSelectedFile(new File(fileDialog.getCurrentDirectory(),"
+    },
+    {
+      "chunk_id": 225,
+      "text": "ntDirectory(), entity.getName() + \".xml\")); // Show the dialog. int returnVal = fileDialog.showSaveDialog(this); if (returnVal == JFileChooser.APPROVE_OPTION) { File fil"
+    },
+    {
+      "chunk_id": 226,
+      "text": "FileChooser.APPROVE_OPTION) { File file = fileDialog.getSelectedFile(); if (!_confirmFile(entity, file)) { return; } // Record the selected directory. _directory = fileDial"
+    },
+    {
+      "chunk_id": 227,
+      "text": "ected directory. _directory = fileDialog.getCurrentDirectory(); java.io.FileWriter fileWriter = null; try { fileWriter = new java.io.FileWriter(file); // Make sure the entity name"
+    },
+    {
+      "chunk_id": 228,
+      "text": "le); // Make sure the entity name saved matches the file name. String name = entity.getName(); String filename = file.getName(); int period = filename.indexOf(\".\"); if"
+    },
+    {
+      "chunk_id": 229,
+      "text": "riod = filename.indexOf(\".\"); if (period > 0) { name = filename.substring(0, period); } else { name = filename; } fileWriter.write(\" \\n\""
+    },
+    {
+      "chunk_id": 230,
+      "text": "} fileWriter.write(\" \\n\" + \" \\n\"); entity.exportMoML(fileWriter, 0, name); } finally { if (fileWriter != null) { fileWriter.close();"
+    },
+    {
+      "chunk_id": 231,
+      "text": "fileWriter.close(); } } } } /** Save the given entity in the user library in the given * configuration. * @param configuration The configuration. * @param entity The e"
+    },
+    {
+      "chunk_id": 232,
+      "text": "ion The configuration. * @param entity The entity to save. * @since Ptolemy 2.1 */ public static void saveComponentInLibrary(Configuration configuration, Entity entity) { try { CompositeEntity libr"
+    },
+    {
+      "chunk_id": 233,
+      "text": ") { try { CompositeEntity libraryInstance = (CompositeEntity) configuration.getEntity( \"actor library.\" + VERGIL_USER_LIBRARY_NAME); if (libraryInstance == null) { M"
+    },
+    {
+      "chunk_id": 234,
+      "text": "if (libraryInstance == null) { MessageHandler.error(\"Save In Library failed: \" + \"Could not find user library with name \\\"\" + VERGIL_USER_LIBRARY_NAME + \"\\\".\"); return;"
+    },
+    {
+      "chunk_id": 235,
+      "text": "SER_LIBRARY_NAME + \"\\\".\"); return; } // Note that the library in the configuration is an // instance of another model. We have to go get the // original model to make sure that the cha"
+    },
+    {
+      "chunk_id": 236,
+      "text": "// original model to make sure that the change propagates // back to the file from which the library is loaded from. Tableau libraryTableau = configuration.openModel(libraryInstance); PtolemyEffigy libraryEf"
+    },
+    {
+      "chunk_id": 237,
+      "text": "raryInstance); PtolemyEffigy libraryEffigy = (PtolemyEffigy)libraryTableau.getContainer(); CompositeEntity library = (CompositeEntity)libraryEffigy.getModel(); StringWriter buffer ="
+    },
+    {
+      "chunk_id": 238,
+      "text": "igy.getModel(); StringWriter buffer = new StringWriter(); // Check whether there is already something existing in the // user library with this name. if (library.getEntity(entity.getName()) != null) {"
+    },
+    {
+      "chunk_id": 239,
+      "text": "if (library.getEntity(entity.getName()) != null) { MessageHandler.error(\"Save In Library failed: An object\" + \" already exists in the user library with name \" + \"\\\"\" + entity.getName() +"
+    },
+    {
+      "chunk_id": 240,
+      "text": "\"\\\"\" + entity.getName() + \"\\\".\"); return; } entity.exportMoML(buffer, 1); ChangeRequest request = new MoMLChangeRequest(entity, library, buffer.toStrin"
+    },
+    {
+      "chunk_id": 241,
+      "text": "ntity, library, buffer.toString()); library.requestChange(request); } catch (IOException ex) { // Ignore. } catch (KernelException ex) { // Ignore. } } /** Set t"
+    },
+    {
+      "chunk_id": 242,
+      "text": "// Ignore. } } /** Set the center location of the visible part of the pane. * This will cause the panner to center on the specified location * with the current zoom factor. * @param center The center of the"
+    },
+    {
+      "chunk_id": 243,
+      "text": "om factor. * @param center The center of the visible part. */ public void setCenter(Point2D center) { Rectangle2D visibleRect = getVisibleCanvasRectangle(); AffineTransform newTransform = _jgraph.getCanvasPane()"
+    },
+    {
+      "chunk_id": 244,
+      "text": "orm newTransform = _jgraph.getCanvasPane() .getTransformContext() .getTransform(); newTransform.translate(visibleRect.getCenterX() - center.getX(), visibleRect.getCenterY() - center.getY()); _"
+    },
+    {
+      "chunk_id": 245,
+      "text": "ibleRect.getCenterY() - center.getY()); _jgraph.getCanvasPane().setTransform(newTransform); } /** Undo the last undoable change on the model */ public void undo() { GraphModel model = _getGraphModel(); try"
+    },
+    {
+      "chunk_id": 246,
+      "text": "GraphModel model = _getGraphModel(); try { NamedObj toplevel = (NamedObj) model.getRoot(); UndoChangeRequest change = new UndoChangeRequest(this, toplevel); toplevel.requestChange(change); } catch"
+    },
+    {
+      "chunk_id": 247,
+      "text": "toplevel.requestChange(change); } catch (Exception ex) { MessageHandler.error(\"Undo failed\", ex); } } /** Zoom in or out to magnify by the specified factor, from the current * magnification. * @param"
+    },
+    {
+      "chunk_id": 248,
+      "text": "the current * magnification. * @param factor The magnification factor (relative to 1.0). */ public void zoom(double factor) { JCanvas canvas = _jgraph.getGraphPane().getCanvas(); AffineTransform current = canvas."
+    },
+    {
+      "chunk_id": 249,
+      "text": "anvas(); AffineTransform current = canvas.getCanvasPane().getTransformContext() .getTransform(); // Save the center, so we remember what we were looking at. Point2D center = getCenter(); current.scale(fact"
+    },
+    {
+      "chunk_id": 250,
+      "text": "D center = getCenter(); current.scale(factor, factor); canvas.getCanvasPane().setTransform(current); // Reset the center. setCenter(center); if (_graphPanner != null) { _graphPanner.repaint();"
+    },
+    {
+      "chunk_id": 251,
+      "text": "!= null) { _graphPanner.repaint(); } } /** Zoom to fit the current figures. */ public void zoomFit() { GraphPane pane = _jgraph.getGraphPane(); Rectangle2D bounds = pane.getForegroundLayer().getLa"
+    },
+    {
+      "chunk_id": 252,
+      "text": "ctangle2D bounds = pane.getForegroundLayer().getLayerBounds(); if (bounds.isEmpty()) { // Empty diagram. return; } Rectangle2D viewSize = getVisibleRectangle(); AffineTransform newTransform ="
+    },
+    {
+      "chunk_id": 253,
+      "text": "ctangle(); AffineTransform newTransform = CanvasUtilities.computeFitTransform(bounds, viewSize); JCanvas canvas = pane.getCanvas(); canvas.getCanvasPane().setTransform(newTransform); if (_graphPanner !"
+    },
+    {
+      "chunk_id": 254,
+      "text": "ansform(newTransform); if (_graphPanner != null) { _graphPanner.repaint(); } } /** Set zoom to the nominal. */ public void zoomReset() { JCanvas canvas = _jgraph.getGraphPane().getCanvas();"
+    },
+    {
+      "chunk_id": 255,
+      "text": "canvas = _jgraph.getGraphPane().getCanvas(); AffineTransform current = canvas.getCanvasPane().getTransformContext() .getTransform(); current.setToIdentity(); canvas.getCanvasPane().setTransform(current); i"
+    },
+    {
+      "chunk_id": 256,
+      "text": ".getCanvasPane().setTransform(current); if (_graphPanner != null) { _graphPanner.repaint(); } } /////////////////////////////////////////////////////////////////// //// public variable"
+    },
+    {
+      "chunk_id": 257,
+      "text": "/ //// public variables //// /** The name of the user library. The default value is * \"UserLibrary\". The value of this variable is what appears * in the Vergil left hand tree menu."
+    },
+    {
+      "chunk_id": 258,
+      "text": "s * in the Vergil left hand tree menu. */ public static String VERGIL_USER_LIBRARY_NAME = \"UserLibrary\"; /////////////////////////////////////////////////////////////////// //// protected methods"
+    },
+    {
+      "chunk_id": 259,
+      "text": "/ protected methods //// /** Create the menus that are used by this frame. */ protected void _addMenus() { super._addMenus(); _editMenu = new JMenu(\"Edit\"); _editMenu.setM"
+    },
+    {
+      "chunk_id": 260,
+      "text": "itMenu = new JMenu(\"Edit\"); _editMenu.setMnemonic(KeyEvent.VK_E); _menubar.add(_editMenu); // Add the undo action, followed by a separator then the editing actions diva.gui.GUIUtilities.addHotKey(_jgraph, _undoAction)"
+    },
+    {
+      "chunk_id": 261,
+      "text": "a.gui.GUIUtilities.addHotKey(_jgraph, _undoAction); diva.gui.GUIUtilities.addMenuItem(_editMenu, _undoAction); diva.gui.GUIUtilities.addHotKey(_jgraph, _redoAction); diva.gui.GUIUtilities.addMenuItem(_editMenu, _redoAction);"
+    },
+    {
+      "chunk_id": 262,
+      "text": "UIUtilities.addMenuItem(_editMenu, _redoAction); _editMenu.addSeparator(); GUIUtilities.addHotKey(_jgraph, _cutAction); GUIUtilities.addMenuItem(_editMenu, _cutAction); GUIUtilities.addHotKey(_jgraph, _copyAction);"
+    },
+    {
+      "chunk_id": 263,
+      "text": "GUIUtilities.addHotKey(_jgraph, _copyAction); GUIUtilities.addMenuItem(_editMenu, _copyAction); GUIUtilities.addHotKey(_jgraph, _pasteAction); GUIUtilities.addMenuItem(_editMenu, _pasteAction); _editMenu.addSeparator"
+    },
+    {
+      "chunk_id": 264,
+      "text": "nu, _pasteAction); _editMenu.addSeparator(); GUIUtilities.addHotKey(_jgraph, _moveToBackAction); GUIUtilities.addMenuItem(_editMenu, _moveToBackAction); GUIUtilities.addHotKey(_jgraph, _moveToFrontAction); GU"
+    },
+    {
+      "chunk_id": 265,
+      "text": "addHotKey(_jgraph, _moveToFrontAction); GUIUtilities.addMenuItem(_editMenu, _moveToFrontAction); // Hot key for configure (edit parameters). GUIUtilities.addHotKey(_jgraph, BasicGraphController._configureAction); //"
+    },
+    {
+      "chunk_id": 266,
+      "text": "sicGraphController._configureAction); // May be null if there are not multiple views in the configuration. if (_viewMenu == null) { _viewMenu = new JMenu(\"View\"); _viewMenu.setMnemonic(KeyEvent.VK_V);"
+    },
+    {
+      "chunk_id": 267,
+      "text": "_viewMenu.setMnemonic(KeyEvent.VK_V); _menubar.add(_viewMenu); } else { _viewMenu.addSeparator(); } GUIUtilities.addHotKey(_jgraph, _zoomInAction); GUIUtilities.addMenuItem(_viewMenu, _zoom"
+    },
+    {
+      "chunk_id": 268,
+      "text": "GUIUtilities.addMenuItem(_viewMenu, _zoomInAction); GUIUtilities.addHotKey(_jgraph, _zoomResetAction); GUIUtilities.addMenuItem(_viewMenu, _zoomResetAction); GUIUtilities.addHotKey(_jgraph, _zoomFitAction); GU"
+    },
+    {
+      "chunk_id": 269,
+      "text": "ies.addHotKey(_jgraph, _zoomFitAction); GUIUtilities.addMenuItem(_viewMenu, _zoomFitAction); GUIUtilities.addHotKey(_jgraph, _zoomOutAction); GUIUtilities.addMenuItem(_viewMenu, _zoomOutAction); } /** Return true if a"
+    },
+    {
+      "chunk_id": 270,
+      "text": ", _zoomOutAction); } /** Return true if any element of the specified list is implied. * An element is implied if its getDerivedLevel() method returns * anything smaller than Integer.MAX_VALUE. * @param elements A list of in"
+    },
+    {
+      "chunk_id": 271,
+      "text": "er.MAX_VALUE. * @param elements A list of instances of NamedObj. * @return True if any element in the list is implied. * @see NamedObj#getDerivedLevel() */ protected boolean _checkForImplied(List elements) { Iterato"
+    },
+    {
+      "chunk_id": 272,
+      "text": "_checkForImplied(List elements) { Iterator elementIterator = elements.iterator(); while (elementIterator.hasNext()) { NamedObj element = (NamedObj) elementIterator.next(); if (element.getDerivedLevel() < Int"
+    },
+    {
+      "chunk_id": 273,
+      "text": "; if (element.getDerivedLevel() < Integer.MAX_VALUE) { MessageHandler.error(\"Cannot change the position of \" + element.getFullName() + \" because the position is set by the c"
+    },
+    {
+      "chunk_id": 274,
+      "text": "+ \" because the position is set by the class.\"); return true; } } return false; } /** Override the base class to remove the listeners we have * created when the frame closes. Spec"
+    },
+    {
+      "chunk_id": 275,
+      "text": "have * created when the frame closes. Specifically, * remove our panner-updating listener from the entity. * Also remove the listeners our graph model has created. * @return True if the close completes, and false otherwise."
+    },
+    {
+      "chunk_id": 276,
+      "text": "True if the close completes, and false otherwise. */ protected boolean _close() { boolean result = super._close(); if (result) { getModel().removeChangeListener(this); AbstractBasicGraphModel graphMo"
+    },
+    {
+      "chunk_id": 277,
+      "text": "his); AbstractBasicGraphModel graphModel = _getGraphModel(); graphModel.removeListeners(); } return result; } /** Create the default library to use if an entity has no * LibraryAttribute. Note"
+    },
+    {
+      "chunk_id": 278,
+      "text": "f an entity has no * LibraryAttribute. Note that this is called in the * constructor and therefore overrides in subclasses * should not refer to any members that may not have been * initialized. If no library is found in the"
+    },
+    {
+      "chunk_id": 279,
+      "text": "* initialized. If no library is found in the configuration, * then an empty one is created in the specified workspace. * @param workspace The workspace in which to create * the library, if one needs to be created. * @ret"
+    },
+    {
+      "chunk_id": 280,
+      "text": "library, if one needs to be created. * @return The new library, or null if there is no * configuration. */ protected CompositeEntity _createDefaultLibrary(Workspace workspace) { Configuration configuration = getConfigur"
+    },
+    {
+      "chunk_id": 281,
+      "text": "Configuration configuration = getConfiguration(); if (configuration != null) { CompositeEntity result = (CompositeEntity) configuration.getEntity( \"actor library\"); if (result == null) {"
+    },
+    {
+      "chunk_id": 282,
+      "text": "tor library\"); if (result == null) { // Create an empty library by default. result = new CompositeEntity(workspace); try { result.setName(\"topLibrary\");"
+    },
+    {
+      "chunk_id": 283,
+      "text": "result.setName(\"topLibrary\"); // Put a marker in so that this is // recognized as a library. new Attribute(result, \"_libraryMarker\"); } catch (Exception ex) {"
+    },
+    {
+      "chunk_id": 284,
+      "text": "} catch (Exception ex) { throw new InternalErrorException( \"Library configuration failed: \" + ex); } } return result; } else {"
+    },
+    {
+      "chunk_id": 285,
+      "text": "return result; } else { return null; } } /** Create a new graph pane. Subclasses will override this to change * the pane that is created. Note that this method is called in * constructor, so"
+    },
+    {
+      "chunk_id": 286,
+      "text": "this method is called in * constructor, so derived classes must be careful to not reference * local variables that may not have yet been created. * @return The pane that is created. */ protected abstract GraphPane _createG"
+    },
+    {
+      "chunk_id": 287,
+      "text": "*/ protected abstract GraphPane _createGraphPane(); /** Get the directory that was last accessed by this window. * @see #_setDirectory * @return The directory last accessed. */ protected File _getDirectory() {"
+    },
+    {
+      "chunk_id": 288,
+      "text": "*/ protected File _getDirectory() { // NOTE: This method is necessary because we wish to have // this accessed by inner classes, and there is a bug in // jdk1.2.2 where inner classes cannot access protected /"
+    },
+    {
+      "chunk_id": 289,
+      "text": "re inner classes cannot access protected // static members. return _directory; } /** Return the graph controller associated with this frame. * @return The graph controller associated with this frame. */ protect"
+    },
+    {
+      "chunk_id": 290,
+      "text": "er associated with this frame. */ protected GraphController _getGraphController() { GraphPane graphPane = _jgraph.getGraphPane(); return (GraphController) graphPane.getGraphController(); } /** Return the graph model"
+    },
+    {
+      "chunk_id": 291,
+      "text": "ntroller(); } /** Return the graph model associated with this frame. * @return The graph model associated with this frame. */ protected AbstractBasicGraphModel _getGraphModel() { GraphController controller = _getGraphC"
+    },
+    {
+      "chunk_id": 292,
+      "text": "{ GraphController controller = _getGraphController(); return (AbstractBasicGraphModel) controller.getGraphModel(); } /** Return a set of instances of NamedObj representing the objects * that are currently selected. Th"
+    },
+    {
+      "chunk_id": 293,
+      "text": "e objects * that are currently selected. This set has no particular order * to it. If you need the selection objects in proper order, as * defined by the container, then call sortContainedObjects() * on the container to sort"
+    },
+    {
+      "chunk_id": 294,
+      "text": "ntainedObjects() * on the container to sort the result. * @return The set of selected objects. */ protected HashSet _getSelectionSet() { GraphController controller = _getGraphController(); GraphModel graphModel ="
+    },
+    {
+      "chunk_id": 295,
+      "text": "raphController(); GraphModel graphModel = controller.getGraphModel(); SelectionModel model = controller.getSelectionModel(); Object[] selection = model.getSelectionAsArray(); // A set, because some objects may represe"
+    },
+    {
+      "chunk_id": 296,
+      "text": "// A set, because some objects may represent the same // ptolemy object. HashSet namedObjSet = new HashSet(); HashSet nodeSet = new HashSet(); // First get all the nodes. for (int i = 0; i < selection."
+    },
+    {
+      "chunk_id": 297,
+      "text": "the nodes. for (int i = 0; i < selection.length; i++) { if (selection[i] instanceof Figure) { Object userObject = ((Figure) selection[i]).getUserObject(); if (graphModel.isNode(userObject)) {"
+    },
+    {
+      "chunk_id": 298,
+      "text": "if (graphModel.isNode(userObject)) { nodeSet.add(userObject); NamedObj actual = (NamedObj) graphModel.getSemanticObject(userObject); namedObjSet.add(actual); }"
+    },
+    {
+      "chunk_id": 299,
+      "text": "namedObjSet.add(actual); } } } for (int i = 0; i < selection.length; i++) { if (selection[i] instanceof Figure) { Object userObject = ((Figure) selection[i]).getUserObject();"
+    },
+    {
+      "chunk_id": 300,
+      "text": "rObject = ((Figure) selection[i]).getUserObject(); if (graphModel.isEdge(userObject)) { // Check to see if the head and tail are both being // copied. Only if so, do we actually take the edge."
+    },
+    {
+      "chunk_id": 301,
+      "text": "copied. Only if so, do we actually take the edge. Object head = graphModel.getHead(userObject); Object tail = graphModel.getTail(userObject); boolean headOK = nodeSet.contains(head);"
+    },
+    {
+      "chunk_id": 302,
+      "text": "boolean headOK = nodeSet.contains(head); boolean tailOK = nodeSet.contains(tail); Iterator objects = nodeSet.iterator(); while (!(headOK && tailOK) && objects.hasNext()) {"
+    },
+    {
+      "chunk_id": 303,
+      "text": "&& tailOK) && objects.hasNext()) { Object object = objects.next(); if (!headOK && GraphUtilities.isContainedNode( head, object,"
+    },
+    {
+      "chunk_id": 304,
+      "text": "head, object, graphModel)) { headOK = true; } if (!tailOK && GraphUtilities.isContainedNode("
+    },
+    {
+      "chunk_id": 305,
+      "text": "&& GraphUtilities.isContainedNode( tail, object, graphModel)) { tailOK = true; } } if (headOK && tailOK) {"
+    },
+    {
+      "chunk_id": 306,
+      "text": "if (headOK && tailOK) { // Add the relation. NamedObj actual = (NamedObj) graphModel .getSemanticObject(userObject); namedObjSet.ad"
+    },
+    {
+      "chunk_id": 307,
+      "text": "serObject); namedObjSet.add(actual); } } } } return namedObjSet; } /** Set the directory that was last accessed by this window. * @see #_getDirect"
+    },
+    {
+      "chunk_id": 308,
+      "text": "accessed by this window. * @see #_getDirectory * @param directory The directory last accessed. */ protected void _setDirectory(File directory) { // NOTE: This method is necessary because we wish to have // this a"
+    },
+    {
+      "chunk_id": 309,
+      "text": "ecessary because we wish to have // this accessed by inner classes, and there is a bug in // jdk1.2.2 where inner classes cannot access protected // static members. _directory = directory; } /** Write the mode"
+    },
+    {
+      "chunk_id": 310,
+      "text": "rectory = directory; } /** Write the model to the specified file. This overrides the base * class to record the current size and position of the window * in the model. * @param file The file to write to. * @exception"
+    },
+    {
+      "chunk_id": 311,
+      "text": "aram file The file to write to. * @exception IOException If the write fails. */ protected void _writeFile(File file) throws IOException { // First, record size and position. try { // Record the position of t"
+    },
+    {
+      "chunk_id": 312,
+      "text": "try { // Record the position of the top-level frame, assuming // there is one. Component component = _jgraph.getParent(); Component parent = component.getParent(); while ((parent != nu"
+    },
+    {
+      "chunk_id": 313,
+      "text": "ent.getParent(); while ((parent != null) && !(parent instanceof Frame)) { component = parent; parent = component.getParent(); } // If there is no parent that is a Frame, do nothing"
+    },
+    {
+      "chunk_id": 314,
+      "text": "If there is no parent that is a Frame, do nothing. if (parent instanceof Frame) { WindowPropertiesAttribute properties = (WindowPropertiesAttribute) getModel() .getAttribute(\"_windowProperties\","
+    },
+    {
+      "chunk_id": 315,
+      "text": ".getAttribute(\"_windowProperties\", WindowPropertiesAttribute.class); if (properties == null) { properties = new WindowPropertiesAttribute(getModel(),"
+    },
+    {
+      "chunk_id": 316,
+      "text": "esAttribute(getModel(), \"_windowProperties\"); } properties.recordProperties((Frame) parent); } // Have to also record the size of the JGraph because //"
+    },
+    {
+      "chunk_id": 317,
+      "text": "ord the size of the JGraph because // setting the size of the frame is ignored if we don't // also set the size of the JGraph. Why? Who knows. Swing. SizeAttribute size = (SizeAttribute) getModel().getAttribute(\"_v"
+    },
+    {
+      "chunk_id": 318,
+      "text": "size = (SizeAttribute) getModel().getAttribute(\"_vergilSize\", SizeAttribute.class); if (size == null) { size = new SizeAttribute(getModel(), \"_vergilSize\"); } size.recordSize(_"
+    },
+    {
+      "chunk_id": 319,
+      "text": "ze\"); } size.recordSize(_jgraph); // Also record zoom and pan state. JCanvas canvas = _jgraph.getGraphPane().getCanvas(); AffineTransform current = canvas.getCanvasPane() ."
+    },
+    {
+      "chunk_id": 320,
+      "text": "current = canvas.getCanvasPane() .getTransformContext() .getTransform(); // We assume the scaling in the X and Y directions are the same. double scale = current.getScaleX(); Paramet"
+    },
+    {
+      "chunk_id": 321,
+      "text": "e scale = current.getScaleX(); Parameter zoom = (Parameter) getModel().getAttribute(\"_vergilZoomFactor\", Parameter.class); if (zoom == null) { // NOTE: This will not propagate."
+    },
+    {
+      "chunk_id": 322,
+      "text": "// NOTE: This will not propagate. zoom = new ExpertParameter(getModel(), \"_vergilZoomFactor\"); } zoom.setToken(new DoubleToken(scale)); // Make sure the visibility is only expert."
+    },
+    {
+      "chunk_id": 323,
+      "text": "e sure the visibility is only expert. zoom.setVisibility(Settable.EXPERT); // Save the center, to record the pan state. Point2D center = getCenter(); Parameter pan = (Parameter) getModel().getAttribute"
+    },
+    {
+      "chunk_id": 324,
+      "text": "arameter pan = (Parameter) getModel().getAttribute(\"_vergilCenter\", Parameter.class); if (pan == null) { // NOTE: This will not propagate. pan = new ExpertParameter(getModel(), \"_vergil"
+    },
+    {
+      "chunk_id": 325,
+      "text": "pan = new ExpertParameter(getModel(), \"_vergilCenter\"); } Token[] centerArray = new Token[2]; centerArray[0] = new DoubleToken(center.getX()); centerArray[1] = new DoubleToken(center.getY());"
+    },
+    {
+      "chunk_id": 326,
+      "text": "erArray[1] = new DoubleToken(center.getY()); pan.setToken(new ArrayToken(centerArray)); // Make sure the visibility is only expert. pan.setVisibility(Settable.EXPERT); } catch (Throwable throwable) {"
+    },
+    {
+      "chunk_id": 327,
+      "text": "RT); } catch (Throwable throwable) { // Ignore problems here. Errors simply result in a default // size and location. } super._writeFile(file); } /////////////////////////////////////////////"
+    },
+    {
+      "chunk_id": 328,
+      "text": "/////////////////////////////////////////////////////////////////// //// protected variables //// /** Default background color is a light grey. */ protected static Color BACKGROUND_COLOR = new C"
+    },
+    {
+      "chunk_id": 329,
+      "text": "protected static Color BACKGROUND_COLOR = new Color(0xe5e5e5); /** The cut action. */ protected Action _cutAction; /** The copy action. */ protected Action _copyAction; /** The instance of EditorDropTarget associated with th"
+    },
+    {
+      "chunk_id": 330,
+      "text": "he instance of EditorDropTarget associated with this object. */ protected EditorDropTarget _dropTarget; /** The edit menu. */ protected JMenu _editMenu; /** The panner. */ protected JCanvasPanner _graphPanner; /** The insta"
+    },
+    {
+      "chunk_id": 331,
+      "text": "ted JCanvasPanner _graphPanner; /** The instance of JGraph for this editor. */ protected JGraph _jgraph; /** The library display widget. */ protected JTree _library; /** The library context menu creator. */ protected PTreeM"
+    },
+    {
+      "chunk_id": 332,
+      "text": "rary context menu creator. */ protected PTreeMenuCreator _libraryContextMenuCreator; /** The library model. */ protected EntityTreeModel _libraryModel; /** The library scroll pane. */ protected JScrollPane _libraryScrollPane;"
+    },
+    {
+      "chunk_id": 333,
+      "text": "/ protected JScrollPane _libraryScrollPane; /** Action to move to the back. */ protected MoveToBackAction _moveToBackAction; /** Action to move to the front. */ protected MoveToFrontAction _moveToFrontAction; /** The librar"
+    },
+    {
+      "chunk_id": 334,
+      "text": "rontAction _moveToFrontAction; /** The library display panel. */ protected JPanel _palettePane; /** The paste action. */ protected Action _pasteAction; /** The split pane for library and editor. */ protected JSplitPane _spl"
+    },
+    {
+      "chunk_id": 335,
+      "text": "brary and editor. */ protected JSplitPane _splitPane; /** The toolbar. */ protected JToolBar _toolbar; /** The library. */ protected CompositeEntity _topLibrary; /////////////////////////////////////////////////////////////"
+    },
+    {
+      "chunk_id": 336,
+      "text": "//////////////////////////////////////////////////////// //// private methods //// /** Delete the currently selected objects from this document without * undo */ private void _deleteWi"
+    },
+    {
+      "chunk_id": 337,
+      "text": "ut * undo */ private void _deleteWithoutUndo() { // FIXME: This is the old delete() method, before undo was added. // createHierarch() calls this method. GraphController controller = _getGraphController();"
+    },
+    {
+      "chunk_id": 338,
+      "text": "ntroller controller = _getGraphController(); AbstractBasicGraphModel graphModel = _getGraphModel(); // Note that we turn off event dispatching so that each individual // removal does not trigger graph redrawing. try {"
+    },
+    {
+      "chunk_id": 339,
+      "text": "al does not trigger graph redrawing. try { graphModel.setDispatchEnabled(false); SelectionModel model = controller.getSelectionModel(); Object[] selection = model.getSelectionAsArray(); Object["
+    },
+    {
+      "chunk_id": 340,
+      "text": "= model.getSelectionAsArray(); Object[] userObjects = new Object[selection.length]; // First remove the selection. for (int i = 0; i < selection.length; i++) { userObjects[i] = ((Figure) selection["
+    },
+    {
+      "chunk_id": 341,
+      "text": "userObjects[i] = ((Figure) selection[i]).getUserObject(); model.removeSelection(selection[i]); } // Remove all the edges first, // since if we remove the nodes first, // th"
+    },
+    {
+      "chunk_id": 342,
+      "text": "ce if we remove the nodes first, // then removing the nodes might remove some of the edges. for (int i = 0; i < userObjects.length; i++) { Object userObject = userObjects[i]; if (graphModel.isE"
+    },
+    {
+      "chunk_id": 343,
+      "text": "serObjects[i]; if (graphModel.isEdge(userObject)) { graphModel.disconnectEdge(this, userObject); } } for (int i = 0; i < selection.length; i++) { Object use"
+    },
+    {
+      "chunk_id": 344,
+      "text": "election.length; i++) { Object userObject = userObjects[i]; if (graphModel.isNode(userObject)) { graphModel.removeNode(this, userObject); } } } finally {"
+    },
+    {
+      "chunk_id": 345,
+      "text": "} } } finally { graphModel.setDispatchEnabled(true); graphModel.dispatchGraphEvent(new GraphEvent(this, GraphEvent.STRUCTURE_CHANGED, graphModel.getR"
+    },
+    {
+      "chunk_id": 346,
+      "text": "GraphEvent.STRUCTURE_CHANGED, graphModel.getRoot())); } } /////////////////////////////////////////////////////////////////// //// private variables //// /** Action to redo the la"
+    },
+    {
+      "chunk_id": 347,
+      "text": "//// /** Action to redo the last undone MoML change. */ private Action _redoAction = new RedoAction(); /** Action to undo the last MoML change. */ private Action _undoAction = new UndoAction(); /** Action for zoo"
+    },
+    {
+      "chunk_id": 348,
+      "text": "Action = new UndoAction(); /** Action for zooming in. */ private Action _zoomInAction = new ZoomInAction(\"Zoom In\"); /** Action for zoom reset. */ private Action _zoomResetAction = new ZoomResetAction(\"Zoom Reset\"); /** Action"
+    },
+    {
+      "chunk_id": 349,
+      "text": "ew ZoomResetAction(\"Zoom Reset\"); /** Action for zoom fitting. */ private Action _zoomFitAction = new ZoomFitAction(\"Zoom Fit\"); /** Action for zooming out. */ private Action _zoomOutAction = new ZoomOutAction(\"Zoom Out\"); ////"
+    },
+    {
+      "chunk_id": 351,
+      "text": "///////////////////////////////////////////////////////// //// CopyAction /** Action to copy the current selection. */ private class CopyAction extends AbstractAction { /** Create a new action to copy the current selection. */"
+    },
+    {
+      "chunk_id": 352,
+      "text": "a new action to copy the current selection. */ public CopyAction() { super(\"Copy\"); putValue(\"tooltip\", \"Copy the current selection onto the clipboard.\"); putValue(GUIUtilities.ACCELERATOR_KEY,"
+    },
+    {
+      "chunk_id": 353,
+      "text": "putValue(GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); putValue(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent."
+    },
+    {
+      "chunk_id": 354,
+      "text": "e(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_C)); } /** Copy the current selection. */ public void actionPerformed(ActionEvent e) { copy(); } } ////////////////////////////////////////////"
+    },
+    {
+      "chunk_id": 355,
+      "text": "/////////////////////////////////////////////////////////////////// //// CutAction /** Action to copy and delete the current selection. */ private class CutAction extends AbstractAction { /** Create a new action to copy and"
+    },
+    {
+      "chunk_id": 356,
+      "text": "tion { /** Create a new action to copy and delete the current selection. */ public CutAction() { super(\"Cut\"); putValue(\"tooltip\", \"Cut the current selection onto the clipboard.\"); putValue(GUIUtili"
+    },
+    {
+      "chunk_id": 357,
+      "text": "to the clipboard.\"); putValue(GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); putValue(GUIUtilities.MN"
+    },
+    {
+      "chunk_id": 358,
+      "text": "tKeyMask())); putValue(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_T)); } /** Copy and delete the current selection. */ public void actionPerformed(ActionEvent e) { cut(); } } /"
+    },
+    {
+      "chunk_id": 359,
+      "text": "ent e) { cut(); } } /////////////////////////////////////////////////////////////////// //// ExecuteSystemAction /** An action to open a run control window. */ private class ExecuteSystemAction extends Abstra"
+    },
+    {
+      "chunk_id": 360,
+      "text": "private class ExecuteSystemAction extends AbstractAction { /** Construct an action to execute the model. */ public ExecuteSystemAction() { super(\"Go\"); putValue(\"tooltip\", \"Execute The Model\"); pu"
+    },
+    {
+      "chunk_id": 361,
+      "text": "ue(\"tooltip\", \"Execute The Model\"); putValue(GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); putValue("
+    },
+    {
+      "chunk_id": 362,
+      "text": ".getMenuShortcutKeyMask())); putValue(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_G)); } /** Open a run control window. */ public void actionPerformed(ActionEvent e) { try { Ptol"
+    },
+    {
+      "chunk_id": 363,
+      "text": "nEvent e) { try { PtolemyEffigy effigy = (PtolemyEffigy) getTableau() .getContainer(); new RunTableau(effigy, effigy.uniqueName(\"tableau\")); } catch (Exception ex) {"
+    },
+    {
+      "chunk_id": 364,
+      "text": "\")); } catch (Exception ex) { MessageHandler.error(\"Execution Failed\", ex); } } } /////////////////////////////////////////////////////////////////// //// MoveToBackAction /** Action t"
+    },
+    {
+      "chunk_id": 365,
+      "text": "////// //// MoveToBackAction /** Action to move the current selection to the back (which corresponds * to first in the ordered list). */ private class MoveToBackAction extends AbstractAction { public MoveToBackAction()"
+    },
+    {
+      "chunk_id": 366,
+      "text": "AbstractAction { public MoveToBackAction() { super(\"Send to Back\"); putValue(\"tooltip\", \"Send to back of like objects\"); putValue(GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(Key"
+    },
+    {
+      "chunk_id": 367,
+      "text": "EY, KeyStroke.getKeyStroke(KeyEvent.VK_B, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); putValue(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_B)); } public v"
+    },
+    {
+      "chunk_id": 368,
+      "text": "teger(KeyEvent.VK_B)); } public void actionPerformed(ActionEvent e) { final NamedObj container = (NamedObj) _getGraphModel().getRoot(); // Get the selection objects. // NOTE: The order in the mode"
+    },
+    {
+      "chunk_id": 369,
+      "text": "bjects. // NOTE: The order in the model must be respected. HashSet namedObjSet = _getSelectionSet(); final List elements = container.sortContainedObjects(namedObjSet); // Return if any is a derived obj"
+    },
+    {
+      "chunk_id": 370,
+      "text": "t); // Return if any is a derived object. if (_checkForImplied(elements)) { return; } // Issue a change request, since this requires write access. ChangeRequest request = n"
+    },
+    {
+      "chunk_id": 371,
+      "text": "rite access. ChangeRequest request = new ChangeRequest(container, \"Send to back\") { protected void _execute() throws IllegalActionException { MoveAction.move(elements, MoveAction.TO_FIRST, conta"
+    },
+    {
+      "chunk_id": 372,
+      "text": "veAction.move(elements, MoveAction.TO_FIRST, container); } }; container.requestChange(request); } } /////////////////////////////////////////////////////////////////// //// MoveToF"
+    },
+    {
+      "chunk_id": 373,
+      "text": "///////////////////////////////// //// MoveToFrontAction /** Action to move the current selection to the back (which corresponds * to first in the ordered list). */ private class MoveToFrontAction extends AbstractAction {"
+    },
+    {
+      "chunk_id": 374,
+      "text": "ss MoveToFrontAction extends AbstractAction { public MoveToFrontAction() { super(\"Bring to Front\"); putValue(\"tooltip\", \"Bring to front of like objects\"); putValue(GUIUtilities.ACCELERATOR_KEY,"
+    },
+    {
+      "chunk_id": 375,
+      "text": "utValue(GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); putValue(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.V"
+    },
+    {
+      "chunk_id": 376,
+      "text": "(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_F)); } public void actionPerformed(ActionEvent e) { final NamedObj container = (NamedObj) _getGraphModel().getRoot(); // Get the selection objects."
+    },
+    {
+      "chunk_id": 377,
+      "text": "// Get the selection objects. // NOTE: The order in the model must be respected. HashSet namedObjSet = _getSelectionSet(); final List elements = container.sortContainedObjects(namedObjSet);"
+    },
+    {
+      "chunk_id": 378,
+      "text": "er.sortContainedObjects(namedObjSet); // Return if any is a derived object. if (_checkForImplied(elements)) { return; } // Issue a change request, since this requires write access."
+    },
+    {
+      "chunk_id": 379,
+      "text": "nge request, since this requires write access. ChangeRequest request = new ChangeRequest(container, \"Bring to front\") { protected void _execute() throws IllegalActionException {"
+    },
+    {
+      "chunk_id": 380,
+      "text": "rows IllegalActionException { MoveAction.move(elements, MoveAction.TO_LAST, container); } }; container.requestChange(request); } } /////////////////////////////"
+    },
+    {
+      "chunk_id": 381,
+      "text": "} } /////////////////////////////////////////////////////////////////// //// PasteAction /** Paste the current contents of the clipboard into the current model. */ private class PasteAction extends AbstractAction {"
+    },
+    {
+      "chunk_id": 382,
+      "text": "e class PasteAction extends AbstractAction { /** Create a new action to paste the current contents of the * clipboard into the current model. */ public PasteAction() { super(\"Paste\"); putValu"
+    },
+    {
+      "chunk_id": 383,
+      "text": "{ super(\"Paste\"); putValue(\"tooltip\", \"Paste the contents of the clipboard.\"); putValue(GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V, Toolkit.g"
+    },
+    {
+      "chunk_id": 384,
+      "text": "yEvent.VK_V, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); putValue(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_P)); } /** Paste the current contents of the clipboard into"
+    },
+    {
+      "chunk_id": 385,
+      "text": "te the current contents of the clipboard into * the current model. */ public void actionPerformed(ActionEvent e) { paste(); } } //////////////////////////////////////////////////////////////////"
+    },
+    {
+      "chunk_id": 386,
+      "text": "/////////////////////////////////////////////////// //// PtolemyLayout /** A layout algorithm for laying out ptolemy graphs. Since our edges * are undirected, this layout algorithm turns them into directed edges * aimed consiste"
+    },
+    {
+      "chunk_id": 387,
+      "text": "ns them into directed edges * aimed consistently. i.e. An edge should always be \"out\" of an * internal output port and always be \"in\" of an internal input port. * Conversely, an edge is \"out\" of an external input port, and \"in\" of"
+    },
+    {
+      "chunk_id": 388,
+      "text": "is \"out\" of an external input port, and \"in\" of * an external output port. The copying operation also flattens * the graph, because the level layout algorithm doesn't understand * how to layout hierarchical nodes. */ priv"
+    },
+    {
+      "chunk_id": 389,
+      "text": "how to layout hierarchical nodes. */ private class PtolemyLayout extends LevelLayout { // FIXME: input ports should be on left, and output ports on right. /** Construct a new levelizing layout with a vertical orientation. */"
+    },
+    {
+      "chunk_id": 390,
+      "text": "levelizing layout with a vertical orientation. */ public PtolemyLayout(LayoutTarget target) { super(target); } /** Copy the given graph and make the nodes/edges in the copied * graph point to the nodes/"
+    },
+    {
+      "chunk_id": 391,
+      "text": "n the copied * graph point to the nodes/edges in the original. */ protected Object copyComposite(Object origComposite) { LayoutTarget target = getLayoutTarget(); GraphModel model = target.getGraphMod"
+    },
+    {
+      "chunk_id": 392,
+      "text": "GraphModel model = target.getGraphModel(); diva.graph.basic.BasicGraphModel local = getLocalGraphModel(); Object copyComposite = local.createComposite(null); HashMap map = new HashMap(); /"
+    },
+    {
+      "chunk_id": 393,
+      "text": "HashMap map = new HashMap(); // Copy all the nodes for the graph. for (Iterator i = model.nodes(origComposite); i.hasNext();) { Object origNode = i.next(); if (target.isNodeVisible(orig"
+    },
+    {
+      "chunk_id": 394,
+      "text": "(); if (target.isNodeVisible(origNode)) { Rectangle2D r = target.getBounds(origNode); LevelInfo inf = new LevelInfo(); inf.origNode = origNode; inf.x = r"
+    },
+    {
+      "chunk_id": 395,
+      "text": "origNode = origNode; inf.x = r.getX(); inf.y = r.getY(); inf.width = r.getWidth(); inf.height = r.getHeight(); Object copyNode = local.createNode(inf"
+    },
+    {
+      "chunk_id": 396,
+      "text": "Object copyNode = local.createNode(inf); local.addNode(this, copyNode, copyComposite); map.put(origNode, copyNode); } } // Add all the edges. Ite"
+    },
+    {
+      "chunk_id": 397,
+      "text": "// Add all the edges. Iterator i = GraphUtilities.partiallyContainedEdges(origComposite, model); while (i.hasNext()) { Object origEdge = i.next(); Object origTa"
+    },
+    {
+      "chunk_id": 398,
+      "text": "origEdge = i.next(); Object origTail = model.getTail(origEdge); Object origHead = model.getHead(origEdge); if ((origHead != null) && (origTail != null)) { Figure tailFigure = (Figur"
+    },
+    {
+      "chunk_id": 399,
+      "text": ") { Figure tailFigure = (Figure) target.getVisualObject(origTail); Figure headFigure = (Figure) target.getVisualObject(origHead); // Swap the head and the tail if it will improve the"
+    },
+    {
+      "chunk_id": 400,
+      "text": "he head and the tail if it will improve the // layout, since LevelLayout only uses directed edges. if (tailFigure instanceof Terminal) { Terminal terminal = (Terminal) tailFigure;"
+    },
+    {
+      "chunk_id": 401,
+      "text": "Terminal terminal = (Terminal) tailFigure; Site site = terminal.getConnectSite(); if (site instanceof FixedNormalSite) { double normal = site.getNormal();"
+    },
+    {
+      "chunk_id": 402,
+      "text": "ouble normal = site.getNormal(); int direction = CanvasUtilities.getDirection(normal); if (direction == SwingUtilities.WEST) { Object temp = origTail;"
+    },
+    {
+      "chunk_id": 403,
+      "text": "Object temp = origTail; origTail = origHead; origHead = temp; } } } else if (headFigure instanceof"
+    },
+    {
+      "chunk_id": 404,
+      "text": "} else if (headFigure instanceof Terminal) { Terminal terminal = (Terminal) headFigure; Site site = terminal.getConnectSite(); if (site instanceof FixedNormalS"
+    },
+    {
+      "chunk_id": 405,
+      "text": "if (site instanceof FixedNormalSite) { double normal = site.getNormal(); int direction = CanvasUtilities.getDirection(normal); if (direction == Swi"
+    },
+    {
+      "chunk_id": 406,
+      "text": "if (direction == SwingUtilities.EAST) { Object temp = origTail; origTail = origHead; origHead = temp;"
+    },
+    {
+      "chunk_id": 407,
+      "text": "origHead = temp; } } } origTail = _getParentInGraph(model, origComposite, origTail); origHead = _getParentInGraph(model, origC"
+    },
+    {
+      "chunk_id": 408,
+      "text": "origHead = _getParentInGraph(model, origComposite, origHead); Object copyTail = map.get(origTail); Object copyHead = map.get(origHead); if ((copyHead != null) && (copyTail != null"
+    },
+    {
+      "chunk_id": 409,
+      "text": "if ((copyHead != null) && (copyTail != null)) { Object copyEdge = local.createEdge(origEdge); local.setEdgeTail(this, copyEdge, copyTail); local.setEdgeHead(this, copyEdge"
+    },
+    {
+      "chunk_id": 410,
+      "text": "local.setEdgeHead(this, copyEdge, copyHead); } } } return copyComposite; } // Unfortunately, the head and/or tail of the edge may not // be direct"
+    },
+    {
+      "chunk_id": 411,
+      "text": "d/or tail of the edge may not // be directly contained in the graph. In this case, we need to // figure out which of their parents IS in the graph // and calculate the cost of that instead. private Object _getParentIn"
+    },
+    {
+      "chunk_id": 412,
+      "text": "that instead. private Object _getParentInGraph(GraphModel model, Object graph, Object node) { while ((node != null) && !model.containsNode(graph, node)) { Object parent = model.getParent(node);"
+    },
+    {
+      "chunk_id": 413,
+      "text": "Object parent = model.getParent(node); if (model.isNode(parent)) { node = parent; } else { node = null; } } return node;"
+    },
+    {
+      "chunk_id": 414,
+      "text": "} } return node; } } /////////////////////////////////////////////////////////////////// //// PtolemyLayoutTarget /** A layout target that translates locatable nodes. */ private class PtolemyLay"
+    },
+    {
+      "chunk_id": 415,
+      "text": "s locatable nodes. */ private class PtolemyLayoutTarget extends BasicLayoutTarget { /** Construct a new layout target that operates * in the given pane. */ public PtolemyLayoutTarget(GraphController controller)"
+    },
+    {
+      "chunk_id": 416,
+      "text": "c PtolemyLayoutTarget(GraphController controller) { super(controller); } /** Return the viewport of the given graph as a rectangle * in logical coordinates. */ public Rectangle2D getViewport(Obj"
+    },
+    {
+      "chunk_id": 417,
+      "text": "*/ public Rectangle2D getViewport(Object composite) { GraphModel model = getController().getGraphModel(); if (composite == getRootGraph()) { // Take into account the current zoom and pan."
+    },
+    {
+      "chunk_id": 418,
+      "text": "ke into account the current zoom and pan. Rectangle2D bounds = getVisibleCanvasRectangle(); double width = bounds.getWidth(); double height = bounds.getHeight(); double borderPercentag"
+    },
+    {
+      "chunk_id": 419,
+      "text": "tHeight(); double borderPercentage = (1 - getLayoutPercentage()) / 2; double x = (borderPercentage * width) + bounds.getX(); double y = (borderPercentage * height) + bounds.getY(); doub"
+    },
+    {
+      "chunk_id": 420,
+      "text": "ge * height) + bounds.getY(); double w = getLayoutPercentage() * width; double h = getLayoutPercentage() * height; return new Rectangle2D.Double(x, y, w, h); } else { return"
+    },
+    {
+      "chunk_id": 421,
+      "text": ", h); } else { return super.getViewport(composite); } } /** Translate the figure associated with the given node in the * target's view by the given delta. */ public v"
+    },
+    {
+      "chunk_id": 422,
+      "text": "w by the given delta. */ public void translate(Object node, double dx, double dy) { super.translate(node, dx, dy); if (node instanceof Locatable) { double[] location = ((Locatable) node).getLo"
+    },
+    {
+      "chunk_id": 423,
+      "text": "double[] location = ((Locatable) node).getLocation(); if (location == null) { location = new double[2]; Figure figure = getController().getFigure(node); location[0] ="
+    },
+    {
+      "chunk_id": 424,
+      "text": "getFigure(node); location[0] = figure.getBounds().getCenterX(); location[1] = figure.getBounds().getCenterY(); } else { location[0] += dx; location[1] +="
+    },
+    {
+      "chunk_id": 425,
+      "text": "tion[0] += dx; location[1] += dy; } try { ((Locatable) node).setLocation(location); } catch (IllegalActionException ex) { throw new InternalE"
+    },
+    {
+      "chunk_id": 426,
+      "text": "tion ex) { throw new InternalErrorException(ex.getMessage()); } } } } /////////////////////////////////////////////////////////////////// //// OpenLibraryMenuItemFactory /**"
+    },
+    {
+      "chunk_id": 427,
+      "text": "// //// OpenLibraryMenuItemFactory /** * Create a menu item that will open a library in editable form. */ private class OpenLibraryMenuItemFactory implements MenuItemFactory { /** * Add an item to the given co"
+    },
+    {
+      "chunk_id": 428,
+      "text": "/** * Add an item to the given context menu that will open the * given object as an editable model. */ public JMenuItem create(final JContextMenu menu, final NamedObj object) { Action action = ne"
+    },
+    {
+      "chunk_id": 429,
+      "text": "NamedObj object) { Action action = new AbstractAction(\"Open for Editing\") { public void actionPerformed(ActionEvent e) { try { getConfiguration().openModel(object);"
+    },
+    {
+      "chunk_id": 430,
+      "text": "getConfiguration().openModel(object); } catch (KernelException ex) { MessageHandler.error(\"Open failed.\", ex); } } };"
+    },
+    {
+      "chunk_id": 431,
+      "text": "} }; action.putValue(\"tooltip\", \"Open library for editing.\"); action.putValue(diva.gui.GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_O)); return menu.a"
+    },
+    {
+      "chunk_id": 432,
+      "text": "Integer(KeyEvent.VK_O)); return menu.add(action, (String) action.getValue(Action.NAME)); } } /////////////////////////////////////////////////////////////////// //// RedoAction /** * Redo the last undone Mo"
+    },
+    {
+      "chunk_id": 433,
+      "text": "edoAction /** * Redo the last undone MoML change on the current current model. */ private class RedoAction extends AbstractAction { /** * Create a new action to paste the current contents of the clipboard"
+    },
+    {
+      "chunk_id": 434,
+      "text": "aste the current contents of the clipboard * into the current model. */ public RedoAction() { super(\"Redo\"); putValue(\"tooltip\", \"Redo the last change undone.\"); putValue(diva.gui.GUIUtil"
+    },
+    {
+      "chunk_id": 435,
+      "text": "e undone.\"); putValue(diva.gui.GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); putValue(diva.gui.GUIUt"
+    },
+    {
+      "chunk_id": 436,
+      "text": "utKeyMask())); putValue(diva.gui.GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_R)); } /** * Redo the last undone MoML change on the current current model. * * @param e"
+    },
+    {
+      "chunk_id": 437,
+      "text": "ent current model. * * @param e The event for the action. */ public void actionPerformed(ActionEvent e) { redo(); } } ///////////////////////////////////////////////////////////////////"
+    },
+    {
+      "chunk_id": 438,
+      "text": "///////////////////////////////////////////////// //// UndoAction /** * Undo the last undoable MoML change on the current current model. */ private class UndoAction extends AbstractAction { /** * Create a new"
+    },
+    {
+      "chunk_id": 439,
+      "text": "tractAction { /** * Create a new action to paste the current contents of the clipboard * into the current model. */ public UndoAction() { super(\"Undo\"); putValue(\"tooltip\", \"Undo th"
+    },
+    {
+      "chunk_id": 440,
+      "text": "(\"Undo\"); putValue(\"tooltip\", \"Undo the last change.\"); putValue(diva.gui.GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuS"
+    },
+    {
+      "chunk_id": 441,
+      "text": "Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); putValue(diva.gui.GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_U)); } /** * Undo the last undoable MoML change on t"
+    },
+    {
+      "chunk_id": 442,
+      "text": "* Undo the last undoable MoML change on the current current model. * * @param e The event for the action. */ public void actionPerformed(ActionEvent e) { undo(); } } ///////////"
+    },
+    {
+      "chunk_id": 443,
+      "text": "undo(); } } /////////////////////////////////////////////////////////////////// //// ZoomInAction // An action to zoom in. public class ZoomInAction extends AbstractAction { public ZoomInAction(String de"
+    },
+    {
+      "chunk_id": 444,
+      "text": "ractAction { public ZoomInAction(String description) { super(description); // Load the image by using the absolute path to the gif. // Using a relative location should work, but it does not. //"
+    },
+    {
+      "chunk_id": 445,
+      "text": "ation should work, but it does not. // Use the resource locator of the class. // For more information, see // jdk1.3/docs/guide/resources/resources.html URL img = getClass().getResource(\"/ptolemy/vergil"
+    },
+    {
+      "chunk_id": 446,
+      "text": "URL img = getClass().getResource(\"/ptolemy/vergil/basic/img/zoomin.gif\"); if (img != null) { ImageIcon icon = new ImageIcon(img); putValue(GUIUtilities.LARGE_ICON, icon); } putVal"
+    },
+    {
+      "chunk_id": 447,
+      "text": "RGE_ICON, icon); } putValue(\"tooltip\", description + \" (Ctrl+Shift+=)\"); // NOTE: The following assumes that the + key is the same // as the = key. Unfortunately, the VK_PLUS key event doesn't"
+    },
+    {
+      "chunk_id": 448,
+      "text": "nfortunately, the VK_PLUS key event doesn't // work, so we have to do it this way. putValue(GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, Toolkit.getDe"
+    },
+    {
+      "chunk_id": 449,
+      "text": "_EQUALS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK)); putValue(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_Z)); } public void ac"
+    },
+    {
+      "chunk_id": 450,
+      "text": "KeyEvent.VK_Z)); } public void actionPerformed(ActionEvent e) { zoom(1.25); } } /////////////////////////////////////////////////////////////////// //// ZoomResetAction // An action to reset zoom."
+    },
+    {
+      "chunk_id": 451,
+      "text": "// ZoomResetAction // An action to reset zoom. public class ZoomResetAction extends AbstractAction { public ZoomResetAction(String description) { super(description); // Load the image by using the absolute pat"
+    },
+    {
+      "chunk_id": 452,
+      "text": "// Load the image by using the absolute path to the gif. // Using a relative location should work, but it does not. // Use the resource locator of the class. // For more information, see // jdk1."
+    },
+    {
+      "chunk_id": 453,
+      "text": "// For more information, see // jdk1.3/docs/guide/resources/resources.html URL img = getClass().getResource(\"/ptolemy/vergil/basic/img/zoomreset.gif\"); if (img != null) { ImageIcon icon = new Imag"
+    },
+    {
+      "chunk_id": 454,
+      "text": "null) { ImageIcon icon = new ImageIcon(img); putValue(GUIUtilities.LARGE_ICON, icon); } putValue(\"tooltip\", description + \" (Ctrl+=)\"); putValue(GUIUtilities.ACCELERATOR_KEY,"
+    },
+    {
+      "chunk_id": 455,
+      "text": "putValue(GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); putValue(GUIUtilities.MNEMONIC_KEY, new Intege"
+    },
+    {
+      "chunk_id": 456,
+      "text": "putValue(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_M)); } public void actionPerformed(ActionEvent e) { zoomReset(); } } ///////////////////////////////////////////////////////////////////"
+    },
+    {
+      "chunk_id": 457,
+      "text": "////////////////////////////////////////////// //// ZoomFitAction // An action to zoom fit. public class ZoomFitAction extends AbstractAction { public ZoomFitAction(String description) { super(description);"
+    },
+    {
+      "chunk_id": 458,
+      "text": "ion) { super(description); // Load the image by using the absolute path to the gif. // Using a relative location should work, but it does not. // Use the resource locator of the class. // F"
+    },
+    {
+      "chunk_id": 459,
+      "text": "he resource locator of the class. // For more information, see // jdk1.3/docs/guide/resources/resources.html URL img = getClass().getResource(\"/ptolemy/vergil/basic/img/zoomfit.gif\"); if (img != null)"
+    },
+    {
+      "chunk_id": 460,
+      "text": "/img/zoomfit.gif\"); if (img != null) { ImageIcon icon = new ImageIcon(img); putValue(GUIUtilities.LARGE_ICON, icon); } putValue(\"tooltip\", description + \" (Ctrl+Shift+-)\");"
+    },
+    {
+      "chunk_id": 461,
+      "text": "ooltip\", description + \" (Ctrl+Shift+-)\"); putValue(GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()"
+    },
+    {
+      "chunk_id": 462,
+      "text": "ltToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK)); putValue(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_F)); } public void actionPerformed(ActionEvent e) { zoomFit();"
+    },
+    {
+      "chunk_id": 463,
+      "text": "nPerformed(ActionEvent e) { zoomFit(); } } /////////////////////////////////////////////////////////////////// //// ZoomOutAction // An action to zoom out. public class ZoomOutAction extends AbstractAction {"
+    },
+    {
+      "chunk_id": 464,
+      "text": "lic class ZoomOutAction extends AbstractAction { public ZoomOutAction(String description) { super(description); // Load the image by using the absolute path to the gif. // Using a relative location should"
+    },
+    {
+      "chunk_id": 465,
+      "text": ". // Using a relative location should work, but it does not. // Use the resource locator of the class. // For more information, see // jdk1.3/docs/guide/resources/resources.html URL img = ge"
+    },
+    {
+      "chunk_id": 466,
+      "text": "/resources/resources.html URL img = getClass().getResource(\"/ptolemy/vergil/basic/img/zoomout.gif\"); if (img != null) { ImageIcon icon = new ImageIcon(img); putValue(GUIUtilities.LARGE_ICON, ic"
+    },
+    {
+      "chunk_id": 467,
+      "text": "putValue(GUIUtilities.LARGE_ICON, icon); } putValue(\"tooltip\", description + \" (Ctrl+-)\"); putValue(GUIUtilities.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_MINUS,"
+    },
+    {
+      "chunk_id": 468,
+      "text": "KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); putValue(GUIUtilities.MNEMONIC_KEY, new Integer(KeyEvent.VK_U)); } public void actionPerformed"
+    },
+    {
+      "chunk_id": 470,
+      "text": "private methods //// /** * Offset the moml object by xOffset and yOffset. This makes it * so pasted items do not appear directly on top of the copied * source in vergil. * @param moml th"
+    },
+    {
+      "chunk_id": 471,
+      "text": "ied * source in vergil. * @param moml the moml to change * @param xOffset the number of x pixels to move the pasted object * @param yOffset the number of y pixels to move the pasted object * @return moml with the location mod"
+    },
+    {
+      "chunk_id": 472,
+      "text": "d object * @return moml with the location modified by xOffset and yOffset */ private String offsetPastedMomlLocation(String moml, int xOffset, int yOffset) { // Go through the moml and look for the _location property"
+    },
+    {
+      "chunk_id": 473,
+      "text": "rough the moml and look for the _location property // when it is found, acquire the value in [x,y] form // add xOffset onto x and yOffset onto y and replace the value int index = 0; while (true) { index ="
+    },
+    {
+      "chunk_id": 474,
+      "text": "= 0; while (true) { index = moml.indexOf(\"<property name=\\\"_location\\\"\", index + 1); if (index == -1) { //look for all _locations, and break when there are no more break;"
+    },
+    {
+      "chunk_id": 475,
+      "text": "re are no more break; } int valStartIndex = moml.indexOf(\"value=\\\"\", index); int valEndIndex = moml.indexOf(\"\\\"\", valStartIndex + 8); String position = moml.substring(valStartIndex + 8,"
+    },
+    {
+      "chunk_id": 476,
+      "text": "tring position = moml.substring(valStartIndex + 8, valEndIndex - 1); // Get the int representation of the numbers float xpos = new Float(position.substring(0, position.indexOf(\",\")) .trim()).floatValue();"
+    },
+    {
+      "chunk_id": 477,
+      "text": "(\",\")) .trim()).floatValue(); float ypos = new Float(position.substring(position.indexOf(\",\") + 1, position.length()).trim()).floatValue(); xpos += xOffset;"
+    },
+    {
+      "chunk_id": 478,
+      "text": ".floatValue(); xpos += xOffset; ypos += yOffset; // Now put the values back in the string String newValueString = \"value=\\\"{\" + xpos + \", \" + ypos + \"}\\\"\"; String firstPart = moml.substring"
+    },
+    {
+      "chunk_id": 479,
+      "text": "\\\"\"; String firstPart = moml.substring(0, valStartIndex); String lastPart = moml.substring(valEndIndex + 1, moml.length()); // Cut out the old value and put in the new one firstPart += newValueString;"
+    },
+    {
+      "chunk_id": 480,
+      "text": "new one firstPart += newValueString; moml = firstPart + lastPart; } return moml; } }"
+    }
+  ]
+}

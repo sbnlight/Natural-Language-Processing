@@ -1,0 +1,241 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/kernel/util/Settable.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Settable JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method ptol"
+    },
+    {
+      "chunk_id": 2,
+      "text": "nstr | Method Detail: Field | Constr | Method ptolemy.kernel.util Interface Settable All Superinterfaces: Nameable All Known Subinterfaces: FileOrURLAccessor , Locatable , ValueIterator All Known Implementing Classes: AbstractActionsAttribute , Abstr"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ementing Classes: AbstractActionsAttribute , AbstractInitializableParameter , AbstractSettableAttribute , Action , ActionsAttribute , AreaEventType , AttributeExpressionAttribute , AttributeValueAttribute , BaseUnit , ChoiceParameter , ChoiceStringPa"
+    },
+    {
+      "chunk_id": 4,
+      "text": "bute , BaseUnit , ChoiceParameter , ChoiceStringParameter , ColorAttribute , CommitActionsAttribute , ConceptAttribute , ConfigurableAttribute , Constraint , ConstraintMonitor , ContainerIgnoringAttribute , DebugController , DebuggerParameter , Defau"
+    },
+    {
+      "chunk_id": 5,
+      "text": "bute , DebugController , DebuggerParameter , DefaultDirectoryAttribute , DefaultIconLink , DefaultIconScript , DefaultModelAttribute , DefaultTitle , Documentation , DoubleRangeParameter , DygraphsJSPlotterAttribute , Event.EventParameter , ExpertPar"
+    },
+    {
+      "chunk_id": 6,
+      "text": "lotterAttribute , Event.EventParameter , ExpertParameter , FileAttribute , FileParameter , FilePortParameter , FSMTransitionParameter , GraphTransformer.ReplacementObjectAttribute , GTIngredientsAttribute , GTParameter , HierarchyFlatteningAttribute"
+    },
+    {
+      "chunk_id": 7,
+      "text": "bute , GTParameter , HierarchyFlatteningAttribute , HomerLocation , HTMLImage , HTMLText , HTMLTextPosition , IconLink , IconScript , IntRangeParameter , IterativeParameter , JSAccessor.ActionableAttribute , JSPlotterAttribute , LayoutHint , LibraryA"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ibute , JSPlotterAttribute , LayoutHint , LibraryAttribute , LinkTarget , LinkToOpenTableaux , LiveLink , LocalClock , Location , LocationAttribute , LocationParameter , MirrorPortParameter , ModelParameter , MonitorReceiverAttribute , NamedObjVariab"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ameter , MonitorReceiverAttribute , NamedObjVariable , NameParameter , OntologyAnnotationAttribute , OutputActionsAttribute , Parameter , ParameterDisplayIconScript , ParametersAttribute , PasswordAttribute , PatternObjectAttribute , PortParameter ,"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ribute , PatternObjectAttribute , PortParameter , Priority , ProcessAttribute , PtalonExpressionParameter , PtalonParameter , PTDBSearchAttribute , PtinyOSNodeParameter , RelationCollapsingAttribute , RelationHidingAttribute , RelativeLocation , Requ"
+    },
+    {
+      "chunk_id": 11,
+      "text": "RelationHidingAttribute , RelativeLocation , RequireVersion , ScreenSize , Script , SequenceAttribute , SharedParameter , SingletonConfigurableAttribute , SingletonParameter , SIPrefixUnitConversionInfo , SizeAttribute , StringAttribute , StringCons"
+    },
+    {
+      "chunk_id": 12,
+      "text": "nfo , SizeAttribute , StringAttribute , StringConstantParameter , StringParameter , SynchronizeToRealtime , TableauParameter , TemporaryVariable , Title , TransformationMode , TransientSingletonConfigurableAttribute , TypeAttribute , UnitAttribute ,"
+    },
+    {
+      "chunk_id": 13,
+      "text": "urableAttribute , TypeAttribute , UnitAttribute , UnitConversionInfo , Variable , VersionAttribute , Vertex , WebAttribute , WebContent , WebElement , WindowPropertiesAttribute public interface Settable extends Nameable This is an interface for attri"
+    },
+    {
+      "chunk_id": 14,
+      "text": "le extends Nameable This is an interface for attributes that can have their values externally set. An attribute class that implements this interface has to be able to have a value set by a string, via the setExpression() method. A string represe"
+    },
+    {
+      "chunk_id": 15,
+      "text": "via the setExpression() method. A string representation is returned by the getExpression() method. An expression may be an ordinary string with no further interpretation, or it may be a string that needs to be evaluated. In the latter case, an"
+    },
+    {
+      "chunk_id": 16,
+      "text": "at needs to be evaluated. In the latter case, an implementation of this attribute may not evaluate the string when the setExpression() method is called. It may instead only evaluate the string when the validate() method is called. Often this wil"
+    },
+    {
+      "chunk_id": 17,
+      "text": "the validate() method is called. Often this will not be called until the value of the expression is actually needed (this is known as \"lazy evaluation\"). Such an implementation will defer notification of listeners and the container until the st"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ation of listeners and the container until the string is evaluated. In a typical use of this interface, therefore, it is necessary to be sure that validate() is called sometime after setExpression() is called. In addition, an attribute class that"
+    },
+    {
+      "chunk_id": 19,
+      "text": ") is called. In addition, an attribute class that implements this interface needs to maintain a list of listeners that are informed whenever the value of the attribute changes. It should inform those listeners whenever setExpression() is called."
+    },
+    {
+      "chunk_id": 20,
+      "text": "se listeners whenever setExpression() is called. Among other uses, this interface marks attributes whose value can be set via the value attribute of a MoML property element. For example, if class XXX implements Settable, then the following is val"
+    },
+    {
+      "chunk_id": 21,
+      "text": "XX implements Settable, then the following is valid MoML: <property name=\"xxx\" class=\"XXX\" value=\"yyy\"/> This interface also supports annotations that hint to a user interface the level of visibility that an instance should have. The visibility is"
+    },
+    {
+      "chunk_id": 22,
+      "text": "y that an instance should have. The visibility is specified as one of the static instances of the inner class Visibility, currently NONE, EXPERT, FULL, and NOT_EDITABLE NONE indicates that the user should never see the instance, and should not be"
+    },
+    {
+      "chunk_id": 23,
+      "text": "should never see the instance, and should not be able to set its value through the user interface. EXPERT means that only expert users should see the instance. FULL means that the instance is always visible, and a user interface should always al"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ys visible, and a user interface should always allow it to be set. NOT_EDITABLE is similar to FULL, except that the value of the expression is visible, but not editable by the user. This is commonly used for feedback from the model. Since: Ptole"
+    },
+    {
+      "chunk_id": 25,
+      "text": "nly used for feedback from the model. Since: Ptolemy II 1.0 Version: $Id$ Author: Edward A. Lee Pt.AcceptedRating: Green (cxh) Pt.ProposedRating: Green (eal) Nested Class Summary Nested Classes Modifier and Type Interface and Description static class"
+    },
+    {
+      "chunk_id": 26,
+      "text": "er and Type Interface and Description static class Settable.Visibility Inner class used for the static enumeration of indicators of visibility. Field Summary Fields Modifier and Type Field and Description static Settable.Visibility EXPERT Indicator"
+    },
+    {
+      "chunk_id": 27,
+      "text": "iption static Settable.Visibility EXPERT Indicator that a user interface should make an instance visible only to experts. static Settable.Visibility FULL Indicator that a user interface should make an instance visible. static Settable.Visibility NO"
+    },
+    {
+      "chunk_id": 28,
+      "text": "an instance visible. static Settable.Visibility NONE Indicator that a user interface should not make an instance visible. static Settable.Visibility NOT_EDITABLE Indicator that a user interface should make an instance visible, but not allow editing"
+    },
+    {
+      "chunk_id": 29,
+      "text": "make an instance visible, but not allow editing of the variable. Method Summary All Methods Instance Methods Abstract Methods Modifier and Type Method and Description void addValueListener ( ValueListener listener) Add a listener to be notified wh"
+    },
+    {
+      "chunk_id": 30,
+      "text": "istener listener) Add a listener to be notified when the value of this settable object changes. java.lang.String getDefaultExpression () Return the default value of this attribute, if there is one, or null if there is none. java.lang.String getDi"
+    },
+    {
+      "chunk_id": 31,
+      "text": ", or null if there is none. java.lang.String getDisplayName () Return a name to present to the user. java.lang.String getExpression () Get the expression of the attribute that has been set by setExpression(), or null if there is none. java.lang.Str"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ssion(), or null if there is none. java.lang.String getValueAsString () Get the value of the attribute, which is the evaluated expression. Settable.Visibility getVisibility () Get the visibility of this Settable, as set by setVisibility(). void rem"
+    },
+    {
+      "chunk_id": 33,
+      "text": "this Settable, as set by setVisibility(). void removeValueListener ( ValueListener listener) Remove a listener from the list of listeners that are notified when the value of this variable changes. void setExpression (java.lang.String expression) Se"
+    },
+    {
+      "chunk_id": 34,
+      "text": "oid setExpression (java.lang.String expression) Set the value of the attribute by giving some expression. void setVisibility ( Settable.Visibility visibility) Set the visibility of this Settable. java.util.Collection validate () Check the validity of"
+    },
+    {
+      "chunk_id": 35,
+      "text": ".util.Collection validate () Check the validity of the expression set in setExpression(). Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getFullName , getName , getName , setName Field Detail NONE static f"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ame , getName , setName Field Detail NONE static final Settable.Visibility NONE Indicator that a user interface should not make an instance visible. EXPERT static final Settable.Visibility EXPERT Indicator that a user interface should make an instanc"
+    },
+    {
+      "chunk_id": 37,
+      "text": "cator that a user interface should make an instance visible only to experts. FULL static final Settable.Visibility FULL Indicator that a user interface should make an instance visible. NOT_EDITABLE static final Settable.Visibility NOT_EDITABLE Indi"
+    },
+    {
+      "chunk_id": 38,
+      "text": "static final Settable.Visibility NOT_EDITABLE Indicator that a user interface should make an instance visible, but not allow editing of the variable. Method Detail addValueListener void addValueListener( ValueListener listener) Add a listener to be"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ener( ValueListener listener) Add a listener to be notified when the value of this settable object changes. An implementation of this method should ignore the call if the specified listener is already on the list of listeners. In other words,"
+    },
+    {
+      "chunk_id": 40,
+      "text": "eady on the list of listeners. In other words, it should not be possible for the same listener to be notified twice of a value update. Parameters: listener - The listener to add. See Also: removeValueListener(ValueListener) getDefaultExpression"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ValueListener(ValueListener) getDefaultExpression java.lang.String getDefaultExpression() Return the default value of this attribute, if there is one, or null if there is none. Returns: The default value of this attribute, or null if there is no"
+    },
+    {
+      "chunk_id": 42,
+      "text": "value of this attribute, or null if there is none. getDisplayName java.lang.String getDisplayName() Return a name to present to the user. Specified by: getDisplayName in interface Nameable Returns: A name to present to the user. getExpression java"
+    },
+    {
+      "chunk_id": 43,
+      "text": "A name to present to the user. getExpression java.lang.String getExpression() Get the expression of the attribute that has been set by setExpression(), or null if there is none. Returns: The expression. See Also: setExpression(String) getValueAsSt"
+    },
+    {
+      "chunk_id": 44,
+      "text": "sion. See Also: setExpression(String) getValueAsString java.lang.String getValueAsString() Get the value of the attribute, which is the evaluated expression. Returns: The value. See Also: getExpression() getVisibility Settable.Visibility getVisibilit"
+    },
+    {
+      "chunk_id": 45,
+      "text": "n() getVisibility Settable.Visibility getVisibility() Get the visibility of this Settable, as set by setVisibility(). If setVisibility() has not been called, then implementations of this interface should return some default, not null, indicating"
+    },
+    {
+      "chunk_id": 46,
+      "text": "should return some default, not null, indicating user-level visibility. The returned value is one of the static instances of the Visibility inner class. Returns: The visibility of this Settable. See Also: setVisibility(Settable.Visibility) remov"
+    },
+    {
+      "chunk_id": 47,
+      "text": "See Also: setVisibility(Settable.Visibility) removeValueListener void removeValueListener( ValueListener listener) Remove a listener from the list of listeners that are notified when the value of this variable changes. If no such listener exists"
+    },
+    {
+      "chunk_id": 48,
+      "text": "is variable changes. If no such listener exists, do nothing. Parameters: listener - The listener to remove. See Also: addValueListener(ValueListener) setExpression void setExpression(java.lang.String expression) throws IllegalActionExc"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ng expression) throws IllegalActionException Set the value of the attribute by giving some expression. In some implementations, the listeners and the container will be notified immediately. However, some implementations may defer n"
+    },
+    {
+      "chunk_id": 50,
+      "text": "tely. However, some implementations may defer notification until validate() is called. Parameters: expression - The value of the attribute. Throws: IllegalActionException - If the expression is invalid. See Also: getExpression() setVisibility void"
+    },
+    {
+      "chunk_id": 51,
+      "text": "alid. See Also: getExpression() setVisibility void setVisibility( Settable.Visibility visibility) Set the visibility of this Settable. The argument should be one of the static public instances of the inner class Visibility. This is enforced by m"
+    },
+    {
+      "chunk_id": 52,
+      "text": "he inner class Visibility. This is enforced by making it impossible to construct instances of this inner class outside this interface definition. If this method is not called, then implementations of this interface should return some default,"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ns of this interface should return some default, not null. Parameters: visibility - The visibility of this Settable. See Also: getVisibility() validate java.util.Collection validate() throws IllegalActionException Check the v"
+    },
+    {
+      "chunk_id": 54,
+      "text": "throws IllegalActionException Check the validity of the expression set in setExpression(). Implementations of this method should notify the container by calling attributeChanged(), unless the container has already been notified in setE"
+    },
+    {
+      "chunk_id": 55,
+      "text": "the container has already been notified in setExpression(). They should also notify any registered value listeners if they have not already been notified. If any other instances of Settable are validated as a side effect, then an implementa"
+    },
+    {
+      "chunk_id": 56,
+      "text": "e validated as a side effect, then an implementation should return a Collection containing those instances. This can be used by the caller to avoid validating those again. The list may contain this instance of Settable. Returns: A collection of"
+    },
+    {
+      "chunk_id": 57,
+      "text": "his instance of Settable. Returns: A collection of settables that are also validated as a side effect, or null if there are none. Throws: IllegalActionException - If the expression is not valid, or its value is not acceptable to the container o"
+    },
+    {
+      "chunk_id": 58,
+      "text": "its value is not acceptable to the container or the listeners. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Co"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

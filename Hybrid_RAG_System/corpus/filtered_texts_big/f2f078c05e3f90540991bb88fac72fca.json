@@ -1,0 +1,1101 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/data/expr/Variable.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Variable JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method ptol"
+    },
+    {
+      "chunk_id": 2,
+      "text": "nstr | Method Detail: Field | Constr | Method ptolemy.data.expr Class Variable java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.util.Attribute ptolemy.kernel.util.AbstractSettableAttribute ptolemy.data.expr.Variable All Implemented Interf"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ptolemy.data.expr.Variable All Implemented Interfaces: java.lang.Cloneable, HasTypeConstraints , Typeable , Changeable , Debuggable , DebugListener , Derivable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , Settable , ValueListener Dir"
+    },
+    {
+      "chunk_id": 4,
+      "text": "Moveable , Nameable , Settable , ValueListener Direct Known Subclasses: NamedObjVariable , Parameter , PTDBSearchAttribute , TemporaryVariable public class Variable extends AbstractSettableAttribute implements Typeable , ValueListener A Variable is a"
+    },
+    {
+      "chunk_id": 5,
+      "text": "mplements Typeable , ValueListener A Variable is an Attribute that contains a token, and can be set by an expression that can refer to other variables. A variable can be given a token or an expression as its value. To create a variable with a token"
+    },
+    {
+      "chunk_id": 6,
+      "text": "n as its value. To create a variable with a token, either call the appropriate constructor, or create the variable with the appropriate container and name, and then call setToken(). To set the value from an expression, call setExpression(). The e"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e from an expression, call setExpression(). The expression is not actually evaluated until you call getToken(), getType(). By default, it is also evaluated when you call validate(), unless you have called setLazy(true), in which case it will only"
+    },
+    {
+      "chunk_id": 8,
+      "text": "called setLazy(true), in which case it will only be evaluated if there are other variables that depend on it and those have not had setLazy(true) called. Consider for example the sequence: Variable v3 = new Variable(container,\"v3\"); Variable v2 ="
+    },
+    {
+      "chunk_id": 9,
+      "text": "v3 = new Variable(container,\"v3\"); Variable v2 = new Variable(container,\"v2\"); Variable v1 = new Variable(container,\"v1\"); v3.setExpression(\"v1 + v2\"); v2.setExpression(\"1.0\"); v1.setExpression(\"2.0\"); v3.getToken(); Notice that the expression"
+    },
+    {
+      "chunk_id": 10,
+      "text": "\"2.0\"); v3.getToken(); Notice that the expression for v3 cannot be evaluated when it is set because v2 and v1 do not yet have values. But there is no problem because the expression is not evaluated until getToken() is called. Equivalently, we"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ed until getToken() is called. Equivalently, we could have called, for example, v3.validate(); This will force v3 to be evaluated, and also v1 and v2 to be evaluated. There is a potentially confusing subtlety. In the above code, before the last"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ng subtlety. In the above code, before the last line is executed, the expression for v3 has not been evaluated, so the dependence that v3 has on v1 and v2 has not been recorded. Thus, if we call v1.validate(); before v3 has ever been evaluated, t"
+    },
+    {
+      "chunk_id": 13,
+      "text": "1.validate(); before v3 has ever been evaluated, then it will not trigger an evaluation of v3 . Because of this, we recommend that user code call validate() immediately after calling setExpression(). If the expression string is null or empty, or"
+    },
+    {
+      "chunk_id": 14,
+      "text": "). If the expression string is null or empty, or if no value has been specified, then getToken() will return null. The expression can reference variables that are in scope before the expression is evaluated (i.e., before getToken() or validate() is"
+    },
+    {
+      "chunk_id": 15,
+      "text": "valuated (i.e., before getToken() or validate() is called). Otherwise, getToken() will throw an exception. All variables contained by the same container, and those contained by the container's container, are in the scope of this variable. Thus, in"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ainer, are in the scope of this variable. Thus, in the above, all three variables are in each other's scope because they belong to the same container. If there are variables in the scope with the same name, then those lower in the hierarchy shadow"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ame name, then those lower in the hierarchy shadow those that are higher. An instance of ScopeExtendingAttribute can also be used to aggregate a set of variables and add them to the scope. If a variable is referred to by expressions of other varia"
+    },
+    {
+      "chunk_id": 18,
+      "text": "able is referred to by expressions of other variables, then the name of the variable must be a valid identifier as defined by the Ptolemy II expression language syntax. A valid identifier starts with a letter or underscore, and contains letters,"
+    },
+    {
+      "chunk_id": 19,
+      "text": "th a letter or underscore, and contains letters, underscores, numerals, dollar signs ($), at signs (@), or pound signs (#). A variable is a Typeable object. Constraints on its type can be specified relative to other Typeable objects (as inequaliti"
+    },
+    {
+      "chunk_id": 20,
+      "text": "relative to other Typeable objects (as inequalities on the types), or relative to specific types. The former are called dynamic type constraints , and the latter are called static type constraints . Static type constraints are specified by the m"
+    },
+    {
+      "chunk_id": 21,
+      "text": ". Static type constraints are specified by the methods: setTypeEquals() setTypeAtMost() whereas dynamic type constraints are given by setTypeAtLeast() setTypeSameAs() Static type constraints are enforced in this class, meaning that: If the variable"
+    },
+    {
+      "chunk_id": 22,
+      "text": "orced in this class, meaning that: If the variable already has a value (set by setToken() or setExpression()) when you set the static type constraint, then the value must satisfy the type constraint; and If after setting a static type constraint yo"
+    },
+    {
+      "chunk_id": 23,
+      "text": "; and If after setting a static type constraint you give the token a value, then the value must satisfy the constraints. A violation will cause an exception (either when setToken() is called or when the expression is evaluated). The dynamic type co"
+    },
+    {
+      "chunk_id": 24,
+      "text": "the expression is evaluated). The dynamic type constraints are not enforced in this class, but merely reported by the typeConstraints() method. They must be enforced at a higher level (by a type system) since they involve a network of variables"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ystem) since they involve a network of variables and other typeable objects. In fact, if the variable does not yet have a value, then a type system may use these constraints to infer what the type of the variable needs to be, and then call setTyp"
+    },
+    {
+      "chunk_id": 26,
+      "text": "of the variable needs to be, and then call setTypeEquals(). The token returned by getToken() is always an instance of the class given by the getType() method. This is not necessarily the same as the class of the token that was inserted via setTok"
+    },
+    {
+      "chunk_id": 27,
+      "text": "e class of the token that was inserted via setToken(). It might be a distinct type if the token given by setToken() can be converted losslessly into one of the type given by setTypeEquals(). A variable by default has no MoML description (MoML is"
+    },
+    {
+      "chunk_id": 28,
+      "text": "iable by default has no MoML description (MoML is an XML modeling markup language). Thus, a variable contained by a named object is not persistent, in that if the object is exported to a MoML file, the variable will not be represented. If you pr"
+    },
+    {
+      "chunk_id": 29,
+      "text": "the variable will not be represented. If you prefer that the variable be represented, then you should use the derived class Parameter instead. A variable is also normally not settable by casual users from the user interface. This is because, by"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ers from the user interface. This is because, by default, getVisibility() returns EXPERT. The derived class Parameter is fully visible by default. In addition, this class provides as a convenience a \"string mode.\" If the variable is in string mod"
+    },
+    {
+      "chunk_id": 31,
+      "text": "a \"string mode.\" If the variable is in string mode, then when setting the value of this variable, the string that you pass to setExpression(String) is taken to be literally the value of the instance of StringToken that represents the value of thi"
+    },
+    {
+      "chunk_id": 32,
+      "text": "e of StringToken that represents the value of this parameter. It is not necessary to enclose it in quotation marks (and indeed, if you do, the quotation marks will become part of the value of the string). In addition, the type of this parameter"
+    },
+    {
+      "chunk_id": 33,
+      "text": "tring). In addition, the type of this parameter will be set to string. In addition, getToken() will never return null; if the value of the string has never been set, then an instance of StringToken is returned that has an empty string as its val"
+    },
+    {
+      "chunk_id": 34,
+      "text": "n is returned that has an empty string as its value. A parameter is in string mode if either setStringMode(true) has been called or it contains an attribute named \"_stringMode\". In string mode, the value passed to setExpression(String) may contain"
+    },
+    {
+      "chunk_id": 35,
+      "text": "value passed to setExpression(String) may contain references to other variables in scope using the syntax $id, ${id} or $(id). The first case only works if the id consists only of alphanumeric characters and/or underscore, and if the character"
+    },
+    {
+      "chunk_id": 36,
+      "text": "aracters and/or underscore, and if the character immediately following the id is not one of these. To get a simple dollar sign, use $$. In string mode, to set the value to be the empty string, create a Parameter in the container that has the val"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ate a Parameter in the container that has the value \"\" and then set the string mode parameter to the $ nameOfTheParameter . For example, the parameter might be named myEmptyParameter and have a value \"\" ; the value for the string mode parameter"
+    },
+    {
+      "chunk_id": 38,
+      "text": "alue \"\" ; the value for the string mode parameter would be $myEmptyParameter . Since: Ptolemy II 0.2 Version: $Id$ Author: Neil Smyth, Xiaojun Liu, Edward A. Lee, Yuhong Xiong, contributor: Daniel Crawl. See Also: Token , PtParser , Parameter , Scop"
+    },
+    {
+      "chunk_id": 39,
+      "text": "awl. See Also: Token , PtParser , Parameter , ScopeExtendingAttribute , NamedObj.setPersistent(boolean) Pt.AcceptedRating: Red (cxh) Pt.ProposedRating: Red (neuendor) Nested Class Summary Nested Classes Modifier and Type Class and Description static"
+    },
+    {
+      "chunk_id": 40,
+      "text": "es Modifier and Type Class and Description static class Variable.CircularDependencyError Subclass of IllegalActionException for use in reporting circular dependency errors. protected class Variable.VariableScope Scope implementation with local cach"
+    },
+    {
+      "chunk_id": 41,
+      "text": "VariableScope Scope implementation with local caching. Nested classes/interfaces inherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Nested classes/interfaces inherited from interface ptolemy.kernel.util. Settable Set"
+    },
+    {
+      "chunk_id": 42,
+      "text": "d from interface ptolemy.kernel.util. Settable Settable.Visibility Field Summary Fields Modifier and Type Field and Description protected java.lang.String _currentExpression Stores the expression used to set this variable. protected boolean _needsEva"
+    },
+    {
+      "chunk_id": 43,
+      "text": "to set this variable. protected boolean _needsEvaluation Flags that the expression needs to be evaluated when the value of this variable is queried. protected ParserScope _parserScope The instance of VariableScope. protected boolean _parseTreeVali"
+    },
+    {
+      "chunk_id": 44,
+      "text": "of VariableScope. protected boolean _parseTreeValid Indicator that the parse tree is valid. protected boolean _suppressVariableSubstitution True to suppress variable substitution in string mode. protected java.util.List< ValueListener > _valueListene"
+    },
+    {
+      "chunk_id": 45,
+      "text": "cted java.util.List< ValueListener > _valueListeners Listeners for changes in value. Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _e"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.kernel.util. Settable EXPERT , FULL"
+    },
+    {
+      "chunk_id": 47,
+      "text": "rface ptolemy.kernel.util. Settable EXPERT , FULL , NONE , NOT_EDITABLE Constructor Summary Constructors Modifier Constructor and Description Variable () Construct a variable in the default workspace with an empty string as its name. Variable ( Nam"
+    },
+    {
+      "chunk_id": 48,
+      "text": "with an empty string as its name. Variable ( NamedObj container, java.lang.String name) Construct a variable with the given name as an attribute of the given container. Variable ( NamedObj container, java.lang.String name, Token t"
+    },
+    {
+      "chunk_id": 49,
+      "text": "container, java.lang.String name, Token token) Construct a variable with the given container, name, and token. protected Variable ( NamedObj container, java.lang.String name, Token token, boolean incrementWorkspaceVersion) Co"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ken, boolean incrementWorkspaceVersion) Construct a variable with the given container, name, and token. Variable ( Workspace workspace) Construct a variable in the specified workspace with an empty string as its name. Method Summary All Met"
+    },
+    {
+      "chunk_id": 51,
+      "text": "empty string as its name. Method Summary All Methods Static Methods Instance Methods Concrete Methods Deprecated Methods Modifier and Type Method and Description protected java.lang.String _description (int detail, int indent,"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ion (int detail, int indent, int bracket) Return a description of this variable. protected void _evaluate () Evaluate the current expression to a token. protected java.lang.String _getCurrentExpression () Get the current expre"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ing _getCurrentExpression () Get the current expression as a string, to be used to export to MoML. protected void _notifyValueListeners () Notify the value listeners of this variable that this variable changed. protected void _parseIfNecessary () P"
+    },
+    {
+      "chunk_id": 54,
+      "text": "e changed. protected void _parseIfNecessary () Parse the expression, if the current parse tree is not valid. protected java.util.List< IllegalActionException > _propagate () Force evaluation of this variable, unless it is lazy, and call _propagat"
+    },
+    {
+      "chunk_id": 55,
+      "text": "variable, unless it is lazy, and call _propagate() on its value dependents. protected java.util.List< IllegalActionException > _propagateToValueListeners () Call propagate() on all value listeners. protected void _propagateValue ( NamedObj destina"
+    },
+    {
+      "chunk_id": 56,
+      "text": "protected void _propagateValue ( NamedObj destination) Propagate the value of this object to the specified object. protected void _setToken ( Token newToken) Set the token value and type of the variable. protected void _setTokenAndNotify ( Token n"
+    },
+    {
+      "chunk_id": 57,
+      "text": "iable. protected void _setTokenAndNotify ( Token newToken) Set the token value and type of the variable, and notify the container that the value (and type, if appropriate) has changed. void addValueListener ( ValueListener listener) Add a listener"
+    },
+    {
+      "chunk_id": 58,
+      "text": "Listener ( ValueListener listener) Add a listener to be notified when the value of this variable changes. void attributeChanged ( Attribute attribute) React to a change in an attribute. java.lang.Object clone ( Workspace workspace) Clone the variable"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ct clone ( Workspace workspace) Clone the variable. Type getDeclaredType () If setTypeEquals() has been called, then return the type specified there. java.lang.String getExpression () Get the expression currently used by this variable. java.util.Se"
+    },
+    {
+      "chunk_id": 60,
+      "text": "sion currently used by this variable. java.util.Set getFreeIdentifiers () Return the list of identifiers referenced by the current expression. ParserScope getParserScope () Return the parser scope for this variable. NamedList getScope () Return a Nam"
+    },
+    {
+      "chunk_id": 61,
+      "text": "this variable. NamedList getScope () Return a NamedList of the variables that the value of this variable can depend on. static NamedList getScope ( NamedObj object) Return a NamedList of the variables that the value of the specified variable can"
+    },
+    {
+      "chunk_id": 62,
+      "text": "les that the value of the specified variable can depend on. Token getToken () Get the token contained by this variable. Type getType () Get the type of this variable. InequalityTerm getTypeTerm () Return an InequalityTerm whose value is the type of"
+    },
+    {
+      "chunk_id": 63,
+      "text": "eturn an InequalityTerm whose value is the type of this variable. java.lang.String getValueAsString () Get the value of the attribute, which is the evaluated expression. Variable getVariable (java.lang.String name) Look up and return the attribute wi"
+    },
+    {
+      "chunk_id": 64,
+      "text": "g.String name) Look up and return the attribute with the specified name in the scope. Settable.Visibility getVisibility () Get the visibility of this variable, as set by setVisibility(). void invalidate () Mark this variable, and all variables that"
+    },
+    {
+      "chunk_id": 65,
+      "text": "date () Mark this variable, and all variables that depend on it, as needing to be evaluated. boolean isKnown () Return true if the value of this variable is known, and false otherwise. boolean isLazy () Return true if this variable is lazy. boole"
+    },
+    {
+      "chunk_id": 66,
+      "text": "azy () Return true if this variable is lazy. boolean isStringMode () Return true if this parameter is in string mode. boolean isSuppressVariableSubstitution () Return true if this variable is suppressing variable substitution. boolean isTypeAccepta"
+    },
+    {
+      "chunk_id": 67,
+      "text": "ing variable substitution. boolean isTypeAcceptable () Check whether the current type of this variable is acceptable. void removeValueListener ( ValueListener listener) Remove a listener from the list of listeners that is notified when the value"
+    },
+    {
+      "chunk_id": 68,
+      "text": "st of listeners that is notified when the value of this variable changes. void reset () Deprecated. This capability may be removed to simplify this class. It is not currently used in Ptolemy II, as of version 2.0. void setContainer ( NamedObj co"
+    },
+    {
+      "chunk_id": 69,
+      "text": "as of version 2.0. void setContainer ( NamedObj container) Specify the container, and add this variable to the list of attributes in the container. void setExpression (java.lang.String expr) Set the expression of this variable. void setLazy (boolea"
+    },
+    {
+      "chunk_id": 70,
+      "text": "expression of this variable. void setLazy (boolean lazy) Specify whether this variable is to be lazy. void setName (java.lang.String name) Override the base class to throw an exception if renaming this variable results in an error evaluating some"
+    },
+    {
+      "chunk_id": 71,
+      "text": "is variable results in an error evaluating some variable that depends on it. void setParseTreeEvaluator ( ParseTreeEvaluator parseTreeEvaluator) Set a new parseTreeEvaluator. void setStringMode (boolean stringMode) Specify whether this parameter"
+    },
+    {
+      "chunk_id": 72,
+      "text": "oolean stringMode) Specify whether this parameter should be in string mode. void setSuppressVariableSubstitution (boolean suppress) If the argument is true, then for a string mode parameter, suppress variable substitution. void setToken (java.lang."
+    },
+    {
+      "chunk_id": 73,
+      "text": "s variable substitution. void setToken (java.lang.String expression) Set the expression for this variable by calling setExpression(), and then evaluate it by calling validate(). void setToken ( Token token) Put a new token in this variable and no"
+    },
+    {
+      "chunk_id": 74,
+      "text": "ken token) Put a new token in this variable and notify the container and and value listeners. void setTypeAtLeast ( InequalityTerm typeTerm) Constrain the type of this variable to be equal to or greater than the type represented by the specified"
+    },
+    {
+      "chunk_id": 75,
+      "text": "reater than the type represented by the specified InequalityTerm. void setTypeAtLeast ( Typeable lesser) Constrain the type of this variable to be equal to or greater than the type of the specified object. void setTypeAtMost ( Type type) Set a type"
+    },
+    {
+      "chunk_id": 76,
+      "text": "object. void setTypeAtMost ( Type type) Set a type constraint that the type of this object be less than or equal to the specified class in the type lattice. void setTypeEquals ( Type type) Set a type constraint that the type of this object equal"
+    },
+    {
+      "chunk_id": 77,
+      "text": "e constraint that the type of this object equal the specified value. void setTypeSameAs ( Typeable equal) Constrain the type of this variable to be the same as the type of the specified object. void setUnknown (boolean value) Mark the value of th"
+    },
+    {
+      "chunk_id": 78,
+      "text": "id setUnknown (boolean value) Mark the value of this variable to be unknown if the argument is true , or known if the argument is false . void setValueListenerAsWeakDependency ( ValueListener listener) Set a value listener as a weak dependency. void"
+    },
+    {
+      "chunk_id": 79,
+      "text": ") Set a value listener as a weak dependency. void setVisibility ( Settable.Visibility visibility) Set the visibility of this variable. java.lang.String stringRepresentation () Deprecated. java.lang.String toString () Return a string representation of"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ring toString () Return a string representation of the current evaluated variable value. java.util.List typeConstraintList () Deprecated. Use typeConstraints(). java.util.Set< Inequality > typeConstraints () Return the type constraints of this variab"
+    },
+    {
+      "chunk_id": 81,
+      "text": "ints () Return the type constraints of this variable. java.util.Collection validate () If this variable is not lazy (the default) then evaluate the expression contained in this variable, and notify any value dependents. void valueChanged ( Settab"
+    },
+    {
+      "chunk_id": 82,
+      "text": "any value dependents. void valueChanged ( Settable settable) React to the change in the specified instance of Settable. Methods inherited from class ptolemy.kernel.util. AbstractSettableAttribute getDefaultExpression Methods inherited from class pt"
+    },
+    {
+      "chunk_id": 83,
+      "text": "tDefaultExpression Methods inherited from class ptolemy.kernel.util. Attribute _checkContainer , _getContainedObject , _propagateExistence , getContainer , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , updateContent Methods inherited f"
+    },
+    {
+      "chunk_id": 84,
+      "text": "oLast , moveUp , updateContent Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _containedDecorators , _copyChangeRequestList , _debug , _debug , _debug , _debug , _"
+    },
+    {
+      "chunk_id": 85,
+      "text": "equestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _exportMoMLContents , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _rem"
+    },
+    {
+      "chunk_id": 86,
+      "text": "nge , _notifyHierarchyListenersBeforeChange , _removeAttribute , _splitName , _stripNumericSuffix , _validateSettables , addChangeListener , addDebugListener , addHierarchyListener , attributeDeleted , attributeList , attributeList , attributeTypeCha"
+    },
+    {
+      "chunk_id": 87,
+      "text": ", attributeList , attributeList , attributeTypeChanged , clone , containedObjectsIterator , decorators , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML ,"
+    },
+    {
+      "chunk_id": 88,
+      "text": "xportMoML , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , ge"
+    },
+    {
+      "chunk_id": 89,
+      "text": "Attributes , getDerivedLevel , getDerivedList , getDisplayName , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , laz"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateExistence , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListene"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ner , removeDebugListener , removeHierarchyListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , uniqueName , val"
+    },
+    {
+      "chunk_id": 92,
+      "text": "sortContainedObjects , toplevel , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.kernel.util."
+    },
+    {
+      "chunk_id": 93,
+      "text": "hods inherited from interface ptolemy.kernel.util. Settable getDisplayName Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getFullName , getName , getName Field Detail _currentExpression protected java.lang"
+    },
+    {
+      "chunk_id": 94,
+      "text": "ield Detail _currentExpression protected java.lang.String _currentExpression Stores the expression used to set this variable. It is null if the variable was set from a token. _needsEvaluation protected boolean _needsEvaluation Flags that the expres"
+    },
+    {
+      "chunk_id": 95,
+      "text": "ted boolean _needsEvaluation Flags that the expression needs to be evaluated when the value of this variable is queried. _parseTreeValid protected boolean _parseTreeValid Indicator that the parse tree is valid. _parserScope protected ParserScope _p"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ee is valid. _parserScope protected ParserScope _parserScope The instance of VariableScope. _suppressVariableSubstitution protected boolean _suppressVariableSubstitution True to suppress variable substitution in string mode. _valueListeners protected"
+    },
+    {
+      "chunk_id": 97,
+      "text": "titution in string mode. _valueListeners protected java.util.List< ValueListener > _valueListeners Listeners for changes in value. Constructor Detail Variable public Variable() Construct a variable in the default workspace with an empty string as i"
+    },
+    {
+      "chunk_id": 98,
+      "text": "the default workspace with an empty string as its name. The variable is added to the list of objects in the workspace. Increment the version number of the workspace. Variable public Variable( NamedObj container, java.lang.String"
+    },
+    {
+      "chunk_id": 99,
+      "text": "edObj container, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct a variable with the given name as an attribute of the given container. The container argument must not be null, othe"
+    },
+    {
+      "chunk_id": 100,
+      "text": "ner. The container argument must not be null, otherwise a NullPointerException will be thrown. This variable will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to t"
+    },
+    {
+      "chunk_id": 101,
+      "text": "e name argument is null, then the name is set to the empty string. Increment the version number of the workspace. Parameters: container - The container. name - The name of the variable. Throws: IllegalActionException - If the container does not acc"
+    },
+    {
+      "chunk_id": 102,
+      "text": "galActionException - If the container does not accept a variable as its attribute. NameDuplicationException - If the name coincides with a variable already in the container. Variable public Variable( NamedObj container, java.lan"
+    },
+    {
+      "chunk_id": 103,
+      "text": "able( NamedObj container, java.lang.String name, Token token) throws IllegalActionException , NameDuplicationException Construct a variable with the given container, name, and token. The container argument must not be null,"
+    },
+    {
+      "chunk_id": 104,
+      "text": "token. The container argument must not be null, or a NullPointerException will be thrown. This variable will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to the"
+    },
+    {
+      "chunk_id": 105,
+      "text": "name argument is null, then the name is set to the empty string. Increment the version of the workspace. Parameters: container - The container. name - The name. token - The token contained by this variable. Throws: IllegalActionException - If the c"
+    },
+    {
+      "chunk_id": 106,
+      "text": "ariable. Throws: IllegalActionException - If the container does not accept a variable as its attribute. NameDuplicationException - If the name coincides with a variable already in the container. Variable public Variable( Workspace workspace) Co"
+    },
+    {
+      "chunk_id": 107,
+      "text": "Variable public Variable( Workspace workspace) Construct a variable in the specified workspace with an empty string as its name. The name can be later changed with setName(). If the workspace argument is null, then use the default workspace. T"
+    },
+    {
+      "chunk_id": 108,
+      "text": "ument is null, then use the default workspace. The variable is added to the list of objects in the workspace. Increment the version number of the workspace. Parameters: workspace - The workspace that will list the variable. Variable protected Var"
+    },
+    {
+      "chunk_id": 109,
+      "text": "hat will list the variable. Variable protected Variable( NamedObj container, java.lang.String name, Token token, boolean incrementWorkspaceVersion) throws IllegalActionException , NameDuplicationExcep"
+    },
+    {
+      "chunk_id": 110,
+      "text": "rows IllegalActionException , NameDuplicationException Construct a variable with the given container, name, and token. The container argument must not be null, or a NullPointerException will be thrown. This variable will use the workspace of th"
+    },
+    {
+      "chunk_id": 111,
+      "text": "rown. This variable will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to the empty string. Increment the version of the workspace. Parameters: container - The cont"
+    },
+    {
+      "chunk_id": 112,
+      "text": "of the workspace. Parameters: container - The container. name - The name. token - The token contained by this variable. incrementWorkspaceVersion - False to not add this to the workspace or do anything else that might change the workspace version"
+    },
+    {
+      "chunk_id": 113,
+      "text": "hing else that might change the workspace version number. Throws: IllegalActionException - If the container does not accept a variable as its attribute. NameDuplicationException - If the name coincides with a variable already in the container."
+    },
+    {
+      "chunk_id": 114,
+      "text": "ides with a variable already in the container. Method Detail addValueListener public void addValueListener( ValueListener listener) Add a listener to be notified when the value of this variable changes. Specified by: addValueListener in interface"
+    },
+    {
+      "chunk_id": 115,
+      "text": "nges. Specified by: addValueListener in interface Settable Parameters: listener - The listener to add. See Also: removeValueListener(ValueListener) attributeChanged public void attributeChanged( Attribute attribute) throws Illeg"
+    },
+    {
+      "chunk_id": 116,
+      "text": "bute attribute) throws IllegalActionException React to a change in an attribute. This method is called by a contained attribute when its value changes. This overrides the base class so that if the attribute is an instance"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ase class so that if the attribute is an instance of TypeAttribute, then it sets the type of the port. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that changed. Throws: IllegalActionException - If the change"
+    },
+    {
+      "chunk_id": 118,
+      "text": "d. Throws: IllegalActionException - If the change is not acceptable to this container. clone public java.lang.Object clone( Workspace workspace) throws java.lang.CloneNotSupportedException Clone the variable. This creates a"
+    },
+    {
+      "chunk_id": 119,
+      "text": "ortedException Clone the variable. This creates a new variable containing the same token (if the value was set with setToken()) or the same (unevaluated) expression, if the expression was set with setExpression(). The list of variables added"
+    },
+    {
+      "chunk_id": 120,
+      "text": "h setExpression(). The list of variables added to the scope is not cloned; i.e., the clone has an empty scope. The clone has the same static type constraints (those given by setTypeEquals() and setTypeAtMost()), but none of the dynamic typ"
+    },
+    {
+      "chunk_id": 121,
+      "text": "nd setTypeAtMost()), but none of the dynamic type constraints (those relative to other variables). Overrides: clone in class Attribute Parameters: workspace - The workspace in which to place the cloned variable. Returns: The cloned variable. Throws"
+    },
+    {
+      "chunk_id": 122,
+      "text": "ned variable. Returns: The cloned variable. Throws: java.lang.CloneNotSupportedException - Not thrown in this base class. See Also: Object.clone() getDeclaredType public Type getDeclaredType() If setTypeEquals() has been called, then return the type"
+    },
+    {
+      "chunk_id": 123,
+      "text": "ypeEquals() has been called, then return the type specified there. Otherwise, return BaseType.UNKNOWN. Returns: The declared type of this variable. See Also: setTypeEquals(Type) , BaseType getExpression public java.lang.String getExpression() Get t"
+    },
+    {
+      "chunk_id": 124,
+      "text": "sion public java.lang.String getExpression() Get the expression currently used by this variable. The expression is either the value set by setExpression(), or a string representation of the value set by setToken(), or an empty string if no value"
+    },
+    {
+      "chunk_id": 125,
+      "text": "set by setToken(), or an empty string if no value has been set. Specified by: getExpression in interface Settable Returns: The expression used by this variable. See Also: setExpression(String) getFreeIdentifiers public java.util.Set getFreeIdentifi"
+    },
+    {
+      "chunk_id": 126,
+      "text": "eeIdentifiers public java.util.Set getFreeIdentifiers() throws IllegalActionException Return the list of identifiers referenced by the current expression. Returns: A set of Strings. Throws: IllegalActionException - If"
+    },
+    {
+      "chunk_id": 127,
+      "text": "et of Strings. Throws: IllegalActionException - If the expression cannot be parsed. getParserScope public ParserScope getParserScope() Return the parser scope for this variable. Returns: The parser scope. getScope public NamedList getScope() Return a"
+    },
+    {
+      "chunk_id": 128,
+      "text": "ope. getScope public NamedList getScope() Return a NamedList of the variables that the value of this variable can depend on. These include other variables contained by the same container or any container that deeply contains this variable, as"
+    },
+    {
+      "chunk_id": 129,
+      "text": "ontainer that deeply contains this variable, as well as any variables in a ScopeExtendingAttribute contained by any of these containers. If there are variables with the same name in these various places, then they are shadowed as follows. A v"
+    },
+    {
+      "chunk_id": 130,
+      "text": "s places, then they are shadowed as follows. A variable contained by the container of this variable has priority, followed by variables in a ScopeExtendingAttribute, followed by by a variable contained by the container of the container, etc."
+    },
+    {
+      "chunk_id": 131,
+      "text": "contained by the container of the container, etc. Note that this method is an extremely inefficient to refer to the scope of a variable because it constructs a list containing every variable in the scope. It is best to avoid calling it and ins"
+    },
+    {
+      "chunk_id": 132,
+      "text": "e scope. It is best to avoid calling it and instead just use the get() method of the VariableScope inner class. This method is read-synchronized on the workspace. Returns: The variables on which this variable can depend. getScope public static N"
+    },
+    {
+      "chunk_id": 133,
+      "text": "this variable can depend. getScope public static NamedList getScope( NamedObj object) Return a NamedList of the variables that the value of the specified variable can depend on. These include other variables contained by the same container or an"
+    },
+    {
+      "chunk_id": 134,
+      "text": "variables contained by the same container or any container that deeply contains the specified variable, as well as any variables in a ScopeExtendingAttribute contained by any of these containers. If there are variables with the same name in"
+    },
+    {
+      "chunk_id": 135,
+      "text": "rs. If there are variables with the same name in these various places, then they are shadowed as follows. A variable contained by the container of this variable has priority, followed by variables in a ScopeExtendingAttribute, followed by b"
+    },
+    {
+      "chunk_id": 136,
+      "text": "bles in a ScopeExtendingAttribute, followed by by a variable contained by the container of the container, etc. Note that this method is an extremely inefficient way to refer to the scope of a variable because it constructs a list containing eve"
+    },
+    {
+      "chunk_id": 137,
+      "text": "able because it constructs a list containing every variable in the scope. It is best to avoid calling it and instead just use the get() method of the VariableScope inner class. This method is read-synchronized on the workspace. Parameters: obj"
+    },
+    {
+      "chunk_id": 138,
+      "text": "ead-synchronized on the workspace. Parameters: object - The NamedObj variable Returns: The variables on which this variable can depend. getToken public Token getToken() throws IllegalActionException Get the token contained by this vari"
+    },
+    {
+      "chunk_id": 139,
+      "text": "tionException Get the token contained by this variable. The type of the returned token is always that returned by getType(). Calling this method will trigger evaluation of the expression, if the value has been given by setExpression(). Notice"
+    },
+    {
+      "chunk_id": 140,
+      "text": "value has been given by setExpression(). Notice the evaluation of the expression can trigger an exception if the expression is not valid, or if the result of the expression violates type constraints specified by setTypeEquals() or setTypeAtM"
+    },
+    {
+      "chunk_id": 141,
+      "text": "aints specified by setTypeEquals() or setTypeAtMost(), or if the result of the expression is null and there are other variables that depend on this one. The returned value will be null if neither an expression nor a token has been set, or eit"
+    },
+    {
+      "chunk_id": 142,
+      "text": "r an expression nor a token has been set, or either has been set to null. Returns: The token contained by this variable converted to the type of this variable, or null if there is none. Throws: IllegalActionException - If the expression cannot"
+    },
+    {
+      "chunk_id": 143,
+      "text": "llegalActionException - If the expression cannot be parsed or cannot be evaluated, or if the result of evaluation violates type constraints, or if the result of evaluation is null and there are variables that depend on this one. See Also: se"
+    },
+    {
+      "chunk_id": 144,
+      "text": "re variables that depend on this one. See Also: setToken(String) , setToken(ptolemy.data.Token) getType public Type getType() Get the type of this variable. If a token has been set by setToken(), the returned type is the type of that token; If an e"
+    },
+    {
+      "chunk_id": 145,
+      "text": "e returned type is the type of that token; If an expression has been set by setExpression(), and the expression can be evaluated, the returned type is the type the evaluation result. If the expression cannot be evaluated at this time, the retur"
+    },
+    {
+      "chunk_id": 146,
+      "text": "sion cannot be evaluated at this time, the returned type is the declared type of this Variable, which is either set by setTypeEquals(), or the default BaseType.UNKNOWN; If no token has been set by setToken(), no expression has been set by set"
+    },
+    {
+      "chunk_id": 147,
+      "text": "by setToken(), no expression has been set by setExpression(), and setTypeEquals() has not been called, the returned type is BaseType.UNKNOWN. Specified by: getType in interface Typeable Returns: The type of this variable. getTypeTerm public Inequ"
+    },
+    {
+      "chunk_id": 148,
+      "text": "he type of this variable. getTypeTerm public InequalityTerm getTypeTerm() Return an InequalityTerm whose value is the type of this variable. Specified by: getTypeTerm in interface Typeable Returns: An InequalityTerm. getValueAsString public java.lang"
+    },
+    {
+      "chunk_id": 149,
+      "text": "InequalityTerm. getValueAsString public java.lang.String getValueAsString() Get the value of the attribute, which is the evaluated expression. If the value is null, this returns the string \"null\" Specified by: getValueAsString in interface Settabl"
+    },
+    {
+      "chunk_id": 150,
+      "text": "pecified by: getValueAsString in interface Settable Overrides: getValueAsString in class AbstractSettableAttribute Returns: The same as getExpression(). See Also: getExpression() getVariable public Variable getVariable(java.lang.String name)"
+    },
+    {
+      "chunk_id": 151,
+      "text": "riable getVariable(java.lang.String name) throws IllegalActionException Look up and return the attribute with the specified name in the scope. Return null if such an attribute does not exist. Parameters: name - The name of the"
+    },
+    {
+      "chunk_id": 152,
+      "text": "oes not exist. Parameters: name - The name of the variable to be looked up. Returns: The attribute with the specified name in the scope. Throws: IllegalActionException - If a value in the scope exists with the given name, but cannot be evaluated. g"
+    },
+    {
+      "chunk_id": 153,
+      "text": "ts with the given name, but cannot be evaluated. getVisibility public Settable.Visibility getVisibility() Get the visibility of this variable, as set by setVisibility(). The visibility is set by default to EXPERT. Specified by: getVisibility in int"
+    },
+    {
+      "chunk_id": 154,
+      "text": "ault to EXPERT. Specified by: getVisibility in interface Settable Returns: The visibility of this variable. See Also: setVisibility(Settable.Visibility) invalidate public void invalidate() Mark this variable, and all variables that depend on it, as"
+    },
+    {
+      "chunk_id": 155,
+      "text": "ariable, and all variables that depend on it, as needing to be evaluated. Remove this variable from being notified by the variables it used to depend on. Then notify other variables that depend on this one that its value has changed. That n"
+    },
+    {
+      "chunk_id": 156,
+      "text": "d on this one that its value has changed. That notification is done by calling their valueChanged() method, which flags them as needing to be evaluated. This might be called when something in the scope of this variable changes. isKnown public b"
+    },
+    {
+      "chunk_id": 157,
+      "text": "e scope of this variable changes. isKnown public boolean isKnown() throws IllegalActionException Return true if the value of this variable is known, and false otherwise. In domains with fixed-point semantics, such as SR, a variab"
+    },
+    {
+      "chunk_id": 158,
+      "text": "with fixed-point semantics, such as SR, a variable that depends on a port value may be unknown at various points during the execution. Returns: True if the value is known. Throws: IllegalActionException - If the expression cannot be parsed or"
+    },
+    {
+      "chunk_id": 159,
+      "text": "eption - If the expression cannot be parsed or cannot be evaluated, or if the result of evaluation violates type constraints, or if the result of evaluation is null and there are variables that depend on this one. See Also: setUnknown(boolea"
+    },
+    {
+      "chunk_id": 160,
+      "text": "at depend on this one. See Also: setUnknown(boolean) isLazy public boolean isLazy() Return true if this variable is lazy. By default, a variable is not lazy. Returns: True if this variable is lazy. See Also: setLazy(boolean) isStringMode public bo"
+    },
+    {
+      "chunk_id": 161,
+      "text": "See Also: setLazy(boolean) isStringMode public boolean isStringMode() Return true if this parameter is in string mode. Returns: True if this parameter is in string mode. See Also: setStringMode(boolean) isSuppressVariableSubstitution public boolean"
+    },
+    {
+      "chunk_id": 162,
+      "text": "an) isSuppressVariableSubstitution public boolean isSuppressVariableSubstitution() Return true if this variable is suppressing variable substitution. That is, it is ignoring dollar signs in the string and does not evaluate substrings such as $nam"
+    },
+    {
+      "chunk_id": 163,
+      "text": "ring and does not evaluate substrings such as $name and ${name}. By default, this returns false. Returns: True if suppressing variable substitution. See Also: isStringMode() , setSuppressVariableSubstitution(boolean) isTypeAcceptable public boolean"
+    },
+    {
+      "chunk_id": 164,
+      "text": "stitution(boolean) isTypeAcceptable public boolean isTypeAcceptable() Check whether the current type of this variable is acceptable. A type is acceptable if it represents an instantiable object. Specified by: isTypeAcceptable in interface Typeable"
+    },
+    {
+      "chunk_id": 165,
+      "text": "cified by: isTypeAcceptable in interface Typeable Returns: True if the current type is acceptable. removeValueListener public void removeValueListener( ValueListener listener) Remove a listener from the list of listeners that is notified when the v"
+    },
+    {
+      "chunk_id": 166,
+      "text": "he list of listeners that is notified when the value of this variable changes. If no such listener exists, do nothing. Specified by: removeValueListener in interface Settable Parameters: listener - The listener to remove. See Also: addValueListe"
+    },
+    {
+      "chunk_id": 167,
+      "text": "- The listener to remove. See Also: addValueListener(ValueListener) reset @Deprecated public void reset() Deprecated. This capability may be removed to simplify this class. It is not currently used in Ptolemy II, as of version 2.0. Reset the vari"
+    },
+    {
+      "chunk_id": 168,
+      "text": "d in Ptolemy II, as of version 2.0. Reset the variable to its initial value. If the variable was originally set from a token, then this token is placed again in the variable, and the type of the variable is set to equal that of the token. If th"
+    },
+    {
+      "chunk_id": 169,
+      "text": "ariable is set to equal that of the token. If the variable was originally given an expression, then this expression is placed again in the variable (but not evaluated), and the type is reset to BaseType.UNKNOWN. The type will be determined wh"
+    },
+    {
+      "chunk_id": 170,
+      "text": "BaseType.UNKNOWN. The type will be determined when the expression is evaluated or when type resolution is done. Note that if this variable is cloned, then reset on the clone behaves exactly as reset on the original. setContainer public void s"
+    },
+    {
+      "chunk_id": 171,
+      "text": "eset on the original. setContainer public void setContainer( NamedObj container) throws IllegalActionException , NameDuplicationException Specify the container, and add this variable to the list of attributes in the container. I"
+    },
+    {
+      "chunk_id": 172,
+      "text": "le to the list of attributes in the container. If this variable already has a container, remove this variable from the attribute list of the current container first. Otherwise, remove it from the directory of the workspace, if it is there. If"
+    },
+    {
+      "chunk_id": 173,
+      "text": "e directory of the workspace, if it is there. If the specified container is null, remove this variable from the list of attributes of the current container. If the specified container already contains an attribute with the same name, then thr"
+    },
+    {
+      "chunk_id": 174,
+      "text": "ntains an attribute with the same name, then throw an exception and do not make any changes. Similarly, if the container is not in the same workspace as this variable, throw an exception. If this variable is already contained by the specified"
+    },
+    {
+      "chunk_id": 175,
+      "text": "s variable is already contained by the specified container, do nothing. If this method results in a change of container (which it usually does), then remove this variable from the scope of any scope dependent of this variable. This method is"
+    },
+    {
+      "chunk_id": 176,
+      "text": "scope dependent of this variable. This method is write-synchronized on the workspace and increments its version number. Overrides: setContainer in class Attribute Parameters: container - The proposed container of this variable. Throws: IllegalActi"
+    },
+    {
+      "chunk_id": 177,
+      "text": "ed container of this variable. Throws: IllegalActionException - If the container will not accept a variable as its attribute, or this variable and the container are not in the same workspace, or the proposed container would result in recursi"
+    },
+    {
+      "chunk_id": 178,
+      "text": "the proposed container would result in recursive containment. NameDuplicationException - If the container already has an attribute with the name of this variable. See Also: Attribute.getContainer() setExpression public void setExpression(java."
+    },
+    {
+      "chunk_id": 179,
+      "text": "er() setExpression public void setExpression(java.lang.String expr) Set the expression of this variable. Evaluation is deferred until the value of the variable is accessed by getToken(). The container is not notified of the change until then. I"
+    },
+    {
+      "chunk_id": 180,
+      "text": "ainer is not notified of the change until then. If you need to notify the container right away, then call getToken(). If the argument is null, then getToken() will return null. However, if there are other variables that depend on its value, t"
+    },
+    {
+      "chunk_id": 181,
+      "text": "re are other variables that depend on its value, then upon evaluation to null, an exception will be thrown (by getToken()). If the type of this variable has been set with setTypeEquals(), then upon evaluation, the token will be converted into"
+    },
+    {
+      "chunk_id": 182,
+      "text": "pon evaluation, the token will be converted into that type, if possible, or an exception will be thrown, if not. If setTypeAtMost() has been called, then upon evaluation, it will be verified that the type constraint is satisfied, and if not,"
+    },
+    {
+      "chunk_id": 183,
+      "text": "at the type constraint is satisfied, and if not, an exception will be thrown. Specified by: setExpression in interface Settable Overrides: setExpression in class AbstractSettableAttribute Parameters: expr - The expression for this variable. See Als"
+    },
+    {
+      "chunk_id": 184,
+      "text": ": expr - The expression for this variable. See Also: getExpression() setLazy public void setLazy(boolean lazy) Specify whether this variable is to be lazy. By default, it is not. A lazy variable is a variable that is not evaluated until its valu"
+    },
+    {
+      "chunk_id": 185,
+      "text": "a variable that is not evaluated until its value is needed. Its value is needed when getToken() or getType() is called, but not necessarily when validate() is called. In particular, validate() has the effect only of setting a flag indicating"
+    },
+    {
+      "chunk_id": 186,
+      "text": "has the effect only of setting a flag indicating that the variable needs to be evaluated, but the evaluation is not performed. Thus, although validate() returns, there is no assurance that the expression giving the value of the variable can b"
+    },
+    {
+      "chunk_id": 187,
+      "text": "xpression giving the value of the variable can be evaluated without error. The validate() method, however, will validate value dependents. If those are also lazy, then they will not be evaluated either. If they are not lazy however (they are"
+    },
+    {
+      "chunk_id": 188,
+      "text": "either. If they are not lazy however (they are eager), then evaluating them may cause this variable to be evaluated. A lazy variable may be used whenever its value will be actively accessed via getToken() when it is needed, and its type will b"
+    },
+    {
+      "chunk_id": 189,
+      "text": "getToken() when it is needed, and its type will be actively accessed via getType(). In particular, the container does not rely on a call to attributeChanged() or attributeTypeChanged() to notify it that the variable value has changed. Those"
+    },
+    {
+      "chunk_id": 190,
+      "text": "y it that the variable value has changed. Those methods will not be called when the value of the variable changes due to some other variable value that it depends on changing because the new value will not be immediately evaluated. Parameters"
+    },
+    {
+      "chunk_id": 191,
+      "text": "ue will not be immediately evaluated. Parameters: lazy - True to make the variable lazy. See Also: validate() , NamedObj.attributeChanged(Attribute) , NamedObj.attributeTypeChanged(Attribute) setName public void setName(java.lang.String name)"
+    },
+    {
+      "chunk_id": 192,
+      "text": "e public void setName(java.lang.String name) throws IllegalActionException , NameDuplicationException Override the base class to throw an exception if renaming this variable results in an error evaluating some variable that depends o"
+    },
+    {
+      "chunk_id": 193,
+      "text": "an error evaluating some variable that depends on it. In this case, the name remains unchanged. Specified by: setName in interface Nameable Overrides: setName in class Attribute Parameters: name - The new name. Throws: IllegalActionException - If t"
+    },
+    {
+      "chunk_id": 194,
+      "text": "he new name. Throws: IllegalActionException - If the name contains a period or if this variable is referenced in some other expression. NameDuplicationException - If there is already an attribute with the same name in the container. See Als"
+    },
+    {
+      "chunk_id": 195,
+      "text": "ibute with the same name in the container. See Also: NamedObj.getName() , NamedObj.getName(NamedObj) setParseTreeEvaluator public void setParseTreeEvaluator( ParseTreeEvaluator parseTreeEvaluator) Set a new parseTreeEvaluator. Parameters: parseTreeEv"
+    },
+    {
+      "chunk_id": 196,
+      "text": "a new parseTreeEvaluator. Parameters: parseTreeEvaluator - The new parseTreeEvaluator used by this variable. setStringMode public void setStringMode(boolean stringMode) throws IllegalActionException Specify whether this paramete"
+    },
+    {
+      "chunk_id": 197,
+      "text": "legalActionException Specify whether this parameter should be in string mode. If the argument is true, then specify that the type of this parameter is string. Otherwise, specify that the type is unknown. Note that it probably does not make sen"
+    },
+    {
+      "chunk_id": 198,
+      "text": "unknown. Note that it probably does not make sense to switch between string mode and not string mode after the variable has a value. Note that this has the side effect of causing any $name or ${name} references in the string value to be rep"
+    },
+    {
+      "chunk_id": 199,
+      "text": "${name} references in the string value to be replaced with value of a parameter named \"name\" in scope. To suppress this behavior, invoke setSuppressVariableSubstitution(boolean) . Parameters: stringMode - True to put the parameter in string mode."
+    },
+    {
+      "chunk_id": 200,
+      "text": "ngMode - True to put the parameter in string mode. Throws: IllegalActionException - If the current value of this parameter is incompatible with the resulting type. See Also: isStringMode() setSuppressVariableSubstitution public void setSuppressVar"
+    },
+    {
+      "chunk_id": 201,
+      "text": "essVariableSubstitution public void setSuppressVariableSubstitution(boolean suppress) If the argument is true, then for a string mode parameter, suppress variable substitution. That is, ignore dollar signs in the string and do not evaluate substr"
+    },
+    {
+      "chunk_id": 202,
+      "text": "r signs in the string and do not evaluate substrings such as $name and ${name}. By default, this is false. Parameters: suppress - True to suppress variable substitution. See Also: setStringMode(boolean) , isSuppressVariableSubstitution() setToken"
+    },
+    {
+      "chunk_id": 203,
+      "text": "olean) , isSuppressVariableSubstitution() setToken public void setToken(java.lang.String expression) throws IllegalActionException Set the expression for this variable by calling setExpression(), and then evaluate it by calling vali"
+    },
+    {
+      "chunk_id": 204,
+      "text": "pression(), and then evaluate it by calling validate(). This will cause any other variables that are dependent on it to be evaluated, and will also cause the container to be notified of the change, unlike setExpression(). Parameters: express"
+    },
+    {
+      "chunk_id": 205,
+      "text": "nge, unlike setExpression(). Parameters: expression - The expression. Throws: IllegalActionException - If this variable or a variable dependent on this variable cannot be evaluated (and is not lazy) and the model error handler throws an excep"
+    },
+    {
+      "chunk_id": 206,
+      "text": "lazy) and the model error handler throws an exception. Also thrown if the change is not acceptable to the container. See Also: getToken() , setExpression(String) , validate() setToken public void setToken( Token token) throws Illega"
+    },
+    {
+      "chunk_id": 207,
+      "text": "setToken( Token token) throws IllegalActionException Put a new token in this variable and notify the container and and value listeners. If an expression had been previously given using setExpression(), then that expression is forg"
+    },
+    {
+      "chunk_id": 208,
+      "text": "ng setExpression(), then that expression is forgotten. If the type of this variable has been set with setTypeEquals(), then convert the specified token into that type, if possible, or throw an exception, if not. If setTypeAtMost() has been c"
+    },
+    {
+      "chunk_id": 209,
+      "text": "xception, if not. If setTypeAtMost() has been called, then verify that its type constraint is satisfied, and if not, throw an exception. Note that you can call this with a null argument regardless of type constraints, unless there are other va"
+    },
+    {
+      "chunk_id": 210,
+      "text": "s of type constraints, unless there are other variables that depend on its value. Parameters: token - The new token to be stored in this variable. Throws: IllegalActionException - If the token type is not compatible with specified constraints,"
+    },
+    {
+      "chunk_id": 211,
+      "text": "e is not compatible with specified constraints, or if you are attempting to set to null a variable that has value dependents, or if the container rejects the change. See Also: getToken() setTypeAtLeast public void setTypeAtLeast( InequalityT"
+    },
+    {
+      "chunk_id": 212,
+      "text": "ypeAtLeast public void setTypeAtLeast( InequalityTerm typeTerm) Constrain the type of this variable to be equal to or greater than the type represented by the specified InequalityTerm. This constraint is not enforced here, but is returned by the"
+    },
+    {
+      "chunk_id": 213,
+      "text": "aint is not enforced here, but is returned by the typeConstraints() method for use by a type system. Specified by: setTypeAtLeast in interface Typeable Parameters: typeTerm - An InequalityTerm object. setTypeAtLeast public void setTypeAtLeast( Type"
+    },
+    {
+      "chunk_id": 214,
+      "text": "t. setTypeAtLeast public void setTypeAtLeast( Typeable lesser) Constrain the type of this variable to be equal to or greater than the type of the specified object. This constraint is not enforced here, but is returned by the typeConstraints() m"
+    },
+    {
+      "chunk_id": 215,
+      "text": "here, but is returned by the typeConstraints() method for use by a type system. Specified by: setTypeAtLeast in interface Typeable Parameters: lesser - A Typeable object. setTypeAtMost public void setTypeAtMost( Type type) thro"
+    },
+    {
+      "chunk_id": 216,
+      "text": "setTypeAtMost( Type type) throws IllegalActionException Set a type constraint that the type of this object be less than or equal to the specified class in the type lattice. This replaces any constraint specified by an earlie"
+    },
+    {
+      "chunk_id": 217,
+      "text": "s replaces any constraint specified by an earlier call to this same method (note that there is no point in having two separate specifications like this because it would be equivalent to a single specification using the greatest lower bound of"
+    },
+    {
+      "chunk_id": 218,
+      "text": "specification using the greatest lower bound of the two). This is an absolute type constraint (not relative to another Typeable object), so it is checked every time the value of the variable is set by setToken() or by evaluating an expressio"
+    },
+    {
+      "chunk_id": 219,
+      "text": "set by setToken() or by evaluating an expression. This type constraint is also returned by the typeConstraints() methods. To remove the type constraint, call this method with a BaseType.UNKNOWN argument. Specified by: setTypeAtMost in inter"
+    },
+    {
+      "chunk_id": 220,
+      "text": "OWN argument. Specified by: setTypeAtMost in interface Typeable Parameters: type - An instance of Type. Throws: IllegalActionException - If the type of this object already violates this constraint, or if the argument is not an instantiable type"
+    },
+    {
+      "chunk_id": 221,
+      "text": "or if the argument is not an instantiable type in the type lattice. setTypeEquals public void setTypeEquals( Type type) throws IllegalActionException Set a type constraint that the type of this object equal the specified valu"
+    },
+    {
+      "chunk_id": 222,
+      "text": "the type of this object equal the specified value. This is an absolute type constraint (not relative to another Typeable object), so it is checked every time the value of the variable is set by setToken() or by evaluating an expression. If t"
+    },
+    {
+      "chunk_id": 223,
+      "text": "setToken() or by evaluating an expression. If the variable already has a value, then that value is converted to the specified type, if possible, or an exception is thrown. To remove the type constraint, call this method with the argument B"
+    },
+    {
+      "chunk_id": 224,
+      "text": "constraint, call this method with the argument BaseType.UNKNOWN. Specified by: setTypeEquals in interface Typeable Parameters: type - A Type. Throws: IllegalActionException - If the type of this object already violates this constraint, in that t"
+    },
+    {
+      "chunk_id": 225,
+      "text": "ect already violates this constraint, in that the currently contained token cannot be converted losslessly to the specified type. setTypeSameAs public void setTypeSameAs( Typeable equal) Constrain the type of this variable to be the same as the"
+    },
+    {
+      "chunk_id": 226,
+      "text": "in the type of this variable to be the same as the type of the specified object. This constraint is not enforced here, but is returned by the typeConstraints() method for use by a type system. Specified by: setTypeSameAs in interface Typeable"
+    },
+    {
+      "chunk_id": 227,
+      "text": "Specified by: setTypeSameAs in interface Typeable Parameters: equal - A Typeable object. setUnknown public void setUnknown(boolean value) Mark the value of this variable to be unknown if the argument is true , or known if the argument is false . In"
+    },
+    {
+      "chunk_id": 228,
+      "text": "is true , or known if the argument is false . In domains with fixed-point semantics, such as SR, a variable that depends on a port value may be unknown at various points during the execution. Parameters: value - True to change mark this variable"
+    },
+    {
+      "chunk_id": 229,
+      "text": "ameters: value - True to change mark this variable unknown. See Also: isKnown() setValueListenerAsWeakDependency public void setValueListenerAsWeakDependency( ValueListener listener) Set a value listener as a weak dependency. When this Variable chang"
+    },
+    {
+      "chunk_id": 230,
+      "text": "ner as a weak dependency. When this Variable changes containers, the value listener is not considered a dependency. See Also: setContainer(NamedObj) setVisibility public void setVisibility( Settable.Visibility visibility) Set the visibility of this"
+    },
+    {
+      "chunk_id": 231,
+      "text": ".Visibility visibility) Set the visibility of this variable. The argument should be one of the public static instances in Settable. Specified by: setVisibility in interface Settable Parameters: visibility - The visibility of this variable. See Als"
+    },
+    {
+      "chunk_id": 232,
+      "text": "ibility - The visibility of this variable. See Also: getVisibility() stringRepresentation @Deprecated public java.lang.String stringRepresentation() Deprecated. Same as getExpression(). Returns: A string representation of this variable. toString publ"
+    },
+    {
+      "chunk_id": 233,
+      "text": "ing representation of this variable. toString public java.lang.String toString() Return a string representation of the current evaluated variable value. Overrides: toString in class NamedObj Returns: A string representing the class and the current to"
+    },
+    {
+      "chunk_id": 234,
+      "text": "A string representing the class and the current token. typeConstraints public java.util.Set< Inequality > typeConstraints() Return the type constraints of this variable. The constraints include the ones explicitly set to this variable, plus the c"
+    },
+    {
+      "chunk_id": 235,
+      "text": "ones explicitly set to this variable, plus the constraint that the type of this variable must be no less than the type of its current value, if it has one. The constraints are a list of inequalities. Specified by: typeConstraints in interface H"
+    },
+    {
+      "chunk_id": 236,
+      "text": "ties. Specified by: typeConstraints in interface HasTypeConstraints Returns: a list of Inequality objects. See Also: Inequality typeConstraintList @Deprecated public java.util.List typeConstraintList() Deprecated. Use typeConstraints(). Return the ty"
+    },
+    {
+      "chunk_id": 237,
+      "text": ") Deprecated. Use typeConstraints(). Return the type constraints of this variable. The constraints include the ones explicitly set to this variable, plus the constraint that the type of this variable must be no less than its current type, if it"
+    },
+    {
+      "chunk_id": 238,
+      "text": "ble must be no less than its current type, if it has one. The constraints are a list of inequalities. Returns: a list of Inequality objects. See Also: Inequality validate public java.util.Collection validate() throws"
+    },
+    {
+      "chunk_id": 239,
+      "text": "on validate() throws IllegalActionException If this variable is not lazy (the default) then evaluate the expression contained in this variable, and notify any value dependents. If those are not lazy, then they too wi"
+    },
+    {
+      "chunk_id": 240,
+      "text": "ependents. If those are not lazy, then they too will be evaluated. Also, if the variable is not lazy, then notify its container, if there is one, by calling its attributeChanged() method. If this variable is lazy, then mark this variable and a"
+    },
+    {
+      "chunk_id": 241,
+      "text": "is variable is lazy, then mark this variable and any of its value dependents as needing evaluation and for any value dependents that are not lazy, evaluate them. Note that if there are no value dependents, or if they are all lazy, then this w"
+    },
+    {
+      "chunk_id": 242,
+      "text": "dependents, or if they are all lazy, then this will not result in evaluation of this variable, and hence will not ensure that the expression giving its value is valid. Call getToken() or getType() to accomplish that. Specified by: validate i"
+    },
+    {
+      "chunk_id": 243,
+      "text": "ype() to accomplish that. Specified by: validate in interface Settable Returns: The current list of value listeners, which are evaluated as a consequence of this call to validate(). Throws: IllegalActionException - If this variable or a variabl"
+    },
+    {
+      "chunk_id": 244,
+      "text": "ActionException - If this variable or a variable dependent on this variable cannot be evaluated (and is not lazy) and the model error handler throws an exception. Also thrown if the change is not acceptable to the container. valueChanged pub"
+    },
+    {
+      "chunk_id": 245,
+      "text": "not acceptable to the container. valueChanged public void valueChanged( Settable settable) React to the change in the specified instance of Settable. Mark this variable as needing reevaluation when next accessed. Notify the value listeners of th"
+    },
+    {
+      "chunk_id": 246,
+      "text": "next accessed. Notify the value listeners of this variable. Specified by: valueChanged in interface ValueListener Parameters: settable - The object that has changed value. _description protected java.lang.String _description(int detail,"
+    },
+    {
+      "chunk_id": 247,
+      "text": "va.lang.String _description(int detail, int indent, int bracket) Return a description of this variable. This returns the same information returned by toString(), but w"
+    },
+    {
+      "chunk_id": 248,
+      "text": "e same information returned by toString(), but with optional indenting and brackets. Overrides: _description in class NamedObj Parameters: detail - The level of detail. indent - The amount of indenting. bracket - The number of surrounding bracket"
+    },
+    {
+      "chunk_id": 249,
+      "text": "nting. bracket - The number of surrounding brackets (0, 1, or 2). Returns: A string describing this variable. _evaluate protected void _evaluate() throws IllegalActionException Evaluate the current expression to a token. If this var"
+    },
+    {
+      "chunk_id": 250,
+      "text": "ate the current expression to a token. If this variable was last set directly with a token, then do nothing. In other words, the expression is evaluated only if the value of the token was most recently given by an expression. The expression is"
+    },
+    {
+      "chunk_id": 251,
+      "text": "ecently given by an expression. The expression is also evaluated if any of the variables it refers to have changed since the last evaluation. If the value of this variable changes due to this evaluation, then notify all value dependents and"
+    },
+    {
+      "chunk_id": 252,
+      "text": "evaluation, then notify all value dependents and notify the container (if there is one) by calling its attributeChanged() and attributeTypeChanged() methods, as appropriate. An exception is thrown if the expression is illegal, for example if"
+    },
+    {
+      "chunk_id": 253,
+      "text": "wn if the expression is illegal, for example if a parse error occurs or if there is a dependency loop. If evaluation results in a token that is not of the same type as the current type of the variable, then the type of the variable is changed"
+    },
+    {
+      "chunk_id": 254,
+      "text": "riable, then the type of the variable is changed, unless the new type is incompatible with statically specified types (setTypeEquals() and setTypeAtMost()). If the type is changed, the attributeTypeChanged() method of the container is called."
+    },
+    {
+      "chunk_id": 255,
+      "text": "TypeChanged() method of the container is called. The container can reject the change by throwing an exception. This method may trigger a model error, which is delegated up the container hierarchy until an error handler is found, and is ignor"
+    },
+    {
+      "chunk_id": 256,
+      "text": "hy until an error handler is found, and is ignored if no error handler is found. A model error occurs if the expression cannot be parsed or cannot be evaluated. Part of this method is read-synchronized on the workspace. Throws: IllegalActionExce"
+    },
+    {
+      "chunk_id": 257,
+      "text": "onized on the workspace. Throws: IllegalActionException - If the expression cannot be parsed or cannot be evaluated, or if a dependency loop is found. _getCurrentExpression protected java.lang.String _getCurrentExpression() Get the current express"
+    },
+    {
+      "chunk_id": 258,
+      "text": "ng _getCurrentExpression() Get the current expression as a string, to be used to export to MoML. Returns: The current expression as a string. _notifyValueListeners protected void _notifyValueListeners() Notify the value listeners of this variable tha"
+    },
+    {
+      "chunk_id": 259,
+      "text": "() Notify the value listeners of this variable that this variable changed. _parseIfNecessary protected final void _parseIfNecessary() throws IllegalActionException Parse the expression, if the current parse tree is n"
+    },
+    {
+      "chunk_id": 260,
+      "text": "rse the expression, if the current parse tree is not valid. This method should only be called if the expression is valid. Throws: IllegalActionException - If the exception cannot be parsed. _propagate protected java.util.List< IllegalActionExceptio"
+    },
+    {
+      "chunk_id": 261,
+      "text": "te protected java.util.List< IllegalActionException > _propagate() Force evaluation of this variable, unless it is lazy, and call _propagate() on its value dependents. Returns: A list of instances of IllegalActionException, one for each exceptio"
+    },
+    {
+      "chunk_id": 262,
+      "text": "f IllegalActionException, one for each exception triggered by a failure to evaluate a value dependent, or null if there were no failures. _propagateToValueListeners protected java.util.List< IllegalActionException > _propagateToValueListeners()"
+    },
+    {
+      "chunk_id": 263,
+      "text": "egalActionException > _propagateToValueListeners() Call propagate() on all value listeners. Returns: A list of instances of IllegalActionException, one for each exception triggered by a failure to evaluate a value dependent, or null if there we"
+    },
+    {
+      "chunk_id": 264,
+      "text": "evaluate a value dependent, or null if there were no failures. _propagateValue protected void _propagateValue( NamedObj destination) throws IllegalActionException Propagate the value of this object to the specified object"
+    },
+    {
+      "chunk_id": 265,
+      "text": "the value of this object to the specified object. The specified object is required to be an instance of the same class as this one, or a ClassCastException will be thrown. Overrides: _propagateValue in class NamedObj Parameters: destination - O"
+    },
+    {
+      "chunk_id": 266,
+      "text": "alue in class NamedObj Parameters: destination - Object to which to propagate the value. Throws: IllegalActionException - If the value cannot be propagated. _setToken protected void _setToken( Token newToken) throws IllegalAct"
+    },
+    {
+      "chunk_id": 267,
+      "text": "oken newToken) throws IllegalActionException Set the token value and type of the variable. If the type of the specified token is incompatible with specified absolute type constraints (i.e. those that can be checked), then thro"
+    },
+    {
+      "chunk_id": 268,
+      "text": "ints (i.e. those that can be checked), then throw an exception. It is converted to the type given by setTypeEquals() if necessary and possible. If the argument is null, then no type checks are done, and the contents of the variable is set to"
+    },
+    {
+      "chunk_id": 269,
+      "text": "done, and the contents of the variable is set to null. Parameters: newToken - The new value of the variable. Throws: IllegalActionException - If the token type is not compatible with specified constraints, or if you are attempting to set to n"
+    },
+    {
+      "chunk_id": 270,
+      "text": "nstraints, or if you are attempting to set to null a variable that has value dependents. _setTokenAndNotify protected void _setTokenAndNotify( Token newToken) throws IllegalActionException Set the token value and type of"
+    },
+    {
+      "chunk_id": 271,
+      "text": "galActionException Set the token value and type of the variable, and notify the container that the value (and type, if appropriate) has changed. Also notify value dependents that they need to be re-evaluated, and notify any listeners that have"
+    },
+    {
+      "chunk_id": 272,
+      "text": "e-evaluated, and notify any listeners that have been registered with addValueListener(). If setTypeEquals() has been called, then attempt to convert the specified token into one of the appropriate type, if needed, rather than changing the t"
+    },
+    {
+      "chunk_id": 273,
+      "text": "iate type, if needed, rather than changing the type. Parameters: newToken - The new value of the variable. Throws: IllegalActionException - If the token type is not compatible with specified constraints, or if you are attempting to set to nul"
+    },
+    {
+      "chunk_id": 274,
+      "text": "traints, or if you are attempting to set to null a variable that has value dependents. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Me"
+    }
+  ]
+}

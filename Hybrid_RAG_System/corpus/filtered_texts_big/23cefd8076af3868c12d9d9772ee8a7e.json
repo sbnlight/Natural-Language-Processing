@@ -1,0 +1,81 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version1/BLE",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / BLE Module Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / BLE Module The BLE module allows accessors to connect t"
+    },
+    {
+      "chunk_id": 2,
+      "text": "odule The BLE module allows accessors to connect to Bluetooth Low Energy peripherals. Using BLE requires hardware support. Newer Mac laptops should work, otherwise a USB BLE dongle will work as well. API Central() : Create a new BLE central object. s"
+    },
+    {
+      "chunk_id": 3,
+      "text": "API Central() : Create a new BLE central object. stayConnected (<string> uuid , <string> name , <string> macAddress , onConnect, onDisconnect, onError): Scan for devices that provide a certain UUID, have a certain MAC address, and advertise a particu"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ave a certain MAC address, and advertise a particular name. Any of these parameters can be null if they don't have to match. When a matching device is found, the system will connect to the device and attempt to stay connected. If the device for any r"
+    },
+    {
+      "chunk_id": 5,
+      "text": "attempt to stay connected. If the device for any reason becomes disconnected, onDisconnect will be called. When the device is reconnected, onConnect will be called again. <scan_token> scan ( <array> uuids , <string> name , <string> macAddress , callb"
+    },
+    {
+      "chunk_id": 6,
+      "text": "uids , <string> name , <string> macAddress , callback(peripheral) ): Start a scan for BLE peripherals. To scan only for peripherals that provide certain services, provide the uuids array with those UUIDs. Name and MAC address can also be specified. T"
+    },
+    {
+      "chunk_id": 7,
+      "text": "IDs. Name and MAC address can also be specified. This function returns a token which is passed to scanStop() to end the scan. scanStop ( <scan_token> toekn ): Stop scanning for BLE devices. connect ( peripheral , on_connected [, on_disconnected ]): I"
+    },
+    {
+      "chunk_id": 8,
+      "text": "peripheral , on_connected [, on_disconnected ]): Initiate a connection to a given peripheral. The peripheral object should be provided from scan() . Accepts an optional on_disconnect callback that will be called if/when the peripheral disconnects. di"
+    },
+    {
+      "chunk_id": 9,
+      "text": "l be called if/when the peripheral disconnects. discoverServices ( peripheral , <array> uuids , callback(<array> services) ): Discover a list of services that the peripheral provides. To specify only the ones you are interested in, use the uuids para"
+    },
+    {
+      "chunk_id": 10,
+      "text": "the ones you are interested in, use the uuids parameter. discoverCharacteristics ( service , <array> uuids , callback(<array> characteristics) ): Discover a list of characteristics that a service provides. readCharacteristic ( characteristic , callba"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ides. readCharacteristic ( characteristic , callback(<bytearray>) ): Read a given characteristic. Returns an array of bytes. writeCharacteristic ( characteristic , <bytearray> data , callback() ): Write to a characteristic. You must provide an array"
+    },
+    {
+      "chunk_id": 12,
+      "text": "te to a characteristic. You must provide an array of bytes. notifyCharacteristic ( characteristic , callback(<bytearray>) ): Setup a callback everytime the characteristic changes. Example Get advertisements: var ble = require('ble'); var bleDevice"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ements: var ble = require('ble'); var bleDevice = new ble(); bleDevice.scan([], null, null, function (peripheral) { print('Found peripheral with name: ' + peripheral.name); }); Connect to device and get a characteristic: var helper = requir"
+    },
+    {
+      "chunk_id": 14,
+      "text": "vice and get a characteristic: var helper = require('helper'); var ble = require('ble'); var bleDevice = new ble(); var token = bleDevice.scan(['abcd'], null, null, function (peripheral) { print('Found peripheral with name: ' + peripheral.n"
+    },
+    {
+      "chunk_id": 15,
+      "text": "rint('Found peripheral with name: ' + peripheral.name); bleDevice.scanStop(token); bleDevice.connect(peripheral, function () { bleDevice.discoverServices(peripheral, function (services) { helper.forEach(services, function (servi"
+    },
+    {
+      "chunk_id": 16,
+      "text": "{ helper.forEach(services, function (service) { bleDevice.discoverCharacteristics(service, function (characteristics) { helper.forEach(characteristics, function (characteristic) { bleDevice.readCharacterist"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ristic) { bleDevice.readCharacteristic(characteristic, function (value) { print('Got value from characteristic: ' + value); }); }); }); }); }); }); }); Stay Connect"
+    },
+    {
+      "chunk_id": 18,
+      "text": "; }); }); }); }); Stay Connected to a device that advertises the service \"ff11\" and has name \"BestBLE\": var ble = require('ble'); var bleDevice = new ble(); bleDevice.stayConnected('ff11', 'BestBLE', null, function (peripheral"
+    },
+    {
+      "chunk_id": 19,
+      "text": "cted('ff11', 'BestBLE', null, function (peripheral) { ... }, function () { ...disconnected... }, function () { ...error... }); Cape Code BLE ? Back to Optional JavaScript Modules Edit - History - Print - Recent Changes - Search Page"
+    }
+  ]
+}

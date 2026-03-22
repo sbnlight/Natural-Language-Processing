@@ -1,0 +1,225 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII4.0/ptII/doc/codeDoc/jni/GenericJNIActor.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "GenericJNIActor Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD jni Class GenericJNIActor java.lang.Object ptolemy.kernel.u"
+    },
+    {
+      "chunk_id": 2,
+      "text": "GenericJNIActor java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.actor.AtomicActor ptolemy.actor.TypedAtomicActor jni.GenericJNIActor All Implemented Inter"
+    },
+    {
+      "chunk_id": 3,
+      "text": "micActor jni.GenericJNIActor All Implemented Interfaces: Actor , Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , Instantiable , ModelErrorHandler , MoMLExportable , Nameable , java.io.Serializable, TypedActor p"
+    },
+    {
+      "chunk_id": 4,
+      "text": "le , Nameable , java.io.Serializable, TypedActor public class GenericJNIActor extends TypedAtomicActor Use the Java Native Interface to execute a native method. To use this actor, first configure the arguments of the native method by right clic"
+    },
+    {
+      "chunk_id": 5,
+      "text": "he arguments of the native method by right clicking on the actor and selecting 'Configure Arguments', then configure the library name and location, then create the JNI files. Note that under Windows, your path needs to include the directory"
+    },
+    {
+      "chunk_id": 6,
+      "text": "Windows, your path needs to include the directory named by the libraryDirectory Parameter. For further details, see JNIUtilities . Since: Ptolemy II 2.2 Version: $Id: GenericJNIActor.java,v 1.38 2004/04/21 14:59:32 cxh Exp $ Author: Vincent Ar"
+    },
+    {
+      "chunk_id": 7,
+      "text": "8 2004/04/21 14:59:32 cxh Exp $ Author: Vincent Arnould (vincent.arnould@thalesgroup.com), Contributor: Christopher Hylands See Also: JNIUtilities , Serialized Form Accepted Rating: Red (vincent.arnould) Proposed Rating: Red (vincent.arnould) Nested"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ld) Proposed Rating: Red (vincent.arnould) Nested Class Summary Nested classes inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary Parameter libraryDirectory The directory that contains the native library, which"
+    },
+    {
+      "chunk_id": 9,
+      "text": "directory that contains the native library, which under Windows should include a dll, an h file and a lib file. Parameter nativeFunction The name of the native library. Parameter nativeLibrary The name of the native library. Fields inherited from c"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ame of the native library. Fields inherited from class ptolemy.actor. AtomicActor _stopRequested Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName"
+    },
+    {
+      "chunk_id": 12,
+      "text": "xecutable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary GenericJNIActor () Construct an entity in the default workspace with an empty string as its name. GenericJNIActor ( CompositeEntity container, java.lang.String nam"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ty container, java.lang.String name) Construct an entity in the given workspace with the given name. GenericJNIActor ( Workspace workspace) Construct an entity in the given workspace with an empty string as a name. Method Summary pr"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ith an empty string as a name. Method Summary protected void _addArgument ( Argument arg) Add an argument to this entity protected void _removeArgument ( Argument arg) Remove an argument from this entity. void addArgumentReturn () Add a return ar"
+    },
+    {
+      "chunk_id": 15,
+      "text": "entity. void addArgumentReturn () Add a return argument to this entity java.util.List argumentsList () Get the arguments belonging to this entity. void attributeChanged ( Attribute attribute) If the getDirector() returns something other than null, t"
+    },
+    {
+      "chunk_id": 16,
+      "text": "getDirector() returns something other than null, then invalidate the resolved types. java.lang.Object clone ( Workspace workspace) Clone the object into the specified workspace. void createPorts () For each Argument, a port of the same name is crea"
+    },
+    {
+      "chunk_id": 17,
+      "text": "For each Argument, a port of the same name is created, belonging to this argument. void fire () Read the argument of the function from the ports, call the native method throw the generated interface, and put the results on the corresponding por"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ce, and put the results on the corresponding ports Argument getArgument (java.lang.String name) Return the argument contained by this entity that has the specified name. Argument getArgumentReturn () Return the argument contained by this entity t"
+    },
+    {
+      "chunk_id": 19,
+      "text": "() Return the argument contained by this entity that is return. void initialize () Load the generated class and search for its fire method. Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChanged , clone , newPor"
+    },
+    {
+      "chunk_id": 20,
+      "text": "r _addPort , attributeTypeChanged , clone , newPort , typeConstraintList Methods inherited from class ptolemy.actor. AtomicActor _createReceivers , connectionsChanged , getDirector , getExecutiveDirector , getFunctionDependency , getManager , inputPo"
+    },
+    {
+      "chunk_id": 21,
+      "text": "tor , getFunctionDependency , getManager , inputPortList , iterate , newReceiver , outputPortList , postfire , prefire , preinitialize , pruneDependencies , removeDependency , setContainer , stop , stopFire , terminate , wrapup Methods inherited from"
+    },
+    {
+      "chunk_id": 22,
+      "text": "opFire , terminate , wrapup Methods inherited from class ptolemy.kernel. ComponentEntity _adjustDeferrals , _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , isAtomic , isOpaque , propagateExistence , setName"
+    },
+    {
+      "chunk_id": 23,
+      "text": "sAtomic , isOpaque , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _description , _exportMoMLContents , _removePort , connectedPortList , connectedPorts , containedObjectsIterator , getAttribute , getPort , getPorts"
+    },
+    {
+      "chunk_id": 24,
+      "text": "bjectsIterator , getAttribute , getPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition , uniqueName , validateSettables Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent ,"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _attachText , _cloneFixAttribut"
+    },
+    {
+      "chunk_id": 26,
+      "text": "bj _addAttribute , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeLi"
+    },
+    {
+      "chunk_id": 27,
+      "text": "e , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeList , attributeList , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportM"
+    },
+    {
+      "chunk_id": 32,
+      "text": ", inputPortList , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable iterate , postfire , prefire , preinitialize , stop , stopFire , terminate , wrapup Methods inherited from interface ptolemy.kernel.util. Deriv"
+    },
+    {
+      "chunk_id": 33,
+      "text": "nherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getFullName , getName , getName Field Detail libraryDirectory public"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ame , getName Field Detail libraryDirectory public Parameter libraryDirectory The directory that contains the native library, which under Windows should include a dll, an h file and a lib file. The default value of thie parameter is the string"
+    },
+    {
+      "chunk_id": 35,
+      "text": "e default value of thie parameter is the string \"jni\" + File.separator + \"lib\" nativeFunction public Parameter nativeFunction The name of the native library. The default value of this parameter is the String \"nativeFunction\" nativeLibrary public"
+    },
+    {
+      "chunk_id": 36,
+      "text": "s the String \"nativeFunction\" nativeLibrary public Parameter nativeLibrary The name of the native library. The default value of this parameter is the String \"nativeLibrary\" Constructor Detail GenericJNIActor public GenericJNIActor () Construct an"
+    },
+    {
+      "chunk_id": 37,
+      "text": "icJNIActor public GenericJNIActor () Construct an entity in the default workspace with an empty string as its name. The object is added to the workspace directory. Increment the version number of the workspace. GenericJNIActor public GenericJNI"
+    },
+    {
+      "chunk_id": 38,
+      "text": "f the workspace. GenericJNIActor public GenericJNIActor ( Workspace workspace) Construct an entity in the given workspace with an empty string as a name. If the workspace argument is null, use the default workspace. The object is added to the w"
+    },
+    {
+      "chunk_id": 39,
+      "text": "default workspace. The object is added to the workspace directory. Increment the version of the workspace. Parameters: workspace - The workspace for synchronization and version tracking. GenericJNIActor public GenericJNIActor ( CompositeEntity"
+    },
+    {
+      "chunk_id": 40,
+      "text": "cJNIActor public GenericJNIActor ( CompositeEntity container, java.lang.String name) throws NameDuplicationException , IllegalActionException Construct an entity in the given workspace with the given name. If"
+    },
+    {
+      "chunk_id": 41,
+      "text": "in the given workspace with the given name. If the workspace argument is null, use the default workspace. If the name argument is null, then the name is set to the empty string. The object is added to the workspace directory. Increment the"
+    },
+    {
+      "chunk_id": 42,
+      "text": "added to the workspace directory. Increment the version of the workspace. Parameters: container - The container. name - The name of this object. Throws: IllegalActionException - If the name has a period. NameDuplicationException Method Detail addA"
+    },
+    {
+      "chunk_id": 43,
+      "text": "eriod. NameDuplicationException Method Detail addArgumentReturn public void addArgumentReturn () throws IllegalActionException , NameDuplicationException Add a return argument to this entity Throws: IllegalActionException NameD"
+    },
+    {
+      "chunk_id": 44,
+      "text": "o this entity Throws: IllegalActionException NameDuplicationException argumentsList public java.util.List argumentsList () Get the arguments belonging to this entity. The order is the order in which they became contained by this entity. This meth"
+    },
+    {
+      "chunk_id": 45,
+      "text": "they became contained by this entity. This method is read-synchronized on the workspace. Returns: An unmodifiable list of Port objects. attributeChanged public void attributeChanged ( Attribute attribute) throws IllegalAction"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ribute) throws IllegalActionException If the getDirector() returns something other than null, then invalidate the resolved types. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that has cha"
+    },
+    {
+      "chunk_id": 47,
+      "text": "Parameters: attribute - The attribute that has changed. Throws: IllegalActionException - If the parameters are out of range. clone public java.lang.Object clone ( Workspace workspace) throws java.lang.CloneNotSupportedException"
+    },
+    {
+      "chunk_id": 48,
+      "text": "throws java.lang.CloneNotSupportedException Clone the object into the specified workspace. The new object is not added to the directory of that workspace (you must do this yourself if you want it there). The result is a new entity with clo"
+    },
+    {
+      "chunk_id": 49,
+      "text": "t it there). The result is a new entity with clones of the ports of the original entity. The ports are set to the ports of the new entity. Overrides: clone in class AtomicActor Parameters: workspace - The workspace for the cloned object. Returns"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ace - The workspace for the cloned object. Returns: The new Entity. Throws: java.lang.CloneNotSupportedException - If cloned ports cannot have as their container the cloned entity (this should not occur), or if one of the attributes cannot be c"
+    },
+    {
+      "chunk_id": 51,
+      "text": "occur), or if one of the attributes cannot be cloned. createPorts public void createPorts () throws IllegalActionException For each Argument, a port of the same name is created, belonging to this argument. Throws: IllegalActionE"
+    },
+    {
+      "chunk_id": 52,
+      "text": "belonging to this argument. Throws: IllegalActionException fire public void fire () throws IllegalActionException Read the argument of the function from the ports, call the native method throw the generated interface, and put the result"
+    },
+    {
+      "chunk_id": 53,
+      "text": "hrow the generated interface, and put the results on the corresponding ports Specified by: fire in interface Executable Overrides: fire in class AtomicActor Throws: IllegalActionException - If a exception occured getArgument public Argument getArgu"
+    },
+    {
+      "chunk_id": 54,
+      "text": "eption occured getArgument public Argument getArgument (java.lang.String name) Return the argument contained by this entity that has the specified name. If there is no such port, return null. This method is read-synchronized on the workspace. P"
+    },
+    {
+      "chunk_id": 55,
+      "text": "method is read-synchronized on the workspace. Parameters: name - The name of the desired argument. Returns: A argument with the given name, or null if none exists. getArgumentReturn public Argument getArgumentReturn () Return the argument containe"
+    },
+    {
+      "chunk_id": 56,
+      "text": "getArgumentReturn () Return the argument contained by this entity that is return. If there is no such argument, return null. This method is read-synchronized on the workspace. Returns: the argument return, or null if none exists. initialize publ"
+    },
+    {
+      "chunk_id": 57,
+      "text": "nt return, or null if none exists. initialize public void initialize () throws IllegalActionException Load the generated class and search for its fire method. Specified by: initialize in interface Executable Overrides: initialize in c"
+    },
+    {
+      "chunk_id": 58,
+      "text": "in interface Executable Overrides: initialize in class AtomicActor Throws: IllegalActionException - If a derived class throws it. _addArgument protected void _addArgument ( Argument arg) throws IllegalActionException , NameDuplic"
+    },
+    {
+      "chunk_id": 59,
+      "text": "throws IllegalActionException , NameDuplicationException Add an argument to this entity Throws: IllegalActionException NameDuplicationException _removeArgument protected void _removeArgument ( Argument arg) throws Ille"
+    },
+    {
+      "chunk_id": 60,
+      "text": "Argument arg) throws IllegalActionException Remove an argument from this entity. Throws: IllegalActionException - If an error occurs. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES Al"
+    }
+  ]
+}

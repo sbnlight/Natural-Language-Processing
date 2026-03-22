@@ -1,0 +1,441 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/HowToCreateANodeAccessor",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / HowToCreateANodeModule Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / HowToCreateANodeModule (redirected from Main.HowToC"
+    },
+    {
+      "chunk_id": 2,
+      "text": "owToCreateANodeModule (redirected from Main.HowToCreateANodeAccessor ) Summary This page is a work in progress about the steps necessary to write an module for the Node Host so that we can instantiate Accessors that use the modules. In this example,"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Accessors that use the modules. In this example, we create WebSocket Client and Server module implementations in Node.js so that Accessors can load these modules. This page shows how to port a module from Cape Code to Node. TLDR Accessors require mo"
+    },
+    {
+      "chunk_id": 4,
+      "text": "from Cape Code to Node. TLDR Accessors require modules that are implemented by the hosts. The Node Host is defined in accessors/web/hosts/node The accessor-specific Node modules required by the accessors are define in accessors/web/hosts/node/node_m"
+    },
+    {
+      "chunk_id": 5,
+      "text": "sors are define in accessors/web/hosts/node/node_modules/@accessors-modules Node modules names should use hyphens and not include capital letters. See accessors/web/hosts/node/bin/mkAccessorNodeModule for a script that creates skeleton files for a mo"
+    },
+    {
+      "chunk_id": 6,
+      "text": "for a script that creates skeleton files for a module. Usage: mkAccessorNodeModule module-name , where module-name is required by the accessor in accessors/web/ xxx / yyy .js . While the script runs, a number of files are created and then the script"
+    },
+    {
+      "chunk_id": 7,
+      "text": "a number of files are created and then the script prints out what command to run to try the module. Running the command will typically fail, the file to edit will be accessors/web/hosts/node/node_modules/@accessors-modules/ module-name / module-name"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ules/@accessors-modules/ module-name / module-name .js See for how to get access to the accessors svn repo. mkAccessorNodeModule accessors/web/hosts/node/bin/mkAccessorNodeModule is a shell script that will create the appropriate module in accessors"
+    },
+    {
+      "chunk_id": 9,
+      "text": "at will create the appropriate module in accessors/web/hosts/node/node_modules/@accesssors-modules . Usage: bash-3.2$ cd $PTII / org / terraswarm / accessor / accessors / web / hosts / node bash-3.2$ . / bin / mkAccessorNodeModule web-socket-client 1"
+    },
+    {
+      "chunk_id": 10,
+      "text": ". / bin / mkAccessorNodeModule web-socket-client 1 . Created / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / hosts / node / node_modules /@ accessors-modules / web-socket-client / package.json 2 . Created / Users / cxh / ptII /"
+    },
+    {
+      "chunk_id": 11,
+      "text": "/ package.json 2 . Created / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / hosts / node / node_modules /@ accessors-modules / web-socket-client2 / web-socket-client2.j bash-3.2$ ls node_modules /@ accessors-modules / web-socke"
+    },
+    {
+      "chunk_id": 12,
+      "text": "$ ls node_modules /@ accessors-modules / web-socket-client package.json web-socket-socket.js bash-3.2$ [$[Get Code]] Details about how the Node host finds modules See Modules Node.js for details. When the Node Host is invoked in accessors/web/host"
+    },
+    {
+      "chunk_id": 13,
+      "text": "hen the Node Host is invoked in accessors/web/hosts/node/ and it encounters a require('@accessors-modules/web-socket-client') , it searches ./node_modules/ for web-socket-client/package.json . Thus, we creates these files: accessors/web/hosts/node/n"
+    },
+    {
+      "chunk_id": 14,
+      "text": "we creates these files: accessors/web/hosts/node/node_modules/@accessors-modules/web-socket-client/package.json accessors/web/hosts/node/node_modules/@accessors-modules/web-socket-client/web-socket-client.js For details about the format of package.js"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ient.js For details about the format of package.json , see Folders as Modules For an example of web-socket-client.js , see the file itself . See also the Nashorn modules in the Cape Code Host at $PTII/ptolemy/actor/lib/jjs/modules ( Be warned that t"
+    },
+    {
+      "chunk_id": 16,
+      "text": "I/ptolemy/actor/lib/jjs/modules ( Be warned that these invoke Java, but there are many Cape Code Nashorn modules, so reviewing that code is helpful ). Creating a composite Accessor that instantiates the Accessor that uses the module is helpful. See"
+    },
+    {
+      "chunk_id": 17,
+      "text": "he Accessor that uses the module is helpful. See accessors/web/hosts/node/test/testNodeHost.js , which contains var a = this.instantiate('TestComposite', 'test/TestComposite'); . That line uses accessors/web/test/TestComposite.js . To create a simp"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ssors/web/test/TestComposite.js . To create a simple test, create accessors/web/hosts/node/test/testWebSocketClient.js (based on accessors/web/hosts/node/test/testNodeHost.js ). Create accessors/web/net/test/TestWebSocketClient.js (based on accessors"
+    },
+    {
+      "chunk_id": 19,
+      "text": "et/test/TestWebSocketClient.js (based on accessors/web/test/TestComposite.js ). To run: cd accessors / web / hosts / node node nodeHostInvoke net / test / testWebSocketClient.js [$[Get Code]] When to create an Accessor Accessors are to encapsulate no"
+    },
+    {
+      "chunk_id": 20,
+      "text": "create an Accessor Accessors are to encapsulate non-trivial bits of functionality that are suitable for reuse. The same holds for modules, but a module may be host-dependent, whereas an accessor may not. For simple functionality (such as a ramp) just"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ot. For simple functionality (such as a ramp) just use JavaScript. Note that the Cape Code Host can have both JSAccessor actors (which are wrappers for accessors) and JavaScript actors, which can be used for simple functionality. Overview of Accesso"
+    },
+    {
+      "chunk_id": 22,
+      "text": "used for simple functionality. Overview of Accessors If you are not yet familiar with Accessors , see Getting Started . In particular, see Publications And Presentations The quotes below are from the web page : \"Accessors are defined in a JavaScript"
+    },
+    {
+      "chunk_id": 23,
+      "text": "web page : \"Accessors are defined in a JavaScript file that includes a specification of the interface (inputs, outputs, and parameters)\" The Accessor files below are provided to us. The WebSocketClient accessor is declared in accessors/web/net/WebSo"
+    },
+    {
+      "chunk_id": 24,
+      "text": "nt accessor is declared in accessors/web/net/WebSocketClient.js in the accessors svn repo (which is world readable). JSDoc for WebSocketClient Accessors Library Click on net -> WebSocketClient (this is primarily for the Browser Host , and includes th"
+    },
+    {
+      "chunk_id": 25,
+      "text": "s primarily for the Browser Host , and includes the JSDoc) The WebSocketServer accessor is declared in accessors/web/net/WebSocketServer.js in the accessors svn repo (which is world readable). JSDoc for WebSocketServer Accessors Library Click on net"
+    },
+    {
+      "chunk_id": 26,
+      "text": "or WebSocketServer Accessors Library Click on net -> WebSocketServer (this is primarily for the Browser Host , and includes the JSDoc) \"Any JavaScript file that conforms with the accessor specification defines an accessor class.\" We will create a com"
+    },
+    {
+      "chunk_id": 27,
+      "text": "n defines an accessor class.\" We will create a composite Accessor that instantiates the WebSocketClient and WebSocketServer accessors. See Composite Accessor below. \"The TerraSwarm accessor library provides a collection of example accessors. This li"
+    },
+    {
+      "chunk_id": 28,
+      "text": "rovides a collection of example accessors. This library is maintained via an SVN repository that permits many contributors to add accessors to the library. \" We are going to create Node.js module files that are invoked by the pre-existing Accessor d"
+    },
+    {
+      "chunk_id": 29,
+      "text": "es that are invoked by the pre-existing Accessor declarations. The good news is that: The Cape Code Host has definitions for webSocketClient and webSocketServer modules that we can use as a template for the Node Host definitions for those modules. We"
+    },
+    {
+      "chunk_id": 30,
+      "text": "or the Node Host definitions for those modules. WebSocketClient and WebSocketServer Accessor declarations were designed with the ws Node.js interface . The less good news is that modules names in the Java-based Cape Code Host and the Node-based Node"
+    },
+    {
+      "chunk_id": 31,
+      "text": "Java-based Cape Code Host and the Node-based Node Host differ: In Cape Code, Java package names cannot have hyphens, so module names like web-socket-client are converted to webSocketClient . In the Node Package Manager (npm), package names cannot hav"
+    },
+    {
+      "chunk_id": 32,
+      "text": "de Package Manager (npm), package names cannot have upper case letters. We follow the npm-standard because Node is our target audience. Another minor issue is that Java does not support @ signs in package names In Cape Code, the @accessor-modules np"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ckage names In Cape Code, the @accessor-modules npm scope is converted to modules and these modules may be found in $PTII/ptolemy/actor/lib/jjs/ modules / . The Big Picture We have Accessor declaration files in the accessors svn repo We have the Cape"
+    },
+    {
+      "chunk_id": 34,
+      "text": "n files in the accessors svn repo We have the Cape Code Host module files that implement the necessary modules for use by the Cape Code Host in Ptolemy II. We will create module definition files that implement the necessary modules for use by the Nod"
+    },
+    {
+      "chunk_id": 35,
+      "text": "implement the necessary modules for use by the Node Host. We will create a Composite Accessor that instantiates the WebSocketClient and WebSocketServer Accessors. Files to Modify We are adding files that define the Node.js module implementation for w"
+    },
+    {
+      "chunk_id": 36,
+      "text": "hat define the Node.js module implementation for web-socket-client and web-socket-server. Get write access to the accessors svn repo We are implementing modules that will be used by the Accessor declaration, so the directories and files we create are"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ration, so the directories and files we create are slightly different than the Accessor declarations. When in doubt, take a look at the Cape Code Host and $PTII/ptolemy/actor/lib/jjs/modules . Focusing first on the WebSocketClient, the Accessor decl"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ng first on the WebSocketClient, the Accessor declaration file at accessors/web/net/WebSocketClient.js contains: var WebSocket = require ( '@accessors-modules/web-socket-client' ) ; [$[Get Code]] so the module we are creating is web-socket-client . A"
+    },
+    {
+      "chunk_id": 39,
+      "text": "he module we are creating is web-socket-client . As documented in Node.js modules the require() function searches for modules in a particular order. For the Node Accessor host, we currently run node.js in accessors/web/hosts/node/ , which means that"
+    },
+    {
+      "chunk_id": 40,
+      "text": "js in accessors/web/hosts/node/ , which means that require() searches in the node_modules/ directory. More specifically, if node.js is run in accessors/web/node/ and require('@accessors-modules/web-socket-client') is invoked, then accessors/web/node/"
+    },
+    {
+      "chunk_id": 41,
+      "text": "cket-client') is invoked, then accessors/web/node/node_modules/@accessors-modules/web-socket-client/package.json is searched for. (''Note that other files such as index.js etc. are searched for after package.json is searched for. See Node.js module"
+    },
+    {
+      "chunk_id": 42,
+      "text": "package.json is searched for. See Node.js modules . So, we will create these two files: accessors/web/hosts/node/node_modules/@accessors-modules/web-socket-client/package.json accessors/web/hosts/node/node_modules/@accessors-modules/web-socket-cli"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ode/node_modules/@accessors-modules/web-socket-client/web-socket-client.js Since there already is a CapeCode module, we can copy it over and modify it: cd accessors / web / hosts / node / mkdir node_modules /@ accessors - web / web - socket - client"
+    },
+    {
+      "chunk_id": 44,
+      "text": "odules /@ accessors - web / web - socket - client cp $PTII / ptolemy / actor / lib / jjs / modules / webSocketClient / package. json node_modules /@ accessors - web / web - socket - client cp $PTII / ptolemy / actor / lib / jjs / modules / webSocketC"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ptolemy / actor / lib / jjs / modules / webSocketClient / webSocketClient. js node_modules /@ accessors - web / web - socket - client [$[Get Code]] ' Do something similar for the webSocketServer module: mkdir node_modules /@ accessors-web / web-socke"
+    },
+    {
+      "chunk_id": 46,
+      "text": "e: mkdir node_modules /@ accessors-web / web-socket-server cp $PTII / ptolemy / actor / lib / jjs / modules / webSocketServer / package.json node_modules /@ accessors-web / web-socket-server / cp $PTII / ptolemy / actor / lib / jjs / modules / webSoc"
+    },
+    {
+      "chunk_id": 47,
+      "text": "I / ptolemy / actor / lib / jjs / modules / webSocketServer / webSocketServer.js node_modules /@ accessors-web / web-socket-server / [$[Get Code]] Future work: Create a template module file Create a script that given a module name, creates the module"
+    },
+    {
+      "chunk_id": 48,
+      "text": "cript that given a module name, creates the module file. File Modifications Make the following edits to accessors/web/hosts/node/node_modules/@accessors-modules/web-socket-client/package.json : Add yourself as an author: \"contributors\" : [ { \"name\" :"
+    },
+    {
+      "chunk_id": 49,
+      "text": "urself as an author: \"contributors\" : [ { \"name\" : \"Christopher Brooks\" , \"email\" : \"cxh@eecs.berkeley.edu\" } , [$[Get Code]] Make the following edits to accessors/web/hosts/node/node_modules/@accessors-modules/web-socket-client/web-socket-client.js"
+    },
+    {
+      "chunk_id": 50,
+      "text": "rs-modules/web-socket-client/web-socket-client.js : Update the @author tag to reflect your authorship. If you are copying the file, give credit to the source file authors * @ author Christopher Brooks , based on Cape Code webSocketClient. js by Hoke"
+    },
+    {
+      "chunk_id": 51,
+      "text": "s , based on Cape Code webSocketClient. js by Hokeun Kim and Edward A. Lee [$[Get Code]] The source file was a Nashorn file, which is used to access Java classes, so these two lines get removed: var WebSocketHelper = Java. type ( 'ptolemy.actor.lib.j"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ebSocketHelper = Java. type ( 'ptolemy.actor.lib.jjs.modules.webSocket.WebSocketHelper' ) ; var EventEmitter = require ( 'events' ) . EventEmitter ; [$[Get Code]] FIXME: we need to deal with the EventEmitter Adding the ws module We will be using the"
+    },
+    {
+      "chunk_id": 53,
+      "text": "Emitter Adding the ws module We will be using the ws Node.js interface , so we need to add update accessors/web/hosts/node/node_modules/webSocketClient/webSocketClient.js . https://github.com/websockets/ws suggests using: var WebSocket = require ( 'w"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ts/ws suggests using: var WebSocket = require ( 'ws' ) ; [$[Get Code]] While in the accessors/web/hosts/node directory, install the ws module: npm install ws [$[Get Code]] This should create accessors/web/hosts/node/node_modules/ws and other director"
+    },
+    {
+      "chunk_id": 55,
+      "text": "/web/hosts/node/node_modules/ws and other directories. We will check the modules in to the svn repo after everything is working. supportedReceiveTypes() In the Cape Code Host , the webSocketClient.js file has this method: ////////////////////////////"
+    },
+    {
+      "chunk_id": 56,
+      "text": "file has this method: /////////////////////////////////////////////////////////////////////////////// //// supportedReceiveTypes /** Return an array of the types supported by the current host for * receiveType arguments. */ exports. supportedReceive"
+    },
+    {
+      "chunk_id": 57,
+      "text": "eceiveType arguments. */ exports. supportedReceiveTypes = function ( ) { return WebSocketHelper. supportedReceiveTypes ( ) ; } ; [$[Get Code]] The above Cape Code Host code will not work for us because it uses the Nashorn Java var WebSocketHelper ."
+    },
+    {
+      "chunk_id": 58,
+      "text": "e it uses the Nashorn Java var WebSocketHelper . Instead, we will create a method that returns an array. To get values returned by the Cape Code supportedReceiveTypes() method, create a small .java file, compile it and run it: bash-3.2$ bash- 3.2 $"
+    },
+    {
+      "chunk_id": 59,
+      "text": "file, compile it and run it: bash-3.2$ bash- 3.2 $ cat Test.java import ptolemy.actor.lib.jjs.modules.webSocket.WebSocketHelper; import java.util.Arrays; public class Test { public static void main ( String args [ ] ) { System.out.println ( Arrays.to"
+    },
+    {
+      "chunk_id": 60,
+      "text": "String args [ ] ) { System.out.println ( Arrays.toString ( WebSocketHelper.supportedReceiveTypes ( ) ) ) ; } } bash-3.2$ javac -classpath $PTII :. Test.java bash-3.2$ $PTII / bin / ptinvoke Test [ application / json, text / plain, JPG, jpg, bmp, BMP,"
+    },
+    {
+      "chunk_id": 61,
+      "text": "lication / json, text / plain, JPG, jpg, bmp, BMP, gif, GIF, WBMP, png, PNG, jpeg, wbmp, JPEG ] bash-3.2$ [$[Get Code]] Thus, method in the Node Host file accessors/web/hosts/node/node_modules/webSocketClient/webSocketClient.js should look like: ////"
+    },
+    {
+      "chunk_id": 62,
+      "text": "etClient/webSocketClient.js should look like: /////////////////////////////////////////////////////////////////////////////// //// supportedReceiveTypes /** Return an array of the types supported by the current host for * receiveType arguments. */ e"
+    },
+    {
+      "chunk_id": 63,
+      "text": "he current host for * receiveType arguments. */ exports. supportedReceiveTypes = function ( ) { // These values are based on what Cape Code returns in // ptolemy.actor.lib.jjs.modules.webSocket.WebSocketHelper.supportedReceiveTypes(). // Not sure ab"
+    },
+    {
+      "chunk_id": 64,
+      "text": "cketHelper.supportedReceiveTypes(). // Not sure about the validity of 'JPG' and subsequent args. return [ 'application/json' , 'text/plain' , 'JPG' , 'jpg' , 'bmp' , 'BMP' , 'gif' , 'GIF' , 'WBMP' , 'png' , 'PNG' , 'jpeg' , 'wbmp' , 'JPEG' ] ; } ; [$"
+    },
+    {
+      "chunk_id": 65,
+      "text": "png' , 'PNG' , 'jpeg' , 'wbmp' , 'JPEG' ] ; } ; [$[Get Code]] supportedSendTypes() If we update Test.java to print the value returned by the Cape Code Host implementation of supportedSendTypes() , then we will see that it has the same value, so the m"
+    },
+    {
+      "chunk_id": 66,
+      "text": "n we will see that it has the same value, so the method in the Node Host file is very similar: /////////////////////////////////////////////////////////////////////////////// //// supportedSendTypes /** Return an array of the types supported by the c"
+    },
+    {
+      "chunk_id": 67,
+      "text": "** Return an array of the types supported by the current host for * sendType arguments. */ exports. supportedSendTypes = function ( ) { // These values are based on what Cape Code returns in // ptolemy.actor.lib.jjs.modules.webSocket.WebSocketHelper"
+    },
+    {
+      "chunk_id": 68,
+      "text": "my.actor.lib.jjs.modules.webSocket.WebSocketHelper.supportedSendTypes(). // FIXME: Not sure about the validity of 'JPG' and subsequent args. return [ 'application/json' , 'text/plain' , 'JPG' , 'jpg' , 'bmp' , 'BMP' , 'gif' , 'GIF' , 'WBMP' , 'png' ,"
+    },
+    {
+      "chunk_id": 69,
+      "text": ", 'bmp' , 'BMP' , 'gif' , 'GIF' , 'WBMP' , 'png' , 'PNG' , 'jpeg' , 'wbmp' , 'JPEG' ] ; } ; [$[Get Code]] util.inherits() It is good to sanity check our work by parsing the file. Jumping past the Client constructor, there is a line that needs to be"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ent constructor, there is a line that needs to be commented out so that the Node Host can parse this file. The Cape Code Host includes the following line after the Client constructor: util. inherits ( exports. Client , EventEmitter ) ; [$[Get Code]]"
+    },
+    {
+      "chunk_id": 71,
+      "text": "exports. Client , EventEmitter ) ; [$[Get Code]] However, because we have no util module in the Node Host, when we invoke node on our file, we get an error: bash-3.2$ node webSocketClient / webSocketClient.js / Users / cxh / ptII / org / terraswarm"
+    },
+    {
+      "chunk_id": 72,
+      "text": "Client.js / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / { $HOSTS_NODE } / webSocketClient / webSocketClient.js: 175 util.inherits ( exports.Client, EventEmitter ) ; ^ ReferenceError: util is not defined at Object. < anonymous"
+    },
+    {
+      "chunk_id": 73,
+      "text": "eError: util is not defined at Object. < anonymous > ( / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / { $HOSTS_NODE } / webSocketClient / webSocketClient.js: 175 : 1 ) at Module._compile ( module.js: 413 : 34 ) at Object.Modul"
+    },
+    {
+      "chunk_id": 74,
+      "text": "e._compile ( module.js: 413 : 34 ) at Object.Module._extensions..js ( module.js: 422 : 10 ) at Module.load ( module.js: 357 : 32 ) at Function.Module._load ( module.js: 314 : 12 ) at Function.Module.runMain ( module.js: 447 : 10 ) at startup ( node.j"
+    },
+    {
+      "chunk_id": 75,
+      "text": "unMain ( module.js: 447 : 10 ) at startup ( node.js: 141 : 18 ) at node.js: 933 : 3 bash-3.2$ [$[Get Code]] FIXME: Not sure what to do here. Do we define a util module and an inherits() function? Solution var util = require('util'); In the short ter"
+    },
+    {
+      "chunk_id": 76,
+      "text": "ution var util = require('util'); In the short term, we comment it out // FIXME: Not sure what to do with util.inherits. // See {$ACCESSORS_HOME}/wiki/Main/HowToCreateANodeAccessor#utilInherits //util.inherits(exports.Client, EventEmitter); [$[Get Co"
+    },
+    {
+      "chunk_id": 77,
+      "text": ".inherits(exports.Client, EventEmitter); [$[Get Code]] Does it parse? As a quick test, we run node on the module file to see if it parses: bash-3.2$ pwd / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / { $HOSTS_NODE } bash-3.2$"
+    },
+    {
+      "chunk_id": 78,
+      "text": "sor / accessors / web / { $HOSTS_NODE } bash-3.2$ node node_modules / webSocketClient / webSocketClient.js bash-3.2$ [$[Get Code]] The above was successful, there were no parse errors. Composite Accessor test Next up, we create a composite Accessor t"
+    },
+    {
+      "chunk_id": 79,
+      "text": "sor test Next up, we create a composite Accessor that contains a WebSocketClient and try to run it. Create accessors/web/hosts/node/test/testWebSocketClient.js that instantiates our composite: var nodeHost = require ( './nodeHost.js); var a = this.in"
+    },
+    {
+      "chunk_id": 80,
+      "text": "eHost = require ( './nodeHost.js); var a = this.instantiate(' TestWebSocketClient ', ' net / test / TestWebSocketClient '); [$[Get Code]] Create accessors/web/net/test/TestWebSocketClient.js , which defines the composite: exports. setup = function ("
+    },
+    {
+      "chunk_id": 81,
+      "text": "efines the composite: exports. setup = function ( ) { var client = this . instantiate ( 'WebSocketClient' , 'net/WebSocketClient' ) ; } ; [$[Get Code]] Invoke the Node host on testWebSocketClient.js : bash-3.2$ pwd / Users / cxh / ptII / org / terras"
+    },
+    {
+      "chunk_id": 82,
+      "text": "bash-3.2$ pwd / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / { $HOSTS_NODE } bash-3.2$ node nodeHostInvoke -timeout 1000 net / test / testWebSocketClient.js Reading accessor at: / Users / cxh / ptII / org / terraswarm / acces"
+    },
+    {
+      "chunk_id": 83,
+      "text": "t: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / net / test / testWebSocketClient.js Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / net / WebSocketClient.js Instantiated accessor t"
+    },
+    {
+      "chunk_id": 84,
+      "text": "/ net / WebSocketClient.js Instantiated accessor testWebSocketClient.js with class net / test / testWebSocketClient.js bash-3.2$ [$[Get Code]] Success! We can instantiate a WebSocket accessor using our module. However, it does not actually do anythi"
+    },
+    {
+      "chunk_id": 85,
+      "text": "r module. However, it does not actually do anything. Client constructor. Next up in the Cape Code implementation is the declaration of a Client constructor: /////////////////////////////////////////////////////////////////////////////// //// Client"
+    },
+    {
+      "chunk_id": 86,
+      "text": "///////////////////////////////////// //// Client /** Construct an instance of a socket client that can send or receive messages * to a server at the specified host and port. * The returned object subclasses EventEmitter. * You can register handlers"
+    },
+    {
+      "chunk_id": 87,
+      "text": "classes EventEmitter. * You can register handlers for events 'open' , 'message' , 'close' , or 'error' . * The event 'open' will be emitted when the socket has been successfully opened. * The event 'message' will be emitted with the body of the messa"
+    },
+    {
+      "chunk_id": 88,
+      "text": "essage' will be emitted with the body of the message as an * argument when an incoming message arrives on the socket. * You can invoke the send ( ) function to send data to the server. * * The type of data sent and received can be specified with the"
+    },
+    {
+      "chunk_id": 89,
+      "text": "data sent and received can be specified with the 'sendType' * and 'receiveType' options. * In principle, any MIME type can be specified, but the host may support only * a subset of MIME types. The client and the server have to agree on the type , *"
+    },
+    {
+      "chunk_id": 90,
+      "text": "lient and the server have to agree on the type , * or the data will not get through correctly. * * The default type for both sending and receiving * is 'application/json' . The types supported by this implementation * include at least: * * __applicat"
+    },
+    {
+      "chunk_id": 91,
+      "text": "implementation * include at least: * * __application / json__: The this.send ( ) function uses JSON.stringify ( ) and sends the * result with a UTF- 8 encoding. An incoming byte stream will be parsed as JSON, * and if the parsing fails, will be prov"
+    },
+    {
+      "chunk_id": 92,
+      "text": "as JSON, * and if the parsing fails, will be provided as a string interpretation of the byte * stream. * * __text / \\ * __: Any text type is sent as a string encoded in UTF- 8 . * * __image / x__: Where __x__ is one of __json__, __png__, __gif__, *"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ere __x__ is one of __json__, __png__, __gif__, * and more ( FIXME: which , exactly? ) . * In this case , the data passed to this.send ( ) is assumed to be an image, as encoded * on the host, and the image will be encoded as a byte stream in the spec"
+    },
+    {
+      "chunk_id": 94,
+      "text": "image will be encoded as a byte stream in the specified * format before sending. A received byte stream will be decoded as an image, * if possible. FIXME: What happens if decoding fails? * * The event 'close' will be emitted when the socket is close"
+    },
+    {
+      "chunk_id": 95,
+      "text": "t 'close' will be emitted when the socket is closed, and 'error' if an * an error occurs ( with an error message as an argument ) . * For example, * < pre > * var WebSocket = require ( 'webSocketClient' ) ; * var client = new WebSocket.Client ( { 'ho"
+    },
+    {
+      "chunk_id": 96,
+      "text": "t' ) ; * var client = new WebSocket.Client ( { 'host' : 'localhost' , 'port' : 8080 } ) ; * client.send ( { 'foo' : 'bar' } ) ; * client.on ( 'message' , function ( message ) { * console.log ( 'Received from web socket: ' + message ) ; * } ) ; * clie"
+    },
+    {
+      "chunk_id": 97,
+      "text": "ed from web socket: ' + message ) ; * } ) ; * client.open ( ) ; * </ pre > * * The above code may send a message even before the socket is opened. This module * implementation will queue that message to be sent later when the socket is opened. * * Th"
+    },
+    {
+      "chunk_id": 98,
+      "text": "to be sent later when the socket is opened. * * The options argument is a JSON object that can contain the following properties: * * host: The IP address or host name for the host. Defaults to 'localhost' . * * port: The port on which the host is lis"
+    },
+    {
+      "chunk_id": 99,
+      "text": "ost' . * * port: The port on which the host is listening. Defaults to 80 . * * receiveType: The MIME type for incoming messages, which defaults to 'application/json' . * * sendType: The MIME type for outgoing messages, which defaults to 'application/"
+    },
+    {
+      "chunk_id": 100,
+      "text": "outgoing messages, which defaults to 'application/json' . * * connectTimeout: The time to wait before giving up on a connection, in milliseconds * ( defaults to 1000 ) . * * numberOfRetries: The number of times to retry connecting. Defaults to 10 . *"
+    },
+    {
+      "chunk_id": 101,
+      "text": "r of times to retry connecting. Defaults to 10 . * * timeBetweenRetries: The time between retries, in milliseconds. Defaults to 500 . * * discardMessagesBeforeOpen: If true , discard messages before the socket is open. Defaults to false. * * throttle"
+    },
+    {
+      "chunk_id": 102,
+      "text": "he socket is open. Defaults to false. * * throttleFactor: The number milliseconds to stall for each item that is queued waiting to be sent. Defaults to 0 . * * @ param options The options. */ exports.Client = function ( options ) { options = options"
+    },
+    {
+      "chunk_id": 103,
+      "text": "Client = function ( options ) { options = options || { } ; this.port = options.port || 80 ; this.host = options.host || 'localhost' ; this.sslTls = options.sslTls || false ; this.receiveType = options.receiveType || 'application/json' ; this.sendType"
+    },
+    {
+      "chunk_id": 104,
+      "text": ".receiveType || 'application/json' ; this.sendType = options.sendType || 'application/json' ; this.connectTimeout = options.connectTimeout || 1000 ; this.numberOfRetries = options.numberOfRetries || 10 ; this.timeBetweenRetries = options.timeBetweenR"
+    },
+    {
+      "chunk_id": 105,
+      "text": "0 ; this.timeBetweenRetries = options.timeBetweenRetries || 500 ; this.trustAll = options.trustAll || false ; this.trustedCACertPath = options.trustedCACertPath || '' ; this.discardMessagesBeforeOpen = options.discardMessagesBeforeOpen || false ; thi"
+    },
+    {
+      "chunk_id": 106,
+      "text": "= options.discardMessagesBeforeOpen || false ; this.throttleFactor = options.throttleFactor || 0 ; this.helper = WebSocketHelper.createClientSocket ( this, this.host, this.sslTls, this.port, this.receiveType, this.sendType, this.connectTimeout, this."
+    },
+    {
+      "chunk_id": 107,
+      "text": "iveType, this.sendType, this.connectTimeout, this.numberOfRetries, this.timeBetweenRetries, this.trustAll, this.trustedCACertPath, this.discardMessagesBeforeOpen, this.throttleFactor ) ; } ; [$[Get Code]] The above needs to be updated to be a call to"
+    },
+    {
+      "chunk_id": 108,
+      "text": "de]] The above needs to be updated to be a call to the appropriate ws functions. See the ws WebSocket documentation for how to create a WebSocket, which is the closest to the Cape Code WebSocketHelper createClientSocket(). The documentation for ws We"
+    },
+    {
+      "chunk_id": 109,
+      "text": "createClientSocket(). The documentation for ws WebSocket is pathetic . The options are not documented. It looks like Cape Code's WebSocketHelper is based on Vert.x, not on the ws Node module. See Also Writing Node bindings for C/C++ Libraries Node"
+    }
+  ]
+}

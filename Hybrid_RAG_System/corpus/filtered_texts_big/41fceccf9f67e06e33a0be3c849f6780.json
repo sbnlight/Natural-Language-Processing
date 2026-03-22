@@ -1,0 +1,241 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/NodeHost",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / Node.js Swarmlet Host Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / Node.js Swarmlet Host The node host is used to insta"
+    },
+    {
+      "chunk_id": 2,
+      "text": "de.js Swarmlet Host The node host is used to instantiate and run accessors in Node.js. Quick start with an interactive shell Assuming you have Node.js between v5.10.0 and 7.10.1 installed and can invoke it on a command line, the following commands wi"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ke it on a command line, the following commands will download the node host and run it as an interactive shell: git clone https: // github.com / icyphy / accessors.git cd accessors / web / hosts / node node nodeHostShell.js [$[Get Code]] After execut"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e node nodeHostShell.js [$[Get Code]] After executing these three commands, you can type help to get a list of commands understood by the host. The following sequence of commands to the host will instantiate an accessor, run it, and then exit the hos"
+    },
+    {
+      "chunk_id": 5,
+      "text": "antiate an accessor, run it, and then exit the host: var a = instantiate ( 'a' , 'test/TestGain' ) a. initialize ( ) a. setParameter ( 'gain' , 4 ) a. provideInput ( 'input' , 5 ) a. react ( ) a. latestOutput ( 'scaled' ) exit [$[Get Code]] Below are"
+    },
+    {
+      "chunk_id": 6,
+      "text": "stOutput ( 'scaled' ) exit [$[Get Code]] Below are the same commands shown along with the node shell prompt ( nsh> ) and the output: Welcome to the Node swarmlet host ( nsh ) . Type exit to exit , help for help. nsh > var a = instantiate ( 'a' , 'tes"
+    },
+    {
+      "chunk_id": 7,
+      "text": "p for help. nsh > var a = instantiate ( 'a' , 'test/TestGain' ) Reading accessor at : / ptII / org / terraswarm / accessor / accessors / web / test / TestGain. js Instantiated accessor a with class test / TestGain undefined nsh > a. initialize ( ) un"
+    },
+    {
+      "chunk_id": 8,
+      "text": "st / TestGain undefined nsh > a. initialize ( ) undefined nsh > a. setParameter ( 'gain' , 4 ) undefined nsh > a. provideInput ( 'input' , 5 ) undefined nsh > a. react ( ) TestGain : inputHandler : input : 5 gain : 4 undefined nsh > a. latestOutput ("
+    },
+    {
+      "chunk_id": 9,
+      "text": "put : 5 gain : 4 undefined nsh > a. latestOutput ( 'scaled' ) 20 nsh > exit exit [$[Get Code]] See also: Available accessors Node host documentation Accessors repository Node host source code Node host interactive shell source code The Node host reli"
+    },
+    {
+      "chunk_id": 10,
+      "text": "t interactive shell source code The Node host relies on and extends the common host , a platform-independent pure-JavaScript swarmlet host. At this time, the implementation is far from complete, with most optional JavaScript modules not yet implement"
+    },
+    {
+      "chunk_id": 11,
+      "text": "most optional JavaScript modules not yet implemented. See the To Do List . The interactive shell can also be used to script a session. To run a sample script , assuming you are in the same directory: bash - 3.2 $ node nodeHostShell. js < test / test"
+    },
+    {
+      "chunk_id": 12,
+      "text": "bash - 3.2 $ node nodeHostShell. js < test / testNodeHost. js [$[Get Code]] You will see output similar to the session above. Instantiating and running accessors from the command line The Node host includes a command-line invocation mechanism that w"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ncludes a command-line invocation mechanism that will instantiate and initialize accessors. The command-line arguments are the class names of accessors (such as net/REST) and can also include plain JavaScript files to evaluate before, after, or betwe"
+    },
+    {
+      "chunk_id": 14,
+      "text": "vaScript files to evaluate before, after, or between instantiations and initialization of accessors. The general usage pattern is: node nodeHostInvoke.js [ -js JavaScriptFile.js ] [ -k ] [ -t timeInMs ] AccessorClass1 [ AccessorClass2 ... ] [$[Get Co"
+    },
+    {
+      "chunk_id": 15,
+      "text": "] AccessorClass1 [ AccessorClass2 ... ] [$[Get Code]] The above assumes that the current directory is hosts/node in the accessors repository, where the nodeHostInvoke.js file is found. See documentation for the command-line arguments . For example,"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ion for the command-line arguments . For example, the following command instantiates and initializes a Composite Accessor that stops its own execution using a Stop accessor after about 3 seconds. node nodeHostInvoke.js test / auto / Stop [$[Get Code]"
+    },
+    {
+      "chunk_id": 17,
+      "text": "nodeHostInvoke.js test / auto / Stop [$[Get Code]] You can run two instances of an accessor simultaneously: node nodeHostInvoke.js test / auto / Stop test / auto / Stop [$[Get Code]] The above command will return when both accessors have completed e"
+    },
+    {
+      "chunk_id": 18,
+      "text": "d will return when both accessors have completed execution. The following instantiates and initializes an accessor that does not stop its own execution: node nodeHostInvoke.js test / TestSpontaneous [$[Get Code]] The above command will not return, so"
+    },
+    {
+      "chunk_id": 19,
+      "text": "$[Get Code]] The above command will not return, so you will need to stop it with control-C. The above TestSpontaneous accessor produces a sequence of outputs, one per second, but those outputs are not being monitored by anything, so the execution is"
+    },
+    {
+      "chunk_id": 20,
+      "text": "being monitored by anything, so the execution is not very interesting. You can follow instantiation of the accessor with a JavaScript file that monitors the outputs or stops the execution as follows: node nodeHostInvoke.js test / TestSpontaneous -j"
+    },
+    {
+      "chunk_id": 21,
+      "text": ": node nodeHostInvoke.js test / TestSpontaneous -js monitor.js [$[Get Code]] where, for example, monitor.js is a file containing the following code: var accessor = getTopLevelAccessors ( ) [ 0 ] ; var count = 0 ; accessor. on ( 'output' , function ("
+    },
+    {
+      "chunk_id": 22,
+      "text": "count = 0 ; accessor. on ( 'output' , function ( ) { console. log ( accessor. latestOutput ( 'output' ) ) ; if ( count ++ >= 4 ) { accessor. wrapup ( ) ; } } ) ; [$[Get Code]] The first line retrieves the accessor from the host using its getTopLevel"
+    },
+    {
+      "chunk_id": 23,
+      "text": "s the accessor from the host using its getTopLevelAccessors() function. This script then monitors the output named 'output', and whenever the accessor produces such an output, it prints the value of the output. In addition, after five outputs have be"
+    },
+    {
+      "chunk_id": 24,
+      "text": "he output. In addition, after five outputs have been produced, it invokes the wrapup() function, which stops execution of the accessor. To run an accessor for three seconds and then terminate, specify a timeout option: node nodeHostInvoke.js -timeout"
+    },
+    {
+      "chunk_id": 25,
+      "text": "a timeout option: node nodeHostInvoke.js -timeout 3000 test / auto / RampJSDisplay [$[Get Code]] The RampJSDisplay accessor is a composite accessor that produces a counting sequence and then displays it on the standard output. The execution looks li"
+    },
+    {
+      "chunk_id": 26,
+      "text": "it on the standard output. The execution looks like this: bash-3.2$ node nodeHostInvoke.js -timeout 3000 test / auto / RampJSDisplay Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / auto / RampJSDisp"
+    },
+    {
+      "chunk_id": 27,
+      "text": "essor / accessors / web / test / auto / RampJSDisplay.js Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / TestDisplay.js Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / acces"
+    },
+    {
+      "chunk_id": 28,
+      "text": "/ cxh / ptII / org / terraswarm / accessor / accessors / web / test / TestSpontaneous.js Instantiated accessor RampJSDisplay with class test / auto / RampJSDisplay 1 2 commonHost.js: main ( ) : Maximum time reached. Calling stopAllAccessors ( ) . com"
+    },
+    {
+      "chunk_id": 29,
+      "text": "m time reached. Calling stopAllAccessors ( ) . commonHost.js: invoking wrapup ( ) for accessor: accessor1 bash-3.2$ [$[Get Code]] You can create automated tests using the TrainableTest accessor. For example, test/auto/RampJSTestDisplay is a composite"
+    },
+    {
+      "chunk_id": 30,
+      "text": "xample, test/auto/RampJSTestDisplay is a composite accessor with a TrainableTest accessor in it: node nodeHostInvoke.js test / auto / RampJSTestDisplay [$[Get Code]] This accessor generates a counting sequence, checks that the counting sequence is co"
+    },
+    {
+      "chunk_id": 31,
+      "text": "sequence, checks that the counting sequence is correct, and terminates upon receiving all expected values. It also displays the output values on standard out. The command-line arguments are file names, accessor class names (such as net/REST), or any"
+    },
+    {
+      "chunk_id": 32,
+      "text": "s, accessor class names (such as net/REST), or any of the following options: -e|--e|-echo|--echo : Echo the command-line arguments. This is helpful for use under Ant apply. -h|--h|-help|--help : Print a usage message. -j|--j|-js|--js : Interpret the"
+    },
+    {
+      "chunk_id": 33,
+      "text": "a usage message. -j|--j|-js|--js : Interpret the next argument as the name of a regular JavaScript file to evaluate, as opposed to an accessor. -k|--k|-keepalive|--keepalive : Keep the process alive until either all accessors specified on the comman"
+    },
+    {
+      "chunk_id": 34,
+      "text": "until either all accessors specified on the command line have wrapped up, or if no accessors were given, then until the timeout specified by the -timeout option expires. If no timeout is given and no accessors are given, then the process does not exi"
+    },
+    {
+      "chunk_id": 35,
+      "text": "accessors are given, then the process does not exit. -t|--t|-timeout|--timeout milliseconds : The maximum amount of time the script can run. When this time is reached, stop() is called on all accessors that have been instantiated, and then -v|--v|-ve"
+    },
+    {
+      "chunk_id": 36,
+      "text": "s that have been instantiated, and then -v|--v|-version|--version : Print out the version number See the nodeHost module JSDoc documentation . Installing the node host using npm The Node Package Manager (npm) installation is not yet updated regularly"
+    },
+    {
+      "chunk_id": 37,
+      "text": "er (npm) installation is not yet updated regularly, download using the git repo until we get npm to update automatically. Install node.js , which should also install the npm executable. Optional: Update npm , to the most recent version. Typically, t"
+    },
+    {
+      "chunk_id": 38,
+      "text": "te npm , to the most recent version. Typically, this is done with sudo npm install npm -g [$[Get Code]] See Installing Node for details Install the accessors Node Accessor Host module: npm install @ terraswarm / accessors [$[Get Code]] Install one o"
+    },
+    {
+      "chunk_id": 39,
+      "text": "terraswarm / accessors [$[Get Code]] Install one of many modules (used by the RampJSDisplay example below): npm install @ accessors-modules / text-display [$[Get Code]] Create a .js file such as accessors.js : var accessors = require ( '@terraswarm/a"
+    },
+    {
+      "chunk_id": 40,
+      "text": "sors.js : var accessors = require ( '@terraswarm/accessors' ) ; var accessor = accessors. instantiate ( \"myAccessor\" , \"test/auto/RampJSDisplay\" ) ; accessor. initialize ( ) ; [$[Get Code]] In the shell, invoke node [ cxh @ terra accessors ] $ node a"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ll, invoke node [ cxh @ terra accessors ] $ node accessors.js Reading accessor at: / tmp / accessors / node_modules /@ terraswarm / accessors / test / auto / RampJSDisplay.js Reading accessor at: / tmp / accessors / node_modules /@ terraswarm / acces"
+    },
+    {
+      "chunk_id": 42,
+      "text": "p / accessors / node_modules /@ terraswarm / accessors / test / TestDisplay.js Reading accessor at: / tmp / accessors / node_modules /@ terraswarm / accessors / test / TestSpontaneous.js Instantiated accessor RampJSDisplay with class test / auto / Ra"
+    },
+    {
+      "chunk_id": 43,
+      "text": "accessor RampJSDisplay with class test / auto / RampJSDisplay 1 2 3 C-c C-c ^CnodeHost.js: About to invoke wrapup ( ) . nodeHost.js: invoking wrapup ( ) for accessor: myAccessor.TestDisplay nodeHost.js: invoking wrapup ( ) for accessor: myAccessor.Te"
+    },
+    {
+      "chunk_id": 44,
+      "text": "s: invoking wrapup ( ) for accessor: myAccessor.TestSpontaneous nodeHost.js: invoking wrapup ( ) for accessor: JavaScriptRamp [ cxh @ terra accessors ] $ [$[Get Code]] For more information about the Node Package Manager (npm), see npm . Testing using"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ode Package Manager (npm), see npm . Testing using Mocha We use Mocha to test the Node accessor host. To run the tests, 1. Install two modules: sudo npm install -g mocha sudo npm install -g mocha-junit-reporter [$[Get Code]] 2. cd to the web/ directo"
+    },
+    {
+      "chunk_id": 46,
+      "text": "t-reporter [$[Get Code]] 2. cd to the web/ directory in the accessors repository and run ant test.mocha : bash-3.2$ pwd / Users / cxh / ptII / org / terraswarm / accessor / accessors / web bash-3.2$ ant tests.mocha Buildfile: / Users / cxh / ptII / o"
+    },
+    {
+      "chunk_id": 47,
+      "text": "nt tests.mocha Buildfile: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / build.xml tests.mocha: [ echo ] [ echo ] ==test.mocha== [ echo ] This target uses mocha to test Node.js tests in **/ mocha / test * .js files. [ echo ] T"
+    },
+    {
+      "chunk_id": 48,
+      "text": "tests in **/ mocha / test * .js files. [ echo ] This target requires setup: [ echo ] sudo npm install -g mocha [ echo ] sudo npm install -g mocha-junit-reporter [ echo ] See https: // chess.eecs.berkeley.edu / ptexternal / wiki / Main / JSMocha [ ec"
+    },
+    {
+      "chunk_id": 49,
+      "text": "eley.edu / ptexternal / wiki / Main / JSMocha [ echo ] [ exec ] [ exec ] [ exec ] CommonTests [ exec ] Instance of TestAccessor: [ Circular ] [ exec ] Tests: [ exec ] Test passed: TestAccessor: getParameter [ exec ] Test passed: TestAccessor: setPara"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ameter [ exec ] Test passed: TestAccessor: setParameter [ exec ] Test passed: TestAccessor: get [ exec ] Test passed: TestAccessor: get with undefined [ exec ] Test passed: TestAccessor: get with undefined [ exec ] Test passed: TestAccessor: provideI"
+    },
+    {
+      "chunk_id": 51,
+      "text": "fined [ exec ] Test passed: TestAccessor: provideInput ( ) [ exec ] TestAccessor.fire ( ) invoked. ... [ exec ] Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / TestGain.js [ exec ] Reading accessor a"
+    },
+    {
+      "chunk_id": 52,
+      "text": "b / test / TestGain.js [ exec ] Reading accessor at: / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / test / TestAdder.js [ exec ] Instantiated accessor testComposite with class test / testComposite [ exec ] [ exec ] & #10003; l"
+    },
+    {
+      "chunk_id": 53,
+      "text": "test / testComposite [ exec ] [ exec ] & #10003; load testCommon [ exec ] [ exec ] 4 passing ( 22ms ) [ exec ] BUILD SUCCESSFUL Total time: 0 seconds bash-3.2$ [$[Get Code]] Other Node Host Tests In the root directory of the accessors repository: ant"
+    },
+    {
+      "chunk_id": 54,
+      "text": "he root directory of the accessors repository: ant -p List the ant targets ant tests Run the CapeCode, Browser, Duktape, eduk and node host tests. ant tests.mocha Use mocha to test the Node host and generate output on stdout. ant tests.mocha.composit"
+    },
+    {
+      "chunk_id": 55,
+      "text": "enerate output on stdout. ant tests.mocha.composites Use mocha to test just the composite accessors using the Node Host mocha hosts/node/test/testNodeOneAuto.js --Dauto= XXX /test/auto Use mocha to test the composite accessors using the Node Host in"
+    },
+    {
+      "chunk_id": 56,
+      "text": "st the composite accessors using the Node Host in the XXX /test/auto directory. (cd net/test; ./runNodeAutoTests) Run just the composite accessors in the net/test/auto . This is a convenience script for the mocha command above. Each test/ directory"
+    },
+    {
+      "chunk_id": 57,
+      "text": "for the mocha command above. Each test/ directory that has a auto/ directory that contains composite accessors should have a runNodeAutoTests script. Node Version Node 5.10.0 or later is required because accessor modules such as socket use Buffer Th"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ause accessor modules such as socket use Buffer The npm 5.x and later , shipped with Node 8.x and later remove files from the node_modules/ directory, so Node 7.10.1 or earlier must be used with accessors. See Also How To Create a Node Module Interfa"
+    },
+    {
+      "chunk_id": 59,
+      "text": "sors. See Also How To Create a Node Module Interfacing Hardware Specifics with Node and Accessors JS - JavaScript resources NPM Upload - admin instructions about how to upload to npm. Resources For Host Authors WebSocket Implementation Nodes for Node"
+    }
+  ]
+}

@@ -1,0 +1,457 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/GDPJSCallbacks",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / GDPJSCallbacks Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / GDPJSCallbacks The GDP is no longer supported by the Acce"
+    },
+    {
+      "chunk_id": 2,
+      "text": "llbacks The GDP is no longer supported by the Accessors Framework. This page exists as a historical reference. Problem Statement We want to use callbacks so that the GDPLogSubscriber accessor is a spontaneous accessor. Under Cape Code, we now have a"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ontaneous accessor. Under Cape Code, we now have a spontaneous accessor. Under Node, we were using polling, where the accessor had an input. However, now, under Node, the GDPLogSubscriber is not generating output. How to run what we have To run the"
+    },
+    {
+      "chunk_id": 4,
+      "text": "rating output. How to run what we have To run the Cape Code version: $PTII/bin/vergil /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/gdp/test/auto/GDPLogSubscribeJS.xml To run the Node Host Composite Accessor version: (cd /Users/cxh/ptII/org/terraswar"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ccessor version: (cd /Users/cxh/ptII/org/terraswarm/accessor/accessors/web/gdp/test/auto; node ../../../hosts/node/nodeHostInvoke.js -timeout 12000 gdp/test/auto/GDPLogSubscribeJS) The problem is that the TrainableTest connected to the GDPLogSubscrib"
+    },
+    {
+      "chunk_id": 6,
+      "text": "the TrainableTest connected to the GDPLogSubscriber does not run: nodeHost.js: invoking wrapup ( ) for accessor: GDPLogSubscribeJS.GDPLogSubscribe2 nodeHost.js: invoking wrapup ( ) for accessor: GDPLogSubscribeJS.GDPLogAppend2 nodeHost.js: while inv"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ogSubscribeJS.GDPLogAppend2 nodeHost.js: while invoking wrapup ( ) of all accessors, an exception was thrown: Error: GDPLogSubscribeJS.TrainableTest2The input handler of this accessor was never invoked. Usually, this is an error indicating that starv"
+    },
+    {
+      "chunk_id": 8,
+      "text": "d. Usually, this is an error indicating that starvation is occurring. bash-3.2$ [$[Get Code]] What we need When we first call subscribe, we need to register a callback that when invoked, will send data to the output port of GDPSubscriber. The callbac"
+    },
+    {
+      "chunk_id": 9,
+      "text": "a to the output port of GDPSubscriber. The callback will be invoked by the GDP C code that gets an event that a subscription is present. The callback eventually needs to invoke JavaScript code that sends the data. So, we need a way to tell the GDP C"
+    },
+    {
+      "chunk_id": 10,
+      "text": "nds the data. So, we need a way to tell the GDP C code to callback to invoke a JavaScript callback. Subscription Files A review of files is in order: $PTII/ptolemy/actor/lib/jjs/modules/gdp/test/auto/GDPLogSubscribe.xml The Cape Code Model, which run"
+    },
+    {
+      "chunk_id": 11,
+      "text": "GDPLogSubscribe.xml The Cape Code Model, which runs in vergil $PTII/org/terraswarm/accessor/accessors/web/gdp/test/auto/GDPLogSubscribeJS.js Code generated from GDPLogSubscribe.xml. To run it, use: (cd /Users/cxh/ptII/org/terraswarm/accessor/accesso"
+    },
+    {
+      "chunk_id": 12,
+      "text": "cd /Users/cxh/ptII/org/terraswarm/accessor/accessors/web/gdp/test/auto; node ../../../hosts/node/nodeHostInvoke.js -timeout 6000 gdp/test/auto/GDPLogSubscribeJS) $PTII/org/terraswarm/accessor/accessors/web/gdp/GDPLogSubscribe.js The accessor definiti"
+    },
+    {
+      "chunk_id": 13,
+      "text": "s/web/gdp/GDPLogSubscribe.js The accessor definition shared between the Cape Code and Node accessor hosts. $PTII/org/terraswarm/accessor/accessors/web/hosts/node/node_modules/@accessors-modules/gdp/gdp.js The gdp module that is found by the Node Acce"
+    },
+    {
+      "chunk_id": 14,
+      "text": "p.js The gdp module that is found by the Node Accessor Host. $PTII/node_modules/@terraswarm/gdp/gdpjs/gdpjs.js The version of gdpjs.js that is found by Node when Node reads var gdpjs = require('@terraswarm/gdp'); in gdp.js . Important : gdpjs must be"
+    },
+    {
+      "chunk_id": 15,
+      "text": "swarm/gdp'); in gdp.js . Important : gdpjs must be installed with: cd $PTII npm install vendors / gdp / gdp / lang / js [$[Get Code]] $PTII/vendors/gdp/gdp/lang/js/gdpjs/gdpjs.js The master copy of gdpjs.js that is read by npm install vendors/gdp/gdp"
+    },
+    {
+      "chunk_id": 16,
+      "text": "pjs.js that is read by npm install vendors/gdp/gdp/lang/js . For development and debugging, edit $PTII/node_modules/@terraswarm/gdp/gdpjs/gdpjs.js , and then before running npm install vendors/gdp/gdp/lang/js , update the master copy with cp $PTII /"
+    },
+    {
+      "chunk_id": 17,
+      "text": "p/lang/js , update the master copy with cp $PTII / node_modules /@ terraswarm / gdp / gdpjs / gdpjs.js $PTII / vendors / gdp / gdp / lang / js / gdpjs / gdpjs.js [$[Get Code]] $PTII/node_modules/@terraswarm/gdp/libs Shared libraries loaded by gdpjs.j"
+    },
+    {
+      "chunk_id": 18,
+      "text": "aswarm/gdp/libs Shared libraries loaded by gdpjs.js . libgdpjs contains some glue code for the interface. Building the GDP In Ptolemy II, the GDP source code is typically installed in $PTII/vendors/gdp/gdp by the GDPManager. One way to get the GDP"
+    },
+    {
+      "chunk_id": 19,
+      "text": "dp/gdp by the GDPManager. One way to get the GDP set up is to run (cd $PTII/ptolemy/actor/lib/jjs/modules/gdp/test; $PTII/bin/ptjacl GDPManager.tcl) Or: cd $PTII / vendors mkdir gdp cd gdp git clone repoman @ repo.eecs.berkeley.edu:projects / swarml"
+    },
+    {
+      "chunk_id": 20,
+      "text": "repoman @ repo.eecs.berkeley.edu:projects / swarmlab / gdp.git cd gdp [$[Get Code]] Install Macports . / adm / gdp-setup make all [$[Get Code]] Subscription Callbacks The GDP has C support for callbacks. The GDPLogSubscribe and GDPLogRead accessors b"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ks. The GDPLogSubscribe and GDPLogRead accessors both eventually call read_gcl_records() , which is defined in gdp/gdp/lang/js/gdpjs/gdpjs.js , and gets installed in node_modules/@terraswarm/gdp/gdpjs/gdpjs.js . ( FIXME: There are a number of differe"
+    },
+    {
+      "chunk_id": 22,
+      "text": "/gdpjs.js . ( FIXME: There are a number of different files that are called in part because the code has evolved. Initially, the JavaScript that invokes the GDP C code was a line-for-line port of GDP C utilities from C to JavaScript. ) read_gcl_recor"
+    },
+    {
+      "chunk_id": 23,
+      "text": "C utilities from C to JavaScript. ) read_gcl_records() takes a gdp_event_cbfunc argument, which is passed to do_multiread() , which is also defined in gdpjs.js . In do_multiread() , if we get a GDP_EVENT_DATA , then we invoke the method that was pass"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ENT_DATA , then we invoke the method that was passed as an argument: datum = gdp_datum_new_js ( ) ; ... var crec = 0 ; // counts records read - an index into recarray_out[] ... evtype_int = gdp_event_gettype_js ( gev_Ptr ) ; //C //C /"
+    },
+    {
+      "chunk_id": 25,
+      "text": "gettype_js ( gev_Ptr ) ; //C //C // decode it switch ( evtype_int ) { case GDP_EVENT_DATA : ... if ( gdp_event_cbfunc ) { // TBD1 - cleanup here // do this stashing into recarray_out even if we // don't have a non-null gdp_event_cbfun"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ven if we // don't have a non-null gdp_event_cbfunc() // grab record contents for this newly read record var val = gdp_datum_buf_as_string ( datum ) ; // grab record number and timestamp for this newly read record var ts = gdp_datum_getts_as_string_j"
+    },
+    {
+      "chunk_id": 27,
+      "text": "y read record var ts = gdp_datum_getts_as_string_js ( datum , true /* format */ ) ; // TBD: below check for 64-bit integer return type, gdp_recno_t var rn = gdp_datum_getrecno_js ( datum ) ; // TBD: check that recno and rn agree - which to use here?"
+    },
+    {
+      "chunk_id": 28,
+      "text": "heck that recno and rn agree - which to use here? recarray_out [ crec ] = { recno : rn , // for now we use gdp's record number timestamp : ts , value : val } ; crec ++; if ( debug ) { console. log ( 'gdpjs.js: do_multiread(): GDP_EVENT_DATA: about to"
+    },
+    {
+      "chunk_id": 29,
+      "text": "gdpjs.js: do_multiread(): GDP_EVENT_DATA: about to call gdp_event_cbfunc()' ) ; } // TBD1 - cleanup here gdp_event_cbfunc ( evtype_int , datum , recarray_out ) ; } [$[Get Code]] From the above, the callback method should take the following arguments"
+    },
+    {
+      "chunk_id": 30,
+      "text": "llback method should take the following arguments evtype_int - An int, returned by gdp_event_gettype_js(gev_Ptr) . The value here would be GDP_EVENT_DATA. (Note that if we receive a GDP_EVENT_EOS event signifying End Of Subscription, we also call g"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ent signifying End Of Subscription, we also call gdp_event_cbfunc() and would pass GDP_EVENT_EOS) datum - The datum structure, as returned by gdp_datum_new_js() recarray_out - The crec elepment has the record number, timestamp and value Note that the"
+    },
+    {
+      "chunk_id": 32,
+      "text": "e record number, timestamp and value Note that the version of do_multiread() in gdpjs.js is different than the current version in $PTII/vendors/gdp/gdp/apps/gdp-reader.c . In the version in gdp-reader.c , we have: void multiread_cb ( gdp_event_t * g"
+    },
+    {
+      "chunk_id": 33,
+      "text": "r.c , we have: void multiread_cb ( gdp_event_t * gev ) { ( void ) multiread_print_event ( gev , false ) ; gdp_event_free ( gev ) ; } ... do_multiread ( gdp_gcl_t * gcl , gdp_recno_t firstrec , const char * dtstr , int32_t numrecs , bool subscribe , b"
+    },
+    {
+      "chunk_id": 34,
+      "text": "har * dtstr , int32_t numrecs , bool subscribe , bool use_callbacks ) { ... if ( use_callbacks ) cbfunc = multiread_cb ; ... if ( subscribe ) { ... estat = gdp_gcl_subscribe ( gcl , firstrec , numrecs , NULL , cbfunc , NULL ) ; [$[Get Code]] Node ffi"
+    },
+    {
+      "chunk_id": 35,
+      "text": ", NULL , cbfunc , NULL ) ; [$[Get Code]] Node ffi Callbacks. Node ffi tutorial - async library calls Add .async to calls Node ffi callback.js - defines ffi.Callback Node ffi test/callback.js - tests for ffi.Callback Node ffi call c lib with callback"
+    },
+    {
+      "chunk_id": 36,
+      "text": "for ffi.Callback Node ffi call c lib with callback function (Stackoverflow) The Stackoverflow page is very useful. What we want to do is call gdp_gcl_subscribe() with a callback. In accessors/web/hosts/node/node_modules/@accessors-modules/gdp/gdp.js"
+    },
+    {
+      "chunk_id": 37,
+      "text": "s/node/node_modules/@accessors-modules/gdp/gdp.js , we have a subscribe() function that passes gdp_event_cbfunc to read_gcl_records() , which is defined in gdpjs.js . Formerly, the code looked like: var gdp_event_cbfunc = null // No callback needed w"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ar gdp_event_cbfunc = null // No callback needed when just logging. [$[Get Code]] Instead, we define an event callback: // Define an event callback. // gdp.h defines: // typedef void (*gdp_event_cbfunc_t)( // the callback function // gdp_ev"
+    },
+    {
+      "chunk_id": 39,
+      "text": "c_t)( // the callback function // gdp_event_t *ev); // the event triggering the call // FIXME: Copied from gdpjs.sj var ffi = require ( 'ffi' ) ; var ref = require ( 'ref' ) ; var gdp_event_t = ref. types . void ; // opaqu"
+    },
+    {
+      "chunk_id": 40,
+      "text": ") ; var gdp_event_t = ref. types . void ; // opaque for us up here in JS var gdp_event_tPtr = ref. refType ( gdp_event_t ) ; // End of copy // Pick one of the next two var statements. //var gdp_event_cbfunc = null // No callback needed when just logg"
+    },
+    {
+      "chunk_id": 41,
+      "text": "cbfunc = null // No callback needed when just logging. var gdp_event_cbfunc = ffi. Callback ( 'void' , [ gdp_event_tPtr ] , function ( gdp_event ) { console. log ( \"CallBack!!!!!!!!!!!!!!\" ) ; } ) ; [$[Get Code]] Unfortunately, it seems like our call"
+    },
+    {
+      "chunk_id": 42,
+      "text": "$[Get Code]] Unfortunately, it seems like our callback is never called. Also, we probably need to change getNextData() , which is used for polling, and have it not try to get data. Subscription Analysis I have some very ugly example code created by s"
+    },
+    {
+      "chunk_id": 43,
+      "text": "is I have some very ugly example code created by someone else. The idea, which was not a bad idea, was to rewrite the GDP C code as JavaScript. We ended up with a read_gcl_records() JavaScript method that takes a bunch of args and tries to do too mu"
+    },
+    {
+      "chunk_id": 44,
+      "text": "that takes a bunch of args and tries to do too much. That method is used in gdp.js and defined in gdpjs.js. Here's what happens in the Subscription Accessor at $PTII/org/terraswarm/accessor/accessors/web/gdp/GDPLogSubscribe.js : Initialize register"
+    },
+    {
+      "chunk_id": 45,
+      "text": "s/web/gdp/GDPLogSubscribe.js : Initialize registers a handler for logname that closes an open subscription and opens a new one: /** Add an input handler that will subscribe to a log. */ exports. initialize = function ( ) { var self = this ; // Set an"
+    },
+    {
+      "chunk_id": 46,
+      "text": "alize = function ( ) { var self = this ; // Set an input handler to unsubscribe and then invoke this initialize() // function when a new logname is provided. this . addInputHandler ( 'logname' , function ( ) { // If there is an open subscription, clo"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ion ( ) { // If there is an open subscription, close it. self. exports . wrapup . call ( self ) ; // Open the new subscription. self. exports . subscribe . call ( self ) ; } ) ; self. exports . subscribe . call ( self ) ; } [$[Get Code]] In GDPLogSub"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ibe . call ( self ) ; } [$[Get Code]] In GDPLogSubscribe.js , subscribe() : /** If a non-empty logname is given, subscribe to the log. */ exports. subscribe = function ( ) { var self = this ; var logname = this . get ( 'logname' ) ; if ( logname ==="
+    },
+    {
+      "chunk_id": 49,
+      "text": "ame = this . get ( 'logname' ) ; if ( logname === '' ) { // Nothing more to do. return ; } var logdname = this . get ( 'logdname' ) ; // Create or connect to a log. // The second argument specifies to open the log \"read only.\" log = new GDP. GDP ( lo"
+    },
+    {
+      "chunk_id": 50,
+      "text": "open the log \"read only.\" log = new GDP. GDP ( logname , 1 , logdname ) ; // Listen for data from the log. log. on ( 'data' , function ( data ) { console. log ( '****** received: ' + data ) ; self. send ( 'data' , data ) ; console. log ( '****** sen"
+    },
+    {
+      "chunk_id": 51,
+      "text": "end ( 'data' , data ) ; console. log ( '****** sent data: ' + data ) ; } ) ; log. setDebugLevel ( this . getParameter ( 'debugLevel' ) ) ; // Subscribe to the log so that 'data' events are emitted. log. subscribe ( this . getParameter ( 'startrec' )"
+    },
+    {
+      "chunk_id": 52,
+      "text": "g. subscribe ( this . getParameter ( 'startrec' ) , this . getParameter ( 'numrec' ) , this . getParameter ( 'timeout' ) ) ; } ; [$[Get Code]] Focusing on this call log. subscribe ( this . getParameter ( 'startrec' ) , this . getParameter ( 'numrec'"
+    },
+    {
+      "chunk_id": 53,
+      "text": "r ( 'startrec' ) , this . getParameter ( 'numrec' ) , this . getParameter ( 'timeout' ) ) ; [$[Get Code]] Earlier in GDPLogSubscribe.xml, we have var GDP = require ( 'gdp' ) ; ... exports . subscribe = function ( ) { ... log = new GDP. GDP ( logname"
+    },
+    {
+      "chunk_id": 54,
+      "text": "= function ( ) { ... log = new GDP. GDP ( logname , 1 , logdname ) ; [$[Get Code]] For the Node Host, the subscribe() method is defined in $PTII/org/terraswarm/accessor/accessors/web/hosts/node/node_modules/@accessors-modules/gdp/gdp.js : /** Subscri"
+    },
+    {
+      "chunk_id": 55,
+      "text": "odules/@accessors-modules/gdp/gdp.js : /** Subscribe. * @param self The CapeCode subscribe() function passes \"this\" as its first argument, * so we need to do the same. * @param {int} startrec The starting record. The first record is record 1. * @"
+    },
+    {
+      "chunk_id": 56,
+      "text": "tarting record. The first record is record 1. * @param {int} numrecs The number of records * @param {int} timeout The timeout in milliseconds. */ exports. GDP . prototype . subscribe = function ( self , startrec , numrecs , timeout ) { // conso"
+    },
+    {
+      "chunk_id": 57,
+      "text": "lf , startrec , numrecs , timeout ) { // console.log(\"node_modules/gdp/gdp.js:subscribe(\" + startrec + \", \" + numrecs + \", \" + timeo\\ ut + \")\" ) ; var gdpd_addr = gdpd_addr ; var gcl_name = this . name var gcl_firstrec = startrec ; var gcl_numrec"
+    },
+    {
+      "chunk_id": 58,
+      "text": "name var gcl_firstrec = startrec ; var gcl_numrecs = numrecs var gcl_subscribe = true ; var gcl_multiread = false ; var conout = true ; // recdest = -1 so output to console.log() var wait_for_events = false ; // don't wait indefinitely in read_gcl_r"
+    },
+    {
+      "chunk_id": 59,
+      "text": "= false ; // don't wait indefinitely in read_gcl_records() for var gcl_get_next_event = false ; // See {$ACCESSORS_HOME}/wiki/Main/GDPJSCallbacks // and http://stackoverflow.com/questions/36819679/node-fficall-c-lib-with-callback-function // Define a"
+    },
+    {
+      "chunk_id": 60,
+      "text": "e-fficall-c-lib-with-callback-function // Define an event callback. // gdp.h defines: // typedef void (*gdp_event_cbfunc_t)( // the callback function // gdp_event_t *ev); // the event triggering the call // FIXME: Copied f"
+    },
+    {
+      "chunk_id": 61,
+      "text": "/ the event triggering the call // FIXME: Copied from gdpjs.sj var ffi = require ( 'ffi' ) ; var ref = require ( 'ref' ) ; var gdp_event_t = ref. types . void ; // opaque for us up here in JS var gdp_event_tPtr = ref. refType ( gdp_event_t ) ; // End"
+    },
+    {
+      "chunk_id": 62,
+      "text": "event_tPtr = ref. refType ( gdp_event_t ) ; // End of copy var gdp_event_cbfunc = null // FIXME: not sure about this: no callback needed when just logging //var gdp_event_cbfunc = ffi.Callback('void', [gdp_event_tPtr], // fun"
+    },
+    {
+      "chunk_id": 63,
+      "text": "[gdp_event_tPtr], // function(gdp_event) { // console.log(\"CallBack!!!!!!!!!!!!!!\"); // }); console. log ( \"node_modules/gdp/gdp.js:subscribe(): about to call read_gcl_re"
+    },
+    {
+      "chunk_id": 64,
+      "text": "/gdp/gdp.js:subscribe(): about to call read_gcl_records()\" ) ; var data = gdpjs. read_gcl_records ( gdpd_addr , gcl_name , gcl_firstrec , gcl_numrecs , gcl_subscribe , gcl_multiread , /*recdest,*/ conout , gdp_event_cbfunc , wait_for_events , gcl_get"
+    },
+    {
+      "chunk_id": 65,
+      "text": "out , gdp_event_cbfunc , wait_for_events , gcl_get_next_event ) ; console. log ( \"node_modules/gdp/gdp.js:subscribe(): returned from read_gcl_records(). data:\" ) ; console. log ( data ) ; //if (data.records.length > 0) { // return data.records[0]."
+    },
+    {
+      "chunk_id": 66,
+      "text": "ecords.length > 0) { // return data.records[0].value; //} else { // return null; //} } ; [$[Get Code]] This code is pretty gross but it calls read_gcl_records() , which is defined in gdpjs.js . For subscription, read_gcl_records() calls do_mult"
+    },
+    {
+      "chunk_id": 67,
+      "text": "For subscription, read_gcl_records() calls do_multiread() : if ( gcl_subscribe || gcl_multiread ) { // DEBUG TBD1 // true for reader-test.js; false for gdpREST_server.js if ( ! gcl_get_next_event ) { // gcl_get_next_event is false, so we have not yet"
+    },
+    {
+      "chunk_id": 68,
+      "text": "// gcl_get_next_event is false, so we have not yet subscribed to the log. console. log ( 'gdpjs.js: read_gcl_records(): before do_multiread()' ) ; estat = do_multiread ( gcl_Ptr , gcl_firstrec , gcl_numrecs , gcl_subscribe , wait_for_events , recarra"
+    },
+    {
+      "chunk_id": 69,
+      "text": "umrecs , gcl_subscribe , wait_for_events , recarray_out , conout , gdp_event_cbfunc ) ; } else { // gcl_get_next_event is true, so we have already subscribed to the log. console. log ( 'gdpjs.js: read_gcl_records(): before do_multiread_inner()' ) ; e"
+    },
+    {
+      "chunk_id": 70,
+      "text": "_gcl_records(): before do_multiread_inner()' ) ; estat = do_multiread_inner ( gcl_Ptr , gcl_firstrec , gcl_numrecs , gcl_subscribe , wait_for_events , recarray_out , conout , gdp_event_cbfunc , /* Timeout in seconds */ 1 ) ; } } else { estat = do_sim"
+    },
+    {
+      "chunk_id": 71,
+      "text": "eout in seconds */ 1 ) ; } } else { estat = do_simpleread ( gcl_Ptr , gcl_firstrec , gcl_numrecs , recarray_out , conout ) ; } [$[Get Code]] do_multiread() is also defined in gdpjs.js . do_multiread() will set recarray_out if any events are received."
+    },
+    {
+      "chunk_id": 72,
+      "text": "will set recarray_out if any events are received. do_multiread() is a bit of a hack. Note that the version in gdpjs.js is out of date when compared to the version in gdp-reader.c . Looking at gdp-reader.c is better than the above code because gdp-r"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ader.c is better than the above code because gdp-reader.c works! In gdp-reader.c , if we are doing subscription, then main() calls estat = do_multiread ( gcl , firstrec , dtstr , numrecs , subscribe , use_callbacks ) ; [$[Get Code]] /* ** DO_MULTIRE"
+    },
+    {
+      "chunk_id": 74,
+      "text": "use_callbacks ) ; [$[Get Code]] /* ** DO_MULTIREAD --- subscribe or multiread ** ** This routine handles calls that return multiple values via the ** event interface. They might include subscriptions. */ EP_STAT do_multir"
+    },
+    {
+      "chunk_id": 75,
+      "text": "might include subscriptions. */ EP_STAT do_multiread ( gdp_gcl_t * gcl , gdp_recno_t firstrec , const char * dtstr , int32_t numrecs , bool subscribe , bool use_callbacks ) { EP_STAT estat ; void ( * cbfunc ) ( gdp_event_t * ) = NULL ; EP_TIME_SPEC"
+    },
+    {
+      "chunk_id": 76,
+      "text": "cbfunc ) ( gdp_event_t * ) = NULL ; EP_TIME_SPEC ts ; if ( use_callbacks ) cbfunc = multiread_cb ; // are we reading by record number or by timestamp? if ( dtstr != NULL ) { // timestamp estat = ep_time_parse ( dtstr , & ts , EP_TIME_USE_LOCALTIME )"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ime_parse ( dtstr , & ts , EP_TIME_USE_LOCALTIME ) ; if ( ! EP_STAT_ISOK ( estat ) ) { fprintf ( stderr , \"Cannot convert date/time string \\\" %s \\\" \\n \" , dtstr ) ; return estat ; } } if ( subscribe ) { // start up a subscription if ( dtstr == NULL )"
+    },
+    {
+      "chunk_id": 78,
+      "text": "{ // start up a subscription if ( dtstr == NULL ) estat = gdp_gcl_subscribe ( gcl , firstrec , numrecs , NULL , cbfunc , NULL ) ; else estat = gdp_gcl_subscribe_ts ( gcl , & ts , numrecs , NULL , cbfunc , NULL ) ; } else { { // make the flags more u"
+    },
+    {
+      "chunk_id": 79,
+      "text": "unc , NULL ) ; } else { { // make the flags more user-friendly if ( firstrec == 0 ) firstrec = 1 ; // start up a multiread if ( dtstr == NULL ) estat = gdp_gcl_multiread ( gcl , firstrec , numrecs , cbfunc , NULL ) ; else estat = gdp_gcl_multiread_ts"
+    },
+    {
+      "chunk_id": 80,
+      "text": "bfunc , NULL ) ; else estat = gdp_gcl_multiread_ts ( gcl , & ts , numrecs , cbfunc , NULL ) ; } // check to make sure the subscribe/multiread succeeded; if not, bail if ( ! EP_STAT_ISOK ( estat ) ) { char ebuf [ 200 ] ; ep_app_fatal ( \"Cannot %s: \\n"
+    },
+    {
+      "chunk_id": 81,
+      "text": "char ebuf [ 200 ] ; ep_app_fatal ( \"Cannot %s: \\n \\t %s\" , subscribe ? \"subscribe\" : \"multiread\" , ep_stat_tostr ( estat , ebuf , sizeof ebuf ) ) ; } // this sleep will allow multiple results to appear before we start reading if ( ep_dbg_test ( Dbg ,"
+    },
+    {
+      "chunk_id": 82,
+      "text": "r before we start reading if ( ep_dbg_test ( Dbg , 100 ) ) ep_time_nanosleep ( 500000000 ) ; //DEBUG: one half second // now start reading the events that will be generated if ( ! use_callbacks ) { for ( ;; ) { // get the next incoming event gdp_even"
+    },
+    {
+      "chunk_id": 83,
+      "text": "r ( ;; ) { // get the next incoming event gdp_event_t * gev = gdp_event_next ( NULL , 0 ) ; // print it estat = print_event ( gev , subscribe ) ; // don't forget to free the event! gdp_event_free ( gev ) ; EP_STAT_CHECK ( estat , break ) ; } } else {"
+    },
+    {
+      "chunk_id": 84,
+      "text": "v ) ; EP_STAT_CHECK ( estat , break ) ; } } else { // hang for an hour waiting for events sleep ( 3600 ) ; } return estat ; } [$[Get Code]] For Subscription, this boils down to void ( * cbfunc ) ( gdp_event_t * ) = NULL ; ... cbfunc = multiread_cb ;"
+    },
+    {
+      "chunk_id": 85,
+      "text": "_event_t * ) = NULL ; ... cbfunc = multiread_cb ; ... estat = gdp_gcl_subscribe ( gcl , firstrec , numrecs , NULL , cbfunc , NULL ) ; ... sleep ( 3600 ) ; [$[Get Code]] So, in JavaScript, we should use this simple method and avoid the hell of do_mult"
+    },
+    {
+      "chunk_id": 86,
+      "text": "e this simple method and avoid the hell of do_multiread() . Now, the data is visible in the callback. accessors/web/hosts/node/node_modules/@accessors-modules/gdp/gdp.js has a subscribe() that now defines the callback: exports.GDP.prototype.subscribe"
+    },
+    {
+      "chunk_id": 87,
+      "text": "ines the callback: exports.GDP.prototype.subscribe = function ( self, startrec, numrecs, timeout ) { ... var gdp_event_cbfunc = ffi.Callback ( 'void' , [ gdp_event_tPtr ] , function ( gdp_event ) { console.log ( \"gdp.js CallBack!!!!!!!!!!!!!!\" ) ; co"
+    },
+    {
+      "chunk_id": 88,
+      "text": "nsole.log ( \"gdp.js CallBack!!!!!!!!!!!!!!\" ) ; console.log ( gdp_event ) ; if ( typeof gdp_event ! == 'undefined' ) { console.log ( \"gdp.js callback: gdp_event is defined.\" ) ; // Here, we want to first get the datum. var datum = gdpjs.gdp_event_get"
+    },
+    {
+      "chunk_id": 89,
+      "text": "rst get the datum. var datum = gdpjs.gdp_event_getdatum_js ( gdp_event ) ; console.log ( \"gdp.js callback: datum:\" ) console.log ( datum ) ; console.log ( \"gdp.js callback: about to try to print datum\" ) ; gdpjs.gdp_datum_print_stdout_js ( datum ) ;"
+    },
+    {
+      "chunk_id": 90,
+      "text": "\" ) ; gdpjs.gdp_datum_print_stdout_js ( datum ) ; var data = gdpjs.gdp_datum_buf_as_string ( datum ) ; console.log ( \"gdp.js: callback: data is: \" ) ; console.log ( data ) ; // Then call _notifyIncoming, which is defined in ptolemy / actor / lib / jj"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ng, which is defined in ptolemy / actor / lib / jjs / modules / gdp / GDP.js // _notifyIncoming ( data ) ; // gdp / gdp / doc / gdp-programmatic-api.html // says that for gdp_gcl_subscribe ( ) , \"It is // the responsibility of the callback function /"
+    },
+    {
+      "chunk_id": 92,
+      "text": "s // the responsibility of the callback function // to call gdp_event_free(gev).\" gdpjs.gdp_event_free_js ( gdp_event ) ; } } ) ; console.log ( \"node_modules/gdp/gdp.js:subscribe(): about to call read_gcl_records()\" ) ; var data = gdpjs.read_gcl_reco"
+    },
+    {
+      "chunk_id": 93,
+      "text": "_gcl_records()\" ) ; var data = gdpjs.read_gcl_records ( gdpd_addr, gcl_name, gcl_firstrec, gcl_numrecs, gcl_subscribe, gcl_multiread, /* recdest, */ conout, gdp_event_cbfunc, wait_for_events, gcl_get_next_event ) ; [$[Get Code]] Here, the problem is"
+    },
+    {
+      "chunk_id": 94,
+      "text": "next_event ) ; [$[Get Code]] Here, the problem is that we have the data in the callback method and we want to emit it. In CapeCode, ptolemy/actor/lib/jjs/modules/gdp/GDPHelper.java has a subscribe() method that looks like public void subscribe ( int"
+    },
+    {
+      "chunk_id": 95,
+      "text": "method that looks like public void subscribe ( int startRecord, int numberOfRecords, int timeout ) throws GDPException { EP_TIME_SPEC timeoutSpec = null ; if ( timeout != 0 ) { timeoutSpec = new EP_TIME_SPEC ( timeout / 1000 , 0 , /* nanoseconds */ 0"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ME_SPEC ( timeout / 1000 , 0 , /* nanoseconds */ 0.001f /* accuracy in seconds */ ) ; } // FIXME: We need to cast to a long here because it seems // like passing longs from JavaScript does not work for us. _gcl. subscribe ( ( long ) startRecord, numb"
+    },
+    {
+      "chunk_id": 97,
+      "text": "r us. _gcl. subscribe ( ( long ) startRecord, numberOfRecords, timeoutSpec ) ; Runnable blocking = new Runnable ( ) { public void run ( ) { while ( _subscribed ) { // Last argument is a timeout in ms. When it expires, if there // is no data, then an"
+    },
+    {
+      "chunk_id": 98,
+      "text": "When it expires, if there // is no data, then an empty HashMap is returned. // FIXME: Any way to set the timeout to wait forever? final HashMap < String , Object > gdpEvent = GDP_GCL. get_next_event ( _gcl, 10000 ) ; if ( gdpEvent != null ) { if ( g"
+    },
+    {
+      "chunk_id": 99,
+      "text": "( _gcl, 10000 ) ; if ( gdpEvent != null ) { if ( gdpEvent. size ( ) > 0 ) { // Issue the response in the director thread. _issueResponse ( ( ) -> { HashMap < String ,Object > result = ( HashMap < String ,Object > ) gdpEvent. get ( \"datum\" ) ; System"
+    },
+    {
+      "chunk_id": 100,
+      "text": "ng ,Object > ) gdpEvent. get ( \"datum\" ) ; System . out . println ( \"GDPHelper.subscribe(): about to call _notifyIncoming \" + result. toString ( ) ) ; _currentObj. callMember ( \"_notifyIncoming\" , _datumToData ( result ) ) ; } ) ; } // FIXME: The cod"
+    },
+    {
+      "chunk_id": 101,
+      "text": "tumToData ( result ) ) ; } ) ; } // FIXME: The code in GDPHelper should // probably call gdp_event_free() // vendors/gdp/gdp/doc/gdp-programmatic-api.html // says that for gdp_gcl_subscribe(), \"It is // the responsibility of the callback function //"
+    },
+    {
+      "chunk_id": 102,
+      "text": "// the responsibility of the callback function // to call gdp_event_free(gev).\" // Also vendors/gdp/gdp/apps/gdp-reader.c defines the callback as: // void // multiread_cb(gdp_event_t *gev) // { // (void) print_event(gev, false); //"
+    },
+    {
+      "chunk_id": 103,
+      "text": "// (void) print_event(gev, false); // gdp_event_free(gev); // } } else { _subscribed = false ; } } } } ; _subscribed = true ; Thread thread = new Thread ( blocking, \"GDP subscriber thread: \" + _logName ) ; // Start this as a deamon thre"
+    },
+    {
+      "chunk_id": 104,
+      "text": "d: \" + _logName ) ; // Start this as a deamon thread so that it doesn't block exiting the process. thread. setDaemon ( true ) ; thread. start ( ) ; } [$[Get Code]] The key part is: _currentObj. callMember ( \"_notifyIncoming\" , _datumToData ( result )"
+    },
+    {
+      "chunk_id": 105,
+      "text": "mber ( \"_notifyIncoming\" , _datumToData ( result ) ) ; [$[Get Code]] _currentObj is declared in $PTII/ptolemy/actor/lib/jjs/HelperBase.java , which is the parent class to GDPHelper : /** Construct a helper for the specified JavaScript object. * The"
+    },
+    {
+      "chunk_id": 106,
+      "text": "elper for the specified JavaScript object. * The argument can be a JavaScript actor or an instance of a * JavaScript class. * @param helping The object that this is helping. */ public HelperBase ( Object helping ) { Object actorOrWrapper = helping"
+    },
+    {
+      "chunk_id": 107,
+      "text": "Object helping ) { Object actorOrWrapper = helping ; if ( helping instanceof ScriptObjectMirror ) { // Helping a JavaScript object. _currentObj = ( ScriptObjectMirror ) helping ; ... /** The JavaScript object that this is a helper for. */ protected S"
+    },
+    {
+      "chunk_id": 108,
+      "text": "t object that this is a helper for. */ protected ScriptObjectMirror _currentObj ; [$[Get Code]] _notifyIncoming is declared in $PTII/ptolemy/actor/lib/jjs/modules/gdp/GDP.js : /** Notify this object of a received message from the socket. * This func"
+    },
+    {
+      "chunk_id": 109,
+      "text": "f a received message from the socket. * This function attempts to interpret the message according to the * receiveType, and emits a \"message\" event with the message as an argument. * For example, with the default receiveType of 'application/json',"
+    },
+    {
+      "chunk_id": 110,
+      "text": "ith the default receiveType of 'application/json', it will * use JSON.parse() to parse the message and emit the result of the parse. * This function is called by the Java helper used by this particular * implementation and should not be normally c"
+    },
+    {
+      "chunk_id": 111,
+      "text": "lar * implementation and should not be normally called by the user. * @param message The incoming message. */ exports. GDP . prototype ._notifyIncoming = function ( data ) { /* FIXME: Maybe useful when supporting more data types. if (this.receiveTy"
+    },
+    {
+      "chunk_id": 112,
+      "text": "hen supporting more data types. if (this.receiveType == 'application/json') { try { message = JSON.parse(message); } catch (error) { this.emit('error', error); return; } } */ // Assume the helper has already provided the correct type. this . emit ( \""
+    },
+    {
+      "chunk_id": 114,
+      "text": "fied on January 02, 2018, at 03:04 am"
+    }
+  ]
+}

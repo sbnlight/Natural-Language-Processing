@@ -1,0 +1,805 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/Users_Guide/original/mail.tex.SAVE",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "\\chapter{Electronic Mail} \\setcounter{mpfootnote}{0} \\setcounter{footnote}{0} \\section{Using Electronic Mail} There are various programs available for reading and sending electronic mail. The most popular is ``BSD mail''. There are others such as /"
+    },
+    {
+      "chunk_id": 2,
+      "text": "pular is ``BSD mail''. There are others such as /bin/mail, MH, elm, Emacs mail, etc. We will only cover BSD mail and MH in this guide. \\subsection{Introduction to BSD mail} This is an abbreviated introduction to {\\bf mail}. For the whole story type"
+    },
+    {
+      "chunk_id": 3,
+      "text": "troduction to {\\bf mail}. For the whole story type \\begin{quote} \\% {\\bf man mail} \\end{quote} The {\\bf mail} program is composed of {\\bf sending mail} and {\\bf receiving mail}. To read any mail sent to you type \\begin{quote} \\% mail \\end{quote}"
+    },
+    {
+      "chunk_id": 4,
+      "text": "t to you type \\begin{quote} \\% mail \\end{quote} and you will enter the {\\bf mail} program which has its own prompt, the ampersand (\\&). All of the commands you can use to read, reply, and dispose of your mail are described in the section titled ``"
+    },
+    {
+      "chunk_id": 5,
+      "text": "your mail are described in the section titled ``Reading mail''. To send mail to other people, give {\\em mail} an argument. To send \\index{mail@{\\bf mail} !sending} a message to one or more other people, {\\em mail} can be invoked with arguments whi"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ople, {\\em mail} can be invoked with arguments which are the names of people to send to. You are then expected to type in your message, followed by an EOT (control-D) on a line by itself. For example, \\begin{quote} \\% mail cyndy@foo claire@bar \\en"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e, \\begin{quote} \\% mail cyndy@foo claire@bar \\end{quote} There should not be any spaces in the mail address, i.e., ``cyndy@foo'' not ``cyndy~~@~~foo''. The section below, labeled {\\em ``Sending mail'',} describes some features of {\\em mail} availa"
+    },
+    {
+      "chunk_id": 8,
+      "text": "l'',} describes some features of {\\em mail} available to help you compose your letter. {\\em Mail} has a number of options which can be set in the {\\em .mailrc} \\index{mailrc@{\\tt .mailrc} file} file to alter its behavior; thus ``set askcc'' enables"
+    },
+    {
+      "chunk_id": 9,
+      "text": "to alter its behavior; thus ``set askcc'' enables the ``askcc'' feature which automatically prompts you to send a carbon copy. Section \\ref{setting options} describes these commands. \\subsubsection{Reading mail} \\index{mail@{\\bf mail} !reading} In"
+    },
+    {
+      "chunk_id": 10,
+      "text": "{Reading mail} \\index{mail@{\\bf mail} !reading} In normal usage {\\em mail} is given no arguments and checks your mail out of the post office (located in /usr/spool/mail/username), then prints out a one line header of each message there. You will have"
+    },
+    {
+      "chunk_id": 11,
+      "text": "e line header of each message there. You will have the mail prompt (the ``\\&'') at the left of the screen. The current message is initially the first message (numbered 1) and can be displayed by hitting RETURN or typing the message number. \\subsubse"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ng RETURN or typing the message number. \\subsubsection{Disposing of mail} \\index{mail@{\\bf mail} !disposing of} After examining a message you can {\\bf delete (d)} the message. Deletion causes the {\\em mail} program to forget about the message. This"
+    },
+    {
+      "chunk_id": 13,
+      "text": "em mail} program to forget about the message. This is not irreversible; the message can be {\\bf undeleted (u)} by giving its number, or the {\\em mail} session can be aborted by giving the {\\bf exit (x)} command which exits the current mail-reading se"
+    },
+    {
+      "chunk_id": 14,
+      "text": ")} command which exits the current mail-reading session and leaves all messages ``as they were'' in /usr/spool/mail/username when you typed mail. Deleted messages will, however, usually disappear never to be seen again. \\subsubsection{Replying to m"
+    },
+    {
+      "chunk_id": 15,
+      "text": "er to be seen again. \\subsubsection{Replying to mail} \\index{mail@{\\bf mail} !replying to}\\label{Rr} To answer a mail message type ({\\bf R}) or ({\\bf r}) after the mail prompt. WARNING: On DEC and HP systems, uppercase {\\bf R } replies only to the"
+    },
+    {
+      "chunk_id": 16,
+      "text": "P systems, uppercase {\\bf R } replies only to the sender of the mail while lowercase {\\bf r } replies to all people the mail was sent to so use it judiciously. On Sun systems, lowercase {\\bf r } replies only to the sender of the mail while uppercas"
+    },
+    {
+      "chunk_id": 17,
+      "text": "lies only to the sender of the mail while uppercase {\\bf R } replies to all people the mail was sent. Typing ``R'' or ``r'' will automatically repeat the To and Subject field (which can be altered with the use of a \\~\\space h command --- see ``Sendin"
+    },
+    {
+      "chunk_id": 18,
+      "text": "h the use of a \\~\\space h command --- see ``Sending mail''). Text you then type in, up to an end-of-file (control-d), defines the contents of the message. Replying to mail messages uses the same commands as sending mail so all the commands listed in"
+    },
+    {
+      "chunk_id": 19,
+      "text": "nds as sending mail so all the commands listed in the section {\\em ``Sending mail''} apply to replying to mail. \\subsubsection{Specifying messages} Commands such as {\\bf print} and {\\bf delete} can be given a list of message numbers as arguments to"
+    },
+    {
+      "chunk_id": 20,
+      "text": "e given a list of message numbers as arguments to apply to a number of messages at once. Thus ``delete 1 2'' deletes messages 1 and 2, while ``delete 1--5'' deletes messages 1 through 5. The special name ``*'' addresses all messages, and ``\\$'' addre"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ame ``*'' addresses all messages, and ``\\$'' addresses the last message; thus the command {\\bf top} which prints the first few lines of a message could be used in ``top *'' to print the first few lines of all messages. \\subsubsection{Ending a mail p"
+    },
+    {
+      "chunk_id": 22,
+      "text": "s of all messages. \\subsubsection{Ending a mail processing session} \\index{mail@{\\bf mail} !exiting from} You can end a {\\em mail} session with the {\\bf quit (q)} command. Messages which have been read get appended to your {\\em mbox} \\index{mbox} fi"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ad get appended to your {\\em mbox} \\index{mbox} file unless they have been deleted in which case they are discarded. Unread messages go back to the post office (/usr/spool/mail/user). The ``mbox'' file can become quite large if you routinely read mes"
+    },
+    {
+      "chunk_id": 24,
+      "text": "e can become quite large if you routinely read messages but do not discard them. Typing \\begin{quote} \\% mail -f \\end{quote} causes the {\\em mail} program to read in the contents of your {\\em mbox} for processing just as if it were a current mail"
+    },
+    {
+      "chunk_id": 25,
+      "text": "} for processing just as if it were a current mail-editing session; when you {\\bf quit ,} the {\\em mail} program writes undeleted messages back to this mbox file. \\subsection{Reading mail} \\index{mail@{\\bf mail} !reading} When you type \\begin{qu"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ail@{\\bf mail} !reading} When you type \\begin{quote} \\% mail \\end{quote} to enter the mail program there are commands to use to manipulate and dispose of your mail messages. Each command is typed on a line by itself, and may take arguments fol"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ed on a line by itself, and may take arguments following the command word. The command need not be typed in its entirety --- the first command which matches the typed prefix is used. For commands which take message lists as arguments, if no message"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ch take message lists as arguments, if no message list is given, then the next message forward which satisfies the command's requirements is used. If there are no messages forward of the current message, the search proceeds backwards, and if there a"
+    },
+    {
+      "chunk_id": 29,
+      "text": "age, the search proceeds backwards, and if there are no good messages at all, {\\em mail} types ``No applicable messages'' and aborts the command. \\begin{description} \\index{mail@{\\bf mail} !commands} \\item [+] Goes to the next message and prints it"
+    },
+    {
+      "chunk_id": 30,
+      "text": "\\item [+] Goes to the next message and prints it out. \\item [--] Goes to the previous message and prints it out. If given a numeric argument {\\em n,} goes to the {\\em n-th} previous message and prints it. \\item [?] Prints a brief summary of mail c"
+    },
+    {
+      "chunk_id": 31,
+      "text": "nts it. \\item [?] Prints a brief summary of mail commands. \\item [!] Executes the UNIX shell command which follows. \\item [Print (P)] Like {\\bf print} but also prints out ignored header fields. See also {\\bf print} and {\\bf ignore.} \\item [alias (a)]"
+    },
+    {
+      "chunk_id": 32,
+      "text": "so {\\bf print} and {\\bf ignore.} \\item [alias (a)] With no arguments, prints out all currently-defined aliases. With one argument, prints out that alias. With more than one argument, creates a new or changes an on old alias. \\item [chdir (c)] Chang"
+    },
+    {
+      "chunk_id": 33,
+      "text": "r changes an on old alias. \\item [chdir (c)] Changes the user's working directory to that specified, if given. If no directory is given, then changes to the user's login directory. \\item [copy (co)] The {\\bf copy} command does the same thing that {\\b"
+    },
+    {
+      "chunk_id": 34,
+      "text": "he {\\bf copy} command does the same thing that {\\bf save} does, except that it does not mark the messages it is used on for deletion when you quit. \\item [delete (d)] Takes a list of messages as argument and marks them all as deleted. Deleted messag"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ment and marks them all as deleted. Deleted messages will not be saved in {\\em mbox ,} nor will they be available for most other commands. \\item [dp (also dt)] Deletes the current message and prints the next message. If there is no next message,"
+    },
+    {
+      "chunk_id": 36,
+      "text": "s the next message. If there is no next message, {\\em mail} says ``at EOF.'' \\item [exit (ex or x)] Effects an immediate return to the Shell without modifying the user's system mailbox or the user's {\\em mbox} file. \\item [from (f)] Takes a list of"
+    },
+    {
+      "chunk_id": 37,
+      "text": "{\\em mbox} file. \\item [from (f)] Takes a list of messages and prints their message headers. \\item [headers (h)] Lists the current range of headers, which is an 18 message group. If a ``+'' argument is given, then the next 18 message group is print"
+    },
+    {
+      "chunk_id": 38,
+      "text": "is given, then the next 18 message group is printed, and if a ``--'' argument is given, the previous 18 message group is printed. \\item [help] A synonym for ? \\item [hold (ho)] also {\\bf preserve} Takes a message list and marks each message therei"
+    },
+    {
+      "chunk_id": 39,
+      "text": "Takes a message list and marks each message therein to be saved in the user's system mailbox instead of in {\\em mbox .} Does not override the {\\bf delete} command. \\item [mail (m)] Takes as argument login names and distribution group names and sends"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ogin names and distribution group names and sends mail to those people; basically, this is sending mail while in the {\\em mail} program. \\item [mbox] Indicate that a list of messages you have read be sent to {\\em mbox} in your home directory when you"
+    },
+    {
+      "chunk_id": 41,
+      "text": "sent to {\\em mbox} in your home directory when you quit. This is the default action for messages if you do {\\em not} have the {\\em hold} option set. This option would be set in your .mailrc file as ``set hold=/usr/spool/mail/user'' where ``user'' is"
+    },
+    {
+      "chunk_id": 42,
+      "text": "set hold=/usr/spool/mail/user'' where ``user'' is your login name; or ``set hold=filename''. \\item [next (n)] like {\\bf + } or Carriage-Return) Goes to the next message in sequence and types it. With an argument list, types the next matching mess"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ith an argument list, types the next matching message. \\item [preserve (pre)] A synonym for {\\em hold .} \\item [print (p)] Takes a message list and types out each message on the user's terminal. \\item [quit (q)] Terminates the session, saving all und"
+    },
+    {
+      "chunk_id": 44,
+      "text": "[quit (q)] Terminates the session, saving all undeleted, unsaved messages in the user's {\\em mbox} file in his login directory, preserving all messages marked with {\\bf hold} or {\\bf preserve} or never referenced in his system mailbox, and removing"
+    },
+    {
+      "chunk_id": 45,
+      "text": "er referenced in his system mailbox, and removing all other messages from his system mailbox. If new mail has arrived during the session, the message ``You have new mail'' is given. \\item [reply (r or R)] Takes a message list and sends mail to the"
+    },
+    {
+      "chunk_id": 46,
+      "text": "or R)] Takes a message list and sends mail to the sender and all recipients of the specified message, or just to the sender. (see Section \\ref{Rr}.) The default message must not be deleted. \\item [respond] A synonym for {\\em reply .} \\item [retain]"
+    },
+    {
+      "chunk_id": 47,
+      "text": "espond] A synonym for {\\em reply .} \\item [retain] Add the list of header fields named (i.e., To From Date Subject, etc.) to the retained list. Only the header fields in the retain list are shown on your terminal when you print a message. All other h"
+    },
+    {
+      "chunk_id": 48,
+      "text": "our terminal when you print a message. All other header fields are suppressed. This gets rid of all the extraneous information about machine hops the mail message took to get to you. The Type and Print commands can be used to print a message in its e"
+    },
+    {
+      "chunk_id": 49,
+      "text": "t commands can be used to print a message in its entirety. If retain is executed with no arguments, it, lists the current set of retained fields. This is a useful option to set in your {\\em .mailrc} file. \\item [save (s)] Takes a message list and a f"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ile. \\item [save (s)] Takes a message list and a filename and appends each message in turn to the end of the file. The filename in quotes, followed by the line count and character count is echoed on the user's terminal. {\\em save} saves the file in"
+    },
+    {
+      "chunk_id": 51,
+      "text": "he user's terminal. {\\em save} saves the file in the directory you called {\\em mail} from; you can save a file in another director level by giving a full pathname. \\item [set (se)] With no arguments, prints all variable values set in your {\\em ."
+    },
+    {
+      "chunk_id": 52,
+      "text": "ts, prints all variable values set in your {\\em .mailrc} file. Otherwise, sets the option given in the argument. Arguments are of the form ``set option=value'' (no space before or after the equals sign =) or ``set option''. \\item [top] Takes a mess"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ign =) or ``set option''. \\item [top] Takes a message list and prints the top few lines of each. The number of lines printed is controlled by the variable {\\bf toplines} (which you can set in your .mailrc file) and defaults to five. \\item [type (t)]"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ilrc file) and defaults to five. \\item [type (t)] A synonym for {\\em print .} \\item [unalias] Takes a list of names defined by alias commands and discards the remembered groups of users. The group names no longer have any significance. \\item [undele"
+    },
+    {
+      "chunk_id": 55,
+      "text": "mes no longer have any significance. \\item [undelete (u)] Takes a message list and marks each one as {\\em not} being deleted. \\item [write (w)] A synonym for {\\em save .} \\item [z (z-)] Will read the next screenfull (or back a screenfull) messages. M"
+    },
+    {
+      "chunk_id": 56,
+      "text": "next screenfull (or back a screenfull) messages. Mail will only print the first 22--23 messages, even if there are over that amount in your current mail. Typing {\\bf z} will go to the next 24. Typing {\\bf z-} will go back 24. \\end{description} \\sub"
+    },
+    {
+      "chunk_id": 57,
+      "text": "{\\bf z-} will go back 24. \\end{description} \\subsection{Sending mail} \\index{mail@{\\bf mail} !sending} \\label{sending mail} While you are composing a message, {\\em mail} treats lines beginning with the character `\\~\\space' specially. For instance,"
+    },
+    {
+      "chunk_id": 58,
+      "text": "the character `\\~\\space' specially. For instance, typing ``\\~\\space h'' (alone on a line) will repeat the message headers (To, Subject, cc). Other escapes will set up subject fields, add and delete recipients to the message and allow you to escape"
+    },
+    {
+      "chunk_id": 59,
+      "text": "recipients to the message and allow you to escape to an editor to revise the message or to a shell to run some commands. Tilde escapes are only recognized at the beginning of lines. Some of these ``\\~\\space'' commands are more useful when applied"
+    },
+    {
+      "chunk_id": 60,
+      "text": "``\\~\\space'' commands are more useful when applied to sending mail during a read mail session (such \\~\\space m and \\~\\space f). Here is a summary of the tilde escapes, which are used when composing messages to perform special functions: \\index{mail"
+    },
+    {
+      "chunk_id": 61,
+      "text": "ssages to perform special functions: \\index{mail@{\\bf mail} !commands} \\begin{description} \\item [ \\~\\space b name] Add the given names to the list of carbon copy recipients but do not make the names visible in the Cc: line (``blind carbon copy)."
+    },
+    {
+      "chunk_id": 62,
+      "text": "mes visible in the Cc: line (``blind carbon copy). \\item [ \\~\\space c name] Add the given names to the list of carbon copy recipients. \\item [ \\~\\space e] Invoke the text editor (ex) on the message collected so far. After the editing session is fini"
+    },
+    {
+      "chunk_id": 63,
+      "text": "llected so far. After the editing session is finished and you ``:wq'', you may continue appending text to the message. If \\$EDITOR is set to another editor, then it will be used instead of ex. Also, see Section \\ref{EDITOR}. \\item [ \\~\\space f mess"
+    },
+    {
+      "chunk_id": 64,
+      "text": "see Section \\ref{EDITOR}. \\item [ \\~\\space f messages] Read the named messages into the message being sent. If no messages are specified, read in the current message. \\item [ \\~\\space h] Edit the message header fields by typing each one in turn and"
+    },
+    {
+      "chunk_id": 65,
+      "text": "sage header fields by typing each one in turn and allowing the user to append text to the end or modify the field by using the current terminal erase and kill characters. \\item [ \\~\\space m messages] Read the named messages into the message being sen"
+    },
+    {
+      "chunk_id": 66,
+      "text": "Read the named messages into the message being sent, shifted right one tab. If no messages are specified, read the current message. \\item [ \\~\\space p] Print out the message collected so far, prefaced by the message header fields. \\item [ \\~\\space q"
+    },
+    {
+      "chunk_id": 67,
+      "text": "d by the message header fields. \\item [ \\~\\space q] Abort the message being sent, copying the message to ``dead.letter'' in your home directory if {\\bf save} is set. If do not wish to have a copy of aborted letters saved then do ``set nosave'' in you"
+    },
+    {
+      "chunk_id": 68,
+      "text": "borted letters saved then do ``set nosave'' in your .mailrc file. The \\~\\space q command is synonmous to typing control-C twice. \\item [ \\~\\space r filename] Read the named file into the message. \\item [ \\~\\space t name] Add the given names to the di"
+    },
+    {
+      "chunk_id": 69,
+      "text": "m [ \\~\\space t name] Add the given names to the direct recipient list. \\item [ \\~\\space v] Invoke the visual editor on the message collected so far. By default, this is vi. If \\$VISUAL is set to another editor, then it will be used instead. After yo"
+    },
+    {
+      "chunk_id": 70,
+      "text": "her editor, then it will be used instead. After you quit the editor, you may resume appending text to the end of your message. \\item [ \\~\\space w filename] Write the message onto the named file. \\item [ \\~\\space dot] causes the {\\em mail } program to"
+    },
+    {
+      "chunk_id": 71,
+      "text": "[ \\~\\space dot] causes the {\\em mail } program to interpret a period alone on a line as the terminator of a message you are sending (replaces control-d). \\end{description} \\subsection{Setting Options in mail} \\index{mail@{\\bf mail} !setting option"
+    },
+    {
+      "chunk_id": 72,
+      "text": "ns in mail} \\index{mail@{\\bf mail} !setting options} \\label{setting options} Options are controlled via the {\\bf set} and {\\bf unset} commands. Options may be set or not set, or set to a value. You can set them in your .mailrc file by doing: \\beg"
+    },
+    {
+      "chunk_id": 73,
+      "text": "can set them in your .mailrc file by doing: \\begin{quote} set {\\em option} or set {\\em option=value} \\end{quote} As an example: ``set ask'' sets up the {\\em Subject:} prompt when sending mail (this is often set up for you by the system manager for"
+    },
+    {
+      "chunk_id": 74,
+      "text": "is often set up for you by the system manager for all new accounts). Here is a list of options: \\begin{description} \\item [append] Causes messages saved in {\\em mbox} to be appended to the end rather than prepended. \\item [ask] Causes {\\em mail} t"
+    },
+    {
+      "chunk_id": 75,
+      "text": "er than prepended. \\item [ask] Causes {\\em mail} to prompt you for the subject of each message you send. If you respond with simply a newline, no subject field will be sent. \\item [askcc] Causes you to be prompted for additional carbon copy recipien"
+    },
+    {
+      "chunk_id": 76,
+      "text": "to be prompted for additional carbon copy recipients at the end of each message. Responding with a newline indicates your satisfaction with the current list. \\item [autoprint] Causes the {\\bf delete} command to behave like {\\bf dp} -- thus, after de"
+    },
+    {
+      "chunk_id": 77,
+      "text": "command to behave like {\\bf dp} -- thus, after deleting a message, the next one will be typed automatically. \\item [escape] if defined, the first character of this option gives the character to use in the place of ``\\~\\space '' to denote escapes. \\"
+    },
+    {
+      "chunk_id": 78,
+      "text": "in the place of ``\\~\\space '' to denote escapes. \\item [hold] This option is used to hold messages in the system mailbox by default. \\item [metoo] Usually, when a group alias is expanded that contains the sender, the sender is removed from the expans"
+    },
+    {
+      "chunk_id": 79,
+      "text": "the sender, the sender is removed from the expansion. Setting this option causes the sender to be included in the group. \\item [nosave] Normally, when you abort a message with two interrupt characters (control-c's), {\\em mail} copies the partial le"
+    },
+    {
+      "chunk_id": 80,
+      "text": "rs (control-c's), {\\em mail} copies the partial letter to the file ``dead.letter'' in your home directory. Setting the option {\\em nosave} prevents this. \\item [crt] The valued option {\\em crt} is used as a threshold to determine how long a message m"
+    },
+    {
+      "chunk_id": 81,
+      "text": "d as a threshold to determine how long a message must be before {\\em more} is used to read it, i.e., keep long messages from quickly scrolling by on the screen. The usual setting is ``set crt=24''. \\item [record] If defined, gives the pathname of th"
+    },
+    {
+      "chunk_id": 82,
+      "text": "item [record] If defined, gives the pathname of the file used to record all outgoing mail. If not defined, then outgoing mail is not so saved. Use is ``set record=mailsent'' (or any file name you wish). \\item [toplines] If defined, gives the number"
+    },
+    {
+      "chunk_id": 83,
+      "text": "h). \\item [toplines] If defined, gives the number of lines of a message to be printed out with the {\\em top} command; normally, the first five lines are printed. \\end{description} \\subsection{Using mail aliases} \\index{mail@{\\bf mail} !aliases} Yo"
+    },
+    {
+      "chunk_id": 84,
+      "text": "mail aliases} \\index{mail@{\\bf mail} !aliases} You can take advantage of the ``alias'' command in to define a single name to expand to a list of names. For a personal alias define it in your .mailrc file: \\begin{quote} alias cohorts bill jenny@ucb"
+    },
+    {
+      "chunk_id": 85,
+      "text": "file: \\begin{quote} alias cohorts bill jenny@ucb lee michelle \\end{quote} Now when you type ``mail cohorts'' the mail list will be expanded to send mail to the everyone in the list. In mail you send, personal aliases will be expanded in mail sent t"
+    },
+    {
+      "chunk_id": 86,
+      "text": ", personal aliases will be expanded in mail sent to others so that they will be able to {\\bf reply} to the recipients. You can examine all of your aliases while you are reading mail by typing ``alias'' after the mail prompt. There is also a system-w"
+    },
+    {
+      "chunk_id": 87,
+      "text": "' after the mail prompt. There is also a system-wide alias list. To read it type: \\begin{quote} \\% more /usr/lib/aliases \\end{quote} \\section{Using MH} \\index{mh} \\subsection{Introduction to MH} This section is a brief introduction to {\\bf mh}, t"
+    },
+    {
+      "chunk_id": 88,
+      "text": "his section is a brief introduction to {\\bf mh}, the ``mail handler,'' another electronic mail system. Although {\\bf mh} is an electronic mail system, {\\bf mh} is not a program. Rather, it is a set of commands like {\\bf scan} and {\\bf send} for ma"
+    },
+    {
+      "chunk_id": 89,
+      "text": "of commands like {\\bf scan} and {\\bf send} for manipulating electronic mail messages. For a list of the most important commands, see Table~\\ref{email:cmds}. \\subsection{Brief Tutorial} \\subsubsection{Electronic Mail Messages}\\label{email:whatis}"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ion{Electronic Mail Messages}\\label{email:whatis} When users want to communicate with each other using an electronic mail system, they send electronic mail messages. Electronic mail messages are just like letters, documents, and memos, but you tran"
+    },
+    {
+      "chunk_id": 91,
+      "text": "t like letters, documents, and memos, but you transmit them electronically using the computer rather than a piece of paper. A typical electronic mail message looks like this: \\begin{quote} \\begin{verbatim} Received: by po-1.berkeley.edu id AA"
+    },
+    {
+      "chunk_id": 92,
+      "text": "rbatim} Received: by po-1.berkeley.edu id AA29055; Mon, 16 Jul 90 11:27:40 CDT Received: by berkeley.edu with sendmail-5.57/4.7 id ; Mon, 16 Jul 90 11:27:48 CDT From: user@berkeley.edu Message-Id: <9007161627.AA04432@berkeley.edu> To: per"
+    },
+    {
+      "chunk_id": 93,
+      "text": "sage-Id: <9007161627.AA04432@berkeley.edu> To: person@berkeley.edu cc: friend@berkeley.edu Subject: Cancellation of meeting! Date: Mon, 16 Jul 90 11:27:46 CDT There will NOT be an operations meeting today at 9:30. BUT PLAN FOR ONE ON THE 19TH -- SA"
+    },
+    {
+      "chunk_id": 94,
+      "text": "today at 9:30. BUT PLAN FOR ONE ON THE 19TH -- SAME TIME, SAME STATION. \\end{verbatim} \\end{quote} \\subsubsection{Reading Your Mail} If you discover that you have new mail and you want to read it, you must first ``incorporate'' it from the post of"
+    },
+    {
+      "chunk_id": 95,
+      "text": "you must first ``incorporate'' it from the post office to your personal incoming mailbox. To incorporate\\index{inc@{\\bf inc} command} or pick up your mail, enter: \\begin{quote} {\\tt \\% }{\\bf inc} \\end{quote} The first time you use {\\bf inc}, you ma"
+    },
+    {
+      "chunk_id": 96,
+      "text": "nd{quote} The first time you use {\\bf inc}, you may be asked the question: \\begin{quote} \\verb+Your MH-directory /home/.../username/Mail doesn't exist; Create it?+ \\end{quote} where {\\em username} is your username and Mail is a directory used as your"
+    },
+    {
+      "chunk_id": 97,
+      "text": "your username and Mail is a directory used as your {\\bf mh} inbox.\\index{mh!inbox} You should enter {\\bf y} to create your inbox. Your messages will then be placed in your inbox and you will be provided with a listing that contains the sequence num"
+    },
+    {
+      "chunk_id": 98,
+      "text": "ided with a listing that contains the sequence number, date, author, and subject of all messages that have arrived since the last time you entered {\\bf inc}. If the subject of a message is short, the listing displays the first part of the body of th"
+    },
+    {
+      "chunk_id": 99,
+      "text": "listing displays the first part of the body of the message after the characters {\\bf $<$$<$}. Here is a typical listing: \\begin{quote} \\begin{verbatim} 18+ 6/11 user@berkeley.edu Cancellation of meeting!! < A Subject: Re: Cance"
+    },
+    {
+      "chunk_id": 100,
+      "text": "lation of meeting!! < A Subject: Re: Cancellation of meeting !! D In-reply-to: Your message of Mon, 16 Jul 90 11:27:46 -0500. E <9007161627.AA04432@berkeley.edu> R --------- B You 0 plac"
+    },
+    {
+      "chunk_id": 101,
+      "text": "--------- B You 0 place D message-text Y here \\end{verbatim} At this point, you can edit any of the header fields you like. Then enter in the body of the reply {\\em after} the line o"
+    },
+    {
+      "chunk_id": 102,
+      "text": "er in the body of the reply {\\em after} the line of dashes. Do not delete the dashed line; {\\bf mh} needs it. Note that {\\bf repl} automatically sends the message to the person you are replying to, but it doesn't send it to everyone who received th"
+    },
+    {
+      "chunk_id": 103,
+      "text": "but it doesn't send it to everyone who received the original message. If you want to send a copy of your reply to everyone, use the {\\bf repl} command like this: \\begin{quote} {\\tt \\% }{\\bf repl -cc all} \\end{quote} Here {\\bf repl} automatically cop"
+    },
+    {
+      "chunk_id": 104,
+      "text": "all} \\end{quote} Here {\\bf repl} automatically copies the message to you and to the other people who received the original message. Quite often, you may want to delete some of the addressees in the {\\bf cc:} field first. When you've finished enteri"
+    },
+    {
+      "chunk_id": 105,
+      "text": "\\bf cc:} field first. When you've finished entering the message, just save the file and exit the editor as your normally would. The editor will store the message you have just created in a file called {\\tt \\~{ }/Mail/draft}. Then, you will see: {"
+    },
+    {
+      "chunk_id": 106,
+      "text": "ed {\\tt \\~{ }/Mail/draft}. Then, you will see: {\\tt What now?} To send your reply message, enter: \\begin{quote} {\\tt What now? }{\\bf send}\\index{send@{\\bf send} command} \\end{quote} or just the letter {\\bf s} and press \\key{Return}. Your message h"
+    },
+    {
+      "chunk_id": 107,
+      "text": "er {\\bf s} and press \\key{Return}. Your message has been sent when your machine prompt reappears on your screen. See Section~\\ref{email:whatnow} for other commands which can be used at the {\\tt What now?} prompt.\\index{What now? prompt} \\subsubsec"
+    },
+    {
+      "chunk_id": 108,
+      "text": "now?} prompt.\\index{What now? prompt} \\subsubsection{Composing and Sending Mail}\\label{email:comp} \\index{mh!sending messages} To send mail to another user, you must first ``compose'' the message using {\\bf comp}. If you enter: \\begin{quote} {\\tt"
+    },
+    {
+      "chunk_id": 109,
+      "text": "sing {\\bf comp}. If you enter: \\begin{quote} {\\tt \\% }{\\bf comp}\\index{comp@{\\bf comp} command} \\end{quote} you will find yourself in your default editor \\index{mh!default editor} with a message header template that looks like this: \\begin{quote} \\"
+    },
+    {
+      "chunk_id": 110,
+      "text": "er template that looks like this: \\begin{quote} \\begin{verbatim} H E To: A cc: D Subject: E ------- R B You 0 place D message-text Y here \\end{verbatim} \\end{quote} Fill i"
+    },
+    {
+      "chunk_id": 111,
+      "text": "here \\end{verbatim} \\end{quote} Fill in the {\\bf To:} field with the username of the recipient of the message. If you want to send the message to more than one person, separate their usernames with commas. Then, add the usernames of peo"
+    },
+    {
+      "chunk_id": 112,
+      "text": "names with commas. Then, add the usernames of people you wish to send copies in the {\\bf cc:} field. Fill in a subject for the {\\bf Subject:} field (optional). Finally, enter the text of your message {\\em below} the dashed line. Next, just as you"
+    },
+    {
+      "chunk_id": 113,
+      "text": "e {\\em below} the dashed line. Next, just as you did with {\\bf repl}, exit the editor as you would normally. When you see {\\tt What now?}, enter {\\bf s} and your message will be sent (as shown in Section~\\ref{email:replying}). \\subsection{Forwardi"
+    },
+    {
+      "chunk_id": 114,
+      "text": "tion~\\ref{email:replying}). \\subsection{Forwarding Mail}\\index{mh!forwarding messages} You can forward mail you have received by entering:\\index{forw@{\\bf forw} command} \\begin{quote} {\\tt \\% }{\\bf forw }{\\em sequence-number} \\end{quote} If you en"
+    },
+    {
+      "chunk_id": 115,
+      "text": "forw }{\\em sequence-number} \\end{quote} If you enter {\\bf forw} without a sequence number, {\\bf forw} will forward the currently selected message. The {\\bf forw} command is just like {\\bf comp}, except that {\\bf forw} adds the message you wish to f"
+    },
+    {
+      "chunk_id": 116,
+      "text": "ept that {\\bf forw} adds the message you wish to forward to the end of the default message template, surrounding it with the following two lines: \\begin{quote} \\begin{verbatim} ------- Forwarded Message ------- End of Forwarded Message \\end{verbatim"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ge ------- End of Forwarded Message \\end{verbatim} \\end{quote} You can add any additional notes you wish simply by entering them beneath the dashed line that indicates the end of the forwarded message. \\subsection{Deleting Mail}\\index{mh!deleting m"
+    },
+    {
+      "chunk_id": 118,
+      "text": "e. \\subsection{Deleting Mail}\\index{mh!deleting messages} Unless a particular mail message is very important to you, it is a good idea to delete mail accumulating in your inbox on a regular basis. It saves storage space that may be used to store m"
+    },
+    {
+      "chunk_id": 119,
+      "text": "It saves storage space that may be used to store more important files in the future. You also may exceed your storage quota (which may lead to lost messages) if you don't periodically remove mail. To remove a mail message, enter:\\index{rmm@{\\bf rmm"
+    },
+    {
+      "chunk_id": 120,
+      "text": "o remove a mail message, enter:\\index{rmm@{\\bf rmm} command} \\begin{quote} {\\tt \\% }{\\bf rmm }{\\em sequence-number} \\end{quote} If you enter {\\bf rmm} without a sequence number, {\\bf rmm} will delete the currently selected message. \\subsection{Filin"
+    },
+    {
+      "chunk_id": 121,
+      "text": "the currently selected message. \\subsection{Filing and Rearranging Mail} \\index{mh!arranging messages} \\index{mh!folders} The {\\bf mh} system has an arrangement of ``folders'' that allows you to store the messages you want to save. You can think o"
+    },
+    {
+      "chunk_id": 122,
+      "text": "re the messages you want to save. You can think of these folders as the electronic counterpart of the file folders you put in a desk. Folders are stored as subdirectories under the {\\tt \\~{ }/Mail} directory. The {\\bf inbox}\\index{inbox} is the on"
+    },
+    {
+      "chunk_id": 123,
+      "text": "directory. The {\\bf inbox}\\index{inbox} is the only folder you have when you start using {\\bf mh}, but you can easily create other folders to organize your mail more efficiently. \\subsubsection{Creating Folders and Refiling Mail} To create a new fo"
+    },
+    {
+      "chunk_id": 124,
+      "text": "ting Folders and Refiling Mail} To create a new folder or to move a message in an existing folder to another folder, enter:\\index{refile@{\\bf refile} command} \\index{ j@{\\tt+}} \\begin{quote} {\\tt \\% }{\\bf refile} {\\it sequence-number} {\\tt+}{\\it fold"
+    },
+    {
+      "chunk_id": 125,
+      "text": "{\\bf refile} {\\it sequence-number} {\\tt+}{\\it foldername} \\end{quote} Note that the {\\it sequence-number} is the number of the message in the current folder and the {\\it foldername} is the name of the destination folder. If you enter {\\bf refile} wi"
+    },
+    {
+      "chunk_id": 126,
+      "text": "destination folder. If you enter {\\bf refile} without a {\\it sequence-number} argument, {\\bf refile} will refile the currently selected message. You can use any combination of alphanumeric characters (A--Z, a--z, 0--9), dot ({\\tt.}) and hyphen ({\\"
+    },
+    {
+      "chunk_id": 127,
+      "text": "rs (A--Z, a--z, 0--9), dot ({\\tt.}) and hyphen ({\\tt -}) for a foldername; non-alphanumeric characters may cause problems. If the destination folder does not already exist, {\\bf refile} will inquire: \\begin{quote} \\verb+Create folder /home/username/"
+    },
+    {
+      "chunk_id": 128,
+      "text": "\\begin{quote} \\verb+Create folder /home/username/Mail/foldername?+ \\end{quote} If the foldername is the one you want, enter {\\bf y}; if incorrect, enter {\\bf n} and try again. Once again, note that {\\bf refile} removes the specified message from th"
+    },
+    {
+      "chunk_id": 129,
+      "text": "{\\bf refile} removes the specified message from the current folder when you move it to the destination folder. (Read the {\\bf refile} man page for information.) You can {\\bf refile} a message to more than one foldername like this: \\begin{quote} {\\tt"
+    },
+    {
+      "chunk_id": 130,
+      "text": "than one foldername like this: \\begin{quote} {\\tt \\% }{\\bf refile }{\\em sequence-number +fl +f2 ... +fn} \\end{quote} \\subsubsection{Moving Around Folders} The folder command identifies the current folder. Enter: \\begin{quote} {\\tt \\% }{\\bf folder}\\i"
+    },
+    {
+      "chunk_id": 131,
+      "text": "lder. Enter: \\begin{quote} {\\tt \\% }{\\bf folder}\\index{folder@{\\bf folder} command} \\end{quote} You will see something like: \\begin{quote} \\verb&inbox+ has 20 messages; ( 1-20); cur=15& \\end{quote} You start out in the folder called {\\bf inbox},"
+    },
+    {
+      "chunk_id": 132,
+      "text": "e} You start out in the folder called {\\bf inbox},\\index{inbox} the folder that {\\bf inc}\\index{inc@{\\bf inc} command} uses to incorporate your mail. If you want to move to another folder, enter: \\begin{quote} {\\tt \\% }{\\bf folder +}{\\em foldername}"
+    },
+    {
+      "chunk_id": 133,
+      "text": "gin{quote} {\\tt \\% }{\\bf folder +}{\\em foldername} \\end{quote} \\index{ j@{\\tt+}} \\subsubsection{Listing Folders} If you want a list of all the folders you've made, enter: \\begin{quote} {\\tt \\% }{\\bf folders}\\index{folders@{\\bf folders} command} \\end"
+    },
+    {
+      "chunk_id": 134,
+      "text": "folders}\\index{folders@{\\bf folders} command} \\end{quote} A {\\tt +} appears next to the current folder. The {\\bf folders} command is equivalent to: \\begin{quote} {\\tt \\% }{\\bf folder -all} \\end{quote} When you delete messages using {\\bf rmm},\\index{"
+    },
+    {
+      "chunk_id": 135,
+      "text": "} When you delete messages using {\\bf rmm},\\index{rmm@{\\bf rmm} command} be sure that you are in the right folder, or you may inadvertently delete some important mail. \\subsubsection{Compacting or ``Packing'' Folders} If you want to renumber the mes"
+    },
+    {
+      "chunk_id": 136,
+      "text": "Packing'' Folders} If you want to renumber the messages in a folder starting with 1 so that the folder has the lowest sequence numbers possible, you can ``pack'' the folder by entering: \\begin{quote} {\\tt \\% }{\\bf folder -pack +}{\\em foldername}\\inde"
+    },
+    {
+      "chunk_id": 137,
+      "text": "{\\tt \\% }{\\bf folder -pack +}{\\em foldername}\\index{ j@{\\tt+}} \\end{quote} If the current folder had contained messages with sequence numbers 1, 15, and 19 before using the {\\bf -pack} command, it would contain the same messages afterward, but with t"
+    },
+    {
+      "chunk_id": 138,
+      "text": "ld contain the same messages afterward, but with the sequence numbers 1, 2, and 3. \\subsubsection{Subfolders} \\index{mh!subfolders} Another useful {\\bf mh} feature is subfolders. If you have created a folder, you can create subfolders in that fold"
+    },
+    {
+      "chunk_id": 139,
+      "text": "d a folder, you can create subfolders in that folder, just as if you created a directory and a subdirectory in that directory. For instance, enter: \\begin{quote} {\\tt \\% }{\\bf refile }{\\em sequence-number } {\\bf +}{\\em foldername/subfoldername} \\end"
+    },
+    {
+      "chunk_id": 140,
+      "text": "umber } {\\bf +}{\\em foldername/subfoldername} \\end{quote} \\index{refile@{\\bf refile} command}\\index{ j@{\\tt+}} where {\\it sequence-number} is the number of a message in the current folder and {\\it foldername} is the name of the folder under which you"
+    },
+    {
+      "chunk_id": 141,
+      "text": "dername} is the name of the folder under which you wish to create the subfolder. To list the names of subfolders under a given folder, enter: \\begin{quote} {\\tt \\% }{\\bf folders +}{\\em foldername} \\end{quote} \\subsubsection{Removing Folders} You ca"
+    },
+    {
+      "chunk_id": 142,
+      "text": "nd{quote} \\subsubsection{Removing Folders} You can remove folders and subfolders with the {\\bf rmf} command. This function removes messages first and then the folder itself. If a folder contains subfolders or files that are not part of {\\bf mh}, {\\"
+    },
+    {
+      "chunk_id": 143,
+      "text": "folders or files that are not part of {\\bf mh}, {\\bf rmf} produces an error message. \\index{rmf@{\\bf rmf} command} The syntax of the command is: \\begin{quote} {\\tt \\% }{\\bf rmf +} {\\em folderspec} \\end{quote} where {\\em folderspec} may be either a f"
+    },
+    {
+      "chunk_id": 144,
+      "text": "nd{quote} where {\\em folderspec} may be either a foldername or a subfolder specification. For example, to remove the folder named {\\em myfolder} enter the command: \\begin{quote} {\\tt \\% }{\\bf rmf +myfolder} \\end{quote} To remove a subfolder named {\\"
+    },
+    {
+      "chunk_id": 145,
+      "text": "folder} \\end{quote} To remove a subfolder named {\\em inbox/mysubfolder} enter the command: \\begin{quote} {\\tt \\% }{\\bf rmf +inbox/mysubfolder} \\end{quote} \\subsection{Another Way To Send Mail}\\label{email:another} \\index{mh!sending messages} For a"
+    },
+    {
+      "chunk_id": 146,
+      "text": "email:another} \\index{mh!sending messages} For a ``quick and dirty'' method to send mail, enter: \\begin{quote} {\\tt \\% }{\\bf comp -editor prompter} \\end{quote} Respond appropriately to the prompts for each of the header fields, enter in the body of"
+    },
+    {
+      "chunk_id": 147,
+      "text": "or each of the header fields, enter in the body of your message under the dashed line, and enter \\ctrl{d} to store the message draft. Continue as with {\\bf comp} or {\\bf repl} when you see: \\begin{quote} \\verb+What now?+ \\end{quote} \\subsubsection{"
+    },
+    {
+      "chunk_id": 148,
+      "text": "ote} \\verb+What now?+ \\end{quote} \\subsubsection{The {\\tt What now?} Prompt}\\index{What now? prompt} \\label{email:whatnow} When you compose a message and exit the editor, you receive the question {\\tt What now?} A number of options are available."
+    },
+    {
+      "chunk_id": 149,
+      "text": "tt What now?} A number of options are available. If you enter a question mark {\\tt ?}, a listing of response commands is displayed. These commands include: \\begin{description} \\item[display] Display message you are replying to. \\index{display@{\\bf"
+    },
+    {
+      "chunk_id": 150,
+      "text": "message you are replying to. \\index{display@{\\bf display} command} \\item[edit] Go to the default editor (see section \\ref{EDITOR}) \\index{edit@{\\bf edit} command} \\item[headers] Display draft's headers. \\index{headers@{\\bf headers} command} \\item[li"
+    },
+    {
+      "chunk_id": 151,
+      "text": "rs. \\index{headers@{\\bf headers} command} \\item[list] Display the draft. \\index{list@{\\bf list} command} \\item[push] Send message and immediately exit to the shell. \\index{push@{\\bf push} command} \\item[quit] Quit. \\index{quit@{\\bf quit} command} \\it"
+    },
+    {
+      "chunk_id": 152,
+      "text": "em[quit] Quit. \\index{quit@{\\bf quit} command} \\item [repl] Delete message draft. \\index{repl@{\\bf repl} command} \\item[refile] Refile draft in designated folder. \\index{refile@{\\bf refile} command} \\item[send] Send the message. \\index{send@{\\bf send"
+    },
+    {
+      "chunk_id": 153,
+      "text": "item[send] Send the message. \\index{send@{\\bf send} command} \\item[whom] List receivers. \\index{whom@{\\bf whom} command} \\end{description} Simply enter the desired response and press \\key{Return}. For example, to send your message enter {\\bf send}"
+    },
+    {
+      "chunk_id": 154,
+      "text": "or example, to send your message enter {\\bf send} or just the letter {\\bf s}. If you exited the editor prematurely and want to enter some additional information, you can do so with the {\\bf edit} command. %If you want to use one of the bracketed mo"
+    },
+    {
+      "chunk_id": 155,
+      "text": "mand. %If you want to use one of the bracketed modifiers, i.e. {\\bf %$<$editor$>$}, {\\bf delete}, or {\\bf verbose}, simply enter the %option followed by the modifier. Don't use the brackets; enter %just %the modifier name. (With the {\\bf $<$edito"
+    },
+    {
+      "chunk_id": 156,
+      "text": "%just %the modifier name. (With the {\\bf $<$editor$>$} modifier, enter %the editor name without either set of brackets.) For example, if %you %want to send your message and watch all the processes and machines %it goes through as it is being sent, e"
+    },
+    {
+      "chunk_id": 157,
+      "text": "d machines %it goes through as it is being sent, enter: %\\begin{quote} %{\\tt \\% }{\\bf send -verbose} %\\end{quote} The {\\bf send} command\\index{send@{\\bf send} command} occurs not only as an option to {\\bf mh} commands, like {\\bf repl} and {\\bf send}"
+    },
+    {
+      "chunk_id": 158,
+      "text": "{\\bf mh} commands, like {\\bf repl} and {\\bf send}, but as a command on its own. If you have a message draft in {\\tt \\~{ }/Mail/draft} that you composed previously, you can send the message by entering: \\begin{quote} {\\tt \\% }{\\bf send draft} \\end{q"
+    },
+    {
+      "chunk_id": 159,
+      "text": "ng: \\begin{quote} {\\tt \\% }{\\bf send draft} \\end{quote} Similarly, you can send any file in the {\\tt \\~{ }/Mail} directory as long as it has a message header template. \\subsubsection{Changing the Default Editor} \\label{EDITOR} \\index{mh!default edit"
+    },
+    {
+      "chunk_id": 160,
+      "text": "ault Editor} \\label{EDITOR} \\index{mh!default editor} If you prefer to use another editor, you can modify the file named {\\tt .mh\\_profile} that contains your {\\bf mh} setup profile. If you want to use {\\bf emacs}, for example, change the line labe"
+    },
+    {
+      "chunk_id": 161,
+      "text": "use {\\bf emacs}, for example, change the line labeled {\\tt Editor:} so it contains the path to the {\\bf emacs} command. Place the name {\\bf emacs} on the {\\tt Prompter-next} line. When you are done, these two lines should read: \\begin{quote} Editor:"
+    },
+    {
+      "chunk_id": 162,
+      "text": "these two lines should read: \\begin{quote} Editor: /usr/local/emacs\\footnote{Type {\\tt which emacs} to find the path. It will probably be one of the following: /usr/local/emacs, /usr/local/bin/emacs, /share/a/bin/emacs, or /usr/sww/bin/emacs.} \\\\ P"
+    },
+    {
+      "chunk_id": 163,
+      "text": ", /share/a/bin/emacs, or /usr/sww/bin/emacs.} \\\\ Prompter-next: emacs \\end{quote} Once you have made these changes, {\\bf mh} will use {\\bf emacs} instead of {\\bf vi}. With this exception, the {\\bf mh} commands will function as described in the earli"
+    },
+    {
+      "chunk_id": 164,
+      "text": "} commands will function as described in the earlier sections of this chapter. \\subsubsection{Sending a File With {\\bf mail}} The {\\bf mh} facility does not enable you to conveniently mail a file to a correspondent. However, you can do this with a"
+    },
+    {
+      "chunk_id": 165,
+      "text": "a correspondent. However, you can do this with a single {\\bf mail} command. For example, if you want to send a file named {\\tt myfile.txt} to a correspondent with the username of {\\tt cim} enter the command: \\begin{quote} {\\tt \\% }{\\bf mail cim@host"
+    },
+    {
+      "chunk_id": 166,
+      "text": "command: \\begin{quote} {\\tt \\% }{\\bf mail cim@host.EECS.berkeley.edu $<$ myfile.tex} \\end{quote} \\subsection{Online Help and Documentation} Two online help features aid users with the {\\bf mh} mail system and associated commands. If you add the {\\"
+    },
+    {
+      "chunk_id": 167,
+      "text": "system and associated commands. If you add the {\\bf -help} option to any command, it will give a brief description of the usage of that command, rather than executing it. For example, enter: \\begin{quote} {\\tt \\% }{\\bf scan -help} \\end{quote} to ge"
+    },
+    {
+      "chunk_id": 168,
+      "text": "quote} {\\tt \\% }{\\bf scan -help} \\end{quote} to get a brief description of the {\\bf scan} command. The {\\bf man} command provides more complete descriptions of {\\bf mh} and related commands. Try entering: \\begin{quote} {\\tt \\% }{\\bf man scan} \\end{"
+    },
+    {
+      "chunk_id": 169,
+      "text": "ering: \\begin{quote} {\\tt \\% }{\\bf man scan} \\end{quote} Table~\\ref{email:cmds} summarizes the important {\\bf mh} commands. \\subsection{{\\bf Xmh} -- an X Windows Interface to {\\bf mh}} \\index{mh!X Windows version|see{xmh}} If you are at a local wo"
+    },
+    {
+      "chunk_id": 170,
+      "text": "indows version|see{xmh}} If you are at a local workstation (as opposed to being logged in remotely or at a terminal) you may want to try the command {\\bf xmh}. This command presents an X~Windows interface to {\\bf mh}. There are pull-down menus whi"
+    },
+    {
+      "chunk_id": 171,
+      "text": "erface to {\\bf mh}. There are pull-down menus which contain all the commands discussed earlier in this chapter. To invoke a command, you pull down the appropriate menu and click on the command. The {\\bf xmh} interface invokes the commands discusse"
+    },
+    {
+      "chunk_id": 172,
+      "text": "{\\bf xmh} interface invokes the commands discussed in this chapter from within this X~Windows interface. To learn more about {\\bf xmh} enter the command: \\begin{quote} {\\tt \\% }{\\bf man xmh}\\index{xmh@{\\bf xmh} command} \\end{quote} \\begin{table}[h"
+    },
+    {
+      "chunk_id": 173,
+      "text": "mh@{\\bf xmh} command} \\end{quote} \\begin{table}[hb]\\centering \\isucaption{Summary of Important {\\bf mh} Commands and Options} \\index{mh!commands} \\label{email:cmds} \\begin{tabular}{lp{3.25in}} \\hline \\\\ {\\bf Commands} & {\\bf Brief Description"
+    },
+    {
+      "chunk_id": 174,
+      "text": "e \\\\ {\\bf Commands} & {\\bf Brief Description}\\\\[6pt] {\\bf comp} & Compose a message.\\\\ {\\bf dist} & Redistribute a message.\\\\ {\\bf folder} & Select/list status of folders.\\\\ {\\bf folders} & Lists folders/subfo"
+    },
+    {
+      "chunk_id": 175,
+      "text": "ders.\\\\ {\\bf folders} & Lists folders/subfolders (same as: {\\bf folder -all)}.\\\\ {\\bf forw} & Forward a message to another user.\\\\ {\\bf inc} & Incorporate new mail.\\\\ {\\bf next} & Show the"
+    },
+    {
+      "chunk_id": 176,
+      "text": "orate new mail.\\\\ {\\bf next} & Show the next message.\\\\ {\\bf pick} & Select a set of messages by context.\\\\ {\\bf prev} & Show the previous message.\\\\ {\\bf refile} & Move messages between folders.\\\\ {\\bf repl}"
+    },
+    {
+      "chunk_id": 177,
+      "text": "& Move messages between folders.\\\\ {\\bf repl} & Reply to a message.\\\\ {\\bf rmf} & Remove a folder.\\\\ {\\bf rmm} & Remove a message.\\\\ {\\bf scan} & Produce an abbreviated listing of selected messages, includi"
+    },
+    {
+      "chunk_id": 178,
+      "text": "abbreviated listing of selected messages, including sender and subject.\\\\ {\\bf send} & Send a previously composed message.\\\\ {\\bf show} & Show messages.\\\\[12pt] {\\bf Options} & {\\bf Brief Description}\\\\[6pt] {\\bf -help}"
+    },
+    {
+      "chunk_id": 179,
+      "text": "& {\\bf Brief Description}\\\\[6pt] {\\bf -help} & Print help info on preceding command.\\\\ {\\bf mh\\_profile} & Change default message format.\\\\ {\\bf mh\\_suppress} & Filter out excess header information.\\\\ {\\bf -pack} & Consolida"
+    },
+    {
+      "chunk_id": 180,
+      "text": "er information.\\\\ {\\bf -pack} & Consolidate messages in folder.\\\\ {\\bf prompter} & Quick message composition.\\\\ \\end{tabular} \\end{table} \\section{Network Mail: Mail Between U.C.B. and the Outside World} \\index{network mail} \\subsect"
+    },
+    {
+      "chunk_id": 181,
+      "text": "the Outside World} \\index{network mail} \\subsection{Accessing Networks} So far, we have described the message system as it operates within our local network. A network is a group of machines that are connected to each other. You may wish to send"
+    },
+    {
+      "chunk_id": 182,
+      "text": "are connected to each other. You may wish to send messages outside our network to computers or hosts on other networks. U.C. Berkeley is directly connected to a network called the Internet. The Internet is a collection of regional networks that sup"
+    },
+    {
+      "chunk_id": 183,
+      "text": "rnet is a collection of regional networks that support the TCP/IP networking protocol. Over 250,000 computers are connected to this network. U.C. Berkeley can indirectly access networks like BITNET through computers that serve as gateways between t"
+    },
+    {
+      "chunk_id": 184,
+      "text": "through computers that serve as gateways between the Internet and that network. There are very few networks that we cannot access in some fashion. \\subsection{Sending Mail on Networks} Each network uses its own form of address. To send mail to u"
+    },
+    {
+      "chunk_id": 185,
+      "text": "k uses its own form of address. To send mail to users on other networks, follow the directions given previously in Sections~\\ref{email:comp} and \\ref{email:another} to initiate a message. Use one of the following forms in the {\\bf To:} field: \\begin"
+    },
+    {
+      "chunk_id": 186,
+      "text": "the following forms in the {\\bf To:} field: \\begin{verbatim} Internet username@host.organization.domain Internet username@host.subdomain.organization.domain BITNET username@bitnethost.bitnet \\end{verbatim}"
+    },
+    {
+      "chunk_id": 187,
+      "text": "username@bitnethost.bitnet \\end{verbatim} If you don't know a network address, contact your correspondent (by phone or paper mail) and ask for a network address. You can send mail to network addresses on the Internet, BITNET and many other"
+    },
+    {
+      "chunk_id": 188,
+      "text": "addresses on the Internet, BITNET and many other popular networks. \\subsection{Mail to You Via a Network} \\label{mailaddr} If someone wants to send you mail, they should use an address of the form: \\begin{quote} {\\em username@hostname.}{\\bf EECS"
+    },
+    {
+      "chunk_id": 189,
+      "text": "m: \\begin{quote} {\\em username@hostname.}{\\bf EECS.berkeley.edu} ~~~~~~~~~~ or\\\\ {\\em username@hostname.}{\\bf CS.berkeley.edu} ~~~~~~~~~~ or\\\\ {\\em username@hostname.}{\\bf berkeley.edu} \\end{quote} where {\\it username} is the username you use when yo"
+    },
+    {
+      "chunk_id": 190,
+      "text": "ere {\\it username} is the username you use when you login to your account and hostname is the name of the computer you are on. For an EECS Instructional account, the best address to use is {\\em username@}{\\bf cory.EECS.berkeley.edu}. \\subsection{Pro"
+    },
+    {
+      "chunk_id": 191,
+      "text": "me@}{\\bf cory.EECS.berkeley.edu}. \\subsection{Problems with Network Mail} \\index{network mail!problems} \\subsection{Connections to Unreliable Networks} Network connections on the Internet and BITNET are reliable and do not often cause problems. H"
+    },
+    {
+      "chunk_id": 192,
+      "text": "T are reliable and do not often cause problems. However, other networks (especially networks like UUCP) can be unstable. This means that sometimes your mail will not make it to another host or that it will travel slowly. The more complicated the n"
+    },
+    {
+      "chunk_id": 193,
+      "text": "it will travel slowly. The more complicated the network connection, the less likely it is that your message will reach its destination. If you are experiencing a problem, you should address a question to {\\tt postmaster@berkeley.edu}. Be sure to d"
+    },
+    {
+      "chunk_id": 194,
+      "text": "on to {\\tt postmaster@berkeley.edu}. Be sure to detail the problem and provide any error messages you might have received from the remote host. \\subsection{Poorly Rewritten {\\bf From:} Fields} The {\\bf From:} field produced by {\\bf mh} or {\\bf mai"
+    },
+    {
+      "chunk_id": 195,
+      "text": "{\\bf From:} field produced by {\\bf mh} or {\\bf mail} may not always allow mailers on other hosts to reply correctly to your mail. Some remote hosts modify the address in the {\\bf From:} field in an attempt to ensure an accurate reply. If the {\\bf F"
+    },
+    {
+      "chunk_id": 196,
+      "text": "ttempt to ensure an accurate reply. If the {\\bf From:} field is changed incorrectly by a remote host, the address may be unusable. If this is a problem for one of your correspondents, you can insert a field called {\\bf Reply-to:} that contains the"
+    },
+    {
+      "chunk_id": 197,
+      "text": "a field called {\\bf Reply-to:} that contains the appropriate reply address allowing users on other hosts to send you mail with less aggravation. If the other mailer does not automatically use the {\\bf Reply-to:} field, hopefully the other user may"
+    },
+    {
+      "chunk_id": 198,
+      "text": "bf Reply-to:} field, hopefully the other user may notice and try the return address listed there; {\\bf mh} will not alter explicitly stated {\\bf Reply-to:} fields. You may also want to include a signature block that contains your name and network ad"
+    },
+    {
+      "chunk_id": 199,
+      "text": "ature block that contains your name and network address. Signature blocks are a common way to end mail messages. To do this, create a file called ``.signature''\\index{signature@{\\tt .signature} file} in your home directory and put your name and net"
+    },
+    {
+      "chunk_id": 200,
+      "text": "} in your home directory and put your name and network address in it. This file will be appended to every mail message that you send out."
+    }
+  ]
+}

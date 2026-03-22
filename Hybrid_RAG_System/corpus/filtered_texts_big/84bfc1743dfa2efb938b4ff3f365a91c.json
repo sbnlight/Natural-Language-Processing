@@ -1,0 +1,481 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/domains/sdf/kernel/SDFDirector.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "SDFDirector Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.domains.sdf.kernel Class SDFDirector java.lang.Object p"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ns.sdf.kernel Class SDFDirector java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.util.Attribute ptolemy.actor.Director ptolemy.actor.sched.StaticSchedulingDirector ptolemy.domains.sdf.kernel.SDFDirector All Implemented Interfaces: Changea"
+    },
+    {
+      "chunk_id": 3,
+      "text": "el.SDFDirector All Implemented Interfaces: Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , java.io.Serializable Direct Known Subclasses: DistributedSDF"
+    },
+    {
+      "chunk_id": 4,
+      "text": "rializable Direct Known Subclasses: DistributedSDFDirector , DTDirector , HDFDirector , PSDFDirector public class SDFDirector extends StaticSchedulingDirector Director for the synchronous dataflow (SDF) model of computation. SDF overview The Synchron"
+    },
+    {
+      "chunk_id": 5,
+      "text": "F) model of computation. SDF overview The Synchronous Dataflow(SDF) domain supports the efficient execution of Dataflow graphs that lack control structures. Dataflow graphs that contain control structures should be executed using the Process Net"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ructures should be executed using the Process Networks(PN) domain instead. SDF allows efficient execution, with very little overhead at runtime. It requires that the rates on the ports of all actors be known before hand. SDF also requires that t"
+    },
+    {
+      "chunk_id": 7,
+      "text": "rs be known before hand. SDF also requires that the rates on the ports not change during execution. In addition, in some cases (namely systems with feedback) delays, which are represented by initial tokens on relations must be explicitly noted."
+    },
+    {
+      "chunk_id": 8,
+      "text": "al tokens on relations must be explicitly noted. SDF uses this rate and delay information to determine the execution sequence of the actors before execution begins. Schedule Properties The number of tokens accumulated on every relation is bounded,"
+    },
+    {
+      "chunk_id": 9,
+      "text": "f tokens accumulated on every relation is bounded, given an infinite number of executions of the schedule. Deadlock will never occur, given an infinite number of executions of the schedule. Class comments An SDFDirector is the class that controls e"
+    },
+    {
+      "chunk_id": 10,
+      "text": "mments An SDFDirector is the class that controls execution of actors under the SDF domain. By default, actor scheduling is handled by the SDFScheduler class. Furthermore, the newReceiver method creates Receivers of type SDFReceiver, which extend"
+    },
+    {
+      "chunk_id": 11,
+      "text": "eates Receivers of type SDFReceiver, which extends QueueReceiver to support optimized gets and puts of arrays of tokens. Actors are assumed to consume and produce exactly one token per channel on each firing. Actors that do not follow this conven"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ach firing. Actors that do not follow this convention should set the appropriate parameters on input and output ports to declare the number of tokens they produce or consume. See the SDFScheduler for more information. The SampleDelay actor is us"
+    },
+    {
+      "chunk_id": 13,
+      "text": "for more information. The SampleDelay actor is usually used in a model to specify the delay across a relation. The allowDisconnectedGraphs parameter of this director determines whether disconnected graphs are permitted. A model may have two or mo"
+    },
+    {
+      "chunk_id": 14,
+      "text": "graphs are permitted. A model may have two or more graphs of actors that are not connected. The schedule can jump from one graph to another among the disconnected graphs. There is nothing to force the scheduler to finish executing all actors on"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ce the scheduler to finish executing all actors on one graph before firing actors on another graph. However, the order of execution within an graph should be correct. Usually, disconnected graphs in an SDF model indicates an error. The default v"
+    },
+    {
+      "chunk_id": 16,
+      "text": "n an SDF model indicates an error. The default value of the allowDisconnectedGraphs parameter is a BooleanToken with the value false. The iterations parameter of this director corresponds to a limit on the number of times the director will fire i"
+    },
+    {
+      "chunk_id": 17,
+      "text": "it on the number of times the director will fire its hierarchy before it returns false in postfire. If this number is not greater than zero, then no limit is set and postfire will always return true. The default value of the iterations parameter"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e. The default value of the iterations parameter is an IntToken with value zero. The vectorizationFactor parameter of this director sets the number of times that the basic schedule is executed during each firing of this director. This might allow"
+    },
+    {
+      "chunk_id": 19,
+      "text": "g each firing of this director. This might allow the director to execute the model more efficiently, by combining multiple firings of each actor. The default value of the vectorizationFactor parameter is an IntToken with value one. The SDF direc"
+    },
+    {
+      "chunk_id": 20,
+      "text": "meter is an IntToken with value one. The SDF director has a period parameter which specifies the amount of model time that elapses per iteration. If the value of period is 0.0 (the default), then it has no effect, and this director never increments"
+    },
+    {
+      "chunk_id": 21,
+      "text": "has no effect, and this director never increments time nor calls fireAt() on the enclosing director. If the period is greater than 0.0, then if this director is at the top level, it increments time by this amount in each invocation of postfire()."
+    },
+    {
+      "chunk_id": 22,
+      "text": "e by this amount in each invocation of postfire(). If it is not at the top level, then it calls fireAt(currentTime + period) in postfire(). This behavior gives an interesting use of SDF within DE: You can \"kick start\" an SDF submodel with a single"
+    },
+    {
+      "chunk_id": 23,
+      "text": "You can \"kick start\" an SDF submodel with a single event, and then if the director of that SDF submodel has a period greater than 0.0, then it will continue to fire periodically with the specified period. If period is greater than 0.0 and the para"
+    },
+    {
+      "chunk_id": 24,
+      "text": "period. If period is greater than 0.0 and the parameter synchronizeToRealTime is set to true , then the prefire() method stalls until the real time elapsed since the model started matches the period multiplied by the iteration count. This ensures"
+    },
+    {
+      "chunk_id": 25,
+      "text": "multiplied by the iteration count. This ensures that the director does not get ahead of real time. However, of course, this does not ensure that the director keeps up with real time. Since: Ptolemy II 0.2 Version: $Id: SDFDirector.java,v 1.143.2."
+    },
+    {
+      "chunk_id": 26,
+      "text": "y II 0.2 Version: $Id: SDFDirector.java,v 1.143.2.1 2007/02/04 01:37:35 cxh Exp $ Author: Steve Neuendorffer See Also: SDFScheduler , SDFReceiver , Serialized Form Accepted Rating: Green (neuendor) Proposed Rating: Green (neuendor) Nested Class Summa"
+    },
+    {
+      "chunk_id": 27,
+      "text": "oposed Rating: Green (neuendor) Nested Class Summary Nested classes inherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary protected int _iterationCount The iteration count. Parameter allowDisconnectedGrap"
+    },
+    {
+      "chunk_id": 28,
+      "text": "e iteration count. Parameter allowDisconnectedGraphs A parameter representing whether disconnected graphs are permitted. Parameter allowRateChanges A parameter representing whether dynamic rate changes are permitted. Parameter constrainBufferSize"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ges are permitted. Parameter constrainBufferSizes If true, then buffer sizes are fixed according to the schedule, and attempts to write to the buffer that cause the buffer to exceed the schedule size result in an exception. Parameter iterations"
+    },
+    {
+      "chunk_id": 30,
+      "text": "size result in an exception. Parameter iterations A Parameter representing the number of times that postfire may be called before it returns false. Parameter period The time period of each iteration. Parameter synchronizeToRealTime Specify whether"
+    },
+    {
+      "chunk_id": 31,
+      "text": "n. Parameter synchronizeToRealTime Specify whether the execution should synchronize to the real time. Parameter vectorizationFactor A Parameter representing the requested vectorization factor. Fields inherited from class ptolemy.actor.sched. Static"
+    },
+    {
+      "chunk_id": 32,
+      "text": "s inherited from class ptolemy.actor.sched. StaticSchedulingDirector _postfireReturns Fields inherited from class ptolemy.actor. Director _actorsFinishedExecution , _currentTime , _stopRequested , timeResolution Fields inherited from class ptolemy.ke"
+    },
+    {
+      "chunk_id": 33,
+      "text": "eResolution Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENT"
+    },
+    {
+      "chunk_id": 34,
+      "text": "pace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary SDFDirector () Construct a director in the default work"
+    },
+    {
+      "chunk_id": 35,
+      "text": "rector () Construct a director in the default workspace with an empty string as its name. SDFDirector ( CompositeEntity container, java.lang.String name) Construct a director in the given container with the given name. SDFDirector ( Wor"
+    },
+    {
+      "chunk_id": 36,
+      "text": "n container with the given name. SDFDirector ( Workspace workspace) Construct a director in the workspace with an empty name. Method Summary void attributeChanged ( Attribute attribute) React to a change in an attribute. Time getModelNextIterationTi"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ange in an attribute. Time getModelNextIterationTime () Return the time value of the next iteration. void initialize () Initialize the actors associated with this director and then set the iteration count to zero. Receiver newReceiver () Return a n"
+    },
+    {
+      "chunk_id": 38,
+      "text": "count to zero. Receiver newReceiver () Return a new receiver consistent with the SDF domain. boolean postfire () Return false if the system has finished executing, either by reaching the iteration limit, or having an actor in the system return f"
+    },
+    {
+      "chunk_id": 39,
+      "text": "limit, or having an actor in the system return false in postfire. boolean prefire () Check the input ports of the container composite actor (if there are any) to see whether they have enough tokens, and return true if they do. void preinitializ"
+    },
+    {
+      "chunk_id": 40,
+      "text": "s, and return true if they do. void preinitialize () Preinitialize the actors associated with this director and compute the schedule. java.lang.String[] suggestedModalModelDirectors () Return an array of suggested ModalModel directors to use wit"
+    },
+    {
+      "chunk_id": 41,
+      "text": "rray of suggested ModalModel directors to use with SDFDirector. boolean supportMultirateFiring () Return true to indicate that a ModalModel under control of this director supports multirate firing. boolean transferInputs ( IOPort port) Override"
+    },
+    {
+      "chunk_id": 42,
+      "text": "g. boolean transferInputs ( IOPort port) Override the base class method to transfer enough tokens to complete an internal iteration. boolean transferOutputs ( IOPort port) Override the base class method to transfer enough tokens to fulfill the ou"
+    },
+    {
+      "chunk_id": 43,
+      "text": "thod to transfer enough tokens to fulfill the output production rate. Methods inherited from class ptolemy.actor.sched. StaticSchedulingDirector _setScheduler , addDebugListener , fire , getScheduler , invalidateSchedule , isScheduleValid , removeD"
+    },
+    {
+      "chunk_id": 44,
+      "text": "r , invalidateSchedule , isScheduleValid , removeDebugListener , setScheduler Methods inherited from class ptolemy.actor. Director _description , _isEmbedded , _isTopLevel , _transferInputs , _transferOutputs , fireAt , fireAt , fireAtCurrentTime , g"
+    },
+    {
+      "chunk_id": 45,
+      "text": "rOutputs , fireAt , fireAt , fireAtCurrentTime , getCurrentTime , getErrorTolerance , getModelStartTime , getModelStopTime , getModelTime , getNextIterationTime , getStartTime , getStopTime , getTimeResolution , initialize , invalidateResolvedTypes ,"
+    },
+    {
+      "chunk_id": 46,
+      "text": "esolution , initialize , invalidateResolvedTypes , isFireFunctional , isStopRequested , isStrict , iterate , requestInitialization , setContainer , setCurrentTime , setModelTime , stop , stopFire , terminate , wrapup Methods inherited from class ptol"
+    },
+    {
+      "chunk_id": 47,
+      "text": "rminate , wrapup Methods inherited from class ptolemy.kernel.util. Attribute _getContainedObject , _propagateExistence , clone , getContainer , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , setName , updateContent Methods inherited fro"
+    },
+    {
+      "chunk_id": 48,
+      "text": "Up , setName , updateContent Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _exportMoMLContents , _getIndentPrefix , _"
+    },
+    {
+      "chunk_id": 49,
+      "text": "debug , _exportMoMLContents , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , _validateSettables , addChangeListener , attributeList , attributeList , attributeType"
+    },
+    {
+      "chunk_id": 50,
+      "text": "er , attributeList , attributeList , attributeTypeChanged , clone , containedObjectsIterator , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoM"
+    },
+    {
+      "chunk_id": 51,
+      "text": ", exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getDisplayName , getElementName , getFullName , getModelError"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ame , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateExistence , propagateValue , propagateValue"
+    },
+    {
+      "chunk_id": 53,
+      "text": "opagateExistence , propagateValue , propagateValues , removeChangeListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , topl"
+    },
+    {
+      "chunk_id": 54,
+      "text": "rsistent , setSource , sortContainedObjects , toplevel , toString , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail allowD"
+    },
+    {
+      "chunk_id": 55,
+      "text": "y, notifyAll, wait, wait, wait Field Detail allowDisconnectedGraphs public Parameter allowDisconnectedGraphs A parameter representing whether disconnected graphs are permitted. A model may have two or more graphs of actors that are not connected"
+    },
+    {
+      "chunk_id": 56,
+      "text": "or more graphs of actors that are not connected. The schedule can jump from one graph to another among the disconnected graphs. There is nothing to force the scheduler to finish executing all actors on one graph before firing actors on anot"
+    },
+    {
+      "chunk_id": 57,
+      "text": "actors on one graph before firing actors on another graph. However, the order of execution within an graph should be correct. Usually, disconnected graphs in an SDF model indicates an error. The default value is a BooleanToken with the value"
+    },
+    {
+      "chunk_id": 58,
+      "text": "The default value is a BooleanToken with the value false. allowRateChanges public Parameter allowRateChanges A parameter representing whether dynamic rate changes are permitted. An SDF model may constructed such that the values of rate paramet"
+    },
+    {
+      "chunk_id": 59,
+      "text": "constructed such that the values of rate parameters are modified during the execution of the system. If this parameter is true, then such models are valid and this class dynamically computes a new schedule at runtime. If this parameter is f"
+    },
+    {
+      "chunk_id": 60,
+      "text": "new schedule at runtime. If this parameter is false, then the SDF domain performs a static check to disallow such models. Note that in order to generate code from an SDF model, this parameter must be set to false. This is a boolean with de"
+    },
+    {
+      "chunk_id": 61,
+      "text": "must be set to false. This is a boolean with default value false. constrainBufferSizes public Parameter constrainBufferSizes If true, then buffer sizes are fixed according to the schedule, and attempts to write to the buffer that cause the buf"
+    },
+    {
+      "chunk_id": 62,
+      "text": "attempts to write to the buffer that cause the buffer to exceed the schedule size result in an exception. This method works by setting the capacity of the receivers if the value is true. This parameter is a boolean that defaults to true. iterat"
+    },
+    {
+      "chunk_id": 63,
+      "text": "rameter is a boolean that defaults to true. iterations public Parameter iterations A Parameter representing the number of times that postfire may be called before it returns false. If the value is less than or equal to zero, then the execution w"
+    },
+    {
+      "chunk_id": 64,
+      "text": "less than or equal to zero, then the execution will never return false in postfire, and thus the execution can continue forever. Note that the amount of data processed by the SDF model is a function of both this parameter and the value of par"
+    },
+    {
+      "chunk_id": 65,
+      "text": "tion of both this parameter and the value of parameter vectorizationFactor , since vectorizationFactor can influence the choice of schedule. The default value is an IntToken with the value zero. period public Parameter period The time period of e"
+    },
+    {
+      "chunk_id": 66,
+      "text": "eriod public Parameter period The time period of each iteration. This parameter has type double and default value 0.0, which means that this director does not increment model time and does not request firings by calling fireAt() on any enclosi"
+    },
+    {
+      "chunk_id": 67,
+      "text": "quest firings by calling fireAt() on any enclosing director. If the value is set to something greater than 0.0, then if this director is at the top level, it will increment model time by the specified amount in its postfire() method. If it i"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ecified amount in its postfire() method. If it is not at the top level, then it will call fireAt() on the enclosing executive director with the argument being the current time plus the specified period. synchronizeToRealTime public Parameter"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ed period. synchronizeToRealTime public Parameter synchronizeToRealTime Specify whether the execution should synchronize to the real time. This parameter has type boolean and defaults to false. If set to true, then this director stalls in the p"
+    },
+    {
+      "chunk_id": 70,
+      "text": "set to true, then this director stalls in the prefire() method until the elapsed real real time matches the product of the period parameter value and the iteration count. If the period parameter has value 0.0 (the default), then changing thi"
+    },
+    {
+      "chunk_id": 71,
+      "text": "r has value 0.0 (the default), then changing this parameter to true has no effect. vectorizationFactor public Parameter vectorizationFactor A Parameter representing the requested vectorization factor. The director will attempt to construct a sc"
+    },
+    {
+      "chunk_id": 72,
+      "text": "tor. The director will attempt to construct a schedule where each actor fires vectorizationFactor times more often than it would in a minimal schedule. This can allow actor executions to be grouped together, resulting in faster execution. T"
+    },
+    {
+      "chunk_id": 73,
+      "text": "rouped together, resulting in faster execution. This is more likely to be possible in graphs without tight feedback. This parameter must be a positive integer. The default value is an IntToken with the value one. _iterationCount protected int"
+    },
+    {
+      "chunk_id": 74,
+      "text": "with the value one. _iterationCount protected int _iterationCount The iteration count. Constructor Detail SDFDirector public SDFDirector () throws IllegalActionException , NameDuplicationException Construct a director in the default works"
+    },
+    {
+      "chunk_id": 75,
+      "text": "xception Construct a director in the default workspace with an empty string as its name. The director is added to the list of objects in the workspace. Increment the version number of the workspace. The SDFDirector will have a default schedule"
+    },
+    {
+      "chunk_id": 76,
+      "text": "e. The SDFDirector will have a default scheduler of type SDFScheduler. Throws: IllegalActionException - If the name has a period in it, or the director is not compatible with the specified container. NameDuplicationException - If the container"
+    },
+    {
+      "chunk_id": 77,
+      "text": "iner. NameDuplicationException - If the container already contains an entity with the specified name. SDFDirector public SDFDirector ( Workspace workspace) throws IllegalActionException , NameDuplicationException Construct a director i"
+    },
+    {
+      "chunk_id": 78,
+      "text": ", NameDuplicationException Construct a director in the workspace with an empty name. The director is added to the list of objects in the workspace. Increment the version number of the workspace. The SDFDirector will have a default scheduler o"
+    },
+    {
+      "chunk_id": 79,
+      "text": "The SDFDirector will have a default scheduler of type SDFScheduler. Parameters: workspace - The workspace for this object. Throws: IllegalActionException - If the name has a period in it, or the director is not compatible with the specified con"
+    },
+    {
+      "chunk_id": 80,
+      "text": "director is not compatible with the specified container. NameDuplicationException - If the container already contains an entity with the specified name. SDFDirector public SDFDirector ( CompositeEntity container, java.lang.Stri"
+    },
+    {
+      "chunk_id": 81,
+      "text": "ntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct a director in the given container with the given name. The container argument must not be null, or a NullPoi"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ontainer argument must not be null, or a NullPointerException will be thrown. If the name argument is null, then the name is set to the empty string. Increment the version number of the workspace. The SDFDirector will have a default schedule"
+    },
+    {
+      "chunk_id": 83,
+      "text": "e. The SDFDirector will have a default scheduler of type SDFScheduler. Parameters: container - Container of the director. name - Name of this director. Throws: IllegalActionException - If the director is not compatible with the specified con"
+    },
+    {
+      "chunk_id": 84,
+      "text": "rector is not compatible with the specified container. May be thrown in a derived class. NameDuplicationException - If the container is not a CompositeActor and the name collides with an entity in the container. Method Detail attributeChanged"
+    },
+    {
+      "chunk_id": 85,
+      "text": "in the container. Method Detail attributeChanged public void attributeChanged ( Attribute attribute) throws IllegalActionException React to a change in an attribute. If the changed attribute matches a parameter of the directo"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ged attribute matches a parameter of the director, then the corresponding local copy of the parameter value will be updated. Overrides: attributeChanged in class Director Parameters: attribute - The changed parameter. Throws: IllegalActionExcepti"
+    },
+    {
+      "chunk_id": 87,
+      "text": "he changed parameter. Throws: IllegalActionException - If the parameter set is not valid. getModelNextIterationTime public Time getModelNextIterationTime () Return the time value of the next iteration. If this director is at the top level, then the"
+    },
+    {
+      "chunk_id": 88,
+      "text": ". If this director is at the top level, then the returned value is the current time plus the period. Otherwise, this method delegates to the executive director. Overrides: getModelNextIterationTime in class Director Returns: The time of the nex"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ime in class Director Returns: The time of the next iteration. See Also: Director.getModelTime() initialize public void initialize () throws IllegalActionException Initialize the actors associated with this director and then set the"
+    },
+    {
+      "chunk_id": 90,
+      "text": "s associated with this director and then set the iteration count to zero. The order in which the actors are initialized is arbitrary. In addition, if actors connected directly to output ports have initial production, then copy that initial"
+    },
+    {
+      "chunk_id": 91,
+      "text": "have initial production, then copy that initial production to the outside of the composite actor. Specified by: initialize in interface Executable Overrides: initialize in class Director Throws: IllegalActionException - If the initialize() method"
+    },
+    {
+      "chunk_id": 92,
+      "text": "llegalActionException - If the initialize() method of one of the associated actors throws it, or if there is no scheduler. newReceiver public Receiver newReceiver () Return a new receiver consistent with the SDF domain. Overrides: newReceiver in"
+    },
+    {
+      "chunk_id": 93,
+      "text": "nt with the SDF domain. Overrides: newReceiver in class Director Returns: A new SDFReceiver. prefire public boolean prefire () throws IllegalActionException Check the input ports of the container composite actor (if there are any) t"
+    },
+    {
+      "chunk_id": 94,
+      "text": "e container composite actor (if there are any) to see whether they have enough tokens, and return true if they do. If there are no input ports, then also return true. Otherwise, return false. Note that this does not call prefire() on the co"
+    },
+    {
+      "chunk_id": 95,
+      "text": "Note that this does not call prefire() on the contained actors. Specified by: prefire in interface Executable Overrides: prefire in class StaticSchedulingDirector Returns: true If all of the input ports of the container of this director have enou"
+    },
+    {
+      "chunk_id": 96,
+      "text": "orts of the container of this director have enough tokens. Throws: IllegalActionException - If port methods throw it. preinitialize public void preinitialize () throws IllegalActionException Preinitialize the actors associated wi"
+    },
+    {
+      "chunk_id": 97,
+      "text": "onException Preinitialize the actors associated with this director and compute the schedule. The schedule is computed during preinitialization so that hierarchical opaque composite actors can be scheduled properly, since the act of computing t"
+    },
+    {
+      "chunk_id": 98,
+      "text": "e scheduled properly, since the act of computing the schedule sets the rate parameters of the external ports. In addition, performing scheduling during preinitialization enables it to be present during code generation. The order in which th"
+    },
+    {
+      "chunk_id": 99,
+      "text": "t during code generation. The order in which the actors are preinitialized is arbitrary. Specified by: preinitialize in interface Executable Overrides: preinitialize in class Director Throws: IllegalActionException - If the preinitialize() method"
+    },
+    {
+      "chunk_id": 100,
+      "text": "alActionException - If the preinitialize() method of one of the associated actors throws it. postfire public boolean postfire () throws IllegalActionException Return false if the system has finished executing, either by reaching"
+    },
+    {
+      "chunk_id": 101,
+      "text": "stem has finished executing, either by reaching the iteration limit, or having an actor in the system return false in postfire. Increment the number of iterations. If the \"iterations\" parameter is greater than zero, then see if the limit has"
+    },
+    {
+      "chunk_id": 102,
+      "text": "is greater than zero, then see if the limit has been reached. If so, return false. Otherwise return true if all of the fired actors since the last call to prefire returned true. If the period parameter is greater than 0.0, then if this di"
+    },
+    {
+      "chunk_id": 103,
+      "text": "d parameter is greater than 0.0, then if this director is at the top level, then increment time by the specified period, and otherwise request a refiring at the current time plus the period. Specified by: postfire in interface Executable Overri"
+    },
+    {
+      "chunk_id": 104,
+      "text": "cified by: postfire in interface Executable Overrides: postfire in class StaticSchedulingDirector Returns: True if the Director wants to be fired again in the future. Throws: IllegalActionException - If the iterations parameter does not contain a"
+    },
+    {
+      "chunk_id": 105,
+      "text": "- If the iterations parameter does not contain a legal value. suggestedModalModelDirectors public java.lang.String[] suggestedModalModelDirectors () Return an array of suggested ModalModel directors to use with SDFDirector. The default director"
+    },
+    {
+      "chunk_id": 106,
+      "text": "to use with SDFDirector. The default director is HDFFSMDirector, which supports multirate actors and only allows state transitions on each iteration. This is the most safe director to use with SDF models. MultirateFSMDirector supports multi"
+    },
+    {
+      "chunk_id": 107,
+      "text": "SDF models. MultirateFSMDirector supports multirate actors and allows state transitions on each firing of the modal model. MultirateFSMDirector can be used with SDF if rate signatures for all the states in the modal model are same. If rate s"
+    },
+    {
+      "chunk_id": 108,
+      "text": "he states in the modal model are same. If rate signatures change during an iteration, the SDFDirector will throw an exception. FSMDirector can be used with SDFDirector only when rate signatures for modal model are all 1. Overrides: suggestedM"
+    },
+    {
+      "chunk_id": 109,
+      "text": "for modal model are all 1. Overrides: suggestedModalModelDirectors in class Director Returns: An array of suggested directors to be used with ModalModel. See Also: Director.suggestedModalModelDirectors() supportMultirateFiring public boolean suppor"
+    },
+    {
+      "chunk_id": 110,
+      "text": "ors() supportMultirateFiring public boolean supportMultirateFiring () Return true to indicate that a ModalModel under control of this director supports multirate firing. Overrides: supportMultirateFiring in class Director Returns: True indicating a"
+    },
+    {
+      "chunk_id": 111,
+      "text": "iring in class Director Returns: True indicating a ModalModel under control of this director supports multirate firing. transferInputs public boolean transferInputs ( IOPort port) throws IllegalActionException Override the ba"
+    },
+    {
+      "chunk_id": 112,
+      "text": "throws IllegalActionException Override the base class method to transfer enough tokens to complete an internal iteration. If there are not enough tokens, then throw an exception. If the port is not connected on the inside, or has a narro"
+    },
+    {
+      "chunk_id": 113,
+      "text": "t is not connected on the inside, or has a narrower width on the inside than on the outside, then consume exactly one token from the corresponding outside channels and discard it. Thus, a port connected on the outside but not on the inside c"
+    },
+    {
+      "chunk_id": 114,
+      "text": "connected on the outside but not on the inside can be used as a trigger for an SDF composite actor. Overrides: transferInputs in class Director Parameters: port - The port to transfer tokens from. Returns: True if data are transferred. Throws: Il"
+    },
+    {
+      "chunk_id": 115,
+      "text": "Returns: True if data are transferred. Throws: IllegalActionException - If the port is not an opaque input port, or if there are not enough input tokens available. transferOutputs public boolean transferOutputs ( IOPort port)"
+    },
+    {
+      "chunk_id": 116,
+      "text": "ransferOutputs ( IOPort port) throws IllegalActionException Override the base class method to transfer enough tokens to fulfill the output production rate. This behavior is required to handle the case of non-homogeneous"
+    },
+    {
+      "chunk_id": 117,
+      "text": "required to handle the case of non-homogeneous opaque composite actors. The port argument must be an opaque output port. If any channel of the output port has no data, then that channel is ignored. Overrides: transferOutputs in class Director"
+    },
+    {
+      "chunk_id": 118,
+      "text": "red. Overrides: transferOutputs in class Director Parameters: port - The port to transfer tokens from. Returns: True if data are transferred. Throws: IllegalActionException - If the port is not an opaque output port. Overview Package Class Tree De"
+    },
+    {
+      "chunk_id": 119,
+      "text": "que output port. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

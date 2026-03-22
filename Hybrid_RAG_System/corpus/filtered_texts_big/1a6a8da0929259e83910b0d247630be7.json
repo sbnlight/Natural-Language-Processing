@@ -1,0 +1,101 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/design/usingVergil/usingVergila9.htm",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "s notion of higher-order components appeared in Ptolemy Classic and is described in [88], but the realization in Ptolemy II is more flexible than that in Ptolemy Classic. These higher-order components help significantly in building large designs wher"
+    },
+    {
+      "chunk_id": 14,
+      "text": "arameter of the InstanceOfChannel actor in figure 2.45 depend on instance . E.g., set it to \"instance * 0.1 \" and then set nInstances to 1. You will see a clean sine wave when you run the model. 2.8.2 IterateOverArray The implementation of the Chan"
+    },
+    {
+      "chunk_id": 15,
+      "text": "IterateOverArray The implementation of the Channel class, which is shown in figure 2.42 , happens to not have any state, meaning that an invocation of the Channel model does not depend on data calculated in a previous invocation. As a consequence,"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ulated in a previous invocation. As a consequence, it is not really necessary to use n distinct instances of the Channel class to realize a diversity communication system. A single instance could be invoked n times on n copies of the data. We can do"
+    },
+    {
+      "chunk_id": 17,
+      "text": "nvoked n times on n copies of the data. We can do this using the IterateOverArray higher-order actor. The IterateOverArray actor can be used in a manner similar to how we used the MultiInstanceComposite in the previous section. That is, we can popula"
+    },
+    {
+      "chunk_id": 18,
+      "text": "te in the previous section. That is, we can populate it with an instance of the Channel class, similar to figure 2.45 . Just like the MultiInstanceComposite, the IterateOverArray actor requires a director inside. An implementation is shown in figure"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ctor inside. An implementation is shown in figure 2.47 . Notice that in the top-level model, instead of using a relation to broadcast the input to multiple instances of the channel, we create an array with multiple copies of the channel input. This i"
+    },
+    {
+      "chunk_id": 20,
+      "text": "with multiple copies of the channel input. This is done using a combination of the Repeat actor (found in the FlowControl library, SequenceControl sublibrary) and the SequenceToArray actor (found in the Array library). The Repeat actor has a single"
+    },
+    {
+      "chunk_id": 21,
+      "text": "the Array library). The Repeat actor has a single parameter, numberOfTimes , which in figure 2.47 we have set equal to the value of the diversity parameter that we have added to the model. The SequenceToArray actor has a parameter arrayLength that we"
+    },
+    {
+      "chunk_id": 22,
+      "text": "eToArray actor has a parameter arrayLength that we have also set equal to diversity (this parameter, interestingly, can also be set via the arrayLength port, which is filled in gray to indicate that it is both parameter and a port). The output is sen"
+    },
+    {
+      "chunk_id": 23,
+      "text": "t is both parameter and a port). The output is sent to an ArrayAverage actor, also found in the Array library. The execution of the model in figure 2.47 is similar to that of the model in figure 2.45 , except that the scale of the output is different"
+    },
+    {
+      "chunk_id": 24,
+      "text": ", except that the scale of the output is different, reflecting the fact that the output is an average rather than a sum. The IterateOverArray actor also supports dropping into it an actor by dropping the actor onto its icon. The actor can be either a"
+    },
+    {
+      "chunk_id": 25,
+      "text": "the actor onto its icon. The actor can be either an atomic library actor or a composite actor (although if it is composite actor, it is required to have a director). This mechanism is illustrated in figure 2.48 . When an actor is dragged from the lib"
+    },
+    {
+      "chunk_id": 26,
+      "text": "igure 2.48 . When an actor is dragged from the library, when it is dragged over the IterateOverArray actor, the icon acquires a white halo, suggesting that if the actor is dropped, it will be dropped into the actor under the cursor, rather than onto"
+    },
+    {
+      "chunk_id": 27,
+      "text": "into the actor under the cursor, rather than onto the model containing that actor. When you look inside the IterateOverArray actor after doing this, you will see the class definition. Add an SDFDirector to it before executing it. 2.8.3 Mobile Code"
+    },
+    {
+      "chunk_id": 28,
+      "text": "or to it before executing it. 2.8.3 Mobile Code A pair of (still experimental) actors in Ptolemy II support mobile code in two forms. The MobileFunction actor accepts a function in the expression language (see the Expression Language chapter) at on"
+    },
+    {
+      "chunk_id": 29,
+      "text": "nguage (see the Expression Language chapter) at one input port and applies that function to data that arrives at the other input port. The MobileModel actor accepts a MoML description of a Ptolemy II model at an input port and then executes that mode"
+    },
+    {
+      "chunk_id": 30,
+      "text": "model at an input port and then executes that model, streaming data from the other input port through it. A use of the MobileFunction actor is shown in figure 2.49 . In that model, two functions are provided to the MobileFunction in an alternating fa"
+    },
+    {
+      "chunk_id": 31,
+      "text": "rovided to the MobileFunction in an alternating fashion, one that computes and the other that computes . These two functions are provided by two instances of the Const actor, found in Sources, GenericSources. The functions are interleaved by the Comm"
+    },
+    {
+      "chunk_id": 32,
+      "text": "Sources. The functions are interleaved by the Commutator actor, from FlowControl, Aggregators. 2.8.4 Lifecycle Management Actors A few actors in the HigherOrderActors library provide in a single firing the entire execution of another Ptolemy II mod"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ing the entire execution of another Ptolemy II model. The RunCompositeActor actor executes the contained model. The ModelReference actor executes a model that is defined elsewhere in its own file or URL. The VisualModelReference actor opens a Vergil"
+    },
+    {
+      "chunk_id": 34,
+      "text": "RL. The VisualModelReference actor opens a Vergil view of a referenced model when it executes a referenced model. These actors generally associate ports (that the user of the actor creates) with parameters of the referenced or contained model. They c"
+    },
+    {
+      "chunk_id": 35,
+      "text": "eters of the referenced or contained model. They can be used, for example, to create models that repeatedly run other models with varying parameter values. See the documentation of the actors and the demonstrations in the quick tour for more details."
+    },
+    {
+      "chunk_id": 36,
+      "text": "demonstrations in the quick tour for more details. 1 The MultiInstanceComposite actor was contributed to the Ptolemy II code base by Zoltan Kemenczy and Sean Simmons, of Research In Motion Limited."
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/Testing",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / Testing Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / Testing This page describes the goals of the Accessor regression t"
+    },
+    {
+      "chunk_id": 2,
+      "text": "e describes the goals of the Accessor regression testing framework, the testing status of different hosts, and philosophies for creating test doubles for outside resources (physical things or web services). Regression Test Summary To run all the test"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ices). Regression Test Summary To run all the tests, run cd accessors / web ant tests [$[Get Code]] To see what tests are available: cd accessors / web ant -p [$[Get Code]] Note that each of the accessor hosts has a separate ant target. So, to run t"
+    },
+    {
+      "chunk_id": 4,
+      "text": "sor hosts has a separate ant target. So, to run the tests for just one target: cd accessors / web ant tests.mocha [$[Get Code]] The above uses Mocha to test the Node host. A good policy is to run the tests before you do any work, then make your chan"
+    },
+    {
+      "chunk_id": 5,
+      "text": "tests before you do any work, then make your changes, then run the tests again. Test Results Jenkins accessors Jenkins site Code Coverage ( Notes ) ptIIci Jenkins site - runs the Cape Code tests CapeCodeInstaller - Created a Cape Code Host installer"
+    },
+    {
+      "chunk_id": 6,
+      "text": "CodeInstaller - Created a Cape Code Host installer and runs the tests. Library Status ( Notes ) (Uses the output of the accessor Jenkins page and the ptII Jenkins page. Coverity See Coverity Scan for static analysis indicating possible errors. The $"
+    },
+    {
+      "chunk_id": 7,
+      "text": "static analysis indicating possible errors. The $PTII/adm/bin/coverityAccessors script is invoked as part of the ptII Jenkins build . In particular, $PTII/adm/bin/Coverity.tcl invokes make coverity in $PTII/adm/gen-11.0 . The makefile has this rul"
+    },
+    {
+      "chunk_id": 8,
+      "text": "in $PTII/adm/gen-11.0 . The makefile has this rule: coverity : ( cd $ ( PTIIHOME ) ; adm / bin / coverity ) ( cd $ ( PTIIHOME ) ; adm / bin / coverityAccessors ) [$[Get Code]] Note that Coverity reports EXPLICIT_THIS_EXPECTED because the setTimeout"
+    },
+    {
+      "chunk_id": 9,
+      "text": "rts EXPLICIT_THIS_EXPECTED because the setTimeout implementation for the Duktape Host uses this. However, we can't seem to exclude this using the Coverity exclusion settings. See To Do List -> General Ports When writing network demos and tests, avo"
+    },
+    {
+      "chunk_id": 10,
+      "text": "al Ports When writing network demos and tests, avoid using port 8080 because on the nightly build machine, that port on tis used by the Jenkins web server. Instead, use 8089 , or 8091 and above. It is best if Cape Code demos avoid 8080 because one"
+    },
+    {
+      "chunk_id": 11,
+      "text": "is best if Cape Code demos avoid 8080 because one of the tests exports HTML, which by default runs the model. To see what ports are occupied on terra, use nmap : [ cxh @ terra ~ ] $ nmap terra.eecs.berkeley.edu Starting Nmap 5.51 ( http: // nmap.org"
+    },
+    {
+      "chunk_id": 12,
+      "text": "rkeley.edu Starting Nmap 5.51 ( http: // nmap.org ) at 2017 -08-06 04: 35 PDT Nmap scan report for terra.eecs.berkeley.edu ( 128.32.48.223 ) Host is up ( 0.00023s latency ) . rDNS record for 128.32.48.223: terra.EECS.Berkeley.EDU Not shown: 991 close"
+    },
+    {
+      "chunk_id": 13,
+      "text": ".223: terra.EECS.Berkeley.EDU Not shown: 991 closed ports PORT STATE SERVICE 22 / tcp open ssh 111 / tcp open rpcbind 3306 / tcp open mysql 6000 / tcp open X11 6001 / tcp open X11: 1 6003 / tcp open X11: 3 8080 / tcp open http-proxy 8088"
+    },
+    {
+      "chunk_id": 14,
+      "text": "tcp open X11: 3 8080 / tcp open http-proxy 8088 / tcp open radan-http 8090 / tcp open unknown Nmap done: 1 IP address ( 1 host up ) scanned in 0.06 seconds [ cxh @ terra ~ ] $ [$[Get Code]] In the above, the ports 8080 , 8088 and 8089 have serve"
+    },
+    {
+      "chunk_id": 15,
+      "text": "e above, the ports 8080 , 8088 and 8089 have servers running on them and should probably not be used in demos. Directory Structure accessors/web/test/ contains test accessors accessors/web/test/auto/ contains test Composite Accessors that should be r"
+    },
+    {
+      "chunk_id": 16,
+      "text": "contains test Composite Accessors that should be run by each of the accessor hosts Each of the accessors should contain a test/auto directory that contains Composite Accessors for that accessor. See Cape Code Host -> Code Generation for directory inf"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ape Code Host -> Code Generation for directory information. Goals When possible, we use Composite Accessors for testing. The reason is because if an accessor host implements a module, then it should be able to execute an CompositeAccessor These Comp"
+    },
+    {
+      "chunk_id": 18,
+      "text": "be able to execute an CompositeAccessor These Composite Accessors should probably reside in test/auto/ directories in the Accessor declaration directories. For example accessors/web/net/test/auto/WebSocketClientJS.js There are generic Composite Acce"
+    },
+    {
+      "chunk_id": 19,
+      "text": "SocketClientJS.js There are generic Composite Accessor tests located in accessors/web/test/auto . All accessor hosts should be able to run these. Functionality that does not require a module can be implemented as JavaScript that are not accessors. A"
+    },
+    {
+      "chunk_id": 20,
+      "text": "mplemented as JavaScript that are not accessors. A simple Ramp function that compares inputs with known good inputs is such an actor However, accessor/web/test/TrainableTest.js is an accessor because it is complex. Composite Accessors can include all"
+    },
+    {
+      "chunk_id": 21,
+      "text": "it is complex. Composite Accessors can include all the code for facilities like the Test function It might be nice if we had one common shared location for facilities like the Test function We would like to be able to use the Coverity Scan static ana"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ike to be able to use the Coverity Scan static analyzer on this JavaScript. If the functionality is in .js files, then it is easy. If the functionality is in MoML files, then we need to have a step that exports the functionality to .js files. It sh"
+    },
+    {
+      "chunk_id": 23,
+      "text": "that exports the functionality to .js files. It should be possible to run the tests using ant from the accessors/web/ directory. Cape Code tests are run from the ptII tree. In the accessors repo, to run just the Cape Code tests, use ant tests.capecod"
+    },
+    {
+      "chunk_id": 24,
+      "text": "un just the Cape Code tests, use ant tests.capecode To run a test by hand using the Nashorn Host , use cd $PTII / org / terraswarm / accessor / accessors / web / hosts / nashorn . / nashornAccessorHost test / auto / RampJSTestDisplay [$[Get Code]] Br"
+    },
+    {
+      "chunk_id": 25,
+      "text": "t test / auto / RampJSTestDisplay [$[Get Code]] Browser host ant tests.browser invokes the tests on the Browser Host. We have a prototype of this for duktape and node The output should be in the JUnit format so that we can view the results in Jenkins"
+    },
+    {
+      "chunk_id": 26,
+      "text": "format so that we can view the results in Jenkins Browser: already does this Cape Code: already does this for Ptolemy models. Could easily do it for Composite Accessors Duktape: ToDo: Does not generate JUnit output . Node: already does this Browser"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ate JUnit output . Node: already does this Browser Browser Host https://ptolemy.berkeley.edu/accessors/hosts/browser/test/index.html - web pages with tests Regression Testing is available. Browser Host To Do Seems to be working Cape Code Cape Code Ho"
+    },
+    {
+      "chunk_id": 28,
+      "text": "t To Do Seems to be working Cape Code Cape Code Host Cape Code uses Ptolemy II. To test the accessors, we create Ptolemy II models that are placed in test/auto/ directories. When the nightly build runs, an ant rules in $PTII/build.xml invoke the ma"
+    },
+    {
+      "chunk_id": 29,
+      "text": "uns, an ant rules in $PTII/build.xml invoke the make, which run the models. CapeCode has the following auto/ directories: bash-3.2$ find $PTII/ptolemy/actor/lib/jjs -name auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/audio/test/auto /Users/cxh/p"
+    },
+    {
+      "chunk_id": 30,
+      "text": "actor/lib/jjs/modules/audio/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/contextAware/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/discovery/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/eventbus/test/auto /Users/cxh/p"
+    },
+    {
+      "chunk_id": 31,
+      "text": "or/lib/jjs/modules/eventbus/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/gdp/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/httpClient/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/mapManager/test/auto /Users/cxh/ptII/pt"
+    },
+    {
+      "chunk_id": 32,
+      "text": "js/modules/mapManager/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/objectAssign/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/serial/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/shell/test/auto /Users/cxh/ptII/ptolemy/"
+    },
+    {
+      "chunk_id": 33,
+      "text": "s/modules/shell/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/socket/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/udpSocket/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/webSocket/test/auto /Users/cxh/ptII/ptolemy/actor"
+    },
+    {
+      "chunk_id": 34,
+      "text": "/webSocket/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/xbee/test/auto /Users/cxh/ptII/ptolemy/actor/lib/jjs/test/auto bash-3.2$ find $PTII/org/terraswarm/accessor -name auto /Users/cxh/ptII/org/terraswarm/accessor/test/auto bash-3.2$ [$[G"
+    },
+    {
+      "chunk_id": 35,
+      "text": "I/org/terraswarm/accessor/test/auto bash-3.2$ [$[Get Code]] Most of the Cape Code test models are Ptolemy models that include Ptolemy actors that are neither JavaScript nor JSAccessor actors, so these models are not composite accessors that can be ru"
+    },
+    {
+      "chunk_id": 36,
+      "text": "models are not composite accessors that can be run in other hosts See Cape Code Host -> Code Generation for how to create a composite accessor for testing with Node and where to put it. $PTII/ptolemy/cg/kernel/generic/accessor/test/auto contains Pto"
+    },
+    {
+      "chunk_id": 37,
+      "text": "/cg/kernel/generic/accessor/test/auto contains Ptolemy models can be used to create composite accessors To run the Cape Code tests: cd $PTII ; ant test.capecode [$[Get Code]] or cd $PTII / ptolemy / actor / lib / jjs; make tests cd $PTII / org / terr"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ctor / lib / jjs; make tests cd $PTII / org / terraswarm / accessor / test ; make [$[Get Code]] ptIIci Jenkins site - runs the Cape Code tests Cape Code Host To Do It would probably be helpful to use Cape Code to create Ptolemy models from which we c"
+    },
+    {
+      "chunk_id": 39,
+      "text": "Cape Code to create Ptolemy models from which we can generate accessors. The accessors should probably be placed in the subdirectory of the accessor declaration in the accessors repo. In this way, we can build up a set of acceptance tests. The diffe"
+    },
+    {
+      "chunk_id": 40,
+      "text": "can build up a set of acceptance tests. The different hosts should be able to run these tests automatically. The directory could be named auto/ Question: Should we include the Cape Code model in the auto/ directory in the accessors repo? Should we"
+    },
+    {
+      "chunk_id": 41,
+      "text": "auto/ directory in the accessors repo? Should we include the JUnit infrastructure also in the accessor repo? Or, should the Cape Code model be in the $PTII/ptolemy/cg/... ? If it is in cg, we should probably mimic the accessor layout Duktape Host Du"
+    },
+    {
+      "chunk_id": 42,
+      "text": "probably mimic the accessor layout Duktape Host Duktape Host accessors/web/hosts/duktape/test/ contains .js files that can be invoked from the command line or with (cd accessors/web; ant test.duktape) Duktape Host To Do Convert the output into JUnit"
+    },
+    {
+      "chunk_id": 43,
+      "text": "Duktape Host To Do Convert the output into JUnit compatible output Node Host Node Host Node Host Testing web/hosts/node/test/ - A couple of .js tests web/hosts/node/test/mocha/ - Mocha tests that can be run using (cd accessors/web; ant tests.mocha)"
+    },
+    {
+      "chunk_id": 44,
+      "text": "be run using (cd accessors/web; ant tests.mocha) . These tests are run as part of the nightly build and generate JUnit-compatible output in http://terra.eecs.berkeley.edu:8080/job/ptII/lastCompletedBuild/testReport/%28root%29/ Node Host To Do See To"
+    },
+    {
+      "chunk_id": 45,
+      "text": "uild/testReport/%28root%29/ Node Host To Do See Todo List -> Node Node Host Code Coverage http://terra.eecs.berkeley.edu:8080/job/accessors/Code_Coverage/ displays the code coverage of the Node Host tests. To generate the coverage data and view it on"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ests. To generate the coverage data and view it on your machine: cd accessors / web ant tests.coverage open coverage / index.html [$[Get Code]] How we generate code coverage data for the Node Host is that we use the Istanbul nyc node module. One tric"
+    },
+    {
+      "chunk_id": 47,
+      "text": "that we use the Istanbul nyc node module. One tricky thing is that as we want code coverage for the packages that we wrote that are in node_modules , we need to tell Istanbul nyc to not exclude node_modules . Unfortunately, Istanbul nyc seems slight"
+    },
+    {
+      "chunk_id": 48,
+      "text": "odules . Unfortunately, Istanbul nyc seems slightly broken, but if we add --exclude='!**/node_modules/**' to the command line arguments, the we can get coverage for the node_modules directories. Unfortunately, we also get coverage for subdirectorie"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ortunately, we also get coverage for subdirectories that we don't really care about. Test Doubles Gerard Meszaros and Martin Fowler define a test double as \"the generic term for any kind of pretend object used in place of a real object for testing pu"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ject used in place of a real object for testing purposes\". Three relevant kinds of test doubles are: Fake objects \"actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory datab"
+    },
+    {
+      "chunk_id": 51,
+      "text": "em not suitable for production (an in memory database is a good example).\" A fake is used in place of an accessor, simulating the behavior of a resource without requiring a resource API. Fake and are useful if the resource's API is still changing o"
+    },
+    {
+      "chunk_id": 52,
+      "text": "e useful if the resource's API is still changing or unknown. Mocks are \"...objects pre-programmed with expectations which form a specification of the calls they are expected to receive.\" Mocks are used in conjunction with an existing accessor. The"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ed in conjunction with an existing accessor. The mock object intercepts API calls to the resource and returns responses. Stubs \"provide canned answers to calls made during the test, usually not responding at all to anything outside what's programmed"
+    },
+    {
+      "chunk_id": 54,
+      "text": "nding at all to anything outside what's programmed in for the test. Stubs may also record information about calls, such as an email gateway stub that remembers the messages it 'sent', or maybe only how many messages it 'sent'.\" Stubs provide record"
+    },
+    {
+      "chunk_id": 55,
+      "text": "w many messages it 'sent'.\" Stubs provide record / playback testing. They may be unsuitable for stateful resources. Actors That Support Test Doubles. Camera SerialPort See Also Accessor Demo Policy - demo naming and placement conventions Directory"
+    }
+  ]
+}

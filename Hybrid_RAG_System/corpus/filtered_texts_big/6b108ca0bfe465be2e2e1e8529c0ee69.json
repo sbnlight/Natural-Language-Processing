@@ -1,0 +1,185 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/~cxh/java/jaclapplet/index.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Jacl Applets Jacl Applets Jacl is a 100% Java implementation of a subset of Tcl. For more information about Jacl and Tcl Blend, see http://ptolemy.eecs.berkeley.edu/~cxh/java/tclblend Below are a few Jacl Applets. These code for these applets is fai"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Jacl Applets. These code for these applets is fairly rough, but shows some of the promise and the limitations in Jacl. The source code for these applets is available in jaclapplet.tar.gz . Jacl Applet - Initial attempt. Look in the Java console of"
+    },
+    {
+      "chunk_id": 3,
+      "text": "t - Initial attempt. Look in the Java console of your browser for the results. Hello Tcl - Sources a Tcl file. Simple Tcl Shell - Provides a first cut at a Tcl shell Tcl Shell - Tcl Shell Component in an applet Embedding a Tcl Shell in another Jav"
+    },
+    {
+      "chunk_id": 4,
+      "text": "in an applet Embedding a Tcl Shell in another Java Application One of the original purposes of Tcl was to provide a scripting language for larger applications. The TclShell.java class provides an interactive Tcl Shell that can be embedded in a Java"
+    },
+    {
+      "chunk_id": 5,
+      "text": "teractive Tcl Shell that can be embedded in a Java application. TclShell extends the Java Panel Component and uses Jacl to provide the Tcl backend. Below is how we embedded TclShell in a preexisting Plotter Java application called Ptplot Copied TclSh"
+    },
+    {
+      "chunk_id": 6,
+      "text": "lotter Java application called Ptplot Copied TclShell.java to the ptplot directory and added package pt.plot; to the top. Added TclShell.java to the makefile . Added jacl.jar to the CLASSPATH in the makefile . In Ptplot, the Pxgraph class contains a"
+    },
+    {
+      "chunk_id": 7,
+      "text": "akefile . In Ptplot, the Pxgraph class contains a method _makeButtons , so we added a button labeled Tcl Prompt which calls the method _tclPrompt() when it is depressed. _tclPrompt() looks like: private void _tclPrompt() { TclShell tclShell ="
+    },
+    {
+      "chunk_id": 8,
+      "text": "te void _tclPrompt() { TclShell tclShell = new TclShell(); Frame shellFrame = new Frame(); shellFrame.pack(); shellFrame.resize(200,200); shellFrame.add(tclShell); tclShell.init(); shellFrame.s"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ll); tclShell.init(); shellFrame.show(); } Compiled Pxgraph.java and TclShell.java . pxgraph is a shell script calls java with the appropriate arguments, including the proper classpath, so we added the complete path to jacl.jar t"
+    },
+    {
+      "chunk_id": 10,
+      "text": "path, so we added the complete path to jacl.jar to the classpath. When we run pxgraph , the following command is what is actually run: /usr/java/bin/java -classpath /users/cxh/pt/tycho/java:/users/ptdesign/tcltk/itcl/lib/jacl.jar:/usr/java/lib/class"
+    },
+    {
+      "chunk_id": 11,
+      "text": "design/tcltk/itcl/lib/jacl.jar:/usr/java/lib/classes.zip pt.plot.Pxgraph demo/data.plt After starting up pxgraph and hitting the Tcl Prompt button, the TclShell console appears. We can then create a plot of a sample file with: set argv [java::new {St"
+    },
+    {
+      "chunk_id": 12,
+      "text": "lot of a sample file with: set argv [java::new {String []} 1 \"demo/data.plt\"] set plotter [java::new pt.plot.Pxgraph $arg] To print all the properties: java::info properties $p To print one property java::prop $p title To set one property java::prop"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ava::prop $p title To set one property java::prop $p title \"This is my plot\" For other commands, see the java Tcl command man page Limitations The SunScript Jacl and Tcl Blend FAQ basically says that Jacl will not work in applets. These applets downl"
+    },
+    {
+      "chunk_id": 14,
+      "text": "Jacl will not work in applets. These applets download jacl.jar , which is about 550K-775K in size. If you are connected by a modem, you may want to avoid these applets. These applets may require a JDK1.1 compliant browser. If you see the following"
+    },
+    {
+      "chunk_id": 15,
+      "text": "DK1.1 compliant browser. If you see the following messages in your Netscape Java Console, then you don't have the JDK 1.1 patch installed. # Applet exception: error: java.lang.NoSuchMethodError: java.awt.TextArea: method (Ljava/lang/String;III)V"
+    },
+    {
+      "chunk_id": 16,
+      "text": ".awt.TextArea: method (Ljava/lang/String;III)V not found java.lang.NoSuchMethodError: java.awt.TextArea: method (Ljava/lang/S tring;III)V not found * at TclShell.init(TclShell.java:61) at TclShellApplet.init(TclShellApplet.j"
+    },
+    {
+      "chunk_id": 17,
+      "text": ":61) at TclShellApplet.init(TclShellApplet.java:112) at netscape.applet.DerivedAppletFrame.run(DerivedAppletFrame.java) at java.lang.Thread.run(Thread.java) The Tcl Shell applet is very raw: Multiline commands are not supported. Th"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ery raw: Multiline commands are not supported. The code in jacl1.0/src/java/tcl/lang/Shell.java could be used as a starting point. Backspacing over the prompt causes problems. The TextArea widget has platform dependent limitations about how much t"
+    },
+    {
+      "chunk_id": 19,
+      "text": "s platform dependent limitations about how much text it will hold. stdout and stderr go to the Java console instead of to the TextArea widget. There are bound to be other problems. The java::new command does not work from within the applet: jacl %"
+    },
+    {
+      "chunk_id": 20,
+      "text": "mand does not work from within the applet: jacl % java::new Integer TclException during eval of: java::new Integer Error was: cannot load new class into java or tcl package cannot load new class into java or tcl package while executing \"java::new"
+    },
+    {
+      "chunk_id": 21,
+      "text": "java or tcl package while executing \"java::new Integer\" jacl % This error comes from: getClassByName() in jacl1.0/src/common/tcl/lang/JavaInvoke.java The detail message for the thrown exception is: netscape.security.AppletSecurityException: secur"
+    },
+    {
+      "chunk_id": 22,
+      "text": ": netscape.security.AppletSecurityException: security.checkcreateclassloader Searching the Netscape for checkcreateclassloader returns the following link protected synchronized void checkCreateClassLoader(int callerDepth) Applets are not allowed to c"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ader(int callerDepth) Applets are not allowed to create class loaders, or even execute any of ClassLoader's methods. The name of this method should be changed to checkClassLoaderOperation or somesuch. Overrides: checkCreateClassLoader in class Securi"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Overrides: checkCreateClassLoader in class SecurityManager Ioi Lam suggested that the getClassByName errors can be worked around by calling Class.forName() from inside the catch block if everything else fails. Apparently, there are still problems wi"
+    },
+    {
+      "chunk_id": 25,
+      "text": "lse fails. Apparently, there are still problems with Netscape and Internet Exploer because the java reflection calls are not available. As workarounds, Ioi suggested installing Jacl as a local package or using Hot Java. Suggestions to the Jacl Develo"
+    },
+    {
+      "chunk_id": 26,
+      "text": "or using Hot Java. Suggestions to the Jacl Developers java package commands The java tcl commands, like java::new need to be made available in Jacl applets under Netscape and Internet Explorer. Perhaps this requires the use of certificates. Netscape"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ps this requires the use of certificates. Netscape4.04 Problems Be sure that Jacl will run as an applet in a vanilla Netscape4.04 without the JDK1.1 patch. Under Netscape4.04 without the JDK1.1 patch, the following messages appeared in the Java conso"
+    },
+    {
+      "chunk_id": 28,
+      "text": "the following messages appeared in the Java console when I attempted to run an applet that used Jacl: # Security Exception: checkResourceAccess security.checkResourceAccess # UniversalPropertyRead privilege not enabled: Reading information stored i"
+    },
+    {
+      "chunk_id": 29,
+      "text": "rivilege not enabled: Reading information stored in your computer, such as your user name netscape.security.AppletSecurityException: security.checkResourceAccess # UniversalPropertyRead privilege not enabled: Reading information stored in your compu"
+    },
+    {
+      "chunk_id": 30,
+      "text": "enabled: Reading information stored in your computer, such as your user name These problems are caused by doing things like System.getPropertyValue() . One fix for this would be to use certificates. Another fix is to install the JDK1.1 patch. I nev"
+    },
+    {
+      "chunk_id": 31,
+      "text": "Another fix is to install the JDK1.1 patch. I never did track down the cause of these errors, but Another fix is that catching SecurityException in jacl1.0/src/java/tcl/lang helped. Below is a diff: ------- Interp.java ------- *** /tmp/da001mz Wed"
+    },
+    {
+      "chunk_id": 33,
+      "text": "createCommands(); ! try { /* * Set up tcl_platform, tcl_version, tcl_library and other --- 356,368 ---- * Create the built-in commands. */ ! try { ! createCommands(); ! } catch (SecurityException e)"
+    },
+    {
+      "chunk_id": 34,
+      "text": "teCommands(); ! } catch (SecurityException e) { ! e.printStackTrace(); ! System.err.println(\"java/tcl/lang/Interp Interp(): CreateCommands: \" ! +e); ! } try { /* * Set up tcl_platform, tcl_version,"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ry { /* * Set up tcl_platform, tcl_version, tcl_library and other *************** *** 411,418 **** * Source the init.tcl script to initialize auto-loading. */ ! evalResource(\"/tcl/lang/library/init.tcl\"); ! } catch (TclExce"
+    },
+    {
+      "chunk_id": 36,
+      "text": "lang/library/init.tcl\"); ! } catch (TclException e) { System.out.println(getResult()); e.printStackTrace(); --- 416,428 ---- * Source the init.tcl script to initialize auto-loading. */ ! try { ! evalRe"
+    },
+    {
+      "chunk_id": 37,
+      "text": "*/ ! try { ! evalResource(\"/tcl/lang/library/init.tcl\"); ! } catch (SecurityException e) { ! System.err.println( ! \"java/tcl/lang/Interp Interp(): after evalResource:\" + !"
+    },
+    {
+      "chunk_id": 38,
+      "text": "l/lang/Interp Interp(): after evalResource:\" + ! e); ! } } catch (TclException e) { System.out.println(getResult()); e.printStackTrace(); *************** *** 708,716 **** (new BlendExtension()).init(this"
+    },
+    {
+      "chunk_id": 39,
+      "text": "* 708,716 **** (new BlendExtension()).init(this); RegexpCmd.init(this); } catch (TclException e) { ! System.out.println(getResult()); ! e.printStackTrace(); ! throw new TclRuntimeError(\"unexpected TclException: \" + e); } }"
+    },
+    {
+      "chunk_id": 40,
+      "text": "\"unexpected TclException: \" + e); } } --- 718,735 ---- (new BlendExtension()).init(this); RegexpCmd.init(this); } catch (TclException e) { ! try { ! System.err.println(getResult()); ! e.printStackTrace"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ntln(getResult()); ! e.printStackTrace(); ! throw new TclRuntimeError(\"unexpected TclException: \" + e); ! } catch (SecurityException e2) { ! System.err.println( ! \"java/tcl/lang/Interp c"
+    },
+    {
+      "chunk_id": 42,
+      "text": "tln( ! \"java/tcl/lang/Interp createCommands(): BlendExt2:\" + e2); ! } ! } catch (SecurityException e) { ! e.printStackTrace(); ! System.err.println( ! \"java/tcl/lang/In"
+    },
+    {
+      "chunk_id": 46,
+      "text": "** 2074,2079 **** --- 2093,2101 ---- eval(new String(charArray), 0); } catch (IOException e) { return; + } catch (SecurityException e2) { + e2.printStackTrace(); + System.err.println(\"java/tcl/lang/Interp e"
+    },
+    {
+      "chunk_id": 47,
+      "text": "System.err.println(\"java/tcl/lang/Interp evalResource():\" + e2); } finally { closeInputStream(stream); } evalURL evalURL is a non-public method in tcl.lang.Interp. Perhaps it should be made public? I tried to use it, but under"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ould be made public? I tried to use it, but under Netscape4.04 with the JDK1.1 patch, it was failing because the content Object was not an instance of InputStream, instead it seemed to be an instance of netscape.net.URLInputStream. Last updated: 03/0"
+    },
+    {
+      "chunk_id": 49,
+      "text": "of netscape.net.URLInputStream. Last updated: 03/07/98 cxh at eecs"
+    }
+  ]
+}

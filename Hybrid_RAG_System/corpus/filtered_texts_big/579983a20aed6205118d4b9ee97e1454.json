@@ -1,0 +1,69 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/make-grade-book",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"p:\", 0, 0); r"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"p:\", 0, 0); require \"GradingCommon.pl\"; umask (0007); $gradebook = \"$SECRET_DIR/grade.book\"; Lock (); if (! -d $REGISTER_DIR) { Fatal (\"no registered students.\"); } if (! -r $MAIN_ROSTER || FileTime ($REG"
+    },
+    {
+      "chunk_id": 3,
+      "text": "nts.\"); } if (! -r $MAIN_ROSTER || FileTime ($REGISTER_DIR) > FileTime ($MAIN_ROSTER)) { Note (\"Making new class roster.\"); Unlock (); System (\"make-main-roster\") || Fatal (\"Failed to make $MAIN_ROSTER.\"); Lock (); } undef %scores"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ake $MAIN_ROSTER.\"); Lock (); } undef %scores; undef %comments; undef %readers; if (open (ALL_GRADES, $ALL_GRADES)) { while ( ) { chomp; if (/^==\\s*(\\S+)\\s+(\\S+)/) { $reader = $1; $assgn = $2; next; } elsif (/^\\s*(\\#.*)?$/) {"
+    },
+    {
+      "chunk_id": 5,
+      "text": "gn = $2; next; } elsif (/^\\s*(\\#.*)?$/) { next; } elsif (($login, $score, $comment) = /^\\s*(\\S+)\\s+\\S+\\s+(\\S+)\\s*(.*)$/) { $key = \"$login $assgn\"; $scores{$key} = $score; $readers{$key} = $reader; delete $comments{"
+    },
+    {
+      "chunk_id": 6,
+      "text": "$readers{$key} = $reader; delete $comments{$key}; $comments{$key} = $comment if ($comment); } else { Warn (\"Bad line in grade log: '$_'\"); } } close (ALL_GRADES); } $now = time (); if ($opt_p) { $now += $opt_p * 24 *"
+    },
+    {
+      "chunk_id": 7,
+      "text": "time (); if ($opt_p) { $now += $opt_p * 24 * 3600; } AddClean (\"$gradebook.tmp\", \"$gradebook.notes.tmp\"); unlink \"$gradebook.tmp\", \"$gradebook.notes.tmp\"; open (GRADE_FILE, \">$gradebook.tmp\") || Fatal (\"Could not create grade file.\"); open"
+    },
+    {
+      "chunk_id": 8,
+      "text": "Fatal (\"Could not create grade file.\"); open (COMMENT_FILE, \">$gradebook.notes.tmp\") || Fatal (\"Could not create comment file.\"); print GRADE_FILE \"Login Last First SID\"; foreach $assgn (@ASSIGNMENT_LIST) { next if ($now < $ASSGN_DUE{$a"
+    },
+    {
+      "chunk_id": 9,
+      "text": "SIGNMENT_LIST) { next if ($now < $ASSGN_DUE{$assgn}); print GRADE_FILE \" $assgn rd$assgn \"; } print GRADE_FILE \"\\n--- --- --- ---\"; foreach $assgn (@ASSIGNMENT_LIST) { next if ($now < $ASSGN_DUE{$assgn}); print GRADE_FILE \" $ASSG"
+    },
+    {
+      "chunk_id": 10,
+      "text": "$ASSGN_DUE{$assgn}); print GRADE_FILE \" $ASSGN_WEIGHT{$assgn} ---\"; } print GRADE_FILE \"\\n$CLASSROOT Perfect Peter 42\"; foreach $assgn (@ASSIGNMENT_LIST) { next if ($now < $ASSGN_DUE{$assgn}); print GRADE_FILE \" $ASSGN_MAX{$assgn} --- \";"
+    },
+    {
+      "chunk_id": 11,
+      "text": "; print GRADE_FILE \" $ASSGN_MAX{$assgn} --- \"; } print GRADE_FILE \"\\n\"; open (ROSTER, $MAIN_ROSTER) || Fatal (\"Could not open roster: $!\"); while ( ) { chomp; ($login) = /^\\s*(\\S+)\\s/; next if (!$login); print GRADE_FIL"
+    },
+    {
+      "chunk_id": 12,
+      "text": "/; next if (!$login); print GRADE_FILE $_; foreach $assgn (@ASSIGNMENT_LIST) { next if ($now < $ASSGN_DUE{$assgn}); $key = \"$login $assgn\"; if (exists $scores{$key}) { if (IsNumeric ($scores{$key})) { print GRADE_FILE"
+    },
+    {
+      "chunk_id": 13,
+      "text": "(IsNumeric ($scores{$key})) { print GRADE_FILE \" $scores{$key}\"; } elsif ($ASSGN_SUBMIT{$assgn} && SubmissionExists ($login, $assgn)) { print GRADE_FILE \" ***\"; } else { print GRADE_FILE \" ---\"; } $reader = $readers"
+    },
+    {
+      "chunk_id": 14,
+      "text": "GRADE_FILE \" ---\"; } $reader = $readers{$key}; print GRADE_FILE ($reader ? \" $reader\" : \" ---\"); print COMMENT_FILE \"$key $comments{$key}\\n\" if (exists $comments{$key}); } else { print GRADE_FILE \" --- ---\"; } }"
+    },
+    {
+      "chunk_id": 15,
+      "text": "e { print GRADE_FILE \" --- ---\"; } } print GRADE_FILE \"\\n\"; } close (COMMENT_FILE); close (GRADE_FILE); unlink \"$gradebook\", \"$gradebook.notes\"; rename (\"$gradebook.tmp\", \"$gradebook\") || Warn (\"Could not rename grades file: $!.\")"
+    },
+    {
+      "chunk_id": 16,
+      "text": "|| Warn (\"Could not rename grades file: $!.\"); rename (\"$gradebook.notes.tmp\", \"$gradebook.notes\") || Warn (\"Could not rename comment file: $!.\"); Unlock (); exit 0;"
+    }
+  ]
+}

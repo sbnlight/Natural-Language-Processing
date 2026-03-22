@@ -1,0 +1,105 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/AccessorDemoPolicy",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / AccessorDemoPolicy Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / AccessorDemoPolicy Where to put Cape Code demos in the"
+    },
+    {
+      "chunk_id": 2,
+      "text": "sorDemoPolicy Where to put Cape Code demos in the ptII tree Cape Code Host demos specifically for accessors or TerraSwarm should go in $PTII/org/terraswarm/accessor/demo . Typically, demos located here are system demos or applications. Cape Code dem"
+    },
+    {
+      "chunk_id": 3,
+      "text": "re are system demos or applications. Cape Code demos for modules should go into $PTII/ptolemy/actor/lib/jjs/modules/ moduleName /demo/ . Demos that go in the modules directories typically illustrate how to use one module. Accessors should be added t"
+    },
+    {
+      "chunk_id": 4,
+      "text": "how to use one module. Accessors should be added to http://accessors.org/index.json FIXME: We need to handle hierarchy It is also ok to have your own index.json file for similar accessors. Demo naming Names should follow the Ptolemy Coding Style No h"
+    },
+    {
+      "chunk_id": 5,
+      "text": "Names should follow the Ptolemy Coding Style No hyphens or underscores (note that modules can use hyphens, but demos should not) Full words only CamelCase Acronyms capitalized: Ex: UDPClient, not udpClient Each demo directory should contain a demo w"
+    },
+    {
+      "chunk_id": 6,
+      "text": "Client Each demo directory should contain a demo with the same name as the directory. The directory $PTII/ptolemy/actor/lib/jjs/modules/httpClient/demo/REST/ has the model $PTII/ptolemy/actor/lib/jjs/modules/httpClient/demo/REST/REST.xml $PTII/bin/mk"
+    },
+    {
+      "chunk_id": 7,
+      "text": "modules/httpClient/demo/REST/REST.xml $PTII/bin/mkptdemo can be used to create a makefile for the demo directory. To use $PTII/bin/mkptdemo , run it from the $PTII directory with the name of the directory where the demo is to reside. For example cd"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ctory where the demo is to reside. For example cd $PTII $PTII / bin / mkptdemo ptolemy / actor / lib / jjs / modules / httpClient / demo / REST2 [$[Get Code]] Multiple Cape Code Models Each model directory must have a model with the same name as the"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ectory must have a model with the same name as the directory. If there are multiple models of interest in the directory, then add a LiveLink to refer to the other model(s). Drag an annotation in Under Utilities -> Parameters, drag a LiveLock onto the"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Utilities -> Parameters, drag a LiveLock onto the annotation. Right click on the annotation, select Customize -> Configure and then change the LiveLink property to a string that starts with $CLASSPATH , for example #CLASSPATH/org/terraswarm/accessor"
+    },
+    {
+      "chunk_id": 11,
+      "text": "H , for example #CLASSPATH/org/terraswarm/accessor/demo/Foo/Foo.xml . Or use $PTII/bin/mkptlivelinkdemo cd $PTII $PTII / bin / mkptlivelinkdemo ptolemy / actor / lib / jjs / modules / httpClient / demo / REST2 [$[Get Code]] See Ptolemy Coding Style f"
+    },
+    {
+      "chunk_id": 12,
+      "text": "o / REST2 [$[Get Code]] See Ptolemy Coding Style for details. Referring to accessors in the model Accessors should be Ptolemy-independent and should be checked in to the the accessors repo. To check out the repo, see Getting Started . Refer to the ac"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ut the repo, see Getting Started . Refer to the accessor using http://accessors.org/ MyAccessor .js or http://accessors.org/ MyAccessor.xml Note that writing accessors as .js files is preferred. Testing Ideally, each Cape Code demo will have a corres"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ng Ideally, each Cape Code demo will have a corresponding test in a nearby test/auto directory. The test should have the same file name as the demo and should use TrainableTest accessors to check the outputs. Demos that use hardware may be hard to t"
+    },
+    {
+      "chunk_id": 15,
+      "text": "outputs. Demos that use hardware may be hard to test, consider adding a Testing -> Testing Double like what the camera and serial accessors have. Code Generation Cape Code demos that use only accessors should also have a AccessorCodeGenerator attrib"
+    },
+    {
+      "chunk_id": 16,
+      "text": "rs should also have a AccessorCodeGenerator attribute added so that they can be used to generate a composite accessor. See Cape Code Host -> Code Generation for how to modify the parameters so that the composite accessor is created in the proper dir"
+    },
+    {
+      "chunk_id": 17,
+      "text": "he composite accessor is created in the proper directory. Accessors should not use Nashorn No accessor should use Nashorn. Such an accessor will not be portable, and when we get our security act together with the Ptolemy host, will not run in the Pto"
+    },
+    {
+      "chunk_id": 18,
+      "text": "her with the Ptolemy host, will not run in the Ptolemy/Nashorn host either... An accessor can require a module by name, and the module implementation may use Nashorn. The API of the module should be technology independent, and the designer of that AP"
+    },
+    {
+      "chunk_id": 19,
+      "text": "echnology independent, and the designer of that API should be reasonably confident that a Node.js and Nashorn implementation are both feasible. Rationale A description of how things were and why it was a problem There are Ptolemy demos that are dupli"
+    },
+    {
+      "chunk_id": 20,
+      "text": "s a problem There are Ptolemy demos that are duplicated on both the accessors website and in the ptII tree. The right solution is to have the Ptolemy demos and tests only in the ptII tree and to provide links from the accessors website to the svn hea"
+    },
+    {
+      "chunk_id": 21,
+      "text": "de links from the accessors website to the svn head of the ptII tree. Reasons: Code duplication is bad because copies do not get updated The nightly build for the ptII svn repo has facilities that run the demos by exporting them to html. This is a g"
+    },
+    {
+      "chunk_id": 22,
+      "text": "the demos by exporting them to html. This is a good smoke test for the demos. Also, we write tests for each demo where we add Test actors that are trained with known good results and then during the build the compare the results against the known"
+    },
+    {
+      "chunk_id": 23,
+      "text": "e build the compare the results against the known good results. We have a directory hierarchy in ptII that we might as well use. To run the Ptolemy models requires a recent version of the ptII devel tree, so the models are not much use to people runn"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ree, so the models are not much use to people running ptII10.0. Even worse, Nashorn has changed, so a recent version of the JDK is sometimes required. The JDK shipped with ptII10.0 will not reliably work. So, we did the following: Make the ptII dev"
+    },
+    {
+      "chunk_id": 25,
+      "text": "work. So, we did the following: Make the ptII devel tree available via the web Move the demos in accessors/web/demo Update the accessors website See Also Software Configuration Management Back to Main Accessors Wiki Edit - History - Print - Recent C"
+    }
+  ]
+}

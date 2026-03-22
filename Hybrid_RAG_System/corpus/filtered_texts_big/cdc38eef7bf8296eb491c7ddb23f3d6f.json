@@ -1,0 +1,85 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/DuktapeEclipseARMCortexM3",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / DuktapeEclipseARMCortexM3 Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / DuktapeEclipseARMCortexM3 Based heavily on Dukta"
+    },
+    {
+      "chunk_id": 2,
+      "text": "/ DuktapeEclipseARMCortexM3 Based heavily on Duktape For ARM-Cortex M3 (accessible only to densoeal members) by Rene Vivanco Overview This section details the specific for using DUKtape on Cortex-M3 processor for DUKtape development. In this case we"
+    },
+    {
+      "chunk_id": 3,
+      "text": "rocessor for DUKtape development. In this case we select LPC1768. Linker File The Linker file is responsible to accommodate the produced executable in the target processor. It shall match the memory map specifications of the target device. For the"
+    },
+    {
+      "chunk_id": 4,
+      "text": "map specifications of the target device. For the case of our specific device (LPC1768), select the mem.ld file and modify as shown below. Target Peripheral Memory Access During device configuration and debugging, it is very useful to be able to see"
+    },
+    {
+      "chunk_id": 5,
+      "text": "nd debugging, it is very useful to be able to see the peripheral memory behavior. In Eclipse it is possible to attach a device specific peripheral view. To enable it, follow the steps below Right-click on the project name and select Properties . A n"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ck on the project name and select Properties . A new window will appear, expand C/C++ Build and select Settings . This step would take some time. Select Device Tab and choose LPC1768 When the device is flashed, the peripherals would be available in t"
+    },
+    {
+      "chunk_id": 7,
+      "text": "s flashed, the peripherals would be available in the memory window. Timer Setup To implement timeval we need a way to keep track of seconds and for microseconds since the system starts. One way to do this is using one of the built-in timers provided"
+    },
+    {
+      "chunk_id": 8,
+      "text": "this is using one of the built-in timers provided in the LPC1768 as follows. The peripheral frequency on the LPC1768 is 25Mhz and the timers have the capability to define a prescaler, so we can set it up to have a tick of 1us and then and ISR that u"
+    },
+    {
+      "chunk_id": 9,
+      "text": "t up to have a tick of 1us and then and ISR that update a variable called seconds. The system can read the Prescaler counter at any time which will provide the miro-second value accurately and seconds as global variable. The function gettimeofday is"
+    },
+    {
+      "chunk_id": 10,
+      "text": "as global variable. The function gettimeofday is implemented as follows: int _gettimeofday ( struct timeval * tv , void * tz ) { // Read uS from Register tv -> tv_usec = * T1TC ; // Read Seconds from global variable tv -> tv_sec = secs ; return ( 0"
+    },
+    {
+      "chunk_id": 11,
+      "text": "global variable tv -> tv_sec = secs ; return ( 0 ) ; } [$[Get Code]] The ISR only needs to update the global variable secs every second. void __attribute__ ( ( section ( \".after_vectors\" ) , weak ) ) TMR1_IRQHandler ( void ) { // Clear ISR flag T1IR"
+    },
+    {
+      "chunk_id": 12,
+      "text": "TMR1_IRQHandler ( void ) { // Clear ISR flag T1IR -> MR0INT = 1 ; // Increment seconds secs ++; } [$[Get Code]] Accessor Configuration DukTape Configuration Config file setup (duktape.We made the next modifications in the configuration file (duk_con"
+    },
+    {
+      "chunk_id": 13,
+      "text": "t modifications in the configuration file (duk_config.h): #define __arm__ #define DUK_OPT_NO_JSON_STRINGIFY_FASTPATH #define DUK_OPT_NO_REFERENCE_COUNTING #define DUK_OPT_REFCOUNT16 #define DUK_OPT_STRHASH16 #define DUK_OPT_STRLEN16 #define DUK_OPT_B"
+    },
+    {
+      "chunk_id": 14,
+      "text": "RHASH16 #define DUK_OPT_STRLEN16 #define DUK_OPT_BUGLEN16 #define DUK_OPT_OBJSIZES16 // Modify FILE definition as typedef void duk_file ; // <<== This is just to compile since will not be a file system [$[Get Code]] The main file is as follows: #incl"
+    },
+    {
+      "chunk_id": 15,
+      "text": "m [$[Get Code]] The main file is as follows: #include \"drv_hw.h\" #include \"duktape.h\" void main ( ) { duk_context * ctx = NULL ; drv_boardInit ( ) ; ctx = duk_create_heap_default ( ) ; duk_destroy_heap ( ctx ) ; } [$[Get Code]] To compile, we select"
+    },
+    {
+      "chunk_id": 16,
+      "text": "p ( ctx ) ; } [$[Get Code]] To compile, we select the option of duktape separate sources, which seems to be cleaner. The results are: 155 , 686 bytes of readonly code memory ( Flash ) 19 , 174 bytes of readonly data memory ( Flash - constants ) 4 , 3"
+    },
+    {
+      "chunk_id": 17,
+      "text": "f readonly data memory ( Flash - constants ) 4 , 368 bytes of R / w data memory ( RAM ) [$[Get Code]] Notes Duktape uses a considerable amount of constants which increases the amount of flash utilized. RAM is in a good low number. It might be possibl"
+    },
+    {
+      "chunk_id": 18,
+      "text": ". RAM is in a good low number. It might be possible to run duktape in this small devices if an additional storage can be used (such as a sD card or serial SPI flash). Current Issues The memory numbers that we obtained are lower than duktape website,"
+    },
+    {
+      "chunk_id": 19,
+      "text": "that we obtained are lower than duktape website, however dynamic memory allocation of 71 threads blows the memory of the LPC1768. See Also Duktape Host Duktape for Small Processors Duktape Eclipse Linux Duktape Eclipse Setup Duktape Eclipse ARM Cort"
+    },
+    {
+      "chunk_id": 20,
+      "text": "nux Duktape Eclipse Setup Duktape Eclipse ARM Cortex M3 Duktape Eclipse ARM Cortex M4 DUKtape Implementation In ARM-M4 Heap Configuration For ARM Cortex Signpost TockOS - Notes about the Hail board, which uses a Cortex M4 and Duktape Duktape Host (ac"
+    }
+  ]
+}

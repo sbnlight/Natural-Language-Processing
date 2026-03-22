@@ -1,0 +1,61 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/get-my-subm",
+  "chunks": [
+    {
+      "chunk_id": 3,
+      "text": "clears the rest of the environment, # including environment variables affecting Perl. use POSIX qw(strftime); use Net::Domain qw(hostname hostfqdn); unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); @ARGV0 = @ARGV; require \"GradingBase"
+    },
+    {
+      "chunk_id": 4,
+      "text": "hare/lib'); @ARGV0 = @ARGV; require \"GradingBase.pl\"; CmndLine (\"u:\", 0, 2); require \"GradingCommon.pl\"; require \"TestingCommon.pl\"; GetPermissions ($0, @ARGV0); # Running as class master. $ENV{\"PATH\"}='/usr/bin'; MyLogin () =~ /(.*)/; $me = $1"
+    },
+    {
+      "chunk_id": 5,
+      "text": "PATH\"}='/usr/bin'; MyLogin () =~ /(.*)/; $me = $1; # Double-check validity of entry. if (! StudentExists ($me)) { Fatal (\"$me is not registered as a student in $COURSE.\"); } shift =~ /(.*)/; $assgn = $1; if ($assgn !~ /^[-a-zA-Z0-9_.]+$/) {"
+    },
+    {
+      "chunk_id": 6,
+      "text": "assgn = $1; if ($assgn !~ /^[-a-zA-Z0-9_.]+$/) { Fatal (\"Invalid format for assignment name: $assgn.\"); } if (! AssignmentExists ($assgn)) { Fatal (\"There is no assignment $assgn. The valid\\n\" . \"assignment names currently are\\n\\t\" ."
+    },
+    {
+      "chunk_id": 7,
+      "text": "\\n\" . \"assignment names currently are\\n\\t\" . join (\", \", @ASSIGNMENT_LIST) . \".\"); } elsif (not $ASSGN_SUBMIT{$assgn}) { Fatal (\"At the moment, assignment $assgn does not allow for electronic \" . \"submission.\"); } @allEntries = GLOB"
+    },
+    {
+      "chunk_id": 8,
+      "text": "onic \" . \"submission.\"); } @allEntries = GLOB (\"$SUBMISSION_DIR/$assgn/$me.*\"); if ($#allEntries == -1) { Fatal(\"There are no submissions for $assgn for $me.\"); } elsif ($#allEntries > 0) { Note(\"Found multiple submissions of $assgn for"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Note(\"Found multiple submissions of $assgn for $me:\"); for ($i = 0; $i <= $#allEntries; $i += 1) { ($timestamp) = ($allEntries[$i] =~ /\\.(\\d+)$/); $time = TimeStampToTime ($timestamp); Note(\" \" . ($i+1) . \". \""
+    },
+    {
+      "chunk_id": 10,
+      "text": "stamp); Note(\" \" . ($i+1) . \". \" . strftime (\"%a %b %e %H:%M:%S\", localtime ($time))); } while (1) { $which = Fetch0(\"Which do you want [\" . ($#allEntries+1) . \"]? \"); chomp $which; if ($which eq"
+    },
+    {
+      "chunk_id": 11,
+      "text": "]? \"); chomp $which; if ($which eq \"\") { $which = $#allEntries + 1; last; } elsif ($which =~ /\\d+/ && 0 < $which && $which <= $#allEntries+1) { last; } } if ($which) {"
+    },
+    {
+      "chunk_id": 12,
+      "text": "last; } } if ($which) { $entry = $allEntries[$which-1]; } else { $entry = $allEntries[$#allEntries]; } } else { $entry = $allEntries[0]; } open (SUBMISSION, $entry) or Fatal(\"Could not read $entry: $!\""
+    },
+    {
+      "chunk_id": 13,
+      "text": "SION, $entry) or Fatal(\"Could not read $entry: $!\"); $content = \"\"; read(SUBMISSION, $content, (stat(SUBMISSION))[7]); close(SUBMISSION); $> = $<; # Running as original caller. if ($content =~ /^SVN submission/) { Fatal(\"This assignment was s"
+    },
+    {
+      "chunk_id": 14,
+      "text": "VN submission/) { Fatal(\"This assignment was submitted with SVN;\\n just retrieve it from your repository.\"); } $uid = \"\"; while (1) { $dir = \"$assgn$uid\"; last if ! -e $dir; $uid -= 1; } Note(\"Unpacking assignment into directory $"
+    },
+    {
+      "chunk_id": 15,
+      "text": "1; } Note(\"Unpacking assignment into directory $dir.\"); mkdir($dir); $rawfile = \"$dir/.raw\"; open(ASSGN, \">\", \"$rawfile\"); print ASSGN $content; close(ASSGN); UnpackSubmission($assgn, $rawfile, $dir, 1) || Fatal(\"Unpacking failed.\"); unlink($rawfil"
+    },
+    {
+      "chunk_id": 16,
+      "text": ", 1) || Fatal(\"Unpacking failed.\"); unlink($rawfile, \"$dir/.SUBMISSION\"); exit 0;"
+    }
+  ]
+}

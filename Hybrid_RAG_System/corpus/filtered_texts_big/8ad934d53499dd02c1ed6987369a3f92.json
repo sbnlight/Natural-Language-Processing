@@ -1,0 +1,245 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/distributed/domains/sdf/kernel/DistributedSDFScheduler.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "DistributedSDFScheduler Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.distributed.domains.sdf.kernel Class Distri"
+    },
+    {
+      "chunk_id": 2,
+      "text": "tolemy.distributed.domains.sdf.kernel Class DistributedSDFScheduler java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.util.Attribute ptolemy.actor.sched.Scheduler ptolemy.domains.sdf.kernel.BaseSDFScheduler ptolemy.domains.sdf.kernel.SDFSc"
+    },
+    {
+      "chunk_id": 3,
+      "text": ".BaseSDFScheduler ptolemy.domains.sdf.kernel.SDFScheduler ptolemy.distributed.domains.sdf.kernel.DistributedSDFScheduler All Implemented Interfaces: Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , ModelErrorHandler , MoMLEx"
+    },
+    {
+      "chunk_id": 4,
+      "text": "gListener , Derivable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , java.io.Serializable, ValueListener public class DistributedSDFScheduler extends SDFScheduler A scheduler that extends the SDFScheduler. This class relies on the exten"
+    },
+    {
+      "chunk_id": 5,
+      "text": "s the SDFScheduler. This class relies on the extended SDFScheduler to calculate sequential schedules. In case a parallelSchedule is requested, it performs a topological sort of the graph that can be constructed from the data dependencies among the"
+    },
+    {
+      "chunk_id": 6,
+      "text": "constructed from the data dependencies among the actors. The existing SDFScheduler produces schedules in a depth-first fashion. From the topological sort a schedule is created containing subschedules that contain the actors in the different leve"
+    },
+    {
+      "chunk_id": 7,
+      "text": "les that contain the actors in the different levels, indicating they can be executed in parallel. I.e.: A B C D E F G Sequential: (ABDECFG) Parallel: ((A)(BC)(DEFG)) To allow extending the actor, the SDFScheduler class has been modified. The"
+    },
+    {
+      "chunk_id": 8,
+      "text": "or, the SDFScheduler class has been modified. The members: _rateVariables _externalRates _firingVector and methods: _serFiringVector _simulateExternalInputs _countUnfulfilledInputs _computeMaximumFirings _simulateInputConsumption _getFiringCount hav"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ings _simulateInputConsumption _getFiringCount have been modified their visibility from private to protected. Since: Ptolemy II 5.1 Version: $Id: DistributedSDFScheduler.java,v 1.15 2006/03/30 16:35:46 cxh Exp $ Author: Daniel Lazaro Cuadrado (kapoka"
+    },
+    {
+      "chunk_id": 10,
+      "text": "6 cxh Exp $ Author: Daniel Lazaro Cuadrado (kapokasa@kom.aau.dk) See Also: SDFScheduler , Serialized Form Accepted Rating: Red (cxh) Proposed Rating: Red (kapokasa) Nested Class Summary Nested classes inherited from class ptolemy.kernel.util. NamedOb"
+    },
+    {
+      "chunk_id": 11,
+      "text": "inherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary Fields inherited from class ptolemy.domains.sdf.kernel. SDFScheduler _externalRates , _firingVector , _rateVariables , constrainBufferSizes Fields inh"
+    },
+    {
+      "chunk_id": 12,
+      "text": ", _rateVariables , constrainBufferSizes Fields inherited from class ptolemy.domains.sdf.kernel. BaseSDFScheduler VERBOSE Fields inherited from class ptolemy.actor.sched. Scheduler _DEFAULT_SCHEDULER_NAME Fields inherited from class ptolemy.kernel.uti"
+    },
+    {
+      "chunk_id": 13,
+      "text": "AME Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP"
+    },
+    {
+      "chunk_id": 14,
+      "text": "TTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary DistributedSDFScheduler () Construct a scheduler with no container(director) in the default workspace. DistributedSDFScheduler ( Director container,"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ibutedSDFScheduler ( Director container, java.lang.String name) Construct a scheduler in the given container with the given name. DistributedSDFScheduler ( Workspace workspace) Construct a scheduler in the given workspace. Met"
+    },
+    {
+      "chunk_id": 16,
+      "text": "Construct a scheduler in the given workspace. Method Summary protected Schedule _getParallelSchedule () Return a parallelSchedule result of performing a topological sort of the graph that can be constructed from the model's data dependencies. pr"
+    },
+    {
+      "chunk_id": 17,
+      "text": "nstructed from the model's data dependencies. protected Schedule _getSchedule () Return the scheduling sequence. protected Schedule _scheduleInParallelConnectedActors (java.util.Map minimumBufferSize, java.util.Ma"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e, java.util.Map externalRates, java.util.LinkedList actorList, CompositeActor container, java.util.LinkedList allActorList) Duplicate with modif"
+    },
+    {
+      "chunk_id": 19,
+      "text": "util.LinkedList allActorList) Duplicate with modifications of the _scheduleConnectedActors method. protected void _simulateTokensCreatedLast ( IOPort outputPort, int createdTokens, java.util.Li"
+    },
+    {
+      "chunk_id": 20,
+      "text": "tedTokens, java.util.LinkedList actorList, java.util.LinkedList readyToScheduleActorList) Duplicate and modification of the _simulateTokensCreated method. Methods inherited from class ptolemy.do"
+    },
+    {
+      "chunk_id": 21,
+      "text": "method. Methods inherited from class ptolemy.domains.sdf.kernel. SDFScheduler _checkDynamicRateVariables , _computeMaximumFirings , _countUnfulfilledInputs , _getFiringCount , _simulateExternalInputs , _simulateInputConsumption , _solveBalanceEqua"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ts , _simulateInputConsumption , _solveBalanceEquations , _vectorizeFirings , clone , declareRateDependency , getExternalRates , getFiringCount , valueChanged Methods inherited from class ptolemy.domains.sdf.kernel. BaseSDFScheduler _declareDependenc"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ins.sdf.kernel. BaseSDFScheduler _declareDependency , _saveBufferSizes , _saveContainerRates , _saveFiringCounts Methods inherited from class ptolemy.actor.sched. Scheduler getSchedule , isValid , setContainer , setValid Methods inherited from class"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Container , setValid Methods inherited from class ptolemy.kernel.util. Attribute _getContainedObject , _propagateExistence , getContainer , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , setName , updateContent Methods inherited from cl"
+    },
+    {
+      "chunk_id": 25,
+      "text": "setName , updateContent Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _description , _exportMoMLContents , _getInden"
+    },
+    {
+      "chunk_id": 26,
+      "text": "g , _description , _exportMoMLContents , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , _validateSettables , addChangeListener , addDebugListener , attributeChange"
+    },
+    {
+      "chunk_id": 27,
+      "text": "hangeListener , addDebugListener , attributeChanged , attributeList , attributeList , attributeTypeChanged , clone , containedObjectsIterator , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML ,"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ion , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getDisplayNa"
+    },
+    {
+      "chunk_id": 29,
+      "text": ", getDerivedLevel , getDerivedList , getDisplayName , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , pro"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ests , isOverridden , isPersistent , message , propagateExistence , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setMode"
+    },
+    {
+      "chunk_id": 31,
+      "text": "uests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getC"
+    },
+    {
+      "chunk_id": 32,
+      "text": "from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Constructor Detail DistributedSDFScheduler public DistributedSDFScheduler () Construct a scheduler with no container(director) in the default work"
+    },
+    {
+      "chunk_id": 33,
+      "text": "with no container(director) in the default workspace. DistributedSDFScheduler public DistributedSDFScheduler ( Workspace workspace) Construct a scheduler in the given workspace. Parameters: workspace - Object for synchronization and version tracki"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ce - Object for synchronization and version tracking. DistributedSDFScheduler public DistributedSDFScheduler ( Director container, java.lang.String name) throws IllegalActionException , NameDupli"
+    },
+    {
+      "chunk_id": 35,
+      "text": "throws IllegalActionException , NameDuplicationException Construct a scheduler in the given container with the given name. The container argument must not be null, or a NullPointerException will be thrown. This attribute will use the"
+    },
+    {
+      "chunk_id": 36,
+      "text": "on will be thrown. This attribute will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to the empty string. Increment the version of the workspace. Parameters: conta"
+    },
+    {
+      "chunk_id": 37,
+      "text": "nt the version of the workspace. Parameters: container - The container. name - The name of this attribute. Throws: IllegalActionException - If the attribute is not of an acceptable class for the container, or if the name contains a period. NameDup"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ntainer, or if the name contains a period. NameDuplicationException - If the name coincides with an attribute already in the container. Method Detail _getParallelSchedule protected Schedule _getParallelSchedule ()"
+    },
+    {
+      "chunk_id": 39,
+      "text": "allelSchedule () throws NotSchedulableException , IllegalActionException Return a parallelSchedule result of performing a topological sort of the graph that can be constructed from the model's data dependencies. T"
+    },
+    {
+      "chunk_id": 40,
+      "text": "onstructed from the model's data dependencies. This method duplicates and modifies the code in _getSchedule from the extended SDFScheduler class. It differs on the call to the _scheduleConnectedActors, that in this case is substituted by a ca"
+    },
+    {
+      "chunk_id": 41,
+      "text": "Actors, that in this case is substituted by a call to the _scheduleInParallelConnectedActors method. Modifications are marked with NEW!. Returns: A parallelSchedule. Throws: NotSchedulableException - If the rates specified for the model imply"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ion - If the rates specified for the model imply that the model is not statically schedulable. IllegalActionException - If the rate parameters of the model are not correct, or the computed rates for external ports are not correct. _getSchedule"
+    },
+    {
+      "chunk_id": 43,
+      "text": "or external ports are not correct. _getSchedule protected Schedule _getSchedule () throws NotSchedulableException , IllegalActionException Return the scheduling sequence. In case the parameter parallelSchedule is true, it"
+    },
+    {
+      "chunk_id": 44,
+      "text": "case the parameter parallelSchedule is true, it returns a parallel Schedule, otherwise it calls the parent's _getSchedule() method returning the given result. Overrides: _getSchedule in class SDFScheduler Returns: A schedule of the deeply cont"
+    },
+    {
+      "chunk_id": 45,
+      "text": "DFScheduler Returns: A schedule of the deeply contained opaque entities in the firing order, sequential or parallel depending of the value of the parameter parallelSchedule. Throws: NotSchedulableException - If the rates specified for the model"
+    },
+    {
+      "chunk_id": 46,
+      "text": "Exception - If the rates specified for the model imply that the model is not statically schedulable. IllegalActionException - If the rate parameters of the model are not correct, or the computed rates for external ports are not correct. _schedu"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ates for external ports are not correct. _scheduleInParallelConnectedActors protected Schedule _scheduleInParallelConnectedActors (java.util.Map minimumBufferSize, java.util.Map externalRates,"
+    },
+    {
+      "chunk_id": 48,
+      "text": "java.util.Map externalRates, java.util.LinkedList actorList, CompositeActor container, java.util.LinkedList allActorList)"
+    },
+    {
+      "chunk_id": 49,
+      "text": "java.util.LinkedList allActorList) throws NotSchedulableException Duplicate with modifications of the _scheduleConnectedActors method. Modifications are marked with NEW!. Parameters: m"
+    },
+    {
+      "chunk_id": 50,
+      "text": "Modifications are marked with NEW!. Parameters: minimumBufferSize - A map from relation to an Integer representing the minimum size buffer necessary for the computed schedule. The map will be populated during the execution of this method. ext"
+    },
+    {
+      "chunk_id": 51,
+      "text": "pulated during the execution of this method. externalRates - Map from external port to an Integer representing the number of tokens produced or consumed from that port during the course of an iteration. actorList - The actors that need to be sc"
+    },
+    {
+      "chunk_id": 52,
+      "text": "eration. actorList - The actors that need to be scheduled. container - The container. allActorList - All the actors, including those that do not need to be scheduled. These actors will still be initialized, which means we must take their initial"
+    },
+    {
+      "chunk_id": 53,
+      "text": "nitialized, which means we must take their initial tokens into account when calculating buffer sizes. Returns: An instance of the Schedule class, indicating the order in which actors should fire. Throws: NotSchedulableException - If the algorithm"
+    },
+    {
+      "chunk_id": 54,
+      "text": "Throws: NotSchedulableException - If the algorithm encounters an SDF graph that is not consistent with the firing vector, or detects an inconsistent internal state, or detects a graph that cannot be scheduled. _simulateTokensCreatedLast protect"
+    },
+    {
+      "chunk_id": 55,
+      "text": "be scheduled. _simulateTokensCreatedLast protected void _simulateTokensCreatedLast ( IOPort outputPort, int createdTokens, java.util.LinkedList actorList,"
+    },
+    {
+      "chunk_id": 56,
+      "text": "java.util.LinkedList actorList, java.util.LinkedList readyToScheduleActorList) throws IllegalActionException Duplicate and modification of the _simulateTokensCreate"
+    },
+    {
+      "chunk_id": 57,
+      "text": "cate and modification of the _simulateTokensCreated method. Modifications are marked with NEW!. Parameters: outputPort - The port that is creating the tokens. createdTokens - The number of tokens to create. actorList - The list of actors that are"
+    },
+    {
+      "chunk_id": 58,
+      "text": "to create. actorList - The list of actors that are being scheduled. readyToScheduleActorList - The list of actors that are ready to be scheduled. This will be updated if any actors that receive tokens from outputPort are now ready to fire. Throw"
+    },
+    {
+      "chunk_id": 59,
+      "text": "okens from outputPort are now ready to fire. Throws: IllegalActionException - If the rate parameters are invalid. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR |"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

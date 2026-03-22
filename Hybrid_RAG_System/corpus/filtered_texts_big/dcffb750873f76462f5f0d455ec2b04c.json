@@ -1,0 +1,85 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/ActionFunctions",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / ActionFunctions Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / ActionFunctions This page is obsolete, see Version"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ActionFunctions This page is obsolete, see VersionCurrent/Action Functions . An accessor may define some number of action functions that are invoked by the host as described below. None of these functions is required. An accessor may implement any su"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ions is required. An accessor may implement any subset. These functions are made available to the host by setting them as fields of the exports object in the accessor script with the corresponding name. For instance, the initialize() function is expo"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e. For instance, the initialize() function is exposed by setting the exports.initialize field equal to the desired function in the script. For example, exports.initialize = function() { send('output', 'Hello World!'); } An execution of an"
+    },
+    {
+      "chunk_id": 5,
+      "text": "output', 'Hello World!'); } An execution of an accessor consists of: Loading the accessor script and executing any top-level statements. Invoking the initialize() function, if it is defined. Executing the accessor, which performs the following ac"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ting the accessor, which performs the following actions repeatedly: Invoke any timeout callbacks whose timeout matches current time of the host; Invoke any input handlers that have been added to inputs that have new data; If any input has new data, i"
+    },
+    {
+      "chunk_id": 7,
+      "text": "s that have new data; If any input has new data, invoke any generic input handlers that have been added; Invoke the fire() function, if it has been defined. Invocation of the wrapup() function of the accessor. initialize() This function, if provided,"
+    },
+    {
+      "chunk_id": 8,
+      "text": "accessor. initialize() This function, if provided, will be invoked once by the host when the application using the accessor starts up, and possibly again each time the swarmlet is re-initialized. The accessor may get any inputs that have default valu"
+    },
+    {
+      "chunk_id": 9,
+      "text": "accessor may get any inputs that have default values, read parameters, and initialize state variables. It may also send outputs, but note that downstream accessors will not see this data in their initialize function. They will see it in an input hand"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ialize function. They will see it in an input handler, if they have registered one. Input handlers An input handler is a function that is invoked when a new input arrives. The accessor calls addInputHandler( input , function , [ arguments ]) to reque"
+    },
+    {
+      "chunk_id": 11,
+      "text": "andler( input , function , [ arguments ]) to request that the handler function be invoked whenever a new input is available at the specified input port (a string). The accessor may call addInputHandler() at any time, but the recommended time is in it"
+    },
+    {
+      "chunk_id": 12,
+      "text": "r() at any time, but the recommended time is in its initialize() function. If the input argument is null, then the specified function will be invoked when any new input arrives to the accessor. The addInputHandler() function returns a handle that can"
+    },
+    {
+      "chunk_id": 13,
+      "text": "dInputHandler() function returns a handle that can be used to call removeInputHandler() . If you add an input handler during execution of the swarmlet, e.g. in initialize(), then these handlers will automatically be removed after the wrapup() functio"
+    },
+    {
+      "chunk_id": 14,
+      "text": "utomatically be removed after the wrapup() function is invoked if you have not already removed them. fire() If provided, the host will invoke this function when any new input is provided, or if there are no inputs at all, then whenever the host choos"
+    },
+    {
+      "chunk_id": 15,
+      "text": "are no inputs at all, then whenever the host chooses to invoke it. wrapup() If provided, the host will invoke this function once when the application shuts down. This function should not send outputs. Discussion With these action functions, there is"
+    },
+    {
+      "chunk_id": 16,
+      "text": "Discussion With these action functions, there is a variety of patterns of accessor behavior. Event reactor An accessor provides input handlers for one or more inputs. In these handlers, it may read inputs using get(), update state variables, and/or"
+    },
+    {
+      "chunk_id": 17,
+      "text": "nputs using get(), update state variables, and/or send outputs. Spontaneous accessor The accessor sends outputs at times of its choosing, not in reaction to inputs. For example, it may send an output in a function invoked after a timeout. The accesso"
+    },
+    {
+      "chunk_id": 18,
+      "text": "in a function invoked after a timeout. The accessor can do this by calling setTimeout(function,time) in initialize() , for example. It may also send outputs in any callback function, for example one that handles a response to an asynchronous HTTP req"
+    },
+    {
+      "chunk_id": 19,
+      "text": "hat handles a response to an asynchronous HTTP request or to a timeout. Error conditions It is an error to send outputs before the host has invoked initialize or after it has invoked wrapup() (before the next intialize() ). Therefore, an accessor sho"
+    },
+    {
+      "chunk_id": 20,
+      "text": "the next intialize() ). Therefore, an accessor should use its wrapup() function to, for example, cancel any pending timeouts or event handlers. Terminology Action functions are called \"function\" even though they are not mathematical functions, becaus"
+    }
+  ]
+}

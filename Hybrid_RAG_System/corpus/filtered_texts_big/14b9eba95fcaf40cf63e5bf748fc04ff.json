@@ -1,0 +1,337 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/kernel/util/Workspace.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Workspace Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.kernel.util Class Workspace java.lang.Object ptolemy.kern"
+    },
+    {
+      "chunk_id": 2,
+      "text": "util Class Workspace java.lang.Object ptolemy.kernel.util.Workspace All Implemented Interfaces: Nameable , java.io.Serializable public final class Workspace extends java.lang.Object implements Nameable , java.io.Serializable An instance of Workspace"
+    },
+    {
+      "chunk_id": 3,
+      "text": "e , java.io.Serializable An instance of Workspace is used for synchronization and version tracking of interdependent groups of objects. These objects are said to be in the workspace. This is not the same as the container association in Ptolemy II"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e same as the container association in Ptolemy II. A workspace is never returned by a getContainer() method. The workspace provides a rudimentary directory service that can be used to keep track of the objects within it. It is not required to use"
+    },
+    {
+      "chunk_id": 5,
+      "text": "the objects within it. It is not required to use it in order to use the workspace for synchronization. Items are added to the directory by calling add(). The names of the items in the directory are not required to be unique. The synchronization"
+    },
+    {
+      "chunk_id": 6,
+      "text": "re not required to be unique. The synchronization model of the workspace is a multiple-reader, single-writer model. Any number of threads can simultaneously read the workspace. Only one thread at a time can have write access to the workspace, and"
+    },
+    {
+      "chunk_id": 7,
+      "text": "time can have write access to the workspace, and while the write access is held, no other thread can get read access. When reading the state of objects in the workspace, a thread must ensure that no other thread is simultaneously modifying the obje"
+    },
+    {
+      "chunk_id": 8,
+      "text": "other thread is simultaneously modifying the objects in the workspace. To read-synchronize on a workspace, use the following code: try { _workspace.getReadAccess(); // ... code that reads } finally { _workspace.doneReading(); } We assume that"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ly { _workspace.doneReading(); } We assume that the _workspace variable references the workspace, as for example in the NamedObj class. The getReadAccess() method suspends the current thread if another thread is currently modifying the workspace,"
+    },
+    {
+      "chunk_id": 10,
+      "text": "other thread is currently modifying the workspace, and otherwise returns immediately. Note that multiple readers can simultaneously have read access. The finally clause is executed even if an exception occurs. This is essential because without th"
+    },
+    {
+      "chunk_id": 11,
+      "text": "tion occurs. This is essential because without the call to doneReading(), the workspace will never again allow any thread to modify it. To make safe changes to the objects in a workspace, a thread must write-synchronize using the following code:"
+    },
+    {
+      "chunk_id": 12,
+      "text": "must write-synchronize using the following code: try { _workspace.getWriteAccess(); // ... code that writes } finally { _workspace.doneWriting(); } Again, the call to doneWriting() is essential, or the workspace will remain permanently locked"
+    },
+    {
+      "chunk_id": 13,
+      "text": "or the workspace will remain permanently locked to either reading or writing. Note that it is not necessary to obtain a write lock just to add an item to the workspace directory. The methods for accessing the directory are all synchronized, so t"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ccessing the directory are all synchronized, so there is no risk of any thread reading an inconsistent state. Since: Ptolemy II 0.2 Version: $Id: Workspace.java,v 1.108 2006/09/21 15:45:37 cxh Exp $ Author: Edward A. Lee, Mudit Goel, Lukito Muliadi"
+    },
+    {
+      "chunk_id": 15,
+      "text": "Author: Edward A. Lee, Mudit Goel, Lukito Muliadi, Xiaojun Liu See Also: Serialized Form Accepted Rating: Green (liuxj) Proposed Rating: Green (liuxj) Constructor Summary Workspace () Create a workspace with an empty string as its name. Workspace (j"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ace with an empty string as its name. Workspace (java.lang.String name) Create a workspace with the specified name. Method Summary protected java.lang.String _description (int detail, int indent, int bracket) Return a descr"
+    },
+    {
+      "chunk_id": 17,
+      "text": "t indent, int bracket) Return a description of the workspace. void add ( NamedObj item) Add an item to the directory. java.lang.String description () Return a full description of the workspace and everything in its directory. java.lang"
+    },
+    {
+      "chunk_id": 18,
+      "text": "space and everything in its directory. java.lang.String description (int detail) Return a description of the workspace. java.util.Enumeration directory () Deprecated. Use directoryList() instead. java.util.List directoryList () Return an unmodifiab"
+    },
+    {
+      "chunk_id": 19,
+      "text": "va.util.List directoryList () Return an unmodifiable list of the items in the directory, in the order in which they were added. void doneReading () Indicate that the calling thread is finished reading. void doneWriting () Indicate that the calling"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ng. void doneWriting () Indicate that the calling thread is finished writing. NamedObj getContainer () Get the container. java.lang.String getDisplayName () Return a name to present to the user, which is the same as what is returned by getName(). j"
+    },
+    {
+      "chunk_id": 21,
+      "text": "is the same as what is returned by getName(). java.lang.String getFullName () Get the full name. java.lang.String getName () Get the name. java.lang.String getName ( NamedObj relativeTo) Get the name. void getReadAccess () Obtain permission to rea"
+    },
+    {
+      "chunk_id": 22,
+      "text": "me. void getReadAccess () Obtain permission to read objects in the workspace. long getVersion () Get the version number. void getWriteAccess () Obtain permission to write to objects in the workspace. boolean handleModelError ( NamedObj context, Illeg"
+    },
+    {
+      "chunk_id": 23,
+      "text": "boolean handleModelError ( NamedObj context, IllegalActionException exception) Handle a model error by throwing the specified exception. void incrVersion () Increment the version number by one. void remove ( NamedObj item) Remove the specified item f"
+    },
+    {
+      "chunk_id": 24,
+      "text": "emove ( NamedObj item) Remove the specified item from the directory. void removeAll () Remove all items from the directory. void setName (java.lang.String name) Set or change the name. java.lang.String toString () Return a concise description of the"
+    },
+    {
+      "chunk_id": 25,
+      "text": "g toString () Return a concise description of the object. void wait (java.lang.Object obj) Release all the read accesses held by the current thread and suspend the thread by calling Object.wait() on the specified object. void wait (java.lang.Object"
+    },
+    {
+      "chunk_id": 26,
+      "text": "the specified object. void wait (java.lang.Object obj, long timeout) This method is equivalent to the single argument version except that you can specify a timeout, which is in milliseconds. Methods inherited from class java.lang.Object clone"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ethods inherited from class java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Constructor Detail Workspace public Workspace () Create a workspace with an empty string as its name. Workspace public Works"
+    },
+    {
+      "chunk_id": 28,
+      "text": "n empty string as its name. Workspace public Workspace (java.lang.String name) Create a workspace with the specified name. This name will form the prefix of the full name of all contained objects. If the name argument is null, then an empty stri"
+    },
+    {
+      "chunk_id": 29,
+      "text": "If the name argument is null, then an empty string \"\" is used as the name. Parameters: name - Name of the workspace. Method Detail add public void add ( NamedObj item) throws IllegalActionException Add an item to the directory. The names o"
+    },
+    {
+      "chunk_id": 30,
+      "text": "xception Add an item to the directory. The names of the objects in the directory are not required to be unique. Only items with no container can be added. Items with a container are still viewed as being within the workspace, but they are no"
+    },
+    {
+      "chunk_id": 31,
+      "text": "d as being within the workspace, but they are not explicitly listed in the directory. Instead, their top-level container is expected to be listed (although this is not enforced). Increment the version number. Parameters: item - Item to list i"
+    },
+    {
+      "chunk_id": 32,
+      "text": "version number. Parameters: item - Item to list in the directory. Throws: IllegalActionException - If the item has a container, is already in the directory, or is not in this workspace. description public java.lang.String description () Return a"
+    },
+    {
+      "chunk_id": 33,
+      "text": "n public java.lang.String description () Return a full description of the workspace and everything in its directory. This is accomplished by calling the description method with an argument for full detail. Specified by: description in interface"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ll detail. Specified by: description in interface Nameable Returns: A description of the workspace. description public java.lang.String description (int detail) Return a description of the workspace. The level of detail depends on the argument, whi"
+    },
+    {
+      "chunk_id": 35,
+      "text": "The level of detail depends on the argument, which is an or-ing of the static final constants defined in the NamedObj class. This method returns an empty string (not null) if there is nothing to report. If the contents are requested, then t"
+    },
+    {
+      "chunk_id": 36,
+      "text": "o report. If the contents are requested, then the items in the directory are also described. Parameters: detail - The level of detail. Returns: A description of the workspace. directory public java.util.Enumeration directory () Deprecated. Use dir"
+    },
+    {
+      "chunk_id": 37,
+      "text": ".util.Enumeration directory () Deprecated. Use directoryList() instead. Enumerate the items in the directory, in the order in which they were added. Returns: An enumeration of NamedObj objects. directoryList public java.util.List directoryList () R"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ctoryList public java.util.List directoryList () Return an unmodifiable list of the items in the directory, in the order in which they were added. Returns: A list of instances of NamedObj. doneReading public final void doneReading () Indicate that"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ng public final void doneReading () Indicate that the calling thread is finished reading. If this thread is completely done reading (it has no other read access to the workspace), then notify all threads that are waiting to get read/write acces"
+    },
+    {
+      "chunk_id": 40,
+      "text": "threads that are waiting to get read/write access to this workspace so that they may contend for access. Throws: InvalidStateException - If this method is called before a corresponding call to getReadAccess() by the same thread. doneWriting pu"
+    },
+    {
+      "chunk_id": 41,
+      "text": "getReadAccess() by the same thread. doneWriting public final void doneWriting () Indicate that the calling thread is finished writing. If this thread is completely done writing (it has no other write access to the workspace), then notify all thre"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ite access to the workspace), then notify all threads that are waiting to get read/write access to this workspace so that they may contend for access. It also increments the version number of the workspace. Throws: InvalidStateException - If th"
+    },
+    {
+      "chunk_id": 43,
+      "text": "e workspace. Throws: InvalidStateException - If this method is called before a corresponding call to getWriteAccess() by the same thread. getContainer public NamedObj getContainer () Get the container. Always return null since a workspace has n"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ner. Always return null since a workspace has no container. Specified by: getContainer in interface Nameable Returns: null. getDisplayName public java.lang.String getDisplayName () Return a name to present to the user, which is the same as what"
+    },
+    {
+      "chunk_id": 45,
+      "text": "present to the user, which is the same as what is returned by getName(). Specified by: getDisplayName in interface Nameable Returns: The name. See Also: getName() getFullName public java.lang.String getFullName () Get the full name. Specified by:"
+    },
+    {
+      "chunk_id": 46,
+      "text": "g getFullName () Get the full name. Specified by: getFullName in interface Nameable Returns: The name of the workspace. getName public java.lang.String getName () Get the name. Specified by: getName in interface Nameable Returns: The name of the work"
+    },
+    {
+      "chunk_id": 47,
+      "text": "n interface Nameable Returns: The name of the workspace. See Also: setName(String) getName public java.lang.String getName ( NamedObj relativeTo) Get the name. Since this can have no container, the relative name is always the same as the name. Spec"
+    },
+    {
+      "chunk_id": 48,
+      "text": "lative name is always the same as the name. Specified by: getName in interface Nameable Parameters: relativeTo - This argument is ignored. Returns: The name of the workspace. See Also: setName(String) getReadAccess public final void getReadAccess ("
+    },
+    {
+      "chunk_id": 49,
+      "text": "g) getReadAccess public final void getReadAccess () Obtain permission to read objects in the workspace. This method suspends the calling thread until read access has been obtained. Read access is granted unless either another thread has write a"
+    },
+    {
+      "chunk_id": 50,
+      "text": "granted unless either another thread has write access, or there are threads that have requested write access and not gotten it yet. If this thread already has read access, then access is granted irrespective of other write requests. If the"
+    },
+    {
+      "chunk_id": 51,
+      "text": "irrespective of other write requests. If the calling thread is interrupted while waiting to get read access, an InternalErrorException is thrown, and the thread does not have read permission to the workspace. It is essential that a call to"
+    },
+    {
+      "chunk_id": 52,
+      "text": "to the workspace. It is essential that a call to this method is matched by a call to doneReading(), regardless of whether this method returns normally or an exception is thrown. This is to ensure that the workspace is in a consistent state, o"
+    },
+    {
+      "chunk_id": 53,
+      "text": "e that the workspace is in a consistent state, otherwise write access may never again be granted in this workspace. Throws: InternalErrorException - If the calling thread is interrupted while waiting to get read access. See Also: doneReading()"
+    },
+    {
+      "chunk_id": 54,
+      "text": "aiting to get read access. See Also: doneReading() getVersion public final long getVersion () Get the version number. The version number is incremented on each call to doneWriting() and also on calls to incrVersion(). It is meant to track change"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ls to incrVersion(). It is meant to track changes to the objects in the workspace. Returns: A non-negative long integer. getWriteAccess public final void getWriteAccess () Obtain permission to write to objects in the workspace. Write access is gr"
+    },
+    {
+      "chunk_id": 56,
+      "text": "to objects in the workspace. Write access is granted if there are no other threads that currently have read or write access. In particular, it is granted if this thread already has write access, or if it is the only thread with read access."
+    },
+    {
+      "chunk_id": 57,
+      "text": "s, or if it is the only thread with read access. This method suspends the calling thread until such access has been obtained. If the calling thread is interrupted while waiting to get write access, an InternalErrorException is thrown, and t"
+    },
+    {
+      "chunk_id": 58,
+      "text": "access, an InternalErrorException is thrown, and the thread does not have write permission to the workspace. It is essential that a call to this method is matched by a call to doneWriting(), regardless of whether this method returns normally or"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ardless of whether this method returns normally or an exception is thrown. This is to ensure that the workspace is in a consistent state, otherwise read or write access may never again be granted in this workspace. Throws: InternalErrorExceptio"
+    },
+    {
+      "chunk_id": 60,
+      "text": "d in this workspace. Throws: InternalErrorException - If the calling thread is interrupted while waiting to get write access. See Also: doneWriting() handleModelError public boolean handleModelError ( NamedObj context, IllegalActionException excep"
+    },
+    {
+      "chunk_id": 61,
+      "text": "r ( NamedObj context, IllegalActionException exception) throws IllegalActionException Handle a model error by throwing the specified exception. Parameters: context - The object in which the error occurred. exception - An exce"
+    },
+    {
+      "chunk_id": 62,
+      "text": "t in which the error occurred. exception - An exception that represents the error. Returns: Never returns. Throws: IllegalActionException - The exception passed as an argument is always thrown. Since: Ptolemy II 2.1 incrVersion public final void i"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ce: Ptolemy II 2.1 incrVersion public final void incrVersion () Increment the version number by one. remove public void remove ( NamedObj item) Remove the specified item from the directory. Note that that item will still refer to this workspace as"
+    },
+    {
+      "chunk_id": 64,
+      "text": "t that item will still refer to this workspace as its workspace (its workspace is immutable). If the object is not in the directory, do nothing. Increment the version number. Parameters: item - The NamedObj to be removed. removeAll public void"
+    },
+    {
+      "chunk_id": 65,
+      "text": "The NamedObj to be removed. removeAll public void removeAll () Remove all items from the directory. Note that those items will still refer to this workspace as their workspace (their workspace is immutable). Increment the version number. setNa"
+    },
+    {
+      "chunk_id": 66,
+      "text": "immutable). Increment the version number. setName public void setName (java.lang.String name) Set or change the name. If a null argument is given the name is set to an empty string. Increment the version number. Specified by: setName in inter"
+    },
+    {
+      "chunk_id": 67,
+      "text": "the version number. Specified by: setName in interface Nameable Parameters: name - The new name. See Also: getName() toString public java.lang.String toString () Return a concise description of the object. Returns: The class name and name. wait publi"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ject. Returns: The class name and name. wait public void wait (java.lang.Object obj) throws java.lang.InterruptedException Release all the read accesses held by the current thread and suspend the thread by calling Object.wait() on the spe"
+    },
+    {
+      "chunk_id": 69,
+      "text": "d the thread by calling Object.wait() on the specified object. When the call returns, re-acquire all the read accesses held earlier by the thread and return. If the calling thread is interrupted while waiting to re-acquire read accesses, an"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ed while waiting to re-acquire read accesses, an InternalErrorException is thrown, and the thread no longer has read access to the workspace. This method helps prevent deadlocks caused when a thread that waits for another thread to do somethi"
+    },
+    {
+      "chunk_id": 71,
+      "text": "read that waits for another thread to do something prevents it from doing that something by holding read access on the workspace. Parameters: obj - The object that the thread wants to wait on. Throws: java.lang.InterruptedException - If the calli"
+    },
+    {
+      "chunk_id": 72,
+      "text": "ows: java.lang.InterruptedException - If the calling thread is interrupted while waiting on the specified object and all the read accesses held earlier by the thread are re-acquired. InternalErrorException - If re-acquiring the read accesses"
+    },
+    {
+      "chunk_id": 73,
+      "text": "orException - If re-acquiring the read accesses held earlier by the thread fails. wait public void wait (java.lang.Object obj, long timeout) throws java.lang.InterruptedException This method is equivalent to the single a"
+    },
+    {
+      "chunk_id": 74,
+      "text": "xception This method is equivalent to the single argument version except that you can specify a timeout, which is in milliseconds. If value of the timeout argument is zero, then the method is exactly equivalent to the single argument version, a"
+    },
+    {
+      "chunk_id": 75,
+      "text": "tly equivalent to the single argument version, and no timeout is implemented. If the value is larger than zero, then the method returns if either the thread is notified by another thread or the timeout expires. Parameters: obj - The object that"
+    },
+    {
+      "chunk_id": 76,
+      "text": "timeout expires. Parameters: obj - The object that the thread wants to wait on. timeout - The maximum amount of time to wait, in milliseconds, or zero to not specify a timeout. Throws: java.lang.InterruptedException - If the calling thread is inte"
+    },
+    {
+      "chunk_id": 77,
+      "text": "terruptedException - If the calling thread is interrupted while waiting on the specified object and all the read accesses held earlier by the thread are re-acquired. InternalErrorException - If re-acquiring the read accesses held earlier by"
+    },
+    {
+      "chunk_id": 78,
+      "text": "re-acquiring the read accesses held earlier by the thread fails. See Also: wait(Object) _description protected java.lang.String _description (int detail, int indent, i"
+    },
+    {
+      "chunk_id": 79,
+      "text": "indent, int bracket) Return a description of the workspace. The level of detail depends on the argument, which is an or-ing of the static final constants defined in the NamedObj class. If the contents ar"
+    },
+    {
+      "chunk_id": 80,
+      "text": "defined in the NamedObj class. If the contents are requested, then the items in the directory are also described. Zero, one or two brackets can be specified to surround the returned description. If one is specified it is the the leading brack"
+    },
+    {
+      "chunk_id": 81,
+      "text": ". If one is specified it is the the leading bracket. This is used by derived classes that will append to the description. Those derived classes are responsible for the closing bracket. An argument other than 0, 1, or 2 is taken to be equivalen"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ent other than 0, 1, or 2 is taken to be equivalent to 0. Parameters: detail - The level of detail. indent - The amount of indenting. bracket - The number of surrounding brackets (0, 1, or 2). Returns: A description of the workspace. Overview Package"
+    },
+    {
+      "chunk_id": 83,
+      "text": ": A description of the workspace. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

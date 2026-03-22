@@ -1,0 +1,341 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading-old.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/grading.help Sep 11 2013 Instructors' Reference for the Instructional Gradi"
+    },
+    {
+      "chunk_id": 3,
+      "text": "and Readers Tasks for the Students Autograding Enabling an Assignment for Partners Special Instructions for Named Accounts Troubleshooting Making Someone a Reader Example: Define, submit, autograde an assignment More Information Overview --"
+    },
+    {
+      "chunk_id": 4,
+      "text": "rade an assignment More Information Overview -------- Most CS classes use the grading programs on UNIX that are authored and maintained by Professor Paul Hilfinger for CS61B (originally in Spring 1998). The programs manage student da"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ng 1998). The programs manage student data that is used for the submission of assignments and the recording of grades. This data is stored on the EECS Instructional UNIX systems. It does not interact with the Registrar, but instru"
+    },
+    {
+      "chunk_id": 6,
+      "text": "oes not interact with the Registrar, but instructors can print reports that aid in the reporting of grades. Students are initialized in a class's grade database by the 'register' program. They can submit assignments using 'submit' and di"
+    },
+    {
+      "chunk_id": 7,
+      "text": "They can submit assignments using 'submit' and display their records from the grade database using 'glookup'. The class accounts are automatically configured to use the grading software. Instructors and TAs can review the submissions with"
+    },
+    {
+      "chunk_id": 8,
+      "text": "nstructors and TAs can review the submissions with the help of optional filtering software. Then they run the 'grade' program to record grades for each student and to generate reports. We let instructors set up cronjobs for autograding on o"
+    },
+    {
+      "chunk_id": 9,
+      "text": "t instructors set up cronjobs for autograding on other systems (such as cube.cs and pulsar.cs). Documentation: https://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=grading/doc Change log: https://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ttps://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=grading/ChangeLog Tasks for Instructional Support ------------------------------- Set up and test grading directories and links. You can 'su -' to an instructor account and run 'init-grading"
+    },
+    {
+      "chunk_id": 11,
+      "text": "-' to an instructor account and run 'init-grading -i' to set up the ~/grading directory (maybe 'init-grading -p' first to generate a new params file). The grading software is in /share/b/grading. Each class master has a directory called"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ding. Each class master has a directory called \"grading\", containing the directories and files necessary to use the grading program. At the beginning of the semester, archive the ~$MASTER/grading directory to grading.semyr (e.g. cp -r gr"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ading directory to grading.semyr (e.g. cp -r grading grading.fa99) and create a clean set of directories, links and files: ~$MASTER/grading: PRCS/ all-grades/ bugs/ logs/ new-rosters/ params (file) - copy last semester's as a gui"
+    },
+    {
+      "chunk_id": 14,
+      "text": "s/ params (file) - copy last semester's as a guide pretest/ register/ roster-archive/ secret/ submissions/ testing/ ln -s /share/b/grading/docs docs ~$MASTER/lib: ln -s /share/b/grading/lib/GradingHelp.txt GradingHelp.txt"
+    },
+    {
+      "chunk_id": 15,
+      "text": "re/b/grading/lib/GradingHelp.txt GradingHelp.txt ln -s /shrae/b/grading/lib/perl perl ~$MASTER/adm: Make sure class.login calls register and that path (from /share/b/bin/instructional.cshrc) includes /share/b/grading/bin Add /shar"
+    },
+    {
+      "chunk_id": 16,
+      "text": "shrc) includes /share/b/grading/bin Add /share/b/grading/sbin to path of ~$MASTER and class-staff, either manually or with a class.setgroup file. Check permissions. Include sample params file with sample assign and reader entries (in"
+    },
+    {
+      "chunk_id": 17,
+      "text": "file with sample assign and reader entries (including regular expressions). Make sure all class masters have a run-as-CLASSMASTER for each architecture in /share/b/runas/`uname -m` init-grading cron jobs: At the instructor"
+    },
+    {
+      "chunk_id": 18,
+      "text": "nit-grading cron jobs: At the instructor's request, set up a cronjob on torus.cs for class-ra to run autograding scripts if the instructor wants to use them. Tasks for the Class Master -------------------------- Class masters need"
+    },
+    {
+      "chunk_id": 19,
+      "text": "r -------------------------- Class masters need to edit the params file and run 'init-grading'. params: The ~$MASTER/grading/params file from the previous semester is included as a guide. Set up a test entry (hw0) and make sure it be"
+    },
+    {
+      "chunk_id": 20,
+      "text": "de. Set up a test entry (hw0) and make sure it behaves as you desire. init-grading: Run the init-grading command any time you edit the params file. Type 'man -M /share/b/grading/man init-grading' for details. Type 'init-grading -i' to"
+    },
+    {
+      "chunk_id": 21,
+      "text": "grading' for details. Type 'init-grading -i' to properly (re)set the permissions on the grading folder and subfolders in case someone changed them. Run 'init-grading -i' every time someone changes their register data or the params file is e"
+    },
+    {
+      "chunk_id": 22,
+      "text": "nges their register data or the params file is edited. Most perceived problems can be solved by running 'init-grading -i'. Note that 'init-grading -i' does not delete the current contents of the grading database or submissions. Testing"
+    },
+    {
+      "chunk_id": 23,
+      "text": "the grading database or submissions. Testing scripts optional. The documentation is in /share/b/pub/grading.docs/ If you need help ask inst@eecs or visit 333 Soda. Tasks for the TAs and Readers -----------------------------"
+    },
+    {
+      "chunk_id": 24,
+      "text": "he TAs and Readers ----------------------------- Here are tutorials written by TAs for TAs (thanks to Andy Toulouse): /share/b/pub/grading.docs/headta.html /share/b/pub/grading.docs/reader.html TAs and readers use the commands get-submiss"
+    },
+    {
+      "chunk_id": 25,
+      "text": "TAs and readers use the commands get-submissions, lookat, make-roster, enter-grades All the commands have a short help (-h) option. get-submissions: The params file may be configured to give you access to a particular set of"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ured to give you access to a particular set of class logins. If so, get-submissions ASSIGN (e.g. get-submissions hw1) will create links to your assigned logins. You can also specify a set of logins on the command line. lookat:"
+    },
+    {
+      "chunk_id": 27,
+      "text": "logins on the command line. lookat: lookat ASSIGN login (lookat hw1 cs61b-aa) unpacks the assignment into the default directory LOOKAT so that you can examine it. This is usually preferable to get-submissions, becuase lookat ge"
+    },
+    {
+      "chunk_id": 28,
+      "text": "preferable to get-submissions, becuase lookat gets one assignment while get-submissions gets all assignments and can fill your disk quota. make-roster: make-roster ASSIGN creates a blank roster file with the name of the current ass"
+    },
+    {
+      "chunk_id": 29,
+      "text": "nk roster file with the name of the current assignment (make-roster hw1 creates a blank roster file named hw1). If the params file is configured to assign you a subset of the class the roster will contain only the logins assigned to you; ot"
+    },
+    {
+      "chunk_id": 30,
+      "text": "will contain only the logins assigned to you; otherwise the roster will contain all the logins of registered students in the class. You can edit this file to serve as the input file to the enter-grades command. enter-grades: enter"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ter-grades command. enter-grades: enter-grades -f ROSTERFILENAME will enter grades recorded on the roster file. You can also enter grades interactively by running enter-grades ASSIGN (enter-grades hw1). For more information , ple"
+    },
+    {
+      "chunk_id": 32,
+      "text": "(enter-grades hw1). For more information , please see /share/b/pub/grading.docs/shortest.reader.instructions /share/b/pub/grading.docs/grading.reader Tasks for the Students ---------------------- Students use the commands register, submi"
+    },
+    {
+      "chunk_id": 33,
+      "text": "------ Students use the commands register, submit, glookup register: -------- If you have a class account (e.g. cs61b-aa) you should be asked your name and SID the first time you log in. If you are not sure whether this has happene"
+    },
+    {
+      "chunk_id": 34,
+      "text": ". If you are not sure whether this has happened, run check-register to check your class registration information. (Note: This is *not* official University class enrollment information. If you have any question about whether you"
+    },
+    {
+      "chunk_id": 35,
+      "text": "on. If you have any question about whether you are officially enrolled in the class, check with your instructor.) If this script returns no information run register If this information is incorrect run re-register Al"
+    },
+    {
+      "chunk_id": 36,
+      "text": "rmation is incorrect run re-register Also see http://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=glookup.help. submit: ------ To submit an assignment cd to the directory containing the assignment and type submit ASSIGN ("
+    },
+    {
+      "chunk_id": 37,
+      "text": "ng the assignment and type submit ASSIGN (e.g. submit hw1) You will get a message that the assignment was submitted and that \"you will be hearing from us.\" You will not receive any further messages until the submissions are filed"
+    },
+    {
+      "chunk_id": 38,
+      "text": "rther messages until the submissions are filed for the readers; do not be concerned if the confirmation e-mail is delayed. Also see http://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=submit.help. glookup: ------- To look up your"
+    },
+    {
+      "chunk_id": 39,
+      "text": "help. glookup: ------- To look up your grades run glookup Also see http://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=glookup.help. Autograding ----------- Torus.cs is server where the class-ra accounts can run autograding cron"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ere the class-ra accounts can run autograding cron jobs. We don't run the autograding jobs on file servers or SunRay servers because they can overload those servers. At the instructor's request, the Instructional staff will set up cron job"
+    },
+    {
+      "chunk_id": 41,
+      "text": "uest, the Instructional staff will set up cron jobs for the class-ra account to run autograding scripts. Here is an example of a crontab file that runs an autograding script: ##### # Cron command owned by cs61a-ra (the class autograder ac"
+    },
+    {
+      "chunk_id": 42,
+      "text": "command owned by cs61a-ra (the class autograder account). # 2>&1' redirects stdout and stderr from the script to a log file. # NOTE: the '2>&1' must go at the end of the line, not after the command. # '>>' appends the log file ('>' would over"
+    },
+    {
+      "chunk_id": 43,
+      "text": "and. # '>>' appends the log file ('>' would overwrite). # See 'man crontab' for more information. ##### 17,47 * * * * $HOME/cron-scripts/run-file-submissions.sh >> $HOME/logs/file-submissions.log 2>&1 21,51 * * * * $HOME/cron-scripts/run-au"
+    },
+    {
+      "chunk_id": 44,
+      "text": "log 2>&1 21,51 * * * * $HOME/cron-scripts/run-auto-test.sh >> $HOME/logs/auto-tests.log 2>&1 Enabling an Assignment for Partners ----------------------------------- The instructor should add the argument '-partners' to the 'assign' line in t"
+    },
+    {
+      "chunk_id": 45,
+      "text": "argument '-partners' to the 'assign' line in the params file and re-run 'init-grading'. The student submits the assignment using 'submit'. The '-partners' option in the params file will cause 'submit' to look for a file called MY.PART"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ause 'submit' to look for a file called MY.PARTNERS in the student's current directory or ask the student for the logins of all his/her partners. The format of the MY.PARTNERS file is a list of user names delimited by spaces, tabs or newlin"
+    },
+    {
+      "chunk_id": 47,
+      "text": "of user names delimited by spaces, tabs or newlines, such as cs123-aa cs123-ab cs123-ac The reader processes the assignment by running 'make-roster', 'get-submissions', 'list-parters' and 'add-partners'. For more details, please see"
+    },
+    {
+      "chunk_id": 48,
+      "text": "'add-partners'. For more details, please see /share/b/pub/grading.docs/OVERVIEW and 'man -M /share/b/grading/man submit\", etc. Special Instructions for Named Accounts --------------------------------------- If you are using a named accou"
+    },
+    {
+      "chunk_id": 49,
+      "text": "----------------- If you are using a named account for the class (e.g. efudd or jdoe), run these commands: /share/b/bin/re-register - to enter new data about yourself /share/b/bin/check-register - to see what you entered /share/b/bin/submit"
+    },
+    {
+      "chunk_id": 50,
+      "text": "r - to see what you entered /share/b/bin/submit - to send homework to the instructor /share/b/bin/glookup - to see what grades have been entered These versions will ask you what class you want to do it for. If you have questions about"
+    },
+    {
+      "chunk_id": 51,
+      "text": "want to do it for. If you have questions about your grades or assignments contact your TA or instructor. If you have questions about the grading software e-mail inst@eecs.berkeley.edu Troubleshooting --------------- 1. grading utilities"
+    },
+    {
+      "chunk_id": 52,
+      "text": "leshooting --------------- 1. grading utilities persist in complaining about permissions. Check the umask of the class master and set it to 022 if it is not so set. 2. Any errors that complain about @INC. Make sure ~$MASTER/lib/perl is"
+    },
+    {
+      "chunk_id": 53,
+      "text": "mplain about @INC. Make sure ~$MASTER/lib/perl is correctly linked to /share/b/grading/lib/perl. 3. 'make-main-roster' prevents instructors from being added to the gradebook. 4. 'mail-results' gets its email addresses from the ~/grading/"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ults' gets its email addresses from the ~/grading/register files. 5. 'register' gets $MASTER from the user AND THEN from the params file. 6. 'register' lacks permission to set the group to $MASTER-staff on its output files, so we run a ro"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ER-staff on its output files, so we run a root-owned cronjob regularly on Mamba to fix it. 7. The timestamps used in the names of the files under the submissions directory are intentionally in UTC (aka GMT), not local time. This"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ally in UTC (aka GMT), not local time. This avoids the daylight savings time transitions that occur twice a year. Making Someone a Reader ----------------------- If the instructor wants to make someone a reader for the class so he/she"
+    },
+    {
+      "chunk_id": 57,
+      "text": "o make someone a reader for the class so he/she can grade assignments: 1) Give the student a reader account (for class accounts, use the cs123-r* accounts). Any account (including a named account) could be a reader. The reader acco"
+    },
+    {
+      "chunk_id": 58,
+      "text": "account) could be a reader. The reader account needs to be in the $STAFF_GROUP that is defined in the params file (such as 'cs123-staff'). You can check the group membership on UNIX with our \"ildap\" script, such as /share/b/"
+    },
+    {
+      "chunk_id": 59,
+      "text": "X with our \"ildap\" script, such as /share/b/adm/bin/ildap group cs123-staff Ask inst@eecs.berkeley.edu to change the group membership if needed. 2) List the reader account in the class ~/grading/params file. Run \"init-grading -i"
+    },
+    {
+      "chunk_id": 60,
+      "text": "~/grading/params file. Run \"init-grading -i\" whenever the params file is changed or someone changes their register data. Note that 'init-grading -i' does not delete the current contents of the grading database or submissions. 3"
+    },
+    {
+      "chunk_id": 61,
+      "text": "tents of the grading database or submissions. 3) The reader should login to the account and answer the 'register' questions, or run 're-register', to be included in the grading system. Example: Define, submit, autograde an assignment -----"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ple: Define, submit, autograde an assignment ------------------------------------------------ Here's an example for instructors showing how to define an assignment and submit it. It also has a script that inserts the content of a submitted"
+    },
+    {
+      "chunk_id": 63,
+      "text": "script that inserts the content of a submitted file into the gradebook, which is the most basic form of an autograder (it bypasses any review of the code or content altogether!). The example is for the fictitious course called 'cs123'; repla"
+    },
+    {
+      "chunk_id": 64,
+      "text": "is for the fictitious course called 'cs123'; replace that with your own course login. Lines that start with # are UNIX commands (\"#\" is the prompt, not part of the command.) 1) The instructor on UNIX runs: # cat >> ~cs123/grading/params"
+    },
+    {
+      "chunk_id": 65,
+      "text": "tor on UNIX runs: # cat >> ~cs123/grading/params reader cs123 -instructor assign selfeval -max 100 -category hw -req 'selfeval.txt' -rej '(.*?)' # init-grading -i Explanation: First, define the assignment in the class 'params' file."
+    },
+    {
+      "chunk_id": 66,
+      "text": "define the assignment in the class 'params' file. Here, we use a basic UNIX command, 'cat', to append 2 lines to the file. The first line defines the assignment. In this case, 'submit' will only accept a file called 'selfeval.txt'."
+    },
+    {
+      "chunk_id": 67,
+      "text": "ill only accept a file called 'selfeval.txt'. The second line allows the instructor account to process all submissions. In reality, the reader accounts are generally used here ('cs123-ra', etc). Next, update other grading files"
+    },
+    {
+      "chunk_id": 68,
+      "text": "3-ra', etc). Next, update other grading files with the 'init-grading -i' command. (The instructor runs this often.) Note about editing the instructor's files: If you are comfortable with UNIX commands and editors (vi, emacs), the"
+    },
+    {
+      "chunk_id": 69,
+      "text": "with UNIX commands and editors (vi, emacs), the most direct ascess to these files is to 'ssh' into the instructor's account on one of the Instructional UNIX servers. For Windows users, an alternative is to logon to the instructor's"
+    },
+    {
+      "chunk_id": 70,
+      "text": "n alternative is to logon to the instructor's account on one of the Instructional Windows RDC servers, where the UNIX home directory is accessible as drive M:. You will still need to login to UNIX to run the commands. If you need"
+    },
+    {
+      "chunk_id": 71,
+      "text": "gin to UNIX to run the commands. If you need to set the backspace key in your UNIX window, here is the UNIX command: # stty erase 2) The students on UNIX run: # register Explanation: This writes a file in ~cs123/gra"
+    },
+    {
+      "chunk_id": 72,
+      "text": "Explanation: This writes a file in ~cs123/grading/register. The student can update that by running 're-register'. 3) instructor on UNIX: # init-grading -i Explanation: This updates other grading files with new data from 'reg"
+    },
+    {
+      "chunk_id": 73,
+      "text": "pdates other grading files with new data from 'register'. 4) The students on UNIX can now run: # mkdir selfeval # cd selfeval # echo \"100 this is the score I want\" >! selfeval.txt # submit selfeval Explanation: The contents of"
+    },
+    {
+      "chunk_id": 74,
+      "text": "lfeval Explanation: The contents of 'selfeval.txt' are intended to match the format of the file that the instructor will later create to insert this entry into the gradebook. In most real-world cases, it would actually be a"
+    },
+    {
+      "chunk_id": 75,
+      "text": "In most real-world cases, it would actually be a homework assignment. Windows users: All of the grading software runs on UNIX, so Windows users will need to login to a UNIX server using Putty or ssh to run the commands. Users on"
+    },
+    {
+      "chunk_id": 76,
+      "text": "Putty or ssh to run the commands. Users on Windows can open their UNIX home directory by clicking on the \"M:\" desktop icon, and they can create directories and write files there that can be submitted from their UNIX window. 5) In"
+    },
+    {
+      "chunk_id": 77,
+      "text": "an be submitted from their UNIX window. 5) Instructor, TA or reader on UNIX: # mkdir selfeval # cd selfeval # get-submissions selfeval Explanation: 'get-submissions' makes links to the 'selfeval' assignments of all students ass"
+    },
+    {
+      "chunk_id": 78,
+      "text": "the 'selfeval' assignments of all students associated with this reader account in the params file. The account that runs this must be defined as a 'reader' in the params file. Login to that account to run these commands. # export PAT"
+    },
+    {
+      "chunk_id": 79,
+      "text": "hat account to run these commands. # export PATH=$PATH:/share/b/grading/bin:/share/b/grading/lib # export MASTERDIR=\"/home/ff/cs123\" # cd ~cs123-ra/ # working directory, your choice # touch selfeval # for file in *\\.[0-9]*; do login=${f"
+    },
+    {
+      "chunk_id": 80,
+      "text": "lfeval # for file in *\\.[0-9]*; do login=${file%%.*} lookat $login myname=`make-roster | grep $login | cut -d' ' -f2` myscore=`cat LOOK/selfeval.txt` echo \"$login $myname $myscore\" >> selfeval done The bash scri"
+    },
+    {
+      "chunk_id": 81,
+      "text": "$myscore\" >> selfeval done The bash script above is crude and lacks error detection. If you run it as a cronjob, you need to explicitly set the PATH and MASTERDIR variables and cd into the working directory. It iterates over each"
+    },
+    {
+      "chunk_id": 82,
+      "text": "into the working directory. It iterates over each assignment that 'get-submissions' put in the current directory, unpacks it with 'lookat' and appends its content to a file called 'selfeval'. In this case, the students should be told"
+    },
+    {
+      "chunk_id": 83,
+      "text": "'. In this case, the students should be told that the format of the 'selfeval.txt' file is my-preferred-grade [optional comment, max 128 chars] # enter-grades -f selfeval # glookup -a The 'enter-grades' script inserts the conten"
+    },
+    {
+      "chunk_id": 84,
+      "text": "The 'enter-grades' script inserts the contents of 'selfeval' into the gradebook. The 'glookup' command displays the results. More Information ---------------- /share/b/pub/submit.help - instructions for students /share/b/pub/gradin"
+    },
+    {
+      "chunk_id": 85,
+      "text": "- instructions for students /share/b/pub/grading.help - general reference for instructors (this file) EECS Instructional Support 378/384/386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

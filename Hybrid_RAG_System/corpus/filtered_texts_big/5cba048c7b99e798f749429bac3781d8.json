@@ -1,0 +1,89 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version2/Http-server",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version2 / http-server Module Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version2 / http-server Module Provides an HTTP server. The"
+    },
+    {
+      "chunk_id": 2,
+      "text": "/ http-server Module Provides an HTTP server. The WebServer accessor starts up a server on the given port and host interface, then generates an output for each incoming request. A downstream swarmlet composes and returns a response within a given t"
+    },
+    {
+      "chunk_id": 3,
+      "text": "t composes and returns a response within a given timeout. WebServer generates an error response if the timeout expires before a response arrives on its input port. The server does not currently offer: Authentication. The WebServer or a separate acc"
+    },
+    {
+      "chunk_id": 4,
+      "text": ": Authentication. The WebServer or a separate accessor may offer this in the future. Browser host. WebServer capabilites are not available in the browser host. Cookies. Error handling (other than timeout). This may be offered by the server or othe"
+    },
+    {
+      "chunk_id": 5,
+      "text": "meout). This may be offered by the server or other accessor in the future. MIME types other than text/html. Multiple servers. Only a single server is supported. Request ordering. WebServer sends responses as they arrive on its input port. The ord"
+    },
+    {
+      "chunk_id": 6,
+      "text": "sponses as they arrive on its input port. The order of responses may not match the order requests were received. Request queuing. WebServer generates an output as each request arrives. This may be problematic for some swarmlets. Request routing."
+    },
+    {
+      "chunk_id": 7,
+      "text": "problematic for some swarmlets. Request routing. WebServer accepts requests to all paths. There may be a separate routing accessor in the future. Response formatting. The downstream swarmlet is responsible for creating the response in its entirety"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ponsible for creating the response in its entirety. Session management. Cookies are a prerequisite for session management. Static page serving. API HttpServer ( options ): Create an HTTP server. Options include: port : The port on which to listen f"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ions include: port : The port on which to listen for requests. Default is 80 , which is the default HTTP port. hostInterface : The IP address or name of the local interface for the server to listen on. Defaults to localhost . If the host machine h"
+    },
+    {
+      "chunk_id": 10,
+      "text": "n. Defaults to localhost . If the host machine has multiple network interfaces (e.g. Ethernet, WiFi, ...) you may need to explicitly specify hostInterface . timeout : The time to wait after emitting a request for the response to arrive. In millis"
+    },
+    {
+      "chunk_id": 11,
+      "text": "g a request for the response to arrive. In milliseconds. Defaults to 10,000 . respond ( requestID , response , responseCode ): Send response to the request with the matching requestID , optionally providing a responseCode (defaults to 200). start"
+    },
+    {
+      "chunk_id": 12,
+      "text": "providing a responseCode (defaults to 200). start : Start the server. stop : Stop the server. _request : Internal method Cape Code uses to notify that a request has arrived. Not meant to be called by Javascript. WebServer generates these events: lis"
+    },
+    {
+      "chunk_id": 13,
+      "text": "Javascript. WebServer generates these events: listening : Server is ready and listening for requests. request : A request has arrived. This event contains an object with fields for the requestID, method, path, body (if any), headers (if any), and p"
+    },
+    {
+      "chunk_id": 14,
+      "text": "thod, path, body (if any), headers (if any), and params (if any). If there is no body, the body field is absent. If there are no headers or parameters, the corresponding field is set to an empty object. Usage First, construct an instance of HttpSer"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ect. Usage First, construct an instance of HttpServer: var httpServer = require('@accessors-modules/http-server'); var server = new httpServer.HttpServer({'port':8082}); var util = require('util'); // Used for printing requests to the console."
+    },
+    {
+      "chunk_id": 16,
+      "text": "'); // Used for printing requests to the console. Next, register handlers for the events: server.on('listening', function () { console.log('Server is listening.'); }); server.on('request', function (request) { console.log('Server r"
+    },
+    {
+      "chunk_id": 17,
+      "text": ", function (request) { console.log('Server received request: ' + util.inspect(request)); server.respond(request.requestID, 'Hello World'); }); Finally, start the server: server.start(); Node Modules The Node host requires three third-p"
+    },
+    {
+      "chunk_id": 18,
+      "text": "Node Modules The Node host requires three third-party modules: express : A web framework for Node.js. Offering many plug-in modules. https://expressjs.com/ helmet : An express plug-in for setting up secure web services. https://github.com/helmetj"
+    },
+    {
+      "chunk_id": 19,
+      "text": "up secure web services. https://github.com/helmetjs/helmet portscanner : Checks if a port is available before starting the server. https://github.com/baalexander/node-portscanner Please install these prior to running a WebServer example. From /acces"
+    },
+    {
+      "chunk_id": 20,
+      "text": "prior to running a WebServer example. From /accessors/web : npm install express --save npm install helmet --save npm install portscanner --save See Also Cape Code demo: $PTII/org/terraswarm/accessor/demo/WebServer/WebServer.xml Cape Code test"
+    },
+    {
+      "chunk_id": 21,
+      "text": "essor/demo/WebServer/WebServer.xml Cape Code test cases: $PTII/ptolemy/actor/lib/jjs/modules/httpServer/test/auto Node test cases: accessors-modules/web/net/test/auto http-client JSDoc for http-server Back to Optional JavaScript Modules Edit - Histor"
+    }
+  ]
+}

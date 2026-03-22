@@ -1,0 +1,97 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/NashornHost",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / NashornHost Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / NashornHost Summary Nashorn is the native JavaScript in Java 8"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Summary Nashorn is the native JavaScript in Java 8 and above. It runs on the Java virtual machine and provides full access to Java, thereby offering a rich programming environment that combines a scripted, gradually-typed language (JavaScript) with a"
+    },
+    {
+      "chunk_id": 3,
+      "text": "pted, gradually-typed language (JavaScript) with a strongly-typed object-oriented language (Java). Since Java has rich networking and I/O libraries, it is relatively easy to build interfaces to devices using Nashorn. The Nashorn accessor host has two"
+    },
+    {
+      "chunk_id": 4,
+      "text": "s using Nashorn. The Nashorn accessor host has two parts. First, it provides Nashorn implementations of the JavaScript functions and modules required of an accessor host. Second, it executes accessors within Ptolemy II , which provides a graphical in"
+    },
+    {
+      "chunk_id": 5,
+      "text": "within Ptolemy II , which provides a graphical interface, Vergil, for composing accessors and building swarmlets. Swarmlets in this host can mix accessors with ordinary Ptolemy II actors. An accessor import mechanism can be pointed to a web site (wh"
+    },
+    {
+      "chunk_id": 6,
+      "text": "import mechanism can be pointed to a web site (which defaults to https://ptolemy.berkeley.edu/accessors ) or directory that includes an index.json file that lists the accessors that are available on that site. The Ptolemy user may then select one of"
+    },
+    {
+      "chunk_id": 7,
+      "text": "that site. The Ptolemy user may then select one of the available accessors to instantiate. After importing an accessor, to view the accessor script in an instance of an accessor, double click on the accessor instance, select Preferences, and enable \""
+    },
+    {
+      "chunk_id": 8,
+      "text": "ccessor instance, select Preferences, and enable \"expert mode.\" The Nashorn accessor host makes use of Vertx . The Ptolemy II accessor host uses an XSLT transformation program to convert an accessor specification into a Ptolemy II actor. The XSLT scr"
+    },
+    {
+      "chunk_id": 9,
+      "text": "pecification into a Ptolemy II actor. The XSLT script can be found in the Ptolemy II source code tree at org/terraswarm/kernel/XMLJStoMOML.xslt. The Ptolemy II actor uses as its base class the org.terraswarm.kernel.AccesorOne, which is derived from p"
+    },
+    {
+      "chunk_id": 10,
+      "text": "raswarm.kernel.AccesorOne, which is derived from ptolemy.actor.lib.js.JavaScript. The latter class implements the component level context JavaScript functions. Quick Start See Ptolemy II for more information about how to use and install Ptolemy II, b"
+    },
+    {
+      "chunk_id": 11,
+      "text": "rmation about how to use and install Ptolemy II, below is a summary. 1. Install Ptolemy II: svn co https: // repo.eecs.berkeley.edu / svn-anon / projects / eal / ptII / trunk ptII cd ptII export PTII = ` pwd ` . / configure ant $PTII / bin / vergil -"
+    },
+    {
+      "chunk_id": 12,
+      "text": "= ` pwd ` . / configure ant $PTII / bin / vergil -capecode [$[Get Code]] The last line tests the installation by starting Cape Code. Feel free to browse the demos, but you don't need Cape Code to use the Nashorn Host. 2. Invoke the Nashorn Host on a"
+    },
+    {
+      "chunk_id": 13,
+      "text": "the Nashorn Host. 2. Invoke the Nashorn Host on a test composite accessor: cd $PTII / org / terraswarm / accessor / accessors / web / hosts / nashorn . / nashornAccessorHost test / auto / RampJSTestDisplay [$[Get Code]] The above should produce the f"
+    },
+    {
+      "chunk_id": 14,
+      "text": "splay [$[Get Code]] The above should produce the following output: Instantiated accessor RampJSTestDisplay with class test / auto / RampJSTestDisplay Starting event loop for RampJSTestDisplay 1 2 3 4 5 [$[Get Code]] The nashornAccessorHost script sup"
+    },
+    {
+      "chunk_id": 15,
+      "text": "5 [$[Get Code]] The nashornAccessorHost script supports the same command-line arguments as the Node Host#CommandLine . Like the Node Host, you can specify on the command line plain JavaScript files, by using the -js option. The RampJSTestDisplay test"
+    },
+    {
+      "chunk_id": 16,
+      "text": "y using the -js option. The RampJSTestDisplay test is a composite accessor that produces a counting sequence (using a custom JavaScript accessor) and feeds it to two accessors from the TerraSwarm accessor library, a TrainableTest accessor and a TestD"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ssor library, a TrainableTest accessor and a TestDisplay accessor. The TestDisplay accessor displays its inputs (the counting sequence) on standard out. The TrainableTest accessor checks its inputs against a known good sequence. The composite accesso"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ainst a known good sequence. The composite accessor also includes a Stop accessor that stops execution when the TrainableTest accessor has seen all required inputs. The source code for RampJSTestDisplay composite accessor (which was generated from Ca"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ay composite accessor (which was generated from Cape Code, see below), can be found in $PTII/org/terraswarm/accessor/accessors/web/test/auto/RampJSTestDisplay.js . Comparison with Cape Code Since this host does not include most of Ptolemy II, it can"
+    },
+    {
+      "chunk_id": 20,
+      "text": "host does not include most of Ptolemy II, it can only instantiate and execute accessors, not Ptolemy II actors. The Cape Code Host , in contrast, can mix Ptolemy II actors and accessors in a single model. You can use CapeCode to build composite acce"
+    },
+    {
+      "chunk_id": 21,
+      "text": "odel. You can use CapeCode to build composite accessors, and if you use only accessors (and the JavaScript actor), then you can code generate to create a composite accessor that will run in Nashorn host or any other host. The Nashorn Host is designed"
+    },
+    {
+      "chunk_id": 22,
+      "text": "st or any other host. The Nashorn Host is designed to support all the modules supported by the Cape Code Host, defined in $PTII/ptolemy/actor/lib/jjs/modules . The RampJSTestDisplay composite accessor used above was generated from a Cape Code model."
+    },
+    {
+      "chunk_id": 23,
+      "text": "used above was generated from a Cape Code model. You can examine (and edit and change) the model by invoking Cape Code as follows: $ PTII / bin / vergil -capecode $PTII / ptolemy / cg / kernel / generic / accessor / test / auto / RampJSTestDisplay.x"
+    }
+  ]
+}

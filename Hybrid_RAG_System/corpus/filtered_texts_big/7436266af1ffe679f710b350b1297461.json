@@ -1,0 +1,229 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/ROS/InstallingTheScarabsROSPackages",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | ROS / InstallingTheScarabsROSPackages Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print ROS / InstallingTheScarabsROSPackages Overview Sca"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ROS / InstallingTheScarabsROSPackages Overview Scarab is a ground robot developed by Penn that runs ROS. These are instructions to install it on an Ubuntu 14.04 (ROS only runs on Ubuntu) and to download the Scarab simulation files. Berkeley At Berkel"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ad the Scarab simulation files. Berkeley At Berkeley, we are using swarmnuc001.eecs.berkeley.edu . To get an account, email Christopher or Marten Accounts get added to /etc/sudoers so that they can become root Edward has an account ROS was installed"
+    },
+    {
+      "chunk_id": 4,
+      "text": "come root Edward has an account ROS was installed on swarmnuc001 in ~ros/ To become the ros user, become root and then su: dhcp- 45 - 184 :~ cxh$ ssh -l eal box.xs0r.org eal @ box.xs0r.org 's password: Welcome to Ubuntu 14.04.2 LTS (GNU/Linux 3.13.0-"
+    },
+    {
+      "chunk_id": 5,
+      "text": ": Welcome to Ubuntu 14.04.2 LTS (GNU/Linux 3.13.0-52-lowlatency x86_64) * Documentation: https://help.ubuntu.com/ Last login: Fri May 29 14:47:28 2015 from dhcp-45-184.eecs.berkeley.edu eal@swarmnuc001:~$ sudo -i [sudo] password for eal: root@swarmn"
+    },
+    {
+      "chunk_id": 6,
+      "text": "01:~$ sudo -i [sudo] password for eal: root@swarmnuc001:~# su - ros ros@swarmnuc001:~$ pwd /home/ros ros@swarmnuc001:~$ ls catkin_ws scarab_ws ros@swarmnuc001:~$ [$[Get Code]] Install ROS If you get stuck, see the end of this page for Problems and S"
+    },
+    {
+      "chunk_id": 7,
+      "text": "stuck, see the end of this page for Problems and Solutions Install ROS indigo desktop full version http://wiki.ros.org/indigo/Installation/Ubuntu sudo sh -c 'echo \"deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main\" > /etc/apt/sources.lis"
+    },
+    {
+      "chunk_id": 8,
+      "text": "tu $(lsb_release -sc) main\" > /etc/apt/sources.list.d/ros-latest.list' wget https: // raw.githubusercontent.com / ros / rosdistro / master / ros.key -O - | sudo apt-key add - sudo apt-get update sudo apt-get install ros-indigo-desktop-full [$[Get Cod"
+    },
+    {
+      "chunk_id": 9,
+      "text": "apt-get install ros-indigo-desktop-full [$[Get Code]] Install packages needed ccache ack-grep openssh-server ttf-dejavu libncurses-dev libnl-dev libarmadillo-dev libncurses5-dev libcgal-dev htop emacs ros-indigo-desktop-full ros-indigo-openni2-launch"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ros-indigo-desktop-full ros-indigo-openni2-launch ros-indigo-hokuyo-node ros-indigo-joystick-drivers ros-indigo-navigation ros-indigo-octomap-mapping ros-indigo-gmapping ros-indigo-octomap-rviz-plugins python-rosinstall python-rosdep valgrind gdb ip"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ns python-rosinstall python-rosdep valgrind gdb iperf python-pip libarmadillo-dev libcgal-dev libgsl0-dev libgsl0-dbg libgsl0ldbl libnl-dev strace ack-grep htop ipython screen python-serial git-core build-essential python-yaml cmake openssh-server mi"
+    },
+    {
+      "chunk_id": 12,
+      "text": "uild-essential python-yaml cmake openssh-server minicom iputils-arping iputils-tracepath iputils-clockdiff terminator cfengine2 console-common acpid ifplugd batctl batctl-dbg traceroute olsrd olsrd-plugins nfs-common rsync subversion [$[Get Code]] In"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ugins nfs-common rsync subversion [$[Get Code]] In one line this will be: sudo apt-get install ccache ack-grep openssh-server ttf-dejavu libncurses-dev libnl-dev libarmadillo-dev libncurses5-dev libcgal-dev htop emacs ros-indigo-desktop-full ros-indi"
+    },
+    {
+      "chunk_id": 14,
+      "text": "al-dev htop emacs ros-indigo-desktop-full ros-indigo-openni2-launch ros-indigo-hokuyo-node ros-indigo-joystick-drivers ros-indigo-navigation ros-indigo-octomap-mapping ros-indigo-gmapping ros-indigo-octomap-rviz-plugins python-rosinstall python-rosde"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ctomap-rviz-plugins python-rosinstall python-rosdep valgrind gdb iperf python-pip libarmadillo-dev libcgal-dev libgsl0-dev libgsl0-dbg libgsl0ldbl libnl-dev strace ack-grep htop ipython screen python-serial git-core build-essential python-yaml cmake"
+    },
+    {
+      "chunk_id": 16,
+      "text": "serial git-core build-essential python-yaml cmake openssh-server minicom iputils-arping iputils-tracepath iputils-clockdiff terminator cfengine2 console-common acpid ifplugd batctl batctl-dbg traceroute olsrd olsrd-plugins nfs-common rsync ros-indigo"
+    },
+    {
+      "chunk_id": 17,
+      "text": "te olsrd olsrd-plugins nfs-common rsync ros-indigo-rosbridge-server [$[Get Code]] Or use paste or subversion to copy the above into a reqs.txt file cat path_to_reqs / txt / reqs.txt | sudo apt-get install [$[Get Code]] Update your path with the ROS t"
+    },
+    {
+      "chunk_id": 18,
+      "text": "tall [$[Get Code]] Update your path with the ROS tools: source / opt / ros / indigo / setup.bash [$[Get Code]] Create a ROS catkin_workspace at an appropriate location: mkdir -p / path_to_scarab_ws / scarab_ws / src cd / path_to_scarab_ws / scarab_ws"
+    },
+    {
+      "chunk_id": 19,
+      "text": "scarab_ws / src cd / path_to_scarab_ws / scarab_ws / src / catkin_init_workspace [$[Get Code]] Install Scarab's ROS packages cd path_to_scarab_ws / scarab_ws / src git clone https: // github.com / bcharrow / scarab.git [$[Get Code]] stay on the maste"
+    },
+    {
+      "chunk_id": 20,
+      "text": "arrow / scarab.git [$[Get Code]] stay on the master branch Make and install cd path_to_scarab_ws / scarab_ws catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo [$[Get Code]] Source the setup files for the scarab workspace. echo \"source /path_to_scarab_ws/"
+    },
+    {
+      "chunk_id": 21,
+      "text": "scarab workspace. echo \"source /path_to_scarab_ws/scarab_ws/devel/setup.bash\" >> ~ / .bashrc source ~ / .bashrc [$[Get Code]] Run the simulation to test it copy the following launch files into .../scarab_ws/src/scarab/scarab Click \"Get Code\" on the b"
+    },
+    {
+      "chunk_id": 22,
+      "text": "rab_ws/src/scarab/scarab Click \"Get Code\" on the bottom right of the box for an correctly-indented version. FIXME (Penn is updating its github, so the files aren't in the repo yet) simulation.launch <launch> <arg name=\"robot\" default=\"scarab0\" /> <ar"
+    },
+    {
+      "chunk_id": 23,
+      "text": "launch> <arg name=\"robot\" default=\"scarab0\" /> <arg name=\"map\" default=\"/map\" /> <arg name=\"odom\" default=\"/odom_laser\" /> <arg name=\"base_frame\" default=\"base_link\" /> <arg name=\"map_frame\" default=\"map_hokuyo\" /> <node name=\"map\" pkg=\"map_server\" t"
+    },
+    {
+      "chunk_id": 24,
+      "text": "map_hokuyo\" /> <node name=\"map\" pkg=\"map_server\" type=\"map_server\" output=\"screen\" args=\"$(find scarab)/maps/levine-4.yaml\" > <param name=\"frame_id\" value=\"$(arg map_frame)\" /> </node> <node name=\"kinematic_sim\" pkg=\"kinematic_sim\" type=\"kinematic_si"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ematic_sim\" pkg=\"kinematic_sim\" type=\"kinematic_sim\" output=\"screen\" respawn=\"false\"> <param name=\"publish_freq\" value=\"10\"/> <param name=\"pub_global_frame\" value=\"true\"/> <param name=\"base_frame_id\" value=\"$(arg base_frame)\"/> <param name=\"global_fr"
+    },
+    {
+      "chunk_id": 26,
+      "text": "value=\"$(arg base_frame)\"/> <param name=\"global_frame_id\" value=\"$(arg map_frame)\"/> <param name=\"noise_x_sd\" value=\"0.0\"/> <param name=\"noise_y_sd\" value=\"0.0\"/> <param name=\"noise_th_sd\" value=\"0.0\"/> <param name=\"num_agents\" value=\"1\"/> <param nam"
+    },
+    {
+      "chunk_id": 27,
+      "text": "/> <param name=\"num_agents\" value=\"1\"/> <param name=\"initial0\" value=\"0.00 0.00 0.00\"/> </node> <node name=\"laser\" pkg=\"laser_simulator\" type=\"laser_simulator\" output=\"screen\" respawn=\"false\"> <param name=\"frame_id\" value=\"$(arg robot)/$(arg base_fra"
+    },
+    {
+      "chunk_id": 28,
+      "text": "name=\"frame_id\" value=\"$(arg robot)/$(arg base_frame)\"/> <param name=\"offset/x\" value=\"0.0\"/> <param name=\"offset/y\" value=\"0.0\"/> <param name=\"offset/z\" value=\"0.2\"/> <param name=\"noise_sd\" value=\"0.003\"/> <rosparam file=\"$(find laser_simulator)/mod"
+    },
+    {
+      "chunk_id": 29,
+      "text": "003\"/> <rosparam file=\"$(find laser_simulator)/models/UTM_30.yaml\" command=\"load\" /> <rosparam file=\"$(find laser_simulator)/config/models.yaml\" command=\"load\" /> <remap from=\"~map\" to=\"$(arg map)\"/> <remap from=\"~odom\" to=\"/$(arg robot)/gt_odom\"/> <"
+    },
+    {
+      "chunk_id": 30,
+      "text": "<remap from=\"~odom\" to=\"/$(arg robot)/gt_odom\"/> <remap from=\"~scan\" to=\"/scan\" /> </node> </launch> [$[Get Code]] hfn.launch <launch> <arg name=\"robot\" default=\"scarab0\" /> <arg name=\"map\" default=\"/map\" /> <arg name=\"odom\" default=\"/odom_laser\" />"
+    },
+    {
+      "chunk_id": 31,
+      "text": "map\" /> <arg name=\"odom\" default=\"/odom_laser\" /> <arg name=\"base_frame\" default=\"$(arg robot)/base_link\" /> <arg name=\"map_frame\" default=\"map_hokuyo\" /> <node name=\"pose\" pkg=\"hfn\" type=\"tf_posestamped_node.py\"> <param name=\"base_frame_id\" value=\"$"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ped_node.py\"> <param name=\"base_frame_id\" value=\"$(arg base_frame)\"/> <param name=\"map_frame_id\" value=\"$(arg map_frame)\"/> </node> <node name=\"hfn\" pkg=\"hfn\" type=\"hfn\"> <param name=\"base_frame_id\" value=\"$(arg base_frame)\" /> <param name=\"map_frame"
+    },
+    {
+      "chunk_id": 33,
+      "text": "alue=\"$(arg base_frame)\" /> <param name=\"map_frame_id\" value=\"$(arg map_frame)\" /> <param name=\"tau_1\" value=\"1.0\" /> <param name=\"tau_2\" value=\"0.2\" /> <!-- old and good --> <!-- <param name=\"tau_1\" value=\"1.5\" /> --> <!-- <param name=\"tau_2\" value="
+    },
+    {
+      "chunk_id": 34,
+      "text": "value=\"1.5\" /> --> <!-- <param name=\"tau_2\" value=\"0.3\" /> --> <param name=\"cost_occ_prob\" value=\"0.01\" /> <param name=\"cost_occ_dist\" value=\"0.15\" /> <param name=\"max_occ_dist\" value=\"0.5\" /> <param name=\"lethal_occ_dist\" value=\"0.35\" /> <param name"
+    },
+    {
+      "chunk_id": 35,
+      "text": "name=\"lethal_occ_dist\" value=\"0.35\" /> <param name=\"v_opt\" value=\"0.5\" /> <param name=\"w_max\" value=\"1.0\" /> <!-- 0.0873 rad ~= 5 degrees --> <!-- <param name=\"goal_tolerance_ang\" value=\"0.0873\" /> --> <param name=\"goal_tolerance_ang\" value=\"0.2\" />"
+    },
+    {
+      "chunk_id": 36,
+      "text": "> <param name=\"goal_tolerance_ang\" value=\"0.2\" /> <param name=\"min_map_update\" value=\"2.0\" /> <param name=\"stuck_start\" value=\"3.0\" /> <remap from=\"odom\" to=\"$(arg robot)/odom_motor\" /> <remap from=\"map\" to=\"$(arg map)\" /> <param name=\"stop_on_preemp"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ap\" to=\"$(arg map)\" /> <param name=\"stop_on_preempt\" value=\"false\" /> <remap from=\"cmd_vel\" to=\"$(arg robot)/cmd_vel\" /> </node> <node name=\"goal_to_action\" pkg=\"hfn\" type=\"goal_to_action.py\" /> </launch> [$[Get Code]] Then run the following terminal"
+    },
+    {
+      "chunk_id": 38,
+      "text": "nch> [$[Get Code]] Then run the following terminal commands. Make sure you run source .../scarab_ws/devel/setup.bash [$[Get Code]] in each terminal before running the following commands: roscore [$[Get Code]] roslaunch rosbridge_server rosbridge_webs"
+    },
+    {
+      "chunk_id": 39,
+      "text": "t Code]] roslaunch rosbridge_server rosbridge_websocket.launch [$[Get Code]] roslaunch scarab simulation.launch [$[Get Code]] roslaunch scarab hfn.launch [$[Get Code]] rosrun rviz rviz [$[Get Code]] You should now see the visualization program. On th"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ou should now see the visualization program. On the toolbar click Panels > Displays. Then at the bottom select \"Add\" and on the \"By topic\" tab select \"/map/Map\". Also, make sure that \"map_hokuyo\" is selected for \"Fixed Frame\" under \"Global Options\" i"
+    },
+    {
+      "chunk_id": 41,
+      "text": "elected for \"Fixed Frame\" under \"Global Options\" in rviz. Problems and solutions Reverse chronological order, most recent first rvis display is black in Ubuntu running on VMware Fusion Answer is from http://wiki.ros.org/rviz/Troubleshooting . The pro"
+    },
+    {
+      "chunk_id": 42,
+      "text": "http://wiki.ros.org/rviz/Troubleshooting . The problem is hardware acceleration. Try export LIBGL_ALWAYS_SOFTWARE=1 rosrun rviz rviz [$[Get Code]] Errors about missing transforms and what not Make sure to select \"map_hokuyo\" for \"Fixed Frame\" under \""
+    },
+    {
+      "chunk_id": 43,
+      "text": "e to select \"map_hokuyo\" for \"Fixed Frame\" under \"Global Options\" in rviz. roslaunch scarab simulation.launch Error about missing -frounding-math [$[Get Code]] Here, the fix was to rerun: catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo scarab/hfn/CMake"
+    },
+    {
+      "chunk_id": 44,
+      "text": "-DCMAKE_BUILD_TYPE=RelWithDebInfo scarab/hfn/CMakeFiles/hfnlib.dir/src/hfn.cpp.o catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo failed: [ 56%] Generating C++ code from scarab_msgs/MoveAction.msg [ 58%] Generating C++ code from scarab_msgs/MoveActionRe"
+    },
+    {
+      "chunk_id": 45,
+      "text": "Generating C++ code from scarab_msgs/MoveActionResult.msg make[2]: *** [scarab/hfn/CMakeFiles/hfnlib.dir/src/hfn.cpp.o] Error 1 make[1]: *** [scarab/hfn/CMakeFiles/hfnlib.dir/all] Error 2 make[1]: *** Waiting for unfinished jobs.... [ 59%] Generatin"
+    },
+    {
+      "chunk_id": 46,
+      "text": "* Waiting for unfinished jobs.... [ 59%] Generating C++ code from scarab_msgs/MoveActionFeedback.msg [ 61%] Generating C++ code from scarab_msgs/MoveGoal.msg [ 61%] Built target scarab_msgs_generate_messages_cpp Linking CXX executable /home/ros/scara"
+    },
+    {
+      "chunk_id": 47,
+      "text": "essages_cpp Linking CXX executable /home/ros/scarab_ws/devel/lib/tf_throttle/tf_throttle [ 61%] Built target tf_throttle Linking CXX shared library /home/ros/scarab_ws/devel/lib/libmatcher.so [ 61%] Built target matcher make: *** [all] Error 2 Invoki"
+    },
+    {
+      "chunk_id": 48,
+      "text": "uilt target matcher make: *** [all] Error 2 Invoking \"make -j4 -l4\" failed ros@swarmnuc001:~/scarab_ws$ [$[Get Code]] Here, the fix was to rerun: catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo /usr/share/cmake-2.8/Modules/FindCurses.cmake:159 (FIND_PA"
+    },
+    {
+      "chunk_id": 49,
+      "text": "re/cmake-2.8/Modules/FindCurses.cmake:159 (FIND_PACKAGE_HANDLE_STANDARD_ARGS) catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo failed: -- +++ processing catkin package: 'scarab' -- ==> add_subdirectory(scarab/scarab) -- +++ processing catkin package: 'm"
+    },
+    {
+      "chunk_id": 50,
+      "text": "carab/scarab) -- +++ processing catkin package: 'mesh80211s' -- ==> add_subdirectory(scarab/mesh80211s) -- Using these message generators: gencpp;genlisp;genpy -- mesh80211s: 2 messages, 0 services -- Found PkgConfig: /usr/bin/pkg-config (found versi"
+    },
+    {
+      "chunk_id": 51,
+      "text": "Found PkgConfig: /usr/bin/pkg-config (found version \"0.26\") -- checking for module 'libnl-1' -- package 'libnl-1' not found CMake Error at /usr/share/cmake-2.8/Modules/FindPkgConfig.cmake:283 (message): A required package was not found Call Stack"
+    },
+    {
+      "chunk_id": 52,
+      "text": "age): A required package was not found Call Stack (most recent call first): /usr/share/cmake-2.8/Modules/FindPkgConfig.cmake:337 (_pkg_check_modules_internal) scarab/mesh80211s/CMakeLists.txt:11 (pkg_check_modules) -- +++ processing catkin package: '"
+    },
+    {
+      "chunk_id": 53,
+      "text": "check_modules) -- +++ processing catkin package: 'scarab_twist' -- ==> add_subdirectory(scarab/scarab_twist) CMake Error at /usr/share/cmake-2.8/Modules/FindPackageHandleStandardArgs.cmake:108 (message): Could NOT find Curses (missing: CURSES_LIBRARY"
+    },
+    {
+      "chunk_id": 54,
+      "text": "e): Could NOT find Curses (missing: CURSES_LIBRARY CURSES_INCLUDE_PATH) Call Stack (most recent call first): /usr/share/cmake-2.8/Modules/FindPackageHandleStandardArgs.cmake:315 (_FPHSA_FAILURE_MESSAGE) /usr/share/cmake-2.8/Modules/FindCurses.cmake:1"
+    },
+    {
+      "chunk_id": 55,
+      "text": "E) /usr/share/cmake-2.8/Modules/FindCurses.cmake:159 (FIND_PACKAGE_HANDLE_STANDARD_ARGS) scarab/scarab_twist/CMakeLists.txt:5 (find_package) -- Configuring incomplete, errors occurred! See also \"/home/ros/scarab_ws/build/CMakeFiles/CMakeOutput.log\"."
+    },
+    {
+      "chunk_id": 56,
+      "text": "/ros/scarab_ws/build/CMakeFiles/CMakeOutput.log\". See also \"/home/ros/scarab_ws/build/CMakeFiles/CMakeError.log\". Invoking \"cmake\" failed ros@swarmnuc001:~/scarab_ws$ [$[Get Code]] I think the fix was that I had not done cd scarab git checkout bcha"
+    }
+  ]
+}

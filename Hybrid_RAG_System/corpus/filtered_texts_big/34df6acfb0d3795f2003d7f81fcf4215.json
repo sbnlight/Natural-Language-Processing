@@ -1,0 +1,113 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/init-grading",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. ### # Initial setup ### unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\";"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ng-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"o:pif:\"); if (not ($opt_p or $opt_i) or ($opt_p and $opt_i) or ($opt_o and not $opt_p) or ($opt_f and not $opt_i)) { &Usage } if ($opt_p) { if (not $opt_o) { $opt_o"
+    },
+    {
+      "chunk_id": 3,
+      "text": "age } if ($opt_p) { if (not $opt_o) { $opt_o = \"params\"; } if (-e $opt_o) { Die (\"$opt_o already exists.\"); } open (PARAMS, \">$opt_o\") || Die (\"Could not create $opt_o: $!\"); print STDERR (\"Creating initial params file in"
+    },
+    {
+      "chunk_id": 4,
+      "text": "print STDERR (\"Creating initial params file in $opt_o. Be sure to edit \" . \"appropriately\\nand install with 'init-grading -i'\\n\"); print PARAMS \" # Parameters for grading software. # Course name set COURSE '$ENV{'MASTER'}' # Login name f"
+    },
+    {
+      "chunk_id": 5,
+      "text": "e name set COURSE '$ENV{'MASTER'}' # Login name for class master set CLASSROOT '$ENV{'MASTER'}' # Name of group used by staff set STAFF_GROUP '$ENV{'MASTER'}-staff' # Login of account receiving bug reports, reports on readers, etc. set SUPERVISOR"
+    },
+    {
+      "chunk_id": 6,
+      "text": "reports, reports on readers, etc. set SUPERVISOR '$ENV{'MASTER'}' # Name of program that grants class-master privileges. set MASTER_PROGRAM 'run-as-$ENV{'MASTER'}' # Uncomment and edit to specify designation of default language used in # course ("
+    },
+    {
+      "chunk_id": 7,
+      "text": "esignation of default language used in # course (passed to moss). Possible values: # 'c', 'cc', 'java', 'ml', 'pascal', 'ada', 'lisp', 'scheme', 'haskell', # 'fortran', 'ascii', 'vhdl', 'perl', 'matlab', 'python', 'mips', # 'prolog', 'sp"
+    },
+    {
+      "chunk_id": 8,
+      "text": "', 'matlab', 'python', 'mips', # 'prolog', 'spice', 'vb', 'csharp', 'modula2', 'a8086', # 'javascript', 'plsql' #set DEFAULT_LANGUAGE 'java' # Uncomment and edit to specify suffixes (usually extensions) used for # source files of default la"
+    },
+    {
+      "chunk_id": 9,
+      "text": "extensions) used for # source files of default language used in course (passed to moss). # Specify as a quoted, comma-separated list. # DEFAULT_SUFFIXES '.java' # Name of program used to send files to moss. set MOSS_PROGRAM 'moss' # The maximum al"
+    },
+    {
+      "chunk_id": 10,
+      "text": "to moss. set MOSS_PROGRAM 'moss' # The maximum allowed size of any submitted file (in bytes). set MAX_ALLOWED_FILE_SIZE 10000000 # The Subversion repository's URL. set SVN_REPOSITORY_URL 'file://$ENV{'MASTERDIR'}/SVN' # The Git repositories' base"
+    },
+    {
+      "chunk_id": 11,
+      "text": "V{'MASTERDIR'}/SVN' # The Git repositories' base URL. This is generally of the form # : REPO and yields the URL of the repository after substituting # an individual student's or team's repository name for REPO. # set GIT_REPOSITORY_URL 'login\\@host"
+    },
+    {
+      "chunk_id": 12,
+      "text": "me for REPO. # set GIT_REPOSITORY_URL 'login\\@host:REPO' # Uncomment if you want readers other than instructors to be able to override # instructors' or other readers' grades via enter-grades. #set ONLY_INSTRUCTORS_OVERRIDE 0 # Perl regexp body ide"
+    },
+    {
+      "chunk_id": 13,
+      "text": "NLY_INSTRUCTORS_OVERRIDE 0 # Perl regexp body identifies pathnames in a Subversion repository # that are parts of a submission. The target strings are paths as # provided by 'svnlook changed'. The first capturing group in this pattern # should g"
+    },
+    {
+      "chunk_id": 14,
+      "text": "first capturing group in this pattern # should give the base directory name of the submission. The second # capturing group should give any trailing subdirectory or file name within # that submission. # [Sample patterns assume repository paths of"
+    },
+    {
+      "chunk_id": 15,
+      "text": "on. # [Sample patterns assume repository paths of the form # /tags/ (- )? ] set SVN_SUBMISSION_PATN '^([^/]+/tags/[^/]+)/?(.*)' # Perl regexp body whose first capturing group matches the submitting # individual or team name in a path that matches"
+    },
+    {
+      "chunk_id": 16,
+      "text": "# individual or team name in a path that matches SVN_SUBMISSION_PATH. set SVN_SUBMITTER_PATN '^(.*?)/' # Perl regexp body whose first capturing group matches the submitted # assignment in a path that matches SVN_SUBMISSION_PATH. set SVN_ASSGN_PATN"
+    },
+    {
+      "chunk_id": 17,
+      "text": "t matches SVN_SUBMISSION_PATH. set SVN_ASSGN_PATN '^.*?/tags/(.*?)(?:[-./]+|\\$)' # The testing command template used to grade submissions, as a double-quoted # string. Any occurrences of '$assgn' in the string are replaced by the # assignment numb"
+    },
+    {
+      "chunk_id": 18,
+      "text": "the string are replaced by the # assignment number. # set TEST_COMMAND '\\\"$GMAKE -k -f $TEST_MAKEFILE_DIR/$assgn.mk ASSIGN=$assgn\\\"' # The value 'default' says provides default summary messages indicating # the success or failure of the testing of"
+    },
+    {
+      "chunk_id": 19,
+      "text": "icating # the success or failure of the testing of an assignment. Any other # value says to rely on TEST_COMMAND's output to provide all messages. # set TEST_COMMAND_SUMMARY 'default' # Put 'reader' commands here. # Put 'assign' commands here. #"
+    },
+    {
+      "chunk_id": 20,
+      "text": "commands here. # Put 'assign' commands here. # Put the 'gradescale' command here. \"; close PARAMS; exit 0; } # Find grading subdirectory $masterdir = $ENV{'MASTERDIR'}; $DIR = $ENV{'GRADINGDIR'}; if ($DIR eq \"\") { $masterdir or Die ("
+    },
+    {
+      "chunk_id": 21,
+      "text": "NGDIR'}; if ($DIR eq \"\") { $masterdir or Die (\"MASTERDIR not defined.\"); $DIR = \"$masterdir/grading\"; } $master = $ENV{'MASTER'}; ($master) = ($masterdir =~ m\" ([^/]+)$ \"x) if (! $master); if ($opt_i) { umask 0002; if (! -d $DIR) {"
+    },
+    {
+      "chunk_id": 22,
+      "text": "f ($opt_i) { umask 0002; if (! -d $DIR) { print STDERR \"Creating $DIR.\\n\"; mkdir ($DIR, 0755) || Die (\"Could not create $DIR\"); } chmod (0755, $DIR); if (-e \"$DIR/params\" and $opt_f) { print STDERR \"Warning: $DIR/params al"
+    },
+    {
+      "chunk_id": 23,
+      "text": "t_f) { print STDERR \"Warning: $DIR/params already exists (not changed).\\n\"; } if (not -e \"$DIR/params\") { if (not $opt_f) { $opt_f = \"params\"; } open (INPARAMS, \"<$opt_f\") or Die (\"Could not open $opt_f: $!\"); ope"
+    },
+    {
+      "chunk_id": 24,
+      "text": "\") or Die (\"Could not open $opt_f: $!\"); open (OUTPARAMS, \">$DIR/params\") or Die (\"Could not open $DIR/params: $!\"); while ( ) { print OUTPARAMS $_; } close INPARAMS; close OUTPARAMS; } chmod (0644, \"$DIR/para"
+    },
+    {
+      "chunk_id": 25,
+      "text": "close OUTPARAMS; } chmod (0644, \"$DIR/params\"); } require \"GradingCommon.pl\"; if (not -e \"$DEADLINE_EXCEPTIONS\") { open (EXCEPTIONS, \">$DEADLINE_EXCEPTIONS\"); print EXCEPTIONS \"# Individual exceptions on deadlines. # # An excepti"
+    },
+    {
+      "chunk_id": 26,
+      "text": "Individual exceptions on deadlines. # # An exception entry has the format # ASSIGNMENT LOGIN DATETIME # \"; close EXCEPTIONS; chmod (0640, \"$DEADLINE_EXCEPTIONS\"); chown ($>, scalar (getgrnam ($STAFF_GROUP)), $DEADLINE_EXCEPTIONS); } S"
+    },
+    {
+      "chunk_id": 27,
+      "text": "grnam ($STAFF_GROUP)), $DEADLINE_EXCEPTIONS); } System (\"make-grade-book\") || Warn (\"Could not make the grade book.\"); exit 0;"
+    }
+  ]
+}

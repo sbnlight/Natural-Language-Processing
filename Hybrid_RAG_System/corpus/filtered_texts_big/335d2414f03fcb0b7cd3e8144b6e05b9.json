@@ -1,0 +1,149 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/CordovaHost",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / CordovaHost Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / CordovaHost Cordova is a cross-platform mobile development fra"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Cordova is a cross-platform mobile development framework based on HTML, CSS, and JS. It provides interfaces to access functionality like the camera, geolocation, and accelerometer, through plugins that provide plaform-specific bindings. Prerequisites"
+    },
+    {
+      "chunk_id": 3,
+      "text": "t provide plaform-specific bindings. Prerequisites Nodejs : Cordova and its plugins are available using npm (Node Package Manager). In order to develop for a specific platform, you need to install the corresponding Software Development Kit. Installat"
+    },
+    {
+      "chunk_id": 4,
+      "text": "corresponding Software Development Kit. Installation Install Apache Cordova framework. Follow instructions at Apache Cordova for downloading and installing the framework, or just run: npm install -g cordova [$[Get Code]] Android Install the followin"
+    },
+    {
+      "chunk_id": 5,
+      "text": "cordova [$[Get Code]] Android Install the following packages: Java JDK Android SDK Make sure that the following environment variables are set and point to the root directory of the respective SDK: $JAVA_HOME $ANDROID_HOME Android Studio provides tool"
+    },
+    {
+      "chunk_id": 6,
+      "text": "VA_HOME $ANDROID_HOME Android Studio provides tools like adb which are necessary to connect to a phone or emulator and deploy and app. Make sure that the /bin directory of your Android Studio installation is added to your $PATH. iOS Install the follo"
+    },
+    {
+      "chunk_id": 7,
+      "text": "tion is added to your $PATH. iOS Install the following packages: Xcode Xcode Command Line Tools (can be installed during Xcode installation) Using the Cordova Host From the accessors repository trunk, change directory: cd web / hosts / cordova [$[Get"
+    },
+    {
+      "chunk_id": 8,
+      "text": "change directory: cd web / hosts / cordova [$[Get Code]] The main functionality of the host is implemented in cordovaHost.js . Modules are located in modules/ . To create a new Cordova app with name $MY_APP : cd demo . / createApp $MY_APP [$[Get Cod"
+    },
+    {
+      "chunk_id": 9,
+      "text": "$MY_APP : cd demo . / createApp $MY_APP [$[Get Code]] This will create a new directory $MY_APP with a subdirectory src/ , which will contain a skeleton for a simple \"HelloWorld\" app after running the following command: cd $MY_APP ant build [$[Get Cod"
+    },
+    {
+      "chunk_id": 10,
+      "text": "following command: cd $MY_APP ant build [$[Get Code]] This will populate the directory $MY_APP with all the files needed to run the app. You can now issue the Cordova run command. To run the app in your browser, execute: cordova run browser [$[Get Co"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ur browser, execute: cordova run browser [$[Get Code]] To run the app on your plugged-in Android phone, execute: cordova run android [$[Get Code]] To run the app on your Android emulator (you have to create one in Android Studio first AND launch it),"
+    },
+    {
+      "chunk_id": 12,
+      "text": "create one in Android Studio first AND launch it), execute: cordova emulate android [$[Get Code]] To run the app on your plugged-in iPhone, execute: cordova run iOS [$[Get Code]] IMPORTANT: Do not edit the generated source files, only edit the files"
+    },
+    {
+      "chunk_id": 13,
+      "text": "t the generated source files, only edit the files in src/ . All generated code can be easily removed by issuing the command: ant clean [$[Get Code]] Always run this command before checking anything into repository. To refresh the generated code after"
+    },
+    {
+      "chunk_id": 14,
+      "text": "to repository. To refresh the generated code after having edited any of the source files, run: ant refresh [$[Get Code]] Troubleshooting Issues w/Linux libGL error: unable to load driver: i965_dri.so. Problem: mismatch between system library and the"
+    },
+    {
+      "chunk_id": 15,
+      "text": "Problem: mismatch between system library and the one provided by Android Studio. Solution: use the system library: ln -sf / usr / lib / libstdc++.so.6 tools / lib64 / libstdc++ / libstdc++.so.6 [$[Get Code]] Issues w/iOS When I try to ant build; co"
+    },
+    {
+      "chunk_id": 16,
+      "text": "et Code]] Issues w/iOS When I try to ant build; cordova run ios , I get an error even if my iOS device is connected. It can be a code signing issue of the app (error 65). In this case, use open platforms/ios/<name of your app>.xcworkspace to open the"
+    },
+    {
+      "chunk_id": 17,
+      "text": "rms/ios/<name of your app>.xcworkspace to open the generated Xcode project. Select your project at the top of the left Project navigator panel. Then select your target in the Targes list and go to the General tab. Finally, in the Signing part of the"
+    },
+    {
+      "chunk_id": 18,
+      "text": "General tab. Finally, in the Signing part of the window, choose a Team that will be used to sign the app you want to install on your iOS device. You can now try to run ant build; cordova run ios again. The maximum number of apps for free development"
+    },
+    {
+      "chunk_id": 19,
+      "text": "n. The maximum number of apps for free development profiles may have been reached (error 253). You might want to delete one of the app signed with the development profile used for the project. Building Cordova Plugins Plugins are packages that export"
+    },
+    {
+      "chunk_id": 20,
+      "text": "g Cordova Plugins Plugins are packages that export JavaScript code that can have bindings to native Android or iOS code (like everyone else, we'll pretend that Windows Phone does not exists). Depending of the target Cordova builds against, it will se"
+    },
+    {
+      "chunk_id": 21,
+      "text": "g of the target Cordova builds against, it will select the proper native implementation. If you want a plugin that works on multiple platforms, unless it is written in pure JavaScript, you will have to (re)implement it for each of those platforms. Sc"
+    },
+    {
+      "chunk_id": 22,
+      "text": "o (re)implement it for each of those platforms. Scaffolding Plugins require quite a bit of scaffolding. To avoid the onerous task of setting it up, it is recommendable to use a tool called plugman . To create the required directory stucture for a new"
+    },
+    {
+      "chunk_id": 23,
+      "text": "o create the required directory stucture for a new plugin, say myPlugin , cd to web/hosts/cordova/plugins , and run the following command: plugman create --name myPlugin --plugin-id cordova-plugin-my-plugin --plugin_version 0.0.1 [$[Get Code]] Finall"
+    },
+    {
+      "chunk_id": 24,
+      "text": "plugin --plugin_version 0.0.1 [$[Get Code]] Finally, you'll need to create a package.json : plugman createpackagejson [$[Get Code]] If you omit this last step, cordova will complain when you try to load the plugin. The next step is to add a platform."
+    },
+    {
+      "chunk_id": 25,
+      "text": "ad the plugin. The next step is to add a platform. To start working on the Android platform, add it: plugman platform add --platform_name android [$[Get Code]] This will create an android subdirectory in src and make changes to plugin.xml . The latte"
+    },
+    {
+      "chunk_id": 26,
+      "text": "in src and make changes to plugin.xml . The latter file is also where you will have to specify permissions for the plugin. Access to Java Land TODO. Access to Objective-C Land TODO. Plugin Permissions TODO. Dependencies on External Libraries Plugins"
+    },
+    {
+      "chunk_id": 27,
+      "text": "s TODO. Dependencies on External Libraries Plugins are not precompiled and dynamically linked. Cordova collects all source code and does the compilation for you. In order make Cordova aware of the libraries that your plugin code depends on, you must,"
+    },
+    {
+      "chunk_id": 28,
+      "text": "raries that your plugin code depends on, you must, for each platform, declare these dependencies. For instance, if your application uses the Lyft scissors library, include the following XML to your plugin.xml: <platform name = \"android\" > <framework"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ugin.xml: <platform name = \"android\" > <framework src = \"com.lyft:scissors:1.0.1\" /> [$[Get Code]] Also see: https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html . Debugging The easiest way to debug a swarmlet is to run on th"
+    },
+    {
+      "chunk_id": 30,
+      "text": "he easiest way to debug a swarmlet is to run on the browser and then inspect the page. However, some plugins might only work on Android or iOS and in this case there is no other way to debug the swarmlet than debugging it on a device or a simulator."
+    },
+    {
+      "chunk_id": 31,
+      "text": "let than debugging it on a device or a simulator. Debugging on iOS On a Mac, you can debug the app containing your swarmlet using Safari web inspector. If the app is running on a device (as opposed to the Simulator), be sure it is plugged in. Set up"
+    },
+    {
+      "chunk_id": 32,
+      "text": "the Simulator), be sure it is plugged in. Set up iOS debugging environment Before debugging, you need to set up your debugging environment on iOS and macOS. First, enable Web Inspector on your iOS device by going to Settings app and turn on \"Web Ins"
+    },
+    {
+      "chunk_id": 33,
+      "text": "vice by going to Settings app and turn on \"Web Inspector\" in Safari > Advanced (Valid path for iOS 10). Then, open Safari on your Mac and go to Safari's preferences (Safari > Preferences... or 'CMD + ,') where you will be able to check \"Show Develop"
+    },
+    {
+      "chunk_id": 34,
+      "text": ",') where you will be able to check \"Show Develop menu in menu bar\" in the 'Advanced' tab. After running the app on your iOS device, open Safari on your Mac and choose 'Develop' menu bar. You can then select the device you want to debug and the app t"
+    },
+    {
+      "chunk_id": 35,
+      "text": "select the device you want to debug and the app to inspect. Presentations \" Running Accessors On Mobile Devices Using Cordova ,\" Chadlia Jerad, Hokeun Kim, Marten Lohstroh, Victor Nouvellet, Matt Weber, Ptolemy Group Lunch, May 17, 2017. See also Pu"
+    },
+    {
+      "chunk_id": 36,
+      "text": "er, Ptolemy Group Lunch, May 17, 2017. See also Publications And Presentations Future work Create a GUI module for on-screen interactions with the user. Create modules for native mobile function (i.e. camera, media, motion...). The build script curre"
+    }
+  ]
+}

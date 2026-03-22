@@ -1,0 +1,213 @@
+{
+  "url": "http://embedded.eecs.berkeley.edu/metropolis/metamodel.html",
+  "chunks": [
+    {
+      "chunk_id": 4,
+      "text": "ns People Polis Search Members src Private Forum Metropolis: Design Environment for Heterogeneous Systems Metropolis Meta Model The core of the infrastructure is a meta model of computation, which allows one to model various communication and computa"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ows one to model various communication and computation semantics in a uniform way. By defining different communication primitives and different ways of resolving concurrency, the user can, in effect, specify different models of computation (MOCs). At"
+    },
+    {
+      "chunk_id": 6,
+      "text": "specify different models of computation (MOCs). At a high level of abstraction, the designer may want to use an MOC that is convenient to describe the functionality, but does not reflect any physical resources. For example, Kahn's process networks ma"
+    },
+    {
+      "chunk_id": 7,
+      "text": "resources. For example, Kahn's process networks may be used to describe a streaming multi-media application. At a lower levels of abstraction, an MOC that reflects a chosen implementation platform (or architecture) may be more appropriate. Metropolis"
+    },
+    {
+      "chunk_id": 8,
+      "text": "architecture) may be more appropriate. Metropolis provides a unified framework that allows a system to be represented at both of these abstraction levels, as well as in any combination of the two that arises as parts of the design are refined and im"
+    },
+    {
+      "chunk_id": 9,
+      "text": "t arises as parts of the design are refined and implemented. The meta model is used to represent the function of a system being designed at all levels of abstraction, represent the architectural targets, allow mapping between different platforms, to"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ts, allow mapping between different platforms, to generate executables for simulation, and as input to formal methods built in Metropolis for both synthesis and verification in various design stages. We also plan to translate specifications given in"
+    },
+    {
+      "chunk_id": 11,
+      "text": "We also plan to translate specifications given in many existing languages automatically to an appropriate semantics specified using the meta model. The Metropolis metamodel consists of the following core elements: Processes and Media Interfaces Prope"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ore elements: Processes and Media Interfaces Properties Constraints Atomicity and Firing Conditions Schedulers and Quantity Managers Adapters and Refinement Formal Methods Processes and Media The Metropolis meta model represents a system function as"
+    },
+    {
+      "chunk_id": 13,
+      "text": "opolis meta model represents a system function as a set of concurrently communicating sequential processes . Communication is modeled explicitly using objects that we call media . A medium is defined with a set of variables and functions. Values of t"
+    },
+    {
+      "chunk_id": 14,
+      "text": "with a set of variables and functions. Values of the variables constitute states of the medium. The variables can be referenced only by the functions defined in the medium, and communication among processes is established by calling these functions t"
+    },
+    {
+      "chunk_id": 15,
+      "text": "cesses is established by calling these functions to change or evaluate the states of media. This mechanism allows communication semantics to be modeled solely by specifying media, independent from process specifications. In this view, a process is an"
+    },
+    {
+      "chunk_id": 16,
+      "text": "cess specifications. In this view, a process is an active object in the sense that it specifies what it computes and what it wants to communicate by interacting with media, while a medium is passive as it only provides a means for processes to commun"
+    },
+    {
+      "chunk_id": 17,
+      "text": "s it only provides a means for processes to communicate. While the user may specify media for desired communication semantics, we provide a library of some well-known semantics, each of which has been modeled in this way, so that one can simply choos"
+    },
+    {
+      "chunk_id": 18,
+      "text": "modeled in this way, so that one can simply choose one to make a specification. back to top Interfaces The functions of a medium are grouped into a set of interfaces . As with object-oriented languages, an interface simply declares functions, while"
+    },
+    {
+      "chunk_id": 19,
+      "text": "es, an interface simply declares functions, while a medium implements them. An object declares ports for particular interfaces, and only the functions of the interfaces can be called in the object for communication. Any medium can be connected to a g"
+    },
+    {
+      "chunk_id": 20,
+      "text": "communication. Any medium can be connected to a given port as long as it implements the corresponding interface. This is convenient for refining communication, since a medium that models semantics at a high level of abstraction can be replaced with"
+    },
+    {
+      "chunk_id": 21,
+      "text": "a high level of abstraction can be replaced with one for the more detailed semantics, without changing the code of the processes. The connections between media and ports are statically specified, so that the entire system function is represented as"
+    },
+    {
+      "chunk_id": 22,
+      "text": "that the entire system function is represented as a network of processes and media. This modeling concept is also employed in Spec C back to top Properties Associated also with a medium is a formal specification of properties that have to hold for th"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ecification of properties that have to hold for the medium throughout the execution of the system. Some properties are static, e.g. the maximum number of objects to which the medium is connected, while others are dynamic, e.g. a set of valid orders o"
+    },
+    {
+      "chunk_id": 24,
+      "text": "e others are dynamic, e.g. a set of valid orders of executions of the functions defined in the medium. We use logic similar to path expressions, with the state variables and functions of the medium being the operands. This will be used by formal veri"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ing the operands. This will be used by formal verification tools. back to top Constraints The Metropolis metamodel contains two types of constraints. There are temporal constraints that take the form of LTL logic. There are also quantitative constrai"
+    },
+    {
+      "chunk_id": 26,
+      "text": "of LTL logic. There are also quantitative constraints, which are expressable in the logic of constraints (LOC) and the extended logic of constraints (ELOC). Constraints can either be used to restrict the set of legal behaviors, or as monitors to ver"
+    },
+    {
+      "chunk_id": 27,
+      "text": "the set of legal behaviors, or as monitors to verify implementation. There is currently a checker fo LOC constraints, as well as an interface to the SPIN model checker. back to top Atomicity and Firing Conditions Two key aspects in modeling concurre"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ng Conditions Two key aspects in modeling concurrent processes are atomic operations and firing conditions. Metropolis uses a single construct to represent different semantics in a uniform way. The construct is called await , and takes three inputs ("
+    },
+    {
+      "chunk_id": 29,
+      "text": "nstruct is called await , and takes three inputs ( G , S , M ). G is a predicate over states of media, S is a sequential program, and M is a set of media. The semantics is that the execution of the construct blocks until the predicate G becomes true."
+    },
+    {
+      "chunk_id": 30,
+      "text": "nstruct blocks until the predicate G becomes true. Once G holds, S is allowed to execute. While S is executing, the states of M may not be observable, i.e. no interface function can be executed for the media of M during the execution of S . The await"
+    },
+    {
+      "chunk_id": 31,
+      "text": "e media of M during the execution of S . The await construct may appear in the specification of processes or interface functions, and allows one to model atomicity and firing (synchronization) conditions compactly. back to top Schedulers and Quantity"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ons compactly. back to top Schedulers and Quantity Managers It is often necessary to specify how to coordinate execution of concurrent processes, i.e. scheduling. The meta model uses a special type of processes for this purpose. The network may conta"
+    },
+    {
+      "chunk_id": 33,
+      "text": "processes for this purpose. The network may contain an arbitrary number of processes of this type, each of which is statically connected to processes to be scheduled, observes states of those processes, and controls the execution. Currently, a sched"
+    },
+    {
+      "chunk_id": 34,
+      "text": "es, and controls the execution. Currently, a scheduling policy is specified using a sequential program, while we also plan to allow the user to specify logic expressions to define valid execution orders, without committing to a specific scheduling al"
+    },
+    {
+      "chunk_id": 35,
+      "text": "rs, without committing to a specific scheduling algorithm. Quantity managers serve to annotate, track, and synchronize different blocks based on their state or quantity. Global Time (or gTime) is a built-in quantity for the metamodel. Other potential"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ilt-in quantity for the metamodel. Other potential quantities include: power, area, and local time. back to top Adapters and Refinement The meta model is used to represent system functions throughout the design steps made in Metropolis. In refining a"
+    },
+    {
+      "chunk_id": 37,
+      "text": "the design steps made in Metropolis. In refining a part of the system function, one replaces the corresponding portion of the original network by a network that models the refined functionality, and then specifies connections with the rest of the net"
+    },
+    {
+      "chunk_id": 38,
+      "text": "hen specifies connections with the rest of the network. Additional objects may need to be introduced at the boundaries so that interfaces match. We call such objects adapters or wrappers. We use a similar approach to represent system functions after"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ilar approach to represent system functions after a mapping to the architecture has been specified. For example, if two communicating processes are mapped to a CPU, the medium between them is replaced by a network that models communication realized b"
+    },
+    {
+      "chunk_id": 40,
+      "text": "by a network that models communication realized by the RTOS of the CPU. The core of the network is a medium that implements the RTOS kernels as its interface functions. For each process, an adapter is used to implement interfaces required by the pro"
+    },
+    {
+      "chunk_id": 41,
+      "text": "s used to implement interfaces required by the process using the interfaces given by the core medium. The specification of the RTOS kernels is written using the syntax of the Metropolis meta model as a part of the architectural specification of the R"
+    },
+    {
+      "chunk_id": 42,
+      "text": "a part of the architectural specification of the RTOS, while the specification of the adapters is given as a part of the mapping specification. This is conceptually similar to the approach taken in architecture services in Cadence's VCC 2.0. A part o"
+    },
+    {
+      "chunk_id": 43,
+      "text": "chitecture services in Cadence's VCC 2.0. A part of the mapping involves configuring schedulers, the RTOS scheduler in this case, which are modeled using the scheduler type of processes as described above. back to top Formal Methods We envision inclu"
+    },
+    {
+      "chunk_id": 44,
+      "text": "bove. back to top Formal Methods We envision including in Metropolis a wide set of tools for formal methods, both on verification and synthesis. Those tools will address all three aspects of a system description: computation (e.g. synthesizing a hard"
+    },
+    {
+      "chunk_id": 45,
+      "text": "description: computation (e.g. synthesizing a hardware for a process), communication (e.g. automatic protocol verification), and coordination (e.g. generating a quasi-static schedule consistent with a higher level of abstraction). It is well known th"
+    },
+    {
+      "chunk_id": 46,
+      "text": "higher level of abstraction). It is well known that these kinds of tools are severely limited in types of inputs that they can take in general. Rather than restricting the expressiveness of the meta model to suite these tools, we have decided to add"
+    },
+    {
+      "chunk_id": 47,
+      "text": "model to suite these tools, we have decided to add mechanisms to it that enable particular tools applicable to subsets of the system. They are in three fold. The first is a syntactic checking. The meta model has constructs such as bounded_loop which"
+    },
+    {
+      "chunk_id": 48,
+      "text": "a model has constructs such as bounded_loop which guarantees that a particular portion of the system representation satisfies some property, e.g. finite states. This information can be used to check whether a given tool can be applied to the portion."
+    },
+    {
+      "chunk_id": 49,
+      "text": "hether a given tool can be applied to the portion. The second is a formal specification of properties, as we have described for media and scheduling. This can be used to verify the properties when a refinement or mapping is made, or to synthesize an"
+    },
+    {
+      "chunk_id": 50,
+      "text": "efinement or mapping is made, or to synthesize an implementation that satisfies the properties. The third is abstraction. The meta model can be abstracted so that the resulting representation satisfies restrictions of a particular tool. For example,"
+    },
+    {
+      "chunk_id": 51,
+      "text": "s restrictions of a particular tool. For example, at a level of abstraction where only control flow statements and communication functions are observable, the denotational semantics of the meta model can be represented by Petri nets. This is done by"
+    },
+    {
+      "chunk_id": 52,
+      "text": "can be represented by Petri nets. This is done by a syntax-directed translation in which processes are modeled as state-machine components and media as places that hold their variables. The refined functionality of the system is hidden inside the tra"
+    },
+    {
+      "chunk_id": 53,
+      "text": "nctionality of the system is hidden inside the transitions of the Petri net. With this abstraction, formal methods can be used for verifying properties like liveness, safety, or schedulability. A prototype for generating Petri nets from the meta mode"
+    },
+    {
+      "chunk_id": 54,
+      "text": "otype for generating Petri nets from the meta model has been developed and demonstrated promising results for a small set of examples. back to top Last Edited: $Date: 2004-05-12 11:16:20 -0700 (Wed, 12 May 2004) $ Contact ©2002-2018 U.C. Regents"
+    },
+    {
+      "chunk_id": 55,
+      "text": "2 May 2004) $ Contact ©2002-2018 U.C. Regents"
+    }
+  ]
+}

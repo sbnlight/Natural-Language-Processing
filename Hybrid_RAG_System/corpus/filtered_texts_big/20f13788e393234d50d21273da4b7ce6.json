@@ -1,0 +1,21 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/lib/acquireDir.pl",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "# Get appropriate class master directory from user. # See the file COPYING in the main distribution directory for copyright notice. sub askForMaster { my ($n, $low, $high, $usage, $prompt) = @_; my ($dir, $class); if ($n < $low or ($high"
+    },
+    {
+      "chunk_id": 2,
+      "text": "my ($dir, $class); if ($n < $low or ($high ne \"\" and $n > $high)) { print STDERR \"$usage\\n\"; exit 1; } while (1) { print STDOUT \"$prompt\"; $class = lc( ); chomp $class; $dir = (getpwnam(\"$class\"))[7]; if ($dir eq \"\") { pr"
+    },
+    {
+      "chunk_id": 3,
+      "text": "getpwnam(\"$class\"))[7]; if ($dir eq \"\") { print STDERR \"The login '$class' does not appear to exist.\\n\"; } elsif (! -d \"$dir/grading\") { print STDERR \"The $class account does not appear to be \" . \"configured for grading.\\n\"; } else {"
+    },
+    {
+      "chunk_id": 4,
+      "text": "be \" . \"configured for grading.\\n\"; } else { $ENV{'MASTERDIR'} = $dir; return; } } }"
+    }
+  ]
+}

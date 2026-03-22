@@ -1,0 +1,189 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/tar.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional & Electronics Support Group /share/b/pub/tar.help /share/b/pub/gzip.help"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ub/gzip.help July 1, 2004 CONTENTS: Tar your files up and compress them An example of using tar and gzip Move your files to the /home/tmp partition Use removable media to store yo"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ome/tmp partition Use removable media to store your files =========================================================================== >From brg@cory.EECS.Berkeley.EDU Fri Dec 4 11:55:32 1998 Subject: a guide to tar and gzip This guide might"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ject: a guide to tar and gzip This guide might be of use to you if you want to use less disk space with your files and still keep most of them around; it documents ways to compress files and other sources of disk space on the Instructional machine"
+    },
+    {
+      "chunk_id": 5,
+      "text": "sources of disk space on the Instructional machines. Brian R. Gaeke, EECS Instructional & Electronics Support Group brg@cory.eecs.berkeley.edu / 386 Cory Hall / 642-7938 ==========================================================================="
+    },
+    {
+      "chunk_id": 6,
+      "text": "================================================= Tar your files up and compress them ----------------------------------- Tar (\"tape archive\") is a program which creates, out of a bunch of arbitrary directory trees, a single file which hold"
+    },
+    {
+      "chunk_id": 7,
+      "text": "rbitrary directory trees, a single file which holds all the files and directories contained therein. This file is called a \"tar archive\" or \"tar file\". It does not do any compression; e.g., the size of a tar file containing a directory tree c"
+    },
+    {
+      "chunk_id": 8,
+      "text": "size of a tar file containing a directory tree containing 60Kbytes of files is a little over 60Kbytes. The syntax for tar is a little odd, but there are three main operations you need to be able to do: * To CREATE a tar file, type:"
+    },
+    {
+      "chunk_id": 9,
+      "text": "able to do: * To CREATE a tar file, type: % tar cvf archive.tar dir1 dir2 dir3 This creates a tar file named \"archive.tar\" containing the three directories \"dir1\", \"dir2\", and \"dir3\", along with their contents. For each"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ir3\", along with their contents. For each file that gets added to the archive, tar prints a line similar to the following: a dir1/filename.txt 1 blocks This can be construed to mean \"I just dded the file named `filename."
+    },
+    {
+      "chunk_id": 11,
+      "text": "o mean \"I just dded the file named `filename.txt' (which takes up around half a Kbyte) to the archive.\" * To LIST THE CONTENTS of a tar file, type: % tar tvf archive.tar This searches the tar file named \"archive.t"
+    },
+    {
+      "chunk_id": 12,
+      "text": "This searches the tar file named \"archive.tar\" and prints out in the style of \"ls -l\" the files contained therein. * To EXTRACT EVERYTHING out of a tar file, type: % tar xvf archive.tar This searches the tar fil"
+    },
+    {
+      "chunk_id": 13,
+      "text": "xvf archive.tar This searches the tar file named \"archive.tar\" and extracts every directory tree it contains into the current directory. For each file that gets extracted from the archive, tar prints a line similar to the a"
+    },
+    {
+      "chunk_id": 14,
+      "text": "e archive, tar prints a line similar to the above example with creating the archive, only it starts with an x (for \"eXtraction\") instead of an a (\"Addition\"). Gzip (\"gnu zip\") is a program which compresses files using Huffman and Le"
+    },
+    {
+      "chunk_id": 15,
+      "text": "gram which compresses files using Huffman and Lempel-Ziv coding. The syntax for gzip is much simpler, because it only works on single files. * To COMPRESS a file, type: % gzip -9 file This compresses the file named \"file\" at the"
+    },
+    {
+      "chunk_id": 16,
+      "text": "This compresses the file named \"file\" at the maximum compression setting (they range from 1=fastest to 9=most compression) and replaces the file with its compressed form in \"file.gz\". * To UNCOMPRESS a file, type: % gunzip file."
+    },
+    {
+      "chunk_id": 17,
+      "text": "* To UNCOMPRESS a file, type: % gunzip file.gz This uncompresses the file named \"file.gz\" and replaces it with its original contents in the file named \"file\". An example of using tar and gzip --------------------------------"
+    },
+    {
+      "chunk_id": 18,
+      "text": "sing tar and gzip -------------------------------- Here's an extended example, in which I reduce the 10 files in my directory \"help-session\" (occupying 11Kbytes) to a single file \"help-session.tar\" occupying 20Kbytes, and then compress it so"
+    },
+    {
+      "chunk_id": 19,
+      "text": "n.tar\" occupying 20Kbytes, and then compress it so that it takes up only slightly more than 1Kbyte (in a file named \"help-session.tar.gz\"). Then I reverse the process, re-creating \"help-session.tar\" and then the \"help-session\" directory."
+    },
+    {
+      "chunk_id": 20,
+      "text": "tar\" and then the \"help-session\" directory. # Here I have the help-session directory: parker% ls -ld help-session drwxr-xr-x 2 brg users 1024 Oct 22 19:23 help-session # It contains 10 files: parker% ls help-session"
+    },
+    {
+      "chunk_id": 21,
+      "text": "It contains 10 files: parker% ls help-session die.pl filename.txt stuff.pl stuff3.pl stuff5.pl file.pl foo stuff2.pl stuff4.pl stuff6.pl # It takes up 11 Kbytes: parker% du -sk help-session 11"
+    },
+    {
+      "chunk_id": 22,
+      "text": "11 Kbytes: parker% du -sk help-session 11 help-session # I hereby create the single file \"help-session.tar\" out of the above # directory tree: parker% tar cvf help-session.tar help-session a help-session/foo 1 blocks a help-sess"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ession a help-session/foo 1 blocks a help-session/filename.txt 1 blocks a help-session/stuff.pl 1 blocks a help-session/stuff2.pl 1 blocks a help-session/stuff3.pl 1 blocks a help-session/stuff4.pl 1 blocks a help-session/stuff5.pl 1 bl"
+    },
+    {
+      "chunk_id": 24,
+      "text": "stuff4.pl 1 blocks a help-session/stuff5.pl 1 blocks a help-session/stuff6.pl 1 blocks a help-session/file.pl 1 blocks a help-session/die.pl 1 blocks # The file, once created, takes up more space than the files which it # contains: pa"
+    },
+    {
+      "chunk_id": 25,
+      "text": "space than the files which it # contains: parker% ls -l help-session.tar -rw-r--r-- 1 brg users 20480 Nov 20 23:35 help-session.tar # However, now I will compress it: parker% gzip -9 help-session.tar # And now it is 1/"
+    },
+    {
+      "chunk_id": 26,
+      "text": "er% gzip -9 help-session.tar # And now it is 1/10th the size of the files it contains. parker% ls -l help-session.tar.gz -rw-r--r-- 1 brg users 1310 Nov 20 23:35 help-session.tar.gz # Now that I have an archive of the files"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ar.gz # Now that I have an archive of the files, it's safe to delete the original # directory tree, as I do here: parker% rm -rf help-session # And as you can see, it's gone: parker% ls -ld help-session help-session not found # But"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ld help-session help-session not found # But if I were to want the files in it again, I can uncompress the tar # file, like so: parker% gunzip help-session.tar.gz # As you can see, it is the same size as before: parker% ls -l help-sess"
+    },
+    {
+      "chunk_id": 29,
+      "text": "the same size as before: parker% ls -l help-session.tar -rw-r--r-- 1 brg users 20480 Nov 20 23:35 help-session.tar # And I can verify that it still contains all the files that I put in it: parker% tar tvf help-session.tar r"
+    },
+    {
+      "chunk_id": 30,
+      "text": "put in it: parker% tar tvf help-session.tar rwxr-xr-x 12988/20 0 Oct 22 19:23 1998 help-session/ rwxr-xr-x 12988/20 353 Oct 20 18:35 1998 help-session/foo rw-r--r-- 12988/20 50 Oct 20 18:44 1998 help-session/filename.txt rwxr-x"
+    },
+    {
+      "chunk_id": 31,
+      "text": "t 20 18:44 1998 help-session/filename.txt rwxr-xr-x 12988/20 191 Oct 22 18:32 1998 help-session/stuff.pl rwxr-xr-x 12988/20 178 Oct 22 18:44 1998 help-session/stuff2.pl rwxr-xr-x 12988/20 166 Oct 22 18:51 1998 help-session/stuff3.pl"
+    },
+    {
+      "chunk_id": 32,
+      "text": "166 Oct 22 18:51 1998 help-session/stuff3.pl rwxr-xr-x 12988/20 410 Oct 22 18:58 1998 help-session/stuff4.pl rwxr-xr-x 12988/20 117 Oct 22 19:07 1998 help-session/stuff5.pl rwxr-xr-x 12988/20 243 Oct 22 19:15 1998 help-session/stuff"
+    },
+    {
+      "chunk_id": 33,
+      "text": "988/20 243 Oct 22 19:15 1998 help-session/stuff6.pl rw-r--r-- 12988/20 138 Oct 22 19:22 1998 help-session/file.pl rwxr-xr-x 12988/20 97 Oct 22 19:23 1998 help-session/die.pl # And, lastly, here is how I can extract all the files from"
+    },
+    {
+      "chunk_id": 34,
+      "text": "stly, here is how I can extract all the files from the # tar archive, returning the directory to its original state of # existence: parker% tar xvf help-session.tar x help-session/foo, 353 bytes, 1 tape blocks x help-session/filename.txt"
+    },
+    {
+      "chunk_id": 35,
+      "text": "bytes, 1 tape blocks x help-session/filename.txt, 50 bytes, 1 tape blocks x help-session/stuff.pl, 191 bytes, 1 tape blocks x help-session/stuff2.pl, 178 bytes, 1 tape blocks x help-session/stuff3.pl, 166 bytes, 1 tape blocks x help-session"
+    },
+    {
+      "chunk_id": 36,
+      "text": "uff3.pl, 166 bytes, 1 tape blocks x help-session/stuff4.pl, 410 bytes, 1 tape blocks x help-session/stuff5.pl, 117 bytes, 1 tape blocks x help-session/stuff6.pl, 243 bytes, 1 tape blocks x help-session/file.pl, 138 bytes, 1 tape blocks x he"
+    },
+    {
+      "chunk_id": 37,
+      "text": "p-session/file.pl, 138 bytes, 1 tape blocks x help-session/die.pl, 97 bytes, 1 tape blocks # As you can see, it's as it was before: parker% ls -ld help-session drwxr-xr-x 2 brg users 1024 Nov 20 23:41 help-session parker%"
+    },
+    {
+      "chunk_id": 38,
+      "text": "1024 Nov 20 23:41 help-session parker% ls help-session die.pl filename.txt stuff.pl stuff3.pl stuff5.pl file.pl foo stuff2.pl stuff4.pl stuff6.pl Move your files to the /home/tmp parti"
+    },
+    {
+      "chunk_id": 39,
+      "text": "f6.pl Move your files to the /home/tmp partition ------------------------------------------ The Instructional group maintains two open-access disks for use by any user to store files on a medium-term basis; the partitions are not erase"
+    },
+    {
+      "chunk_id": 40,
+      "text": "medium-term basis; the partitions are not erased until the end of each semester. You can store old files on the /home/tmp partition to make space for new ones. /home/tmp is connected to the computer mamba.cs and is accessible from any machin"
+    },
+    {
+      "chunk_id": 41,
+      "text": "omputer mamba.cs and is accessible from any machine in the Instructional UNIX cluster. In order to store files on /home/tmp, you must create yourself a directory there, using the command \"/share/b/bin/mkhometmpdir\". The result will be"
+    },
+    {
+      "chunk_id": 42,
+      "text": "share/b/bin/mkhometmpdir\". The result will be that you (if your login is cs61b-aa) have a directory named /home/tmp/cs61b-aa. To copy a directory named \"FOO\" and all the files it contains to the /home/tmp/cs61b-aa directory, you can use"
+    },
+    {
+      "chunk_id": 43,
+      "text": "o the /home/tmp/cs61b-aa directory, you can use either of the following commands: % cp -rp FOO /home/tmp/cs61b-aa or % tar cf - FOO | (cd /home/tmp/cs61b-aa && tar xf -) After you have copied the directory you can remove it"
+    },
+    {
+      "chunk_id": 44,
+      "text": "r you have copied the directory you can remove it using \"rm -rf\". Use removable media to store your files --------------------------------------- Instructional systems have a variety of kinds of drives on which you can store files, whose"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ds of drives on which you can store files, whose methods for accessing are too varied to explain here; there is, however, a file called \"/share/b/pub/multimedia.help\". which you can read to learn how to use the floppy, ZIP, CD and DVD drives on"
+    },
+    {
+      "chunk_id": 46,
+      "text": "n how to use the floppy, ZIP, CD and DVD drives on the Solaris machines. To read it, type: % more /share/b/pub/multimedia.help"
+    }
+  ]
+}

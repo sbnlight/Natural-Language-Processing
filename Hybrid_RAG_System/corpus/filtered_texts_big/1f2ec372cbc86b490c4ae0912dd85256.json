@@ -1,0 +1,21 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/set-finger-info",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/bin/sh #FINGER_DIR = /home/tmp/batch_chfn if [ -z \"$FINGER_DIR\" -o ! -w \"$FINGER_DIR\" ]; then echo \"Finger information not changed.\" exit 1 fi if [ $# -eq 2 ]; then firstNames=\"$1\" lastName=\"$2\" elif [ $# -eq 0 ]; then lastN"
+    },
+    {
+      "chunk_id": 2,
+      "text": "lastName=\"$2\" elif [ $# -eq 0 ]; then lastName=\"\" while [ -z \"$lastName\" ]; do /bin/echo 'Please enter your last name (family name): \\c' read lastName done firstNames=\"\" while [ -z \"$firstNames\" ]; do /bin/echo 'Please ente"
+    },
+    {
+      "chunk_id": 3,
+      "text": "e [ -z \"$firstNames\" ]; do /bin/echo 'Please enter your first (given) and middle name(s): \\c' read firstNames done else echo \"Usage: set-finger-info [ FIRSTNAMES LASTNAME ]\" exit 2 fi who=\"`whoami`\" echo \"$who:$firstNames $lastName"
+    },
+    {
+      "chunk_id": 4,
+      "text": "who=\"`whoami`\" echo \"$who:$firstNames $lastName\" > $FINGER_DIR/$who echo \"Your name according to the 'finger' command will be\" echo \" $firstNames $lastName\" echo \"This change should go into effect soon.\""
+    }
+  ]
+}

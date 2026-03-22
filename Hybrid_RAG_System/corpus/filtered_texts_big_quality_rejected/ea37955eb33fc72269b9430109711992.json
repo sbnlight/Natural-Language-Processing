@@ -1,0 +1,1241 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/html/Users_Guide/unix/",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "User's Guide to EECS Instructional Computing [ back to User's Guide Table of Contents ] Basic UNIX Introduction There are many different variants of UNIX such as Digital Equipment Corporation's Ultrix, Silicon Graphics' IRIX, Hewlett Packard's HPUX,"
+    },
+    {
+      "chunk_id": 2,
+      "text": "x, Silicon Graphics' IRIX, Hewlett Packard's HPUX, Sun Microsystems' SunOS, etc. Most of these systems are either based on Berkeley (BSD) UNIX or AT&T System V UNIX. The commands in this manual should work on all of the Instructional systems and we"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ld work on all of the Instructional systems and we have tried to explain any differences where appropriate. Please keep in mind, however, that you should expect slightly different behavior on the various Instructional systems running different operat"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ous Instructional systems running different operating systems. Logging On and Off The Kerberos system greatly enhances password security when logging in. More advanced users are strongly encouraged to read and follow instructions in the file /usr/pu"
+    },
+    {
+      "chunk_id": 5,
+      "text": "o read and follow instructions in the file /usr/pub/kerberos.help on any EECS Instructional machine. Logging On Logging on is the process of identifying yourself to a workstation and being granted access to use it. A description of the login procedu"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ess to use it. A description of the login procedure follows. You can login to any machine that you are authorized to use either directly from a workstation or from a terminal. If the workstation screen is dark, wiggle the mouse and a login banner sh"
+    },
+    {
+      "chunk_id": 7,
+      "text": "en is dark, wiggle the mouse and a login banner should appear. If nothing appears, make sure that the monitor or terminal is powered on. Somewhere on that screen should be the following prompt: login: Enter your username (in lowercase letters) and p"
+    },
+    {
+      "chunk_id": 8,
+      "text": ": Enter your username (in lowercase letters) and press Return. You will then be prompted for a \" Password: \". Enter your password and press Return. Notice that your password is not displayed on the screen. If all goes well, the system will pause,"
+    },
+    {
+      "chunk_id": 9,
+      "text": "screen. If all goes well, the system will pause, print the contents of the /etc/motd file (\"message-of-the-day\"), then display: % This is the default shell prompt and it indicates that you have logged in successfully and that the system is waiting"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ed in successfully and that the system is waiting for you to enter an UNIX command. Login Errors The system will not let you login if you mistype your username or password. If you mistype your username or password, login returns this message: Passwo"
+    },
+    {
+      "chunk_id": 11,
+      "text": "me or password, login returns this message: Password incorrect Be sure to type your username and password exactly as shown on your account form. Don't insert any blank spaces; make sure they are both in the proper case. To try login again, press Re"
+    },
+    {
+      "chunk_id": 12,
+      "text": "in the proper case. To try login again, press Return until the login: prompt reappears. Common Login Problems and Overview Other than the just mentioned password problem, there are other problems that can occur when logging in to an Instructional s"
+    },
+    {
+      "chunk_id": 13,
+      "text": "at can occur when logging in to an Instructional system. In order to understand these problems, it is useful to have a general idea of how accounts are set up in the EECS Instructional environment. When you first login to your account, the system loo"
+    },
+    {
+      "chunk_id": 14,
+      "text": "en you first login to your account, the system looks for your home directory information in its password file. Your home directory is where all your files are stored and is usually something like /home/j/users/your_login . After determining the name"
+    },
+    {
+      "chunk_id": 15,
+      "text": "e/j/users/your_login . After determining the name of your home directory, the system must make it available to you. All this happens automatically when you first login without you even being aware of it, so when things work properly you just login an"
+    },
+    {
+      "chunk_id": 16,
+      "text": "it, so when things work properly you just login and are put into your home directory. (Your .cshrc and .login files are also executed at this time, so if you have modified them incorrectly you may not be able to login.) Since your home directory is"
+    },
+    {
+      "chunk_id": 17,
+      "text": "t be able to login.) Since your home directory is not necessarily local to the system you're on, problems can occur. For example, you could be logged into the workstation called \"basie\" but your home directory could be on \"po\". Therefore, once the s"
+    },
+    {
+      "chunk_id": 18,
+      "text": "directory could be on \"po\". Therefore, once the system knows your home directory, it needs to make it available to you. This usually involves a process called \"NFS mounting\", which is done automatically on the EECS Instructional systems. In the abo"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ally on the EECS Instructional systems. In the above case, basie would request that po make your home directory available. If po were currently down, then your home directory would be temporarily unavailable and you might see a message such as: No di"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ailable and you might see a message such as: No directory! Logging in with home=/ (If your home directory system is down, you will not be able to access your files at all from any system. You will have to wait until the system containing your home"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ave to wait until the system containing your home directory is back on-line.) Alternatively, even if po is up, basie might be having a problem mounting po's filesystem. In that case, you might try logging into another Instructional system because yo"
+    },
+    {
+      "chunk_id": 22,
+      "text": "gging into another Instructional system because your home directory may be available there. It is important to know the name of the system that contains your home directory so you will know whether a particular system being down will affect you or no"
+    },
+    {
+      "chunk_id": 23,
+      "text": "particular system being down will affect you or not. For example, if you were told that cory was going to be down all day tomorrow for system work, you would want to know whether your files were on cory or not. Type: % cd; df -n . (on the DEC syst"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ory or not. Type: % cd; df -n . (on the DEC systems) % cd; bdf . (on the HP systems) or % quota for information about your home directory location. If you see something like /dev/rz0e in the first column, then your home directory is located on your"
+    },
+    {
+      "chunk_id": 25,
+      "text": "olumn, then your home directory is located on your current system; if you see something like po:/home/n , then your home directory resides on po. Login Problem: Disk Quota Exceeded If you have exceeded your disk quota, the system may log you out imme"
+    },
+    {
+      "chunk_id": 26,
+      "text": "d your disk quota, the system may log you out immediately after you login. This is because a windowing system, such as on the HP or DEC workstations, usually needs to write a small temporary file when you login and it cannot do so if you have no disk"
+    },
+    {
+      "chunk_id": 27,
+      "text": "you login and it cannot do so if you have no disk quota left. If this happens to you, you should still be able to login without windows (see signs posted in the labs for how to do this), remotely from another account if you have it, or via a modem"
+    },
+    {
+      "chunk_id": 28,
+      "text": "om another account if you have it, or via a modem from home. Login this way and remove or compress some of your files to lower your disk usage. Then you should be able to login on a windowing system again. Please see Quotas for more specific detai"
+    },
+    {
+      "chunk_id": 29,
+      "text": "m again. Please see Quotas for more specific details. Correcting Errors and Using Control Keys When you see the % prompt, you are logged in and ready to enter commands. However, before you start learning UNIX commands, there are a few keys and key s"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ning UNIX commands, there are a few keys and key sequences you need to know. Any key sequence that begins with CTRL produces what is called a control sequence . To enter a control sequence, hold the CTRL key down just as you would the SHIFT key, then"
+    },
+    {
+      "chunk_id": 31,
+      "text": "TRL key down just as you would the SHIFT key, then type the rest of the sequence. If you need to back up and correct a typing mistake on a command line, there are several ways to do this depending upon which workstation or terminal you're using. You'"
+    },
+    {
+      "chunk_id": 32,
+      "text": "n which workstation or terminal you're using. You'll need to learn which of these work on the systems you are using: use the DELETE key use the BACKSPACE key use the <X key use CTRL-h CTRL-u is another control sequence. You can erase the entire comm"
+    },
+    {
+      "chunk_id": 33,
+      "text": "r control sequence. You can erase the entire command line by entering CTRL-u. This key sequence produces the UNIX kill character. Sometimes CTRL-x is used for kill instead. The CTRL-c key sequence produces the UNIX interrupt character . If you hav"
+    },
+    {
+      "chunk_id": 34,
+      "text": "produces the UNIX interrupt character . If you have entered a command that you now want to terminate, try entering CTRL-c. If one doesn't work, try entering several. Unfortunately, some programs ignore CTRL-c and refuse to quit. In these cases you"
+    },
+    {
+      "chunk_id": 35,
+      "text": "re CTRL-c and refuse to quit. In these cases you can try entering q (for quit), the exit command, or Return followed by a CTRL-d. The CTRL-d works on UNIX as an end-of-file marker. Setting Your Terminal Type Often software packages and programs requ"
+    },
+    {
+      "chunk_id": 36,
+      "text": "nal Type Often software packages and programs require that you use a certain terminal type and that you explicitly specify that terminal type to UNIX. Your account on an Instructional machine may be set up to automatically ask you for your terminal t"
+    },
+    {
+      "chunk_id": 37,
+      "text": "et up to automatically ask you for your terminal type. In that case, you can just do source .login and you will be prompted for the correct terminal type. The above variables will all be set properly then. If this is not the case, you should use th"
+    },
+    {
+      "chunk_id": 38,
+      "text": "y then. If this is not the case, you should use the set , setenv , and unsetenv commands instead: % set term = terminal_type % unsetenv TERMCAP % setenv TERM terminal_type where terminal_type is the type of terminal that you are currently on. Popula"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ype of terminal that you are currently on. Popular terminal types include: xterm (on workstations), dtterm (on systems with CDE) and vt100 . More information on the set term command can be found by entering: % man 5 termcap You may also need to res"
+    },
+    {
+      "chunk_id": 40,
+      "text": "entering: % man 5 termcap You may also need to reset the terminal by using the tset command: % tset -r Logging Out You must always logoff to end your session. If you don't, the next person who walks up to your workstation or terminal will be able to"
+    },
+    {
+      "chunk_id": 41,
+      "text": "up to your workstation or terminal will be able to access your files. To logout from a workstation, you will either need to exit from all your windows by typing \"exit\" in each window, or select exit or logout from one of the menus, depending upon the"
+    },
+    {
+      "chunk_id": 42,
+      "text": "r logout from one of the menus, depending upon the type of workstation you're on. On the DECstations, for example, hold down the left mouse button in the root window and then select \"exit\" from the list of options by dragging the mouse down. Wait un"
+    },
+    {
+      "chunk_id": 43,
+      "text": "st of options by dragging the mouse down. Wait until you see the login banner before leaving the workstation. That is the only way you can be sure that you are logged out of everything. See Getting Rid of a Window and How to Logout from CDE for mo"
+    },
+    {
+      "chunk_id": 44,
+      "text": "Rid of a Window and How to Logout from CDE for more details about how to logout from a workstation running X Windows or CDE. To logout when you are accessing the system via a terminal, enter: % logout A few problems may arise when you attempt to log"
+    },
+    {
+      "chunk_id": 45,
+      "text": "t A few problems may arise when you attempt to logout . If UNIX says \"There are stopped jobs.\" and doesn't log you out, you must first kill the remaining jobs. Type: % jobs You'll see something like the following: [1] + Stopped vi /tmp"
+    },
+    {
+      "chunk_id": 46,
+      "text": "the following: [1] + Stopped vi /tmp/myFile [2] + Stopped mail To kill these jobs, for example, type: % kill %1 %2 After killing all remaining jobs, you may enter logout again and UNIX will log you out. If UNIX says \"Not l"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ain and UNIX will log you out. If UNIX says \"Not login shell.\" and you are entering commands in the login window of a workstation, enter exit , and then enter logout once again. Continue this procedure as long as UNIX continues to respond \"Not login"
+    },
+    {
+      "chunk_id": 48,
+      "text": "re as long as UNIX continues to respond \"Not login shell.\" Files and Filenames A file is a logically-related collection of information. Information such as electronic mail, computer programs, and papers done with a word processor can be stored on the"
+    },
+    {
+      "chunk_id": 49,
+      "text": "rs done with a word processor can be stored on the computer in files. You refer to a file by its filename. UNIX filenames can be up to 256 characters in length. You can use any character on the keyboard in a filename except a slash ( / ); recommende"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ard in a filename except a slash ( / ); recommended characters are a - z , A - Z , 0 - 9 , the period ( . ), the dash ( - ), and the underscore ( _ ). If you use any other characters, you may run into problems later. The case of the letters makes a"
+    },
+    {
+      "chunk_id": 51,
+      "text": "o problems later. The case of the letters makes a difference when specifying filenames: myfile is a different file than Myfile . Wildcards and Metacharacters Wildcards, also known as metacharacters, are used to refer to a group of files. You can ch"
+    },
+    {
+      "chunk_id": 52,
+      "text": "are used to refer to a group of files. You can choose a group of files with a single file specification rather than specifying each filename separately. The two general purpose wildcard characters are the asterisk ( * ) which is a match-all charact"
+    },
+    {
+      "chunk_id": 53,
+      "text": "re the asterisk ( * ) which is a match-all character, and the question mark ( ? ) which is the match-single character. You can also use the selective wildcard symbols called brackets, [ ] , to specify which characters can occur within a filename at a"
+    },
+    {
+      "chunk_id": 54,
+      "text": "which characters can occur within a filename at any specific point. The Match-All Wildcard Character (*) The asterisk ( * ) is used to replace all or part of a filename. Use the asterisk when you want to select all files that match any possible val"
+    },
+    {
+      "chunk_id": 55,
+      "text": "nt to select all files that match any possible value (including no value at all) in a filename. Some examples on how to use the * to select files are shown in Figure 3.1 . The Match-Single Wildcard Character (?) The question mark ( ? ) is used to in"
+    },
+    {
+      "chunk_id": 56,
+      "text": "haracter (?) The question mark ( ? ) is used to indicate a single-character replacement in a filename. For example, b?th refers to all four-character filenames that begin with a lowercase \"b\" and end with lowercase \"th\". Some examples on how to use"
+    },
+    {
+      "chunk_id": 57,
+      "text": "with lowercase \"th\". Some examples on how to use the \"?\" to select files are shown in Figure 3.1 . Selecting Filenames with Brackets Brackets [ ] are used as a wildcard mechanism to choose from a group of characters that might occur at a particular"
+    },
+    {
+      "chunk_id": 58,
+      "text": "up of characters that might occur at a particular point in a filename. For instance, b[aeiu]t refers to the lowercase filenames bat , bet , bit and but . You can also choose an alphabetic or numeric range of characters by using a hyphen ( - ). For"
+    },
+    {
+      "chunk_id": 59,
+      "text": "range of characters by using a hyphen ( - ). For instance, z[w-z]z would refer to lowercase filenames zwz , zxz , zyz and zzz . Additional examples on how to use the [ ] to select files are shown in Figure 3.1 . Files: dog.dat hello.dvi he"
+    },
+    {
+      "chunk_id": 60,
+      "text": "Figure 3.1 . Files: dog.dat hello.dvi hello.tex sub2 hello.aux hello.log oscar verona.txt File Specification File(s) Selected ---------------------- ---------------------------------------------- hello.* hello.aux hello"
+    },
+    {
+      "chunk_id": 61,
+      "text": "---------------------- hello.* hello.aux hello.dvi hello.log hello.tex *s* oscar sub2 sub? sub2 hello.??x hello.aux hello.tex hello.[adl]* hello.aux hello.dvi hello.log *[a-e]*t* dog.dat hello.tex verona.txt --------------"
+    },
+    {
+      "chunk_id": 62,
+      "text": "t* dog.dat hello.tex verona.txt ---------------------- ---------------------------------------------- Figure 3.1: Using Wildcards to Select Files UNIX Commands Giving Commands to UNIX Once you have successfully logged in, the computer runs a prog"
+    },
+    {
+      "chunk_id": 63,
+      "text": "e successfully logged in, the computer runs a program that prompts you for your first command. The system signals its readiness to accept commands by displaying the % prompt. The program that you are running at this point is called `the shell' becau"
+    },
+    {
+      "chunk_id": 64,
+      "text": "running at this point is called `the shell' because it seems to surround the computer system and separates users from the computer's internal programming. The internals of the computer system are known as `the kernel'. When you type commands at the"
+    },
+    {
+      "chunk_id": 65,
+      "text": "wn as `the kernel'. When you type commands at the % prompt, you are telling the shell to run other programs for you. When you enter a command at the command prompt, you are really specifying the program that you want to run. The UNIX system comes wi"
+    },
+    {
+      "chunk_id": 66,
+      "text": "am that you want to run. The UNIX system comes with many utility programs that you run by entering their names. Case Sensitivity UNIX is unusual among operating systems because it is case-sensitive . It makes a difference whether you enter a letter"
+    },
+    {
+      "chunk_id": 67,
+      "text": "It makes a difference whether you enter a letter in UPPERCASE or lowercase. The command to list files in UNIX is ls , not LS . The file readme is different from the file Readme , which is different again from the file README . A command option li"
+    },
+    {
+      "chunk_id": 68,
+      "text": "t again from the file README . A command option like -p is different from the command option -P . You must pay attention to the case of letters and always enter them exactly as specified. Most commands in UNIX are entered in lowercase. Uppercase is"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ds in UNIX are entered in lowercase. Uppercase is usually used to make something really stand out or when the lowercase alternative is already being used for something else. Setting Your Command Path Sometimes when you type a command name, you get a"
+    },
+    {
+      "chunk_id": 70,
+      "text": "Sometimes when you type a command name, you get an error \" Command not found. \" First, check to be sure that you have not made a typo or misspelled the name of the command. If you have typed the command correctly and are still getting this error, t"
+    },
+    {
+      "chunk_id": 71,
+      "text": "mand correctly and are still getting this error, then you probably need to add a directory to your \"path\". When you first login to the computer, the path variable gets set in your shell. (See The C Shell .) Type echo $path to see what it is currentl"
+    },
+    {
+      "chunk_id": 72,
+      "text": "hell .) Type echo $path to see what it is currently set to. You should see a list of directories where most of the common programs are found. This list of directories is set from your .cshrc or .login file upon logging in. Only commands found in yo"
+    },
+    {
+      "chunk_id": 73,
+      "text": "in file upon logging in. Only commands found in your path can be executed. For this reason, your instructor or TA may tell you to add a class directory to your path, such as ~ cs186/bin , or a path to some specific software, such as /cad/bin/hspice ."
+    },
+    {
+      "chunk_id": 74,
+      "text": "some specific software, such as /cad/bin/hspice . This is done by editing the path line your .login or .cshrc file. (See C Shell Basics and Customizing Your Environment ). For example, if I type hspice and get hspice: Command not found. I need to te"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ce and get hspice: Command not found. I need to tell the computer where to find hspice by adding it to my path. There are two steps to this: (1) find out where hspice is and (2) add that directory to my path. For the first part, it is usually best"
+    },
+    {
+      "chunk_id": 76,
+      "text": "my path. For the first part, it is usually best to look in /usr/pub to see if there is any information about the software I want to run. If not, then I will probably need to ask my classmates, TA, instructor or inst@eecs. I see the following inf"
+    },
+    {
+      "chunk_id": 77,
+      "text": "instructor or inst@eecs. I see the following information in /usr/pub/hspice.help : You MUST add /cad/bin to your search path BEFORE /usr/local/bin, otherwise you will see this message every time and not run the real SPICE. Therefore, I edit my .c"
+    },
+    {
+      "chunk_id": 78,
+      "text": "nd not run the real SPICE. Therefore, I edit my .cshrc file as follows: Before: set path = (/usr/ucb /usr/bin /usr/local/bin \\ /usr/sww /usr/sww/bin /share/a/bin . ) After: set path = (/usr/ucb /usr/bin /cad/bin /usr/local/bin \\ /usr/sww /usr/sww/bi"
+    },
+    {
+      "chunk_id": 79,
+      "text": "bin /cad/bin /usr/local/bin \\ /usr/sww /usr/sww/bin /share/a/bin . ) The next time I login, my path will be set with the new directory and hspice should be in my path. Please note that great care must be taken when editing your .cshrc file because i"
+    },
+    {
+      "chunk_id": 80,
+      "text": "t be taken when editing your .cshrc file because if you make any mistakes, you may not be able to login back in to your account. Continuing Your Command on More than One Line UNIX commands may be entered using more than one line. The backslash, \\ ,"
+    },
+    {
+      "chunk_id": 81,
+      "text": "red using more than one line. The backslash, \\ , is used to continue a command on the following line. Add a \\ to the command line that you would like to continue, press Return, then continue typing on the next line. Continuing commands is useful w"
+    },
+    {
+      "chunk_id": 82,
+      "text": "on the next line. Continuing commands is useful when you have an extremely long command, when you are using several command options, or to make a command script more readable. Changing Your Password It is a good idea to change your password frequent"
+    },
+    {
+      "chunk_id": 83,
+      "text": "It is a good idea to change your password frequently. When changing your password on an Instructional system, you need to run the passwd command. Here is an example: % passwd Old password: old_password New password: new_password Verify: new_password"
+    },
+    {
+      "chunk_id": 84,
+      "text": "rd New password: new_password Verify: new_password % Enter your old and new passwords as indicated by the prompts. Verifying simply means to enter your new password again so UNIX can verify that you didn't make a typing error the first time you enter"
+    },
+    {
+      "chunk_id": 85,
+      "text": "idn't make a typing error the first time you entered your new password. For reasons of privacy and security, your password does not appear on the screen. If the password you enter for new_password and verifying do not match, you will see the message"
+    },
+    {
+      "chunk_id": 86,
+      "text": "d verifying do not match, you will see the message ` Mismatch - try again ' or ` Mismatch - password unchanged ' and you will have to enter your new_password again. Where to Run the Command Since your Instructional login name and password can be used"
+    },
+    {
+      "chunk_id": 87,
+      "text": "Instructional login name and password can be used on many machines, you need to be sure to change your password on a password server machine. First try running the passwd command on your current system. If you get an error like this: *************"
+    },
+    {
+      "chunk_id": 89,
+      "text": "* * chfn, chsh, passwd, and yppasswd * * have been disabled on this machine. * * * * You should now login to po.eecs to run * * a"
+    },
+    {
+      "chunk_id": 90,
+      "text": "u should now login to po.eecs to run * * any of the above commands by typing: * * * * % rlogin po.eecs * * * *"
+    },
+    {
+      "chunk_id": 91,
+      "text": "* * - ISG (inst@eecs) * * * ********************************************** then follow the instructions listed, i.e., type rlogin po."
+    },
+    {
+      "chunk_id": 92,
+      "text": "low the instructions listed, i.e., type rlogin po.eecs . Also, it usually takes time for a password change to get distributed to all the Instructional systems, so be sure to remember your old password until the change has been completely distributed."
+    },
+    {
+      "chunk_id": 93,
+      "text": "until the change has been completely distributed. Choosing Your Password For maximum effectiveness your password should be at least 8 characters long; should contain letters, numbers and symbols; should not be readily associated in any way with your"
+    },
+    {
+      "chunk_id": 94,
+      "text": "uld not be readily associated in any way with your name or person, and should be changed periodically. Some systems will require that your password be 8 or more characters and not all lower case. If you forget your password, we have no way of findin"
+    },
+    {
+      "chunk_id": 95,
+      "text": "you forget your password, we have no way of finding out what it was set to. We can, however, allow you to change it again. We do not change passwords via e-mail because this is insecure, therefore, you need to come in person and see the staff in 384"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ou need to come in person and see the staff in 384 Cory Hall. Good password choices include: Non-words Letter, number, and symbol combinations Poor password choices include: Your username (Never use this.) Any part of your given name Anybody's name,"
+    },
+    {
+      "chunk_id": 97,
+      "text": "this.) Any part of your given name Anybody's name, i.e., name of friend, mother, spouse, etc. A word that is in any dictionary, including foreign languages Short words Numbers alone Common non-words (e.g., OK, ASAP) Control sequences Listing Files Th"
+    },
+    {
+      "chunk_id": 98,
+      "text": "e.g., OK, ASAP) Control sequences Listing Files The ls command is used to obtain a list of files in your current working directory. Normally the filenames are listed alphabetically in four or five columns. A more informative listing of your files,"
+    },
+    {
+      "chunk_id": 99,
+      "text": "lumns. A more informative listing of your files, however, can be obtained through the use of optional qualifiers. The -l option gives complete information on every file listed including file protection, file owner, file size, and date created. The"
+    },
+    {
+      "chunk_id": 100,
+      "text": "on, file owner, file size, and date created. The -a option lists both regular and hidden files in your present working directory. Hidden files have filenames that begin with . and are special purpose files within UNIX that are not normally shown by"
+    },
+    {
+      "chunk_id": 101,
+      "text": "files within UNIX that are not normally shown by the ls command. You can also combine these options, as follows: ls -al . Some sample output from the ls -l command is shown in Figure 3.2 . drwx------ 4 username 512 Jul 13 15:06 Mail"
+    },
+    {
+      "chunk_id": 102,
+      "text": "- 4 username 512 Jul 13 15:06 Mail drwx------ 2 username 512 Jul 13 15:52 News drwx------ 2 username 512 Jul 10 11:33 Proj1 -rw------- 1 username 26 Jul 11 13:16 dog.dat -rw----"
+    },
+    {
+      "chunk_id": 103,
+      "text": "26 Jul 11 13:16 dog.dat -rw------- 1 username 8 Jul 13 13:40 hello.aux -rw------- 1 username 232 Jul 13 13:40 hello.dvi -rw------- 1 username 949 Jul 13 13:40 hello.log -rw---"
+    },
+    {
+      "chunk_id": 104,
+      "text": "949 Jul 13 13:40 hello.log -rw------- 1 username 67 Jul 13 13:40 hello.tex -rw-r----- 1 username 259 Jul 11 09:11 oscar -rw-r----- 1 username 70 Jul 11 13:52 sub2 -rw-r----- 1"
+    },
+    {
+      "chunk_id": 105,
+      "text": "70 Jul 11 13:52 sub2 -rw-r----- 1 username 451 Jul 19 13:49 verona.txt Figure 3.2: Sample Output from the ls -l Command Displaying the Contents of a File The cat command displays the % cat filename Be careful when you cat a fil"
+    },
+    {
+      "chunk_id": 106,
+      "text": "s the % cat filename Be careful when you cat a file. You should only cat a text file. If you accidentally cat a non-text file (like a binary file), you will get a lot of garbage and your terminal may hang. If you're not sure what the type of a file"
+    },
+    {
+      "chunk_id": 107,
+      "text": "hang. If you're not sure what the type of a file is, use the \"file\" command: % file filename If the file is very long, its contents may scroll past you faster than you can read them. If this happens, you can enter CTRL-s to stop the screen from sc"
+    },
+    {
+      "chunk_id": 108,
+      "text": "s, you can enter CTRL-s to stop the screen from scrolling and then CTRL-q to resume scrolling. Rather than doing this, however, you could use the more command. The more command displays a file's contents one screen at a time, pausing after every scr"
+    },
+    {
+      "chunk_id": 109,
+      "text": "ents one screen at a time, pausing after every screenful so that you can read them. The format of the more command is as follows: % more filename Once more has filled up the screen, you must give it a subcommand to tell it to continue. The most com"
+    },
+    {
+      "chunk_id": 110,
+      "text": "a subcommand to tell it to continue. The most commonly used subcommands are summarized in Table 3.1 . SPACEBAR Moves forward one screenful Return Moves forward one line b Moves back one page /word Return Search forward for word q or CTRL-c Quit"
+    },
+    {
+      "chunk_id": 111,
+      "text": "rd Return Search forward for word q or CTRL-c Quit h Help Table 3.1: Subcommands Commonly Used with the more command The more command cannot display binary or directory files. The more command is a UNIX filter ; many other UNIX commands filter thei"
+    },
+    {
+      "chunk_id": 112,
+      "text": "UNIX filter ; many other UNIX commands filter their output through more . Instead of processing the output directly, it is sent through more which gives you more control. In UNIX terms, we say that we \" pipe the output through more \". When you enter"
+    },
+    {
+      "chunk_id": 113,
+      "text": "e \" pipe the output through more \". When you enter a command and its output is too large to fit on one screen, you can cancel the output by typing CTRL-c and re-enter it as follows: % command | more or % !! | more (see The History Command ) The \" |"
+    },
+    {
+      "chunk_id": 114,
+      "text": "or % !! | more (see The History Command ) The \" | \" is the pipe character. For example, if you have collected hundreds of files, you can pipe the output of ls -l through more by entering ls -l | more . There may be times when you don't want to disp"
+    },
+    {
+      "chunk_id": 115,
+      "text": "e . There may be times when you don't want to display the entire contents of a file. Suppose you forgot what was in a file of 150 lines. Looking at only a few lines from that file would probably be enough so that you wouldn't have to look at the re"
+    },
+    {
+      "chunk_id": 116,
+      "text": "enough so that you wouldn't have to look at the rest of the file. For this reason, the head and tail commands were created. The head command displays the first ten lines of a given file while the tail command displays the last ten lines of a file."
+    },
+    {
+      "chunk_id": 117,
+      "text": "l command displays the last ten lines of a file. The head and tail commands have the following form: % head filename % tail filename Additional command options - n or + n can also be added to the head and tail commands where n specifies exactly how"
+    },
+    {
+      "chunk_id": 118,
+      "text": "d and tail commands where n specifies exactly how many lines you would like to see from a particular file. Counting starts with the first line of the file when you use + n and the last line when you use - n . Examples of the cat , head and tail comm"
+    },
+    {
+      "chunk_id": 119,
+      "text": "use - n . Examples of the cat , head and tail commands are shown in Figure 3.4.4 . % cat verona.txt Cease to lament for that thou canst not help. And study help for that which thou lamentst. Time is the nurse and breeder of all good. Here, if thou"
+    },
+    {
+      "chunk_id": 120,
+      "text": "the nurse and breeder of all good. Here, if thou stay, thou canst not see thy love; Besides, thy staying will abridge thy life. Hope is a lover's staff: walk hence with that And manage it against despairing thoughts. % head -3 verona.txt Cease"
+    },
+    {
+      "chunk_id": 121,
+      "text": "t despairing thoughts. % head -3 verona.txt Cease to lament for that thou canst not help. And study help for that which thou lamentst. Time is the nurse and breeder of all good. % tail -1 verona.txt And manage it against despairing thoughts. % tail"
+    },
+    {
+      "chunk_id": 122,
+      "text": "And manage it against despairing thoughts. % tail +1 verona.txt Cease to lament for that thou canst not help. Figure 3.3: Examples of the cat , head and tail Commands Deleting Files It is a good idea to delete files that you know you won't need any"
+    },
+    {
+      "chunk_id": 123,
+      "text": "a to delete files that you know you won't need anymore. Otherwise, your directory can become very full and you can exceed your allotted disk space. The command to delete or remove a file is the rm command and its format is as follows: % rm filename"
+    },
+    {
+      "chunk_id": 124,
+      "text": "mmand and its format is as follows: % rm filename UNIX doesn't verify the deletion, it just deletes the file and prompts for the next command. You can specify more than one file to be deleted on the command line by separating the filenames with blan"
+    },
+    {
+      "chunk_id": 125,
+      "text": "command line by separating the filenames with blanks. You can also, with caution, use wildcards ( * ? [ ] ) to delete groups of files. The most catastrophic mistake you could probably make would be to enter rm * which would delete all of the non-h"
+    },
+    {
+      "chunk_id": 126,
+      "text": "to enter rm * which would delete all of the non-hidden files in your current directory. Please note that there are no \"undelete\" utilities available in UNIX, so once you have deleted something, it's gone. A -i parameter, as in rm -i filename , prov"
+    },
+    {
+      "chunk_id": 127,
+      "text": "gone. A -i parameter, as in rm -i filename , provides for a verification prompt before deleting multiple files. Type \"n\" or \"y\" in response. % ls foo bar % rm -i * rm: remove foo? y rm: remove bar? n % ls bar Many users set an alias for rm to rm -i"
+    },
+    {
+      "chunk_id": 128,
+      "text": "n % ls bar Many users set an alias for rm to rm -i for safety. See Customizing Your Environment for more information on customizing your environment. Additionally, the noclobber variable can help to protect your files from accidential deletions (See"
+    },
+    {
+      "chunk_id": 129,
+      "text": "rotect your files from accidential deletions (See C Shell Variables and Things to Avoid ). Copying and Renaming Files The cp command is used to create a duplicate copy of an existing file. The form of the cp command is: % cp old_filename copy_filena"
+    },
+    {
+      "chunk_id": 130,
+      "text": "f the cp command is: % cp old_filename copy_filename UNIX makes a copy of old_filename and calls it copy_filename . If copy_filename already exists, it is overwritten . Again, UNIX does not verify the copy by default. See Figure 3.4 for an example"
+    },
+    {
+      "chunk_id": 131,
+      "text": "he copy by default. See Figure 3.4 for an example of the cp command. You can, however, use the -i option to avoid accidentally destroying files. The mv command is used to move or rename a file. The form of the mv command is: % mv old_filename new_fi"
+    },
+    {
+      "chunk_id": 132,
+      "text": "orm of the mv command is: % mv old_filename new_filename UNIX renames old_filename to new_filename , effectively moving it from one file to another. If new_filename already exists, it is overwritten. UNIX does not verify that it has moved the file."
+    },
+    {
+      "chunk_id": 133,
+      "text": "UNIX does not verify that it has moved the file. As with the rm and cp commands, you can use the -i option. See Figure 3.4 for an example of the mv command. % ls dog.dat hello.dvi hello.tex sub2 hello.aux hello.log oscar verona."
+    },
+    {
+      "chunk_id": 134,
+      "text": "sub2 hello.aux hello.log oscar verona.txt % cp oscar zzz.dat % ls dog.dat hello.log oscar verona.txt hello.aux hello.tex sub2 zzz.dat hello.dvi % mv sub2 view.sub % ls dog.dat hello.log oscar view.sub"
+    },
+    {
+      "chunk_id": 135,
+      "text": "% ls dog.dat hello.log oscar view.sub hello.aux hello.tex verona.txt zzz.dat Figure 3.4: Examples of the cp and mv Commands Note: Both cp and mv allow you to overwrite existing files. To overwrite means that the contents of the pre"
+    },
+    {
+      "chunk_id": 136,
+      "text": ". To overwrite means that the contents of the previous existing file are gone forever. It is very easy to overwrite an existing file if you are not being careful. Both commands have a -i option that will \" i nquire\" whether you are sure you want to"
+    },
+    {
+      "chunk_id": 137,
+      "text": "will \" i nquire\" whether you are sure you want to overwrite a file. See Customizing Your Environment for more information. Printing Files See the Printing Files chapter. Online Manual ( \"man\" ) Pages Online documentation for UNIX is provided by a fa"
+    },
+    {
+      "chunk_id": 138,
+      "text": "Online documentation for UNIX is provided by a facility that displays pages of the 12-volume UNIX manual set and any manual pages available for locally-provided programs and facilities. The man Command If you know the name of a manual entry, you can"
+    },
+    {
+      "chunk_id": 139,
+      "text": "nd If you know the name of a manual entry, you can display information about it with the man command. For example, to display information about the ls command, enter: % man ls You will see displayed a series of standard subsections common to most ma"
+    },
+    {
+      "chunk_id": 140,
+      "text": "a series of standard subsections common to most manual entries: NAME contains the name of the command and a short description. SYNTAX lists the correct syntax of the command. Items in square brackets [ ] are optional and items that are underscored a"
+    },
+    {
+      "chunk_id": 141,
+      "text": "[ ] are optional and items that are underscored are values to be supplied by you. DESCRIPTION contains a longer description of the command than that provided in the NAME section. OPTIONS contains a detailed description of the options shown in the sy"
+    },
+    {
+      "chunk_id": 142,
+      "text": "etailed description of the options shown in the syntax diagram. RESTRICTIONS details restrictions that apply to the command. FILES lists any files required for the command. KNOWN BUGS lists any known bugs that apply to the command. SEE ALSO lists rel"
+    },
+    {
+      "chunk_id": 143,
+      "text": "bugs that apply to the command. SEE ALSO lists related commands. The references include the name of the related command and the manual section in parentheses, e.g., more(1). How the Sections are Organized In order to effectively use the manual pages"
+    },
+    {
+      "chunk_id": 144,
+      "text": "nized In order to effectively use the manual pages, you must know something about the organization of the UNIX Manual. It is organized into eight sections: User Commands System Calls Subroutines Devices File Formats Games Miscellaneous System Admini"
+    },
+    {
+      "chunk_id": 145,
+      "text": "ces File Formats Games Miscellaneous System Administration Most of the common UNIX commands are found in Section 1. Information useful for programming and system administration is found in the other sections. It is possible that there are entries in"
+    },
+    {
+      "chunk_id": 146,
+      "text": "ections. It is possible that there are entries in multiple sections for a given manual reference. However, man only displays the lowest numbered section when displaying a manual page. For example, most sections contain a manual page entitled intro"
+    },
+    {
+      "chunk_id": 147,
+      "text": "ost sections contain a manual page entitled intro . When you issue the command man intro , you only see the intro for section 1. To see the entries in other sections, place the section number in the man command. For example, to see the intro for se"
+    },
+    {
+      "chunk_id": 148,
+      "text": "man command. For example, to see the intro for section 8, enter the command: % man 8 intro Finding an Appropriate man Page If you are unsure which manual page to read, you can scan the manual pages for a list of pages that might be appropriate. The"
+    },
+    {
+      "chunk_id": 149,
+      "text": "or a list of pages that might be appropriate. There are two ways to do this: If you know the name of a manual entry, you can specify the -f option to display a list of page titles and one-line summaries that match the name of the manual entry. For"
+    },
+    {
+      "chunk_id": 150,
+      "text": "ies that match the name of the manual entry. For example, to see a list of the manual entries named intro , enter the command: % man -f intro Each line contains a reference that you can use to display a manual page. The name of the reference is fol"
+    },
+    {
+      "chunk_id": 151,
+      "text": "y a manual page. The name of the reference is followed by a section number in parentheses. Use the method described in How the Sections are Organized to display the manual entry from the desired section. If you don't know the name of a manual entry"
+    },
+    {
+      "chunk_id": 152,
+      "text": "tion. If you don't know the name of a manual entry, you can try searching for a keyword that describes the feature you are seeking. The -k option tells man to search for a keyword and list a summary for each page that contains the keyword in its titl"
+    },
+    {
+      "chunk_id": 153,
+      "text": "or each page that contains the keyword in its title. For example, to search for the keyword introduction , issue the command: % man -k introduction This process involves a certain amount of guesswork on your part. Your keyword may not have been use"
+    },
+    {
+      "chunk_id": 154,
+      "text": "on your part. Your keyword may not have been used by the authors of the manual page you seek, so you may need to try several choices before you get a list of pages you can use. Some of the pages may not be related to the your topic but you can usu"
+    },
+    {
+      "chunk_id": 155,
+      "text": "y not be related to the your topic but you can usually scan the summaries and decide which manual entry might be more useful. Some terms are not found by keyword searches but are included in the description of other commands. For example, variables"
+    },
+    {
+      "chunk_id": 156,
+      "text": "iption of other commands. For example, variables used by the C shell are described in the section which covers the C shell. To display the entry for the C shell, enter the command: % man csh Once you have a list, use the method described in A HREF="
+    },
+    {
+      "chunk_id": 157,
+      "text": "u have a list, use the method described in A HREF=\"#mansection\">How the Sections are Organized to display manual pages that interest you. The MANPATH Variable Just as you have a directory path when you type UNIX commands in the shell, there is a dire"
+    },
+    {
+      "chunk_id": 158,
+      "text": "u type UNIX commands in the shell, there is a directory path that is followed when searching for manual pages. Type: % echo $MANPATH to see your current path for manual pages. There are some directories that will automatically be searched when you"
+    },
+    {
+      "chunk_id": 159,
+      "text": "ries that will automatically be searched when you run the man command, but you may need to add additional directories to your MANPATH so that they are also searched. For example, if you want to read the manual pages for the Purify program on the HPs"
+    },
+    {
+      "chunk_id": 160,
+      "text": "he manual pages for the Purify program on the HPs you may need to modify your MANPATH as follows: % setenv MANPATH ${MANPATH}:/usr/local/pure/purify/man The MANPATH variable works like the path variable described in Setting Your Command Path ."
+    },
+    {
+      "chunk_id": 161,
+      "text": "ariable described in Setting Your Command Path . Please see that section for more details. The X Windows Version of man There is also a graphical interface to UNIX manual pages that can be used on some of the workstations. xman is an X Windows imple"
+    },
+    {
+      "chunk_id": 162,
+      "text": "me of the workstations. xman is an X Windows implementation of man that was written by the MIT X Windows Consortium. Among the features that make xman desirable are indexes to manual pages and the ability to \"click\" on any index entry for display. I"
+    },
+    {
+      "chunk_id": 163,
+      "text": "lity to \"click\" on any index entry for display. If you are at a workstation, you may want to try xman . To use it, enter: % xman A small dialog box opens giving you the choices \"Help\", \"manual page\" and \"quit\". If you click on Help, a window conta"
+    },
+    {
+      "chunk_id": 164,
+      "text": "and \"quit\". If you click on Help, a window containing a explanation of xman and its operation opens. The History Command It is quite common to enter a command, then later find that you would like to enter that command again, or to want to know exa"
+    },
+    {
+      "chunk_id": 165,
+      "text": "o enter that command again, or to want to know exactly what commands you have previously entered. The history command displays previously entered UNIX commands so that you can use them over again. To use \"history\", you must first set it to the numbe"
+    },
+    {
+      "chunk_id": 166,
+      "text": "use \"history\", you must first set it to the number of commands that you want the system to remember for you. For example % set history=30 (You can also include this command in your ~/.cshrc file. See Customizing Your Environment for more information"
+    },
+    {
+      "chunk_id": 167,
+      "text": "Customizing Your Environment for more information.) Then, to see a numbered list of the last thirty UNIX commands you used, enter: % history To re-enter a previous command, enter: % ! specifier where specifier is a command number or a pattern that s"
+    },
+    {
+      "chunk_id": 168,
+      "text": "specifier is a command number or a pattern that specifies a previous command. (The commands entered most recently have the highest numbers.) You can also enter: % !! This will repeat the exact command you just entered. Here are some examples: % hist"
+    },
+    {
+      "chunk_id": 169,
+      "text": "d you just entered. Here are some examples: % history 1 ls -l 2 cat dog.dat 3 history % !2 cat dog.dat ...contents of dog.dat... % !ls ...repeat of ls command... See C Shell Basics for more of this. The set prompt Command UNIX signals its readiness t"
+    },
+    {
+      "chunk_id": 170,
+      "text": "he set prompt Command UNIX signals its readiness to accept your next command by displaying the % prompt. You can change this prompt by using the set prompt command. The set prompt command has the form: % set prompt = ' new_prompt ' where new_prompt"
+    },
+    {
+      "chunk_id": 171,
+      "text": "m: % set prompt = ' new_prompt ' where new_prompt will be used to replace % . For example, suppose you wanted to change your prompt to \"Hello Sharon% \". To do this you would enter the following command: % set prompt='Hello Sharon% ' Hello Sharon% To"
+    },
+    {
+      "chunk_id": 172,
+      "text": "nd: % set prompt='Hello Sharon% ' Hello Sharon% To include the name of your host system in your prompt: % set prompt=\" `hostname`% \" Your new prompt remains in effect (unless you change it again) until the end of your current terminal session. If"
+    },
+    {
+      "chunk_id": 173,
+      "text": "ntil the end of your current terminal session. If you want the prompt for your login window to become more permanent, you can include it in your .cshrc file as discussed further in Chapter 7 . Using finger to Find Other Users The finger command allo"
+    },
+    {
+      "chunk_id": 174,
+      "text": "finger to Find Other Users The finger command allows you to see if a particular username is currently logged onto the system. To use the finger command, enter the following: % finger username If that particular username is currently logged in to the"
+    },
+    {
+      "chunk_id": 175,
+      "text": "particular username is currently logged in to the system, you will see their login date and time. To check on another system, use: % finger username@hostname To see all the users currently on a system, use: % finger @hostname You can also issue a fi"
+    },
+    {
+      "chunk_id": 176,
+      "text": "m, use: % finger @hostname You can also issue a finger command for your own username to check the name fields. Issue the following command and you will be prompted for changes to your name or nickname. % chfn To add/change the information for your pl"
+    },
+    {
+      "chunk_id": 177,
+      "text": ". % chfn To add/change the information for your plan or project, just create/edit the files called .plan or .project in your home directory. Redirecting Input and Output When a command generates standard output, UNIX normally writes this information"
+    },
+    {
+      "chunk_id": 178,
+      "text": "ard output, UNIX normally writes this information to your terminal screen. Likewise, when a command requests standard input, UNIX normally gets the information from your terminal. You can, however, change this. The right-angle bracket (>) tells UNIX"
+    },
+    {
+      "chunk_id": 179,
+      "text": "hange this. The right-angle bracket (>) tells UNIX to send the output from a command to a file rather than to the terminal screen. You can think of it as funneling the information to a file rather than allowing the output data to flow to the termina"
+    },
+    {
+      "chunk_id": 180,
+      "text": "an allowing the output data to flow to the terminal screen. For instance: % cat > sub2 would redirect the output from the cat command to a file called sub2 instead of having the output go to the terminal screen. In this particular case, sub2 gets ov"
+    },
+    {
+      "chunk_id": 181,
+      "text": "nal screen. In this particular case, sub2 gets overwritten by the output and the previous contents of sub2 (if any) are destroyed. You can use double right-angle brackets ( >> ) if you want UNIX to redirect its output so that it appends to the end"
+    },
+    {
+      "chunk_id": 182,
+      "text": "redirect its output so that it appends to the end of a file that already exists rather than just overwriting the previous contents of a file. For instance: % ls -l >> sub2 would add the output from the ls -l command to the end of sub2 . You can also"
+    },
+    {
+      "chunk_id": 183,
+      "text": "he ls -l command to the end of sub2 . You can also redirect standard input from a command to come from a file by using a single left-angle bracket (<). Using this, you are funneling from a file to the command you are using as input. For instance: %"
+    },
+    {
+      "chunk_id": 184,
+      "text": "command you are using as input. For instance: % oscar < dog.dat the program oscar would now take its input from dog.dat rather than from the terminal. Note: Redirecting your input and output with > and < is completely different from piping | (which"
+    },
+    {
+      "chunk_id": 185,
+      "text": "and < is completely different from piping | (which was discussed earlier ). With > and < you are simply redirecting your input from or output to a file whereas with piping you are redirecting your output to another command. File Protection In a mult"
+    },
+    {
+      "chunk_id": 186,
+      "text": "tput to another command. File Protection In a multiuser environment, there is a need for protecting personal or confidential files. Security begins with passwords, but while passwords can keep non-users out of the system, they do not provide protect"
+    },
+    {
+      "chunk_id": 187,
+      "text": "ers out of the system, they do not provide protection from other users. The second phase of protection is dependent upon the user. Each user must be responsible for restricting access to their individual files. File access privileges on UNIX are di"
+    },
+    {
+      "chunk_id": 188,
+      "text": "idual files. File access privileges on UNIX are divided into three categories: User (owner) privileges Group privileges Other (world) privileges Whenever you try to manipulate a file, UNIX looks to see what type of protection the file has: 1. User p"
+    },
+    {
+      "chunk_id": 189,
+      "text": "e what type of protection the file has: 1. User privileges. If you are the owner of the file (your user-id matched the user-id of the file), it checks the user rights. 2. Group privileges. If you are in the owner's group (your group-id matches the"
+    },
+    {
+      "chunk_id": 190,
+      "text": "e in the owner's group (your group-id matches the group-id of the file), it checks the privileges that the owner has granted to the group. 3. Other privileges. If neither your user-id nor your group-id matches those of the file, UNIX then checks the"
+    },
+    {
+      "chunk_id": 191,
+      "text": "id matches those of the file, UNIX then checks the world privileges. You can find out what access privileges your files have by using the ls -l commands as shown earlier . Figure 3.5 shows the output from the ls -l command. drwx------ 4 username"
+    },
+    {
+      "chunk_id": 192,
+      "text": "from the ls -l command. drwx------ 4 username 512 Jul 13 15:06 Mail drwx------ 2 username 512 Jul 13 15:52 News drwx------ 2 username 512 Jul 10 11:33 Proj1 -rw------- 1 username 26 Jul 11 13:16 dog.dat -rw-------"
+    },
+    {
+      "chunk_id": 193,
+      "text": "ername 26 Jul 11 13:16 dog.dat -rw------- 1 username 8 Jul 13 13:40 hello.aux -rw------- 1 username 232 Jul 13 13:40 hello.dvi -rw------- 1 username 949 Jul 13 13:40 hello.log -rw------- 1 username 67 Ju"
+    },
+    {
+      "chunk_id": 194,
+      "text": "40 hello.log -rw------- 1 username 67 Jul 13 13:40 hello.tex -rw-r----- 1 username 259 Jul 11 09:11 oscar -rw-r----- 1 username 70 Jul 11 13:52 sub2 -rw-r----- 1 username 451 Jul 19 13:49 verona.txt Figure 3.5:"
+    },
+    {
+      "chunk_id": 195,
+      "text": "e 451 Jul 19 13:49 verona.txt Figure 3.5: Sample Output from the ls Command The first item on the line is the file's mode . A \"d\" in the first column of the mode means that the file is a directory and a \" - \" means that the file is a normal"
+    },
+    {
+      "chunk_id": 196,
+      "text": "ctory and a \" - \" means that the file is a normal file. Starting in the second column of the mode, the first three characters represent the user privileges; the next three, the group privileges; and the last three, the world (or public) privileges."
+    },
+    {
+      "chunk_id": 197,
+      "text": "he last three, the world (or public) privileges. Within each group of three, the first position controls read (and therefore copy) privileges to the file, the second controls write and delete privileges, and the third controls whether the file may b"
+    },
+    {
+      "chunk_id": 198,
+      "text": "ges, and the third controls whether the file may be executed by the specified users. An r in position one grants read/copy privileges, w in the second position grants write/delete privileges, and an x in the third position allows the file to be exec"
+    },
+    {
+      "chunk_id": 199,
+      "text": "x in the third position allows the file to be executed. A - in any of these positions denies the specified users the corresponding access privilege. For instance, in Figure 3.5 the file oscar is a normal file. It has owner read and write privileges"
+    },
+    {
+      "chunk_id": 200,
+      "text": "ormal file. It has owner read and write privileges, group read privilege, and no other or world privileges. Using chmod to Change File Protection The owner of a file may set and/or change permissions using the chmod command. There are two methods for"
+    },
+    {
+      "chunk_id": 201,
+      "text": "using the chmod command. There are two methods for using chmod - symbolic and absolute . Symbolic format The symbolic format for the chmod command is as follows: % chmod [ugo][ += -][rwx] filename(s) where u represents the user privileges, g the grou"
+    },
+    {
+      "chunk_id": 202,
+      "text": "where u represents the user privileges, g the group privileges, and o the other privileges; + means add the specified privilege(s), - means remove the specified privilege(s), and = means set the specified privileges. You may name as many files as you"
+    },
+    {
+      "chunk_id": 203,
+      "text": "fied privileges. You may name as many files as you like and you may also set several privileges at once by separating them with commas. Thus, for example, to change a file named oscar to have group and other privileges of read, write and execute, yo"
+    },
+    {
+      "chunk_id": 204,
+      "text": "nd other privileges of read, write and execute, you would enter: % chmod go + rwx oscar or % chmod g + rwx,o + rwx oscar or, if you now want to take away read and write privileges for group and other, you would enter: % chmod go-rw oscar Absolute"
+    },
+    {
+      "chunk_id": 205,
+      "text": "r, you would enter: % chmod go-rw oscar Absolute format The absolute format of the chmod command is: % chmod nnn filename where nnn is a list of three integers, one each corresponding to owner , group , and other , and each integer represents a sum"
+    },
+    {
+      "chunk_id": 206,
+      "text": "up , and other , and each integer represents a sum of the desired permissions as follows: 4 = read permission 2 = write permission 1 = execute permission For example, to give the file owner read (4) and write (2) permission and deny all privileges to"
+    },
+    {
+      "chunk_id": 207,
+      "text": "nd write (2) permission and deny all privileges to group and other: % chmod 600 filename To give the file owner read (4), write (2), and execute (1) permission and the group just read and execute permission: % chmod 750 filename Type man chmod for mo"
+    },
+    {
+      "chunk_id": 208,
+      "text": "ission: % chmod 750 filename Type man chmod for more information. Changing UNIX File Groups Sometimes a user needs to be a member of more than one group. Every user may be a potential member of many groups. At any given time, however, UNIX considers"
+    },
+    {
+      "chunk_id": 209,
+      "text": "roups. At any given time, however, UNIX considers a user to be a member of only one group. To list the various groups to which you belong, enter: % groups To list the groups to which your files belong (each file may only belong to one group), enter:"
+    },
+    {
+      "chunk_id": 210,
+      "text": "g (each file may only belong to one group), enter: % ls -l (on HP machines) % ls -lg (on non-HP machines) If you are a member of more than one group, you can change the group membership of your directory and files by using the chgrp command. The chg"
+    },
+    {
+      "chunk_id": 211,
+      "text": "ory and files by using the chgrp command. The chgrp command changes the group-id of the files to that of the group specified. The chgrp command has the following form: % chgrp groupname filename(s) The user invoking chgrp must belong to the specifi"
+    },
+    {
+      "chunk_id": 212,
+      "text": "The user invoking chgrp must belong to the specified group and be the owner of the file. If you are not a member of a group with which you want to share files, you cannot share the files. Moving Around the UNIX Hierarchical File System In UNIX, as w"
+    },
+    {
+      "chunk_id": 213,
+      "text": "nd the UNIX Hierarchical File System In UNIX, as with most operating systems, files are maintained in a hierarchical structure. By definition, hierarchy means \"having an organized structure\". Often files and directories are explained by drawing an"
+    },
+    {
+      "chunk_id": 214,
+      "text": "files and directories are explained by drawing an analogy to a filing cabinet. Directories allow the system to organize files into related groups, much as a manila folder in a filing cabinet organizes (or keeps together) papers that are related to a"
+    },
+    {
+      "chunk_id": 215,
+      "text": "(or keeps together) papers that are related to a particular topic. While the manila folder is analogous to a directory, the drawer of the file cabinet can also be compared to a directory. In other words, directories can contain other directories a"
+    },
+    {
+      "chunk_id": 216,
+      "text": "words, directories can contain other directories as well as files. Figure 3.6 shows an example of a hierarchical file structure or a \"directory tree\", as it is more commonly called. In UNIX, the uppermost directory is called the \"root directory\" and"
+    },
+    {
+      "chunk_id": 217,
+      "text": "most directory is called the \"root directory\" and in most UNIX documentation you'll see the root directory represented simply as / . The table shows five directories organized under the root directory: bin, etc, home, usr, and dev. / (root directory"
+    },
+    {
+      "chunk_id": 219,
+      "text": "| | | | | | | | | /bin /etc /home /usr /dev |"
+    },
+    {
+      "chunk_id": 220,
+      "text": "| | ------------------ | | | | /susan /arthur"
+    },
+    {
+      "chunk_id": 224,
+      "text": "--------------- | | | | | | | | myfila myfilb myfilc myfilz B>Figure 3.5:"
+    },
+    {
+      "chunk_id": 225,
+      "text": "myfila myfilb myfilc myfilz B>Figure 3.5: UNIX Hierarchical File Structure The Default Directory When you login, your default directory is set to something like: /home/a/fa92/c162/class/c162-aa . Figure 3.6 shows examples of file systems fo"
+    },
+    {
+      "chunk_id": 226,
+      "text": "-aa . Figure 3.6 shows examples of file systems for users named susan and arthur . We will look at Arthur's files. Arthur's default directory is /home/arthur . When he logs in, he is placed in this directory. Currently Arthur's default directory c"
+    },
+    {
+      "chunk_id": 227,
+      "text": "directory. Currently Arthur's default directory contains files named Mail, News, Proj1, dog.dat, and hello.tex . The files Mail, News, and Proj1 are all directories, as indicated by the / . In looking further down the directory tree, we see that"
+    },
+    {
+      "chunk_id": 228,
+      "text": "king further down the directory tree, we see that the directory Proj1 contains files named myfila, myfilb, myfilc, and myfilz . Changing Directories If Arthur wants to make Proj1 his current working directory, he can do so using the cd (change direct"
+    },
+    {
+      "chunk_id": 229,
+      "text": "irectory, he can do so using the cd (change directory) command. % cd Proj1 or % cd /home/arthur/Proj1 In the first example, Arthur must be in his default directory, because he is using a relative pathname . It is called a relative pathname because it"
+    },
+    {
+      "chunk_id": 230,
+      "text": "name . It is called a relative pathname because it is relative to his current directory. The second example uses a full pathname ; this command would successfully place Arthur in his Proj1 directory regardless of his current location. A full pathna"
+    },
+    {
+      "chunk_id": 231,
+      "text": "regardless of his current location. A full pathname begins with the root directory which is always designated by the beginning slash ( / ). Issuing the cd command with no directory specified returns you to your default directory. The pwd command di"
+    },
+    {
+      "chunk_id": 232,
+      "text": "you to your default directory. The pwd command displays (\"prints\" to the screen - not a printer) your current working directory. Example Function ---------------------- ----------------------------------------------- pwd Display (\"print\" to scre"
+    },
+    {
+      "chunk_id": 233,
+      "text": "------------------- pwd Display (\"print\" to screen) the current working directory. cd Makes your default directory your current working directory. cd Proj1 Changes working directory to Proj1. cd .. Move up one directory level. cd ../di"
+    },
+    {
+      "chunk_id": 234,
+      "text": "oj1. cd .. Move up one directory level. cd ../directory name Move to another directory at the same level as the current one. cd ../.. Move up two directory levels. mkdir proj Creates subdirectory named proj current directory. mkdir chap1 chap"
+    },
+    {
+      "chunk_id": 235,
+      "text": "ory named proj current directory. mkdir chap1 chap2 } Creates two subdirectories named chap1 and chap2 in the current directory. mkdir Proj1/pub Creates a directory named pub in the subdirectory Proj1 (assumes Proj1 is in the current director"
+    },
+    {
+      "chunk_id": 236,
+      "text": "roj1 (assumes Proj1 is in the current directory). rmdir Proj1 Removes the directory Proj1 if there are no files in it. rm -r Proj1 Removes the directory Proj1 and all the files it contains. ---------------------- --------------------------"
+    },
+    {
+      "chunk_id": 237,
+      "text": "---------------------- ----------------------------------------------- Table 3.2: Working with Directories Creating Directories Once you begin creating files, you may find that your home (default) directory becomes cluttered. To enhance the organiz"
+    },
+    {
+      "chunk_id": 238,
+      "text": "rectory becomes cluttered. To enhance the organization of your files, you can create subdirectories using the mkdir command. When a subdirectory is created, it is empty. When creating subdirectories, it is important to be aware of your current work"
+    },
+    {
+      "chunk_id": 239,
+      "text": ", it is important to be aware of your current working directory. Unless an alternate pathname is specified, UNIX creates the subdirectory within your current working directory. % pwd /home/username % ls Mail News Proj1 d"
+    },
+    {
+      "chunk_id": 240,
+      "text": "% ls Mail News Proj1 dog.dat hello.tex % mkdir Proj1 / chapters proj2 % mv hello.tex Proj1 / chapters / hello.tex % ls Mail News Proj1 dog.dat proj2 % cd Proj1 % ls chapter"
+    },
+    {
+      "chunk_id": 241,
+      "text": "dog.dat proj2 % cd Proj1 % ls chapters hello.tex Deleting Directories For one reason or another, there may come a time when you want to delete a directory. UNIX uses the rmdir (remove directory) command. To avoid having \"orphaned\" files"
+    },
+    {
+      "chunk_id": 242,
+      "text": "rectory) command. To avoid having \"orphaned\" files (files that cannot be accessed because they are in a directory that has been deleted), UNIX will not let you delete a directory unless it is empty. There may be a circumstance, however, when you do w"
+    },
+    {
+      "chunk_id": 243,
+      "text": "here may be a circumstance, however, when you do want to delete a subdirectory and all the subdirectories and files contained within. To accomplish that, you could cd to each subdirectory and systematically delete all the files. Instead UNIX has pro"
+    },
+    {
+      "chunk_id": 244,
+      "text": "ically delete all the files. Instead UNIX has provided the -r option on the rm command which provides that function. % rmdir Proj1 % rm -r Proj1 % rm -ri Proj1 The first example would display the message: rmdir: Proj1: Directory not empty . The se"
+    },
+    {
+      "chunk_id": 245,
+      "text": "sage: rmdir: Proj1: Directory not empty . The second example would remove the subdirectory Proj1 and all the files in that subdirectory. The third example includes two options on the rm command: the i nquire option and the r ecursive option. The"
+    },
+    {
+      "chunk_id": 246,
+      "text": "e i nquire option and the r ecursive option. The i nquire option instructs UNIX to prompt for a yes/no response for each file being deleted. If Proj1 contained two files named book.tex and stats , the interaction would appear as follows: % rm -ri P"
+    },
+    {
+      "chunk_id": 247,
+      "text": "he interaction would appear as follows: % rm -ri Proj1 rm: remove Proj1/book.tex? y rm: remove Proj1/stats? y rm: remove Proj1? y % If you replied ` n ' to either of the first two prompts, the directory would not be deleted. Quotas Quotas are limits"
+    },
+    {
+      "chunk_id": 248,
+      "text": "ry would not be deleted. Quotas Quotas are limits on your expenditure of certain resources. Quotas are currently imposed on disk storage space. Disk Quota The information in this section, with any current updates, is also available on-line in /pub/"
+    },
+    {
+      "chunk_id": 249,
+      "text": "rrent updates, is also available on-line in /pub/disk.quotas . Your disk quota is the limit on the amount of space you can use to store your files and the number of files you can have. This limit is usually a few of megabytes. As you accumulate mai"
+    },
+    {
+      "chunk_id": 250,
+      "text": "usually a few of megabytes. As you accumulate mail, homework, and other files in your directory, you may approach this limit. If you are over this limit when you log in, you should receive a message telling you how much you must remove. Don't igno"
+    },
+    {
+      "chunk_id": 251,
+      "text": "telling you how much you must remove. Don't ignore these messages! You can lose or damage your files if you attempt to save files when you are over your quota. Sometimes the quota system gets \"out of whack\" and does not give you warning messages."
+    },
+    {
+      "chunk_id": 252,
+      "text": "f whack\" and does not give you warning messages. Therefore, it is always a good idea to get in the habit of checking your disk quota yourself. You can check your disk quota with the 'quota' command, which has been specially modified on the EECS Inst"
+    },
+    {
+      "chunk_id": 253,
+      "text": "which has been specially modified on the EECS Instructional UNIX systems: % quota The system will respond with, for example: Username: joeuser Your home directory is (/home/g/users/joeuser), which is on po. Trying to connect to po... Checking quot"
+    },
+    {
+      "chunk_id": 254,
+      "text": "on po. Trying to connect to po... Checking quota on machine po.EECS.Berkeley.EDU... Disc quotas for joeuser (uid 9999): Filsys current quota limit #warns files quota limit #warns /home/g 484 5000 6000"
+    },
+    {
+      "chunk_id": 255,
+      "text": "s /home/g 484 5000 6000 126 0 0 The current value is the amount of disk space you are using in kilobytes (1024 bytes=1K, 1000K=1MB). The quota amount is the \"soft\" limit. The limit value is the \"hard\" limit. Y"
+    },
+    {
+      "chunk_id": 256,
+      "text": "t\" limit. The limit value is the \"hard\" limit. You may exceed the soft limit during a session so long as you stay under the hard limit. If you log out and back in and are over the soft limit, no file creation or expansion is allowed until you are"
+    },
+    {
+      "chunk_id": 257,
+      "text": "le creation or expansion is allowed until you are back under the soft limit. You can never create files in excess of the hard limit. If you are over your quota while editing a file, your file could be truncated to zero length when you try to save i"
+    },
+    {
+      "chunk_id": 258,
+      "text": "be truncated to zero length when you try to save it. Therefore, as already stated, it is a good idea to get in the habit of checking your quota regularly so this does not happen to you. The files value is the current number of files you have in all d"
+    },
+    {
+      "chunk_id": 259,
+      "text": "e is the current number of files you have in all directories. The quota field (on the right) is the \"soft\" limit on the number of files you may own. The limit value (on the right) is the \"hard\" limit on the number of files you own. A zero in that f"
+    },
+    {
+      "chunk_id": 260,
+      "text": "t on the number of files you own. A zero in that field means that you have no limit. We do not currently restrict the number of files that you may have - just the total disk space. The warn fields are not used. Disk Quota Exceeded If you exceed your"
+    },
+    {
+      "chunk_id": 261,
+      "text": "e not used. Disk Quota Exceeded If you exceed your quota, and are not in the middle of a process, i.e., in an editor or reading news, you can just clean up your files. You should remove any unnecessary files. If there are files that you want to keep"
+    },
+    {
+      "chunk_id": 262,
+      "text": "ry files. If there are files that you want to keep on-line, but won't be referring to often, you can compress them using compress or gzip . The compress command will take a file, reduce its size, and add a \".Z\" extension to the filename. For example"
+    },
+    {
+      "chunk_id": 263,
+      "text": "add a \".Z\" extension to the filename. For example, % ls hw1 proj2 notes % compress hw1 % ls hw1.Z proj2 notes To view your file at a later date, use the uncompress command: % uncompress hw1.Z Type \" man compress \" for more details. Gzip is another p"
+    },
+    {
+      "chunk_id": 264,
+      "text": "man compress \" for more details. Gzip is another program used to compress files. The corresponding command for uncompressing is gunzip . Files with a \".gz\" extension are probably gzip ed. (Note: this is not the same program as PKZIP, a common PC uti"
+    },
+    {
+      "chunk_id": 265,
+      "text": "is not the same program as PKZIP, a common PC utility; gunzip will not uncompress files that were compressed with PKZIP.) Type \" man gzip \" for more details. If you are in the middle of running a program when your quota is exceeded, you should exit"
+    },
+    {
+      "chunk_id": 266,
+      "text": "gram when your quota is exceeded, you should exit from the program. Your program's open files are included in your disk quota, so if you leave programs running you may exceed your quota. If you are using an editor and need to save a file before exit"
+    },
+    {
+      "chunk_id": 267,
+      "text": "sing an editor and need to save a file before exiting, you can save the file in the /tmp directory. Every user can write files in /tmp, but all files in /tmp get erased periodically and should only be stored there temporarily. If you have exceeded y"
+    },
+    {
+      "chunk_id": 268,
+      "text": "stored there temporarily. If you have exceeded your disk quota and then try to write a file in your directory, the file may be truncated, i.e., you will lose the contents of the file. Storing your file in /tmp until you are able to reduce your dis"
+    },
+    {
+      "chunk_id": 269,
+      "text": "file in /tmp until you are able to reduce your disk usage is one way to avoid this. To save a file in /tmp while using the vi editor type: Esc (to be sure you're in command mode) :w /tmp/ filename :q To save a file in /tmp while"
+    },
+    {
+      "chunk_id": 270,
+      "text": ":w /tmp/ filename :q To save a file in /tmp while using the Jove or Emacs editors, type: CTRL-x CTRL-w You will see: :write-file (default filename) Type /tmp/ filename to store the file in the /tmp directory and then exit the file without saving the"
+    },
+    {
+      "chunk_id": 271,
+      "text": "rectory and then exit the file without saving the changes in your current directory. Connecting to Other Network Computers Anonymous FTP FTP stands for \"file transfer program\". It is used to transfer files between different computers on a network. An"
+    },
+    {
+      "chunk_id": 272,
+      "text": "files between different computers on a network. Anonymous ftp allows users to connect to another computer, and read or copy certain files without have an account (login) on that computer. To use anonymous FTP, type ftp hostname where hostname is the"
+    },
+    {
+      "chunk_id": 273,
+      "text": "mous FTP, type ftp hostname where hostname is the name of the system you want to connect to, for example cory.eecs.berkeley.edu. At the Name: prompt, type \" ftp \" or\" anonymous \". At the Password: prompt, you should type your electronic mail address"
+    },
+    {
+      "chunk_id": 274,
+      "text": "ompt, you should type your electronic mail address. This is so the managers of that system know who is connecting and can contact you if necessary. Once you are connected, your prompt will be shown as ftp> . You can then use the cd , ls , and get co"
+    },
+    {
+      "chunk_id": 275,
+      "text": "s ftp> . You can then use the cd , ls , and get commands to move around in directories, see listings of files, and get (i.e., copy to your home system) files. Most anonymous FTP sites have README files somewhere. Also, it is conventional to put publi"
+    },
+    {
+      "chunk_id": 276,
+      "text": "s somewhere. Also, it is conventional to put public FTP files in a subdirectory called \"pub\". Here is an example of how to connect to \"cory\" and get an information file about the Ptolemy program: % ftp cory.eecs.berkeley.edu Connected to cory.eecs.be"
+    },
+    {
+      "chunk_id": 277,
+      "text": "p cory.eecs.berkeley.edu Connected to cory.eecs.berkeley.edu. 220 cory.Berkeley.EDU FTP server (ULTRIX Version 4.1 Fri Jul 24 13:34:28 EDT 1992) ready. Name (cory.eecs.berkeley.edu:): (type \" ftp \" or\" anonymous \") 331 Guest login ok, send ident as p"
+    },
+    {
+      "chunk_id": 278,
+      "text": "\" anonymous \") 331 Guest login ok, send ident as password. Password: (type your email address here; it won't show up on the screen) 230 Guest login ok, access restrictions apply. ftp> ls { 200 PORT command successful. 150 Opening data connection for"
+    },
+    {
+      "chunk_id": 279,
+      "text": "mmand successful. 150 Opening data connection for /bin/ls (128.32.134.4,1791) (0 bytes). README bin pub 226 Transfer complete. 27 bytes received in 0.31 seconds (0.085 Kbytes/s) ftp> cd pub 250 CWD command successful. ftp> ls 200 PORT command success"
+    },
+    {
+      "chunk_id": 280,
+      "text": "mmand successful. ftp> ls 200 PORT command successful. 150 Opening data connection for /bin/ls (128.32.134.4,1792) (0 bytes). EECS.facilities account-form compress.help ptolemy.help (This is only a partial list of files.) spice.help suprem.help talk."
+    },
+    {
+      "chunk_id": 281,
+      "text": "rtial list of files.) spice.help suprem.help talk.help terminal.setup 226 Transfer complete. 620 bytes received in 0.2 seconds (3 Kbytes/s) ftp> get ptolemy.help 200 PORT command successful. 150 Opening data connection for ptolemy.help (128.32.134.4,"
+    },
+    {
+      "chunk_id": 282,
+      "text": "ng data connection for ptolemy.help (128.32.134.4,1793) (16006 bytes). 226 Transfer complete. local: ptolemy.help remote: ptolemy.help 16434 bytes received in 0.031 seconds (5.1e+02 Kbytes/s) ftp> quit 221 Goodbye. % Table 3.3 shows some useful FTP c"
+    },
+    {
+      "chunk_id": 283,
+      "text": "t 221 Goodbye. % Table 3.3 shows some useful FTP commands. ftp hostname Connect to hostname for file transfers ? Help cd directory Change working directory to directory cd .. Change working directory to one level up binary Set file transfe"
+    },
+    {
+      "chunk_id": 284,
+      "text": "rectory to one level up binary Set file transfer mode to binary get filename Copy remote filename to local system mget file1 file2 file3 Copy multiple files to local system mget * Copy all files in working directory quit Quit file transfer"
+    },
+    {
+      "chunk_id": 285,
+      "text": "es in working directory quit Quit file transfer program CTRL-c Cancel (abort) file transfer. Table 3.3: Common FTP Commands Type man ftp for more information. There is one more important thing to note regarding FTP. In order to save disk space,"
+    },
+    {
+      "chunk_id": 286,
+      "text": "o note regarding FTP. In order to save disk space, most files longer than a few pages are stored in compressed format and must be uncompressed before being used. Compressed files are commonly denoted by a \".Z\" suffix. See Disk Quota Exceeded for det"
+    },
+    {
+      "chunk_id": 287,
+      "text": "by a \".Z\" suffix. See Disk Quota Exceeded for details about THE compress and uncompress commands. The World-Wide Web, Netscape, Mosaic, and Lynx The World-Wide Web (WWW) is described as a \"wide-area hypermedia information retrieval initiative aimin"
+    },
+    {
+      "chunk_id": 288,
+      "text": "hypermedia information retrieval initiative aiming to give universal access to a large universe of documents\". You can find an amazing amount of information, such as many U.C. Berkeley EECS and CS technical reports, pictures of the Shoemaker-Levy c"
+    },
+    {
+      "chunk_id": 289,
+      "text": "echnical reports, pictures of the Shoemaker-Levy comet crashing into Jupiter, pictures of the Vatican art galleries, the Encyclopedia Britannica Online, MTV News, and much, much more. To access WWW, you need an interface tool, or broswer . The most"
+    },
+    {
+      "chunk_id": 290,
+      "text": "ou need an interface tool, or broswer . The most common UNIX browser is called \"Netscape\"; \"Mosaic\" is another one. \"Lynx\" is a text-based browser for use with vt100 terminals or emulators (for example, running on PCs or Macs) that don't run a gra"
+    },
+    {
+      "chunk_id": 291,
+      "text": "mple, running on PCs or Macs) that don't run a graphical window manager. \"Netscape\" and \"Internet Explorer\" are the most common browsers on Microsoft Windows and Apple Macintosh computers. On the EECS Instructional UNIX systems, you can access the"
+    },
+    {
+      "chunk_id": 292,
+      "text": "CS Instructional UNIX systems, you can access the broswers with one of the following commands: % netscape % Mosaic % lynx A more detailed explanation of these programs is beyond the scope of this manual, however they are pretty simple to use. Just"
+    },
+    {
+      "chunk_id": 293,
+      "text": "ual, however they are pretty simple to use. Just click the mouse on any underlined (hyper-)text and you'll be able to navigate through the menus. (With \"lynx\", use your arrow keys.) To access the EECS Instructional Support Group home page through"
+    },
+    {
+      "chunk_id": 294,
+      "text": "EECS Instructional Support Group home page through one of these browsers, select Open and type in the following address: http://inst.eecs.berkeley.edu That site contains links to information about all facets of work done by ISG. For information spec"
+    },
+    {
+      "chunk_id": 295,
+      "text": "l facets of work done by ISG. For information specific to the Instructional UNIX labs, go to: http://inst.eecs.berkeley.edu Please see the file /usr/pub/netscape.help for more information. Using Gopher Gopher is a network utility that helps you \"g"
+    },
+    {
+      "chunk_id": 296,
+      "text": "pher Gopher is a network utility that helps you \"go fer\" information. It's very easy to use because most menus have helpful information listed at the bottom of each screen. To start it up, just type \" gopher \". (You must do this from the shell, not"
+    },
+    {
+      "chunk_id": 297,
+      "text": "\" gopher \". (You must do this from the shell, not inside an editor such as JOVE or vi.) You can also run an X Windows version of gopher by typing \" xgopher \" on a workstation. On the Instructional systems, you should see a menu somewhat like the"
+    },
+    {
+      "chunk_id": 298,
+      "text": "systems, you should see a menu somewhat like the following: Internet Gopher Information Client v1.1 --> 1. About the EECS Department Gopher Server. 2. Rosters/ 3. Class schedules/ 4. Computer Science Division Gopher/ 5."
+    },
+    {
+      "chunk_id": 299,
+      "text": "4. Computer Science Division Gopher/ 5. EECS Instructional Computing/ 6. ERL/ 7. Research/ 8. Seminar and meeting rooms/ 9. Seminar listings/ 10. Technical and Computer Services (TCS)/ 11. Test.Docs/"
+    },
+    {
+      "chunk_id": 300,
+      "text": "and Computer Services (TCS)/ 11. Test.Docs/ 12. Tools/ 13. UC Berkeley/ 14. University & Government Gophers/ Press ? for Help, CTRL-q to Quit, u to go up a menu Page: 1/1 To select a menu item, just type the item number"
+    },
+    {
+      "chunk_id": 301,
+      "text": "1 To select a menu item, just type the item number. Here are some useful gopher commands: ------------- ---------------------------------------------- gopher Start gopher from the shell ? Help q Quit u Go up one menu level num [Return] Select"
+    },
+    {
+      "chunk_id": 302,
+      "text": "Quit u Go up one menu level num [Return] Select item num from menu [SPACEBAR] Move forward one screenful m Mail a gopher file to yourself s Save a gopher file (This requires ``write'' permission in the gopher directory, so this genera"
+    },
+    {
+      "chunk_id": 303,
+      "text": "ission in the gopher directory, so this generally won't work. Use \"m\" instead.) p Print the file (This won't work unless you specify which printer the file should go to. See Printing Gopher Files ) ------------- -----------------"
+    },
+    {
+      "chunk_id": 304,
+      "text": "ng Gopher Files ) ------------- ---------------------------------------------- Obtaining Copies of Gopher Files through Mail After you type the \" m \" command in gopher to mail a file to yourself, you should see something like this: +---------------"
+    },
+    {
+      "chunk_id": 307,
+      "text": "| +---------------------------------------------------------------+ Just type in your electronic mail address and type Return or Enter (or g to cancel the mail). Please note that you may need to specify your full address."
+    },
+    {
+      "chunk_id": 308,
+      "text": "e that you may need to specify your full address. For example, if your login name is cs61a-zy on the machine called cory , you should specify cs61a-zy@cory.eecs.berkeley.edu when mailing files. Type hostname before starting up gopher if you are unsu"
+    },
+    {
+      "chunk_id": 309,
+      "text": "hostname before starting up gopher if you are unsure what the name of your machine is. In order to use the gopher command, there must be a gopher client on your computer. Most computers in the EECS Department will have gopher available, however if y"
+    },
+    {
+      "chunk_id": 310,
+      "text": "epartment will have gopher available, however if you get \" gopher: Command not found. \" then check with your system administrator to see if gopher is available. If it's not available on your system, then you'll have to use another method to obtain i"
+    },
+    {
+      "chunk_id": 311,
+      "text": "then you'll have to use another method to obtain information. See What Students Should Do for Help . Also, if you have problems find the EECS Instructional information among all the Gopher menus, trying typing \" gopher diva \" or \" gopher diva.EECS \""
+    },
+    {
+      "chunk_id": 312,
+      "text": "ng typing \" gopher diva \" or \" gopher diva.EECS \" instead of just \" gopher \". This should start you out with the EECS gopher menus first. For campus-wide information, such as the current Schedule of Classes, type \" gopher infocal \". Printing Gopher"
+    },
+    {
+      "chunk_id": 313,
+      "text": "Classes, type \" gopher infocal \". Printing Gopher Files After viewing a file in gopher, you will see the following menu at the bottom of your screen: Press <RETURN> to continue, <m> to mail, <s> to save, or <p> to print: If you type \" p \", your file"
+    },
+    {
+      "chunk_id": 314,
+      "text": "ve, or <p> to print: If you type \" p \", your file will be printed to the default printer on your system. If your system does not have a default printer, an error message ( unknown printer lp ) will appear on the screen for a brief instance and your"
+    },
+    {
+      "chunk_id": 315,
+      "text": "ppear on the screen for a brief instance and your file will not be printed. The EECS Instructional computers do not have a default printer, therefore you must tell the system which printer you would like to use as a default. This is done by setting"
+    },
+    {
+      "chunk_id": 316,
+      "text": "ike to use as a default. This is done by setting the environment variable PRINTER . Sees A HREF=\"../printing/#defprint\">Default Printer for details. inst@eecs.berkeley.edu"
+    }
+  ]
+}

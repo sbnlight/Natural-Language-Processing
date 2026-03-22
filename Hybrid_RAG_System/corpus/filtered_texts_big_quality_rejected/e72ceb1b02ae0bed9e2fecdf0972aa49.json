@@ -1,0 +1,685 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/doc/OVERVIEW",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Grading and Testing Software, 3d edition P. N. Hilfinger 3 August 2008 This document describes software originally used in CS61B during the 1998 spring semester. The sections below first give a general description of the functions pro"
+    },
+    {
+      "chunk_id": 2,
+      "text": "st give a general description of the functions provided, then descriptions of procedures to be followed by each of the various kinds of user (class master, automated grader, reader, and student), and finally details of the setup. 1. Overview -----"
+    },
+    {
+      "chunk_id": 3,
+      "text": "finally details of the setup. 1. Overview ----------- The files in this directory constitute a suite of facilities that allow submission of programming assignments, automated testing of submissions and mailing of results, registration, assignment"
+    },
+    {
+      "chunk_id": 4,
+      "text": "s and mailing of results, registration, assignment of grades, and inquiries about grades. In general, we use two accounts to handle the process in order to keep the running of student programs (which might conceivably contain viruses) distinct from"
+    },
+    {
+      "chunk_id": 5,
+      "text": "might conceivably contain viruses) distinct from grade records. The class master account handles grades and registration and provides the programs for submitting assignments. In this documentation, I will use \"cs61b\" as the class master. The othe"
+    },
+    {
+      "chunk_id": 6,
+      "text": "I will use \"cs61b\" as the class master. The other account is typically a reader account; in this documentation, I use cs61b-ra. The software distinguishes several classes of account: instructors (including the class master and TAs), readers (a sup"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ncluding the class master and TAs), readers (a superset of the instructors), and students. Readers all belong to a staff group that the students do not belong to, so that they can share certain files. One reader is distinguished as what I'll call"
+    },
+    {
+      "chunk_id": 8,
+      "text": "es. One reader is distinguished as what I'll call the \"grader\"---the account that runs automated tests. Students submit assignments using the 'submit' program or through the Subversion revision-control system. For each assignment, the instructor"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ntrol system. For each assignment, the instructor indicates what files the students must submit, what, if any, sanity checks to perform before actually doing the submissions, and what tests to perform on the submissions. The instructor sets up test"
+    },
+    {
+      "chunk_id": 10,
+      "text": "m on the submissions. The instructor sets up test scripts for each assignment that is to be tested electronically, creating a 'make' file for each such assignment giving directions for compiling, executing, and checking results. The 'run-tests' pro"
+    },
+    {
+      "chunk_id": 11,
+      "text": "cuting, and checking results. The 'run-tests' program will apply these make files, collect the resulting logs, file these logs in an archival directory. The 'mail-results' program will send students the logs so that they can see the results of test"
+    },
+    {
+      "chunk_id": 12,
+      "text": "the logs so that they can see the results of testing. It is convenient to use a cron job to do these three tasks periodically, once any bugs are worked out of the test scripts. Students initially identify themselves as such by registering using th"
+    },
+    {
+      "chunk_id": 13,
+      "text": "dentify themselves as such by registering using the 'register' command. Normally, this is included in the class login script. Actual grading is the job of readers (a term I extend here to include the instructors). The software allows the class mas"
+    },
+    {
+      "chunk_id": 14,
+      "text": "e instructors). The software allows the class master to assign specific logins to specific readers, if desired. Readers can use the 'get-submissions' and 'lookat' programs to find submissions assigned to them and any logs that resulted from automat"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ed to them and any logs that resulted from automated testing. Using the 'enter-grades' program, they can then send their grades to the class master. Once grades are collected, students may use the 'glookup' command to query the instructor's grade bo"
+    },
+    {
+      "chunk_id": 16,
+      "text": "lookup' command to query the instructor's grade book for their particular grades, including an extrapolation of their final course score when there is deemed to be sufficient information. The class master can use the command 'check-reader-grades' to"
+    },
+    {
+      "chunk_id": 17,
+      "text": "aster can use the command 'check-reader-grades' to check for assignments that readers are due to have finished grading, but have not yet completed. Students may also do \"bug submissions\" with the 'bug-submit' command, which uses the same mechanisms"
+    },
+    {
+      "chunk_id": 18,
+      "text": "g-submit' command, which uses the same mechanisms as ordinary submissions to bundle up and submit programs, but which does not cause the programs to be graded. Instead, each bug submission mails a message to the instructor describing some problem the"
+    },
+    {
+      "chunk_id": 19,
+      "text": "sage to the instructor describing some problem the student wants looked at. The instructor can use the same machinery used by the readers for ordinary submissions to unpack and examine bug reports. All files related to the software reside in a dedi"
+    },
+    {
+      "chunk_id": 20,
+      "text": "All files related to the software reside in a dedicated subdirectory of the class master. The file 'params' in this subdirectory is the repository of most configuration data, including the accounts of the readers, the logins they are assigned, and t"
+    },
+    {
+      "chunk_id": 21,
+      "text": "f the readers, the logins they are assigned, and the names, due dates, maximum scores, and weights of the assignments. The rest of the information that the class master must supply is in the form of makefiles and other files for testing. By default"
+    },
+    {
+      "chunk_id": 22,
+      "text": "makefiles and other files for testing. By default, this grading directory is $MASTERDIR/grading (that is, the MASTERDIR environment variable must be set). If the GRADINGDIR environment variable is set, however, its value is used instead (the value"
+    },
+    {
+      "chunk_id": 23,
+      "text": "et, however, its value is used instead (the value should NOT end in a '/'). Most of the commands described below will furnish their own brief documentation if given the '-h' option. 2. Procedures for the class master -------------------------------"
+    },
+    {
+      "chunk_id": 24,
+      "text": "r the class master ---------------------------------- The class master is in charge of collecting and assigning grades. This involves using the programs described in 2a and maintaining the files described in 2b. 2a. Programs ------------ * init-g"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ribed in 2b. 2a. Programs ------------ * init-grading -p [ -o PARAM-FILE ] init-grading -i [ -f PARAM-FILE ] Performs various administrative functions on the grading directories. With -p, simply creates a default parameter file in PA"
+    },
+    {
+      "chunk_id": 26,
+      "text": "-p, simply creates a default parameter file in PARAM-FILE (by default, the 'params'), which you will generally edit before installing. With -i, initializes the directories used by the grading suite, creating them if necessary and (re)setting the"
+    },
+    {
+      "chunk_id": 27,
+      "text": "te, creating them if necessary and (re)setting their groups and protections. If the parameter file is not currently installed, this copies it into the grading directory from PARAM-FILE (by default, 'params'). The usual use is 'init-grading -p'"
+    },
+    {
+      "chunk_id": 28,
+      "text": ", 'params'). The usual use is 'init-grading -p' to get a template for your parameters file, then 'init-grading -i' to set things up. * check-reader-grades [ -n ] [ READER-LOGIN ... ] Check that the indicated readers (default: all readers) have"
+    },
+    {
+      "chunk_id": 29,
+      "text": "the indicated readers (default: all readers) have graded all assignments for which they are responsible. With -n, check-reader-grades sends mail to the appropriate readers (cc'ing the class master) about the missing assignments. * glookup [-hl]"
+    },
+    {
+      "chunk_id": 30,
+      "text": ") about the missing assignments. * glookup [-hl] [ -d DIR ] [ -s ASSGN1,ASSIGN2...] [ -b BUCKETS ] \\ [ -F FILTER-FIELD ] [ USER ] glookup -t [ USER [ ASSIGN ] ] glookup -a [ -f csv|std ] [ -d DIR ] Print the currently recor"
+    },
+    {
+      "chunk_id": 31,
+      "text": "td ] [ -d DIR ] Print the currently recorded grades for user USER, which may either be a login or a student's name (in either the form \" \" or \" , \", where is a prefix of the student's recorded first name). The progra"
+    },
+    {
+      "chunk_id": 32,
+      "text": "of the student's recorded first name). The program will also recognize abbreviated logins, consisting of the login minus the standard class prefix (generally, the class master followed by a hyphen). By default, USER is the c"
+    },
+    {
+      "chunk_id": 33,
+      "text": "followed by a hyphen). By default, USER is the current login. Assignments that have neither been turned in nor graded are marked \"---\", and those that have been recorded as turned in but not yet graded are marked \"***\". Po"
+    },
+    {
+      "chunk_id": 34,
+      "text": "turned in but not yet graded are marked \"***\". Portions of the readers' comments that follow the separator \"//\" are suppressed, unless -l (long form) is supplied. With -s, prints statistics concerning the assignments listed,"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ints statistics concerning the assignments listed, including mean, mode, quartiles, histogram, and the rank of USER's score(s). When there is more than one assignment, reports on the sum of the scores. The -b option controls"
+    },
+    {
+      "chunk_id": 36,
+      "text": "on the sum of the scores. The -b option controls the size of the histogram's buckets. If -F is specified, entries that are missing an entry for FILTER-FIELD (typically the final) are not counted. Only authorized ac"
+    },
+    {
+      "chunk_id": 37,
+      "text": "inal) are not counted. Only authorized accounts can specify an argument other than the current user. The alternative form, glookup -a dumps all students' scores, one per line, with a leading line of tit"
+    },
+    {
+      "chunk_id": 38,
+      "text": ", one per line, with a leading line of title. This form does not include graders' identities or notes. It, too, is allowed only to authorized users. The optional -f argument specifies the format. The default is std"
+    },
+    {
+      "chunk_id": 39,
+      "text": "specifies the format. The default is std, which dumps grades separated by spaces with a header line. The csv option dumps grades as comma-separated values, suitable for input into spreadsheet program. The -t form l"
+    },
+    {
+      "chunk_id": 40,
+      "text": "t into spreadsheet program. The -t form lists assignments that have been turned in for user USER. The optional ASSIGN argument restricts output to the indicated assignment. The -d option specifies the alternative gr"
+    },
+    {
+      "chunk_id": 41,
+      "text": "The -d option specifies the alternative grading directory DIR as the one in which to look for grades. That is, it should be a \"grading\" directory, such as usually sits in the home directory of the master account. This"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ome directory of the master account. This option makes it easy to inspect a directory from a previous year for grades. Only authorized accounts can use this option (specifically, the account must have read access to"
+    },
+    {
+      "chunk_id": 43,
+      "text": "lly, the account must have read access to the \"hidden\" grading files. * make-grade-book [ -p DAYS ] Create a new grade book from all submitted grades. Normally, you won't need to use this command directly, since enter-grades runs"
+    },
+    {
+      "chunk_id": 44,
+      "text": "se this command directly, since enter-grades runs it automatically. However, when grades don't show up because they were entered before the assignment deadline in the 'params' file, you may need to run make-grade-book after the deadline. Alter"
+    },
+    {
+      "chunk_id": 45,
+      "text": "o run make-grade-book after the deadline. Alternatively, the -p options gives a number of days prior to their deadlines that assignments will be added to the gradebook. * get-bug ASSIGNMENT LOGIN[.TIMESTAMP] Gets a bug report (s"
+    },
+    {
+      "chunk_id": 46,
+      "text": "SSIGNMENT LOGIN[.TIMESTAMP] Gets a bug report (submitted via 'bug-submit') for ASSIGNMENT from LOGIN. This will be the latest filed bug if TIMESTAMP is absent, and otherwise the designated submission. The command unpacks the submission into"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ission. The command unpacks the submission into the current directory for inspection. * get-subm ASSIGNMENT LOGIN[.TIMESTAMP] As for get-bug, but works for an ordinary submission (submitted via 'submit'). See also run-subm and log-subm in"
+    },
+    {
+      "chunk_id": 48,
+      "text": "via 'submit'). See also run-subm and log-subm in section 3a. * assign-letter-grades [-h] [-H] [-o OUTFILE] [-s SORT-COL] [-x] [COL ...] Assign letter grades according to the current grade book and current grade scale. Output to file OUTFILE"
+    },
+    {
+      "chunk_id": 49,
+      "text": "and current grade scale. Output to file OUTFILE (default standard output). COL is the name of a column or grade category to print in the report. The name Total denotes the total numeric score, Grade indicates the letter grade, and Code indicat"
+    },
+    {
+      "chunk_id": 50,
+      "text": "Grade indicates the letter grade, and Code indicates the codeword selected by the student at login (replaced by the login surrounded by question marks if missing). By default, columns SID, Name, Final, Total, and Grade are printed. Unless -H is"
+    },
+    {
+      "chunk_id": 51,
+      "text": "inal, Total, and Grade are printed. Unless -H is present, the columns SID and Name will always be present. The column SID column is obfuscated if -x is specified. The output is sorted by SORT-COL (which need not be printed). * find-student LAS"
+    },
+    {
+      "chunk_id": 52,
+      "text": "(which need not be printed). * find-student LAST-NAME-PATTERN [ FIRST-NAME-PATTERN ] Print the registration information of all registered accounts for students whose last name matches LAST-NAME-PATTERN and whose first name matches FIRST-NAME-P"
+    },
+    {
+      "chunk_id": 53,
+      "text": "PATTERN and whose first name matches FIRST-NAME-PATTERN (default, anything). The PATTERN arguments are case-insensitive Perl regular expressions. Each pattern must match the complete name. Thus, to find all students whose last name begins with"
+    },
+    {
+      "chunk_id": 54,
+      "text": ", to find all students whose last name begins with 'le', type find-student 'le.*' (You have to escape or quote '*' for the shell.) * grade-entries ASSIGN Write out the last-posted grades for ASSIGN for all logins, in the format of a file ac"
+    },
+    {
+      "chunk_id": 55,
+      "text": "SSIGN for all logins, in the format of a file acceptable to enter-grades. * report-lateness [-h] [-d TIME] [-a | -A | -E ] [-X] [-W HOURS[,...]] ASSIGN report-lateness [-h] [-s] [-X] [-W HOURS[,...]] ASSIGN ... Output information about when t"
+    },
+    {
+      "chunk_id": 56,
+      "text": "...]] ASSIGN ... Output information about when the given assignments were handed in, relative to their due dates. With -d, use TIME as the due date (as for the -due options in parameter files, using the form mm/dd/yyyy:HH:MM, where ':HH:MM' def"
+    },
+    {
+      "chunk_id": 57,
+      "text": "sing the form mm/dd/yyyy:HH:MM, where ':HH:MM' defaults to '23:59'). Otherwise, use the -due time specified for each assignment in the parameter file. By default, give the past-due time (in hours) of the latest submission of each late assignmen"
+    },
+    {
+      "chunk_id": 58,
+      "text": ") of the latest submission of each late assignment. With -a, list the past- due times (in hours) of all late submissions of each assignment for each student. With -E list the times of ALL submissions of each assignment for each student, flaggin"
+    },
+    {
+      "chunk_id": 59,
+      "text": "sions of each assignment for each student, flagging late submissions. The -A option is the same as -E, but restricted to assignments with at least one late submissions. With each of these listings, successful submissions (those pa"
+    },
+    {
+      "chunk_id": 60,
+      "text": "these listings, successful submissions (those passing all tests) are marked with a '+', and unsuccessful submissions with a '-'. Untested submissions are unmarked. With -s, list the total late time (in hours) of the latest submis"
+    },
+    {
+      "chunk_id": 61,
+      "text": "e total late time (in hours) of the latest submissions for each student, summing over all listed assignments. With -w, waives up to HOURS hours of lateness for the listed assignments. When there are multiple HOURS listed (call the"
+    },
+    {
+      "chunk_id": 62,
+      "text": "s. When there are multiple HOURS listed (call them HOURS1, HOURS2,...), waives up to HOURS1 hours of lateness for the first listed assignment, HOURS2 plus any unused waived hours from HOURS1 for the second assignment, and so"
+    },
+    {
+      "chunk_id": 63,
+      "text": "urs from HOURS1 for the second assignment, and so forth. HOURSi defaults to 0 if not given. By adding lines to the file deadline-exceptions, you may specify exceptions to deadlines for individual students (not teams) and assignments. See"
+    },
+    {
+      "chunk_id": 64,
+      "text": "vidual students (not teams) and assignments. See 2b, below. * get-my-submission ASSGN Retrieve an assignment submission from the current user. Unpacks the submission into a subdirectory of the current directory with the s"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ectory of the current directory with the same name as, or a name derived from, that of the assignment. * team-members ( -u USER | TEAM ) Lists members of given team or teams of a given user. * team-members (-c | -a | -r) TEAM LOGIN"
+    },
+    {
+      "chunk_id": 66,
+      "text": "en user. * team-members (-c | -a | -r) TEAM LOGIN... Creates TEAM, or adds or removes LOGINs from it. * team-members -d TEAM Deletes TEAM. 2b. Files --------- I will use '$DIR' here to indicate the central grading subdirectory"
+    },
+    {
+      "chunk_id": 67,
+      "text": "here to indicate the central grading subdirectory in the class master account. Typically, this is $MASTERDIR/grading. $DIR/params Configuration information. This file consists of comments (lines whose first non-blank character is #) a"
+    },
+    {
+      "chunk_id": 68,
+      "text": "s (lines whose first non-blank character is #) and the following types of commands. To continue a command line, end it with a backslash. To include blanks in a value, surround it in single quotes. Square brackets below indicate optional parame"
+    },
+    {
+      "chunk_id": 69,
+      "text": "es. Square brackets below indicate optional parameters. + set VAR VALUE Sets the value of configuration parameter VAR to VALUE. You won't really have to use these too often. The possible values of VAR are - CLASSROOT The class m"
+    },
+    {
+      "chunk_id": 70,
+      "text": "values of VAR are - CLASSROOT The class master's login. - COURSE The name of the course. - SUPERVISOR The login to receive bug reports, reports on readers' progress, etc. - STAFF_GROUP The name of the UNIX group t"
+    },
+    {
+      "chunk_id": 71,
+      "text": ". - STAFF_GROUP The name of the UNIX group to which instructors belong. - EXTRA_REGISTRATION_HOOK The name of a command that '(re-)register' runs to perform arbitrary extra actions at registration time. Takes as"
+    },
+    {
+      "chunk_id": 72,
+      "text": "actions at registration time. Takes as argument the name of the file produced by '(re-)register', which contains the lines Last name: First name(s): SID: Code: If not defined, there is no extra action taken. - CLASSPREFIX The de"
+    },
+    {
+      "chunk_id": 73,
+      "text": "no extra action taken. - CLASSPREFIX The default prefix to students' logins for the class. By default, this is CLASSROOT followed by a hyphen. Used by glookup and enter-grades to allow abbreviation. + assign NAME \\ [ -max MAX ] [ -a"
+    },
+    {
+      "chunk_id": 74,
+      "text": "breviation. + assign NAME \\ [ -max MAX ] [ -absolute-max ABSMAX ] [ -weight W ] \\ [ -partners ] [ -instructors-only ] [ -no-assigned-readers ] \\ [ -due DUETIME ] [ -reader-due READERDUE ] \\ [ -no-submit ] [ -hidden ] \\ [ -"
+    },
+    {
+      "chunk_id": 75,
+      "text": "] \\ [ -no-submit ] [ -hidden ] \\ [ -req PATTERN ] ... [ -accept PATTERN ] ... \\ [ -rej PATTERN ] ... [ -rejl PATTERN ] ... \\ [ -category CAT ] Defines an assignment called NAME (e.g., hw1). NAME may contain o"
+    },
+    {
+      "chunk_id": 76,
+      "text": "called NAME (e.g., hw1). NAME may contain only letters, digits, underscores, periods, and dashes. MAX is the maximum nominal score on the assignment; ABSMAX is the absolute maximum a reader may assign (if larger); W is the m"
+    },
+    {
+      "chunk_id": 77,
+      "text": "a reader may assign (if larger); W is the multiplicative weight factor (default 1); DUETIME is the date and time the assignment is due, in the form mm/dd/yyyy:HH:MM or mm/dd/yyyy (same as mm/dd/yyyy:23:5"
+    },
+    {
+      "chunk_id": 78,
+      "text": "or mm/dd/yyyy (same as mm/dd/yyyy:23:59); READERDUE is the time the readers are supposed to return the grades (i.e., the time to start reminding them); CAT is a category---an arbitrary keyword used only for grade"
+    },
+    {
+      "chunk_id": 79,
+      "text": "tegory---an arbitrary keyword used only for grade extrapolation in glookup. Specify -partners for partnership assignments. Specify -no-submit if there are no electronic submissions for this assignment (e.g., tests, or hand"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ns for this assignment (e.g., tests, or handwritten homework). Students submit either under the \"classic\" format, which uses compressed tar files, or by committing a Subversion directory. When there are submissions, you"
+    },
+    {
+      "chunk_id": 81,
+      "text": "n directory. When there are submissions, you may specify any number of -req options giving the names of files that MUST be submitted, -accept options giving the names of files that are included automatically if present, -rej"
+    },
+    {
+      "chunk_id": 82,
+      "text": "are included automatically if present, -rej options giving names of files that must be rejected, and -rejl options giving names of files that must be rejected if they are symbolic links. The -req, - rej, -rejl, and -accept op"
+    },
+    {
+      "chunk_id": 83,
+      "text": "nks. The -req, - rej, -rejl, and -accept options are Perl regular expressions. In case of overlapping specifications, -req takes precedence over -rej and - rejl, which take precedence over -accept. At the moment, however, t"
+    },
+    {
+      "chunk_id": 84,
+      "text": "recedence over -accept. At the moment, however, the - req, -accept, -rej, and -rejl options have an effect only for classic submissions. Specify -instructors-only if ordinary readers do not grade the assignment (e.g., tests)"
+    },
+    {
+      "chunk_id": 85,
+      "text": "rs do not grade the assignment (e.g., tests), and -no-assigned- readers if the software is not to check that readers grade specific logins. A -hidden assignment is not displayed by glookup. You can use this as a temporary"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ed by glookup. You can use this as a temporary measure---for example, to hold back grades while you perform various redactions. + reader LOGIN [ -instructor ] [ -no-remind ] \\ [ -grade ASSIGN_PATTERN LOGIN_PATTERN ] ... Decla"
+    },
+    {
+      "chunk_id": 87,
+      "text": "de ASSIGN_PATTERN LOGIN_PATTERN ] ... Declares that LOGIN is a reader. Use -instructor to indicate an instructor. Use -no-remind to indicate that this reader is not to be sent reminders about homework that still needs grad"
+    },
+    {
+      "chunk_id": 88,
+      "text": "minders about homework that still needs grading. You may specify any number of -grade options, giving pairs of patterns---one to match assignment names (must match the entire name) and one to match logins (likewise entire)."
+    },
+    {
+      "chunk_id": 89,
+      "text": "and one to match logins (likewise entire). These indicate what logins this reader is responsible for what assignments. If you want to dispense entirely with reminders, just declare everyone -no-remind -grade .* .* E"
+    },
+    {
+      "chunk_id": 90,
+      "text": "eclare everyone -no-remind -grade .* .* Each pattern is a Perl regular expression. + gradescale [ -throw-out-lowest N CATEGORY ] ... \\ SCORE LETTERGRADE ... Defines the grading scale. Put this after all 'assign'"
+    },
+    {
+      "chunk_id": 91,
+      "text": "grading scale. Put this after all 'assign' commands. The 'throw-out-lowest' options specify that the lowest N grades in the given CATEGORY are to be discarded (be sure to adjust your grading scale accordingly). Each SCORE"
+    },
+    {
+      "chunk_id": 92,
+      "text": "your grading scale accordingly). Each SCORE LETTERGRADE pair gives a minimal score in the category and the associated letter grade. The 'assign-letter-grades' command uses this information (it does NOT round grades; to get t"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ormation (it does NOT round grades; to get that effect, fudge the numbers you enter here). $DIR/deadline-exceptions A file of exceptions to deadlines for individual students and assignments. A line of the form ASSIGNMENT"
+    },
+    {
+      "chunk_id": 94,
+      "text": "ignments. A line of the form ASSIGNMENT LOGIN DUEDATEANDTIME specifies a modified deadline (use the same format for dates as used in 'assign' commands in the params file). $DIR/testing/mk/ASSIGN.mk A makefile whos"
+    },
+    {
+      "chunk_id": 95,
+      "text": ". $DIR/testing/mk/ASSIGN.mk A makefile whose default target compiles and tests the files in the current directory for assignment ASSIGN. The additional target OK, if supplied, should print a message to send to successful sub"
+    },
+    {
+      "chunk_id": 96,
+      "text": "d print a message to send to successful submitters, and NOT-OK should print a message for everyone else. $DIR/pretest/ASSIGN An arbitrary executable script or program that, when run, tests a copy of a submission of assignm"
+    },
+    {
+      "chunk_id": 97,
+      "text": "run, tests a copy of a submission of assignment ASSIGN in the current (temporary) directory and exits with 0 for OK, and 1 for not OK. The 'submit' program pretests only if this file is present. 3. Procedures for the autom"
+    },
+    {
+      "chunk_id": 98,
+      "text": "his file is present. 3. Procedures for the automated grader account ---------------------------------------------- The automatic grading account receives, files, and tests students' submissions and saves logs of the results of automated testing."
+    },
+    {
+      "chunk_id": 99,
+      "text": "saves logs of the results of automated testing. See $DIR/testing/mk above. 3a. Programs ------------ * note-submission [-d TIMESTAMP] -f LOGINS-FILE ASSIGN note-submission [-d TIMESTAMP] ASSIGN LOGIN ... Create dummy submissions for the in"
+    },
+    {
+      "chunk_id": 100,
+      "text": "GN LOGIN ... Create dummy submissions for the indicated assignment and logins. Logins may either come from the command line or (with -f) from a file. In the latter case, each non-blank line of the file should start with a valid login (although"
+    },
+    {
+      "chunk_id": 101,
+      "text": "the file should start with a valid login (although invalid ones will be ignored with a warning). The current time is used as a timestamp. With -d, TIMESTAMP (in the form mm/dd/yyyy or mm/dd/yyyy:hh:mm) is used instead (after reformatting and co"
+    },
+    {
+      "chunk_id": 102,
+      "text": "hh:mm) is used instead (after reformatting and conversion to GMT). Has no effect on logins for which there already are submissions. This command is intended to allow you to notify the system of assignments that are not handed in electron"
+    },
+    {
+      "chunk_id": 103,
+      "text": "em of assignments that are not handed in electronically. * run-tests [-a] [-r] [-f] ASSIGN [ LOGIN.[TIMESTAMP] ... ] Run the tests for assignment ASSIGN on all submissions. This creates log files, but does not mail results. By default, skips"
+    },
+    {
+      "chunk_id": 104,
+      "text": "s, but does not mail results. By default, skips submissions for which the student has submitted a later version (override with -a). Tests submissions in order of submission unless -r is present. Submissions are locked during testing to"
+    },
+    {
+      "chunk_id": 105,
+      "text": "resent. Submissions are locked during testing to prevent multiple tests by concurrent executions of run-tests. With -f, the locks are forced after 900 seconds. Specifying specific logins or logins and timestamps restricts ru"
+    },
+    {
+      "chunk_id": 106,
+      "text": "cific logins or logins and timestamps restricts run-tests to those submissions. * mail-results ASSIGN [ LOGIN ... ] Mail the log files for ASSIGN to the given LOGINs (default, all assignments); skips logs that have already been mailed. W"
+    },
+    {
+      "chunk_id": 107,
+      "text": "nts); skips logs that have already been mailed. Where possible, uses the email addresses that the indicated students registered. * get-subm ASSIGNMENT LOGIN[.TIMESTAMP] Retrieve and unpack a given submission (submitted via 'submit') into the cu"
+    },
+    {
+      "chunk_id": 108,
+      "text": "n submission (submitted via 'submit') into the current directory. See also test-subm, below. * test-subm [ ASSIGNMENT ] Run the prescribed tests on the submission unpacked (by get-subm) into the current directory. 4. Procedures"
+    },
+    {
+      "chunk_id": 109,
+      "text": "into the current directory. 4. Procedures for the readers ----------------------------- Readers get assigned some particular set of students to grade, which may differ from assignment to assignment. Their job is to do any desired review of"
+    },
+    {
+      "chunk_id": 110,
+      "text": "ignment. Their job is to do any desired review of the materials that students turn in, and then create a file of grades for that assignment. Readers' accounts must be in the staff group. 4a. Programs ------------ * get-submissions ASSIGN [ PATN"
+    },
+    {
+      "chunk_id": 111,
+      "text": "ms ------------ * get-submissions ASSIGN [ PATN ] This creates links to all submissions for the assignment named ASSIGN that match PATNs (by default, all submissions assigned to you) and also to the logs created by the automated grader. All l"
+    },
+    {
+      "chunk_id": 112,
+      "text": "o the logs created by the automated grader. All links go in the current directory. I suggest running this in a subdirectory devoted to the purpose. Run the 'lookat' command after this to unpack a particular assignment. * lookat [ -d DIR ] LOGIN"
+    },
+    {
+      "chunk_id": 113,
+      "text": "particular assignment. * lookat [ -d DIR ] LOGIN[.TIMESTAMP] Unpack a submission in the current directory for inspection. Assumes that you have run 'get-submissions', which will have created a bunch of links named LOGIN.TIMESTAMP. Typically,"
+    },
+    {
+      "chunk_id": 114,
+      "text": "unch of links named LOGIN.TIMESTAMP. Typically, you'll use 'lookat LOGIN' to unpack the latest submission for that login. However, you can also use LOGIN.TIMESTAMP to get an earlier one. Timestamps have the form yyyymmddhhmm where the tim"
+    },
+    {
+      "chunk_id": 115,
+      "text": "mps have the form yyyymmddhhmm where the time (hhmm) is in GMT. Unless you supply a specific DIR, the contents of the submission goes into directory 'LOOK', erasing any previous contents. * make-roster ASSIGN Creates a clean grade roster"
+    },
+    {
+      "chunk_id": 116,
+      "text": "make-roster ASSIGN Creates a clean grade roster for assignment ASSIGN. Each line has the form LOGIN LASTNAME,FIRSTNAME Add numeric grades to the ends, followed (if desired) by comments: cs61b-ac Bunyan,John 1 Rather puritanical code"
+    },
+    {
+      "chunk_id": 117,
+      "text": "cs61b-ac Bunyan,John 1 Rather puritanical code If you don't have a score for someone, don't write anything. You can delete lines for which you have no scores, or not, as you see fit. When done with a grading file, move it to your $RAW_GRADE_SU"
+    },
+    {
+      "chunk_id": 118,
+      "text": "ith a grading file, move it to your $RAW_GRADE_SUBDIR (see below). If the software is checking your grades against the actual submissions, you must put a \"+\" in front of all logins for people who did not actually submit. * enter-grades [ -c ] ["
+    },
+    {
+      "chunk_id": 119,
+      "text": "did not actually submit. * enter-grades [ -c ] [ -P ] [-b] [-F] -f FILE [ ASSIGN ] * enter-grades [ -P ] ASSIGN Enter grades for ASSIGN either from file FILE (see make-roster), or interactively (if -f not given). ASSIGN is optional if it can b"
+    },
+    {
+      "chunk_id": 120,
+      "text": "if -f not given). ASSIGN is optional if it can be deduced from FILE. With -c just checks the format of FILE. If the assignment involves partnerships, then enter-grades will automatically give the same grade to all partners, unless you speci"
+    },
+    {
+      "chunk_id": 121,
+      "text": "the same grade to all partners, unless you specify -P. In cases where there are several submissions indicating different partnerships, however, you will have to enter partners' grades separately. A grade entry contains a score plus optional"
+    },
+    {
+      "chunk_id": 122,
+      "text": "A grade entry contains a score plus optional additional comments. In place of a score, you may also specify \"---\" to erase a previously entered grade. Anything in a comment that follows a \"//\" (C++-style comment character) is hidden from"
+    },
+    {
+      "chunk_id": 123,
+      "text": "/\" (C++-style comment character) is hidden from students using glookup, unless they use -l. -F and -b suppress certain informational messages and do not ask for permission for overriding grades (-F). -b in addition never"
+    },
+    {
+      "chunk_id": 124,
+      "text": "rriding grades (-F). -b in addition never asks for confirmation. * list-partners ASSIGN [ LOGIN ] List partnership information for LOGIN on assignment ASSIGN, or for all logins in LOGIN is defaulted. The program will warn"
+    },
+    {
+      "chunk_id": 125,
+      "text": "ins in LOGIN is defaulted. The program will warn of anomalies, such as partnerships for the same student that conflict. * find-student LAST-NAME-PATTERN [ FIRST-NAME-PATTERN ] [See description of this command for the class master.] * che"
+    },
+    {
+      "chunk_id": 126,
+      "text": "tion of this command for the class master.] * check-missing [ ASSIGN ... ] Check to see if there are any submissions for the indicated assignments (default: all assignments) that you are supposed to grade but haven't yet. [See also 'ent"
+    },
+    {
+      "chunk_id": 127,
+      "text": "pposed to grade but haven't yet. [See also 'enter-grades'.] * run-moss [-l LANG] [-b BASEFILE,... ] [ -e SUFFIX,... ] [ -n ] \\ ASSGN [DIR] Unpack student submissions for ASSGN into DIR and then submit to the moss"
+    },
+    {
+      "chunk_id": 128,
+      "text": "SSGN into DIR and then submit to the moss cheating-detection program. LANG is the source language of the submitted programs (defaults to DEFAULT_LANGUAGE parameter in the params file). It may be any one of"
+    },
+    {
+      "chunk_id": 129,
+      "text": "ms file). It may be any one of 'c', 'cc', 'java', 'ml', 'pascal', 'ada', 'lisp', 'scheme', 'haskell', 'fortran', 'ascii', 'vhdl', 'perl', 'matlab', 'python', 'mips', 'prolog', 'spice', 'vb', 'csharp',"
+    },
+    {
+      "chunk_id": 130,
+      "text": "ps', 'prolog', 'spice', 'vb', 'csharp', 'modula2', 'a8086', 'javascript', 'plsql' BASEFILEs are skeleton files provided for the assignment (comma separated, without spaces). SUFFIXes are the suffixes"
+    },
+    {
+      "chunk_id": 131,
+      "text": "ed, without spaces). SUFFIXes are the suffixes (\"endings\") that distinguish these source files (such as .java). It defaults to the value of DEFAULT_SUFFIXES in the params file. The files are unpacked but not submitted if -n"
+    },
+    {
+      "chunk_id": 132,
+      "text": "e. The files are unpacked but not submitted if -n. The latest version of each submission is unpacked into a directory under DIR that has the students login (or team's name) as its name. Submissions for team members, being"
+    },
+    {
+      "chunk_id": 133,
+      "text": "its name. Submissions for team members, being identical to the main submissions, are not included. 5. Procedures for the students ------------------------------ Students use the following programs to register and submit homework. * regi"
+    },
+    {
+      "chunk_id": 134,
+      "text": "programs to register and submit homework. * register This is usually run from one of the initialization files, such as .login. It asks for various information and records it in a central place for use by the staff. Only the staff (and you) c"
+    },
+    {
+      "chunk_id": 135,
+      "text": "for use by the staff. Only the staff (and you) can read this information. * re-register The 'register' program does nothing if you are already registered. Use re-register to correct an error in your registration. * check-register Prints"
+    },
+    {
+      "chunk_id": 136,
+      "text": "n your registration. * check-register Prints out your registration information so that you can see if it is correct. * submit ASSIGN Submit the assignment named ASSIGN. This gathers selected files from your current directory and sends them"
+    },
+    {
+      "chunk_id": 137,
+      "text": "files from your current directory and sends them the automated grader. It will automatically find and submit files that are required for the assignment and prompt you about submitting others in the directory. If the assignment involves working"
+    },
+    {
+      "chunk_id": 138,
+      "text": "he directory. If the assignment involves working with a partner, it will ask for the logins of all your partners. In some cases, it will perform a small test of your program before submitting it. Look at the messages from submit carefully; if"
+    },
+    {
+      "chunk_id": 139,
+      "text": ". Look at the messages from submit carefully; if they seem to suggest errors, DO NOT assume that your submission succeeded. * bug-submit ASSIGN Submits a bug report (a request for assistance) for the assignment named ASSIGN. This is like subm"
+    },
+    {
+      "chunk_id": 140,
+      "text": "r the assignment named ASSIGN. This is like submit, but just packages up all files in the current directory without asking about them, and performs no checking. There must be a file named ERROR in the current directory, in which you should have"
+    },
+    {
+      "chunk_id": 141,
+      "text": "in the current directory, in which you should have written a brief description of the problem you are having, INCLUDING how to reproduce it. Please use this command WHENEVER you want to ask a question about something in your program that is not"
+    },
+    {
+      "chunk_id": 142,
+      "text": "tion about something in your program that is not working. Even people who have been programming for years are TERRIBLE at guessing exactly what part of their program is really malfunctioning, so trying to send just the part of your program that"
+    },
+    {
+      "chunk_id": 143,
+      "text": "rying to send just the part of your program that you think is problematic is nearly ALWAYS wrong. It's also hard to reproduce a problem without all the text. * glookup [ -s ASSGN | -t ] Displays up your currently recorded grades. Each entry"
+    },
+    {
+      "chunk_id": 144,
+      "text": "ays up your currently recorded grades. Each entry indicates your score, the nominal maximum score, and the weight. Multiplying your score times the weight gives the number of points you get for that assignment. The optional -s switch gives yo"
+    },
+    {
+      "chunk_id": 145,
+      "text": "hat assignment. The optional -s switch gives you statistical data about a particular assignment. The optional -t switch shows submission times for your submissions. * team-members [ TEAM ] Lists members of your team. * team-members"
+    },
+    {
+      "chunk_id": 146,
+      "text": "Lists members of your team. * team-members (-c | -a | -r) TEAM LOGIN... Creates TEAM, or adds or removes LOGINs from it. 6. Configuring the class master directory ----------------------------------------- Use init-grading to start"
+    },
+    {
+      "chunk_id": 147,
+      "text": "---------------------- Use init-grading to start a new 'grading' subdirectory in the class master and edit the 'params' file appropriately. That's mostly it. 7. Using Subversion for submissions ----------------------------------- Starting with ve"
+    },
+    {
+      "chunk_id": 148,
+      "text": "-------------------------------- Starting with version 4, this grading package allows students to submit by committing appropriately named subdirectories to a Subversion repository, rather than by using the 'submit' command. To make this work, 1."
+    },
+    {
+      "chunk_id": 149,
+      "text": "sing the 'submit' command. To make this work, 1. Choose a scheme for naming directories that constitute submissions that allows one to extract the names of the submitter and the assignment from pathnames of committed files and directories. F"
+    },
+    {
+      "chunk_id": 150,
+      "text": "pathnames of committed files and directories. For example, one might use ~cs123/SVN as the repository for course cs123 and give submitted directories URLs like svn+ssh://cs123@torus.cs.berkeley.edu/SUBMITTER/tags/ASSGN-N where SUBMITTER"
+    },
+    {
+      "chunk_id": 151,
+      "text": "eley.edu/SUBMITTER/tags/ASSGN-N where SUBMITTER is the name of a submitting team or individual, ASSGN is the name of the assignment, and -N is an optional suffix to identify multiple submissions. Record this design decision in the params"
+    },
+    {
+      "chunk_id": 152,
+      "text": "ons. Record this design decision in the params file using the parameters SVN_SUBMISSION_PATN, SVN_SUBMITTER_PATN, SVN_ASSGN_PATN, which should be the bodies of Perl regular expressions that match a submission path, and whose first captur"
+    },
+    {
+      "chunk_id": 153,
+      "text": "match a submission path, and whose first capturing groups, respectively, match the name of the submitted directory, the TEAM part of the path, and the ASSGN part of the path. 2. In the GRADINGDIR/teams directory, place one file for each team,"
+    },
+    {
+      "chunk_id": 154,
+      "text": "IR/teams directory, place one file for each team, containing the logins of all members of that team each on one line. 3. Add a pre-commit hook to your repository and have it invoke the script svn-check-submission with the repository path and t"
+    },
+    {
+      "chunk_id": 155,
+      "text": "vn-check-submission with the repository path and transaction number as arguments. This will check that commits to a submission directory are for valid assignments, from registered students, include required files, and do not disturb other s"
+    },
+    {
+      "chunk_id": 156,
+      "text": "lude required files, and do not disturb other submissions. 4. Add a post-commit hook to your repository and have it invoke the script svn-log-submission with the repository path and revision number as arguments. This will record each chang"
+    },
+    {
+      "chunk_id": 157,
+      "text": "mber as arguments. This will record each change to a submission directory other than complete deletion of the directory as a submission in SUBMISSION_DIR. 5. Again in the params file, record the URL of the Subversion repository from wh"
+    },
+    {
+      "chunk_id": 158,
+      "text": "rd the URL of the Subversion repository from which the grading software can fetch submissions in SVN_REPOSITORY_URL. This should not end in a slash. 8. Using Git for submissions ---------------------------- Starting with version 4.15, we su"
+    },
+    {
+      "chunk_id": 159,
+      "text": "--------------- Starting with version 4.15, we support the use of Git to hand in work. Students push tags pointing to their submissions to various repositories. 1. We assume that the repositories are managed by a system like gitolite, so that al"
+    },
+    {
+      "chunk_id": 160,
+      "text": "e managed by a system like gitolite, so that all class repositories may be accessed with URLs of the form where is common to all repositories and differs from student to student and team to team. In the params file, record this with the de"
+    },
+    {
+      "chunk_id": 161,
+      "text": "m. In the params file, record this with the declaration set GIT_REPOSITORY_URL ' REPO' (here, \"REPO\" means literally the string REPO). For example, set GIT_REPOSITORY_URL 'cs164-ta@torus.cs.berkeley.edu:REPO' 2. In the GRA"
+    },
+    {
+      "chunk_id": 162,
+      "text": "s164-ta@torus.cs.berkeley.edu:REPO' 2. In the GRADINGDIR/teams directory, place one file for each team, containing the logins of all members of that team each on one line. 3. Add a post-receive hook to student repositories that contrives to make"
+    },
+    {
+      "chunk_id": 163,
+      "text": "ook to student repositories that contrives to make appropriate entries in GRADINGDIR/submissions. If that directory is on the same machine as the Git server and the Git server account has staff access to it, you can use the git-log-submissi"
+    },
+    {
+      "chunk_id": 164,
+      "text": "aff access to it, you can use the git-log-submission script in this package. 4. Students submit work using the following sequence of Git commands or equivalent (using assignment hw1 as an example): git commit -a ... (that is, commit"
+    },
+    {
+      "chunk_id": 165,
+      "text": "ple): git commit -a ... (that is, commit all work) git tag hw1-n git push (that is, push the current branch to the class server) git push --tags (that is, push the new tag to the class server). Here, \"n\""
+    },
+    {
+      "chunk_id": 166,
+      "text": "h the new tag to the class server). Here, \"n\" is a sequence number. It's actually not important what it is, as long as it differs from other tags. The git-log-submission script will observe changes to these tags and will create new tags s"
+    },
+    {
+      "chunk_id": 167,
+      "text": "hanges to these tags and will create new tags such as \"submit/hw1-M\", where M is a sequence number, unrelated to n, that increases with each submission. The entry with the highest M is considered the current definitive submission, supercedi"
+    },
+    {
+      "chunk_id": 168,
+      "text": "dered the current definitive submission, superceding others. 5. Students can submit bug reports via Git as well. After committing as above, git tag -a hw1-bugX (X can be any suffix, including empty) or git tag -F ERROR_FILE hw1"
+    },
+    {
+      "chunk_id": 169,
+      "text": "ing empty) or git tag -F ERROR_FILE hw1-bugX followed by git push git push --tags will submit a bug report. I suggest annotated tags (as shown) to include an error message, although light-weight tags will wo"
+    },
+    {
+      "chunk_id": 170,
+      "text": "error message, although light-weight tags will work, too."
+    }
+  ]
+}

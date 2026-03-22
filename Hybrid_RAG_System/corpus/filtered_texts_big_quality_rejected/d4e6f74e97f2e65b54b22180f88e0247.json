@@ -1,0 +1,673 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/html/Users.Guide/cshell/",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "User's Guide to EECS Instructional Computing [ back to User's Guide Table of Contents ] The C Shell A shell is a program that runs continually, reading and interpreting key strokes. It provides the command interface between you and the system. There"
+    },
+    {
+      "chunk_id": 2,
+      "text": "mmand interface between you and the system. There are several popular shells: the C shell, the Bourne shell, , the tcsh shell and the System V shell. Which shell to use is primarily a matter of personal preference. Changing shells is covered in Cus"
+    },
+    {
+      "chunk_id": 3,
+      "text": "onal preference. Changing shells is covered in Customizing Your Environment . Only the default shell, the C shell, will be discussed here, with minor references to the differences between it and the other commonly-used shell, the Bourne shell. The de"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ther commonly-used shell, the Bourne shell. The default prompt for the C shell is % ; for the Bourne shell it is # . The command logout will terminate a C shell; to terminate the Bourne shell, use d. The UNIX commands described earlier ( ls , cat ,"
+    },
+    {
+      "chunk_id": 5,
+      "text": "The UNIX commands described earlier ( ls , cat , cd , pwd , history , ...) can all be entered at the C shell prompt, but the shell does more than just pass on acceptable commands to the system for execution. It also provides services described earli"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ecution. It also provides services described earlier such as expanding wildcards and redirecting standard input and output. This chapter will describe three other functions the C shell provides: a history mechanism for manipulating commands; a set of"
+    },
+    {
+      "chunk_id": 7,
+      "text": "tory mechanism for manipulating commands; a set of process control facilities; and a C-like programming capability. Section 7.5 briefly mentions some topics that are useful but deserve more discussion than we can afford here. More detailed informatio"
+    },
+    {
+      "chunk_id": 8,
+      "text": "than we can afford here. More detailed information on the C shell can be found in the online manual pages for csh . C Shell Basics The most common means of interacting with the C shell is by entering commands at the prompt for immediate execution. R"
+    },
+    {
+      "chunk_id": 9,
+      "text": "commands at the prompt for immediate execution. Recent commands are stored in a history list. This section will introduce the basic manipulations of commands on the history list and show some of the shell features that expand their power. Just as yo"
+    },
+    {
+      "chunk_id": 10,
+      "text": "shell features that expand their power. Just as you can recall the last command via !! , you can recall any recent command by issuing ! n where n is the history number of the command to be recalled. Another convenient method of recalling a command is"
+    },
+    {
+      "chunk_id": 11,
+      "text": "nother convenient method of recalling a command is to use ! followed immediately by a string of characters which begins the desired command. You only need to enter enough characters to distinguish it in the history list. For example, suppose history"
+    },
+    {
+      "chunk_id": 12,
+      "text": "in the history list. For example, suppose history lists your recent commands as: 1 vi five.chickens 2 cat five.chickens | more 3 ls 4 mv five.chickens test.c 5 cc test.c 6 cflow test.c At this point the 2 characters \" ! l \" (exclamatio"
+    },
+    {
+      "chunk_id": 13,
+      "text": "At this point the 2 characters \" ! l \" (exclamation and the letter `l') or \" ! 3 \" exclamation and the number \"three\") will repeat the ls command, and \" ! v \" will restart the most recent vi editor command. The shell stops searching at the first m"
+    },
+    {
+      "chunk_id": 14,
+      "text": "command. The shell stops searching at the first match, so \" ! c \" will repeat the cflow command. Two ways of repeating the cat command are to enter \" ! 2 \" or \" ! ca \". Command lines are broken by the shell into individual words--the command prope"
+    },
+    {
+      "chunk_id": 15,
+      "text": "the shell into individual words--the command proper and an argument list . For example, ls -l * contains the command ls and two arguments, -l and * . You can see how the shell interprets a command without actually executing it using echo , which type"
+    },
+    {
+      "chunk_id": 16,
+      "text": "hout actually executing it using echo , which types back its argument list showing the shell expansion. The command echo ls -l * types back the first two arguments literally and shows the shell expansion of * into the appropriate file list. % echo ls"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ion of * into the appropriate file list. % echo ls -l * ls -l Mail five.chickens printit.doc test.c vincent.lat Errors made while entering commands can be corrected on the next line by use of a shell string replacement feature. The characters to be c"
+    },
+    {
+      "chunk_id": 18,
+      "text": "string replacement feature. The characters to be changed and the characters replacing them are entered surrounded by substitution markers, . Most typing errors are easily fixed: % cay five.chickens | more cay: Command not found % ^ cay ^ cat ^ String"
+    },
+    {
+      "chunk_id": 19,
+      "text": "more cay: Command not found % ^ cay ^ cat ^ Strings to be replaced can occur anywhere in the original command. The replacement string does not have to be the same length. Neither string may contain spaces. Replacement is not limited to correcting err"
+    },
+    {
+      "chunk_id": 20,
+      "text": "aces. Replacement is not limited to correcting errors. Here is how to edit and print a file on the default printer with a minimum of work. % vi five.chickens % ^ vi ^ lpr ^ Variables The shell also provides the facility to store data in variables. Yo"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ovides the facility to store data in variables. You can see what variables are set at any time by entering the command set . Table 7.1 lists an abbreviated list of the variables you would normally see. The list shows the name of the variable, e.g."
+    },
+    {
+      "chunk_id": 22,
+      "text": "e. The list shows the name of the variable, e.g. term , and its value, dec-vt100 . Notice that some variables, like noclobber , (see Things to Avoid ) have no value. They simply exist. Variables can also hold multiple words of data. In the list, ar"
+    },
+    {
+      "chunk_id": 23,
+      "text": "also hold multiple words of data. In the list, argv and path can each hold an array of values. Variable Name Value -------------- ------------------------------- argv () cwd /home/user history 20 home /home/user interactive noclobber path (. /home/"
+    },
+    {
+      "chunk_id": 24,
+      "text": "me /home/user interactive noclobber path (. /home/user/bindec /usr/vincent /usr/local/bin /usr/new /usr/bin/X11 /usr/ucb /bin /usr/bin) prompt % shell /bin/csh status 0 term dec--vt100 user user -------------- -------------------------------"
+    },
+    {
+      "chunk_id": 25,
+      "text": "er -------------- ------------------------------- Table 7.1: Shell Variables Alternate forms of the set command are used to set the values of variables, the form depending on the number of values assigned to the variable. If the variable holds no va"
+    },
+    {
+      "chunk_id": 26,
+      "text": "igned to the variable. If the variable holds no value, the form is simply set variablename . This form was used to set the existence of noclobber and interactive . Single values are assigned by set variablename = value . To change the number of comma"
+    },
+    {
+      "chunk_id": 27,
+      "text": "riablename = value . To change the number of commands stored on the history list to 25, enter set history = 25 . Array variables have values assigned to specific positions in the array. The initial position in the array is numbered ``1''. Look at the"
+    },
+    {
+      "chunk_id": 28,
+      "text": "sition in the array is numbered ``1''. Look at the ``path'' variable shown in the list. This is an array variable whose values are all directory names. (A path is a list of directories that the shell searches through to find and execute the file corr"
+    },
+    {
+      "chunk_id": 29,
+      "text": "searches through to find and execute the file corresponding to the command you have entered.) The initial position of this variable, path[1] , has the value `` . '', meaning the current directory. To set the values of an array variable, separate the"
+    },
+    {
+      "chunk_id": 30,
+      "text": "set the values of an array variable, separate the values by spaces and enclose the list in parentheses. set trail=(. 1 /yellow/road) Care must be taken not to put spaces on either side of the = in the set command. Depending on which side(s) the spac"
+    },
+    {
+      "chunk_id": 31,
+      "text": "e set command. Depending on which side(s) the spaces occur, you could get an error message, have the variable exist with no value, or take on the correct value. It is best to avoid potential trouble by never putting extra spaces in a set command. Som"
+    },
+    {
+      "chunk_id": 32,
+      "text": "y never putting extra spaces in a set command. Sometimes within a shell, there are processing difficulties because of ambiguity as to where a variable name ends. In these situations, surround the name with braces and the problem disappears. % set foo"
+    },
+    {
+      "chunk_id": 33,
+      "text": "with braces and the problem disappears. % set food = cheese % echo $foodcake foodcake: Undefined variable. % echo ${food}cake cheesecake To remove a variable, use the unset command (as in unset variablename ). Variables that Reference the Command Li"
+    },
+    {
+      "chunk_id": 34,
+      "text": "blename ). Variables that Reference the Command Line The individual words on the command line are each stored in variables that you can reference. There are two separate referencing conventions. In the first, the command itself is named $0 , and each"
+    },
+    {
+      "chunk_id": 35,
+      "text": "e first, the command itself is named $0 , and each argument is numbered sequentially from there, $1 , $2 , $3 , and so on. $# holds the total number of arguments. This convention has a limit in that names stop at $9 . There is a shift command that c"
+    },
+    {
+      "chunk_id": 36,
+      "text": "names stop at $9 . There is a shift command that can be used to work around this limitation but we will not discuss it here. In the command: ls -l five.* $# = 2 , $0 = ls , $1 = -l , $2=five.* , and $3 through $9 have no value. The other referencing"
+    },
+    {
+      "chunk_id": 37,
+      "text": "$3 through $9 have no value. The other referencing convention uses the shell array variable argv . This variable was designed to provide more flexibility in referring to commands and arguments than the simple numbering scheme shown above. It is not a"
+    },
+    {
+      "chunk_id": 38,
+      "text": "e simple numbering scheme shown above. It is not available in the Bourne shell. See the manual pages for more information on argv . A last note about variables that reference command line arguments: you can refer to the last word of the last command"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ou can refer to the last word of the last command with the variable $ . This is useful in situations where the last word of one command is a name that the next command will manipulate. % cp /tmp/dummy/local/example.tex example.tex % vi !$ % lpr !$ Q"
+    },
+    {
+      "chunk_id": 40,
+      "text": "/local/example.tex example.tex % vi !$ % lpr !$ Quotation Marks Each of the three types of quotation marks has a specific function defined in the C shell. '...' Apostrophes protect the enclosed string from substitution. What is surrounded by apostro"
+    },
+    {
+      "chunk_id": 41,
+      "text": "g from substitution. What is surrounded by apostrophes is taken literally. `...` Backward apostrophes tell the shell to execute the enclosed command as if it were typed interactively. Then the output of that command is inserted in the command line w"
+    },
+    {
+      "chunk_id": 42,
+      "text": "of that command is inserted in the command line where the backquoted expression occurs. If the command has no output, the backquoted expression would be replaced by nothing. \"...\" Quotation marks protect spaces, metacharacters, and apostrophes from"
+    },
+    {
+      "chunk_id": 43,
+      "text": "otect spaces, metacharacters, and apostrophes from substitution. Variables preceded by $ and commands enclosed by backward apostrophes (`) are interpreted. % date Sat July 21 1:36:01 CDT 1990 % set now = `date` % echo ``It is $now'' It is Sat July 21"
+    },
+    {
+      "chunk_id": 44,
+      "text": "w = `date` % echo ``It is $now'' It is Sat July 21 1:36:31 CDT 1990 % echo ``What time is it '$now' ?\" What time is it '$now' ? Substituting Commands The previous section hints at a powerful technique in UNIX, command substitution . The general idea"
+    },
+    {
+      "chunk_id": 45,
+      "text": "in UNIX, command substitution . The general idea is to set a variable to the output of one command and substitute that variable in other commands. Suppose you want to copy all the files from a recent robotics project to a different directory and pri"
+    },
+    {
+      "chunk_id": 46,
+      "text": "robotics project to a different directory and print them. You had the foresight to have the string robot in all these filenames. That allows grep to locate the files of interest. By storing the output of grep in a variable, you can accomplish both t"
+    },
+    {
+      "chunk_id": 47,
+      "text": "t of grep in a variable, you can accomplish both tasks without ever typing a filename. % set filelist = `grep -l 'robot' *` % cp $filelist /projects/robotics % lpr $filelist Handling Special (``meta'') Characters Many characters which are neither let"
+    },
+    {
+      "chunk_id": 48,
+      "text": ") Characters Many characters which are neither letters nor digits have special significance to either the shell or to UNIX. These characters are called metacharacters and must be quoted when used in commands in order to use them without their speci"
+    },
+    {
+      "chunk_id": 49,
+      "text": "commands in order to use them without their special meaning. For example ``;'' is used by the shell to separate two commands on one input line. You can override the usual meaning of these special characters by prefixing them with a backslash, `` \\"
+    },
+    {
+      "chunk_id": 50,
+      "text": "aracters by prefixing them with a backslash, `` \\ '' % ls the.good the.bad and.the;ugly % mv and.the \\; ugly and.the.ugly % ls the.good the.bad and.the.ugly Processes UNIX executes processes . You can learn about the processes that are being executed"
+    },
+    {
+      "chunk_id": 51,
+      "text": "learn about the processes that are being executed by issuing the process status command ps . Two pieces of information that will be shown are the command name and the process identification number , or PID. Other information is available by includin"
+    },
+    {
+      "chunk_id": 52,
+      "text": "or PID. Other information is available by including options, (such as -uax on DEC ULTRIX or -aef on HP-UX, DEC UNIX and Solaris) to get full information on all processes. One process may generate another. The old process is called the parent and the"
+    },
+    {
+      "chunk_id": 53,
+      "text": "her. The old process is called the parent and the new process is called the child . Your login process is a child of init , a process that executes continuously. Each command you enter starts a new process. The system performs several initiation step"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ocess. The system performs several initiation steps whenever it starts a new shell. One of these steps is to always execute the commands in .cshrc and, if the process is logging in a new user, to execute the commands in .login . The role played by th"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ute the commands in .login . The role played by these files is covered in Section 7.4 . Foreground and Background Jobs Processes or jobs are normally running in the foreground of your interactive session. You may, however, start processes in the back"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ion. You may, however, start processes in the background by adding the & character to the end of the command line. You could then continue entering interactive commands. For example, the command cc test.c & will start compiling a C program named test"
+    },
+    {
+      "chunk_id": 57,
+      "text": "st.c & will start compiling a C program named test.c in the background. If you try this with your own C program, you will find that you get the prompt back and can continue working while the compilation progresses. Messages, however, are sent to the"
+    },
+    {
+      "chunk_id": 58,
+      "text": "on progresses. Messages, however, are sent to the terminal and can interfere with what you are doing. To prevent this, redirect the output of background processes into files. Try cc test.c >& out.tmp & to see the difference. The jobs command will sh"
+    },
+    {
+      "chunk_id": 59,
+      "text": "& to see the difference. The jobs command will show the status and job number of jobs either running in the background or suspended. You can suspend a job running in the background by entering stop % jobnumber . Or you can bring a job back into the"
+    },
+    {
+      "chunk_id": 60,
+      "text": "jobnumber . Or you can bring a job back into the foreground by entering fg % jobnumber . Processes may be started in the foreground, stopped, and placed in the background. Pressing CTRL-Z suspends the foreground job. Entering bg % jobnumber starts t"
+    },
+    {
+      "chunk_id": 61,
+      "text": "e foreground job. Entering bg % jobnumber starts the suspended job executing in the background. Killing Jobs Logging out does not kill jobs that are stopped or running in the background. Jobs and processes are deleted from the active list by using th"
+    },
+    {
+      "chunk_id": 62,
+      "text": "esses are deleted from the active list by using the kill command. To kill a job, enter: % kill % jobnumber If that doesn't work, try: % kill -9 % jobnumber To kill a process, enter: % kill PID If that doesn't work, try: % kill -9 % PID Shell Scripts"
+    },
+    {
+      "chunk_id": 63,
+      "text": "doesn't work, try: % kill -9 % PID Shell Scripts At times it is inconvenient to give interactive commands to the shell. This is especially true when you have a set of commands that you repeat periodically or that you find difficult to key in accurat"
+    },
+    {
+      "chunk_id": 64,
+      "text": "cally or that you find difficult to key in accurately. It would be a timesaving device to key them in just once. The C shell has the ability to read and execute a series of commands from a file. These files of shell commands are known as shell files,"
+    },
+    {
+      "chunk_id": 65,
+      "text": "files of shell commands are known as shell files, shell procedures, or shell scripts. This section will discuss the basic facts about script execution, the programming features available inside scripts, and how environment settings are passed down t"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ts, and how environment settings are passed down to scripts. Basic Facts about Script Execution Scripts can be executed by three distinct methods: csh scriptname source scriptname scriptname The first method starts another copy of the C shell in whic"
+    },
+    {
+      "chunk_id": 67,
+      "text": "method starts another copy of the C shell in which to execute your script. Changes the script makes to the environment, such as resetting the current working directory, will not be maintained when the script finishes. The second method executes the"
+    },
+    {
+      "chunk_id": 68,
+      "text": "e script finishes. The second method executes the script inside the current shell. All changes are still in effect when the script finishes just as if the commands had been entered interactively. The third method requires using the chmod command to m"
+    },
+    {
+      "chunk_id": 69,
+      "text": "third method requires using the chmod command to mark the shell script as an executable file. Then the file name may be entered just as if it were a shell command. Since commands are executed as separate programs, this has the same benefit as method"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ate programs, this has the same benefit as method one in protecting the current environment from some unwanted side effects. To mark the script as executable by the owner, enter: chmod u + x scriptname . # `This script shows the effects of the method"
+    },
+    {
+      "chunk_id": 71,
+      "text": "e . # `This script shows the effects of the methods described above.' # `Execute it from your home directory by the csh method. Check' # `pwd. Compare the pwd value that was printed by the script.' # `If necessary, use cd to return to"
+    },
+    {
+      "chunk_id": 72,
+      "text": "cript.' # `If necessary, use cd to return to your home directory,' # `and remove the dummy directory by rmdir ~/dummy.' # `Then repeat with the other two methods.' mkdir ~/dummy cd ~/dummy pwd Tracing Execution Using the"
+    },
+    {
+      "chunk_id": 73,
+      "text": "cd ~/dummy pwd Tracing Execution Using the -v or -x option on csh command causes the shell to print each line of the script as it is executed. This is a quick way to trace the execution of a script and is a great aid to debugging. You can als"
+    },
+    {
+      "chunk_id": 74,
+      "text": "cript and is a great aid to debugging. You can also include either or both of the following lines at the begining of your shell script: set verbose set echo Terminations When you no longer want a script to continue executing you can terminate it by"
+    },
+    {
+      "chunk_id": 75,
+      "text": "pt to continue executing you can terminate it by typing the CTRL-c interrupt. Some scripts have CTRL-c disabled, so if you really wish to stop a process - \"a sure kill\" - you can issue the command, \" kill -9 PID \" and the process will die. Command"
+    },
+    {
+      "chunk_id": 76,
+      "text": "\" kill -9 PID \" and the process will die. Command Search Path The shell resolves the names of commands and executable scripts by searching a sequence of directories. This sequence is stored in a UNIX variable named path . You may reset this path var"
+    },
+    {
+      "chunk_id": 77,
+      "text": "variable named path . You may reset this path variable to include other directories. In any case, your executable scripts must reside in your current directory or in one of the directories named in your path variable. Passing Values Between Shells"
+    },
+    {
+      "chunk_id": 78,
+      "text": "your path variable. Passing Values Between Shells Every command and script executes inside a shell, either the current shell or a new one specifically created for it. The variables created inside a shell or script by using the set command are local"
+    },
+    {
+      "chunk_id": 79,
+      "text": "shell or script by using the set command are local ; that is, they exist only as long as the shell or script is executing. A child process normally does not have access to the variables defined by its parent process. Yet there are situations where a"
+    },
+    {
+      "chunk_id": 80,
+      "text": "parent process. Yet there are situations where a newly-created shell must inherit information about its environment. For example vi must know if TERM is set in order to function properly as a full-screen editor. The setenv command is used in place"
+    },
+    {
+      "chunk_id": 81,
+      "text": "screen editor. The setenv command is used in place of set to create variables that are not local to the shell that creates them. Variables created by setenv , sometime referred to as export variables, are available to all descendants of the creatin"
+    },
+    {
+      "chunk_id": 82,
+      "text": ", are available to all descendants of the creating shell. The syntax of setenv varies from set . Here are some examples: set setenv ----------------------------------- ----------------------------------- set path = (dir1 dir2 dir3) setenv PATH"
+    },
+    {
+      "chunk_id": 83,
+      "text": "--------- set path = (dir1 dir2 dir3) setenv PATH dir1:dir2:dir3 set term = xterms setenv TERM xterms set printenv ----------------------------------- ----------------------------------- \"set\" vs \"setenv\" syntax You can print all the environme"
+    },
+    {
+      "chunk_id": 84,
+      "text": "vs \"setenv\" syntax You can print all the environment variables created by setenv , and some of the variables exported by the C shell, with the command printenv . Programming Features The C shell derives its name from the fact that it looks so much l"
+    },
+    {
+      "chunk_id": 85,
+      "text": "ves its name from the fact that it looks so much like the C programming language. Here is a brief overview of some of the programming-like commands available. These are normal C shell commands but are rarely seen outside scripts. Providing Data There"
+    },
+    {
+      "chunk_id": 86,
+      "text": "rarely seen outside scripts. Providing Data There are two ways of providing data inside scripts. The first is to read it directly from the standard input: set variablename = $< . This is commonly used to allow the script user to provide simple data"
+    },
+    {
+      "chunk_id": 87,
+      "text": "d to allow the script user to provide simple data values interactively. The second is to provide data lines inside the script. This is normally done to provide a block of data larger than that needed by a simple variable. This method uses a marker"
+    },
+    {
+      "chunk_id": 88,
+      "text": "d by a simple variable. This method uses a marker, 'EOF' , to signify that the end of data has been reached. The 'EOF' ending marker must be alone on the termination line. Suppose you have developed a program, dcyc , for your poultry research that"
+    },
+    {
+      "chunk_id": 89,
+      "text": "d a program, dcyc , for your poultry research that takes as input the number of eggs laid and projects the number of hatchlings. As part of fully documenting this information, you also input some auxiliary information for the final report. Since you"
+    },
+    {
+      "chunk_id": 90,
+      "text": "liary information for the final report. Since you do this many times a day you have developed a script file, bth , that feeds data into the program. By using the script file and recalling history commands, you can quickly run the program with the"
+    },
+    {
+      "chunk_id": 91,
+      "text": "commands, you can quickly run the program with the correct data. # 'bth: A script file to provide data to dcyc' dcyc << 'EOF' Cyclone Hatchery Report date: July 26, 1990 Eggs laid: 731 'EOF' Note that the script begins with the first character # , an"
+    },
+    {
+      "chunk_id": 92,
+      "text": "the script begins with the first character # , and the rest of this comment line is protected from replacement by apostrophes. The input for dcyc is to be read directly from the input file and includes all the lines up to the next 'EOF' . Flow Cont"
+    },
+    {
+      "chunk_id": 93,
+      "text": "des all the lines up to the next 'EOF' . Flow Control Structures More complicated program flow control structures are possible inside scripts than you would normally use interactively. The C shell supports the familiar goto and the lesser known && a"
+    },
+    {
+      "chunk_id": 94,
+      "text": "pports the familiar goto and the lesser known && and || , used to execute commands if the previous command succeeds or fails. It also has if/then , if/then/else and switch/endsw constructs. Each of these structures is described in this section. The"
+    },
+    {
+      "chunk_id": 95,
+      "text": "hese structures is described in this section. The simplest control structure you can use in the C shell is to use labels and goto statements. Any string of identifying characters that begins a command line is treated as a label when followed by a col"
+    },
+    {
+      "chunk_id": 96,
+      "text": "line is treated as a label when followed by a colon (:). The syntax of the goto statement is demonstrated in the following example. Note that the colon identifies error as a label but the colon is not part of the label. . error: . got"
+    },
+    {
+      "chunk_id": 97,
+      "text": "t part of the label. . error: . goto error . It is helpful to know about the status variable before discussing more complicated structures. Commands submitted to the shell either succeed or fail. If they fail, you receive some e"
+    },
+    {
+      "chunk_id": 98,
+      "text": "succeed or fail. If they fail, you receive some error message; if they succeed, they perform the requested operation and perhaps you receive some output on the screen. Internally the shell keeps track of success and failure in a variable named st"
+    },
+    {
+      "chunk_id": 99,
+      "text": "ack of success and failure in a variable named status . When a command succeeds, the shell sets the value of status to 0. Any other value indicates some type of failure. The symbols && and || are used to join two commands. The shell executes th"
+    },
+    {
+      "chunk_id": 100,
+      "text": "used to join two commands. The shell executes the first command and stores its status. The second command is then executed conditionally . If the first command succeeds, && says to execute the second. If the first command fails, || says to execute"
+    },
+    {
+      "chunk_id": 101,
+      "text": "d. If the first command fails, || says to execute the second. With any other combination, the second command is ignored. Suppose the bth script described above always produces an output file named report . If everything performs as expected, this re"
+    },
+    {
+      "chunk_id": 102,
+      "text": "port . If everything performs as expected, this report should be printed. If the script fails for any reason, the report should be deleted. This can be done with one command: ( bth && lpr report ) || rm report The parentheses in this example are used"
+    },
+    {
+      "chunk_id": 103,
+      "text": "rm report The parentheses in this example are used to group the script and printing commands into one unit so that both && and || are joining only two commands. We will trace the execution of these commands, first assuming the script succeeds, then a"
+    },
+    {
+      "chunk_id": 104,
+      "text": "mmands, first assuming the script succeeds, then assuming the script fails. If the bth script succeeds, status is set to 0, and the report is printed. This leaves the status 0, so the remove command ( rm ) is ignored. On the other hand, if the script"
+    },
+    {
+      "chunk_id": 105,
+      "text": "rm ) is ignored. On the other hand, if the script fails, status is not 0, and the print request is ignored. This leaves the status unchanged, so the remove command ( rm ) is executed. In more complicated situations it may be necessary to execute a g"
+    },
+    {
+      "chunk_id": 106,
+      "text": "ated situations it may be necessary to execute a group of commands based on some condition. This can be done using an if/then control structure. The syntax is: if <condition> then <list of commands> endif If the condition determines a ch"
+    },
+    {
+      "chunk_id": 107,
+      "text": "mands> endif If the condition determines a choice between alternate groups of commands then you would use an if/then/else instead. if <condition> then <list of commands> else <list of commands> endif Both constructs req"
+    },
+    {
+      "chunk_id": 108,
+      "text": "<list of commands> endif Both constructs require that then appear on the same line as if . In the Bourne shell then appears on the first line of commands to execute, and endif is replaced by fi . It is possible to nest if/then/else statements."
+    },
+    {
+      "chunk_id": 109,
+      "text": ". It is possible to nest if/then/else statements. One good way to organize nested if/then statements is: if <condition1> then <list of commands1> else if <condition2> then <list of commands2> else if <condition3> then"
+    },
+    {
+      "chunk_id": 110,
+      "text": "f commands2> else if <condition3> then <list of commands3> . . . endif The condition described above can be: A test on the numerical value of a variable. A test on the string value of a variable. A test on the existen"
+    },
+    {
+      "chunk_id": 111,
+      "text": "string value of a variable. A test on the existence, type, ownership or protection of a file. Two or more tests joined by && or || operators with the order of evaluation dictated by grouping the tests in parentheses. The negation of a conditio"
+    },
+    {
+      "chunk_id": 112,
+      "text": "e tests in parentheses. The negation of a condition, indicated by !<condition> . If the condition normally evaluates to true, the negation evaluates to false. If the condition normally evaluates to false, the negation e"
+    },
+    {
+      "chunk_id": 113,
+      "text": "dition normally evaluates to false, the negation evaluates to true. When num1 and num2 are numbers or numeric variables, the numeric tests and the logical results are: num1 == num2 True if num1 is equal to num2. num1 != num2 True if num1 is n"
+    },
+    {
+      "chunk_id": 114,
+      "text": "is equal to num2. num1 != num2 True if num1 is not equal to num2. num1 < num2 True if num1 is less than num2. num1 <= num2 True if num1 is less than or equal to num2. num1 > num2 True if num1 is greater than num2. num1 >= num2 True if num1 is g"
+    },
+    {
+      "chunk_id": 115,
+      "text": "greater than num2. num1 >= num2 True if num1 is greater than or equal to num2. When string1 and string2 are quoted strings or string variables, the string tests and the logical results are: string1 == string2 True if string1 is equal to string2. s"
+    },
+    {
+      "chunk_id": 116,
+      "text": "== string2 True if string1 is equal to string2. string1 != string2 True if string1 is not equal to string2. string1 =~ string2 True if string1 matches the metacharacter pattern specified by string2. string1 !~ string2 True if string1 does not"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ing2. string1 !~ string2 True if string1 does not match the metacharacter pattern specified by string2. When filename is a file name, the legitimate tests and the logical results are: -e filename True if the file exists. -r filename True if"
+    },
+    {
+      "chunk_id": 118,
+      "text": "e True if the file exists. -r filename True if the file is readable. -w filename True if the file is writable. -x filename True if the file is executable. -o filename True if the user owns the file. -z filename True if the file is empty. -d fi"
+    },
+    {
+      "chunk_id": 119,
+      "text": "ile. -z filename True if the file is empty. -d filename True if the file is a directory. -f filename True if the file is not a directory. Returning to the chicken and egg example discussed before, suppose you wanted to automate the report printing"
+    },
+    {
+      "chunk_id": 120,
+      "text": "suppose you wanted to automate the report printing step and as well as designing the script to cover nasty possibilities that would destroy existing reports or leave behind unnecessary files. With the tools just described it is possible to design a"
+    },
+    {
+      "chunk_id": 121,
+      "text": "he tools just described it is possible to design a new improved version of the bth script that will not execute dcyc if the report file exists. When dcyc creates a bad (empty) report, it is automatically removed. Only good reports are printed, and"
+    },
+    {
+      "chunk_id": 122,
+      "text": "cally removed. Only good reports are printed, and then the report file is deleted to conserve space. # 'bth2: An improved script file to provide data to dcyc,' # 'and ensure that the report files are handled cleanly.' if ((-e report && -d"
+    },
+    {
+      "chunk_id": 123,
+      "text": "s are handled cleanly.' if ((-e report && -d report) || (-e report && -f report)) then echo \"There is a directory or file named report!\" else dcyc << 'EOF' Cyclone Hatchery Report date: July 26, 1990"
+    },
+    {
+      "chunk_id": 124,
+      "text": "tchery Report date: July 26, 1990 Eggs laid: 731 'EOF' if (-e report && -z report) then echo \"An empty report was generated! I will remove it.\" rm report else (lpr report && rm rep"
+    },
+    {
+      "chunk_id": 125,
+      "text": "port else (lpr report && rm report) endif endif Since any existing object named report would normally be a file or directory the condition in the first if statement could be condensed to (-e report) . You may or may n"
+    },
+    {
+      "chunk_id": 126,
+      "text": "uld be condensed to (-e report) . You may or may not decide to simplify scripts once they are written. Often trying to simplify one section causes unforseen problems in another. The important thing is to make them as easy to understand as possible"
+    },
+    {
+      "chunk_id": 127,
+      "text": "is to make them as easy to understand as possible. Comments are one means of making scripts easy to follow. Indentation is another. Note the nested if/then/else above. The indentation clearly shows that it is inside the else portion of the outer if/"
+    },
+    {
+      "chunk_id": 128,
+      "text": "hat it is inside the else portion of the outer if/then/else structure. It also allows you to quickly match an endif to the appropriate if . The shell will always pair an endif with the last unpaired if , leading to unpredictable results if one has b"
+    },
+    {
+      "chunk_id": 129,
+      "text": "if , leading to unpredictable results if one has been inadvertently omitted. The final flow control construction covered here is the switch/endsw statement. It tests the value of a variable against several strings to find a match. The comparison may"
+    },
+    {
+      "chunk_id": 130,
+      "text": "veral strings to find a match. The comparison may involve wildcards, * and ? , and character classes, [ - ] . One case is selected from a list of cases and the group of commands related to that case is executed. The group of commands to be executed i"
+    },
+    {
+      "chunk_id": 131,
+      "text": "s executed. The group of commands to be executed is terminated by a breaksw command. Omitting the ending breaksw allows execution to fall through to the next case. This is a common bug in writing switch statements, and some programmers use it as a fe"
+    },
+    {
+      "chunk_id": 132,
+      "text": "ch statements, and some programmers use it as a feature. The default group of commands is executed if the switchvar does not match any of the test strings. The syntax of this command is: switch (<$switchvar>) case string1: <list"
+    },
+    {
+      "chunk_id": 133,
+      "text": "itchvar>) case string1: <list of commands> breaksw case string2: <list of commands> breaksw . . . default: <list of commands>"
+    },
+    {
+      "chunk_id": 134,
+      "text": "fault: <list of commands> breaksw endsw Conditional and Iterative Looping The C shell also provides two looping mechanisms. The first mechanism is the conditional loop, implemented by the while statement, which repeated"
+    },
+    {
+      "chunk_id": 135,
+      "text": "implemented by the while statement, which repeatedly executes a list of commands while some condition is true. The condition is constructed following the same rules as for conditions in an if/then statement. The syntax is: while <condition> <"
+    },
+    {
+      "chunk_id": 136,
+      "text": "tement. The syntax is: while <condition> <list of commands> end Care must be taken to insure that one of the commands in the list eventually makes the condition false, providing an exit for the conditional loop. In case of infinite loopi"
+    },
+    {
+      "chunk_id": 137,
+      "text": "or the conditional loop. In case of infinite looping you can regain control by entering C. The second looping mechanism is the iterative loop, implemented by the foreach statement, which executes a list of commands while some control variable takes o"
+    },
+    {
+      "chunk_id": 138,
+      "text": "st of commands while some control variable takes on each value from a specific list of values. The syntax is: foreach <controlvariable> (control-list) <list of commands> end The control list can be a list of numeric or string values"
+    },
+    {
+      "chunk_id": 139,
+      "text": "rol list can be a list of numeric or string values, a file list or even the command's argument list represented as $argv[*] . There is little danger of infinite looping with this construct since the number of times the list of commands can be execute"
+    },
+    {
+      "chunk_id": 140,
+      "text": "umber of times the list of commands can be executed is limited by the number of items in the control list. Arithmetic Shells can perform simple integer arithmetic. The operations are limited to addition, subtraction, multiplication, integer division"
+    },
+    {
+      "chunk_id": 141,
+      "text": "on, subtraction, multiplication, integer division and a remainder function. The operands must be numeric constants or numeric variables. All mathematical operations must be signaled to the shell by prefixing the command with an at sign (@). Table 7.2"
+    },
+    {
+      "chunk_id": 142,
+      "text": "efixing the command with an at sign (@). Table 7.2 shows the syntax of some of the various operations. Operation Syntax --------------- ----------------------- addition @ num1=num2 + num3 subtraction @ num1=num2 - num3 multiplication @ num1"
+    },
+    {
+      "chunk_id": 143,
+      "text": "action @ num1=num2 - num3 multiplication @ num1=num2 * num3 division @ num1=num2 / num3 remainder @ num1=num2 % num3 --------------- ----------------------- Table 7.2: Arithmetic Operations Managing Files Inside Shell Scripts Scripts o"
+    },
+    {
+      "chunk_id": 144,
+      "text": "ions Managing Files Inside Shell Scripts Scripts often create files that are only needed while the script is running, but are left behind when the script completes execution. Rather than continually carry out search and delete missions, a better op"
+    },
+    {
+      "chunk_id": 145,
+      "text": "carry out search and delete missions, a better option is to create temporary files in the directory /tmp , where they will be periodically purged by the system. There is a standard method for naming these temporary files that ensures your files wi"
+    },
+    {
+      "chunk_id": 146,
+      "text": "these temporary files that ensures your files will have unique names inside /tmp . The name is obtained by concatenating the name of the your script file and your PID. The name of your script file is stored in the variable ${0} , and the PID is i"
+    },
+    {
+      "chunk_id": 147,
+      "text": "is stored in the variable ${0} , and the PID is in $$ , so ${0}$$ translates into the name we are after. The full specification for the file is /tmp/$ { 0 } $$ . Remember this is the name of a temporary file to be used inside a script. If you wish"
+    },
+    {
+      "chunk_id": 148,
+      "text": "rary file to be used inside a script. If you wish to throw away output without seeing it, for example, during the initial development phase of some project when only garbage is being produced, you can redirect it into the special file /dev/null . Cus"
+    },
+    {
+      "chunk_id": 149,
+      "text": "redirect it into the special file /dev/null . Customizing Your Environment Standard UNIX documentation suggests customizing your environment by modifying your .login and .cshrc files. These files contain shell commands but are not scripts to be exec"
+    },
+    {
+      "chunk_id": 150,
+      "text": "tain shell commands but are not scripts to be executed. They don't need to be made executable. You need to be very careful when modifying these files. If you make any mistakes modifying your .cshrc or .login files, you may not be able to login back i"
+    },
+    {
+      "chunk_id": 151,
+      "text": ".login files, you may not be able to login back in to your account. One of the most popular customizations is aliasing , a technique that allows users to define their own names for commands. The syntax of the command is: alias aliasname < any comman"
+    },
+    {
+      "chunk_id": 152,
+      "text": "ax of the command is: alias aliasname < any command and option list > For example, alias rm \"rm -i\" Each window maintains its own shell process, so to make your aliases available in all of them, your .cshrc must contain your alias commands. If you ar"
+    },
+    {
+      "chunk_id": 153,
+      "text": ".cshrc must contain your alias commands. If you are an experienced user on some other system, you might alias command names you are more familiar with to their UNIX equivalents. Type alias to see all your current aliases. You can change your default"
+    },
+    {
+      "chunk_id": 154,
+      "text": "your current aliases. You can change your default shell by entering the command chsh followed by the location of the shell you wish to use. You can pick the Bourne shell by entering: chsh /bin/sh . The C shell is in /bin/csh ; the System V shell is i"
+    },
+    {
+      "chunk_id": 155,
+      "text": "e C shell is in /bin/csh ; the System V shell is in /bin/sh5 . Additional Features There are many other features available that require more space to discuss than we can devote here. Some of these features are standard parts of UNIX. Others, like mak"
+    },
+    {
+      "chunk_id": 156,
+      "text": "tures are standard parts of UNIX. Others, like make , are enhancements that have become so prevalent that they are now regarded as standard. Several of these additional features are mentioned here; these are more fully documented in man or in printed"
+    },
+    {
+      "chunk_id": 157,
+      "text": "ese are more fully documented in man or in printed documentation. There is a utility called make that manages files that in a sense produce a master file. The files may be source code files that must be compiled and linked together to form an executa"
+    },
+    {
+      "chunk_id": 158,
+      "text": "be compiled and linked together to form an executable file, or they may be sections of a large document that you periodically update. You describe the dependencies in a file called a makefile . If the files were source code, the makefile would contai"
+    },
+    {
+      "chunk_id": 159,
+      "text": "files were source code, the makefile would contain the commands to create the executable version. After modifying one or more of the files you issue the command make makefile , and make will perform the minimal work required to produce the required"
+    },
+    {
+      "chunk_id": 160,
+      "text": "the minimal work required to produce the required master file. There is also a touch command that will make no changes to a file other than to modify its last use date. This is often used in conjunction with make to force the updating of certain fil"
+    },
+    {
+      "chunk_id": 161,
+      "text": "ion with make to force the updating of certain files that make ordinarily would not update. You can control how and if metacharacters are expanded with a variable named noglob . Several utilities are available to assist in writing documents. Among th"
+    },
+    {
+      "chunk_id": 162,
+      "text": "available to assist in writing documents. Among these are spell , style , diction and explain . The spell utility checks documents for misspelled words and is the most useful of the group. One use for multiple windows is to let spell check a document"
+    },
+    {
+      "chunk_id": 163,
+      "text": "multiple windows is to let spell check a document in one window while you make corrections in another. The style utility rates the readability of your document; diction finds words and phrases that are often misused or overused; explain suggests alt"
+    },
+    {
+      "chunk_id": 164,
+      "text": "re often misused or overused; explain suggests alternatives for the words and phrases diction finds. A natural use for three windows is one each for an editor, diction , and explain . Things to Avoid UNIX documents a command called exit that it recom"
+    },
+    {
+      "chunk_id": 165,
+      "text": "UNIX documents a command called exit that it recommends as the proper way to finish scripts. Exit is commonly defined as logout, so it is best to avoid this. If you set ``noclobber'' in your shell environment, then in theory you should not be able t"
+    },
+    {
+      "chunk_id": 166,
+      "text": "ironment, then in theory you should not be able to overwrite existing files without being warned. For example, if file2 already existed, and you executed the following command: % cp file1 file2 You should be prompted with: overwrite file2? However,"
+    },
+    {
+      "chunk_id": 167,
+      "text": "should be prompted with: overwrite file2? However, you should not rely on noclobber to protect existing files from being overwritten. inst@eecs.berkeley.edu"
+    }
+  ]
+}

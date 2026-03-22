@@ -1,0 +1,653 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/kernel/ComponentPort.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "ComponentPort JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    },
+    {
+      "chunk_id": 2,
+      "text": "| Constr | Method Detail: Field | Constr | Method ptolemy.kernel Class ComponentPort java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.Port ptolemy.kernel.ComponentPort All Implemented Interfaces: java.lang.Cloneable, Changeable , Debugga"
+    },
+    {
+      "chunk_id": 3,
+      "text": "erfaces: java.lang.Cloneable, Changeable , Debuggable , DebugListener , Derivable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: IOPort , SyntacticPort public class ComponentPort extends Port A port supporting hie"
+    },
+    {
+      "chunk_id": 4,
+      "text": "s ComponentPort extends Port A port supporting hierarchy. A component port can have \"inside\" links as well as the usual \"outside\" links supported by the base class. That is, while the basic port has only links to relations that are on the exterior"
+    },
+    {
+      "chunk_id": 5,
+      "text": "only links to relations that are on the exterior of its containing entity, this port can have links to relations on the interior. An inside link is a link to a relation that is contained by the container of the port. A ComponentPort may be trans"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ontainer of the port. A ComponentPort may be transparent or opaque. If it is transparent, then \"deep\" accesses of the topology see through the port. Methods that read the topology come in two versions, shallow and deep. The deep versions pass thr"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ons, shallow and deep. The deep versions pass through transparent ports. This is done with a simple rule. If a transparent port is encountered from inside, then the traversal continues with its outside links. If it is encountered from outside, th"
+    },
+    {
+      "chunk_id": 8,
+      "text": "side links. If it is encountered from outside, then the traversal continues with its inside links. A ComponentPort is opaque if its container is opaque. (its isOpaque() method returns true). Derived classes may use other strategies to specify w"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ved classes may use other strategies to specify whether a port is opaque. Normally, links to a transparent port from the outside are to relations contained by the container of the container of the port. Links from the inside are to relations conta"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ort. Links from the inside are to relations contained by the container of the port. That is, levels of the hierarchy are not crossed. For a few applications, links that cross levels of the hierarchy are needed. The links in these connections are"
+    },
+    {
+      "chunk_id": 11,
+      "text": "hy are needed. The links in these connections are created using the liberalLink() method. The link() method prohibits such links, throwing an exception if they are attempted (most applications will prohibit level-crossing connections by using on"
+    },
+    {
+      "chunk_id": 12,
+      "text": "l prohibit level-crossing connections by using only the link() method). A ComponentPort can link to any instance of ComponentRelation. An attempt to link to an instance of Relation will trigger an exception. Derived classes may wish to further con"
+    },
+    {
+      "chunk_id": 13,
+      "text": "xception. Derived classes may wish to further constrain links to a subclass of ComponentRelation. To do this, subclasses should override the protected methods _checkLink() and _checkLiberalLink() to throw an exception if their arguments are rela"
+    },
+    {
+      "chunk_id": 14,
+      "text": "to throw an exception if their arguments are relations that are not of the appropriate subclass. Similarly, a ComponentPort can only be contained by a ComponentEntity, and an attempt to set the container to an instance of Entity will trigger an"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ntainer to an instance of Entity will trigger an exception. If a subclass wishes to constrain the containers of the port to be of a subclass of ComponentEntity, they should override _checkContainer(). Since: Ptolemy II 0.2 Version: $Id$ Author: E"
+    },
+    {
+      "chunk_id": 16,
+      "text": "r(). Since: Ptolemy II 0.2 Version: $Id$ Author: Edward A. Lee, Xiaojun Liu Pt.AcceptedRating: Green (bart) Pt.ProposedRating: Green (eal) Nested Class Summary Nested classes/interfaces inherited from class ptolemy.kernel.util. NamedObj NamedObj.Cont"
+    },
+    {
+      "chunk_id": 17,
+      "text": "class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary Fields inherited from class ptolemy.kernel. Port _insideLinks , _relationsList Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLo"
+    },
+    {
+      "chunk_id": 18,
+      "text": "kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LIN"
+    },
+    {
+      "chunk_id": 19,
+      "text": "NAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary Constructors Constructor and Description ComponentPort () Construct a port in the default workspace with an empty string as its name. ComponentPort ( ComponentEntity container"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ts name. ComponentPort ( ComponentEntity container, java.lang.String name) Construct a port with the given name contained by the specified entity. ComponentPort ( Workspace workspace) Construct a port in the specified workspace with an"
+    },
+    {
+      "chunk_id": 21,
+      "text": "onstruct a port in the specified workspace with an empty string as a name. Method Summary All Methods Instance Methods Concrete Methods Deprecated Methods Modifier and Type Method and Description protected void _checkContainer ( Entity container) O"
+    },
+    {
+      "chunk_id": 22,
+      "text": "otected void _checkContainer ( Entity container) Override the base class to ensure that the proposed container is a ComponentEntity. protected void _checkLiberalLink ( Relation relation) Check the validity of a link. protected void _checkLink ( Rel"
+    },
+    {
+      "chunk_id": 23,
+      "text": "alidity of a link. protected void _checkLink ( Relation relation) Override the base class to throw an exception if the relation is not a ComponentRelation, or if the container of the port or relation is null, or if the container of this port is a"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ion is null, or if the container of this port is a class definition and the link is not an inside link. protected java.util.List _deepConnectedPortList (java.util.LinkedList path) Deeply list the opaque ports connected to this port on the outside."
+    },
+    {
+      "chunk_id": 25,
+      "text": "aque ports connected to this port on the outside. protected java.util.Enumeration _deepConnectedPorts (java.util.LinkedList path) Deprecated. Use _deepConnectedPortList() instead. protected java.util.List _deepInsidePortList (java.util.LinkedList pat"
+    },
+    {
+      "chunk_id": 26,
+      "text": "List _deepInsidePortList (java.util.LinkedList path) If this port is transparent, then deeply list the ports connected on the inside. protected java.util.Enumeration _deepInsidePorts (java.util.LinkedList path) Deprecated. Use _deepInsidePortList()"
+    },
+    {
+      "chunk_id": 27,
+      "text": "edList path) Deprecated. Use _deepInsidePortList() instead. protected java.lang.String _description (int detail, int indent, int bracket) Return a description of the object. protected boolean _isInsideLinkable ( Nameable entit"
+    },
+    {
+      "chunk_id": 28,
+      "text": "otected boolean _isInsideLinkable ( Nameable entity) Return true if this port is either a port of the specified entity, or a port of an entity that (deeply) contains the specified entity. java.lang.Object clone ( Workspace workspace) Clone the obje"
+    },
+    {
+      "chunk_id": 29,
+      "text": "Object clone ( Workspace workspace) Clone the object into the specified workspace. java.util.List deepConnectedPortList () Deeply list the ports connected to this port on the outside. java.util.Enumeration deepConnectedPorts () Deprecated. Use deepCo"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ation deepConnectedPorts () Deprecated. Use deepConnectedPortList() instead. java.util.List deepInsidePortList () Deeply list the ports connected on the inside. java.util.Enumeration deepInsidePorts () Deprecated. Use deepInsidePortList() instead. vo"
+    },
+    {
+      "chunk_id": 31,
+      "text": ") Deprecated. Use deepInsidePortList() instead. void insertInsideLink (int index, Relation relation) Insert a link to the specified relation at the specified index, and notify the container by calling its connectionsChanged() method. void insertLin"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ng its connectionsChanged() method. void insertLink (int index, Relation relation) Insert a link to the specified relation at the specified index, and notify the container by calling its connectionsChanged() method. java.util.List insidePortList ()"
+    },
+    {
+      "chunk_id": 33,
+      "text": "Changed() method. java.util.List insidePortList () List the ports connected on the inside to this port. java.util.Enumeration insidePorts () Deprecated. Use insidePortList() instead. java.util.List insideRelationList () List the relations linked on t"
+    },
+    {
+      "chunk_id": 34,
+      "text": "sideRelationList () List the relations linked on the inside to this port. java.util.Enumeration insideRelations () Enumerate the relations linked on the inside to this port. boolean isDeeplyConnected ( ComponentPort port) Return true the the given po"
+    },
+    {
+      "chunk_id": 35,
+      "text": "( ComponentPort port) Return true the the given port is deeply connected with this port. boolean isInsideGroupLinked ( Relation r) Return true if the given relation or one in its relation group is linked to this port on the inside. boolean isInside"
+    },
+    {
+      "chunk_id": 36,
+      "text": "inked to this port on the inside. boolean isInsideLinked ( Relation relation) Return true if the given relation is linked from inside. boolean isOpaque () Return true if the container entity is opaque. void liberalLink ( ComponentRelation relation) L"
+    },
+    {
+      "chunk_id": 37,
+      "text": ". void liberalLink ( ComponentRelation relation) Link this port with the specified relation. void link ( Relation relation) Link this port with the specified relation. int numInsideLinks () Return the number of inside links. void setContainer ( Entit"
+    },
+    {
+      "chunk_id": 38,
+      "text": "number of inside links. void setContainer ( Entity entity) Specify the container entity, adding the port to the list of ports in the container. void unlink ( Relation relation) Unlink the specified Relation. void unlinkAll () Unlink all outside li"
+    },
+    {
+      "chunk_id": 39,
+      "text": "Relation. void unlinkAll () Unlink all outside links. void unlinkAllInside () Unlink all inside links. void unlinkInside (int index) Unlink whatever relation is currently linked on the inside with the specified index number. void unlinkInside ( Re"
+    },
+    {
+      "chunk_id": 40,
+      "text": "the specified index number. void unlinkInside ( Relation relation) Unlink the specified relation on the inside. Methods inherited from class ptolemy.kernel. Port _getContainedObject , _propagateExistence , connectedPortList , connectedPorts , getCont"
+    },
+    {
+      "chunk_id": 41,
+      "text": "nce , connectedPortList , connectedPorts , getContainer , isGroupLinked , isLinked , linkedRelationList , linkedRelations , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , numLinks , setName , unlink Methods inherited from class ptolemy."
+    },
+    {
+      "chunk_id": 42,
+      "text": "ame , unlink Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _containedDecorators , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeCh"
+    },
+    {
+      "chunk_id": 50,
+      "text": "tent , setSource , sortContainedObjects , toplevel , toString , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Constructor Detail Comp"
+    },
+    {
+      "chunk_id": 51,
+      "text": "otifyAll, wait, wait, wait Constructor Detail ComponentPort public ComponentPort() Construct a port in the default workspace with an empty string as its name. Increment the version number of the workspace. The object is added to the workspace dir"
+    },
+    {
+      "chunk_id": 52,
+      "text": "kspace. The object is added to the workspace directory. ComponentPort public ComponentPort( Workspace workspace) Construct a port in the specified workspace with an empty string as a name. You can then change the name with setName(). If the wor"
+    },
+    {
+      "chunk_id": 53,
+      "text": "then change the name with setName(). If the workspace argument is null, then use the default workspace. The object is added to the workspace directory. Increment the version number of the workspace. Parameters: workspace - The workspace that w"
+    },
+    {
+      "chunk_id": 54,
+      "text": "pace. Parameters: workspace - The workspace that will list the port. ComponentPort public ComponentPort( ComponentEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Con"
+    },
+    {
+      "chunk_id": 55,
+      "text": "egalActionException , NameDuplicationException Construct a port with the given name contained by the specified entity. The container argument must not be null, or a NullPointerException will be thrown. This port will use the workspace of the c"
+    },
+    {
+      "chunk_id": 56,
+      "text": "rown. This port will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to the empty string. Increment the version of the workspace. Parameters: container - The contai"
+    },
+    {
+      "chunk_id": 57,
+      "text": "the workspace. Parameters: container - The container entity. name - The name of the port. Throws: IllegalActionException - If the port is not of an acceptable class for the container. NameDuplicationException - If the name coincides with a por"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ionException - If the name coincides with a port already in the container. Method Detail clone public java.lang.Object clone( Workspace workspace) throws java.lang.CloneNotSupportedException Clone the object into the specifi"
+    },
+    {
+      "chunk_id": 59,
+      "text": "pportedException Clone the object into the specified workspace. The new object is not added to the directory of that workspace (you must do this yourself if you want it there). The result is a new port with no connections and no container. Overri"
+    },
+    {
+      "chunk_id": 60,
+      "text": "port with no connections and no container. Overrides: clone in class Port Parameters: workspace - The workspace for the cloned object. Returns: A new ComponentPort. Throws: java.lang.CloneNotSupportedException - If one or more of the attributes c"
+    },
+    {
+      "chunk_id": 61,
+      "text": "dException - If one or more of the attributes cannot be cloned. See Also: NamedObj.exportMoML(Writer, int, String) , NamedObj.setDeferringChangeRequests(boolean) deepConnectedPortList public java.util.List deepConnectedPortList() Deeply list the p"
+    },
+    {
+      "chunk_id": 62,
+      "text": "til.List deepConnectedPortList() Deeply list the ports connected to this port on the outside. Begin by listing the ports that are connected to this port. If any of those are transparent ports that we are connected to from the inside, then list"
+    },
+    {
+      "chunk_id": 63,
+      "text": "we are connected to from the inside, then list all the ports deeply connected on the outside to that transparent port. If any are transparent ports that we are connected to from the outside, then list opaque ports deeply inside that port. N"
+    },
+    {
+      "chunk_id": 64,
+      "text": "hen list opaque ports deeply inside that port. Note that a port may be listed more than once. This method is read synchronized on the workspace. Returns: An unmodifiable list of ComponentPort objects. deepConnectedPorts @Deprecated public java."
+    },
+    {
+      "chunk_id": 65,
+      "text": "jects. deepConnectedPorts @Deprecated public java.util.Enumeration deepConnectedPorts() Deprecated. Use deepConnectedPortList() instead. Deeply enumerate the ports connected to this port on the outside. Begin by enumerating the ports that are conne"
+    },
+    {
+      "chunk_id": 66,
+      "text": "e. Begin by enumerating the ports that are connected to this port. If any of those are transparent ports that we are connected to from the inside, then enumerate all the ports deeply connected on the outside to that transparent port. Note th"
+    },
+    {
+      "chunk_id": 67,
+      "text": "on the outside to that transparent port. Note that a port may be listed more than once. This method read synchronized on the workspace. Returns: An enumeration of ComponentPort objects. deepInsidePortList public java.util.List deepInsidePortLis"
+    },
+    {
+      "chunk_id": 68,
+      "text": "dePortList public java.util.List deepInsidePortList() Deeply list the ports connected on the inside. All ports listed are opaque. Note that the returned list could conceivably be empty, for example if this port has no inside links. Also, a po"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ple if this port has no inside links. Also, a port may be listed more than once if more than one inside connection to it has been established. Returns: An unmodifiable list of ComponentPort objects. deepInsidePorts @Deprecated public java.util.En"
+    },
+    {
+      "chunk_id": 70,
+      "text": "s. deepInsidePorts @Deprecated public java.util.Enumeration deepInsidePorts() Deprecated. Use deepInsidePortList() instead. If this port is transparent, then deeply enumerate the ports connected on the inside. Otherwise, enumerate just this port"
+    },
+    {
+      "chunk_id": 71,
+      "text": "the inside. Otherwise, enumerate just this port. All ports enumerated are opaque. Note that the returned enumeration could conceivably be empty, for example if this port is transparent but has no inside links. Also, a port may be listed more"
+    },
+    {
+      "chunk_id": 72,
+      "text": "no inside links. Also, a port may be listed more than once if more than one inside connection to it has been established. Returns: An enumeration of ComponentPort objects. insertInsideLink public void insertInsideLink(int index, Relation relation"
+    },
+    {
+      "chunk_id": 73,
+      "text": "void insertInsideLink(int index, Relation relation) throws IllegalActionException Insert a link to the specified relation at the specified index, and notify the container by calling its connectionsChanged() method. This meth"
+    },
+    {
+      "chunk_id": 74,
+      "text": "lling its connectionsChanged() method. This method defaults to adding an inside null link at the given index if the relation argument is null. Otherwise it simply invokes the insertLink) method. The specified index can be any non-negative inte"
+    },
+    {
+      "chunk_id": 75,
+      "text": ". The specified index can be any non-negative integer. Any links with indices larger than or equal to the one specified here will henceforth have indices that are larger by one. If the index is larger than the number of existing links (as ret"
+    },
+    {
+      "chunk_id": 76,
+      "text": "larger than the number of existing links (as returned by numLinks()), then empty links are inserted (these will be null elements in the list returned by linkedRelationsList() or in the enumeration returned by linkedRelations()). If the specif"
+    },
+    {
+      "chunk_id": 77,
+      "text": "on returned by linkedRelations()). If the specified relation is null, then an empty inside link is inserted at the specified index. Note that a port may be linked to the same relation more than once, in which case the link will be reported more"
+    },
+    {
+      "chunk_id": 78,
+      "text": "once, in which case the link will be reported more than once by the linkedRelations() method. In derived classes, the relation may be required to be an instance of a particular subclass of Relation (this is checked by the _checkLink() protected"
+    },
+    {
+      "chunk_id": 79,
+      "text": "n (this is checked by the _checkLink() protected method). This method is write-synchronized on the workspace and increments its version number. Parameters: index - The index at which to insert the link. relation - The relation to link to this por"
+    },
+    {
+      "chunk_id": 80,
+      "text": "link. relation - The relation to link to this port. Throws: IllegalActionException - If the link would cross levels of the hierarchy, or the relation is incompatible, or the port has no container, or the port is not in the same workspace as"
+    },
+    {
+      "chunk_id": 81,
+      "text": "er, or the port is not in the same workspace as the relation. insertLink public void insertLink(int index, Relation relation) throws IllegalActionException Insert a link to the specified relation at the specified index, and notif"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ified relation at the specified index, and notify the container by calling its connectionsChanged() method. This overrides the base class to allow inside links as well as links at the same level of the hierarchy. The specified index can be any"
+    },
+    {
+      "chunk_id": 83,
+      "text": "of the hierarchy. The specified index can be any non-negative integer. Any links with indices larger than or equal to the one specified here will henceforth have indices that are larger by one. If the index is larger than the number of existin"
+    },
+    {
+      "chunk_id": 84,
+      "text": "If the index is larger than the number of existing links (as returned by numLinks()), then empty links are inserted (these will be null elements in the list returned by linkedRelationsList() or in the enumeration returned by linkedRelations("
+    },
+    {
+      "chunk_id": 85,
+      "text": "in the enumeration returned by linkedRelations()). If the specified relation is null, then an empty outside link is inserted at the specified index. Note that a port may be linked to the same relation more than once, in which case the link wil"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ation more than once, in which case the link will be reported more than once by the linkedRelations() method. In derived classes, the relation may be required to be an instance of a particular subclass of Relation (this is checked by the _che"
+    },
+    {
+      "chunk_id": 87,
+      "text": "ubclass of Relation (this is checked by the _checkLink() protected method). This method is write-synchronized on the workspace and increments its version number. Overrides: insertLink in class Port Parameters: index - The index at which to insert"
+    },
+    {
+      "chunk_id": 88,
+      "text": "t Parameters: index - The index at which to insert the link. relation - The relation to link to this port. Throws: IllegalActionException - If the link would cross levels of the hierarchy, or the relation is incompatible, or the port has no con"
+    },
+    {
+      "chunk_id": 89,
+      "text": "elation is incompatible, or the port has no container, or the port is not in the same workspace as the relation. insidePortList public java.util.List insidePortList() List the ports connected on the inside to this port. Note that a port may b"
+    },
+    {
+      "chunk_id": 90,
+      "text": "the inside to this port. Note that a port may be listed more than once if more than one inside connection has been established to it. This method is read-synchronized on the workspace. Returns: A list of ComponentPort objects. insidePorts @Dep"
+    },
+    {
+      "chunk_id": 91,
+      "text": "A list of ComponentPort objects. insidePorts @Deprecated public java.util.Enumeration insidePorts() Deprecated. Use insidePortList() instead. Enumerate the ports connected on the inside to this port. Note that a port may be listed more than once i"
+    },
+    {
+      "chunk_id": 92,
+      "text": "Note that a port may be listed more than once if more than one inside connection has been established to it. This method is read-synchronized on the workspace. Returns: An enumeration of ComponentPort objects. insideRelationList public java.ut"
+    },
+    {
+      "chunk_id": 93,
+      "text": "entPort objects. insideRelationList public java.util.List insideRelationList() List the relations linked on the inside to this port. Note that a relation may be listed more than once if more than link to it has been established. This method is"
+    },
+    {
+      "chunk_id": 94,
+      "text": "nk to it has been established. This method is read-synchronized on the workspace. Returns: A list of ComponentRelation objects. insideRelations public java.util.Enumeration insideRelations() Enumerate the relations linked on the inside to this po"
+    },
+    {
+      "chunk_id": 95,
+      "text": "rate the relations linked on the inside to this port. Note that a relation may be listed more than once if more than link to it has been established. This method is read-synchronized on the workspace. Returns: An enumeration of ComponentRelatio"
+    },
+    {
+      "chunk_id": 96,
+      "text": "space. Returns: An enumeration of ComponentRelation objects. isDeeplyConnected public boolean isDeeplyConnected( ComponentPort port) Return true the the given port is deeply connected with this port. This method is read-synchronized on the workspac"
+    },
+    {
+      "chunk_id": 97,
+      "text": "This method is read-synchronized on the workspace. Parameters: port - The port that is checked for deep connectivity. Returns: True if the given port is deeply connected. isInsideGroupLinked public boolean isInsideGroupLinked( Relation r) Return tr"
+    },
+    {
+      "chunk_id": 98,
+      "text": "boolean isInsideGroupLinked( Relation r) Return true if the given relation or one in its relation group is linked to this port on the inside. Parameters: r - The relation. Returns: True if the given relation is linked to this port. See Also: Port.i"
+    },
+    {
+      "chunk_id": 99,
+      "text": "relation is linked to this port. See Also: Port.isLinked(Relation) isInsideLinked public boolean isInsideLinked( Relation relation) Return true if the given relation is linked from inside. Note that this returns true only if the relation is direct"
+    },
+    {
+      "chunk_id": 100,
+      "text": "t this returns true only if the relation is directly linked to the port. There is no support here for relation groups. Parameters: relation - The relation that is checked. Returns: True if the given relation is linked from inside. isOpaque public b"
+    },
+    {
+      "chunk_id": 101,
+      "text": "relation is linked from inside. isOpaque public boolean isOpaque() Return true if the container entity is opaque. Returns: True if the container entity is opaque. liberalLink public void liberalLink( ComponentRelation relation) thro"
+    },
+    {
+      "chunk_id": 102,
+      "text": "ComponentRelation relation) throws IllegalActionException Link this port with the specified relation. The only constraints are that the port and the relation share the same workspace, and that the relation be of a compatible ty"
+    },
+    {
+      "chunk_id": 103,
+      "text": "ace, and that the relation be of a compatible type (ComponentRelation). They are not required to be at the same level of the hierarchy. To prohibit links across levels of the hierarchy, use link(). Note that generally it is a bad idea to allo"
+    },
+    {
+      "chunk_id": 104,
+      "text": "(). Note that generally it is a bad idea to allow level-crossing links, since it breaks modularity. This loss of modularity means, among other things, that the composite within which this port exists cannot be cloned. Nonetheless, this cap"
+    },
+    {
+      "chunk_id": 105,
+      "text": "t exists cannot be cloned. Nonetheless, this capability is provided for the benefit of users that feel they just must have it, and who are willing to sacrifice clonability and modularity. Both inside and outside links are supported. Note that"
+    },
+    {
+      "chunk_id": 106,
+      "text": "nside and outside links are supported. Note that a port may be linked to the same relation more than once, in which case the link will be reported more than once by the linkedRelations() method. If the relation argument is null, then create a"
+    },
+    {
+      "chunk_id": 107,
+      "text": ". If the relation argument is null, then create a null link (on the outside). This method is write-synchronized on the workspace and increments its version number. Parameters: relation - The relation to link to. Throws: IllegalActionException -"
+    },
+    {
+      "chunk_id": 108,
+      "text": "ation to link to. Throws: IllegalActionException - If the relation does not share the same workspace, or the port has no container. link public void link( Relation relation) throws IllegalActionException Link this port with the specified"
+    },
+    {
+      "chunk_id": 109,
+      "text": "lActionException Link this port with the specified relation. Note that a port may be linked to the same relation more than once, in which case the link will be reported more than once by the linkedRelations() method. If the argument is null, t"
+    },
+    {
+      "chunk_id": 110,
+      "text": "dRelations() method. If the argument is null, then create a null link (on the outside). This method is write-synchronized on the workspace and increments its version number. Overrides: link in class Port Parameters: relation - The relation t"
+    },
+    {
+      "chunk_id": 111,
+      "text": "n class Port Parameters: relation - The relation to link to. Throws: IllegalActionException - If the link crosses levels of the hierarchy, or the port has no container, or the relation is not a ComponentRelation, or if the port is contained"
+    },
+    {
+      "chunk_id": 112,
+      "text": "ComponentRelation, or if the port is contained by a class definition. numInsideLinks public int numInsideLinks() Return the number of inside links. This method is read-synchronized on the workspace. Returns: The number of inside links. setContai"
+    },
+    {
+      "chunk_id": 113,
+      "text": "ce. Returns: The number of inside links. setContainer public void setContainer( Entity entity) throws IllegalActionException , NameDuplicationException Specify the container entity, adding the port to the list of ports in the cont"
+    },
+    {
+      "chunk_id": 114,
+      "text": "adding the port to the list of ports in the container. This class overrides the base class to remove all inside links if the given container is null. This method is write-synchronized on the workspace and increments its version number. Overr"
+    },
+    {
+      "chunk_id": 115,
+      "text": "workspace and increments its version number. Overrides: setContainer in class Port Parameters: entity - The container. Throws: IllegalActionException - If this port is not of the expected class for the container, or it has no name, or the port"
+    },
+    {
+      "chunk_id": 116,
+      "text": "the container, or it has no name, or the port and container are not in the same workspace. NameDuplicationException - If the container already has a port with the name of this port. See Also: Port.getContainer() , Port._checkContainer(Entity)"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ort.getContainer() , Port._checkContainer(Entity) unlink public void unlink( Relation relation) Unlink the specified Relation. If the Relation is not linked to this port, do nothing. If the relation is linked more than once, then unlink all occur"
+    },
+    {
+      "chunk_id": 118,
+      "text": "is linked more than once, then unlink all occurrences. If there is a container, notify it by calling connectionsChanged(). This overrides the base class to check to see whether the link is an inside link, based on the container of the relati"
+    },
+    {
+      "chunk_id": 119,
+      "text": "inside link, based on the container of the relation, and to call unlinkInside() if it is. This method is write-synchronized on the workspace and increments its version number. Overrides: unlink in class Port Parameters: relation - The relation"
+    },
+    {
+      "chunk_id": 120,
+      "text": "in class Port Parameters: relation - The relation to unlink. unlinkAll public void unlinkAll() Unlink all outside links. If there is a container, notify it by calling connectionsChanged(). This method is write-synchronized on the workspace and"
+    },
+    {
+      "chunk_id": 121,
+      "text": "ethod is write-synchronized on the workspace and increments its version number. Overrides: unlinkAll in class Port unlinkAllInside public void unlinkAllInside() Unlink all inside links. If there is a container, notify it by calling connectionsCha"
+    },
+    {
+      "chunk_id": 122,
+      "text": "s a container, notify it by calling connectionsChanged(). This method is write-synchronized on the workspace and increments its version number. unlinkInside public void unlinkInside(int index) Unlink whatever relation is currently linked on the i"
+    },
+    {
+      "chunk_id": 123,
+      "text": "ink whatever relation is currently linked on the inside with the specified index number. If the relation is not linked to this port on the inside, do nothing. If a link is removed, then any links at higher index numbers will have their index"
+    },
+    {
+      "chunk_id": 124,
+      "text": "s at higher index numbers will have their index numbers decremented by one. If there is a container, notify it by calling connectionsChanged(). This method is write-synchronized on the workspace and increments its version number. Parameters:"
+    },
+    {
+      "chunk_id": 125,
+      "text": "and increments its version number. Parameters: index - The index number of the link to remove. unlinkInside public void unlinkInside( Relation relation) Unlink the specified relation on the inside. If the relation is not linked to this port on t"
+    },
+    {
+      "chunk_id": 126,
+      "text": "If the relation is not linked to this port on the inside, do nothing. If the relation is linked more than once on the inside, remove all occurrences of the link. If there is a container, notify it by calling connectionsChanged(). This meth"
+    },
+    {
+      "chunk_id": 127,
+      "text": "fy it by calling connectionsChanged(). This method is write-synchronized on the workspace and increments its version number. Parameters: relation - The relation to unlink. _checkContainer protected void _checkContainer( Entity container)"
+    },
+    {
+      "chunk_id": 128,
+      "text": "d void _checkContainer( Entity container) throws IllegalActionException Override the base class to ensure that the proposed container is a ComponentEntity. Overrides: _checkContainer in class Port Parameters: container - The"
+    },
+    {
+      "chunk_id": 129,
+      "text": "ontainer in class Port Parameters: container - The proposed container. Throws: IllegalActionException - If the container is not a ComponentEntity. _checkLiberalLink protected void _checkLiberalLink( Relation relation) thr"
+    },
+    {
+      "chunk_id": 130,
+      "text": "( Relation relation) throws IllegalActionException Check the validity of a link. If the link crosses levels of the hierarchy, then set the container persistent to ensure that MoML is exported for this link. This is u"
+    },
+    {
+      "chunk_id": 131,
+      "text": "that MoML is exported for this link. This is used in a \"strategy pattern,\" where the link methods call it to check the validity of a link, and derived classes perform more elaborate checks. Parameters: relation - The relation to link to. Thro"
+    },
+    {
+      "chunk_id": 132,
+      "text": "rameters: relation - The relation to link to. Throws: IllegalActionException - If this port has no container or the relation is not a ComponentRelation, or the relation has no container, or the link crosses levels of the hierarchy. _checkLink p"
+    },
+    {
+      "chunk_id": 133,
+      "text": "link crosses levels of the hierarchy. _checkLink protected void _checkLink( Relation relation) throws IllegalActionException Override the base class to throw an exception if the relation is not a ComponentRelation, or if the cont"
+    },
+    {
+      "chunk_id": 134,
+      "text": "ation is not a ComponentRelation, or if the container of the port or relation is null, or if the container of this port is a class definition and the link is not an inside link. This method used to also throw an exception if the link crosse"
+    },
+    {
+      "chunk_id": 135,
+      "text": "ed to also throw an exception if the link crosses levels of the hierarchy, but it no longer does. The Vergil user interface provides no mechanism for creating such links, so this error would be rather difficult to make. We now assume that the"
+    },
+    {
+      "chunk_id": 136,
+      "text": "e rather difficult to make. We now assume that the designer truly intended to do this, so this method is identical to _checkLiberalLink(). This method is used in a \"strategy pattern,\" where the link methods call it to check the validity of a li"
+    },
+    {
+      "chunk_id": 137,
+      "text": "nk methods call it to check the validity of a link, and derived classes perform more elaborate checks. This method is not synchronized on the workspace, so the caller should be. If the relation argument is null, do nothing. Overrides: _chec"
+    },
+    {
+      "chunk_id": 138,
+      "text": "ion argument is null, do nothing. Overrides: _checkLink in class Port Parameters: relation - The relation to link to. Throws: IllegalActionException - If this port has no container, or the relation is not a ComponentRelation, or the relation has"
+    },
+    {
+      "chunk_id": 139,
+      "text": "is not a ComponentRelation, or the relation has no container, or the link crosses levels of the hierarchy, or this port is not an acceptable port for the specified relation, or if the container of this port is a class definition and the"
+    },
+    {
+      "chunk_id": 140,
+      "text": "ner of this port is a class definition and the link is not an inside link. _deepConnectedPortList protected java.util.List _deepConnectedPortList(java.util.LinkedList path) Deeply list the opaque ports connected to this port on the outside. Begi"
+    },
+    {
+      "chunk_id": 141,
+      "text": "orts connected to this port on the outside. Begin by listing the ports that are connected to this port. If any of those are transparent ports that we are connected to from the inside, then list all the ports deeply connected on the outside to"
+    },
+    {
+      "chunk_id": 142,
+      "text": "all the ports deeply connected on the outside to that transparent port. If any are transparent ports that we are connected to from the outside, then list opaque ports deeply inside that port. Note that a port may be listed more than once. Th"
+    },
+    {
+      "chunk_id": 143,
+      "text": "ote that a port may be listed more than once. The path argument is the path from the port that originally calls this method to this port. If this port is already on the list of ports on the path to this port in deeply traversing the topology,"
+    },
+    {
+      "chunk_id": 144,
+      "text": "to this port in deeply traversing the topology, then there is a loop in the topology, and an InvalidStateException is thrown. This method not synchronized on the workspace, so the caller should. Parameters: path - The list of ports on the pa"
+    },
+    {
+      "chunk_id": 145,
+      "text": "ld. Parameters: path - The list of ports on the path to this port in deeply traversing the topology. Returns: An unmodifiable list of ComponentPort objects. _deepConnectedPorts @Deprecated protected java.util.Enumeration _deepConnectedPorts(java.u"
+    },
+    {
+      "chunk_id": 146,
+      "text": "d java.util.Enumeration _deepConnectedPorts(java.util.LinkedList path) Deprecated. Use _deepConnectedPortList() instead. Deeply enumerate the ports connected to this port on the outside. Begin by enumerating the ports that are connected to this por"
+    },
+    {
+      "chunk_id": 147,
+      "text": "umerating the ports that are connected to this port. If any of those are transparent ports that we are connected to from the inside, then list all the ports deeply connected on the outside to that transparent port. Note that a port may be en"
+    },
+    {
+      "chunk_id": 148,
+      "text": "at transparent port. Note that a port may be enumerated more than once. The path argument is the path from the port that originally calls this method to this port. If this port is already on the list of ports on the path to this port in deep"
+    },
+    {
+      "chunk_id": 149,
+      "text": "e list of ports on the path to this port in deeply traversing the topology, then there is a loop in the topology, and an InvalidStateException is thrown. This method not synchronized on the workspace, so the caller should. Parameters: path -"
+    },
+    {
+      "chunk_id": 150,
+      "text": "space, so the caller should. Parameters: path - The list of ports on the path to this port in deeply traversing the topology. Returns: An enumeration of ComponentPort objects. _deepInsidePortList protected java.util.List _deepInsidePortList(java"
+    },
+    {
+      "chunk_id": 151,
+      "text": "protected java.util.List _deepInsidePortList(java.util.LinkedList path) If this port is transparent, then deeply list the ports connected on the inside. Otherwise, list just this port. All ports listed are opaque. Note that the returned list"
+    },
+    {
+      "chunk_id": 152,
+      "text": "listed are opaque. Note that the returned list could conceivably be empty, for example if this port is transparent but has no inside links. Also, a port may be listed more than once if more than one inside connection to it has been establish"
+    },
+    {
+      "chunk_id": 153,
+      "text": "n one inside connection to it has been established. The path argument is the path from the port that originally calls this method to this port. If this port is already on the list of ports on the path to this port in deeply traversing the t"
+    },
+    {
+      "chunk_id": 154,
+      "text": "the path to this port in deeply traversing the topology, then there is a loop in the topology, and an InvalidStateException is thrown. This method is read-synchronized on the workspace. Parameters: path - The list of ports on the path to this p"
+    },
+    {
+      "chunk_id": 155,
+      "text": "rs: path - The list of ports on the path to this port in deeply traversing the topology. Returns: An unmodifiable list of ComponentPort objects. _deepInsidePorts @Deprecated protected java.util.Enumeration _deepInsidePorts(java.util.LinkedList pat"
+    },
+    {
+      "chunk_id": 156,
+      "text": "meration _deepInsidePorts(java.util.LinkedList path) Deprecated. Use _deepInsidePortList() instead. If this port is transparent, then deeply enumerate the ports connected on the inside. Otherwise, enumerate just this port. All ports enumerated a"
+    },
+    {
+      "chunk_id": 157,
+      "text": "enumerate just this port. All ports enumerated are opaque. Note that the returned enumeration could conceivably be empty, for example if this port is transparent but has no inside links. Also, a port may be listed more than once if more than"
+    },
+    {
+      "chunk_id": 158,
+      "text": "a port may be listed more than once if more than one inside connection to it has been established. The path argument is the path from the port that originally calls this method to this port. If this port is already on the list of ports on th"
+    },
+    {
+      "chunk_id": 159,
+      "text": "If this port is already on the list of ports on the path to this port in deeply traversing the topology, then there is a loop in the topology, and an InvalidStateException is thrown. This method is read-synchronized on the workspace. Parameters"
+    },
+    {
+      "chunk_id": 160,
+      "text": "is read-synchronized on the workspace. Parameters: path - The list of ports on the path to this port in deeply traversing the topology. Returns: An enumeration of ComponentPort objects. _description protected java.lang.String _description(int det"
+    },
+    {
+      "chunk_id": 161,
+      "text": "on protected java.lang.String _description(int detail, int indent, int bracket) throws IllegalActionException Return a description of the"
+    },
+    {
+      "chunk_id": 162,
+      "text": "IllegalActionException Return a description of the object. The level of detail depends on the argument, which is an or-ing of the static final constants defined in the NamedObj class. Lines are indented according to to the level argument usin"
+    },
+    {
+      "chunk_id": 163,
+      "text": "indented according to to the level argument using the protected method _getIndentPrefix(). Zero, one or two brackets can be specified to surround the returned description. If one is specified it is the the leading bracket. This is used by de"
+    },
+    {
+      "chunk_id": 164,
+      "text": "t is the the leading bracket. This is used by derived classes that will append to the description. Those derived classes are responsible for the closing bracket. An argument other than 0, 1, or 2 is taken to be equivalent to 0. This method is"
+    },
+    {
+      "chunk_id": 165,
+      "text": "2 is taken to be equivalent to 0. This method is read-synchronized on the workspace. Overrides: _description in class Port Parameters: detail - The level of detail. indent - The amount of indenting. bracket - The number of surrounding brackets (0,"
+    },
+    {
+      "chunk_id": 166,
+      "text": "bracket - The number of surrounding brackets (0, 1, or 2). Returns: A description of the object. Throws: IllegalActionException - If thrown by the parent class. _isInsideLinkable protected boolean _isInsideLinkable( Nameable entity) Return true if t"
+    },
+    {
+      "chunk_id": 167,
+      "text": "sInsideLinkable( Nameable entity) Return true if this port is either a port of the specified entity, or a port of an entity that (deeply) contains the specified entity. This method is read-synchronized on the workspace. Parameters: entity - A pos"
+    },
+    {
+      "chunk_id": 168,
+      "text": "nized on the workspace. Parameters: entity - A possible container. Returns: True if this port is outside the entity. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: N"
+    },
+    {
+      "chunk_id": 169,
+      "text": "Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

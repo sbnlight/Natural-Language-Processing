@@ -1,0 +1,101 @@
+{
+  "url": "https://people.eecs.berkeley.edu/~ronf/jat/orthotweezers/javadoc/orthotweezers/CancelInteractiveConsole.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": ": Class CancelInteractiveConsole Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES SUMMARY: INNER | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD orthotweezers Class CancelInteractiveConsole java.lang.Objec"
+    },
+    {
+      "chunk_id": 2,
+      "text": "rs Class CancelInteractiveConsole java.lang.Object | +--org.python.util.PythonInterpreter | +--org.python.util.InteractiveInterpreter | +--org.python.util.InteractiveConsole"
+    },
+    {
+      "chunk_id": 3,
+      "text": "thon.util.InteractiveConsole | +-- orthotweezers.CancelInteractiveConsole public class CancelInteractiveConsole extends org.python.util.InteractiveConsole A CancelInteractiveConsole extends the jython Interac"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ancelInteractiveConsole extends the jython InteractiveConsole to override methods allowing it to handle CancelException while running the interact() method. It runs the read requests in a separate thread so that the calling thread can cancel. Wh"
+    },
+    {
+      "chunk_id": 5,
+      "text": "thread so that the calling thread can cancel. While this is an added complexity, it is necessary because it is not normally possible to cancel a request to read the input once it is started. Fields inherited from class org.python.util.Interactive"
+    },
+    {
+      "chunk_id": 6,
+      "text": "s inherited from class org.python.util.InteractiveConsole filename Fields inherited from class org.python.util.InteractiveInterpreter buffer Fields inherited from class org.python.util.PythonInterpreter systemState Constructor Summary CancelInteracti"
+    },
+    {
+      "chunk_id": 7,
+      "text": "er systemState Constructor Summary CancelInteractiveConsole () Creates new CancelInteractiveConsole. Method Summary void flushReader () This can be called before interact() to make sure any previous lines in the input buffer are cleared. java.lang.S"
+    },
+    {
+      "chunk_id": 8,
+      "text": "lines in the input buffer are cleared. java.lang.String raw_input (org.python.core.PyObject prompt) Write a prompt and read a line. void runcode (org.python.core.PyObject code) Execute a code object. Methods inherited from class org.python.util.Inter"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Methods inherited from class org.python.util.InteractiveConsole getDefaultBanner, interact, interact, push Methods inherited from class org.python.util.InteractiveInterpreter interrupt, resetbuffer, runsource, runsource, runsource, showexception, wri"
+    },
+    {
+      "chunk_id": 10,
+      "text": "unsource, runsource, runsource, showexception, write Methods inherited from class org.python.util.PythonInterpreter eval, exec, exec, execfile, execfile, execfile, get, get, getLocals, initialize, set, set, setErr, setErr, setErr, setLocals, setOut,"
+    },
+    {
+      "chunk_id": 11,
+      "text": ", set, setErr, setErr, setErr, setLocals, setOut, setOut, setOut, setState Methods inherited from class java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait Constructor Detail CancelInteractiveCo"
+    },
+    {
+      "chunk_id": 12,
+      "text": "wait, wait Constructor Detail CancelInteractiveConsole public CancelInteractiveConsole () Creates new CancelInteractiveConsole. This just calls super(). Method Detail flushReader public void flushReader () throws CancelException Th"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ader () throws CancelException This can be called before interact() to make sure any previous lines in the input buffer are cleared. This is useful because if the user clicked cancel the previous time while a line was being typed,"
+    },
+    {
+      "chunk_id": 14,
+      "text": "el the previous time while a line was being typed, we don't want it included in the next interactive session. This calls CancelThread.check() to maybe throw a CancelException. Throws: CancelException - thrown by CancelThread.check() See Also: Cance"
+    },
+    {
+      "chunk_id": 15,
+      "text": "n - thrown by CancelThread.check() See Also: CancelThread raw_input public java.lang.String raw_input (org.python.core.PyObject prompt) Write a prompt and read a line. When the user enters \"exit\" or the input stream ends, EOFError is raised. If can"
+    },
+    {
+      "chunk_id": 16,
+      "text": "the input stream ends, EOFError is raised. If cancelThread.check() throws an exception, this raises it as a PyException. This overrides raw_input in InteractiveConsole. Overrides: raw_input in class org.python.util.InteractiveConsole Parameters: p"
+    },
+    {
+      "chunk_id": 17,
+      "text": "s org.python.util.InteractiveConsole Parameters: prompt - the prompt to print for reading the line Returns: the line read from the input. The returned line does not include the trailing newline. Throws: org.python.core.PyException - For th"
+    },
+    {
+      "chunk_id": 18,
+      "text": "line. Throws: org.python.core.PyException - For the end of input, the type of exception is Py.EOFError, which will be caught by the interact() method causing it to exit. For a cancel returned from CancelThread.check(),"
+    },
+    {
+      "chunk_id": 19,
+      "text": "cel returned from CancelThread.check(), this converts the exception to a PyException with Py.JavaError, which will be re-thrown by interact(). runcode public void runcode (org.python.core.PyObject code) Execute a code object. All"
+    },
+    {
+      "chunk_id": 20,
+      "text": "on.core.PyObject code) Execute a code object. All exceptions are caught and simply displayed with showexception() except Py.SystemExit and a PyException version of CancelException, which are re-raised. This overrides InteractiveCompiler.runcode()"
+    },
+    {
+      "chunk_id": 21,
+      "text": "sed. This overrides InteractiveCompiler.runcode() which is called by runsource() which is called by push() which is called by interact(). This does the exact same thing except also re-raises the PyException version of a CancelException. Overrides"
+    },
+    {
+      "chunk_id": 22,
+      "text": "Exception version of a CancelException. Overrides: runcode in class org.python.util.InteractiveInterpreter Parameters: code - the code object created by runsource. Throws: org.python.core.PyException - The type of the exception is Py.SystemExit"
+    },
+    {
+      "chunk_id": 23,
+      "text": "- The type of the exception is Py.SystemExit or the PyException version of CancelException. Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES SUMMARY: INNER | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | MET"
+    },
+    {
+      "chunk_id": 24,
+      "text": "LD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

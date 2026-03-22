@@ -1,0 +1,177 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/~cxh/ptpub/tcljava.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Tcljava Tcljava TclJava is obsolete, use Tcl Blend instead. Places to go: The Sunscript Techcorner has a section about Tcl and Java. Sun's Tcl/Java interface page. Tcl Blend - Sun's Tcl/Java interface to Tcl8.0. Tcl Blend will be the replacement for"
+    },
+    {
+      "chunk_id": 2,
+      "text": "to Tcl8.0. Tcl Blend will be the replacement for Tcljava, no further work on Tcljava is planned. Ken Corey's Talks and Papers , including a few on TclJava. Ken Corey's TclJava Reference Manual Distributing Objects across Java and Tcl/Tk Mark C. Rey"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ibuting Objects across Java and Tcl/Tk Mark C. Reynolds, United Technologies Jacl -- Tcl Interpreter for Java Ioi Lam, Cornell jTcl - Java-like syntax in Tcl (Philippe Le Foll, Fridu, South Brittany University) My Java Page Sun's Tcl/Java interface ,"
+    },
+    {
+      "chunk_id": 4,
+      "text": "niversity) My Java Page Sun's Tcl/Java interface , available at ftp://ftp.sunlabs.com/pub/tcl/tcljava0.4.tar.gz can be used to create a shared library that is loaded by the Java byte interpreter. This shared library has Java classes that allow the u"
+    },
+    {
+      "chunk_id": 5,
+      "text": "s shared library has Java classes that allow the user to evaluate Tcl commands. We created a GNU autoconf file that allows tcljava to be easily configured. We are particularly interested in combining Itcl and Java for use in the Tycho project. Downl"
+    },
+    {
+      "chunk_id": 6,
+      "text": "Itcl and Java for use in the Tycho project. Downloads The original Tcljava interface: ftp://ftp.sunlabs.com/pub/tcl/tcljava0.4.tar.gz Tcljava0.4a (gzipped tar file) patched for use with jdk1.1, configure and NT. - Patch to convert tcljava0.4 to tclj"
+    },
+    {
+      "chunk_id": 7,
+      "text": "gure and NT. - Patch to convert tcljava0.4 to tcljava0.4a Itcl2.2 makefile.vc files that work with Microsoft Visual C++ (gzipped tar file). Itcl2.2 . Installing Tcljava under Unix I created a GNU autoconf configure script that can be used to configur"
+    },
+    {
+      "chunk_id": 8,
+      "text": "conf configure script that can be used to configure tcljava. This script works under Solaris. Install tcl and tk by configuring with the --enable-shared option. You can either download a patched version of Tcljava ( tcljava0.4a ), or grab the origi"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ion of Tcljava ( tcljava0.4a ), or grab the original Tcljava interface ftp://ftp.sunlabs.com/pub/tcl/tcljava0.4.tar.gz from Sun and then patch it with the patch below. If you downloaded tcljava0.4a , then skip to step 5 below. If you are using the"
+    },
+    {
+      "chunk_id": 10,
+      "text": ", then skip to step 5 below. If you are using the unpatched Sun tcljava0.4 sources, then grab the tcljava0.4a.patch , file which contains the following new files: configure.in Autoconf source file configure Shell script to run that configures the ins"
+    },
+    {
+      "chunk_id": 11,
+      "text": "figure Shell script to run that configures the installation makefile.in Makefile template that configure uses to create makefile makefile.vc Microsoft Visual C++ makefile for NT. The patch also contains a change to the following file: TclTest.java Ap"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ns a change to the following file: TclTest.java Apparently, in jdk1.1, The package sun.tools.zip does not exist. This package was present in jdk1.0.2. If you try to compile TclTest.java with the jdk1.1 javac , you will get TclTest.java:13: Package"
+    },
+    {
+      "chunk_id": 13,
+      "text": "1.1 javac , you will get TclTest.java:13: Package sun.tools.zip not found in import. import sun.tools.zip.*; Fixed a bug where if the user hit the demo button, java would crash because a pathname was hardwired in. Untar the Sun tcljava0.4 tar file an"
+    },
+    {
+      "chunk_id": 14,
+      "text": "hardwired in. Untar the Sun tcljava0.4 tar file and then patch it with patch < tcljava0.4a.patch while in the directory above tcljava0.4 directory. configure has a number of options to set the paths. You can use: configure -help to see them all. You"
+    },
+    {
+      "chunk_id": 15,
+      "text": "You can use: configure -help to see them all. You will probably need to specify at least three arguments: --with-java You will probably need to use the --with-java option to tell configure where your Java installation is. If you java installation is"
+    },
+    {
+      "chunk_id": 16,
+      "text": "Java installation is. If you java installation is at /opt/jdk1.1 , then you would use . If your tcltk installation is not installed in the default location ( /usr/local ), then you may need to call configure with other arguments. Building Tcljava u"
+    },
+    {
+      "chunk_id": 17,
+      "text": "configure with other arguments. Building Tcljava under NT I believe that to Install Tcljava under NT, you must rebuild Tcl from scratch. If you do not rebuild Tcl from scratch, then when you try to link with the tcl and tk dll, VC++ will complain ab"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ink with the tcl and tk dll, VC++ will complain about invalid objects. Why not gcc? I don't think that java native methods can be compiled under gcc, if you run javah , then the .c file that is generated has a line like: __declspec(dllexport) stack_i"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ted has a line like: __declspec(dllexport) stack_item *Java_tcl_Interp_native_0005feval_stub(stack_item *_P_,structexecenv *_EE_) { I downloaded the cygwin gcc (version cygnus-2.7.2-961023), and it failed to compile this line, the error message was:"
+    },
+    {
+      "chunk_id": 20,
+      "text": "iled to compile this line, the error message was: tcl_classes.c: In function `__declspec': tcl_classes.c:8: syntax error before `{' I also had problems compiling c:\\jdk1.\\include\\win32\\typdefs_md.h , with gcc, there were errors in the INT_OP declar"
+    },
+    {
+      "chunk_id": 21,
+      "text": ", with gcc, there were errors in the INT_OP declaration. I also had problems __int64 in typdefs_md.h . Perhaps gcc can be used here, but I did not look into this any further. Installation procedure Download the Tcl/Tk sources. Locally, we use Itcl,"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ownload the Tcl/Tk sources. Locally, we use Itcl, an object oriented extension to Tcl/Tk, so these instructions are based on Itcl sources. The Itcl2.2 sources can be obtained from: http://www.tcltk.com/itcl I untar'd the Itcl2.2 sources in c:\\Itcl2."
+    },
+    {
+      "chunk_id": 23,
+      "text": "om/itcl I untar'd the Itcl2.2 sources in c:\\Itcl2.2 The Itcl2.2 sources need several fixes the the makefile.vc files. The itcl2.2a.tar.gz gzipped tar file contains the appropriate fixes. You should grab itcl2.2a.tar.gz and untar it over the Itcl2.2"
+    },
+    {
+      "chunk_id": 24,
+      "text": "grab itcl2.2a.tar.gz and untar it over the Itcl2.2 distribution. itcl2.2a.tar.gz contains the following fixes: tk4.2/win/makefile.vc needed the $(IWISH) rule changed to $(WISH) . makefile.vc needed: TKLIBDIR = $(TKDIR)\\Win itk/win/makefile.vc needed"
+    },
+    {
+      "chunk_id": 25,
+      "text": "KLIBDIR = $(TKDIR)\\Win itk/win/makefile.vc needed TARGET_DOC_ITK = $(TARGET_DOC)\\Itk Also, I fixed the installation rules so that make install will not fail if it is run a second time because mkdir fails. Build and install the Itcl2.2 distribution w"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ails. Build and install the Itcl2.2 distribution with: cd c:\\Itcl2.2 nmake -f makefile.vc dist nmake -f makefile.vc install Note that if you have already previously installed Tcl/Tk, you should remove any preexisting Tcl/Tk libraries, such as tcl76.d"
+    },
+    {
+      "chunk_id": 27,
+      "text": "any preexisting Tcl/Tk libraries, such as tcl76.dll or tcl76i.dll If you have the problem where everytime you run nmake , all the files are rebuilt, then try using the Cygnus chmod and touch commands to update the mod times on all the files. The pr"
+    },
+    {
+      "chunk_id": 28,
+      "text": "s to update the mod times on all the files. The problem I noticed was that many of the files are dated Dec 31, 1969. Download the Java Development Kit from http://www.javasoft.com . I installed it in c:\\jdk1.1 Download tcljava0.4a (gzipped tar file)."
+    },
+    {
+      "chunk_id": 29,
+      "text": "c:\\jdk1.1 Download tcljava0.4a (gzipped tar file). This file is based on tcljava0.4 , but it has been patched for use with jdk1.1, configure and NT. I installed this as c:\\tcljava0.4a I had to make the following changes to tcljava0.4 : tkJava.c was"
+    },
+    {
+      "chunk_id": 30,
+      "text": "the following changes to tcljava0.4 : tkJava.c was failing to compile with lots of problems in rpcdce.h . The following small test program fails to compile: #include #include int foo() { return 1;} The rule I used to test this was: tkj.obj: cl -"
+    },
+    {
+      "chunk_id": 31,
+      "text": "The rule I used to test this was: tkj.obj: cl -Ic:\\jdk1.1\\include -Ic:\\jdk1.1\\include\\win32 \\ -I$(TOOLS32)\\include $(TK_INCLUDES) \\ /c tst.c The fix is to insert /* NT4.0, vc++: If you don't undef Status, then rpcdce.h won't compile -cxh */ #"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ndef Status, then rpcdce.h won't compile -cxh */ #ifdef _MSC_VER #undef Status #endif right before the line that includes oobj.h . TclTest.java JDK1.1 under Windows does not include the sun.tools.zip package, so I had to comment out a number of line"
+    },
+    {
+      "chunk_id": 33,
+      "text": "package, so I had to comment out a number of lines that tried to use it before the TclTest.java class would compile When linking, I got an error about perror not being defined, so I modified the makefile.vc to not define EXECHACK TclTest.java When"
+    },
+    {
+      "chunk_id": 34,
+      "text": "file.vc to not define EXECHACK TclTest.java When trying to run java TclTest , I kept getting errors about create not being found. The fix was to load the library at the top of main instead of in the TclTest static section. I compiled the tcljava"
+    },
+    {
+      "chunk_id": 35,
+      "text": "the TclTest static section. I compiled the tcljava interface with: cd c:\\tcljava0.4a nmake -f makefile.vc all To run the tcljava interface, I had to set the TCL_LIBRARY and TK_LIBRARY environment variables. Under NT, I brought up the control panel,"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ables. Under NT, I brought up the control panel, selected the System Icon and then the Environment Tab. I set TK_LIBRARY to c:/Program Files/Itcl2.2/Lib/Itcl/Tk4.2 The command to actually run the interface is java TclTest Troubleshooting tcljava und"
+    },
+    {
+      "chunk_id": 37,
+      "text": "erface is java TclTest Troubleshooting tcljava under NT You might find the Tcl/Tk on Windows FAQ useful. If you get an error message that looks likes: The instruction at \"0x1000f36b\" referenced memory at \"0x00000000\". The memory could not be \"read\"."
+    },
+    {
+      "chunk_id": 38,
+      "text": "at \"0x00000000\". The memory could not be \"read\". The search for all the Tcl76 dlls and remove all of them except the one that you built. Also, check to be sure that you compiled Tcl and Tk with debugging turned on. Itcl2.2/tcl7.6/makefile.vc and I"
+    },
+    {
+      "chunk_id": 39,
+      "text": "gging turned on. Itcl2.2/tcl7.6/makefile.vc and I fixed a bug in TclTest.java , where a path was hardwired in so that if the user hit the demo button, then they would see the above error. Try using a button other than demo . If you get an error abou"
+    },
+    {
+      "chunk_id": 40,
+      "text": "button other than demo . If you get an error about not being able to find tk.tcl : bash$ java TclTest java.lang.UnknownError: Can't find a usable tk.tcl in the following directories: {c:/Program Files/Itcl2.2/Lib/Itcl/Tk4.2/tk.tcl} . c:/tk4.2 ."
+    },
+    {
+      "chunk_id": 41,
+      "text": "Files/Itcl2.2/Lib/Itcl/Tk4.2/tk.tcl} . c:/tk4.2 ./lib/itcl/tk4.2 c:/tk4.2/library c:/library This probably means that Tk wasn't installed properly. at tcl.TkApplication.tkInit(TkApplication.java:39) at TclTest.main(TclTest.java:152"
+    },
+    {
+      "chunk_id": 42,
+      "text": ".java:39) at TclTest.main(TclTest.java:152) bash$ Try setting TK_LIBRARY and TCL_LIBRARY in the system control panel under the Environment choice. I set TK_LIBRARY to c:/Program Files/Itcl2.2/Lib/Itcl/Tk4.2 I set TCL_LIBRARY to c:/Program Fil"
+    },
+    {
+      "chunk_id": 43,
+      "text": "Lib/Itcl/Tk4.2 I set TCL_LIBRARY to c:/Program Files/Itcl2.2/Lib/Itcl/Tcl7.6"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/ExplicitDefinitionOfThePrototypeChain",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / ExplicitDefinitionOfThePrototypeChain Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / ExplicitDefinitionOfThePrototypeChai"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Print Main / ExplicitDefinitionOfThePrototypeChain The following is from Chris Shaver: The prototype chain can be constructed more clearly by doing it directly. Just to make the details of this clear for everyone in the email. The objects in JS all"
+    },
+    {
+      "chunk_id": 3,
+      "text": "for everyone in the email. The objects in JS all have a hidden prototype field that can be get/set and created via: Object.setPrototypeOf(obj) Object.setPrototypeOf(obj, newproto) Object.create(newproto) It can be accessed sometimes directly as \"obj"
+    },
+    {
+      "chunk_id": 4,
+      "text": "oto) It can be accessed sometimes directly as \"obj.__proto__\" in some implementations, but the standard gives the above two functions as standardized ways of accessing and modifying the prototype. When a field reference is made in an object obj['fiel"
+    },
+    {
+      "chunk_id": 5,
+      "text": "n a field reference is made in an object obj['field'] or obj.field the runtime first looks for the field in the object 'obj' itself, among its 'own' properties. If it is not found, the runtime next looks in the object pointed to by the prototype fiel"
+    },
+    {
+      "chunk_id": 6,
+      "text": "oks in the object pointed to by the prototype field. It continues up the prototype chain until it finds the field or the prototype field is 'null'. For example, var a = {x: 5}; var b = {y: 6}; Object.setPrototypeOf(b, a); b.y ===> 6 b.x ===> 5 If"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ect.setPrototypeOf(b, a); b.y ===> 6 b.x ===> 5 If the same name is used in locally in an object, as is in its prototype chain, it is the preferred instance b.x = 7; a.x ===> 5 b.x ===> 7 that is, now there is a field 'x' locally (an 'own' field) in"
+    },
+    {
+      "chunk_id": 8,
+      "text": "there is a field 'x' locally (an 'own' field) in 'b'. This can be used to separate an interface from data: var interf = { fun1: -- function def --, fun2: -- function def --, ... }; var obj = Object.create(interf); obj.data1 ="
+    },
+    {
+      "chunk_id": 9,
+      "text": "var obj = Object.create(interf); obj.data1 = 4; obj.data2 = 5; var obj2 = Object.create(interf); obj2.data1 = 4; obj2.data2 = 5; thereby, 'obj2.fun1' and 'obj.fun1' resolve to the same field in the prototype. Mind that the separations o"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ield in the prototype. Mind that the separations of functions and data here as types of values is not necessary. The prototype and object are both just objects and can have anything as fields. The separation is conventionally done so that the functio"
+    },
+    {
+      "chunk_id": 11,
+      "text": "aration is conventionally done so that the functions, often shared in common by objects of the same kind, are indeed shared. Inheritance can be done via the construction of a prototype chain: var interf = { fun1: -- function def --, fun2: -"
+    },
+    {
+      "chunk_id": 12,
+      "text": "rf = { fun1: -- function def --, fun2: -- function def --, ... }; var interf2 = Object.create(interf); interf2.fun2 = -- function def --; Now 'fun2' is overridden (so to speak) in the 'interf2' interface. var obj = Object.creat"
+    },
+    {
+      "chunk_id": 13,
+      "text": "in the 'interf2' interface. var obj = Object.create(interf); var obj2 = Object.create(interf2); Here 'obj2.fun2' resolves to 'interf2.fun2' whereas 'obj.fun2' resolves to 'interf.fun2'. With the above in mind, it is easy enough to construct the pro"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ve in mind, it is easy enough to construct the prototype chains for accessor interfaces exactly how we would like them to be so that the delegation for the interface works the way we would expect. However, it should be noted that the way that a funct"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ever, it should be noted that the way that a function has access to a calling object, as dynamic context, is through the dynamically bound 'this' pointer. To be specific, when a call is made to a function that is a field to an object obj.fun1(a, b, c"
+    },
+    {
+      "chunk_id": 16,
+      "text": "tion that is a field to an object obj.fun1(a, b, c, ...); The 'this' name in the scope of the 'fun1' function is bound to the object 'obj' in the call. Hence, obj.fun1 = function(a, b, c, ...) { ... console.log(this); ... } The call wi"
+    },
+    {
+      "chunk_id": 17,
+      "text": ".. console.log(this); ... } The call will reveal that 'this === obj'. The reason this is considered useful in prototyped objects is that if 'obj.fun1' resolves to a field in a prototype 'interf.fun1', the 'this' name is still bound to 'obj"
+    },
+    {
+      "chunk_id": 18,
+      "text": "terf.fun1', the 'this' name is still bound to 'obj'. As a matter of fact, this is how the prototype function has access to the data in the calling object without being bound to it explicitly. The consequence of this is, nonetheless, that if a functio"
+    },
+    {
+      "chunk_id": 19,
+      "text": "equence of this is, nonetheless, that if a function is written that accesses data in the calling object, or calls its functions, it has to be done: this.data1; this.fun1(); ... etc ... More, there is no 'super' keyword (until ECMAScript 6), hence"
+    },
+    {
+      "chunk_id": 20,
+      "text": "is no 'super' keyword (until ECMAScript 6), hence calling above the current instance in a prototype chain can be ambiguous if something is not written specifically to do this; or the call is done explicitly: interf2.fun2 = function(...) { interf"
+    },
+    {
+      "chunk_id": 21,
+      "text": "licitly: interf2.fun2 = function(...) { interf1.fun2.call(this, ...) }; where 'fun.call(a, x, y, ...)' calls the function with explicit params 'x, y, ...' and with the 'this' bound to 'a' specifically; overriding the calling object. With this i"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ically; overriding the calling object. With this in mind, one must consider what might need to be accessed via the 'this' name to facilitate the right kind of dynamic binding. I think, given the above, we can handle inheritance without using conventi"
+    },
+    {
+      "chunk_id": 23,
+      "text": ", we can handle inheritance without using conventional Javascript 'constructors'. Which only make the above process partially opaque in a incomplete way. For this reason, many JS libraries have written their own methods to handle class creation and e"
+    },
+    {
+      "chunk_id": 25,
+      "text": "on June 23, 2015, at 02:23 pm"
+    }
+  ]
+}

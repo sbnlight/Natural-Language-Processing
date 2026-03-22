@@ -1,0 +1,537 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/lib/GradingCommon.pl",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "# See the file COPYING in the main distribution directory for copyright notice. # Standard header file for grading programs. use Carp; use Time::Local; use POSIX qw(:errno_h); # NOTE: We assume that this script runs setuid ONLY via run-as-class-mas"
+    },
+    {
+      "chunk_id": 2,
+      "text": "this script runs setuid ONLY via run-as-class-master, # so that the MASTERDIR and GRADINGDIR environment variables are # secure. Cleanse them here. if ($ENV{'MASTERDIR'} =~ /(.+)/) { $ENV{'MASTERDIR'} = $1; } if ($ENV{'GRADINGDIR"
+    },
+    {
+      "chunk_id": 3,
+      "text": "$ENV{'MASTERDIR'} = $1; } if ($ENV{'GRADINGDIR'} =~ /(.+)/) { $ENV{'GRADINGDIR'} = $1; } # Find grading subdirectory $DIR = $ENV{'GRADINGDIR'}; if ($DIR eq \"\") { exists ($ENV{'MASTERDIR'}) || die (\"MASTERDIR not defined.\"); $DIR = \"$"
+    },
+    {
+      "chunk_id": 4,
+      "text": ") || die (\"MASTERDIR not defined.\"); $DIR = \"$ENV{'MASTERDIR'}/grading\"; } # Initialize locking $have_lock = 0; ###################################################################### ### # Standard directories and files ### # Directory contai"
+    },
+    {
+      "chunk_id": 5,
+      "text": "dard directories and files ### # Directory containing grade log and archive data. $ALL_GRADE_DIR = \"$DIR/all-grades\"; # Collected roster of all grades. $ALL_GRADES = \"$ALL_GRADE_DIR/grade-log\"; # Collected log of all grades manually rejected durin"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ollected log of all grades manually rejected during sweep-grades. $REJECTED_GRADES = \"$ALL_GRADE_DIR/rejected-grade-log\"; # Directory containing submissions (each assignment in its own subdirectory). $SUBMISSION_DIR = \"$DIR/submissions\"; # Director"
+    },
+    {
+      "chunk_id": 7,
+      "text": "$SUBMISSION_DIR = \"$DIR/submissions\"; # Directory containing bug submissions (each assignment in its # own subdirectory). $BUG_SUBMISSION_DIR = \"$DIR/bugs\"; # Directory containing run logs. $LOG_DIR = \"$DIR/logs\"; # File containing special excep"
+    },
+    {
+      "chunk_id": 8,
+      "text": "IR = \"$DIR/logs\"; # File containing special exceptions on deadlines. $DEADLINE_EXCEPTIONS = \"$DIR/deadline-exceptions\"; # Directory containing grade files for semi-public use. # Should be protected 750, in the staff group. $SECRET_DIR = \"$DIR/secre"
+    },
+    {
+      "chunk_id": 9,
+      "text": "750, in the staff group. $SECRET_DIR = \"$DIR/secret\"; # File containing main roster culled from registration files. $MAIN_ROSTER = \"$SECRET_DIR/roster\"; # Directory containing registration information. $REGISTER_DIR = \"$DIR/register\"; # Directory"
+    },
+    {
+      "chunk_id": 10,
+      "text": "on. $REGISTER_DIR = \"$DIR/register\"; # Directory containing acceptance tests for assignments. $PRETEST_DIR = \"$DIR/pretest\"; # Teams $TEAM_DIR = \"$DIR/teams\"; # Testing directory $TEST_DIR = \"$DIR/testing\"; # Makefiles for directing tests $TEST_M"
+    },
+    {
+      "chunk_id": 11,
+      "text": "testing\"; # Makefiles for directing tests $TEST_MAKEFILE_DIR = \"$TEST_DIR/mk\"; # Lock directory $LOCK_DIR = \"$DIR/locks\"; # Global write lock $LOCK_FILE = \"$LOCK_DIR/LOCK\"; # Waiting times between probes of $LOCK_FILE @LOCK_PROBES = (1, 2, 4, 8,"
+    },
+    {
+      "chunk_id": 12,
+      "text": "probes of $LOCK_FILE @LOCK_PROBES = (1, 2, 4, 8, 16); # Maximum time allowed on grading lock in seconds. $LOCK_EXPIRATION = 300; # Maximum time allowed for grading one submission before run-tests warns # of expired locks, in seconds. $MAX_GRADING_"
+    },
+    {
+      "chunk_id": 13,
+      "text": "arns # of expired locks, in seconds. $MAX_GRADING_TIME = 900; # Backward-compatibility kludge: full path name of finger-info-setting # program, which is passed first and last names. $DEFAULT_REGISTRATION_HOOK = \"/share/b/grading/bin/set-finger-info\""
+    },
+    {
+      "chunk_id": 14,
+      "text": "TION_HOOK = \"/share/b/grading/bin/set-finger-info\"; ###################################################################### ### # Standard utilities. ### ### # Time ### # Usage: ToTime TIME # Returns a UNIX time value for the local time TIME, i"
+    },
+    {
+      "chunk_id": 15,
+      "text": "turns a UNIX time value for the local time TIME, if it is a valid # time string having the format \"mm/dd/yyyy\", \"mm/dd/yyyy:hh:mm\", # \"mm/dd/yyyy:hhmm\", \"mm/dd/yyyy:hh:mm:ss\", or \"mm/dd/yyyy:hhmmss\". # Otherwise returns the undefined value"
+    },
+    {
+      "chunk_id": 16,
+      "text": "hmmss\". # Otherwise returns the undefined value. sub ToTime { my $time = shift; my ($mon,$day,$year,$hour,$min, $sec, $hour2, $min2, $sec2) = ($time =~ m=([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})(?::([0-9]{1,2}):([0-9]{1,2})(?::([0-9]{1,"
+    },
+    {
+      "chunk_id": 18,
+      "text": ") { $hour = 23; $min = 59; } if (! defined ($sec)) { $sec = 0; } if (!defined ($mon) || $mon > 12 || $mon == 0 || $day == 0 || $day > 31 || $hour > 23 || $min > 59) { return undef; } return timelocal($sec, $min, $hour, $d"
+    },
+    {
+      "chunk_id": 19,
+      "text": "; } return timelocal($sec, $min, $hour, $day, $mon-1, $year); } # Usage: FileTime FILENAME # Return mtime of FILENAME. sub FileTime { my $fileName = shift; return (stat ($fileName))[9]; } # Usage: TimeStampToTime TIME # Given a"
+    },
+    {
+      "chunk_id": 20,
+      "text": "[9]; } # Usage: TimeStampToTime TIME # Given a timestamp (from a Message-Id), return a UNIX time. sub TimeStampToTime { my ($year, $mon, $day, $hour, $min, $sec) = ($_[0] =~ /(....)(..)(..)(..)(..)(..)?/); $sec = 0 if (not defined ($sec)"
+    },
+    {
+      "chunk_id": 21,
+      "text": ".)(..)(..)?/); $sec = 0 if (not defined ($sec)); return timegm ($sec, $min, $hour, $day, $mon-1, $year); } # Usage: TimeToTimeStamp UNIXTIME # Given a UNIX time, return a timestamp as from a Message-Id, format # YYYYMMDDHHMM, in UTC."
+    },
+    {
+      "chunk_id": 22,
+      "text": "rom a Message-Id, format # YYYYMMDDHHMM, in UTC. sub TimeToTimeStamp { my $time = shift; my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = gmtime ($time); return sprintf (\"%04d%02d%02d%02d%02d\", 1900+$year,"
+    },
+    {
+      "chunk_id": 23,
+      "text": "02d%02d%02d%02d\", 1900+$year, $mon+1, $mday, $hour, $min); } ### # Messages ### # Usage: Fatal MSG sub Fatal { my $msg = shift; print REAL_STDERR \"$msg\\n\"; &CleanUp exit 2; } # Usage: Warn MSG sub Warn { my"
+    },
+    {
+      "chunk_id": 24,
+      "text": "exit 2; } # Usage: Warn MSG sub Warn { my $msg = shift; print REAL_STDERR \"Warning: $msg\\n\"; } # Usage: Note MSG sub Note { my $msg = shift; print REAL_STDERR \"$msg\\n\"; } ### # RE utilities ### # Usage: CheckPatn PATN # Tru"
+    },
+    {
+      "chunk_id": 25,
+      "text": "RE utilities ### # Usage: CheckPatn PATN # True if /PATN/ is a valid regular expression. sub CheckPatn { return eval (/$_[0]/ || 1); } ### # System commands/info. ### # Usage: System CMND # Execute CMND as for 'system', returning true f"
+    },
+    {
+      "chunk_id": 26,
+      "text": "Execute CMND as for 'system', returning true for 0 exit code. sub System { return (system (@_) == 0); } sub MyLogin { return (getpwuid($<))[0] || Fatal (\"Can't tell who I am.\"); } sub CurrentDir { my $pwd = `pwd`; chomp $pwd;"
+    },
+    {
+      "chunk_id": 27,
+      "text": "rrentDir { my $pwd = `pwd`; chomp $pwd; return $pwd; } sub Lock { my ($probe, $try, @stats, $mkdir_ok); return if ($have_lock); my $old_umask = umask (); for ($try = 0; $try < 2; $try += 1) { for ($probe = 0; $probe <= $"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ry < 2; $try += 1) { for ($probe = 0; $probe <= $#LOCK_PROBES; $probe += 1) { umask (0); $mkdir_ok = mkdir (\"$LOCK_FILE\", 0777); umask ($old_umask); if ($mkdir_ok) { $have_lock = 1; return 1; } sleep $LOCK_PROBES[$p"
+    },
+    {
+      "chunk_id": 29,
+      "text": "= 1; return 1; } sleep $LOCK_PROBES[$probe]; } @stats = stat $LOCK_FILE; if ($#stats > 0) { if (time() - $stats[10] > $LOCK_EXPIRATION) { if (Yorn (\"Lock busy, but expired. Shall I break it?\")) { rmdir $LOCK_FILE; }"
+    },
+    {
+      "chunk_id": 30,
+      "text": "l I break it?\")) { rmdir $LOCK_FILE; } } else { die \"Grading files busy. Please try later.\\n\"; } } } die \"Grading files busy. Please try later.\\n\"; } sub Unlock { if ($have_lock) { $have_lock = 0; rmdir $LOCK_FILE;"
+    },
+    {
+      "chunk_id": 31,
+      "text": "($have_lock) { $have_lock = 0; rmdir $LOCK_FILE; } } # Protect BLOCK_REFERENCE # Mask selected signals temporarily and execute BLOCK_REFERENCE sub Protect { local $SIG{HUP} = \"IGNORE\"; local $SIG{INT} = \"IGNORE\"; local $SIG{QUIT} ="
+    },
+    {
+      "chunk_id": 32,
+      "text": "local $SIG{INT} = \"IGNORE\"; local $SIG{QUIT} = \"IGNORE\"; local $SIG{TERM} = \"IGNORE\"; local $SIG{TSTP} = \"IGNORE\"; &{$_[0]}(); } # GetPermissions @COMMAND # If not currently running with class-master effective ID, seek to # run COMMA"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ith class-master effective ID, seek to # run COMMAND with class permissions. sub GetPermissions { if ($> != (stat ($ENV{\"MASTERDIR\"}))[4]) { exec \"$MASTER_PROGRAM\", @_; die \"Could not execute $MASTER_PROGRAM.\"; } } # GLOB PATHPATN # Array"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ASTER_PROGRAM.\"; } } # GLOB PATHPATN # Array of all names of existing files or directories matching PATHPATN, # where match is defined as for shell expansion of *. Assumes that all # wildcard characters are in the last component of the path."
+    },
+    {
+      "chunk_id": 35,
+      "text": "characters are in the last component of the path. # [It's here only because glob blows up on large results, and fails # with an error message when a directory in PATHPATN does not exist # (in the latter case, we sensibly return the empty array).] s"
+    },
+    {
+      "chunk_id": 36,
+      "text": "tter case, we sensibly return the empty array).] sub GLOB { my ($dir0,$base) = ($_[0] =~ m{ ^(.*/)?([^/]*)$ }x); my $dir = $dir0; if ($dir eq \"\") { $dir = \"./\"; } $base =~ s/\\./\\\\./g; $base =~ s/\\*/.*/g; $base =~ s/\\"
+    },
+    {
+      "chunk_id": 37,
+      "text": "\\./\\\\./g; $base =~ s/\\*/.*/g; $base =~ s/\\?/./g; chop $dir; opendir (GLOBDIR, $dir) || return (); my @result; if ($base =~ /^\\\\\\./) { @result = grep { /^$base$/ } readdir (GLOBDIR); } else { @result = grep { /^$base$/ a"
+    },
+    {
+      "chunk_id": 38,
+      "text": "OBDIR); } else { @result = grep { /^$base$/ and /^[^.]/ } readdir (GLOBDIR); } closedir GLOBDIR; foreach (@result) { $_ = \"$dir0$_\"; } return sort (@result); } ### # Interactive responses ### # Usage: Yorn MSG [DEFAULT]"
+    },
+    {
+      "chunk_id": 39,
+      "text": "active responses ### # Usage: Yorn MSG [DEFAULT] # Read a yes/no response from STDIN, prompting with MSG. Return true # iff answer is yes. sub Yorn { my $msg = shift; my $dflt; $dflt = 0; if ($#_ >= 0) { $dflt = shif"
+    },
+    {
+      "chunk_id": 40,
+      "text": "dflt = 0; if ($#_ >= 0) { $dflt = shift; } while (1) { if (defined($msg)) { print STDERR \"$msg [yes/no] \"; } $_ = ; if (not defined $_) { return $dflt; } /^y(es)?$/i && do"
+    },
+    {
+      "chunk_id": 41,
+      "text": "return $dflt; } /^y(es)?$/i && do { return 1; }; /^no?$/i && do { return 0; }; print STDERR \"Please answer 'yes' or 'no'\\n\"; } } # Usage: Fetch MSG # Read a non-empty line from STDIN, prompting with MSG. sub Fetch { my"
+    },
+    {
+      "chunk_id": 42,
+      "text": "rom STDIN, prompting with MSG. sub Fetch { my $msg = shift; my $result; $result = \"\"; while ($result eq \"\") { print STDERR \"$msg\"; $result = ; if (! defined($result)) { return $result; } $result =~ s/^\\s"
+    },
+    {
+      "chunk_id": 43,
+      "text": "return $result; } $result =~ s/^\\s*//; $result =~ s/\\s*$//; } return $result; } # Usage: Fetch0 MSG # Read a line (possibly empty) from STDIN, prompting with MSG. sub Fetch0 { my $msg = shift; my $result; pri"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ch0 { my $msg = shift; my $result; print STDERR \"$msg\"; $result = ; $result =~ s/^\\s*//; $result =~ s/\\s*$//; return $result; } ### # Grading database queries. ### # Usage: StudentExists LOGIN # True iff LOGIN is a st"
+    },
+    {
+      "chunk_id": 45,
+      "text": "e: StudentExists LOGIN # True iff LOGIN is a student registered in this class. sub StudentExists { my ($login) = @_; return (-e \"$REGISTER_DIR/$login\") ? 1 : 0; } # Usage: TeamExists TEAM # True iff TEAM is a registered team name. sub"
+    },
+    {
+      "chunk_id": 46,
+      "text": "# True iff TEAM is a registered team name. sub TeamExists { my ($team) = @_; return (-e \"$TEAM_DIR/$team\") ? 1 : 0; } # Usage: TeamMembers TEAM # A list of the members of TEAM as a whitespace-separated string. sub TeamMembers { my"
+    },
+    {
+      "chunk_id": 47,
+      "text": "espace-separated string. sub TeamMembers { my ($team) = @_; open (TEAM, \"/home/ff/cs61b/grading-software/share/bin/team-members $team|\"); my $line = ; # FIXME: On Solaris, it appears that ALL pipes started with open give # non-ze"
+    },
+    {
+      "chunk_id": 48,
+      "text": "hat ALL pipes started with open give # non-zero on close. Apparently, they use lseek to test for a pipe and # then get confused and sends its result as the return code. So don't # check exit code for now. close (TEAM); $line"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ck exit code for now. close (TEAM); $line =~ s/^.*?:\\s*//; return $line; } # Usage: GetCode LOGIN # The codeword supplied by LOGIN during registration sub GetCode { my ($login) = @_; open (REGISTRATION, \"<$REGISTER_DIR/$login\""
+    },
+    {
+      "chunk_id": 50,
+      "text": "_; open (REGISTRATION, \"<$REGISTER_DIR/$login\") || return \"?$login?\"; while ( ) { if (/^Code:\\s*(.*)/) { close REGISTRATION; return $1; } } close REGISTRATION; return \"?$login?\"; } # Usage: AssignmentExists ASSIGN #"
+    },
+    {
+      "chunk_id": 51,
+      "text": "?$login?\"; } # Usage: AssignmentExists ASSIGN # True iff ASSIGN is listed among the recognized assignment names. sub AssignmentExists { my ($assign) = @_; if ($assign eq \"dummy\") { return 1; } if ($assign eq \"lab11\") { return 1;"
+    },
+    {
+      "chunk_id": 52,
+      "text": "1; } if ($assign eq \"lab11\") { return 1; } return exists $ASSIGNMENTS{$assign}; } # Usage: ReaderExists LOGIN # True (1) iff reader with given LOGIN exists. sub ReaderExists { my ($login) = @_; return exists $READERS{$l"
+    },
+    {
+      "chunk_id": 53,
+      "text": "my ($login) = @_; return exists $READERS{$login}; } # Usage: Basename (STRING) sub Basename { $_[0] =~ m{ ([^/]*)$ }x; return $1; } # Usage: ExistingSubmissionFiles LOGIN ASSGN sub ExistingSubmissionFiles { my ($login, $assgn) ="
+    },
+    {
+      "chunk_id": 54,
+      "text": "xistingSubmissionFiles { my ($login, $assgn) = @_; my @matches = GLOB(\"$SUBMISSION_DIR/$assgn/$login.*\"); return @matches; } # Usage: ExistingSubmissions LOGIN ASSGN sub ExistingSubmissions { my ($login, $assgn) = @_; my @mat"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ssions { my ($login, $assgn) = @_; my @matches = map(Basename ($_), ExistingSubmissionFiles($login, $assgn)); return @matches; } # Usage: SubmissionExists LOGIN ASSGN sub SubmissionExists { return ExistingSubmissionFiles($_[0], $_[1]"
+    },
+    {
+      "chunk_id": 56,
+      "text": "{ return ExistingSubmissionFiles($_[0], $_[1]) != 0; } # Usage: CommitOrder SUBM1 SUBM2 # Returns <0, 0, or >0 depending on whether SUBM1 represents an assignment # committed before, at the same time as, or after SUBM2 according to its # timest"
+    },
+    {
+      "chunk_id": 57,
+      "text": "time as, or after SUBM2 according to its # timestamp.. SUBM1 and SUBM2 are pathnames of files (in the form # .../LOGIN.TIMESTAMP) as used in the SUBMISSION_DIR directory. sub CommitOrder($$) { my ($subm1, $subm2) = @_; my ($time1, $time2);"
+    },
+    {
+      "chunk_id": 58,
+      "text": "y ($subm1, $subm2) = @_; my ($time1, $time2); ($time1) = ($subm1 =~ /(\\d+)$/); ($time2) = ($subm2 =~ /(\\d+)$/); return $time1 cmp $time2; } # Usage: SubmissionOrder SUBM1 SUBM2 # Returns <0, 0, or >0 depending on whether SUBM1 repres"
+    },
+    {
+      "chunk_id": 59,
+      "text": "rns <0, 0, or >0 depending on whether SUBM1 represents an assignment # that logically precedes SUBM2, is unordered wrt SUBM2, or logically follows # SUBM2. SUBM1 and SUBM2 are pathnames of files (in the form # .../LOGIN.TIMESTAMP) as used in the SUB"
+    },
+    {
+      "chunk_id": 60,
+      "text": "the form # .../LOGIN.TIMESTAMP) as used in the SUBMISSION_DIR directory. This orderimg # is by LOGIN and then either by TIMESTAMP, or, if both denote GIT submissions, # by submit tag sequence numbers. sub SubmissionOrder($$) { my ($subm1, $subm2"
+    },
+    {
+      "chunk_id": 61,
+      "text": ". sub SubmissionOrder($$) { my ($subm1, $subm2) = @_; my ($login1, $login2, $tag1, $tag2, $result); ($login1) = ($subm1 =~ m{([^/]+)\\.\\d+$}); ($login2) = ($subm2 =~ m{([^/]+)\\.\\d+$}); if ($login1 ne $login2) { return $logi"
+    },
+    {
+      "chunk_id": 62,
+      "text": "if ($login1 ne $login2) { return $login1 cmp $login2; } if (open(SUBM1, $subm1) and open(SUBM2, $subm2) and =~ /GIT/ and =~ /GIT/) { ; =~ /-(\\d+)\\s*$/; $tag1 = int($1); ; =~ /-(\\d+)\\s*$/; $tag2 = int($1); $result ="
+    },
+    {
+      "chunk_id": 63,
+      "text": "~ /-(\\d+)\\s*$/; $tag2 = int($1); $result = $tag1 - $tag2; } else { ($tag1) = ($subm1 =~ /(\\d+)$/); ($tag2) = ($subm2 =~ /(\\d+)$/); $result = ($tag1 cmp $tag2); } close(SUBM1); close(SUBM2); return $res"
+    },
+    {
+      "chunk_id": 64,
+      "text": "} close(SUBM1); close(SUBM2); return $result; } # Usage MailingAddress LOGIN sub MailingAddress { my $login = shift; if (TeamExists ($login)) { return undef; } if (not open (REGISTER, \"$REGISTER_DIR/$login\")) { Warn (\"Coul"
+    },
+    {
+      "chunk_id": 65,
+      "text": "(REGISTER, \"$REGISTER_DIR/$login\")) { Warn (\"Could not read registration data for $login\"); return undef; } my $address = $login; while ( ) { if (/^Email:\\s*(\\S+)/) { $address = $1; } } close REGISTER; return $address"
+    },
+    {
+      "chunk_id": 66,
+      "text": "; } } close REGISTER; return $address; } # Usage SubmissionMap ASSGN # A reference to a hash mapping logins to references to lists of # submissions for ASSGN, and mapping submissions to references to lists # of logins of"
+    },
+    {
+      "chunk_id": 67,
+      "text": "issions to references to lists # of logins of submitters. Here, a \"submission\" is of the form # \" . \". sub SubmissionMap { my $assgn = shift; my $dir = \"$SUBMISSION_DIR/$assgn\"; my ($result, $login, $realSubm); if (not opendi"
+    },
+    {
+      "chunk_id": 68,
+      "text": "y ($result, $login, $realSubm); if (not opendir (SUBMISSIONS, $dir)) { return { }; } $result = { }; my @allSubmissions = readdir (SUBMISSIONS); closedir (SUBMISSIONS); foreach my $subm (@allSubmissions) { next if $subm !~ /^"
+    },
+    {
+      "chunk_id": 69,
+      "text": "my $subm (@allSubmissions) { next if $subm !~ /^(\\S+)\\.\\d+$/; $login = $1; $f = \"$dir/$subm\"; $realSubm = RealSubmission ($f); next if $realSubm !~ /^(\\S+)\\.\\d+$/; $$result{$login} = ($$result{$login} or []); $$result{$realSubm} = ($$result{$"
+    },
+    {
+      "chunk_id": 70,
+      "text": "$login} or []); $$result{$realSubm} = ($$result{$realSubm} or []); push @{$$result{$login}}, $realSubm; push @{$$result{$realSubm}}, $login; } return $result; } # Usage Partnerships MAP LOGIN # A list of all distinct partnerships"
+    },
+    {
+      "chunk_id": 71,
+      "text": "AP LOGIN # A list of all distinct partnerships containing LOGIN implied by MAP. # MAP has format produced by SubmissionMap, above. Each partnership is # a string containing logins separated by spaces. sub Partnerships { my $map = shift"
+    },
+    {
+      "chunk_id": 72,
+      "text": "by spaces. sub Partnerships { my $map = shift; my $login = shift; my %partnerships; my $submissions = $$map{$login}; if ($submissions) { foreach my $subm (@$submissions) { $partnerships{join (' ', sort (@{$$map{$subm}}))} ="
+    },
+    {
+      "chunk_id": 73,
+      "text": "partnerships{join (' ', sort (@{$$map{$subm}}))} = 1; } } return keys (%partnerships); } # Usage IsPartnerSubmission FILE # True iff FILE represents a submission by a partner. FILE must be the # pathname of a file under the submissi"
+    },
+    {
+      "chunk_id": 74,
+      "text": "be the # pathname of a file under the submission directory. sub IsPartnerSubmission { my $file = shift; return -l $file; } # Usage RealSubmission FILE # The basename of the file containing the actual submission for the # submissio"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ning the actual submission for the # submission contained in FILE. This is FILE itself, unless it represents # a partner's entry, in which case it is the name under which the project # was actually submitted. sub RealSubmission { my $f"
+    },
+    {
+      "chunk_id": 76,
+      "text": "actually submitted. sub RealSubmission { my $file = shift; my $base; if ($base = readlink ($file)) { return $base; } else { $file =~ m{.*/(.*)}; return $1; } } # Usage GetDeadlineExceptions # A hash mapping ASSGN/LOGIN and"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ineExceptions # A hash mapping ASSGN/LOGIN and ASSGN/TEAM pairs to deadlines specific # to those pairs, as indicated by the deadline-exceptions file. If # WARN, print warnings of anomalies, otherwise ignore. sub GetDeadlineExceptions {"
+    },
+    {
+      "chunk_id": 78,
+      "text": ", otherwise ignore. sub GetDeadlineExceptions { my $warn = shift; my %lateException; open (EXCEPTIONS, $DEADLINE_EXCEPTIONS) or return (); while ( ) { if (my ($assgn, $id, $time) = /^\\s*([^\\s#]\\S*)\\s+(\\S+)\\s+(\\S+)/) { if (not As"
+    },
+    {
+      "chunk_id": 79,
+      "text": "\\s*([^\\s#]\\S*)\\s+(\\S+)\\s+(\\S+)/) { if (not AssignmentExists($assgn)) { Warn (\"Nonexistent assignment ($1) \" . \"in lateness exception file.\") if $warn; next; } if (not StudentExists ($id) and not TeamExists ($id)) { Warn ("
+    },
+    {
+      "chunk_id": 80,
+      "text": "tExists ($id) and not TeamExists ($id)) { Warn (\"Nonexistent student or team ($2) \" . \"in lateness exception file.\") if $warn; next; } if (not defined ToTime ($time)) { Warn (\"Invalid time ($3) in lateness exception file.\") if"
+    },
+    {
+      "chunk_id": 81,
+      "text": "Invalid time ($3) in lateness exception file.\") if $warn; next; } $lateException{\"$assgn/$id\"} = ToTime ($time); } } close EXCEPTIONS; return %lateException; } ### # Utilities for initialization ### # Usage: InitDir DIR MODE"
+    },
+    {
+      "chunk_id": 82,
+      "text": "for initialization ### # Usage: InitDir DIR MODE [ GROUP-ID ] sub InitDir { my ($dir) = shift; my ($mode) = shift; my ($group) = shift; my ($old_umask) = umask (); my ($dev,$ino,$omode,$nlink,$uid,$ogid,$rdev,$size) = stat $dir;"
+    },
+    {
+      "chunk_id": 83,
+      "text": "$omode,$nlink,$uid,$ogid,$rdev,$size) = stat $dir; if (not defined $uid) { umask 0; mkdir ($dir, $mode) or Warn (\"Could not create directory $dir.\"); umask ($old_umask); } if (defined ($group)) { $gid = scalar (getgrnam ($group));"
+    },
+    {
+      "chunk_id": 84,
+      "text": "($group)) { $gid = scalar (getgrnam ($group)); if ($gid != $ogid and chown ($>, $gid, $dir) != 1) { Warn (\"Could not set group of $dir to $group.\"); return 0; }; } if ($mode != ($omode & 03777) and chmod ($mode, $dir) != 1) { W"
+    },
+    {
+      "chunk_id": 85,
+      "text": "$omode & 03777) and chmod ($mode, $dir) != 1) { Warn (\"Could not set mode of $dir to $mode.\"); return 0; }; return 1; } # Usage: ShellQuote ARG # Returns ARG quoted in such a way that when interpolated into a shell command, # it will denot"
+    },
+    {
+      "chunk_id": 86,
+      "text": "interpolated into a shell command, # it will denote the original value of ARG. sub ShellQuote { my $arg = shift; $arg =~ s/([\\$\"`\\\\])/\\\\$1/g; return \"\\\"$arg\\\"\"; } ### # Clean up ### undef %CLEAN_ME; sub Clean1 { my $file = shift;"
+    },
+    {
+      "chunk_id": 87,
+      "text": "f %CLEAN_ME; sub Clean1 { my $file = shift; $file =~ s{/+$}{}; if (-l $file || ! -d _) { unlink ($file); } else { if (opendir (CLEANDIR, $file)) { for my $subfile (readdir (CLEANDIR)) { if ($subfile ne \".\" and $subfile ne \".."
+    },
+    {
+      "chunk_id": 88,
+      "text": "NDIR)) { if ($subfile ne \".\" and $subfile ne \"..\") { Clean1 (\"$file/$subfile\"); } } closedir (CLEANDIR); } rmdir ($file); } } sub CleanUp { if (%CLEAN_ME) { foreach (keys %CLEAN_ME) { Clean1 $_; } } Unlo"
+    },
+    {
+      "chunk_id": 89,
+      "text": "eys %CLEAN_ME) { Clean1 $_; } } Unlock; } sub AddClean { foreach (@_) { unless (m\"^/\") { Fatal (\"Cleanups must have full path names.\"); } $CLEAN_ME{$_} = 1; } } sub DeleteClean { foreach (@_) { delete $CLEAN_ME{$_};"
+    },
+    {
+      "chunk_id": 90,
+      "text": "an { foreach (@_) { delete $CLEAN_ME{$_}; } } ### # Tests ### # Usage: IsNumeric GRADE sub IsNumeric { if ($_[0] =~ /^-?[.0-9]+$/ ) { return 1; } else { return 0; } } # Establish clean-up routines $SIG{'INT'} = $SIG{'QUIT'}"
+    },
+    {
+      "chunk_id": 91,
+      "text": "lish clean-up routines $SIG{'INT'} = $SIG{'QUIT'} = $SIG{'TERM'} = sub { CleanUp (); exit 1; }; ### # Parameter file handling. ### # Usage: assign NAME -max MAX [ -absolute-max AMAX ] [ -weight W ] \\ # [ -partners ] [ -no-submit ] ["
+    },
+    {
+      "chunk_id": 92,
+      "text": "] \\ # [ -partners ] [ -no-submit ] [ -instructors-only ] \\ # [ -no-assigned-readers ] [ -due DATE ] [ -reader-due DATE ] \\ # [ -category key ] [ -no-display ] \\ # [ -req FILE ] [ -accept PATN ]"
+    },
+    {
+      "chunk_id": 93,
+      "text": "\\ # [ -req FILE ] [ -accept PATN ] [ -rej PATN ] [ -rejl PATN ] \\ # [ -hidden ] ... sub assign { my $name = shift; if (! defined ($name)) { Fatal (\"Command 'assign' must have arguments\"); } elsif (exists $A"
+    },
+    {
+      "chunk_id": 94,
+      "text": "ign' must have arguments\"); } elsif (exists $ASSIGNMENTS{$name}) { Fatal (\"Duplicate declaration of assignment $name\"); } elsif ($name =~ m{[./: \\t]}) { Fatal (\"Assignment name ($name) contains space, '.', '/', or ':'.\"); } elsif (\":Log"
+    },
+    {
+      "chunk_id": 95,
+      "text": "ins space, '.', '/', or ':'.\"); } elsif (\":Login:Name:Total:Last:Name:SID:Grade:\" =~ /:$name:/) { Fatal (\"Assignment may not be named $name.\"); } elsif ($IS_CATEGORY{$name}) { Fatal (\"Assignment $name has the same name as a category.\");"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ment $name has the same name as a category.\"); } $ASSIGNMENTS{$name} = 1; push (@ASSIGNMENT_LIST, $name); $ASSGN_ABSMAX{$name} = 0; $ASSGN_WEIGHT{$name} = 1; $ASSGN_PARTNERS{$name} = 0; $ASSGN_SUBMIT{$name} = 1; $ASS"
+    },
+    {
+      "chunk_id": 97,
+      "text": "$name} = 0; $ASSGN_SUBMIT{$name} = 1; $ASSGN_USE_READERS{$name} = 1; $ASSGN_ASSIGNED_READERS{$name} = 1; while ($_ = shift) { OPTION: { /^-max$/ && $_[0] =~ /^[0-9]+(\\.[0-9]*)?$/ && do { $ASSGN_MAX{$name} = $_[0]; shi"
+    },
+    {
+      "chunk_id": 99,
+      "text": "eight$/ && $_[0] =~ /^[0-9]+(\\.[0-9]*)?$/ && do { $ASSGN_WEIGHT{$name} = $_[0]; shift; last OPTION; }; /^-partners$/ && do { $ASSGN_PARTNERS{$name} = 1; last OPTION; }; /^-no-submit$/ && do { $ASSGN_SUBMIT{$name} = 0; last"
+    },
+    {
+      "chunk_id": 100,
+      "text": "t$/ && do { $ASSGN_SUBMIT{$name} = 0; last OPTION; }; /^-instructors?-only$/ && do { $ASSGN_USE_READERS{$name} = 0; last OPTION; }; /^-no-assigned-readers$/ && do { $ASSGN_ASSIGNED_READERS{$name} = 0; last OPTION; }; /^-"
+    },
+    {
+      "chunk_id": 101,
+      "text": "SSIGNED_READERS{$name} = 0; last OPTION; }; /^-due$/ && defined(ToTime($_[0])) && do { $ASSGN_DUE{$name} = ToTime($_[0]); shift; last OPTION; }; /^-reader-due$/ && defined(ToTime($_[0])) && do { $ASSGN_READER_DUE{$name} = ToTime($"
+    },
+    {
+      "chunk_id": 102,
+      "text": "&& do { $ASSGN_READER_DUE{$name} = ToTime($_[0]); shift; last OPTION; }; /^-req$/ && defined ($_[0]) && do { if ($_[0] =~ /\\s/) { Fatal (\"Required filename '$_[0]' contains whitespace\"); } $ASSGN_REQUIRED{$name} .="
+    },
+    {
+      "chunk_id": 103,
+      "text": "pace\"); } $ASSGN_REQUIRED{$name} .= shift () . \" \"; last OPTION; }; /^-accept$/ && defined ($_[0]) && do { $ASSGN_ACCEPT{$name} .= shift () . \" \"; last OPTION; }; /^-rej$/ && defined ($_[0]) && do { $ASSGN_REJECT{$na"
+    },
+    {
+      "chunk_id": 104,
+      "text": "& defined ($_[0]) && do { $ASSGN_REJECT{$name} .= shift () . \" \"; last OPTION; }; /^-rejl$/ && defined ($_[0]) && do { $ASSGN_REJECTL{$name} .= shift () . \" \"; last OPTION; }; /^-category$/ && defined ($_[0]) && do { my $ca"
+    },
+    {
+      "chunk_id": 105,
+      "text": "ategory$/ && defined ($_[0]) && do { my $category = shift; if ($ASSIGNMENTS{$category}) { Fatal (\"Category $category has the same name as an assignment.\"); } $IS_CATEGORY{$category} = 1; $ASSGN_CATEGORY{$name} ="
+    },
+    {
+      "chunk_id": 106,
+      "text": "RY{$category} = 1; $ASSGN_CATEGORY{$name} = $category; last OPTION; }; /^-hidden$/ && do { $ASSGN_HIDDEN{$name} = 1; last OPTION; }; Fatal (\"Illegal option to 'assign': $_ \" . join (\" \", @_)); } } if (! defined ($AS"
+    },
+    {
+      "chunk_id": 107,
+      "text": "(\" \", @_)); } } if (! defined ($ASSGN_MAX{$name})) { Fatal (\"No -max option to 'assign $name' command.\"); } if (exists $ASSGN_READER_DUE{$name} && ! exists $ASSGN_DUE{$name}) { Fatal (\"In 'assign $name' there is a -reader-du"
+    },
+    {
+      "chunk_id": 108,
+      "text": "{ Fatal (\"In 'assign $name' there is a -reader-due option, but no -due.\"); } if (! exists $ASSGN_READER_DUE{$name} || $ASSGN_READER_DUE{$name} <= $ASSGN_DUE{$name}) { $ASSGN_READER_DUE{$name} = $ASSGN_DUE{$name} + 3*24*3600; } if"
+    },
+    {
+      "chunk_id": 109,
+      "text": "me} = $ASSGN_DUE{$name} + 3*24*3600; } if ($ASSGN_ABSMAX{$name} < $ASSGN_MAX{$name}) { $ASSGN_ABSMAX{$name} = $ASSGN_MAX{$name}; } if (! $ASSGN_USE_READERS{$name}) { $ASSGN_ASSIGNED_READERS{$name} = 0; } if (! exists $ASSG"
+    },
+    {
+      "chunk_id": 110,
+      "text": "_READERS{$name} = 0; } if (! exists $ASSGN_CATEGORY{$name}) { $IS_CATEGORY{\"General\"} = 1; $ASSGN_CATEGORY{$name} = \"General\"; } return 1; } # Usage: reader LOGIN [ -instructor ] [ -no-remind ] \\ # [ -grade AS"
+    },
+    {
+      "chunk_id": 111,
+      "text": "[ -no-remind ] \\ # [ -grade ASSIGN_PATN LOGIN_PATN ] ... sub reader { my $login = shift; if (! defined($login)) { Fatal (\"Command 'reader' must have arguments.\"); } elsif (exists $READERS{$login}) { Fatal (\"Reader $"
+    },
+    {
+      "chunk_id": 112,
+      "text": "lsif (exists $READERS{$login}) { Fatal (\"Reader $login defined twice.\"); } elsif ($login =~ m{[./:]}) { Fatal (\"Reader name '$login' contains '.', ':', or '/'.\"); } $READERS{$login} = 1; $READER_REMIND{$login} = 1; $AUTHORIZED{"
+    },
+    {
+      "chunk_id": 113,
+      "text": "; $READER_REMIND{$login} = 1; $AUTHORIZED{$login} = 1; my ($gradePatn, $assgnPatn, $loginPatn); $gradePatn = \"\"; while (@_) { if ($_[0] eq \"-instructor\") { $READER_IS_INSTRUCTOR{$login} = 1; shift; } elsif ($_[0] eq \"-no-r"
+    },
+    {
+      "chunk_id": 114,
+      "text": "TOR{$login} = 1; shift; } elsif ($_[0] eq \"-no-remind\") { $READER_REMIND{$login} = \"\"; shift; } elsif ($_[0] eq \"-grade\") { ($_, $assgnPatn, $loginPatn) = @_; if (! $assgnPatn || ! $loginPatn) { Fatal (\"A -grade option for $login"
+    },
+    {
+      "chunk_id": 115,
+      "text": "$loginPatn) { Fatal (\"A -grade option for $login has the wrong format\"); } CheckPatn ($loginPatn) || Fatal (\"Invalid login pattern in -grade for $login: $loginPatn\"); CheckPatn ($assgnPatn) || Fatal (\"Invalid assignment pattern i"
+    },
+    {
+      "chunk_id": 116,
+      "text": "sgnPatn) || Fatal (\"Invalid assignment pattern in -grade for $login: $assgnPatn\"); $gradePatn .= \"|\" if ($gradePatn); $gradePatn .= \"(($assgnPatn)::($loginPatn))\"; splice (@_, 0, 3); } else { Fatal (\"Invalid argument to 'reader"
+    },
+    {
+      "chunk_id": 117,
+      "text": "} else { Fatal (\"Invalid argument to 'reader' command: $_[0]\"); } } if ($gradePatn) { $READER_ASSIGNMENTS{$login} = \"^($gradePatn)\\$\"; } else { $READER_ASSIGNMENTS{$login} = \"^.*\\$\"; } return 1; } # Usage: set VARNAME"
+    },
+    {
+      "chunk_id": 118,
+      "text": "\\$\"; } return 1; } # Usage: set VARNAME VAL sub set { my ($var, $val) = @_; if ((\",MAIL_PROG,SUBMIT_PROG,REGISTER_PROG,GMAKE,CLASSROOT,CLASSPREFIX,\" . \"COURSE,SUPERVISOR,STAFF_GROUP,EXTRA_REGISTRATION_HOOK,\" . \"MASTER_PROGRAM,MO"
+    },
+    {
+      "chunk_id": 119,
+      "text": "P,EXTRA_REGISTRATION_HOOK,\" . \"MASTER_PROGRAM,MOSS_PROGRAM,SVN_REPOSITORY_URL,\" . \"TEST_COMMAND,TEST_COMMAND_SUMMARY,\" . \"SVN_SUBMISSION_PATN,SVN_SUBMITTER_PATN,SVN_ASSGN_PATN,\" . \"GIT_REPOSITORY_URL,\" . \"ONLY_INSTRUCTO"
+    },
+    {
+      "chunk_id": 120,
+      "text": ". \"GIT_REPOSITORY_URL,\" . \"ONLY_INSTRUCTORS_OVERRIDE,DEFAULT_LANGUAGE,DEFAULT_SUFFIXES,\" . \"MAX_ALLOWED_FILE_SIZE,\") =~ /,$var,/) { $$var = $val; } else { Fatal (\"Attempt to set unknown parameter: $var\"); } } # Usage: gr"
+    },
+    {
+      "chunk_id": 121,
+      "text": "et unknown parameter: $var\"); } } # Usage: gradescale [ -throw-out-lowest N CATEGORY ] ... \\ # MIN-SCORE LETTER-GRADE ... sub gradescale { my ($n, $category, $letter, $min); while ($_[0] eq \"-throw-out-lowest\") { if"
+    },
+    {
+      "chunk_id": 122,
+      "text": "n); while ($_[0] eq \"-throw-out-lowest\") { if ($_[1] =~ /[0-9]+/ && defined ($_[2])) { shift; $n = shift; $category = shift; unless ($IS_CATEGORY{$category}) { Fatal (\"Undefined category '$category' in gradescale.\"); }"
+    },
+    {
+      "chunk_id": 123,
+      "text": "category '$category' in gradescale.\"); } $THROW_OUT_LOWEST{$category} = $n; } else { Fatal (\"Invalid option to gradescale: $_ \" . join(\" \",@_)); } } while (@_) { $_[0] =~ /^[0-9]+(\\.[0-9]*)?$/ && defined ($_[1]) && do {"
+    },
+    {
+      "chunk_id": 125,
+      "text": "#################################################### ### # Set defaults ### $PROJECT_NAME = \"GradeReports\"; $SUBMIT_PROG = '/home/ff/cs61b/grading-software/share/bin/copy-submission'; $REGISTER_PROG = '/home/ff/cs61b/grading-software/share/bin/acce"
+    },
+    {
+      "chunk_id": 126,
+      "text": "= '/home/ff/cs61b/grading-software/share/bin/access-registration'; $MAIL_PROG = \"mailx\"; $GMAKE = \"gmake\"; $ONLY_INSTRUCTORS_OVERRIDE = 1; $MAX_ALLOWED_FILE_SIZE = 10000000; $TEST_COMMAND_SUMMARY = \"default\"; undef %AUTHORIZED; ### # Set parameters"
+    },
+    {
+      "chunk_id": 127,
+      "text": "default\"; undef %AUTHORIZED; ### # Set parameters concerning current assignments, etc. ### open (PARAMS, \"$DIR/params\") || Fatal (\"Cannot open $DIR/params: $!\"); $cmnd = \"\"; while ( ) { chomp; s/^\\s*//; s/\\s*$//; next if /^\\#/;"
+    },
+    {
+      "chunk_id": 129,
+      "text": "rg (@args) { $arg =~ s{ ^'(.*)'$ }{$1}x; } $_ = $args[0]; @_ = @args; shift @_; SET: { /^assign$/ && do { &assign last SET; }; /^reader$/ && do { &reader last SET; }; /^set$/ && do { &set last SET; }; /^"
+    },
+    {
+      "chunk_id": 130,
+      "text": "/^set$/ && do { &set last SET; }; /^gradescale$/ && do { &gradescale last SET; }; Fatal (\"Invalid command in $DIR/params:\\n\\t$cmnd\"); } $cmnd = \"\"; } ### # Set derived defaults ### defined ($CLASSROOT) or defined"
+    },
+    {
+      "chunk_id": 131,
+      "text": "defaults ### defined ($CLASSROOT) or defined ($ENV{'MASTER'}) and $CLASSROOT = $ENV{'MASTER'} or ($CLASSROOT) = ($ENV{'MASTERDIR'} =~ m{ ([^/]+)$ }x); $CLASSROOT = $ENV{'MASTER'} if (! defined ($CLASSROOT)); $COURSE = $CLASSROOT if (! defin"
+    },
+    {
+      "chunk_id": 132,
+      "text": "ed ($CLASSROOT)); $COURSE = $CLASSROOT if (! defined ($COURSE)); $STAFF_GROUP = \"$CLASSROOT-staff\" if (! defined ($STAFF_GROUP)); $SUPERVISOR = $CLASSROOT if (! defined ($SUPERVISOR)); $MASTER_PROGRAM = \"run-as-$COURSE\" if (! defined ($MASTER_PROGRAM"
+    },
+    {
+      "chunk_id": 133,
+      "text": "= \"run-as-$COURSE\" if (! defined ($MASTER_PROGRAM)); $CLASSPREFIX = \"$CLASSROOT-\" if (! defined ($CLASSPREFIX)); $TEST_COMMAND = \"\\\"\\$GMAKE -k -f \\$TEST_MAKEFILE_DIR/\\$assgn.mk ASSIGN=\\$assgn\\\"\" if (! defined ($TEST_COMMAND)); ### # Insure that all"
+    },
+    {
+      "chunk_id": 134,
+      "text": "! defined ($TEST_COMMAND)); ### # Insure that all standard directories exist, and have proper accessibility. ### return 1 if ($noinit); ($classUID = getpwnam ($CLASSROOT)) || Fatal (\"Could not find UID of class master ($CLASSROOT).\"); if ($< ="
+    },
+    {
+      "chunk_id": 135,
+      "text": "find UID of class master ($CLASSROOT).\"); if ($< == $classUID) { # I am the class root. InitDir ($SUBMISSION_DIR, 0770, $STAFF_GROUP); InitDir ($BUG_SUBMISSION_DIR, 02770, $STAFF_GROUP); InitDir ($ALL_GRADE_DIR, 02770, $STAFF_GROUP)"
+    },
+    {
+      "chunk_id": 136,
+      "text": "InitDir ($ALL_GRADE_DIR, 02770, $STAFF_GROUP); InitDir ($SECRET_DIR, 02770, $STAFF_GROUP); InitDir ($REGISTER_DIR, 03755, $STAFF_GROUP); InitDir ($PRETEST_DIR, 0755); InitDir ($TEAM_DIR, 0775, $STAFF_GROUP); InitDir ($LOG_DIR"
+    },
+    {
+      "chunk_id": 137,
+      "text": "AM_DIR, 0775, $STAFF_GROUP); InitDir ($LOG_DIR, 0770, $STAFF_GROUP); InitDir ($TEST_DIR, 02770, $STAFF_GROUP); InitDir ($TEST_MAKEFILE_DIR, 02770, $STAFF_GROUP); InitDir ($LOCK_DIR, 02777); } 1;"
+    }
+  ]
+}

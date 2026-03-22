@@ -1,0 +1,785 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/projects/mobies/reports/02/1",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "oftware Components for Networked Embedded Systems REPORT PERIOD: 1/1/02 - 3/31/02 SPONSOR: Air Force Research Laboratory (AFRL) TECHNICAL POC: Dale Vancleave REPORT PREPARED BY: Edward A. Lee 0. E"
+    },
+    {
+      "chunk_id": 3,
+      "text": "cleave REPORT PREPARED BY: Edward A. Lee 0. Executive Summary Our focus is on component-based design using principled models of computation and their runtime environments for embedded systems. The emphasis of this project is on the dynamics of"
+    },
+    {
+      "chunk_id": 4,
+      "text": "he emphasis of this project is on the dynamics of the components, including the communication protocols that they use to interface with other components, the modeling of their state, and their flow of control. The objective is to provide mechanisms f"
+    },
+    {
+      "chunk_id": 5,
+      "text": "control. The objective is to provide mechanisms for introspection, supporting both the ability of the run-time environment to safely dispatch tasks and the ability of components to adapt their interfaces using polymorphism. The focus is on real-time"
+    },
+    {
+      "chunk_id": 6,
+      "text": "aces using polymorphism. The focus is on real-time applications, which implies that models of time are a critical part of the abstractions that we are developing. The purpose of the mechanisms we develop is to improve robustness and safety while prom"
+    },
+    {
+      "chunk_id": 7,
+      "text": "lop is to improve robustness and safety while promoting component-based design. This reporting period was quite busy. We created our first Web Start release of Ptolemy II specifically for the Mobies OEP effort. It proved the efficacy of Web-based so"
+    },
+    {
+      "chunk_id": 8,
+      "text": "OEP effort. It proved the efficacy of Web-based software installation technology, since installation became trivially easy for those who attempted it. We organized two new graduate courses focused on Mobies topics: one studying models of computation"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Mobies topics: one studying models of computation and the other studying embedded software. We made progress on code generation, actor specification, and meta modeling. We continued apace improving our software infrastructure and preparing it for th"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ur software infrastructure and preparing it for the next release (Ptolemy II 2.0). 1. Research Status Automotive OEP ============== Elaine Cheong did an extensive survey of the MPC555 Microcontroller from Motorola and associated support softwar"
+    },
+    {
+      "chunk_id": 11,
+      "text": "oller from Motorola and associated support software, in an effort to educate the group. We had been hoping to target it in the code generation effort. We created a Ptolemy II model that duplicates the Charon model demonstrated by U. Penn. in the Boc"
+    },
+    {
+      "chunk_id": 12,
+      "text": "e Charon model demonstrated by U. Penn. in the Boca Raton PI meeting. This was preliminary to an effort to understand Charon, HSIF, and interchange of design data with Ptolemy II. The velocity and distance plots are the same as what Penn reported. Th"
+    },
+    {
+      "chunk_id": 13,
+      "text": "tance plots are the same as what Penn reported. The model seems stiff, however. The solver is finding that it has to use very small step sizes, which results in a rather slow simulation. Software Distribution for Mobies ============================"
+    },
+    {
+      "chunk_id": 14,
+      "text": "stribution for Mobies ================================ To meet the request of the Automotive OEP team for a tool for evaluation, we put together we web edition of Ptolemy II, together with sample models of the ETC (constructed primarily by Tunc) and"
+    },
+    {
+      "chunk_id": 15,
+      "text": "els of the ETC (constructed primarily by Tunc) and the V2V (this is the Charon model showed by the Penn team in Boca Raton). We have also provided a tutorial document on using the software. The web edition of Ptolemy II is extremely easy to install a"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ition of Ptolemy II is extremely easy to install and use. Just follow this link: http://ptolemy.eecs.berkeley.edu/projects/mobies/toolEval.htm This also leads to the tutorial document. This web edition was an early version of our 2.0 release. We"
+    },
+    {
+      "chunk_id": 17,
+      "text": "dition was an early version of our 2.0 release. We obtained a certificate so the software distribution is signed, lending a measure of security (at least if the software has problems, you can be sure that we are the originator of those problems). Th"
+    },
+    {
+      "chunk_id": 18,
+      "text": "that we are the originator of those problems). This web edition uses a product from Sun called Web Start, a technology developed at Sun that uses the Web to download applications. The first time a user downloads a Web Start application, they need to"
+    },
+    {
+      "chunk_id": 19,
+      "text": "er downloads a Web Start application, they need to download the Java Web Start client. That client includes a Java Virtual Machine (JVM) and an application manager that allows the user to configure Web Start and any downloaded Web Start applications."
+    },
+    {
+      "chunk_id": 20,
+      "text": "b Start and any downloaded Web Start applications. Key Web Start Features: * Support for different versions of the Java Virtual Machine, the application can specify which version or versions are acceptable. * jar file versioning, which allows us"
+    },
+    {
+      "chunk_id": 21,
+      "text": "acceptable. * jar file versioning, which allows users to update an application without downloading the entire application * The developer can choose whether the user can download an application to run it later when not connected to the network."
+    },
+    {
+      "chunk_id": 22,
+      "text": "o run it later when not connected to the network. * Support for applets, applications in an applet like sandbox and full applications. The best thing about Web Start is that it is easy to update a small part of the application and then the next"
+    },
+    {
+      "chunk_id": 23,
+      "text": "a small part of the application and then the next time the users run the application, they will download just the updated portion instead of having to download the entire application and reinstall. This is a great way to make systems that are under d"
+    },
+    {
+      "chunk_id": 24,
+      "text": "is is a great way to make systems that are under development available to users. Software Distribution for the General Public ============================================ We are preparing a release for the general public, which will include source"
+    },
+    {
+      "chunk_id": 25,
+      "text": "for the general public, which will include source code. The current size of the Ptolemy II code release candidate is: 218K lines of Java in 994 files 88K lines of xml in 417 files 63K lines of tcl in 362 files 21K lines of html in 289 fi"
+    },
+    {
+      "chunk_id": 26,
+      "text": "of tcl in 362 files 21K lines of html in 289 files (not counting javadoc output) other files: 810 files (makefiles, gifs, frame, visio etc.) Code Generation - Token Unboxing ================================ Our code generation effort is base"
+    },
+    {
+      "chunk_id": 27,
+      "text": "============== Our code generation effort is based on a new concept that we call co-compilation, to distinguish it from code generation or auto-coding, which generally takes components unmodified and stitches them together, and traditional compiling"
+    },
+    {
+      "chunk_id": 28,
+      "text": "stitches them together, and traditional compiling, which requires a single homogeneous programming language. Steve Neuendorffer has made progress on a key technique called \"token unboxing.\" The boxing and unboxing of data is a well-known technique"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ng and unboxing of data is a well-known technique used in functional languages such as ML. In functional languages, the goal of boxing is to be able to pass numeric types to type-polymorphic functions. The functions themselves are written to handle a"
+    },
+    {
+      "chunk_id": 30,
+      "text": ". The functions themselves are written to handle arbitrary objects, but are unable to handle numeric values. Boxing refers to the process of automatically encapsulating a numeric value in a wrapper object so that it can be passed to such a type-polym"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ject so that it can be passed to such a type-polymorphic method. When the number is eventually passed to another method that requires the numeric value, it is automatically removed from its wrapper through unboxing. This transformation happens within"
+    },
+    {
+      "chunk_id": 32,
+      "text": "rough unboxing. This transformation happens within the execution engine for the language and is totally transparent to the programmer. Our code generator performs a transformation similar to unboxing: it replaces token objects (an abstract wrapper fo"
+    },
+    {
+      "chunk_id": 33,
+      "text": "it replaces token objects (an abstract wrapper for a numeric object) with the numeric value that the token contains. Similarly, operations on the token (i.e. a method call) are replaced with native numeric operations. For instance, the IntToken.add("
+    },
+    {
+      "chunk_id": 34,
+      "text": "umeric operations. For instance, the IntToken.add() method, which adds the values contained in two integer wrapper objects, is replaced with a simple integer addition. In most Java implementations, this greatly reduces the overhead involved in the op"
+    },
+    {
+      "chunk_id": 35,
+      "text": "is greatly reduces the overhead involved in the operation. More importantly, the overhead of allocating and garbage collecting the wrapper object for the result is also eliminated. A key issue is to determine, for each token class, which primitive t"
+    },
+    {
+      "chunk_id": 36,
+      "text": "determine, for each token class, which primitive type to replace it with. One possibility is to use a set of replacement relations between a type of token and an native numerical type. Unfortunately, this limits the ability to add new data types to t"
+    },
+    {
+      "chunk_id": 37,
+      "text": "this limits the ability to add new data types to the Ptolemy II framework, as the operations for each token must be essentially re-implemented in the code generation framework. We must also have some way of transforming structured token types that ar"
+    },
+    {
+      "chunk_id": 38,
+      "text": "way of transforming structured token types that are not directly replaced with native types. This is not easily handled by a small set of handwritten rules. Steve Neuendorffer has implemented a technique for transforming tokens that does not rely o"
+    },
+    {
+      "chunk_id": 39,
+      "text": "nique for transforming tokens that does not rely on hand-written replacement rules. Instead of re-implementing each token operation, he makes use of the implementation for the token that already exists. In other words, we inline the code from the cla"
+    },
+    {
+      "chunk_id": 40,
+      "text": "s. In other words, we inline the code from the class definition for a particular type of token. Each token variable is replaced with variables corresponding to the fields of the token class. We also synthesize a boolean field that tracks whether the"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ynthesize a boolean field that tracks whether the original token reference is null. This is used to properly replace comparisons between the token and null. For domain-polymorphic actors that have variables declared as ptolemy.data.Token, a type-infe"
+    },
+    {
+      "chunk_id": 42,
+      "text": "iables declared as ptolemy.data.Token, a type-inference algorithm determines the correct token class to be inlined. This technique is generally effective for all numeric token types. Furthermore, it does not preclude optimized transformations for spe"
+    },
+    {
+      "chunk_id": 43,
+      "text": "oes not preclude optimized transformations for specific numeric types. It is also applicable for structured types as well, such as arrays and records. For instance, the ptolemy.data.ArrayToken class aggregates a set of other tokens and indexes them u"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ggregates a set of other tokens and indexes them using integers. Since one field of the class contains an array of other tokens, unboxing the array token replaces it with an array of tokens. These tokens (regardless of their type) can then be unboxed"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ens (regardless of their type) can then be unboxed by applying the above procedure recursively. Code Generation - Other Work ============================ Shuvra S. Bhattacharyya, under subcontract from the University of Maryland, has demonstrated"
+    },
+    {
+      "chunk_id": 46,
+      "text": "from the University of Maryland, has demonstrated preliminary C code generation from a simple Ptolemy II model. Steve Neuendorffer collected statistics on the effectiveness of successive stages of transformation of the abstract syntax tree, learning"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ansformation of the abstract syntax tree, learning which transformations lend the greatest advantage. It turns out that in terms of execution speed, many of the transformations have little impact. But in terms of code size, the entire chain of transf"
+    },
+    {
+      "chunk_id": 48,
+      "text": "in terms of code size, the entire chain of transformations must be applied before the major benefit is gained. Christopher Hylands created some scripts for measuring the memory usage and speed of execution of code generated by our code generator in"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ecution of code generated by our code generator invoked on test models in the test suite. This will greatly improve our ability to measure the effectiveness of the code generator. He also created a script that uses \"tree shaking\" to generate a jar"
+    },
+    {
+      "chunk_id": 50,
+      "text": "script that uses \"tree shaking\" to generate a jar file that contains exactly the classes needed to invoke a model. He also created a script that reports on the differences between two jar files. Steve Neuendorffer tested the tree shaker on a fairly"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ve Neuendorffer tested the tree shaker on a fairly complicated digital communication model (the OrthogonalCom model). The tree shaker yielded a jar file with 476844 bytes, which is still quite large. After running his code generator to the point wher"
+    },
+    {
+      "chunk_id": 52,
+      "text": "After running his code generator to the point where only the Ptolemy data package gets used the file size is reduced to 158777 bytes. After running the Jode code obfuscator to rename the generated code it reduces further to 80526 bytes. This is appro"
+    },
+    {
+      "chunk_id": 53,
+      "text": "e it reduces further to 80526 bytes. This is approaching a reasonable size for an embedded system and/or an applet. However, it is still larger than we would like. Steve estimates that 80% of this file contains code from the ptolemy.data and ptolemy."
+    },
+    {
+      "chunk_id": 54,
+      "text": "e contains code from the ptolemy.data and ptolemy.graph packages, leaving only 16K or so from the model itself. These numbers were collected before token unboxing was operational, and have provided a major motivation for that work (see above). We pe"
+    },
+    {
+      "chunk_id": 55,
+      "text": "major motivation for that work (see above). We performed a number of experiments with the objective of getting high-performance object code from the byte code produced the code generator. Christopher Hylands experimented with gcj, the native Java co"
+    },
+    {
+      "chunk_id": 56,
+      "text": "Hylands experimented with gcj, the native Java compiler that is part of gcc. With considerable effort, he was able to get the code generator output for our OrthogonalCom model (a CDMA communications example) to compile successfully. With static link"
+    },
+    {
+      "chunk_id": 57,
+      "text": "example) to compile successfully. With static linking, the resulting compiled code runs about 20% faster than the tree shaken regular Java run using Sun's JIT compiler. This is less improvement than we expected from compiled code. Circuit Synthesis"
+    },
+    {
+      "chunk_id": 58,
+      "text": "e expected from compiled code. Circuit Synthesis ================= Steve Neuendorffer and Ben Warlick developed a way of synthesizing an FPGA circuit from a Ptolemy II component specification. They demonstrated this as part of a class project. A"
+    },
+    {
+      "chunk_id": 59,
+      "text": "demonstrated this as part of a class project. Actor Specification =================== Progress on the Cal actor specification language (formerly called Caltrop) continues, with Joern Janneck, Chris Chang, Yang Zhao, and Lars Wernli being the key"
+    },
+    {
+      "chunk_id": 60,
+      "text": "s Chang, Yang Zhao, and Lars Wernli being the key players. The key idea here is that actions triggered by differing external conditions are specified separately. This enables automated inference of key properties of an actor, such as firing rules and"
+    },
+    {
+      "chunk_id": 61,
+      "text": "y properties of an actor, such as firing rules and triggering relationships between inputs and outputs. Lars Wernli has created a code generator that produces Ptolemy II actor definitions from Cal source code. (Lars was visiting from ETH for three m"
+    },
+    {
+      "chunk_id": 62,
+      "text": "urce code. (Lars was visiting from ETH for three months, working on his diploma thesis). Inspired by Cal, John Reekie has been working on Actif, an operational model of actors and computation. Actif is a tool for reasoning about actors and computati"
+    },
+    {
+      "chunk_id": 63,
+      "text": "is a tool for reasoning about actors and computation, an intermediate form for actor transformation and optimization and a framework to guide implementation. Tool Integration ================ Wolfgang Pree and Christoph Kirsch developed a techniqu"
+    },
+    {
+      "chunk_id": 64,
+      "text": "ang Pree and Christoph Kirsch developed a technique for integrating Giotto and Simulink. They provide a Giotto component library that allows them to design Giotto programs within Simulink's visual development environment. The full set of Simulink com"
+    },
+    {
+      "chunk_id": 65,
+      "text": "elopment environment. The full set of Simulink components is available for implementing non-Giotto functionality within the Giotto components. The Giotto components themselves are only syntactic to Simulink. The gTranslator tool automatically creates"
+    },
+    {
+      "chunk_id": 66,
+      "text": "mulink. The gTranslator tool automatically creates Giotto semantics by transforming the syntactic Giotto components into standard blocks provided by Simulink without modifying the non-Giotto functionality. The translation results in a pure Simulink m"
+    },
+    {
+      "chunk_id": 67,
+      "text": "lity. The translation results in a pure Simulink model that resembles Giotto semantics which can be simulated as well as executed with the Simulink tool and code generators. The integration harnesses the full set of code generation capabilities in"
+    },
+    {
+      "chunk_id": 68,
+      "text": "s the full set of code generation capabilities in Simulink, including preemptive multitasking for various target platforms. A demonstration rounds out the talk: It illustrates how a typical Simulink model is transformed to a Giotto-based one and disc"
+    },
+    {
+      "chunk_id": 69,
+      "text": "odel is transformed to a Giotto-based one and discusses the implications of such a restructuring. The gTranslator also generates a Giotto program. By means of the Giotto compiler, optimized code generation as well as schedulability analysis are thus"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ation as well as schedulability analysis are thus available. Meta Modeling ============= Andrew C Mihal, of the Mescal group (under professor Kurt Keutzer, outside Mobies), has been working on metamodeling using Ptolemy II. His hypothesis is that"
+    },
+    {
+      "chunk_id": 71,
+      "text": "modeling using Ptolemy II. His hypothesis is that an explicit model of an application and its model of computation is an excellent starting point for mapping an application onto an architecture. This \"metamodel\" contains not only the application's fu"
+    },
+    {
+      "chunk_id": 72,
+      "text": "\"metamodel\" contains not only the application's functionality (the actors) but also the behind-the-scenes components that the application relies on (the ports, directors, and receivers). The metamodel components can then be matched with architectural"
+    },
+    {
+      "chunk_id": 73,
+      "text": "components can then be matched with architectural components. This leads to an implementation that preserves the formal semantics of the application's MoC. Over the last semester he has been working on the code to design and simulate a metamodel in"
+    },
+    {
+      "chunk_id": 74,
+      "text": "on the code to design and simulate a metamodel in Ptolemy II. His strategy has been to use a model of computation that implements function call semantics. In that domain, tokens represent function calls and return values. Send and get operations are"
+    },
+    {
+      "chunk_id": 75,
+      "text": "lls and return values. Send and get operations are synchronized as expected. A \"type\" in this domain corresponds to a Java interface. An input port means that an actor implements a particular interface. An output port means that an actor wants to use"
+    },
+    {
+      "chunk_id": 76,
+      "text": "e. An output port means that an actor wants to use a particular interface. A critical \"type\" for metamodeling is the Receiver interface. With it he can create a metamodel whose actors are Actors and Receivers. The Receiver actors have input ports th"
+    },
+    {
+      "chunk_id": 77,
+      "text": "Receivers. The Receiver actors have input ports that indicate they implement the Receiver interface. The Actor actors have output ports that indicate they want to use the Receiver interface. For example, consider a Sink that has one input port. Norma"
+    },
+    {
+      "chunk_id": 78,
+      "text": "le, consider a Sink that has one input port. Normally this input port is connected to one or more receivers. The equivalent Actor actor would have one multiport output. The Sink actor wants to use the Receiver interface, and it can be wired to one or"
+    },
+    {
+      "chunk_id": 79,
+      "text": "Receiver interface, and it can be wired to one or more Receiver actors. Implementing the domain of function calls turned out to be easy. Implementing the Actor and Receiver actors has turned out to be extremely difficult. Andrew was hoping to use t"
+    },
+    {
+      "chunk_id": 80,
+      "text": "be extremely difficult. Andrew was hoping to use the code from the existing Ptolemy actor, receiver, and director objects in his metamodels. Obviously it would not be worthwhile to create and maintain a separate library of components that contains th"
+    },
+    {
+      "chunk_id": 81,
+      "text": "a separate library of components that contains the metamodel equivalents for the standard Ptolemy actors. Andrew used Soot (the same compiler toolkit we are using for code generation) to dynamically generate the metamodel equivalents of Ptolemy II"
+    },
+    {
+      "chunk_id": 82,
+      "text": "generate the metamodel equivalents of Ptolemy II actors. He had a generic Actor actor that could be configured to be the equivalent of any Ptolemy library actor. Upon configuration, soot would load the original actor class and replace all the Ports"
+    },
+    {
+      "chunk_id": 83,
+      "text": "he original actor class and replace all the Ports with MetaPorts. The MetaPort would redirect all of the function calls normally done on receivers as function call tokens sent out into the metamodel. He encountered three major problems with this rath"
+    },
+    {
+      "chunk_id": 84,
+      "text": "He encountered three major problems with this rather aggressive approach. 1. Soot is slow and uses an inexplicably huge amount of memory. 2. In order for the MetaPort to be an acceptable replacement for Port, (MetaPort instanceof Port) must be t"
+    },
+    {
+      "chunk_id": 85,
+      "text": "for Port, (MetaPort instanceof Port) must be true. Therefore the MetaPort must be a descendant of Port. At the same time, MetaPort overrides every function it inherits from Port. This is unfortunate. 3. From the point of view of the actor,"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ortunate. 3. From the point of view of the actor, the MetaPort must behave exactly the same as the original Port. That means it must claim to be either an input or an output. From the point of view of the metamodel, the MetaPort is an outpu"
+    },
+    {
+      "chunk_id": 87,
+      "text": "view of the metamodel, the MetaPort is an output. Therefore, functions like isInput() have different behaviors depending on who is calling them, either the actor itself or the metamodel kernel. This is unimplementable. To solve problem n"
+    },
+    {
+      "chunk_id": 88,
+      "text": "l. This is unimplementable. To solve problem number 3, Andrew separated the MetaPort into two pieces. The first piece pretends to be the actor's own port. The second piece is used to send function call tokens in the metamodel. Any functions that"
+    },
+    {
+      "chunk_id": 89,
+      "text": "call tokens in the metamodel. Any functions that the actor calls on the first piece are redirected as tokens sent out of the second piece. Now the Actor actor has two ports where the original actor had only one. Unfortunately these extra ports have"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ad only one. Unfortunately these extra ports have serious ramifications concerning the type system. Andrew has proposed a refactoring of the Ptolemy II kernel based on the difficulties he has encountered. The basic idea is to define a set of interf"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ered. The basic idea is to define a set of interfaces that will take over the role now served by base classes. Moreover, an object like a port will expose different interfaces to different users. Thus, the director would see a different interface t"
+    },
+    {
+      "chunk_id": 92,
+      "text": "us, the director would see a different interface than an actor. Other related suggestions he has made include: 1. Make it so actors do not construct their ports. Actors should use factories to get their ports. The factory returns an object that"
+    },
+    {
+      "chunk_id": 93,
+      "text": "t their ports. The factory returns an object that implements the Port interface. This allows the actors to be paired with different ports for different purposes. The actor will get a regular TypedIOPort for simulation in Ptolemy. The actor w"
+    },
+    {
+      "chunk_id": 94,
+      "text": "TypedIOPort for simulation in Ptolemy. The actor will get a MetaPort for metamodel simulation. The actor will get a reference into a communications library for implementation on a multiprocessor embedded system. 2. Adopt the same principles"
+    },
+    {
+      "chunk_id": 95,
+      "text": "embedded system. 2. Adopt the same principles for directors as well. For the purposes of implementation, the director is just an actor that implements the centralized control of an application. The director should communicate with the a"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ion. The director should communicate with the actors using a standardized interface (perhaps with domain-specific extensions). The same applies for communications between directors and receivers for the domains that require it. 3. Separa"
+    },
+    {
+      "chunk_id": 97,
+      "text": "ers for the domains that require it. 3. Separation of actor functionality from model structure. Actors inherit some functionality from AtomicActor and CompositeActor that is only related to the logical structure of the application and not"
+    },
+    {
+      "chunk_id": 98,
+      "text": "the logical structure of the application and not to what the actors really do. An actor should be an object that implements the Actor interface. This object can be paired with a structural component, like the existing AtomicActor or Compo"
+    },
+    {
+      "chunk_id": 99,
+      "text": "mponent, like the existing AtomicActor or CompositeActor, for the purposes of modeling and simulation in Ptolemy. For implementation these things are not needed. 4. A more general separation of application functionality and Ptolemy overhead"
+    },
+    {
+      "chunk_id": 100,
+      "text": "application functionality and Ptolemy overhead. Things like MoML, attributes, names, and containers are great for simulation and modeling in Ptolemy. But they're not necessary for implementation. For example, consider static and dynamic"
+    },
+    {
+      "chunk_id": 101,
+      "text": "tion. For example, consider static and dynamic type checking. Static type checking tells you if a model is valid. It does not end up in the final implementation. Dynamic type checking, for applications that require it, is something that a"
+    },
+    {
+      "chunk_id": 102,
+      "text": "plications that require it, is something that actually ends up in the final implementation. It is part of the behavior of the application and is not a feature of the modeling and simulation tool. One of the reasons writing the MetaPort was s"
+    },
+    {
+      "chunk_id": 103,
+      "text": "ool. One of the reasons writing the MetaPort was so hard is that the Port objects inherit so much from the classes up in the hierarchy. Data Package ============ The data package in Ptolemy defines token classes, which are wrappers for user"
+    },
+    {
+      "chunk_id": 104,
+      "text": "efines token classes, which are wrappers for user data. Steve Neuendorffer has completed an extensive refactoring of this package to simplify it, make it easier to extend, and make it work more smoothly with code generation. He consolidated code dea"
+    },
+    {
+      "chunk_id": 105,
+      "text": "ly with code generation. He consolidated code dealing with datatype conversions, units (in the case of scalar tokens) and matrix dimensions (in the case of matrix tokens). He added two new base classes: AbstractConvertibleToken, and AbstractNotConve"
+    },
+    {
+      "chunk_id": 106,
+      "text": "es: AbstractConvertibleToken, and AbstractNotConvertibleToken. These factor out a great portion of common code for common token classes. AbstractConvertibleToken implements the conversion-before-operation pattern, and AbstractNotConvertibleToken impl"
+    },
+    {
+      "chunk_id": 107,
+      "text": "tion pattern, and AbstractNotConvertibleToken implements a check to ensure that no conversion is necessary. These classes reduce the work that users will have to go through to implement a new type. If no conversions are necessary, this is simply a ma"
+    },
+    {
+      "chunk_id": 108,
+      "text": "no conversions are necessary, this is simply a matter of implementing a subclass of AbstractNotConvertibleToken, filling out the 7 protected operation methods, and adding a singleton inner class that is returned by getType(). The type will not be in"
+    },
+    {
+      "chunk_id": 109,
+      "text": "is returned by getType(). The type will not be in the type lattice, and is therefore assumed to be between top and bottom and incomparable with anything else. The ScalarToken base class implements relatively simple methods that are ensured to be ca"
+    },
+    {
+      "chunk_id": 110,
+      "text": "elatively simple methods that are ensured to be called with arguments of the correct type, for instance the DoubleToken._add(ScalarToken) method is: /** Return a new token whose value is the value of the * argument Token added to the value"
+    },
+    {
+      "chunk_id": 111,
+      "text": "e of the * argument Token added to the value of this Token. It is assumed * that the type of the argument is an DoubleToken. * @param rightArgument The token to add to this token. * @return A new DoubleToken containing the re"
+    },
+    {
+      "chunk_id": 112,
+      "text": "* @return A new DoubleToken containing the result. */ protected ScalarToken _add(ScalarToken rightArgument) { double sum = _value + ((DoubleToken)rightArgument).doubleValue(); return new DoubleToken(sum); } Similarl"
+    },
+    {
+      "chunk_id": 113,
+      "text": "return new DoubleToken(sum); } Similarly for the MatrixToken classes, except there are separate methods for Matrix/Matrix operations and Matrix/Scalar operations. This ensures that these operations all mean the same... in some cases a.add("
+    },
+    {
+      "chunk_id": 114,
+      "text": "erations all mean the same... in some cases a.add(b) was implemented, but b.add(a) was not, or meant something different. All unit conversion is handled systematically in the ScalarToken base class. Handling and checking of matrix dimensions are now"
+    },
+    {
+      "chunk_id": 115,
+      "text": "Handling and checking of matrix dimensions are now handled systematically in the MatrixToken base class. All operations for ArrayToken are now implemented consistently pointwise. All operations for RecordToken are now implemented consistently fieldwi"
+    },
+    {
+      "chunk_id": 116,
+      "text": "cordToken are now implemented consistently fieldwise. Consistent and more informative error messages for automatic type conversion and unit conversion errors. Methods are more consistent within the Java type system. For instance Types simply override"
+    },
+    {
+      "chunk_id": 117,
+      "text": "va type system. For instance Types simply override the equals(Object) method, as opposed to implementing a separate equals(Type) method. This should eliminate some scary accidental programming errors. Generally, Steve's changes are semantically iden"
+    },
+    {
+      "chunk_id": 118,
+      "text": "Generally, Steve's changes are semantically identical to what we had before, but there are some minor changes. For instance, IntToken(33) is now equal to StringToken(\"33\"). The isCloseTo() method is now reflexive, just like isEqualTo(). One major c"
+    },
+    {
+      "chunk_id": 119,
+      "text": "now reflexive, just like isEqualTo(). One major change has to do with multiplying arrays by scalars. Previously, the scale actor used the arrayToken.multiply(ScalarToken) method to scale multidimensional arrays. Unfortunately, this implemention was"
+    },
+    {
+      "chunk_id": 120,
+      "text": "onal arrays. Unfortunately, this implemention was not consistent with lossless type conversion for all operations. The result is that the scale actor works the same as before, but the operation it performs is slightly more rich that normal multiplica"
+    },
+    {
+      "chunk_id": 121,
+      "text": "forms is slightly more rich that normal multiplication. This may cause some models that were scaling using an expression actor to throw an exception. This has also simplified the ArrayToken class. The new classes are roughly half the size of the old"
+    },
+    {
+      "chunk_id": 122,
+      "text": "e new classes are roughly half the size of the old ones, even though there is significantly more documentation than there had been. I/O Actors ========== Winthrop Williams has continued a project to systematically add sophisticated I/O capabilitie"
+    },
+    {
+      "chunk_id": 123,
+      "text": "o systematically add sophisticated I/O capabilities to Ptolemy II. A major part of this effort is to understand the semantics of interaction between various models of computation and the physical world, which of course has its own semantics. Win imp"
+    },
+    {
+      "chunk_id": 124,
+      "text": "d, which of course has its own semantics. Win improved his datagram actors to support more domains (they were previously designed specifically for DE), and identified a bug in the DE (discrete event) director that was causing intermittent failures a"
+    },
+    {
+      "chunk_id": 125,
+      "text": "director that was causing intermittent failures after lengthy runs. Miscellaneous Software Infrastructure Improvements ================================================== * Shuvra S. Bhattacharyya, under subcontract at U. of Maryland, checked in"
+    },
+    {
+      "chunk_id": 126,
+      "text": "under subcontract at U. of Maryland, checked in a major revision to the ptolemy.graph package based on feedback from a design review. * Elaine Cheong created the beginnings of an interactive debugging capability in Ptolemy II, where one can s"
+    },
+    {
+      "chunk_id": 127,
+      "text": "ugging capability in Ptolemy II, where one can set breakpoints on actor firings. * We have modified the way that Diva (the 2-D graphics package underlying the Ptolemy II visual editor) aligns icons in a graph rendition. Previously, diva had"
+    },
+    {
+      "chunk_id": 128,
+      "text": "cons in a graph rendition. Previously, diva had used the center of the bounding box as the location of the icon. This made it very difficult to align key visual elements such as ports to a grid. Now, Diva uses the origin. This also means that"
+    },
+    {
+      "chunk_id": 129,
+      "text": "Now, Diva uses the origin. This also means that textual annotations can be aligned, and will stay aligned when you change the text. It also greatly simplified the snap-to-grid code. * Yuhong Xiong updated the ArrayToken class to allow it to c"
+    },
+    {
+      "chunk_id": 130,
+      "text": "iong updated the ArrayToken class to allow it to contain an empty array. The solution was to add a new constructor public ArrayToken(Type type) that constructs an empty array token with the specified element type. He added this construc"
+    },
+    {
+      "chunk_id": 131,
+      "text": "e specified element type. He added this constructor, updated the code in ArrayToken and ArrayType to handle empty arrays in various operations and type conversions, and added some tests. This change was needed by the datagram applications (w"
+    },
+    {
+      "chunk_id": 132,
+      "text": "hange was needed by the datagram applications (which distribute Ptolemy models over the net). * Elaine Cheong created a PreemptableTask actor to model tasks running under an RTOS that can be preempted. * Lars Wernli pointed out that our impleme"
+    },
+    {
+      "chunk_id": 133,
+      "text": "mpted. * Lars Wernli pointed out that our implementation of the Token class and its subclasses (which encapsulate data exchanged between components) do not override the java.Object.equals() and hashCode() methods. Thus, token1.equals(token2) r"
+    },
+    {
+      "chunk_id": 134,
+      "text": "ashCode() methods. Thus, token1.equals(token2) returns true if and only if token1 and token2 are references to one and the same object (since that is how the equals() method is defined in java.Object), instead of comparing the tokens values,"
+    },
+    {
+      "chunk_id": 135,
+      "text": "bject), instead of comparing the tokens values, as the Token.isEqualTo() method does. This leads to counterintuitive behavior. Yuhong Xiong fixed this by adding the equals() and hashCode() methods to all the concrete tokens. * John Reekie im"
+    },
+    {
+      "chunk_id": 136,
+      "text": "ds to all the concrete tokens. * John Reekie improved Diva, the underlying graphics package for the Ptolemy visual editor (Vergil) so that the FSM editor has more flexible orientation of the transitions between states. * Haiyang Zheng rewrote"
+    },
+    {
+      "chunk_id": 137,
+      "text": "ansitions between states. * Haiyang Zheng rewrote the Giotto scheduler in Ptolemy II to make use of the static scheduling infrastructure in the base classes. Also, we separated the Giotto code generator from the Giotto director, and created a"
+    },
+    {
+      "chunk_id": 138,
+      "text": "nerator from the Giotto director, and created a new visual icon for the code generator. * Steve Neuendorffer and Jim Armstrong created a variant of the discrete event domain that provides persistent input data to actors. This is intended to h"
+    },
+    {
+      "chunk_id": 139,
+      "text": "ent input data to actors. This is intended to have semantics closer to that of HDLs such as Verilog and VHDL. * We updated the Vergil tutorial to include instructions for constructing modal models. * We upgraded Java support to version 1.4."
+    },
+    {
+      "chunk_id": 140,
+      "text": "dels. * We upgraded Java support to version 1.4. * Christopher Hylands created a set of scripts and interfaces for invoking the code generator. * Christopher Hylands created a filter that translates MoML files created using earlier versions of"
+    },
+    {
+      "chunk_id": 141,
+      "text": "tes MoML files created using earlier versions of Ptolemy II into MoML files for Ptolemy II 2.0. * Cristopher Hylands created an interface from Vergil to invoke a browser to view pdf files or web pages. This supplements the built-in HTML vie"
+    },
+    {
+      "chunk_id": 142,
+      "text": "b pages. This supplements the built-in HTML viewer in Vergil. You can now create a link to an html page and force it to be opened by the browser rather than by Ptolemy II. To do this, write the link as something like: foo The \"in_browser\" fra"
+    },
+    {
+      "chunk_id": 143,
+      "text": "e link as something like: foo The \"in_browser\" fragment specifies to open in the browser. A more natural thing might have been: foo but this doesn't work in Java. The target is only made visible if the link is within a frame, a limitation in the"
+    },
+    {
+      "chunk_id": 144,
+      "text": "the link is within a frame, a limitation in the Java HTML classes. * Steve Neuendorffer fixed the process networks (PN) domain to once again handle feedback loops. This domain has not been heavily used, but was needed for a class. He also ma"
+    },
+    {
+      "chunk_id": 145,
+      "text": "ily used, but was needed for a class. He also made PN support run-time mutations, SDF models inside, and pause and resume. * Xiaojun Liu, Winthrop Williams, and Yuhong Xiong made a number of improvements to the unit system support. Unit syste"
+    },
+    {
+      "chunk_id": 146,
+      "text": "provements to the unit system support. Unit systems are now components that one drags into a model to use, and we have provided some basic unit systems as a starting point. * The usual suite of design and code reviews were held. Personnel ==="
+    },
+    {
+      "chunk_id": 147,
+      "text": "design and code reviews were held. Personnel ========= * Yuhong Xiong has accepted a position at HP Labs and expects to file his PhD thesis soon. * Lars Wernli completed his three-month diploma thesis visit from ETH and has returned to Switze"
+    },
+    {
+      "chunk_id": 148,
+      "text": "thesis visit from ETH and has returned to Switzerland. * Haiyang Zheng, a graduate student in the Mechanical Engineering department, has officially joined the group to work on Mobies. Study Group =========== Our quasi-weekly study group exami"
+    },
+    {
+      "chunk_id": 149,
+      "text": "up =========== Our quasi-weekly study group examined the following topics: -- Hybrid Control in Air Traffic Management Systems -- Self, an object-oriented programming language -- Four papers on software engineering in Parnas' book. -- Petri nets."
+    },
+    {
+      "chunk_id": 150,
+      "text": "tware engineering in Parnas' book. -- Petri nets. -- Grid computing. 2. Interactions, Meetings, and Technology Transfer Presentations ============= * Edward A. Lee, \"Preventing the use of Commercial Aircraft as Weapons,\" invited talk, Instit"
+    },
+    {
+      "chunk_id": 151,
+      "text": "cial Aircraft as Weapons,\" invited talk, Institute of Transportation Studies, UC Berkeley, February 8, 2002. * Edward A. Lee, \"Process-Based Software Components,\" Mobies PI Meeting, Boca Raton, FL, January 30, 2002. * Steve Neuendorffer,"
+    },
+    {
+      "chunk_id": 152,
+      "text": "ton, FL, January 30, 2002. * Steve Neuendorffer, \"Heterogenous Actor-oriented Modeling in Ptolemy II,\" UC Irvine, Feb. 21, 2002. * Jie Liu, lecture on hybrid system modeling and simulation in Ptolemy II, in 'EE291: Hybrid System' class, Feb"
+    },
+    {
+      "chunk_id": 153,
+      "text": "tolemy II, in 'EE291: Hybrid System' class, February 25, 2002. * Wolfgang Pree and Christoph Kirsch, \"Integration of Giotto and Simulink,\" Embedded Software Seminar, UC Berkeley, February 25, 2002. Technology Transfer =================== *"
+    },
+    {
+      "chunk_id": 154,
+      "text": "2002. Technology Transfer =================== * Edward A. Lee, Ptolemy II demo, Mobies PI Meeting, Boca Raton, FL, January 31, 2002. * Jie Liu, Ptolemy II demo, Hybrid Systems: Computation and Control 2002, 25-27 March, Stanford CA. * We hav"
+    },
+    {
+      "chunk_id": 155,
+      "text": "ontrol 2002, 25-27 March, Stanford CA. * We have organized a new course, taught during the current semester, Spring 2002. EE290N: Advanced topics in systems theory: Concurrent models of computation Instructor: Prof. Edward A. Lee This ex"
+    },
+    {
+      "chunk_id": 156,
+      "text": "ation Instructor: Prof. Edward A. Lee This experimental research course will study models of computation used for the specification and modeling of concurrent systems, particularly those with relevance to embedded and real-time systems des"
+    },
+    {
+      "chunk_id": 157,
+      "text": "relevance to embedded and real-time systems design. Current research approaches will be considered, including the tagged signal model, behavioral type systems, interface theories, and (possibly) category theoretic approaches. The emphasis will"
+    },
+    {
+      "chunk_id": 158,
+      "text": ") category theoretic approaches. The emphasis will be on developing an understanding of models of computation in practical use and of the mathematical tools that researchers can use to study them. The course will begin with a review of the th"
+    },
+    {
+      "chunk_id": 159,
+      "text": "The course will begin with a review of the theory of partially ordered sets, particularly as applied to prefix orders and Scott orders. It will develop a framework for models of computation for concurrent systems that uses partially ordere"
+    },
+    {
+      "chunk_id": 160,
+      "text": "or concurrent systems that uses partially ordered tags associated with events. Discrete-event models, synchronous/reactive languages, and dataflow models will be studied in this context. Basic issues of computability, boundedness, determinacy"
+    },
+    {
+      "chunk_id": 161,
+      "text": "ssues of computability, boundedness, determinacy, liveness, and the modeling of time will be studied. Classes of functions over partial orders, including continuous, monotonic, stable, and sequential functions will be considered, as will sema"
+    },
+    {
+      "chunk_id": 162,
+      "text": "ntial functions will be considered, as will semantics based on fixed-point theorems. A hierarchy of increasingly specialized asynchronous models of computation, including process networks, Kahn process networks, dataflow process networks, the"
+    },
+    {
+      "chunk_id": 163,
+      "text": "process networks, dataflow process networks, the Boolean dataflow model, and synchronous dataflow will be covered. Timed models, including discrete-event systems (as embodied for example in the VHDL and Verilog languages) and the synchronous/"
+    },
+    {
+      "chunk_id": 164,
+      "text": "VHDL and Verilog languages) and the synchronous/reactive languages Signal, Lustre, Esterel, and Statecharts will be studied. * We have organized a new course, taught during the current semester, Spring 2002. EE290o: Embedded Software Engine"
+    },
+    {
+      "chunk_id": 165,
+      "text": "Spring 2002. EE290o: Embedded Software Engineering Instructor: Christoph Kirsch Brief Overview: This 3 unit course will provide an introduction to embedded software engineering: the first part covers real-time operating systems, real-ti"
+    },
+    {
+      "chunk_id": 166,
+      "text": "part covers real-time operating systems, real-time communication protocols, and scheduling theory; the second part focuses on real-time programming and code generation. The course is a revised version of a course that has been held in Spring"
+    },
+    {
+      "chunk_id": 167,
+      "text": "ersion of a course that has been held in Spring 2001 for the first time. The course begins with an introduction to real-time operating system concepts and real-time communication protocols like the time-triggered protocol (TTP) and the event-"
+    },
+    {
+      "chunk_id": 168,
+      "text": "the time-triggered protocol (TTP) and the event-triggered CAN protocol. Scheduling techniques like rate-monotonic and earliest deadline first scheduling will be illustrated. The second half of the course emphasizes real-time programming and c"
+    },
+    {
+      "chunk_id": 169,
+      "text": "he course emphasizes real-time programming and code generation for embedded systems. The high-level embedded programming languages Esterel, Lustre, and Giotto, will be presented. Esterel and Lustre are so-called synchronous reactive languages"
+    },
+    {
+      "chunk_id": 170,
+      "text": "tre are so-called synchronous reactive languages. Giotto is a time-triggered programming language for embedded control systems that has recently been developed at UC Berkeley. Code generation for Giotto will be discussed based on a virtual ma"
+    },
+    {
+      "chunk_id": 171,
+      "text": "r Giotto will be discussed based on a virtual machine architecture called the embedded machine that has also been developed at UC Berkeley. Example programs in Esterel, Lustre, and Giotto will be implemented on Lego Mindstorm robots. Each wee"
+    },
+    {
+      "chunk_id": 172,
+      "text": "e implemented on Lego Mindstorm robots. Each week, a one and a half hour lecture will be presented and a one and a half hour discussion will be held. Other Interactions ================== * Wolfgang Pree, Professor at the University of Salzbur"
+    },
+    {
+      "chunk_id": 173,
+      "text": "fgang Pree, Professor at the University of Salzburg, Austria, and Christoph Kirsch of UC Berkeley worked together to integrate Giotto and Simulink. Simulink is used as a front-end for building Giotto designs, and a tool then translates these in"
+    },
+    {
+      "chunk_id": 174,
+      "text": "tto designs, and a tool then translates these into another Simulink model that executes with Giotto semantics. * We had a two-day meeting with a team from BMW where we discussed model-based approaches to embedded software design. * Michael J."
+    },
+    {
+      "chunk_id": 175,
+      "text": "roaches to embedded software design. * Michael J. Wirthlin, from Brigham Young University, visited for two days to work on code generation. Michael is using Ptolemy II for hardware synthesis. * Thilo Demmeler, BMW, gave a talk in our Embedded"
+    },
+    {
+      "chunk_id": 176,
+      "text": "Thilo Demmeler, BMW, gave a talk in our Embedded Systems seminar on \"Enabling Rapid Design Exploration through Virtual Integration and Simulation of Fault Tolerant Automotive Application.\" * Zoltan Kemenczy, of Research In Motion (RIM), contri"
+    },
+    {
+      "chunk_id": 177,
+      "text": "ltan Kemenczy, of Research In Motion (RIM), contributed a number of software improvements to Ptolemy II. Key among these are changes that enrich the ability to attach Java functions to the expression language. In particular: - Convert matri"
+    },
+    {
+      "chunk_id": 178,
+      "text": "sion language. In particular: - Convert matrix and array arguments to two-/one-dimensional Java arrays if a function signature using argument token classes wasn't found. Any Java array results are converted back to corresponding toke"
+    },
+    {
+      "chunk_id": 179,
+      "text": "sults are converted back to corresponding tokens. This permits a user to invoke functions that are defined on ordinary Java arrays from within the expression language. - If a function signature is not found and some arguments are a"
+    },
+    {
+      "chunk_id": 180,
+      "text": "ignature is not found and some arguments are arrays, recursively attempt reducing argument dimensions by one and search again. Any results are aggregated to arrays as the recursion is exited. This allows, for example, java.lang.Math"
+    },
+    {
+      "chunk_id": 181,
+      "text": "ed. This allows, for example, java.lang.Math functions to be applied element-by-element to matrices and arrays. This works for functions and methods invoked on objects. - Provide a built-in \"matlab()\" form for invoking matlab expr"
+    },
+    {
+      "chunk_id": 182,
+      "text": "lt-in \"matlab()\" form for invoking matlab expressions. - For StringTokens, provide access to java.lang.String class methods. - Allow the construction of matrices from array arguments. This allows for example [randomBernoulli("
+    },
+    {
+      "chunk_id": 183,
+      "text": "This allows for example [randomBernoulli(0.5,10);randomBernoulli(0.5,10)] to create a 2x10 matrix. - Significant performance improvements on expression evaluation. - Updates for Ptolemy II Matlab support, including correct access"
+    },
+    {
+      "chunk_id": 184,
+      "text": "olemy II Matlab support, including correct access to the matlab engine by multiple threads. The previous code was only working for a single thread, additional threads could not access the matlab engine. He also now handles BooleanTokens a"
+    },
+    {
+      "chunk_id": 185,
+      "text": "matlab engine. He also now handles BooleanTokens and translates them to Matlab's ones/zeroes. * Jie Liu (of Xerox PARC) made a few enhancements and bug fixes in the continuous-time domain in Ptolemy II. These include a facility for synchron"
+    },
+    {
+      "chunk_id": 186,
+      "text": "tolemy II. These include a facility for synchronizing a simulation to real time, better handling of requests for future firing, a level parameter for the ZeroCrossingDetector actor, and other smaller changes. 4. Publications [1] Jie Liu and"
+    },
+    {
+      "chunk_id": 187,
+      "text": "aller changes. 4. Publications [1] Jie Liu and Edward A. Lee, \"Timed Multitasking for Real-Time Embedded Software,\" invited paper to IEEE Control System Magazine, special issue on SEC, draft version, January 31, 2002. http://ptolemy.e"
+    },
+    {
+      "chunk_id": 188,
+      "text": "ft version, January 31, 2002. http://ptolemy.eecs.berkeley.edu/publications/papers/02/timedmultitasking/ [2] Jie Liu, Johan Eker, Xiaojun Liu, John Reekie, and Edward A. Lee, \"Actor-Oriented Control System Design,\" invited paper to IEEE"
+    },
+    {
+      "chunk_id": 189,
+      "text": "Control System Design,\" invited paper to IEEE Transactions on Control System Technology, draft version, March 15, 2002. http://ptolemy.eecs.berkeley.edu/publications/papers/02/actorOriented/ [3] Stephen A. Edwards and Edward A. Lee,\"The"
+    },
+    {
+      "chunk_id": 190,
+      "text": "ed/ [3] Stephen A. Edwards and Edward A. Lee,\"The Semantics and Execution of a Synchronous Block-Diagram Language,\" accepted by Science of Computer Programming, to appear, 2002. http://ptolemy.eecs.berkeley.edu/papers/02/blockdiagram2/"
+    },
+    {
+      "chunk_id": 191,
+      "text": "olemy.eecs.berkeley.edu/papers/02/blockdiagram2/ [4] Liu J., J. Eker, J. W. Janneck, and E. A. Lee: ``Realistic Simulations of Embedded Control Systems\": To appear in proceedings of International Federation of Automatic Control 15th IFAC Wor"
+    },
+    {
+      "chunk_id": 192,
+      "text": "onal Federation of Automatic Control 15th IFAC World Congress, Barcelona, Spain, July 21-26, 2002. [5] Eker J., C. Fong, J. W. Janneck, and J. Liu: ``Design and Simulation of Heterogeneous Control Systems Using Ptolemy II''. In Proceedin"
+    },
+    {
+      "chunk_id": 193,
+      "text": "ntrol Systems Using Ptolemy II''. In Proceedings of New Technologies for Control System, November, 2001, Hong-Kong, China. [6] Jozsef Ludvig, James McCarthy, Stephen Neuendorffer, and Sonia R. Sachs, \"Reprogrammable Platforms for High-sp"
+    },
+    {
+      "chunk_id": 194,
+      "text": ". Sachs, \"Reprogrammable Platforms for High-speed Data Acquisition\", Submitted to the International Journal Design Automation for Embedded Systems. [7] Praveen K. Murthy and Edward A. Lee, \"Multidimensional Synchronous Dataflow,\" to"
+    },
+    {
+      "chunk_id": 195,
+      "text": ", \"Multidimensional Synchronous Dataflow,\" to appear in IEEE Transactions on Signal Processing, July 2002. [8] Lars Wernli, \"Design and implementation of a code generator for the CAL actor language,\" Technical Memorandum UCB/ERL M02/5, U"
+    },
+    {
+      "chunk_id": 196,
+      "text": "r language,\" Technical Memorandum UCB/ERL M02/5, University of California, Berkeley, CA 94720, March 2002. 5. Financial Data Provided separately on a quarterly basis by the university."
+    }
+  ]
+}

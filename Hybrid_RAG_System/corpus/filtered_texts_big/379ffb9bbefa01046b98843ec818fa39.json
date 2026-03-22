@@ -1,0 +1,117 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/git-log-submission",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*-Perl-*- use Net::Domain qw(hostname hostfqdn); unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; require \"GradingCommon.pl\"; $repo = $ENV{'GL_REPO'}; my ($type, $who) = ($repo =~ m{(.*)/"
+    },
+    {
+      "chunk_id": 2,
+      "text": "V{'GL_REPO'}; my ($type, $who) = ($repo =~ m{(.*)/(.*)}); sub mailBugReport { my $tag = shift; my $who = shift; my $assgn = shift; my $annotation = `git show -n 2048 -l $tag`; my ($members, $subject, $recipients); if (TeamEx"
+    },
+    {
+      "chunk_id": 3,
+      "text": "($members, $subject, $recipients); if (TeamExists($who)) { $members = TeamMembers($who); } else { $members = $who; } $subject = \"Error report for assignment $assgn from $who\"; $recipients = \"$SUPERVISOR\";"
+    },
+    {
+      "chunk_id": 4,
+      "text": "n from $who\"; $recipients = \"$SUPERVISOR\"; foreach (split(/\\s+/, $members)) { $recipients .= \" \" . MailingAddress($_); } my $reply_addr = MailingAddress($who); System(\"git tag -n 2048 -l $tag \" . \"| ${MAIL_PR"
+    },
+    {
+      "chunk_id": 5,
+      "text": "it tag -n 2048 -l $tag \" . \"| ${MAIL_PROG} -S replyto=$reply_addr -s '$subject' $recipients\"); } sub deleteSubmission { my $tag = shift; my $who = shift; my $bugflag = shift; my ($assgn, $dir, $tg, $base, $log, $log_base)"
+    },
+    {
+      "chunk_id": 6,
+      "text": "my ($assgn, $dir, $tg, $base, $log, $log_base); if ($tag =~ m{^(.*)-bug.*} or $tag =~ m{^(.+)-\\d+$}) { $assgn = $1; } else { return; } if ($bugflag) { $dir = $BUG_SUBMISSION_DIR; } else {"
+    },
+    {
+      "chunk_id": 7,
+      "text": "$dir = $BUG_SUBMISSION_DIR; } else { $dir = $SUBMISSION_DIR; } foreach my $subm (GLOB(\"$dir/$assgn/$who.*[0-9]\")) { ($base) = ($subm =~ m{.*/(.*)$}); open(SUBM, $subm); ; ; $tg = ; chomp $"
+    },
+    {
+      "chunk_id": 8,
+      "text": "(SUBM, $subm); ; ; $tg = ; chomp $tg; if ($tg eq $tag) { unlink($subm); if ($bugflag) { print STDOUT \"*** Deleted bug submission $tag ($base)\\n\\n\"; } else { p"
+    },
+    {
+      "chunk_id": 9,
+      "text": "base)\\n\\n\"; } else { print STDOUT \"*** Deleted submission $tag ($base)\\n\\n\"; } if (not $bugflag) { foreach my $log (GLOB(\"$LOG_DIR/$assgn/*/$base\")) { my ($log_ba"
+    },
+    {
+      "chunk_id": 10,
+      "text": "assgn/*/$base\")) { my ($log_base) = ($log =~ m{.*/($assgn/.*/$base)}); unlink($log); print STDOUT \"*** Deleted log entry $log_base\\n\\n\"; } } } clo"
+    },
+    {
+      "chunk_id": 11,
+      "text": "} } } close(SUBM); } } if (StudentExists($who) or TeamExists($who)) { foreach ( ) { chomp; my ($old, $new, $ref) = split; my $bugflag; my $derefnew; my $timesta"
+    },
+    {
+      "chunk_id": 12,
+      "text": "bugflag; my $derefnew; my $timestamp; $bugflag = 0; if (not $ref =~ m{^refs/tags/}) { next; } my ($tag) = ($ref =~ m{^refs/tags/(.*)}); if ($ref =~ m{(?i)bug}) { $bugflag"
+    },
+    {
+      "chunk_id": 13,
+      "text": "if ($ref =~ m{(?i)bug}) { $bugflag = 1; } if ($new =~ /^0+$/) { deleteSubmission($tag, $who, $bugflag); next; } if ($ref =~ m{(?i)bug}) { $bugflag = 1; }"
+    },
+    {
+      "chunk_id": 14,
+      "text": "i)bug}) { $bugflag = 1; } if ($bugflag and $tag !~ m{^(.*)-bug.*}) { print STDERR \"\\nWARNING: bug tag $tag has wrong format.\\n\\n\"; next; } if (not ($bugflag and $tag =~ m{^(.+)-bug.*"
+    },
+    {
+      "chunk_id": 15,
+      "text": "if (not ($bugflag and $tag =~ m{^(.+)-bug.*$}) and not (not $bugflag and $tag =~ m{^(.+)-\\d+$})) { print STDERR \"\\nNote: $tag is not a submission or bug report.\\n\\n\"; next; } my $assgn = $1;"
+    },
+    {
+      "chunk_id": 16,
+      "text": "next; } my $assgn = $1; if (not AssignmentExists($assgn)) { if ($bugflag) { print STDERR \"\\nWARNING: Unknown assignment $assgn in bug tag $tag.\\n\\n\"; } else {"
+    },
+    {
+      "chunk_id": 17,
+      "text": "$tag.\\n\\n\"; } else { print STDERR \"\\nWARNING: No assignment $assgn; $tag is not a submission.\\n\\n\"; } next; } my $dir; if ($bugflag) { $dir = $BUG_SUBMISSION_DIR"
+    },
+    {
+      "chunk_id": 18,
+      "text": "$bugflag) { $dir = $BUG_SUBMISSION_DIR; } else { $dir = $SUBMISSION_DIR; } if (not -d \"$dir/$assgn\" && -w \"$dir/$assgn\") { InitDir(\"$dir/$assgn\", 02777, $STAFF_GROUP); } my ("
+    },
+    {
+      "chunk_id": 19,
+      "text": "sgn\", 02777, $STAFF_GROUP); } my ($unixtimestamp) = (`git cat-file commit $ref` =~ m{^author.*\\s(\\d+)\\s[-+]\\d+$}m); while (1) { $timestamp = TimeToTimeStamp($unixtimestamp); $subm = \"$dir/$"
+    },
+    {
+      "chunk_id": 20,
+      "text": "Stamp($unixtimestamp); $subm = \"$dir/$assgn/$who.$timestamp\"; if (not -e $subm) { last; } if ($bugflag) { $unixtimestamp += 1; } else { $unixt"
+    },
+    {
+      "chunk_id": 21,
+      "text": "+= 1; } else { $unixtimestamp -= 1; } } if ($bugflag) { $subm_tag = $tag; } else { %all_tags = (); foreach $existing_tag (split(/\\s+/, `git tag`)) {"
+    },
+    {
+      "chunk_id": 22,
+      "text": "foreach $existing_tag (split(/\\s+/, `git tag`)) { $all_tags{$existing_tag} = 1; } for ($i = 1; ; $i += 1) { $subm_tag = \"submit/$assgn-$i\"; if (not $all_tags{$subm_tag}) {"
+    },
+    {
+      "chunk_id": 23,
+      "text": "if (not $all_tags{$subm_tag}) { last; } } if (not System(\"git tag $subm_tag $new\")) { print STDERR \"\\n*** Internal submission error. Please see the staff.\\n\\n\";"
+    },
+    {
+      "chunk_id": 24,
+      "text": "al submission error. Please see the staff.\\n\\n\"; next; } } $derefnew = `git rev-list -1 $new 2>/dev/null`; if (not $derefnew) { $derefnew = $new; } open (SUBMIT, \">\", $subm) ||"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ew = $new; } open (SUBMIT, \">\", $subm) || next; print SUBMIT \"GIT submission\\n\"; print SUBMIT \"$repo\\n$subm_tag\\n$derefnew\\n\"; close SUBMIT || next; chmod(0644, $subm); if ($bugflag) { print STDERR \"\\n*** Bug"
+    },
+    {
+      "chunk_id": 26,
+      "text": "($bugflag) { print STDERR \"\\n*** Bug report for assignment $assgn submitted.\\n\\n\"; mailBugReport($tag, $who, $assgn); next; } else { print STDERR \"\\n*** Assignment $assgn submitted.\\n\\n\";"
+    },
+    {
+      "chunk_id": 27,
+      "text": "RR \"\\n*** Assignment $assgn submitted.\\n\\n\"; } next if not TeamExists($who); $base = \"$who.$timestamp\"; foreach $login (split (/\\s+/, TeamMembers($who))) { symlink ($base, \"$SUBMISSION_DIR/$assgn/$login.$timestamp\"); } } }"
+    },
+    {
+      "chunk_id": 28,
+      "text": "MISSION_DIR/$assgn/$login.$timestamp\"); } } } else { print STDERR \"\\nWARNING: No registration found for $who.\\n\\n\"; } exit 0;"
+    }
+  ]
+}

@@ -1,0 +1,321 @@
+{
+  "url": "http://people.eecs.berkeley.edu/%7Eronf/jat/microlaze/usermanual.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Microlaze User Manual Microlaze User Manual This page has the following sections: Microlaze Setup Laser Maintenance Microlaze Suite User Guide Source Code and Programmer's Guide Microlaze Setup Figure 1. Microlaze setup: 1. Laser lenses, 2. XYZ stage"
+    },
+    {
+      "chunk_id": 2,
+      "text": "1. Microlaze setup: 1. Laser lenses, 2. XYZ stage, 3. Manual Z adjust, 4. Prior stage controller, 5. Light source for microscope, 6. Light source for beam spot, 7. Microscope monitor, 8. Joystick for XYZ stage, 9. Control computer's display, 10. Fum"
+    },
+    {
+      "chunk_id": 3,
+      "text": "XYZ stage, 9. Control computer's display, 10. Fume exhaust, 11. Plastic curtain, 12. Graduate student unit #JY442 Microlaze centers around a New Wave Quiklaze laser micromachining system attached to a Prior XYZ stage and monitor. The monitor is inte"
+    },
+    {
+      "chunk_id": 4,
+      "text": "a Prior XYZ stage and monitor. The monitor is integrated with the stage controller to allow it to autofocus. There is also a manual joystick for moving the stage. The laser and stage can be controlled via serial cable from a PC. We have the stage on"
+    },
+    {
+      "chunk_id": 5,
+      "text": "via serial cable from a PC. We have the stage on COM1 and the laser on COM2. Note that the Prior stage serial cable requires a null modem whereas the Quiklaze does not. While the microlaze program can fully control the Quiklaze, you can manually con"
+    },
+    {
+      "chunk_id": 6,
+      "text": "n fully control the Quiklaze, you can manually control it with the Windows PCLaze program (on the Start menu). You cannot use the microlaze program and PCLaze at the same time since they cannot share the COM port. Laser Maintenance The Quiklaze syste"
+    },
+    {
+      "chunk_id": 7,
+      "text": "the COM port. Laser Maintenance The Quiklaze system can only be controlled via the serial cable from the Windows NT workstation. This is a security and safety measure because only qualified users are given NT accounts. It is possible to control the Q"
+    },
+    {
+      "chunk_id": 8,
+      "text": "given NT accounts. It is possible to control the Quiklaze system from a manual remote box. To use remote box, remove jumper on J14 which is closest to the edge. To allow operation without remote box, add the jumper and use the stub on the remote box"
+    },
+    {
+      "chunk_id": 9,
+      "text": "add the jumper and use the stub on the remote box connector on the back of the power supply unit. When it is necessary to change the flashlamp, follow the instructions in the Quiklaze manual. After replacing the flashlamp, make sure connector next to"
+    },
+    {
+      "chunk_id": 10,
+      "text": "placing the flashlamp, make sure connector next to the transformer going to the board which is under the red plastic sheet is connected well. Microlaze Suite User Guide The Microlaze Suite of programs is comprised of the following command-line applic"
+    },
+    {
+      "chunk_id": 11,
+      "text": "is comprised of the following command-line applications: microlaze - the main application which reads a G-code file and controls the laser to cut and score the workpiece. microlazeconfig - creates or modifies the configuration file which controls la"
+    },
+    {
+      "chunk_id": 12,
+      "text": "modifies the configuration file which controls laser power, cut rate, etc. microlazeoffset - creates the offset file which translates and rotates the coordinates in the G-code file to allow a different workpiece position. stagexy - displays the curr"
+    },
+    {
+      "chunk_id": 13,
+      "text": "nt workpiece position. stagexy - displays the current X,Y coordinates of the stage or commands a new position resetstage - sets the current stage position to (0,0) On the LASERMACHINE Windows NT workstation, these executables are in E:\\bin which shou"
+    },
+    {
+      "chunk_id": 14,
+      "text": "tation, these executables are in E:\\bin which should be on the PATH. Also note that there are several subdirectories inside E:\\bin such as 20010424 which is the date April 24, 2001. While the latest version of the executables are in E:\\bin, previous"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ersion of the executables are in E:\\bin, previous versions are in the dated directories. This way, if you think a previous version worked better, or the newer one has a bug, the older versions are still available. The following describes each command"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ll available. The following describes each command-line applications in the Microlaze Suite. microlaze microlaze is used as follows: microlaze [options] [cutfile] The cutfile is a G-code file specifying the shape to cut. Usually the G-code file is pr"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ng the shape to cut. Usually the G-code file is produced as follows: Create a two-dimensional drawing in SolidWorks and export as a DXF file. (Note that you should export a SolidWorks drawing , not a part or assembly.) Then run the GCode 2000 program"
+    },
+    {
+      "chunk_id": 18,
+      "text": "part or assembly.) Then run the GCode 2000 program to convert from DXF to G-code. The appropriate GCode 2000 configuration file is distributed in the microlaze.zip file as 2dtorch.ini . If you do not specify a cut file, then you must specify a score"
+    },
+    {
+      "chunk_id": 19,
+      "text": "specify a cut file, then you must specify a score file with the -s option as shown below. The options are any oft the following: -s scorefile - the G-code file specifying the shape to score. If you specify both a score file and a cut file, microlaze"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ecify both a score file and a cut file, microlaze runs the score file first. -c configfile - the file containing the configuration options for laser power, cut hold time, etc. For details on the config file, see microlazeconfig below. -o offsetfile -"
+    },
+    {
+      "chunk_id": 21,
+      "text": "g file, see microlazeconfig below. -o offsetfile - the file containing the X, Y and angle offsets which are added to the coordinates in the cut or score file. For details on the config file, see microlazeoffset below. -l startline - The first line of"
+    },
+    {
+      "chunk_id": 22,
+      "text": "lazeoffset below. -l startline - The first line of the G-code file to execute. If the score file is supplied, this applies to the first line of the score file (and every line of the cut file is executed). Otherwise, this applies to the cut file. This"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ed). Otherwise, this applies to the cut file. This option is useful if you had to stop microlaze in the middle of a job. This way, you can specify the last line it was on and resume. -ox xOffset - the X offset in millimeters which is added to the coo"
+    },
+    {
+      "chunk_id": 24,
+      "text": "X offset in millimeters which is added to the coordinates in the cut or score file. If a -o offsetfile is provided, this is added to its X offset. -oy yOffset - the Y offset in millimeters which is added to the coordinates in the cut or score file."
+    },
+    {
+      "chunk_id": 25,
+      "text": "dded to the coordinates in the cut or score file. If a -o offsetfile is provided, this is added to its Y offset. -oa angleOffset - the angle offset in radians which is added to the coordinates in the cut or score file. If a -o offsetfile is provided,"
+    },
+    {
+      "chunk_id": 26,
+      "text": "cut or score file. If a -o offsetfile is provided, this is added to its angle offset. microlazeconfig microlazeconfig is used as follows: microlazeconfig configfile If the specified config file does not exist, microlazeconfig will create it. Otherwis"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ot exist, microlazeconfig will create it. Otherwise, microlazeconfig will read the existing config file and allow you to modify its values. microlazeconfig will prompt you for each of the configuration parameters and allow you to type a new value, or"
+    },
+    {
+      "chunk_id": 28,
+      "text": "n parameters and allow you to type a new value, or accept the previous value in the config file. (If you are creating a new config file the \"previous value\" is the system default.) Following are all the config parameters, their default values and mea"
+    },
+    {
+      "chunk_id": 29,
+      "text": "he config parameters, their default values and meaning. The defaults are for cutting 13 micron thick stainless steel at 50x magnification which makes a spot size 50 microns wide. Parameter Default Meaning wavelength (IR, Green of UV) Green Laser colo"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ning wavelength (IR, Green of UV) Green Laser color. Note that a special lens is required for IR or UV. energyrange (low or high) high High or low energy range. energylevel 1000 Energy level from 0 to 1000. These are normalized units and don't reflec"
+    },
+    {
+      "chunk_id": 31,
+      "text": "1000. These are normalized units and don't reflect a specific number of Joules. pulserate (Hz) 40 Firing rate from 0 to 40 Hz. markersizeX (percent) 100 Width of the blast spot of the laser from 1 to 100. markersizeY (percent) 100 Height of the blas"
+    },
+    {
+      "chunk_id": 32,
+      "text": "100. markersizeY (percent) 100 Height of the blast spot of the laser from 1 to 100. scoreStepSize (mm) 0.150 Distance between the center of each \"dot\" on the \"dotted line\" of a score line. Typically 3 times the spot size. scoreHoldTime (sec) 2.000 A"
+    },
+    {
+      "chunk_id": 33,
+      "text": "3 times the spot size. scoreHoldTime (sec) 2.000 Amount of time to blast at each spot. This should be enough to go through the material. cutStepSize (mm) 0.025 Distance to move the spot for each \"nibble\" of the cut line. Typically one half the spot s"
+    },
+    {
+      "chunk_id": 34,
+      "text": "le\" of the cut line. Typically one half the spot size. cutHoldTime (sec) 1.000 Amount of time at blast at each spot. If the cutStepSize is only one half a spot size, this can be one half the time needed to cut though the material since each portion o"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ed to cut though the material since each portion of the line gets blasted for two steps. cutFeedSpeed (percent) 100 Percent of maximum speed to move the laser during cutting. If you set this to one, the Prior stage moves at about 1 mm per second. At"
+    },
+    {
+      "chunk_id": 36,
+      "text": "he Prior stage moves at about 1 mm per second. At 40 Hz blasting rate, this is 25 microns per blast, so with a 50 micron spot size you may get two blasts on each portion of the cut line. (See \"endpoints\" configuration below.) This may be enough to cu"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ts\" configuration below.) This may be enough to cut a thin mask. distanceToRefocus (mm) 0.500 How far the stage can move before it should refocus. This depends on how uneven the surface is. Set to 0 to never refocus. focusOffsetDistance (mm) 0.100 Wh"
+    },
+    {
+      "chunk_id": 38,
+      "text": "o never refocus. focusOffsetDistance (mm) 0.100 When microlaze refocusses, it stops firing the laser, moves away from the cut line, refocusses, moves back and starts firing again. This parameter tells how far off the cut line to move. Typically twice"
+    },
+    {
+      "chunk_id": 39,
+      "text": "how far off the cut line to move. Typically twice the spot size. (This parameter is ignored if distanceToRefocus is zero.) minFocusScore 800 After each refocus, the Prior stage computes a \"score\" of how well the image is focussed. If the score falls"
+    },
+    {
+      "chunk_id": 40,
+      "text": "how well the image is focussed. If the score falls below minFocusScore, microlaze will prompt the user to manually refocus. Set this to zero to keep cutting regardless of what score results from a refocus. By choosing the right config file parameters"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ocus. By choosing the right config file parameters, you can make microlaze perform some useful functions as follows: \"endpoints\" - Set scoreStepSize and cutStepSize and to a very large number, such as 1000. Since microlaze will always move to the end"
+    },
+    {
+      "chunk_id": 42,
+      "text": "1000. Since microlaze will always move to the endpoint of each line even if the line is smaller than the step size, this will make microlaze quickly visit each endpoint of your shape. \"null\" - Set energyRange to LOW, energyLevel to zero, and distanc"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ergyRange to LOW, energyLevel to zero, and distanceToRefocus to zero (to not refocus). This will go through the motions of your job but not cut anything since the laser power is off. \"endpoints and null\" - Combine the parameters of \"endpoints\" and \"n"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ll\" - Combine the parameters of \"endpoints\" and \"null\". This will make microlaze visit each endpoint without cutting anything. You may want to use this to make sure the spot will stay within the expected cut area. Of course, there are other parameter"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ted cut area. Of course, there are other parameter settings for specific materials. These are detailed in the \"Tips and Tricks\" section of the main Microlaze page . microlazeoffset microlazeoffset is used as follows: microlazeoffset offsetfile If the"
+    },
+    {
+      "chunk_id": 46,
+      "text": "used as follows: microlazeoffset offsetfile If the offsetfile already exists, it is overwritten with the new file. The purpose of microlazeoffset is to create the offset file which is supplied with the -o option to microlaze . This is in case you nee"
+    },
+    {
+      "chunk_id": 47,
+      "text": "e -o option to microlaze . This is in case you need to remove the workpiece and replace it later. Before cutting your first job, you should put a mark on the workpiece at the origin and mark a line along the X axis. When you replace the workpiece, ru"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ong the X axis. When you replace the workpiece, run microlazeoffset . First it asks you to manually position the marker at the origin. Use the joystick to visually position the marker and press ENTER. (This determines the X and Y offsets.) Next, micr"
+    },
+    {
+      "chunk_id": 49,
+      "text": "(This determines the X and Y offsets.) Next, microlazeoffset asks you to position the marker at a point along the X axis. Use the joystick again to position the marker and press ENTER. (This is used to calculate the angle offset.) stagexy stagexy is"
+    },
+    {
+      "chunk_id": 50,
+      "text": "to calculate the angle offset.) stagexy stagexy is used as follows: stagexy [x y] If x and y are not supplied, stagexy simply displays the current x,y coordinates of the stage in millimeters. If the x and y coordinates are supplied (in millimeters),"
+    },
+    {
+      "chunk_id": 51,
+      "text": "and y coordinates are supplied (in millimeters), stagexy moves the stage to those coordinates. resetstage resetstage is used as follows: resetstage resetstage resets the coordinates of the stage so that the present position of the stage is (0,0). If"
+    },
+    {
+      "chunk_id": 52,
+      "text": "hat the present position of the stage is (0,0). If you know where the (0,0) coordinate is in your cut file, you may use resetstage to assign the position on the workpiece where it will start cutting. Source Code and Programmer's Guide Compiling the M"
+    },
+    {
+      "chunk_id": 53,
+      "text": "Source Code and Programmer's Guide Compiling the Microlaze Suite The software is distributed in the file microlaze.zip . The zip file includes the source code, the Visual C++ development environment and the Windows NT executables microlaze.exe , micr"
+    },
+    {
+      "chunk_id": 54,
+      "text": "nd the Windows NT executables microlaze.exe , microlazeconfig.exe , microlazeoffset.exe , resetstage.exe and stagexy.exe. It is currently compiled under Microsoft Visual C++ 6.0. You can open the project workspace file microlaze.dsw and compile. If y"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ect workspace file microlaze.dsw and compile. If you must create the project file yourself, these are ordinary 32-bit console applications. The following are the source and header files needed to build each executable: microlaze.exe : microlaze.cpp,"
+    },
+    {
+      "chunk_id": 56,
+      "text": "d each executable: microlaze.exe : microlaze.cpp, config.cpp, offset.cpp, prior.cpp, quiklaze.cpp, serial.cpp, config.h, offset.h, prior.h, quiklaze.h, serial.h, StdAfx.h microlazeconfig.exe : microlazeconfig.cpp, config.cpp, config.h, StdAfx.h micro"
+    },
+    {
+      "chunk_id": 57,
+      "text": "zeconfig.cpp, config.cpp, config.h, StdAfx.h microlazeoffset.exe : microlazeoffset.cpp, offset.cpp, prior.cpp, quiklaze.cpp, serial.cpp, offset.h, serial.h, StdAfx.h resetstage.exe : resetstage.cpp, prior.cpp, quiklaze.cpp, serial.cpp, prior.h, quikl"
+    },
+    {
+      "chunk_id": 58,
+      "text": "rior.cpp, quiklaze.cpp, serial.cpp, prior.h, quiklaze.h, serial.h, StdAfx.h stagexy.exe : stagexy.cpp, prior.cpp, quiklaze.cpp, serial.cpp, prior.h, quiklaze.h, serial.h, StdAfx.h Overview of Source Files While the majority of the documentation is in"
+    },
+    {
+      "chunk_id": 59,
+      "text": "iles While the majority of the documentation is in the source files (where it is easier to update when the source code changes), here we give an overview of the source files and what they are for. The description begins with the lowest-level files. S"
+    },
+    {
+      "chunk_id": 60,
+      "text": "description begins with the lowest-level files. StdAfx.h - This is a standard header file which is generated by the Visual C++ Application Wizard. It provides generic defines for the target platform. serial.cpp, serial.h - Defines functions to open"
+    },
+    {
+      "chunk_id": 61,
+      "text": "serial.cpp, serial.h - Defines functions to open a serial communications port and read/write to it. These used the non-overlapped version of CreateFile which is how Windows NT interfaces to the comm port. config.cpp, config.h - Defines the class Mic"
+    },
+    {
+      "chunk_id": 62,
+      "text": "port. config.cpp, config.h - Defines the class MicrolazeConfig which has methods loadFromFile and saveToFile which read and write the config file. MicrolazeConfig keeps its own copy of all the configuration parameters. You must explicitly transfer th"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ration parameters. You must explicitly transfer these to the Quiklaze and Prior objects as explained below. offset.cpp, offset.h - Defines the class MicrolazeOffset which has methods loadFromFile and saveToFile which read and write the offset file. M"
+    },
+    {
+      "chunk_id": 64,
+      "text": "saveToFile which read and write the offset file. MicrolazeOffset keeps its own copy of all the configuration parameters. You must explicitly transfer these to the Prior object as explained below. quiklaze.cpp, quiklaze.h - Defines the class Quiklaze"
+    },
+    {
+      "chunk_id": 65,
+      "text": "laze.cpp, quiklaze.h - Defines the class Quiklaze which is the interface to the Quiklaze laser. The most important methods are startFiring and stopFiring, and the method firing() which tells whether it is currently firing. The Quiklaze class keeps tr"
+    },
+    {
+      "chunk_id": 66,
+      "text": "t is currently firing. The Quiklaze class keeps track of all the relevant configuration options such as energyLevel and pulseRate. When the Quiklaze object is created, these have initial default values, and must be explicitly changed in microlaze.cpp"
+    },
+    {
+      "chunk_id": 67,
+      "text": "s, and must be explicitly changed in microlaze.cpp after reading in the config file. prior.cpp, prior.h - Defines the class Prior which is the interface to the Prior positioning stage. This class has internal (private) methods to to move the stage d"
+    },
+    {
+      "chunk_id": 68,
+      "text": "internal (private) methods to to move the stage directly and autofocus. The public methods are higher-level such as reposition and cutTo. These higher level methods keep track of whether the laser is firing and whether it has moved the distance to r"
+    },
+    {
+      "chunk_id": 69,
+      "text": "firing and whether it has moved the distance to refocus and needs to refocus. Thus, the Prior class is provided with the instance of the Quiklaze class by calling setQuiklaze. (If you are just creating the Prior object to move the stage and not to c"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ng the Prior object to move the stage and not to cut, you don't need to set a Quiklaze object.) The Prior class keeps track of all the relevant configuration options such as distanceToRefocus and cutStepSize. When the Prior object is created, these h"
+    },
+    {
+      "chunk_id": 71,
+      "text": "tepSize. When the Prior object is created, these have initial default values, and must be explicitly changed in microlaze.cpp after reading in the config file. (The same is true of setting the Prior x, y and angle offset values after reading the offs"
+    },
+    {
+      "chunk_id": 72,
+      "text": ", y and angle offset values after reading the offset file.) Notice that the methods checkInterrupt and doInterrupt are virtual so that microlaze.cpp can override them to provide the keyboard interface (see below). microlaze.cpp - This defines the mai"
+    },
+    {
+      "chunk_id": 73,
+      "text": "(see below). microlaze.cpp - This defines the main function which reads the microlaze command line options, reads the config file and the offset file, creates the Quiklaze object and ConsolePrior objects and then calls the internal routine DoFile to"
+    },
+    {
+      "chunk_id": 74,
+      "text": "ects and then calls the internal routine DoFile to run the score file and again to run the cut file. The ConsolePrior class extends the Prior class to override checkInterrupt and doInterrupt based on polling the keyboard with kbhit(). This is why you"
+    },
+    {
+      "chunk_id": 75,
+      "text": "polling the keyboard with kbhit(). This is why you can pause microlaze by hitting the keyboard. microlazeconfig.cpp - This defines the main function which reads in the previous values of a config file if it exists, prompts the user to change the valu"
+    },
+    {
+      "chunk_id": 76,
+      "text": "if it exists, prompts the user to change the values, and writes the new config file. microlazeoffset.cpp - This defines the main function which prompts the user for the origin and point along the X axis and writes the offset file. To do this, microl"
+    },
+    {
+      "chunk_id": 77,
+      "text": "xis and writes the offset file. To do this, microlazeoffset.cpp creates a Prior object and uses its getXY method. resetstage.cpp - This simply creates a Prior object and sends the command \"Z\" which resets the stage. This is an example of directly sen"
+    },
+    {
+      "chunk_id": 78,
+      "text": "sets the stage. This is an example of directly sending a command to the stage without using any higher-level utility methods in the Prior class. stagexy.cpp - This defines the main function which gets the x,y coordinates from the command line, create"
+    },
+    {
+      "chunk_id": 79,
+      "text": "the x,y coordinates from the command line, creates a Prior object and calls reposition (or calls getXY if the user only wants the present position). back to Microlaze main page"
+    }
+  ]
+}

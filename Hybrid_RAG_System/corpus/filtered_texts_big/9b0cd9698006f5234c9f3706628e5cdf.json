@@ -1,0 +1,49 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/RequiringACommonJSModule",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / RequiringACommonJSModule Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / RequiringACommonJSModule The following is from Ma"
+    },
+    {
+      "chunk_id": 2,
+      "text": "RequiringACommonJSModule The following is from Marcus Pan: An accessor is like a CommonJS module - it has important functions that are members of an 'exports' object. To use a module, an accessor uses the 'require' keyword, for example: WebSocketCli"
+    },
+    {
+      "chunk_id": 3,
+      "text": "s the 'require' keyword, for example: WebSocketClient var client = require('webSocket'); One implementation of inheritance would be to treat the accessor like a module. We could place accessors in the modules directory, or make the 'require' look in"
+    },
+    {
+      "chunk_id": 4,
+      "text": "modules directory, or make the 'require' look in the accessor directory too. Consider the following example where RosSubscriber inherits input and output from WebSocketClient, and adds a parameter 'topic': WebSocketClient.js exports.setup = function"
+    },
+    {
+      "chunk_id": 5,
+      "text": "opic': WebSocketClient.js exports.setup = function() { accessor.input('toSend'); accessor.parameter('server'); accessor.parameter('port'); } RosPublisher.js var wsClient = require('WebSocketClient'); exports.setup = function() { wsClient.init"
+    },
+    {
+      "chunk_id": 6,
+      "text": "nt'); exports.setup = function() { wsClient.initialize(); accessor.parameter('topic'); } This approach can also override functions. Let's say RosSubscriber wants to override the 'toSend' inputHandler in WebSocketClient: WebSocketClient.js var inp"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ler in WebSocketClient: WebSocketClient.js var inputHandle; exports.initialize() { inputHandle = addInputHandler('toSend', inputHandler); } exports.inputHandler() = function(){ ... } RosSubscriber.js //assume wsClient has been defined as above exp"
+    },
+    {
+      "chunk_id": 8,
+      "text": "s //assume wsClient has been defined as above exports.initialize = function() { //must override first before calling initialize wsClient.toSendInputHandler = function() { //override } wsClient.initialize(); } The above only works because"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ient.initialize(); } The above only works because inputHandler in WebSocketClient.js was made a property of the exports object. Otherwise, RosSubscriber would not be able to see it. Comments A parent accessor can only let its child see what is in the"
+    },
+    {
+      "chunk_id": 10,
+      "text": "accessor can only let its child see what is in the 'exports' object. This could lead to some clunky function definitions. For example, if you want to export inputHandlers you can't define it inline in initialize . The current accessor implementation"
+    },
+    {
+      "chunk_id": 11,
+      "text": "initialize . The current accessor implementation doesn't require functions like setup and initialize to be attached to an 'exports' object. However these accessors would not be able to extend functionality. (Not sure about this) Back to Research a"
+    }
+  ]
+}

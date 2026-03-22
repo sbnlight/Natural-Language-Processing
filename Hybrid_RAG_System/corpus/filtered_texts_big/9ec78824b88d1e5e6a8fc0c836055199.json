@@ -1,0 +1,505 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/elm.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional & Electronics Support Group /share/b/pub/elm.help Mar 13, 2001 ELM Filter Program for Email ~~~~~~~~~~~"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ELM Filter Program for Email ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ The following Elm Filter Guide describes features of a simple email filter program for sendmail-based UNIX email servers, such as the EECS email server 'pasteur.eecs.berkele"
+    },
+    {
+      "chunk_id": 3,
+      "text": "as the EECS email server 'pasteur.eecs.berkeley.edu'. Filtering starts with a file called .forward in your UNIX home directory. The email server reads that file before delivering mai to you. You can create the file with these UNIX comm"
+    },
+    {
+      "chunk_id": 4,
+      "text": "u. You can create the file with these UNIX commands (assuming your login is \"jdoe\"): % echo '\"|/usr/local/bin/filter -o '$HOME'/.elm/errors\"' >! ~/.forward % chmod 600 ~/.forward Here are UNIX commands to install \"filter\" and rules to"
+    },
+    {
+      "chunk_id": 5,
+      "text": "are UNIX commands to install \"filter\" and rules to 1) discard email received from the site \"annoying.com\" 2) discard email that has the word \"SPAM\" in the subject 3) return email to the sender that has \"YYYY\" in the subject % mkd"
+    },
+    {
+      "chunk_id": 6,
+      "text": "sender that has \"YYYY\" in the subject % mkdir ~/.elm; cd ~/.elm % touch rules; chmod 600 rules % touch errors; chmod 700 errors % cat << EOF >! rules if (from contains \"annoying.com\") then save \"/dev/null\" if (subject cont"
+    },
+    {
+      "chunk_id": 7,
+      "text": "g.com\") then save \"/dev/null\" if (subject contains \"SPAM\") then save \"/dev/null\" if (subject contains 'YYYY') then execute \"| mailx -s 'rejecting %s' %r\" EOF Our mail server will read the .forward file, which calls the \"filter\" prog"
+    },
+    {
+      "chunk_id": 8,
+      "text": "he .forward file, which calls the \"filter\" program, which reads the \"filter-rules\" file. Note that this does risk discarding some mail that might be ligitimate but match one of the rules. You could save it all to a file for your review"
+    },
+    {
+      "chunk_id": 9,
+      "text": "You could save it all to a file for your review by replacing \"/dev/null\" with the filename. You can edit the rules file to tell filter how to handle your messages based on the content of their headers. To check that your filter-rules f"
+    },
+    {
+      "chunk_id": 10,
+      "text": "headers. To check that your filter-rules file is correctly entered run \"filter -r\". This shows you all the \"Filter Rules\" that you have created. Please see \"Email\" under http://inst.eecs.berkeley.edu/software for more information ab"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ecs.berkeley.edu/software for more information about using email and filtering incoming email. EECS Instructional Support 384 & 386 Cory, 333 Soda inst@eecs.berkeley.edu ============================================"
+    },
+    {
+      "chunk_id": 13,
+      "text": "it ----------------------------------------------------------- The Elm Mail System (Version 2.4) Syd Weinstein, Elm Coordinator Datacomp System"
+    },
+    {
+      "chunk_id": 14,
+      "text": "oordinator Datacomp Systems, Inc. 3837 Byron Road Huntingdon Valley, PA 19006-2320 email: elm@DSI.COM or dsinc!elm Copyright 1986,1987 b"
+    },
+    {
+      "chunk_id": 15,
+      "text": "inc!elm Copyright 1986,1987 by Dave Taylor Copyright 1988-1992 by The USENET Community Trust The Elm Filter System Guide (The Elm Mail System, Version 2.4)"
+    },
+    {
+      "chunk_id": 16,
+      "text": "The Elm Mail System, Version 2.4) October 1, 1992 Syd Weinstein Datacomp Systems, Inc. 3837 Byron Road Huntingdon Valle"
+    },
+    {
+      "chunk_id": 17,
+      "text": "837 Byron Road Huntingdon Valley, PA 19006-2320 email: elm@DSI.COM or dsinc!elm Derived from \"The Elm Mail System, Version 2.0\""
+    },
+    {
+      "chunk_id": 18,
+      "text": "tem, Version 2.0\" by Dave Taylor Intuitive Systems Mountain View, California email: taylor@intuitive.com or limbo!taylor"
+    },
+    {
+      "chunk_id": 19,
+      "text": "email: taylor@intuitive.com or limbo!taylor One of the greatest problems with the burgeoning electronic mail explosion is that I tend to get lots of mail that I don't care about. Amusingly, perhaps, I have the equivalent of e"
+    },
+    {
+      "chunk_id": 20,
+      "text": "Amusingly, perhaps, I have the equivalent of electronic junk mail. Not amusing, however, is the fact that this can ra- pidly accumulate and end up taking over my mailbox. At the same time I often get mail that, while it is interest"
+    },
+    {
+      "chunk_id": 21,
+      "text": "time I often get mail that, while it is interesting and important, can easily be filed to be read later, without ever actually having to clutter up my incoming mailbox. This, then, is what filter does! The filter program allows you"
+    },
+    {
+      "chunk_id": 22,
+      "text": "filter does! The filter program allows you ------ ------ to define a set of rules by which all incoming mail is screened, and a subsequent set of actions to perform based on whether the conditions are"
+    },
+    {
+      "chunk_id": 23,
+      "text": "o perform based on whether the conditions are met or not. Filter also has the ability to mail a ------ summary of what actions it performed on the incoming mail as often as you'd like. Writing the"
+    },
+    {
+      "chunk_id": 24,
+      "text": "mail as often as you'd like. Writing the Rules The language for writing filter rules is pretty simple, actually. ------ The fundamental structure is: Elm Filter Guide"
+    },
+    {
+      "chunk_id": 25,
+      "text": "Elm Filter Guide Version 2.4 Elm Filter Guide Version 2.4 if (condition) then action --------- ------ Where condition is constru"
+    },
+    {
+      "chunk_id": 26,
+      "text": "---- ------ Where condition is constructed by an arbitrary number of indivi- --------- dual conditions of the form \"field relation value\" (an optional ----- -------- ----- further type o"
+    },
+    {
+      "chunk_id": 27,
+      "text": "----- -------- ----- further type of rule is of the form \"always action\" but should ------ only be used as the last rule in the ruleset, for obvious rea- sons). The field val"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ruleset, for obvious rea- sons). The field value can be: ----- subject sender from to lines For the field lines, the relation can be any of the standard re-"
+    },
+    {
+      "chunk_id": 29,
+      "text": "of the standard re- -------- lationships ('>', '<', '>=', '<=', '!=' and '='). contains is equivalent to the relation '=' or you can skip the relationship entirely (e.g. \"subject = \"joe\"\", \"subject conta"
+    },
+    {
+      "chunk_id": 30,
+      "text": "entirely (e.g. \"subject = \"joe\"\", \"subject contains \"joe\"\", and \"subject \"joe\"\" are all equivalent). The value is any quoted ----- string that is to be matched against or a number if lines i"
+    },
+    {
+      "chunk_id": 31,
+      "text": "at is to be matched against or a number if lines is the field being considered. ----- The relation matches (or '~') takes an egrep like regular expres- ----- sion as the value. The regular ex"
+    },
+    {
+      "chunk_id": 32,
+      "text": "----- sion as the value. The regular expression must be enclosed in ----- pairs of '/'. If you need a '/' in your expression write it as \"\\/\". Individual conditions are joined together by using the word and,"
+    },
+    {
+      "chunk_id": 33,
+      "text": "itions are joined together by using the word and, and the logic of a condition can be flipped by using not as the first word (e.g. \"subject \"fun\" and not subject \"games\"\"). We'll see more examples of this later. Note that the \"or\" lo"
+    },
+    {
+      "chunk_id": 34,
+      "text": "examples of this later. Note that the \"or\" logical conjunction isn't a valid part of the filter conditional statement. ------ Finally, action can be any of: ------ Action Description delet"
+    },
+    {
+      "chunk_id": 35,
+      "text": "Action Description delete Deletes the message save foldername Saves a copy of the message in the ---------- specified foldername. savecopy fol"
+    },
+    {
+      "chunk_id": 36,
+      "text": "specified foldername. savecopy foldername Does the same as save, but also puts a ---------- copy in your mailbox. forward address Sends the message to the specified ad-"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ess Sends the message to the specified ad- ------- dress. forwardc address Sends the message to the specified ad- ------- dress and leave"
+    },
+    {
+      "chunk_id": 38,
+      "text": "---- dress and leaves a copy in your mail- box. October 1, 1992 Page 2 Elm Filter Guide Version 2"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ide Version 2.4 execute command Feeds the message to the specified ------- command (or complex sequence of com- mands) a"
+    },
+    {
+      "chunk_id": 40,
+      "text": "nce of com- mands) as standard input. executec command Like execute but also leaves a copy in ------- your mailbox. leave Leaves the m"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ilbox. leave Leaves the message in your mailbox. Note that the execute command assumes that you are doing some- thing useful with incoming mail. The command does not automati-"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ot automati- --- cally append the message to your mail spool. Use executec for that. A command such as: if (from = \"dave\") then execute \"echo mail from dave > /dev/tty\" wi"
+    },
+    {
+      "chunk_id": 43,
+      "text": "en execute \"echo mail from dave > /dev/tty\" will result in losing your mail. A more suitable use for execute ------ would be: if (from = \"boss\") then execute \"vacation pat\" Foldernames can contain any of a numbe"
+    },
+    {
+      "chunk_id": 44,
+      "text": "on pat\" Foldernames can contain any of a number of macros, too, as we'll see in the example ruleset below. The macros available for the string fields are: Macro Meaning %d day of the month %D day o"
+    },
+    {
+      "chunk_id": 45,
+      "text": "%d day of the month %D day of the week (0-6) %h hour of the day (0-23) %m month of the year (1-12) %r return address of message %s subject of original message %S \""
+    },
+    {
+      "chunk_id": 46,
+      "text": "subject of original message %S \"Re: subject of original message\" %t current hour and minute in HH:MM format %y year (last two digits) %& the string that matched the last regular expression"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ring that matched the last regular expression %1-%9 the corresponding subexpression in the last regular expression that matched If a message has a subject of \"This is a test\", and the rule is if (subject matches"
+    },
+    {
+      "chunk_id": 48,
+      "text": "est\", and the rule is if (subject matches /([a-z]+) a ([a-z]+)/) then \"echo %& %1 %2\" October 1, 1992 Page 3 Elm Filter Guide Version 2.4 then"
+    },
+    {
+      "chunk_id": 49,
+      "text": "Version 2.4 then %& expands to \"is a test\", %1 expands to \"is\" and %2 expands to \"test\". Foldernames may contain a leading \"~/\" which expands to your home directory. The rules file can also contain comm"
+    },
+    {
+      "chunk_id": 50,
+      "text": "irectory. The rules file can also contain comments (any line starting with a '#') and blank lines. Metacharacters may be escaped by a preceding '\\' to remove any special meaning. If you need a '%' character as part of an argu"
+    },
+    {
+      "chunk_id": 51,
+      "text": "you need a '%' character as part of an argument (such as an address), use \"\\%\". If you need a double quote in a double quoted string, use \"\\\"\". If you need a single quote in a single quoted string, use \"\\'\". If you need a backslas"
+    },
+    {
+      "chunk_id": 52,
+      "text": "quoted string, use \"\\'\". If you need a backslash in any kind of string, use \"\\\\\". Unless you specify an alternate file via the -f option, the rules file needs to reside in your .elm directory off your home direc-"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ry off your home direc- --- tory and be called .elm/filter-rules. Here's an example: --- ------ ----- # $HOME/.elm/filter-rules # # Filter rules for the Elm Filter program."
+    },
+    {
+      "chunk_id": 54,
+      "text": "# # Filter rules for the Elm Filter program. Don't change without some # serious thought. (remember - order counts) # # (for Dave Taylor) # rule 1 if (from contains \"!uucp\") then delete # rule 2 to \"postmaster\""
+    },
+    {
+      "chunk_id": 55,
+      "text": "p\") then delete # rule 2 to \"postmaster\" ? save \"/tmp/postmaster-mail.%d\" # rule 3 if (to \"culture\" and lines > 20) ? save \"~/Mail/culture\" # rule 4 subject = \"filter test\" ? forward \"hpldat!test\" # rule 5 if ["
+    },
+    {
+      "chunk_id": 56,
+      "text": "t\" ? forward \"hpldat!test\" # rule 5 if [ subject = \"elm\" ] savecopy \"~/Mail/elm-incoming\" # rule 6 subject = \"display-to-console\" ? execute \"cat - > /dev/console\" (Notice the loose syntax - there are lots of valid ways to spec"
+    },
+    {
+      "chunk_id": 57,
+      "text": "oose syntax - there are lots of valid ways to speci- fy a rule in the filter program!!) ------ To translate these into English: 1. All messages from \"uucp\" should be summarily deleted. 2. All mail to \"postmaster"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ummarily deleted. 2. All mail to \"postmaster\" should be saved in a folder (file) called /tmp/postmaster-mail.n, where n is the numeric-day- --- ---------- ---- - - of-the-week. 3. All mail addre"
+    },
+    {
+      "chunk_id": 59,
+      "text": "- of-the-week. 3. All mail addressed to \"culture\" with at least 20 lines should be automatically appended to the folder $HOME/Mail/culture. ---- ---- ------- 4. All messages that co"
+    },
+    {
+      "chunk_id": 60,
+      "text": "---- ---- ------- 4. All messages that contain the subject \"filter test\" should be forwarded to me, but via the address \"hpldat!test\" (to October 1, 1992 Page 4 Elm Filter"
+    },
+    {
+      "chunk_id": 61,
+      "text": "Page 4 Elm Filter Guide Version 2.4 force a non-user forward). 5. All messages with a subject that contains the word \"elm\" should be saved in the fol"
+    },
+    {
+      "chunk_id": 62,
+      "text": "word \"elm\" should be saved in the folder $HOME/Mail/elm-incoming and ---- ---- --- -------- also dropped into my mailbox. 6. Any message with the subject \"display-to-console\" will"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ssage with the subject \"display-to-console\" will be immediately written to the console. Notice that the order of the rules is very important. If we, for ----- example, were to get a message from \"uucp\" that had"
+    },
+    {
+      "chunk_id": 64,
+      "text": "mple, were to get a message from \"uucp\" that had the subject \"filter test\", the filter program would match rule 1 and delete ------ the message. It would never be forwarded to \"hpldat!test\". It is for this reaso"
+    },
+    {
+      "chunk_id": 65,
+      "text": "rwarded to \"hpldat!test\". It is for this reason that great care should be taken with the ord- ering of the rules. Checking the rules out The filter program has a convenient way of check out the rules ------ you have writt"
+    },
+    {
+      "chunk_id": 66,
+      "text": "k out the rules ------ you have written. Simply invoke it with the -r (rules) option: % filter -r Rule 1: if (from = \"!uucp\") then Delete Rule 2: if (to = \"postmaster\") then Save"
+    },
+    {
+      "chunk_id": 67,
+      "text": "if (to = \"postmaster\") then Save /tmp/postmaster-mail.3 Rule 3: if (to = \"culture\" and lines > 20) then Save ~/Mail/culture Rule 4: if (subject = \"filter test\") then Forward hpldat!t"
+    },
+    {
+      "chunk_id": 68,
+      "text": "lter test\") then Forward hpldat!test Rule 5: if (subject=\"elm\") then Copy and Save ~/Mail/elm-incoming Rule 6: if (subject=\"display-to-console\") then Execute \"cat - > /dev/console\""
+    },
+    {
+      "chunk_id": 69,
+      "text": "n Execute \"cat - > /dev/console\" There are a few things to notice - first off, these are the parsed and rebuilt rules, so we see them all in a consistent for- mat. Also, notice on the filename for rule 2 that filte"
+    },
+    {
+      "chunk_id": 70,
+      "text": "o, notice on the filename for rule 2 that filter has ------ correctly expanded the %d macro to be the day of the week (in this case, Wednesday, denoted by the digit '3'). It i"
+    },
+    {
+      "chunk_id": 71,
+      "text": "se, Wednesday, denoted by the digit '3'). It is highly recommended that you always check your ruleset be- fore actually using it to filter your mail! Actually Using the Program Now the bad news. If you aren't running sendmail or so"
+    },
+    {
+      "chunk_id": 72,
+      "text": "e bad news. If you aren't running sendmail or some other -------- Mail Transport Agent that supports delivery to a program you can- not use this program as currently written. Why? Because the"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ogram as currently written. Why? Because the filter program expects to be put in your .forward file (or ------ ------- equivalent concept for MTAs other than sendmail) that causes the"
+    },
+    {
+      "chunk_id": 74,
+      "text": "t for MTAs other than sendmail) that causes the -------- messages to be delivered to the filter program. That is some- ------ thing that only sendmail and othe"
+    },
+    {
+      "chunk_id": 75,
+      "text": "------ thing that only sendmail and other smart MTAs look at! -------- October 1, 1992 Page 5 Elm Filter Guide Version 2.4"
+    },
+    {
+      "chunk_id": 76,
+      "text": "Version 2.4 The format for the entry in the .forward file (located in your ------- home directory) is simply: \"|/usr/local/bin/filter\" Alright, it isn't qu"
+    },
+    {
+      "chunk_id": 77,
+      "text": "\"|/usr/local/bin/filter\" Alright, it isn't quite that simple! Since filter is invoked by ---- ------ processes that don't know where you are logged in, you need to have some way to trap the er"
+    },
+    {
+      "chunk_id": 78,
+      "text": "ed in, you need to have some way to trap the error messages. For ease of use, it was decided to have all the messages written to the file speci- fied by -o (or stderr) which means that you have two main choices ------"
+    },
+    {
+      "chunk_id": 79,
+      "text": "you have two main choices ------ for the actual entry. Either: \"|/usr/local/bin/filter -o /dev/console\" which will log all errors on the system console (each error is prefixed with \"filter (username)\" to disti"
+    },
+    {
+      "chunk_id": 80,
+      "text": "is prefixed with \"filter (username)\" to distinguish it), or: -------- \"|/usr/local/bin/filter -o /tmp/joe.filter errors\" - if you want to have a copy saved"
+    },
+    {
+      "chunk_id": 81,
+      "text": "- if you want to have a copy saved to a file. Note that the quotes are a required part of the line. A possible strategy would be to have the errors written to a file and to then have a few lines in your .login (or equivalent"
+    },
+    {
+      "chunk_id": 82,
+      "text": "have a few lines in your .login (or equivalent) script like: ----- if ( -f /tmp/joe.filter errors) then - echo \" \" echo \"Filter program errors;\" cat /tmp/joe.filte"
+    },
+    {
+      "chunk_id": 83,
+      "text": "ter program errors;\" cat /tmp/joe.filter errors - echo \" \" endif You can also use the -v option in combination with the above to have a more verbose log file (including actio"
+    },
+    {
+      "chunk_id": 84,
+      "text": "ve a more verbose log file (including action taken with date/time stamp) saved by having in your .forward file: ------- \"|/usr/local/bin/filter -vo /tmp/joe.filter errors\""
+    },
+    {
+      "chunk_id": 85,
+      "text": "n/filter -vo /tmp/joe.filter errors\" - Suffice it to say, you can get pretty tricky with all this!! Summarizing the Actions Taken The filter program can keep a log of all actions perform"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ter program can keep a log of all actions performed, in- ------ cluding what rules it matched against, in your .elm directory in --- a file called .elm/filterlog. You can either dir"
+    },
+    {
+      "chunk_id": 87,
+      "text": "a file called .elm/filterlog. You can either directly operate on --- --------- this file, or, much more recommended, you can use one of the two summarization options to filter and let it do the work for you!"
+    },
+    {
+      "chunk_id": 88,
+      "text": "er and let it do the work for you! ------ -- The difference between the two is best demonstrated by example: % filter -s Summary of Filter Activity -----"
+    },
+    {
+      "chunk_id": 89,
+      "text": "y of Filter Activity -------------------------- A total of 418 messages were filtered: The default rule of putting mail into your mailbox October 1, 1992 Page 6"
+    },
+    {
+      "chunk_id": 90,
+      "text": "Page 6 Elm Filter Guide Version 2.4 applied 364 times (87%) Rule #1: (delete message) applied 1 time (0%) Rule"
+    },
+    {
+      "chunk_id": 91,
+      "text": "applied 1 time (0%) Rule #2: (save in \"~/Filtered-Mail/netnews.12\") applied 8 times (2%) Rule #3: (save in \"~/Filtered-Mail/postmaster.12\") applied 14 times (3%) Rule #5: (sa"
+    },
+    {
+      "chunk_id": 92,
+      "text": "applied 14 times (3%) Rule #5: (save in \"~/Filtered-Mail/risks.12\") applied 3 times (1%) Rule #6: (save in \"~/Filtered-Mail/rays.12\") applied 28 times (7%) versus: % filter -S"
+    },
+    {
+      "chunk_id": 93,
+      "text": "28 times (7%) versus: % filter -S [the output as listed above, followed by:] --- ------ -- ------ ----- -------- -- Explicit log of each action; Mail from taylor about Filter Summary PUT"
+    },
+    {
+      "chunk_id": 94,
+      "text": "m taylor about Filter Summary PUT in mailbox: the default action Mail from news@hplabsz.hpl.hp.com about Newsgroup comp.editors created PUT in mailbox: the default action Mail from root about Log file"
+    },
+    {
+      "chunk_id": 95,
+      "text": "fault action Mail from root about Log file: cleanuplog PUT in mailbox: the default action [etc.] --- To actually use either of the summarizing options, there are two ways that are recommended. The"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ere are two ways that are recommended. The preferred way is to have a line in either your crontab file (ask your administrator for help with ------- this) that invokes the filter program as often as you desire with"
+    },
+    {
+      "chunk_id": 97,
+      "text": "he filter program as often as you desire with ------ the -s option. For example, I have a summary mailed to me every morning at 8 o'clock: 0 8 * * * \"/usr/local/bin/filter -s | elm -s 'Filter Summary' taylo"
+    },
+    {
+      "chunk_id": 98,
+      "text": "ocal/bin/filter -s | elm -s 'Filter Summary' taylor\" An alternative is to have your .login (or equivalent) execute the ----- command each time you log in. Note that if you want to have your log files cl"
+    },
+    {
+      "chunk_id": 99,
+      "text": "Note that if you want to have your log files cleared out each time the summary is generated you'll need to use the -c option too. Also, if you want to keep a long list of actions performed you can do this by saving it as you displa"
+    },
+    {
+      "chunk_id": 100,
+      "text": "rmed you can do this by saving it as you display it. A way to do this would be, if you were to have the invocation in your .login (or ----- equivalent) script, to use: ech"
+    },
+    {
+      "chunk_id": 101,
+      "text": "----- equivalent) script, to use: echo \"Filter Log;\" filter -c -s | tee -a PERM.filter.log which would append a copy of all the output to the file PERM.filter.log and would avoid you having to read larger and"
+    },
+    {
+      "chunk_id": 102,
+      "text": "and would avoid you having to read larger and ---- ------ --- larger summaries of what the program had done. If you prefer not to have filter generate log files, use the -q ------ option. Messages t"
+    },
+    {
+      "chunk_id": 103,
+      "text": "------ option. Messages that are written to stderr or the -o file are ------ October 1, 1992 Page 7 Elm Filter Guide"
+    },
+    {
+      "chunk_id": 104,
+      "text": "Page 7 Elm Filter Guide Version 2.4 still generated; only message to the log files are quashed. Further Testing of the Ruleset Using the readmsg command, it is quite easy to test"
+    },
+    {
+      "chunk_id": 105,
+      "text": "g the readmsg command, it is quite easy to test the rules ------- you've written to see if they do what you desire. For example, we can use the -n option to filter, which means"
+    },
+    {
+      "chunk_id": 106,
+      "text": "means ------ \"don't actually do this, just tell me what rule you matched, if any, and what action you would have performed\" (you can see why a single letter option is easier to type in!!),"
+    },
+    {
+      "chunk_id": 107,
+      "text": "single letter option is easier to type in!!), and feed it each message in our mailbox by using a command like: % set message=1 % set total messages=`messages` - % while (1) > if ($message >"
+    },
+    {
+      "chunk_id": 108,
+      "text": "- % while (1) > if ($message > $total messages) exit - > readmsg -h $message | filter -n > @ message++ > end which will then hand each of the messages in your mailbox to t"
+    },
+    {
+      "chunk_id": 109,
+      "text": "en hand each of the messages in your mailbox to the filter program and display what action would have been taken with ------ that message and why. For example, if we do this for a few interesting messages in my mailbox, we'd end up"
+    },
+    {
+      "chunk_id": 110,
+      "text": "teresting messages in my mailbox, we'd end up with output like: Mail from taylor about filter test FORWARDED to hpldat!taylor by rule; subject=\"filter test\" ? forward \"hpldat!test\" Mail from bradley%"
+    },
+    {
+      "chunk_id": 111,
+      "text": "? forward \"hpldat!test\" Mail from bradley%hplkab@hplabsc about Re: AI-ED mailing address PUT in mailbox: the default action Mail from taylor about display-to-console EXECUTED \"cat - > /dev/console\" (Shar"
+    },
+    {
+      "chunk_id": 112,
+      "text": "EXECUTED \"cat - > /dev/console\" (Sharp users will notice that this is exactly the same format as the longer summary listing.) What Forwarded Messages Look Like When a message is forwarded to another user by the action being"
+    },
+    {
+      "chunk_id": 113,
+      "text": "is forwarded to another user by the action being ------ specified as \"forward address\", then filter can generate one of ------- ------ two styles of me"
+    },
+    {
+      "chunk_id": 114,
+      "text": "------- ------ two styles of message. If the message is to you, then it simply adds it to your mailbox in such a way as to ensure that the re- turn address is that of the person who sent the message. If not, then the"
+    },
+    {
+      "chunk_id": 115,
+      "text": "person who sent the message. If not, then the message is enclosed in a message of the form: From taylor Thu Oct 2 15:07:04 1986 Date: Thu, 2 Oct 86 15:06:58 pdt Subject: \"filter test\" From: The filter of taylor@h"
+    },
+    {
+      "chunk_id": 116,
+      "text": "\"filter test\" From: The filter of taylor@hpldat To: hpldat!taylor October 1, 1992 Page 8 Elm Filter Guide Version 2.4 X-Filtered-By: filte"
+    },
+    {
+      "chunk_id": 117,
+      "text": "Version 2.4 X-Filtered-By: filter, version 1.4 -- Begin filtered message -- From taylor Thu Oct 2 15:06:41 1986 Date: Thu, 2 Oct 86 15:06:33 pdt From: Dave Taylor Subject: filter test"
+    },
+    {
+      "chunk_id": 118,
+      "text": "From: Dave Taylor Subject: filter test Just a simple test. -- End of filtered message -- The subject of the actual message is the same as the subject of the message being forwarded, but in quotes. The From: header i"
+    },
+    {
+      "chunk_id": 119,
+      "text": "eing forwarded, but in quotes. The From: header in- dicates how the message was sent, and the X-Filtered-By: header identifies what version of filter was used. ------ Areas to Improve While the filter pr"
+    },
+    {
+      "chunk_id": 120,
+      "text": "----- Areas to Improve While the filter program as presented herein is obviously a nice ------ addition to the set of tools available for dealing with electron- ic mail, there are some key features that are missing and wil"
+    },
+    {
+      "chunk_id": 121,
+      "text": "ere are some key features that are missing and will be added in the future based on demand. As I see it, the main things missing are: 1. Perhaps more actions available (but what?) ------- 2. Certainly the abili"
+    },
+    {
+      "chunk_id": 122,
+      "text": "------- 2. Certainly the ability to filter based on any field or combi- nation of fields. Warnings and Things to Look Out For Since this is a pretty simple program, there are a few pitfalls, some of which have"
+    },
+    {
+      "chunk_id": 123,
+      "text": "there are a few pitfalls, some of which have already been mentioned: Order counts in the rules. Beware! Matching is pretty simple - make sure your patterns are suf- ficiently exclusive before having any destructive rul"
+    },
+    {
+      "chunk_id": 124,
+      "text": "iently exclusive before having any destructive rules. The log files can grow indefinitely unless you use the -c or -q options or you trim the files by other means. Finally, as with the rest of the Elm mail system, I welcome feed- back"
+    },
+    {
+      "chunk_id": 125,
+      "text": "st of the Elm mail system, I welcome feed- back and suggestion on how to improve this program!! October 1, 1992 Page 9 Elm Filter Guide Version"
+    },
+    {
+      "chunk_id": 126,
+      "text": "uide Version 2.4 October 1, 1992 Page 10"
+    }
+  ]
+}

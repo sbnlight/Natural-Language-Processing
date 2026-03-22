@@ -1,0 +1,1045 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII8.0/ptII/doc/codegen.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "8.1 Motivation 8 Code Generation This version is in HTML, a PDF version can be found in Chapter 7 of Volume 2: Software Architecture (Local PDF) or . (Ptolemy Web Site PDF) Authors: Man-Kit Leung Gang Zhou Contributor: Christopher Brooks 8.1 Moti"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ng Zhou Contributor: Christopher Brooks 8.1 Motivation Ptolemy II is a software lab for experimenting with multiple concurrency formalisms for embedded system design. Many features in Ptolemy II contribute to the ease of its use as a rapid prototyp"
+    },
+    {
+      "chunk_id": 3,
+      "text": "tribute to the ease of its use as a rapid prototyping environment. In particular, modular components make systems more flexible and extensible. Different compositions of the same components can implement different functionality. However, component de"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ent different functionality. However, component designs are often slower than custom-built code. The cost of inter-component communication through the component interface introduces overhead, and generic components are highly parameterized for the re"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ric components are highly parameterized for the reusability and thus less efficient. To regain the efficiency for the implementation, the users could write big monolithic components to reduce inter-component communication, and write highly specialize"
+    },
+    {
+      "chunk_id": 6,
+      "text": "mponent communication, and write highly specialized components rather than general ones. However, manually implementing these solutions is not an option. Partial evaluation [66] provides a mechanism to automate the whole process. In the past, partial"
+    },
+    {
+      "chunk_id": 7,
+      "text": "o automate the whole process. In the past, partial evaluation has been mostly used for general purpose software. Recently, partial evaluation has begun to see its use in the embedded world, e.g., see [72]. In our research partial evaluation is used a"
+    },
+    {
+      "chunk_id": 8,
+      "text": "[72]. In our research partial evaluation is used as a code generation technique, which is really a compilation technique for transforming an actor-oriented model into the target code while preserving the model's semantics. However, compared with trad"
+    },
+    {
+      "chunk_id": 9,
+      "text": "the model's semantics. However, compared with traditional compiler optimization, partial evaluation for embedded software works at the component level and heavily leverages the domain-specific knowledge. Through model analysis, the tool can discover"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ge. Through model analysis, the tool can discover data type, buffer size, parameter value, model structure and model execution schedule, and then partially evaluate all the known information to reach a very efficient implementation. The end result is"
+    },
+    {
+      "chunk_id": 11,
+      "text": "a very efficient implementation. The end result is that the benefit offered by the high level abstraction comes with (almost) no performance penalty. 8.2 A Helper-based Mechanism Our code generation framework uses a helper-based mechanism. A codege"
+    },
+    {
+      "chunk_id": 12,
+      "text": "framework uses a helper-based mechanism. A codegen helper is essentially a component that generates code for a Ptolemy II actor. Each Ptolemy II actor for which code will be generated in a specific language has one associated helper. An actor may ha"
+    },
+    {
+      "chunk_id": 13,
+      "text": "anguage has one associated helper. An actor may have multiple helpers to support multiple target languages (C, VHDL, etc.). To achieve readability and maintainability in the implementation of helper classes, the target code blocks (for example, the i"
+    },
+    {
+      "chunk_id": 14,
+      "text": "lasses, the target code blocks (for example, the initialize block, fire block, and wrapup block) of each helper are placed in a separate file under the same directory. So a helper essentially consists of two files: a java class file and a code templa"
+    },
+    {
+      "chunk_id": 15,
+      "text": "of two files: a java class file and a code template file. This not only decouples the writing of Java code and target code (otherwise the target code would be wrapped in strings and interspersed with java code), but also allows using a target langua"
+    },
+    {
+      "chunk_id": 16,
+      "text": "java code), but also allows using a target language specific editor while working on the target language code blocks. For example, in the Eclipse Integrated Development Environment, the C/C++ Development Toolkit (CDT) provides C and C++ extensions t"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ment Toolkit (CDT) provides C and C++ extensions to the Eclipse workbench as a set of Eclipse plug-ins, see figure 8.1 . The convenient features such as keyword highlights in the C/C++ specific editor could help the writing of C code, resulting in im"
+    },
+    {
+      "chunk_id": 18,
+      "text": "could help the writing of C code, resulting in improved productivity. So the code template file contains code blocks written in the target language. The target code blocks are hand-coded so users have flexibility in choosing their design styles and"
+    },
+    {
+      "chunk_id": 19,
+      "text": "e flexibility in choosing their design styles and algorithms. Hand-coded templates also retain readability in the generated code. The codegen kernel uses the java class of the helper to harvest code blocks from the code template file. The java class"
+    },
+    {
+      "chunk_id": 20,
+      "text": "locks from the code template file. The java class of the helper determines which code blocks to harvest based on the actor instance-specific information (e.g., port type, port width, and parameter values). The code template file contains codegen macr"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ues). The code template file contains codegen macros that are processed by the codegen kernel. These macros allow the kernel to generate customized code based on the actor instance-specific information. 8.2.1 What is in a C Code Template File? A C"
+    },
+    {
+      "chunk_id": 22,
+      "text": "n. 8.2.1 What is in a C Code Template File? A C code template file has a .c file extension but it is not C-compilable due to its unique structure. Only the CodeStream object understands how to parse and use these files. Figure 8.2 shows the C code"
+    },
+    {
+      "chunk_id": 23,
+      "text": "and use these files. Figure 8.2 shows the C code template file for the CountTrues helper, located in $PTII/ptolemy/codegen/c/domains/sdf/lib. A C code template file consists of one or more C code blocks. Each code block has a header and a footer. Th"
+    },
+    {
+      "chunk_id": 24,
+      "text": "cks. Each code block has a header and a footer. The helper uses a CodeStream object to parse the code blocks. Please refer to Appendix C for a detailed documentation of the CodeStream object. The header and footer tags are code block separators that"
+    },
+    {
+      "chunk_id": 25,
+      "text": "er and footer tags are code block separators that help the CodeStream in parsing. The footer is simply the tag \"/**/\". The header starts with the begin tag \"/***\" and ends with the end tag \"***/\". The header also contains a code block name and option"
+    },
+    {
+      "chunk_id": 26,
+      "text": "header also contains a code block name and optionally a parameter list. The parameter list is enclosed by a pair of parentheses \"()\" and multiple parameters in the list are separated by commas \",\". A code block may have arbitrary number of parameter"
+    },
+    {
+      "chunk_id": 27,
+      "text": "code block may have arbitrary number of parameters. Each parameter is prefixed by the dollar sign \"$\" symbol (i.e. $value, $width, etc.), which allows the CodeStream object to do a straight text substitution with the string value of the parameter. F"
+    },
+    {
+      "chunk_id": 28,
+      "text": "titution with the string value of the parameter. Formally, the signature of a code block is defined as the pair (N, p) where N is the code block name and p is the number of parameters. A code block (N, p) may be overloaded by another code block (N, p"
+    },
+    {
+      "chunk_id": 29,
+      "text": ", p) may be overloaded by another code block (N, p') 1 . Furthermore, different helpers in a class hierarchy may contain code blocks with the same (N, p). So a unique reference to a code block signature is the tuple (H, N, p) where H is the correspon"
+    },
+    {
+      "chunk_id": 30,
+      "text": "re is the tuple (H, N, p) where H is the corresponding helper. Defining the uniqueness of a code block prevents unambiguity in referencing a code block. A code block can also be overridden. A code block (H, N, p) is overridden by a code block (H', N,"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ck (H, N, p) is overridden by a code block (H', N, p) given that H' is a child class of H. This gives rise to code block inheritance. Since Ptolemy II actors are defined within a well-defined class hierarchy, many actors inherits fields and methods f"
+    },
+    {
+      "chunk_id": 32,
+      "text": "erarchy, many actors inherits fields and methods from parent actors. The codegen helpers mirror the same class hierarchy. Since code blocks represent functions of actors, the code blocks should be inherited for helpers just as functions are inherited"
+    },
+    {
+      "chunk_id": 33,
+      "text": "erited for helpers just as functions are inherited for actors. Given a request for fetching a code block, the CodeStream object searches through all code template files of the helper and its ancestors, starting from the bottom of the class hierarchy."
+    },
+    {
+      "chunk_id": 34,
+      "text": ", starting from the bottom of the class hierarchy. This mirrors the same behavior of invoking an (inherited) function for an actor. 8.2.2 What is in a Helper Java Class File? A helper java class is a valid Java class that extends the CodeGeneratorH"
+    },
+    {
+      "chunk_id": 35,
+      "text": "a valid Java class that extends the CodeGeneratorHelper class. The CodeGeneratorHelper class implements the code generation interfaces (ComponentCodeGenerator and ActorCodeGenerator) for generating code. The interfaces essentially consist of a set of"
+    },
+    {
+      "chunk_id": 36,
+      "text": "de. The interfaces essentially consist of a set of methods that return code strings for specific parts of the target program (init(), fire(), wrapup(), etc.). The CodeGeneratorHelper class implements the default behavior for these methods: each metho"
+    },
+    {
+      "chunk_id": 37,
+      "text": "the default behavior for these methods: each method fetches and returns a code block (with no parameters) using the default code block name (\"initBlock\", \"fireBlock\", \"wrapupBlock\", etc.) corresponding to the method (generateInitializeCode(), generat"
+    },
+    {
+      "chunk_id": 38,
+      "text": "g to the method (generateInitializeCode(), generateFireCode(), generateWrapupCode(), etc.). The child helper java class can either inherit the default behavior or override any method to fetch multiple code blocks with non-default names, give paramete"
+    },
+    {
+      "chunk_id": 39,
+      "text": "code blocks with non-default names, give parameters to code blocks, or do special processing on the returned code string. Figure 8.3 is the ElementsToArray helper's implementation of the generateFireCode() method, found in $PTII/ptolemy/codegen/c/ac"
+    },
+    {
+      "chunk_id": 40,
+      "text": "Code() method, found in $PTII/ptolemy/codegen/c/actor/lib. This method uses the channel number of the actor input port as the parameter and fetches the \"fillArray\" code block from the ElementsToArray.c code template file inside the for-loop. It gener"
+    },
+    {
+      "chunk_id": 41,
+      "text": "c code template file inside the for-loop. It generates multiple copies of the \"fillAarray\" code block, each customized with a different channel number. It then fetches and appends a different code block with the name \"sendOutput\" (with no parameters)"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ck with the name \"sendOutput\" (with no parameters). Finally, it invokes the processCode() function to process the embedded macros in the code string. Note that a helper java class needs to understand the semantics of its corresponding actor in order"
+    },
+    {
+      "chunk_id": 43,
+      "text": "the semantics of its corresponding actor in order to implement these generate methods. 8.2.3 The Macro Language The macro language allows helpers to be written once, and then used in different context where the macros are expanded and resolved. All"
+    },
+    {
+      "chunk_id": 44,
+      "text": "xt where the macros are expanded and resolved. All macros in a code block are prefixed with the dollar sign \"$\" symbol (i.e. $ref(input), $val(width), etc.). The specific macro name follows immediately. The parameters to the macro are enclosed in par"
+    },
+    {
+      "chunk_id": 45,
+      "text": "y. The parameters to the macro are enclosed in parentheses \"()\". Macros can be nested and recursively processed by the codegen helper. The use of the dollar sign as prefix is based on the assumption that it is not a valid identifier in the target lan"
+    },
+    {
+      "chunk_id": 46,
+      "text": "hat it is not a valid identifier in the target language (\"$\" is not a valid identifier in C). The macro prefix can be configured to correspond to different target languages. The macro names specifies different rules of text substitutions that the cod"
+    },
+    {
+      "chunk_id": 47,
+      "text": "different rules of text substitutions that the code generator helper performs to alter the content of the code block. Since the same set of code blocks may be shared by multiple instances of the helper, the macros mainly serve the purpose of producin"
+    },
+    {
+      "chunk_id": 48,
+      "text": "r, the macros mainly serve the purpose of producing unique labels for different instances and generate instance-specific port and parameter information. The following is the documentation of the set of macros used in the C code generation. The Core M"
+    },
+    {
+      "chunk_id": 49,
+      "text": "f macros used in the C code generation. The Core Macros: $ref(name) Returns a unique reference to a parameter or a port in the global scope. For a multiport, use $ref(name#i) where i is the channel number. During macro expansion, the name is replaced"
+    },
+    {
+      "chunk_id": 50,
+      "text": "mber. During macro expansion, the name is replaced by the full name resulting from the model hierarchy. $ref(name, offset) Returns a unique reference to an element in an array parameter or a port with an offset in the global scope. The offset must no"
+    },
+    {
+      "chunk_id": 51,
+      "text": "an offset in the global scope. The offset must not be negative. $ref(name, 0) is equivalent to $ref(name). $val(parameter-name) Returns the current value of the parameter associated with an actor in the simulation model. The advantage of not using"
+    },
+    {
+      "chunk_id": 52,
+      "text": "the simulation model. The advantage of not using $ref macro in place of $val is that no additional memory needs to be allocated. $val macro is usually used when the parameter is constant during the execution. $actorSymbol(name) Returns a unique refe"
+    },
+    {
+      "chunk_id": 53,
+      "text": "xecution. $actorSymbol(name) Returns a unique reference of a user-defined variable in the global scope. This macro is used to define additional variables, for example, to hold internal states of actors between firings. The uniqueness only requires th"
+    },
+    {
+      "chunk_id": 54,
+      "text": "s between firings. The uniqueness only requires that the name argument be unique within the scope of each actor. The helper writer is responsible for declaring these variables. $size(name) If the given name represents an ArrayType parameter, it retur"
+    },
+    {
+      "chunk_id": 55,
+      "text": "n name represents an ArrayType parameter, it returns the size of the array. If the given name represents a port of an actor, it returns the width of that port. The Type Convert Macros (see Appendix C ): $type() Returns the numeric constant that repre"
+    },
+    {
+      "chunk_id": 56,
+      "text": "): $type() Returns the numeric constant that represents the type of the given port or parameter. The code generator uses the mapping between the token type and the numeric constant to look up the function table. $targetType() Returns the correspondin"
+    },
+    {
+      "chunk_id": 57,
+      "text": "tion table. $targetType() Returns the corresponding target language type of the given typed parameter or port. $cgtype() Returns the name string of the codegen type corresponding to a given typed parameter or port. $new() Returns a new Token object o"
+    },
+    {
+      "chunk_id": 58,
+      "text": "meter or port. $new() Returns a new Token object of the given type. This macro takes at least one argument: the codegen type name of the Token with the value that are needed by the constructor function of the specific Token type. The code generator k"
+    },
+    {
+      "chunk_id": 59,
+      "text": "n of the specific Token type. The code generator keeps track of the different types used through this macro. For example, \"$new(Int(2))\" creates an Int Token variable in the macro language. It allocates space for the Token; however, the user is respo"
+    },
+    {
+      "chunk_id": 60,
+      "text": "es space for the Token; however, the user is responsible for calling the specific delete() function on the Token to deallocate space. $tokenFunc() Returns a function call associated with the given token. The function call is translated to a function"
+    },
+    {
+      "chunk_id": 61,
+      "text": "en. The function call is translated to a function pointer in a two-dimensional function table. The first index of the table is the different token types, and the second index is the different functions for each type. The type of the given token is us"
+    },
+    {
+      "chunk_id": 62,
+      "text": "s for each type. The type of the given token is used to find the first index, and the name of the function is used to find the second index. The first argument of the function is always the given token, which acts as 'this' in an object-oriented envi"
+    },
+    {
+      "chunk_id": 63,
+      "text": "n, which acts as 'this' in an object-oriented environment. The result is always another Token. For example, the following code illustrates how a user adds two Int tokens together: $tokenFunc($new(Int(2)::add($new(Int(3))))) $typeFunc() Returns a func"
+    },
+    {
+      "chunk_id": 64,
+      "text": "2)::add($new(Int(3))))) $typeFunc() Returns a function call associated with the given token type. Instead of using an associated token, type function uses an associated type class which acts similar to a static class function. The following illustrat"
+    },
+    {
+      "chunk_id": 65,
+      "text": "o a static class function. The following illustrates how a user converts an Int token to a String token: $typeFunc(TYPE_String::convert($new(Int(2)))) 8.2.4 The CountTrues Example Figure 8.4 shows a model in the synchronous dataflow (SDF) domain th"
+    },
+    {
+      "chunk_id": 66,
+      "text": "model in the synchronous dataflow (SDF) domain that counts the true values produced from the data source, which in this case is the Pulse actor. The CountTrues actor has its blockSize parameter set to 2, which means it reads 2 tokens from its input"
+    },
+    {
+      "chunk_id": 67,
+      "text": "o 2, which means it reads 2 tokens from its input port for each firing. The Pulse actor' parameters are set to the values shown in the figure. When the model is simulated in the Ptolemy II framework, the produced result is also shown in the figure (t"
+    },
+    {
+      "chunk_id": 68,
+      "text": "the produced result is also shown in the figure (the model is fired 4 times because the SDFDirector's \"iterations\" parameter is set to 4). Let's look at the C code template files of the actors in the model. Macros are used extensively in the code blo"
+    },
+    {
+      "chunk_id": 69,
+      "text": "model. Macros are used extensively in the code blocks, and we will see how they are processed and changed in the generated code. Figure 8.5 shows the C code template files for the Pulse and CountTrues helpers. Double clicking on the StaticSchedulingC"
+    },
+    {
+      "chunk_id": 70,
+      "text": "helpers. Double clicking on the StaticSchedulingCodeGenerator icon brings up the code generator window. Clicking the \"Generate\" button in the code generator window starts the code generation for this model. It generates a stand-alone C application p"
+    },
+    {
+      "chunk_id": 71,
+      "text": "model. It generates a stand-alone C application program that executes and produces the same result as the simulation model. Figure 8.6 shows the main function of the generated C program. The generated code is essentially the result of combining the"
+    },
+    {
+      "chunk_id": 72,
+      "text": "d code is essentially the result of combining the helpers' code blocks. The $ref() and $actorSymbol() macro are replaced with unique labels to represent different variable references. The $val() macro in the CountTrues' \"fireBlock\" code block is repl"
+    },
+    {
+      "chunk_id": 73,
+      "text": "in the CountTrues' \"fireBlock\" code block is replaced by the parameter value of the CountTrue instance in the model. When the generated C program is compiled and executed, the same result is produced as from the Ptolemy II simulation: Display: 1 Dis"
+    },
+    {
+      "chunk_id": 74,
+      "text": "as from the Ptolemy II simulation: Display: 1 Display: 1 Display: 1 Display: 1 8.3 Overview of The Software Architecture Our code generation framework has the flavor of CG (i.e., Code Generation) domain and other derived domains in Ptolemy Classic"
+    },
+    {
+      "chunk_id": 75,
+      "text": "omain and other derived domains in Ptolemy Classic [127]. However, in Ptolemy Classic, code generation domains and simulation domains are separate and so are the actors (called stars in Ptolemy Classic terminology) used in these domains. In ptolemy C"
+    },
+    {
+      "chunk_id": 76,
+      "text": "c terminology) used in these domains. In ptolemy Classic, the actors in the simulation domains participate in simulation whereas the corresponding actors in the code generation domains participate in code generation. Separate domains (simulation vs."
+    },
+    {
+      "chunk_id": 77,
+      "text": "code generation. Separate domains (simulation vs. code generation) make it inconvenient to integrate the model design phase with the code generation phase and streamline the whole process. Separate actor libraries make it difficult to maintain a cons"
+    },
+    {
+      "chunk_id": 78,
+      "text": "tor libraries make it difficult to maintain a consistent interface for a simulation actor and the corresponding code generation actor. In Ptolemy II, there are no separate code generations domains. Once a model has been designed, simulated and verifi"
+    },
+    {
+      "chunk_id": 79,
+      "text": "ce a model has been designed, simulated and verified to satisfy the given specification in the simulation domain, code can be directly generated from the model. Each helper doesn't have its own interface. Instead, it interrogates the associated actor"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ace. Instead, it interrogates the associated actor to find its interface (ports and parameters) during the code generation. Thus the interface consistency is maintained naturally. The generated code, when executed, should present the same behavior as"
+    },
+    {
+      "chunk_id": 81,
+      "text": "when executed, should present the same behavior as the original model. Compared with the Ptolemy Classic approach, this new approach allows the seamless integration between the model design phase and the code generation phase. Figure 2.12 shows the U"
+    },
+    {
+      "chunk_id": 82,
+      "text": "the code generation phase. Figure 2.12 shows the UML diagram of key classes to support execution in the ptolemy.actor package. The Executable interface defines how an object can be invoked. The preinitialize() method is assumed to be invoked exactly"
+    },
+    {
+      "chunk_id": 83,
+      "text": "tialize() method is assumed to be invoked exactly once during the lifetime of an execution of a model and before the type resolution. The initialize() methods is assumed to be invoked once after the type resolution. It may be invoked again to reiniti"
+    },
+    {
+      "chunk_id": 84,
+      "text": "ype resolution. It may be invoked again to reinitialize a (sub)model, for example, in a modal model while taking a transition with the reset parameter being true. The prefire(), fire(), and postfire() methods will usually be invoked many times, with"
+    },
+    {
+      "chunk_id": 85,
+      "text": "methods will usually be invoked many times, with each sequence of method invocations defined as one iteration. The stopFire() method is invoked to request suspension of firing. The wrapup() method will be invoked exactly once per execution at the en"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ll be invoked exactly once per execution at the end of the execution. The terminate() method is provided as a last-resort mechanism to interrupt execution based on an external event. The Executable interface is implemented by the Director class, and"
+    },
+    {
+      "chunk_id": 87,
+      "text": "terface is implemented by the Director class, and is extended by the Actor interface. An actor is an executable entity. There are two types of actors, AtomicActor, which extends ComponentEntity, and CompositeActor, which extends CompositeEntity. An A"
+    },
+    {
+      "chunk_id": 88,
+      "text": "ompositeActor, which extends CompositeEntity. An AtomicActor is a single entity, while a CompositeActor is an aggregation of actors. The classes to support code generation are in the packages under ptolemy.codegen where the helper class hierarchy and"
+    },
+    {
+      "chunk_id": 89,
+      "text": "olemy.codegen where the helper class hierarchy and package structure parallel those of regular Ptolemy actors. The counterpart of the Executable interface is the ComponentCodeGenerator interface and the ActorCodeGenerator interface. These interfaces"
+    },
+    {
+      "chunk_id": 90,
+      "text": "he ActorCodeGenerator interface. These interfaces define the methods for generating code in different stages corresponding to what happens in the simulation. The ptolemy.codegen.kernel.CodeGeneratorHelper class is the base class implementing these in"
+    },
+    {
+      "chunk_id": 91,
+      "text": "lper class is the base class implementing these interfaces and provides common features for all actor helpers. It gives a skeleton implementation for writing a helper class. Each actor has a corresponding helper class for generating functionally equi"
+    },
+    {
+      "chunk_id": 92,
+      "text": "ding helper class for generating functionally equivalent code for this actor in a target language. Actors and their helpers have the same names so that the Java reflection mechanism can be used to load the helper for the corresponding actor during th"
+    },
+    {
+      "chunk_id": 93,
+      "text": "d the helper for the corresponding actor during the code generation process. For example, there is a Ramp actor in the package ptolemy.actor.lib. Correspondingly, there is a Ramp helper in the package ptolemy.codegen.c.actor.lib. Here c represents th"
+    },
+    {
+      "chunk_id": 94,
+      "text": "ptolemy.codegen.c.actor.lib. Here c represents the fact that all the helpers under ptolemy.codegen.c generate C code. Assume we would like to generate code for another target language X, the helpers for generating X code could be implemented under p"
+    },
+    {
+      "chunk_id": 95,
+      "text": "for generating X code could be implemented under ptolemy.codegen.x. This would result in extendable code generation framework. Developers could not only contribute their own actors and helpers, but also add functionality to generate code for a new ta"
+    },
+    {
+      "chunk_id": 96,
+      "text": "so add functionality to generate code for a new target language. In the generated code, the ports of actors become memory resources in the target language, e.g., global variables in C code. A code template file can also define new variables to specif"
+    },
+    {
+      "chunk_id": 97,
+      "text": "plate file can also define new variables to specify the need for global resources. A helper, however, does not have the full knowledge of the global resources such as their full names since that would be resolved only during the code generation proce"
+    },
+    {
+      "chunk_id": 98,
+      "text": "be resolved only during the code generation process. Therefore a set of macros to access the global resources, as defined in the previous section, can be used. The macros are resolved and expanded according to the context in a specific model. The ab"
+    },
+    {
+      "chunk_id": 99,
+      "text": "cording to the context in a specific model. The above approach to create actor helpers achieves modularity, maintainability, portability and efficiency in code generation. The target code for each helper can be verified for correctness and optimized"
+    },
+    {
+      "chunk_id": 100,
+      "text": "per can be verified for correctness and optimized for efficiency individually. The code for the whole model is assembled from the target code for the contained actors plus some extra code serving as glue logic. To generate code for hierarchically com"
+    },
+    {
+      "chunk_id": 101,
+      "text": "lue logic. To generate code for hierarchically composed models, helpers for composite actors are also created. For example, the most commonly used composite actor is TypedCompositeActor in the package ptolemy.actor. A helper with the same name is cre"
+    },
+    {
+      "chunk_id": 102,
+      "text": "ptolemy.actor. A helper with the same name is created in the package ptolemy.codegen.c.actor. The main function of this helper is to delegate the code generation for the associated composite actor to the helper of the local director (discussed next)"
+    },
+    {
+      "chunk_id": 103,
+      "text": "the helper of the local director (discussed next) or the helpers of the actors contained by the composite actor. Other composite actors include ModalModel, Refinement, etc. and the corresponding helpers are created for each of them (see more details"
+    },
+    {
+      "chunk_id": 104,
+      "text": "ers are created for each of them (see more details in the Domains section). In Ptolemy II, a director governs the execution of a composite actor and thus each director needs a helper to generate the code for the containing composite actor so that the"
+    },
+    {
+      "chunk_id": 105,
+      "text": "ode for the containing composite actor so that the generated code is functionally equivalent to the composite actor. Currently we can generate code for the domains where actor executions can be statically scheduled such as the SDF and HDF domains. Th"
+    },
+    {
+      "chunk_id": 106,
+      "text": "ally scheduled such as the SDF and HDF domains. The involved directors include SDF director, HDF director, HDFFSM director, MultirateFSM director and FSM director. Indeed there is a helper for each director with the same class name and located in the"
+    },
+    {
+      "chunk_id": 107,
+      "text": "rector with the same class name and located in the corresponding package under ptolemy.codegen. These director helpers generate code according to the Models of Computation (MoCs) they represent. They concatenate target code blocks with the help of a"
+    },
+    {
+      "chunk_id": 108,
+      "text": "concatenate target code blocks with the help of a scheduler, allocate memory according to the calculated buffer sizes, and also generate the target code for the glue logic specific to their MoCs. The details will be presented in the next section. Fin"
+    },
+    {
+      "chunk_id": 109,
+      "text": "details will be presented in the next section. Finally the StaticSchedulingCodeGenerator class is used to orchestrate the whole code generation process. An instance of this class is contained by the top level composite actor as an attribute and inter"
+    },
+    {
+      "chunk_id": 110,
+      "text": "op level composite actor as an attribute and interacts with it directly. Therefore the code generation starts at the top level composite actor and the code for the whole model is generated hierarchically, much similar to how a model is simulated in P"
+    },
+    {
+      "chunk_id": 111,
+      "text": "lly, much similar to how a model is simulated in Ptolemy II environment. The flow chart in figure 8.7 sketches the whole code generation process step by step. The details of some steps are MoC-specific and will be presented in the next section. Notic"
+    },
+    {
+      "chunk_id": 112,
+      "text": "c and will be presented in the next section. Notice that the steps outlined do not necessarily follow the same order the generated codes are assembled together. For example, only those parameters that are referenced during the code generation will be"
+    },
+    {
+      "chunk_id": 113,
+      "text": "are referenced during the code generation will be defined. Therefore those definitions will be generated last but attached to variable definition segment at the beginning of the generated code. Readers could find out by now that the helper based cod"
+    },
+    {
+      "chunk_id": 114,
+      "text": "rs could find out by now that the helper based code generation framework functions as a coordination language for the target code. It not only leverages the huge legacy code repository, but also takes advantage of many years and many researchers' wor"
+    },
+    {
+      "chunk_id": 115,
+      "text": "advantage of many years and many researchers' work on compiler optimization techniques for the target language. It is accessible to a huge base of programmers. Oftentimes a new language fails to catch on not because it is technically flawed, but bec"
+    },
+    {
+      "chunk_id": 116,
+      "text": "h on not because it is technically flawed, but because it is very difficult to penetrate the barrier established by the languages already in widespread use. With the use of the helper class combined with target code template written in a language pro"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ith target code template written in a language programmers are familiar with, there is much less of a learning curve to use our design and codegen environment. 8.4 Domains 8.4.1 SDF The synchronous dataflow (SDF) domain is one of the most mature"
+    },
+    {
+      "chunk_id": 118,
+      "text": "s dataflow (SDF) domain is one of the most mature domains in Ptolemy II. The details of this domain can be found in Volume 3. Under the SDF domain, the execution order of actors is statically determined prior to execution. This opens the door for gen"
+    },
+    {
+      "chunk_id": 119,
+      "text": "ed prior to execution. This opens the door for generating some very efficient code. In fact, the SDF software synthesis has been studied extensively. One book [18], several Ph.D. dissertations [17][113] and numerous papers have been written about it."
+    },
+    {
+      "chunk_id": 120,
+      "text": "3] and numerous papers have been written about it. Many optimization techniques have been designed according to different criteria such as minimization of program size, buffer size [18][114], or actor activation rate [134]. Hardware synthesis from SD"
+    },
+    {
+      "chunk_id": 121,
+      "text": "activation rate [134]. Hardware synthesis from SDF specification has also been studied by many researchers, e.g., see [63]. In parallel with the software architecture in the simulation domain, the helper for the SDFDirector is inherited from the hel"
+    },
+    {
+      "chunk_id": 122,
+      "text": "lper for the SDFDirector is inherited from the helper for the StaticSchedulingDirector, which is further inherited from the helper for the Director. The helper for the StaticSchedulingDirector is responsible for generating the target code semanticall"
+    },
+    {
+      "chunk_id": 123,
+      "text": "onsible for generating the target code semantically equivalent to a predetermined sequence of actor firings in one complete static schedule. The helper for the SDFDirector utilizes the SDFScheduler implemented in the current SDF domain, but the frame"
+    },
+    {
+      "chunk_id": 124,
+      "text": "plemented in the current SDF domain, but the framework allows to plug in any optimizing scheduler and then generates the corresponding code for that scheduler. There are several points to notice in the implementation of the helper for the SDFDirector"
+    },
+    {
+      "chunk_id": 125,
+      "text": "e implementation of the helper for the SDFDirector. First, the minimum buffer size of each receiver is determined by the SDFScheduler and the helper for the SDFDirector uses that information to determine the size for the buffer array in the generated"
+    },
+    {
+      "chunk_id": 126,
+      "text": "ine the size for the buffer array in the generated code. For a minimum buffer size of one, only a simple variable instead of an array is used. For a multiport, when the minimum buffer size of each receiver contained by the multiport is one, one dimen"
+    },
+    {
+      "chunk_id": 127,
+      "text": "eiver contained by the multiport is one, one dimensional array is used where each element of the array corresponds to a different receiver contained by the multiport; when the minimum buffer size of any receiver contained by the multiport exceeds one"
+    },
+    {
+      "chunk_id": 128,
+      "text": "ny receiver contained by the multiport exceeds one, a general two dimensional array is used. Second, the firing code for each actor is inlined by default, i.e., during the code generation, the firing code of each actor is expanded whenever the actor"
+    },
+    {
+      "chunk_id": 129,
+      "text": "code of each actor is expanded whenever the actor needs to be fired as dictated by the schedule, resulting in a monolithic body of the code for the whole model. When the inline option is switched off, the firing code for each actor is wrapped inside"
+    },
+    {
+      "chunk_id": 130,
+      "text": "the firing code for each actor is wrapped inside its own function and the generated code calls these functions in the order dictated by the schedule. The inline version may run faster without the call-return overhead. The non-inline version may redu"
+    },
+    {
+      "chunk_id": 131,
+      "text": "l-return overhead. The non-inline version may reduce the memory footprint of the generated code when there is no single appearance schedule (a single appearance schedule is a looped schedule where each actor shows up at most once [18]) or when the re"
+    },
+    {
+      "chunk_id": 132,
+      "text": "h actor shows up at most once [18]) or when the reduction of the buffer size using multiple appearance schedule is more effective than the reduction of program size using single appearance schedule. We are experimenting with different options to gene"
+    },
+    {
+      "chunk_id": 133,
+      "text": "e are experimenting with different options to generate code with better performance or better (smaller) size. The code generation framework has been under active development and we can generate code for a lot of models. But still we cannot generate c"
+    },
+    {
+      "chunk_id": 134,
+      "text": "or a lot of models. But still we cannot generate code for all SDF models, mostly due to the lack of helpers for the actors contained in these models, but sometimes due to other reasons such as the lack of codegen support for the data types used in th"
+    },
+    {
+      "chunk_id": 135,
+      "text": "k of codegen support for the data types used in the models. We are continuously adding more helpers and more functionalities. Several interesting demos for the SDF code generation are presented next. Figure 8.8 shows the Butterfly demo in $PTII/ptole"
+    },
+    {
+      "chunk_id": 136,
+      "text": "Figure 8.8 shows the Butterfly demo in $PTII/ptolemy/domains/sdf/demo/Butterfly. During code generation, the helper for the Expression actor uses a PtParser to parse the Ptolemy expression specified in the actor and then uses a CParseTreeCodeGenerato"
+    },
+    {
+      "chunk_id": 137,
+      "text": "n the actor and then uses a CParseTreeCodeGenerator to generate the corresponding C code. The C code generated by the helper for the XYPlotter actor invokes JVM (Java Virtual Machine) through JNI (Java Native Interface) and then calls the methods of"
+    },
+    {
+      "chunk_id": 138,
+      "text": "a Native Interface) and then calls the methods of the classes in the plot package for two-dimensional graphical display. Notice the generated C code does not need the Ptolemy framework to run. It merely uses the plot utilities (which happen to be wri"
+    },
+    {
+      "chunk_id": 139,
+      "text": "ly uses the plot utilities (which happen to be written in Java) for displaying data. One could write a different helper for the XYPlotter actor to generate the customized code for displaying data in a specific target system. The Case demo in $PTII/pt"
+    },
+    {
+      "chunk_id": 140,
+      "text": "specific target system. The Case demo in $PTII/ptolemy/actor/lib/hoc/demo/Case shows a model with a switch/case-type structure. The interesting part about this model is the use of a Case actor controlled by a CaseDirector. Correspondingly, there is"
+    },
+    {
+      "chunk_id": 141,
+      "text": "lled by a CaseDirector. Correspondingly, there is a helper for the Case actor and a helper for the CaseDirector for code generation. 8.4.2 FSM Finite state machines (FSMs) have been the subject of a long history of research work. In ptolemy II, an"
+    },
+    {
+      "chunk_id": 142,
+      "text": "long history of research work. In ptolemy II, an FSM actor serves two purposes: traditional FSM modeling and modal models. In traditional FSM modeling, an FSM actor reacts to the inputs by making state transitions and sending tokens to the output po"
+    },
+    {
+      "chunk_id": 143,
+      "text": "te transitions and sending tokens to the output ports like a regular Ptolemy actor. In the *charts formalism with modal models [47], modes are represented by states of an FSM actor that controls mode switching. Each mode has one or more refinements t"
+    },
+    {
+      "chunk_id": 144,
+      "text": "switching. Each mode has one or more refinements that specify the behavior of the mode. A modal model is constructed in a ModalModel actor having the FSM director as local director. The ModalModel actor contains a ModalController (essentially an FSM"
+    },
+    {
+      "chunk_id": 145,
+      "text": "or contains a ModalController (essentially an FSM actor) and a set of Refinement actors that model the refinements associated with states and possibly a set of TransitionRefinement actors that model the refinements associated with transitions. The FS"
+    },
+    {
+      "chunk_id": 146,
+      "text": "he refinements associated with transitions. The FSM director mediates the interaction with the outside domain, and coordinates the execution of the refinements with the ModalController. The details of this domain can be found in Volume 3. Correspondi"
+    },
+    {
+      "chunk_id": 147,
+      "text": "this domain can be found in Volume 3. Correspondingly, the helper for the FSMActor is designed to generate appropriate target code according to its context. When the FSMActor is used as a standalone actor, the helper generates the code for all outgo"
+    },
+    {
+      "chunk_id": 148,
+      "text": "actor, the helper generates the code for all outgoing transitions for each state; when it is used as a ModalController in a ModalModel, the helper generates the code for preemptive transitions and the code for non-preemptive transitions separately. R"
+    },
+    {
+      "chunk_id": 149,
+      "text": "code for non-preemptive transitions separately. Regardless of the context, for each state and each outgoing transition from that state, the generated code follows exactly the same execution sequence as in the original model--first, the guard express"
+    },
+    {
+      "chunk_id": 150,
+      "text": "as in the original model--first, the guard expression is translated into the target code using a ParseTreeCodeGenerator; then all the choice actions contained by the transition are transformed into the target code; if there is any refinement associat"
+    },
+    {
+      "chunk_id": 151,
+      "text": "e target code; if there is any refinement associated with the transition (represented by a TransitionRefinement actor which is different from a Refinement actor associated with a state), the corresponding code for the refinement is generated; next, a"
+    },
+    {
+      "chunk_id": 152,
+      "text": "ding code for the refinement is generated; next, all the commit actions contained by the transition are transformed into the target code; the code for updating new current state follows; finally the code for (re)initializing the refinement associated"
+    },
+    {
+      "chunk_id": 153,
+      "text": "ode for (re)initializing the refinement associated with the new state is generated when the reset parameter of the transition is true. The internal execution of a ModalModel is controlled by a local director, which can be an FSMDirector, a MultirateF"
+    },
+    {
+      "chunk_id": 154,
+      "text": "irector, which can be an FSMDirector, a MultirateFSMDirector, or an HDFFSMDirector. A user can choose a director for a ModalModel. Usually only one specific director makes sense for the behavior the user wants for the model. For example, an FSMDirect"
+    },
+    {
+      "chunk_id": 155,
+      "text": "ser wants for the model. For example, an FSMDirector is used when the rate for all the ports of a ModalModel is 1 and the ModalModel tries a transition from the current state during every firing of the ModalModel. A MultirateFSMDirector is inherited"
+    },
+    {
+      "chunk_id": 156,
+      "text": "e ModalModel. A MultirateFSMDirector is inherited from FSMDirector to model multirate behavior. To guarantee static schedulability under SDF, all state refinements must present the same rate to the outside for all the ports mirrored to the same port"
+    },
+    {
+      "chunk_id": 157,
+      "text": "tside for all the ports mirrored to the same port in the ModalModel. In addition, a MultirateFSMDirector makes only non-preemptive transitions so that the refinement for the current state gets fired before trying a transition and tokens are consumed"
+    },
+    {
+      "chunk_id": 158,
+      "text": "efore trying a transition and tokens are consumed from input ports and sent to output ports according to the rate of each port. If the refinement associated with different state presents a different rate, an HDFFSMDirector must be used. It is further"
+    },
+    {
+      "chunk_id": 159,
+      "text": "ate, an HDFFSMDirector must be used. It is further inherited from MultirateFSMDirector and only tries a transition after the whole model finishes the execution of one complete schedule. Together with HDFDirector, it implements the HDF domain (see sec"
+    },
+    {
+      "chunk_id": 160,
+      "text": "HDFDirector, it implements the HDF domain (see section 8.4.3 ). No matter which FSM director the user chooses, the corresponding helper generates the target code which preserves the original model behavior. To support code generation for modal models"
+    },
+    {
+      "chunk_id": 161,
+      "text": "avior. To support code generation for modal models, four helpers are also created including ModalController, ModalModel, Refinement and TransitionRefinement. They are inherited from the helpers for FSMActor or TypedCompositeActor but add no new funct"
+    },
+    {
+      "chunk_id": 162,
+      "text": "MActor or TypedCompositeActor but add no new functionality because their associated actor classes are used to build modal model structures (such as mirroring ports). These helpers inherit their functionality from their base classes. The VariableScope"
+    },
+    {
+      "chunk_id": 163,
+      "text": "onality from their base classes. The VariableScope inner class in CodeGeneratorHelper handles code generation for expressions contained by parameters. To support code generation for modal models, the derived PortScope inner class in the helper for th"
+    },
+    {
+      "chunk_id": 164,
+      "text": "derived PortScope inner class in the helper for the FSMActor handles code generation for guard expressions with multi-channel and multi-rate syntax. Both inner classes would expand any expression recursively until any variable in the expression is ei"
+    },
+    {
+      "chunk_id": 165,
+      "text": "rsively until any variable in the expression is either a constant (in this case the constant is substituted for the variable) or a modifiable variable, e.g., modified in a mode transition or in a SetVariable actor (in this case a variable which is de"
+    },
+    {
+      "chunk_id": 166,
+      "text": "ariable actor (in this case a variable which is defined at the beginning of the generated code is used). Several interesting demos for the FSM code generation are presented next. The Blending demo in $PTII/ptolemy/domains/fsm/demo/Blending models a c"
+    },
+    {
+      "chunk_id": 167,
+      "text": "$PTII/ptolemy/domains/fsm/demo/Blending models a controller with two major control modes and two transition modes. Each major mode has one Refinement. Each transition mode has three Refinements. Some Refinements are shared by different modes. After t"
+    },
+    {
+      "chunk_id": 168,
+      "text": "Refinements are shared by different modes. After the controller is designed and simulated to meet the given specification in the Ptolemy environment, the generated C code can then run on some embedded platform. The Modal Binary Symmetric Channel demo"
+    },
+    {
+      "chunk_id": 169,
+      "text": "platform. The Modal Binary Symmetric Channel demo in $PTII/ptolemy/domains/fsm/demo/ModalBSC models a channel with two states, each with different probabilities of error. The model not only has Refinement associated with state, but also has Transiti"
+    },
+    {
+      "chunk_id": 170,
+      "text": "ement associated with state, but also has TransitionRefinement associated with transition. These modeling constructs are automatically realized in the generated code. 8.4.3 HDF The Heterochronous Dataflow (HDF) domain extends the SDF domain by allo"
+    },
+    {
+      "chunk_id": 171,
+      "text": "taflow (HDF) domain extends the SDF domain by allowing changes in port rates (called rate signature) between iterations of the whole model. Within each iteration, rate signatures are fixed and an HDF model behaves like an SDF model. This guarantees t"
+    },
+    {
+      "chunk_id": 172,
+      "text": "model behaves like an SDF model. This guarantees that a schedule can be completely executed. Between iterations, any modal model can make a state transition and therefore derives its rate signature from the refinement associated with the new state. T"
+    },
+    {
+      "chunk_id": 173,
+      "text": "om the refinement associated with the new state. The HDF domain recomputes the schedule when necessary. The details of this domain can be found in Volume 3. Since it's expensive to compute the schedule during the run time, all possible schedules are"
+    },
+    {
+      "chunk_id": 174,
+      "text": "e during the run time, all possible schedules are precomputed during the compilation time (i.e., code generation time). The structure of the generated code is hard-coded in such a way that it reflects all possible execution paths for different schedu"
+    },
+    {
+      "chunk_id": 175,
+      "text": "all possible execution paths for different schedules. Since an HDF model can have arbitrary levels of hierarchy, there must be a systematic way to find out the number of schedules and enumerate all schedules for any HDF model. The approach taken her"
+    },
+    {
+      "chunk_id": 176,
+      "text": "chedules for any HDF model. The approach taken here uses the following definition. For each opaque actor (i.e., atomic actor or opaque composite actor), let be the number of configurations of this actor. For each configuration of the actor, it has a"
+    },
+    {
+      "chunk_id": 177,
+      "text": "or. For each configuration of the actor, it has a corresponding local SDF schedule. (An atomic actor has a degenerate form of local SDF schedule: fire itself once.) Let be the rate of the th port of this actor in the th configuration, where , and is"
+    },
+    {
+      "chunk_id": 178,
+      "text": "his actor in the th configuration, where , and is the number of ports of this actor. Let be the rate signature of this actor in the th configuration. During code generation, and , for each opaque actor are derived in a recursive bottom-up fashion: 1."
+    },
+    {
+      "chunk_id": 179,
+      "text": "r are derived in a recursive bottom-up fashion: 1. Atomic actor : , = the rate signature of the atomic actor. 2. Composite actor with a local SDFDirector : , = the rate signature of the composite actor inferred from the local SDF schedule. Preconditi"
+    },
+    {
+      "chunk_id": 180,
+      "text": "r inferred from the local SDF schedule. Precondition : each contained actor has only one rate signature (i.e., one configuration). 3. Modal model with a local FSMDirector : , where for all . Precondition : all the refinements have only one rate signa"
+    },
+    {
+      "chunk_id": 181,
+      "text": "ion : all the refinements have only one rate signature and all the port rates are 1. 4. Modal model with a local MultirateFSMDirector : , = the rate signature of any refinement. Precondition : all the refinements have only one and same rate signature"
+    },
+    {
+      "chunk_id": 182,
+      "text": "refinements have only one and same rate signature. 5. Modal model with a local HDFFSMDirector : where is the number of configurations of the th refinement, is the number of refinements. For , = the rate signature of the th refinement in its th confi"
+    },
+    {
+      "chunk_id": 183,
+      "text": "ate signature of the th refinement in its th configuration, where is derived from and , is derived from . 6. Composite actor with a local HDFDirector : where is the number of configurations of the th contained actor, is the number of contained actors"
+    },
+    {
+      "chunk_id": 184,
+      "text": "contained actor, is the number of contained actors. For , = the rate signature of the composite actor inferred from the local SDF schedule when the th contained actor, for , presents its rate signature in its th configuration , where is derived from"
+    },
+    {
+      "chunk_id": 185,
+      "text": "e in its th configuration , where is derived from . The above computation is performed in the generatePreinitializeCode() method of each director helper. After the computation is complete, the helper for each actor has recorded its number of configu"
+    },
+    {
+      "chunk_id": 186,
+      "text": "for each actor has recorded its number of configurations, the rate signature presented to the outside in each configuration, and the local SDF schedule in each configuration. During this step, the maximum capacity of each receiver under all schedule"
+    },
+    {
+      "chunk_id": 187,
+      "text": "ximum capacity of each receiver under all schedules is also recorded, except the receivers of modal controllers, whose maximum capacity must be computed in the next step, because a modal controller may potentially access all received data during one"
+    },
+    {
+      "chunk_id": 188,
+      "text": "y potentially access all received data during one global iteration (of the whole model) and the number of times the modal model containing the modal controller is fired in one global iteration is not available in the bottom-up traversal. The next ste"
+    },
+    {
+      "chunk_id": 189,
+      "text": "available in the bottom-up traversal. The next step is to traverse the model structure in a top-down fashion in the createOffsetVariablesIfNeeded() method. The helper for each composite actor contains an integer array: _firingsPerGlobalIteration, the"
+    },
+    {
+      "chunk_id": 190,
+      "text": "an integer array: _firingsPerGlobalIteration, the length of which is equal to the number of configurations of the actor. Each element in the array represents the maximum number of times the actor is fired in each configuration during one global iter"
+    },
+    {
+      "chunk_id": 191,
+      "text": "fired in each configuration during one global iteration. It is computed in the following way. Each element of the array is initialized to be 1 for the top composite actor. If a composite actor is internally controlled by an HDFDirector, each containe"
+    },
+    {
+      "chunk_id": 192,
+      "text": "rnally controlled by an HDFDirector, each contained actor derives its _firingsPerGlobalIteration from the _firingsPerGlobalIteration of its container together with the number of times this actor is fired in a local SDF schedule. If a composite actor"
+    },
+    {
+      "chunk_id": 193,
+      "text": "red in a local SDF schedule. If a composite actor is internally controlled by an HDFFSMDirector, each contained refinement derives its _firingsPerGlobalIteration directly from the _firingsPerGlobalIteration of its container. Imagine a controller rece"
+    },
+    {
+      "chunk_id": 194,
+      "text": "ration of its container. Imagine a controller receives a large number of tokens in one global iteration and correspondingly a large chunk of memory must be allocated in the generated code. One way to get around this is to directly analyze the guard e"
+    },
+    {
+      "chunk_id": 195,
+      "text": "get around this is to directly analyze the guard expression and find out how far back the controller needs to access the received tokens and only allocate that amount of memory. This should be easy to do if constant array indexes are used to access t"
+    },
+    {
+      "chunk_id": 196,
+      "text": "do if constant array indexes are used to access the received tokens. However, if that is not the case, then the optimizing approach might not work. The current implementation allocates the maximum amount of memory ever needed in one global iteration"
+    },
+    {
+      "chunk_id": 197,
+      "text": "ount of memory ever needed in one global iteration, therefore correctness is guaranteed. Upon completing the previous two traversals, the HDF model has been analyzed and it's ready to generate the target code. The code for variable declarations and i"
+    },
+    {
+      "chunk_id": 198,
+      "text": "get code. The code for variable declarations and initializations is generated as usual. The bulk of the code is generated in the generateFireCode() method. The interesting part is where the code for making mode transitions is generated. In a modal mo"
+    },
+    {
+      "chunk_id": 199,
+      "text": "aking mode transitions is generated. In a modal model containing a MultirateFSMDirector or an FSMDirector, the mode transition code is generated in the generateFireCode() method and therefore executed at the end of each firing of the modal model. In"
+    },
+    {
+      "chunk_id": 200,
+      "text": "at the end of each firing of the modal model. In a modal model containing an HDFFSMDirector, only the code for setting some \"fired\" boolean variables is generated in the generateFireCode() method; the actual code for making mode transitions is gener"
+    },
+    {
+      "chunk_id": 201,
+      "text": "e actual code for making mode transitions is generated in the generateModeTransitionCode() method and appended after the code corresponding to one global iteration. When the generated code is executed, those \"fired\" variables essentially record a tra"
+    },
+    {
+      "chunk_id": 202,
+      "text": ", those \"fired\" variables essentially record a trace about what part of the model is executed in each global iteration. The mode transition phase follows this trace and executes the code for making mode transitions and updating the variables represen"
+    },
+    {
+      "chunk_id": 203,
+      "text": "de transitions and updating the variables representing the current state and the current configuration. Several interesting demos for the HDF code generation are presented next. The Merge demo in $PTII/ptolemy/domains/hdf/demo/Merge shows an interest"
+    },
+    {
+      "chunk_id": 204,
+      "text": "I/ptolemy/domains/hdf/demo/Merge shows an interesting way to merge two increasing sequences of numbers into one increasing sequence. The AdaptiveCoding demo in $PTII/ptolemy/domains/hdf/demo/AdaptiveCoding shows the modeling of two modes of Hamming c"
+    },
+    {
+      "chunk_id": 205,
+      "text": "oding shows the modeling of two modes of Hamming codec, a (7, 4) Hamming code and a (3,1) Hamming code. The model switches between the two coding/decoding schemes depending on the channel condition. Appendix C: CodeStream and CodeGen Types C.1 The"
+    },
+    {
+      "chunk_id": 206,
+      "text": "ppendix C: CodeStream and CodeGen Types C.1 The CodeStream Mechanism C.1.1 Code Block Structure For a helper, a code block is uniquely defined by its signature which consists of its code block name and the number of parameters it takes. A proper"
+    },
+    {
+      "chunk_id": 207,
+      "text": "e and the number of parameters it takes. A proper code block should have the following grammar: /*** CodeBlockName [($parameter1, $parameter2, ...)] ***/ CodeBlockBody /**/ Parameterized code blocks can contain parameters which the user can specify."
+    },
+    {
+      "chunk_id": 208,
+      "text": "an contain parameters which the user can specify. Parameter substitution syntax is straight-forward string pattern substitution, so the user is responsible for declaring unique parameter names. For example, a code block is declared to be the followin"
+    },
+    {
+      "chunk_id": 209,
+      "text": "ample, a code block is declared to be the following: /*** initBlock ($arg) ***/ if ($ref(input) != $arg) { $ref(output) = $arg; } /**/ If the helper invokes the appendCodeBlock() method with a single parameter, which is the integer 3, ArrayList args"
+    },
+    {
+      "chunk_id": 210,
+      "text": "parameter, which is the integer 3, ArrayList args = new ArrayList(); args.add(Integer.toString(3)); appendCodeBlock(\"initBlock\", args); then after parameter substitution, the code block would become: if ($ref(input) != 3) { $ref(output) = 3; } C.1.2"
+    },
+    {
+      "chunk_id": 211,
+      "text": "if ($ref(input) != 3) { $ref(output) = 3; } C.1.2 Overriding and Overloading CodeStream supports overriding superclass code blocks with same signature. However, it does not support call to superclass code blocks that have been overridden (i.e., ther"
+    },
+    {
+      "chunk_id": 212,
+      "text": "code blocks that have been overridden (i.e., there is not a function call like super()), so far. It also supports overloading code blocks with different number of parameters. C.2 Type Conversion: CodeGen Types Ptolemy II supports a variety of type"
+    },
+    {
+      "chunk_id": 213,
+      "text": "odeGen Types Ptolemy II supports a variety of types that are different from the target language. It sometimes dynamically converts tokens in the execution of the model. Thus, the code generator has to deal with some type conversion issues. First, it"
+    },
+    {
+      "chunk_id": 214,
+      "text": "deal with some type conversion issues. First, it has to generate code that represents the different PTII token types and functionality of the tokens in the target language. Second, it has to be able to convert one type to another that is higher in t"
+    },
+    {
+      "chunk_id": 215,
+      "text": "to convert one type to another that is higher in the type lattice. Thirdly, the code generator has to know where type conversions need to occur in order to generate compilable code and code that produces the correct result. For each Ptolemy token typ"
+    },
+    {
+      "chunk_id": 216,
+      "text": "ces the correct result. For each Ptolemy token type, there is an associated codegen Token type. In the $PTII/ptolemy/codegen/kernel/type directory, there is a target-language specific file which contains functionality code for each Ptolemy type. The"
+    },
+    {
+      "chunk_id": 217,
+      "text": "ins functionality code for each Ptolemy type. The code generator uses the code stream mechanism to harvest the code blocks in these files. E.g. The Int.c file contains code to operate on an integer token. /***negateBlock***/ Token Int_negate(Token t"
+    },
+    {
+      "chunk_id": 218,
+      "text": "oken. /***negateBlock***/ Token Int_negate(Token this, ...) { this.payload.Int = -this.payload.Int; return this; } /**/ The code generator handles three kinds of type conversion. The first case is converting between primitive (non-Token) types. The t"
+    },
+    {
+      "chunk_id": 219,
+      "text": "verting between primitive (non-Token) types. The target languages often support some of the Ptolemy types as primitive types. The code generator can take advantage of the language constructs to avoid storage and processing time overhead by using thes"
+    },
+    {
+      "chunk_id": 220,
+      "text": "storage and processing time overhead by using these primitive types. For example, the c code generator uses int, double and char array (char*) to represent the Ptolemy int, double and string types. The c code generator generates functions to convert"
+    },
+    {
+      "chunk_id": 221,
+      "text": "e c code generator generates functions to convert int and double to char* type (because string is higher than int and double in the type lattice). char* InttoString (int i) { char* string = (char*) malloc(sizeof(char) * 12); sprintf((char*) string, \""
+    },
+    {
+      "chunk_id": 222,
+      "text": "lloc(sizeof(char) * 12); sprintf((char*) string, \"%d\", i); return string; } The second case is to upgrade a primitive type to a Token type. This happens often in a multiport connection where the sink port (multiport) is resolved to type 'general' and"
+    },
+    {
+      "chunk_id": 223,
+      "text": "port (multiport) is resolved to type 'general' and the source ports are resolved to concrete types, like int, string, etc. The code generator takes care of this by using the $new() macro to create a new Token for the given primitive value (there is a"
+    },
+    {
+      "chunk_id": 224,
+      "text": "ew Token for the given primitive value (there is an associated codegen Token type for each Ptolemy type including the primitive type). The third case is to convert between different Token types. The functionality code for each codegen type has a conv"
+    },
+    {
+      "chunk_id": 225,
+      "text": "unctionality code for each codegen type has a convert function that converts the given token. For example, in $PTII/ptolemy/codegen/kernel/type/String.c, the convertBlock looks like 2 : /***convertBlock***/ Token String_convert(Token token, ...) { ch"
+    },
+    {
+      "chunk_id": 226,
+      "text": "ck***/ Token String_convert(Token token, ...) { char* stringPointer; switch (token.type) { #ifdef TYPE_Boolean case TYPE_Boolean: stringPointer = BooleantoString(token.payload.Boolean); break; #endif #ifdef TYPE_Int case TYPE_Int: stringPointer = Int"
+    },
+    {
+      "chunk_id": 227,
+      "text": "#ifdef TYPE_Int case TYPE_Int: stringPointer = InttoString(token.payload.Int); break; #endif #ifdef TYPE_Double case TYPE_Double: stringPointer = DoubletoString(token.payload.Double); break; #endif default: // FIXME: not finished fprintf(stderr, \"Str"
+    },
+    {
+      "chunk_id": 228,
+      "text": "fault: // FIXME: not finished fprintf(stderr, \"String_convert(): Conversion from an unsupported type. (%d)\\n\", token.type); break; } token.payload.String = stringPointer; token.type = TYPE_String; return token; } /**/ C.3 Examples C.3.1 How to wri"
+    },
+    {
+      "chunk_id": 229,
+      "text": "urn token; } /**/ C.3 Examples C.3.1 How to write the helper for a polymorphic actor (AddSubtract) The following is the code generation fire method in the AddSubtract helper (AddSubtract.java): public String generateFireCode() throws IllegalAction"
+    },
+    {
+      "chunk_id": 230,
+      "text": "lic String generateFireCode() throws IllegalActionException { super.generateFireCode(); ptolemy.actor.lib.AddSubtract actor = (ptolemy.actor.lib.AddSubtract) getComponent(); Type type = actor.output.getType(); boolean minusOnly = actor.plus.getWidth("
+    },
+    {
+      "chunk_id": 231,
+      "text": "etType(); boolean minusOnly = actor.plus.getWidth() == 0; ArrayList args = new ArrayList(); args.add(new Integer(0)); if (type == BaseType.STRING) { _codeStream.appendCodeBlock(\"StringPreFireBlock\"); for (int i = 0; i < actor.plus.getWidth(); i++) {"
+    },
+    {
+      "chunk_id": 232,
+      "text": "for (int i = 0; i < actor.plus.getWidth(); i++) { args.set(0, new Integer(i)); _codeStream.appendCodeBlock(\"StringLengthBlock\", args); } _codeStream.appendCodeBlock(\"StringAllocBlock\"); } else { String blockType = isPrimitive(type) ? \"\" : \"Token\"; St"
+    },
+    {
+      "chunk_id": 233,
+      "text": "g blockType = isPrimitive(type) ? \"\" : \"Token\"; String blockPort = (minusOnly) ? \"Minus\" : \"\"; _codeStream.appendCodeBlock(blockType + blockPort + \"PreFireBlock\"); } String blockType = isPrimitive(type) ? codeGenType(type) : \"Token\"; for (int i = 1;"
+    },
+    {
+      "chunk_id": 234,
+      "text": "e) ? codeGenType(type) : \"Token\"; for (int i = 1; i < actor.plus.getWidth(); i++) { args.set(0, new Integer(i)); _codeStream.appendCodeBlock(blockType + \"AddBlock\", args); } for (int i = minusOnly ? 1 : 0; i < actor.minus.getWidth(); i++) { args.set("
+    },
+    {
+      "chunk_id": 235,
+      "text": ": 0; i < actor.minus.getWidth(); i++) { args.set(0, new Integer(i)); _codeStream.appendCodeBlock(blockType + \"MinusBlock\", args); } _codeStream.appendCodeBlock(\"PostFireBlock\"); return processCode(_codeStream.toString()); } These are the correspondi"
+    },
+    {
+      "chunk_id": 236,
+      "text": "odeStream.toString()); } These are the corresponding code blocks in the code template (AddSubtract.c): /***PreFireBlock***/ $actorSymbol(result) = $ref(plus#0); /**/ /***MinusPreFireBlock***/ $actorSymbol(result) = -$ref(minus#0); /**/ /***TokenPreFi"
+    },
+    {
+      "chunk_id": 237,
+      "text": "mbol(result) = -$ref(minus#0); /**/ /***TokenPreFireBlock***/ $actorSymbol(result) = $ref(plus#0); /**/ /***TokenMinusPreFireBlock***/ $actorSymbol(result) = $tokenFunc($ref(minus#0)::negate()); /**/ /***IntAddBlock($channel)***/ $actorSymbol(result)"
+    },
+    {
+      "chunk_id": 238,
+      "text": "/***IntAddBlock($channel)***/ $actorSymbol(result) += $ref(plus#$channel); /**/ /***IntMinusBlock($channel)***/ $actorSymbol(result) -= $ref(minus#$channel); /**/ /***DoubleAddBlock($channel)***/ $actorSymbol(result) += $ref(plus#$channel); /**/ /***"
+    },
+    {
+      "chunk_id": 239,
+      "text": "orSymbol(result) += $ref(plus#$channel); /**/ /***DoubleMinusBlock($channel)***/ $actorSymbol(result) -= $ref(minus#$channel); /**/ /***BooleanAddBlock($channel)***/ $actorSymbol(result) |= $ref(plus#$channel); /**/ /***StringPreFireBlock***/ $actorS"
+    },
+    {
+      "chunk_id": 240,
+      "text": "$channel); /**/ /***StringPreFireBlock***/ $actorSymbol(length) = 1; // null terminator. /**/ /***StringLengthBlock($channel)***/ $actorSymbol(length) += strlen($ref(plus#$channel)); /**/ /***StringAllocBlock***/ $actorSymbol(result) = (char*) reall"
+    },
+    {
+      "chunk_id": 241,
+      "text": "llocBlock***/ $actorSymbol(result) = (char*) realloc($ref(output), $actorSymbol(length)); strcpy($actorSymbol(result), $ref(plus#0)); /**/ /***StringAddBlock($channel)***/ strcat($actorSymbol(result), $ref(plus#$channel)); /**/ /***TokenAddBlock($cha"
+    },
+    {
+      "chunk_id": 242,
+      "text": "$ref(plus#$channel)); /**/ /***TokenAddBlock($channel)***/ $actorSymbol(result) = $tokenFunc($actorSymbol(result)::add($ref(plus#$channel))); /**/ /***TokenMinusBlock($channel)***/ $actorSymbol(result) = $tokenFunc($actorSymbol(result)::substract($r"
+    },
+    {
+      "chunk_id": 243,
+      "text": "t) = $tokenFunc($actorSymbol(result)::substract($ref(minus#$channel))); /**/ /***PostFireBlock***/ $ref(output) = $actorSymbol(result); /**/ C.3.2 How to write the helper that extends another concrete helper The following is the Uniform helper, whic"
+    },
+    {
+      "chunk_id": 244,
+      "text": "e helper The following is the Uniform helper, which extends the RandomSource helper: // Uniform.java public class Uniform extends RandomSource { public Uniform(ptolemy.actor.lib.Uniform actor) { super(actor); } protected String _generateRandomNumber("
+    },
+    {
+      "chunk_id": 245,
+      "text": "(actor); } protected String _generateRandomNumber() throws IllegalActionException { return _generateBlockCode(\"randomBlock\"); } } This is the Uniform helper's code template file (Uniform.c): /*** randomBlock ***/ $ref(output) = (RandomSource_nextDoub"
+    },
+    {
+      "chunk_id": 246,
+      "text": "omBlock ***/ $ref(output) = (RandomSource_nextDouble(&$actorSymbol(seed)) * ($val(upperBound) - $val(lowerBound))) + $val(lowerBound); /**/ It references the function RandomSource_nextDouble from its parent's code template. The following is the code"
+    },
+    {
+      "chunk_id": 247,
+      "text": "parent's code template. The following is the code template for the RandomSource helper (RandomSource.c): /*** sharedBlock ***/ int RandomSource_next(int bits, double* seed) { *seed = (((long long) *seed * 0x5DEECE66DLL) + 0xBLL) & ((1LL << 48) - 1);"
+    },
+    {
+      "chunk_id": 248,
+      "text": "ed * 0x5DEECE66DLL) + 0xBLL) & ((1LL << 48) - 1); return (int)((signed long long) *seed >> (48 - bits)); } double RandomSource_nextDouble(double* seed) { return (((long long)RandomSource_next(26, seed) << 27) + RandomSource_next(27, seed)) / (double)"
+    },
+    {
+      "chunk_id": 249,
+      "text": ") << 27) + RandomSource_next(27, seed)) / (double)(1LL << 53); } /**/ /*** gaussianBlock ***/ double RandomSource_nextGaussian(double* seed, boolean* haveNextNextGaussian, double* nextNextGaussian) { double multiplier; double v1; double v2; double s;"
+    },
+    {
+      "chunk_id": 250,
+      "text": "double multiplier; double v1; double v2; double s; if (*haveNextNextGaussian) { *haveNextNextGaussian = false; return *nextNextGaussian; } else { do { v1 = 2 * RandomSource_nextDouble(seed) - 1; // between -1.0 and 1.0 v2 = 2 * RandomSource_nextDou"
+    },
+    {
+      "chunk_id": 251,
+      "text": "between -1.0 and 1.0 v2 = 2 * RandomSource_nextDouble(seed) - 1; // between -1.0 and 1.0 s = v1 * v1 + v2 * v2; } while (s >= 1 || s == 0); multiplier = sqrt(-2 * log(s)/s); *nextNextGaussian = v2 * multiplier; *haveNextNextGaussian = true; return"
+    },
+    {
+      "chunk_id": 252,
+      "text": "multiplier; *haveNextNextGaussian = true; return v1 * multiplier; } } /**/ /*** setSeedBlock0($hashCode) ***/ $actorSymbol(seed) = $actorSymbol(seed) = time (NULL) + $hashCode; /**/ /*** setSeedBlock1 ***/ /* see documentation from http://java.sun.c"
+    },
+    {
+      "chunk_id": 253,
+      "text": "1 ***/ /* see documentation from http://java.sun.com/j2se/1.4.2/docs/api/java/util/Random.htm#setSeed(long) */ //this.seed = (seed ^ 0x5DEECE66DL) & ((1L << 48) - 1); $actorSymbol(seed) = ((long long) $val(seed) ^ 0x5DEECE66DLL) & ((1LL << 48) - 1);"
+    },
+    {
+      "chunk_id": 254,
+      "text": "$val(seed) ^ 0x5DEECE66DLL) & ((1LL << 48) - 1); /**/ /*** preinitBlock ***/ double $actorSymbol(seed); /**/ Since the Uniform helper does not override any of code generation methods, the parent's methods are called instead. The sharedBlock, setSee"
+    },
+    {
+      "chunk_id": 255,
+      "text": "ethods are called instead. The sharedBlock, setSeedBlock and preinitBlock code blocks are harvested from the RandomSource code template. The child helper may override its parent's code blocks while using its parent's code generation methods. A child"
+    },
+    {
+      "chunk_id": 256,
+      "text": "ing its parent's code generation methods. A child helper can also override the code generation method. Neither way of overriding the super class's code harvesting increases run-time overhead in the generated code. The code generator handles method /"
+    },
+    {
+      "chunk_id": 257,
+      "text": "enerated code. The code generator handles method /code block overrides during compile time and add no extra logic in the final code. 1 All parameters in a code block are implicitly strings. So unlike the usual overloaded functions with the same name"
+    },
+    {
+      "chunk_id": 258,
+      "text": "the usual overloaded functions with the same name but different types of parameters, we need different number of parameters to have an overload relationship for code blocks. 2 The user should use the $typeFunc() (rather than $tokenFunc()) macro to ca"
+    },
+    {
+      "chunk_id": 259,
+      "text": "$typeFunc() (rather than $tokenFunc()) macro to call the convert() function because convert() is a static/class function. If the $tokenFunc() macro is used, the convert function of the given token's type is invoked rather than the String type. Since"
+    },
+    {
+      "chunk_id": 260,
+      "text": "ype is invoked rather than the String type. Since the token is, of course, the same type of its own type; thus, no conversion occurs."
+    }
+  ]
+}

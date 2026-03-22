@@ -1,0 +1,285 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/viptos/viptos5.1/nc2moml.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Skip to main content UC Berkeley EECS Dept. Quick Links People Download Publications Home Objectives Ptolemy II Other software People Sponsors Publications Conferences Presentations FAQ Download Home Ptolemy II Ptutorials Ptolemy Classic Software Peo"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Ptolemy II Ptutorials Ptolemy Classic Software People Projects Sponsors Publications Conferences Presentations Links Projects Mailing lists Search FAQ Style Guide Skip to sidebar nc2moml TinyOS is an event-driven operating system designed for sen"
+    },
+    {
+      "chunk_id": 3,
+      "text": "event-driven operating system designed for sensor network nodes that have very limited resources (e.g., 8K bytes of program memory, 512 bytes of RAM). TinyOS, is used, for example, on the Berkeley MICA motes, which are small wireless"
+    },
+    {
+      "chunk_id": 4,
+      "text": "Berkeley MICA motes, which are small wireless sensor nodes. nesC is an extension to the C programming language designed to embody the structuring concepts and execution model of TinyOS. nc2moml is used to convert nesC files (.nc) into Mo"
+    },
+    {
+      "chunk_id": 5,
+      "text": "c2moml is used to convert nesC files (.nc) into MoML (.moml) files. This will create the Ptolemy II libraries of components that are used to assemble models. TinyOS provides a rich library of nesC components. If you install TinyOS 1.x in $P"
+    },
+    {
+      "chunk_id": 6,
+      "text": "f nesC components. If you install TinyOS 1.x in $PTII/vendors/ptinyos/tinyos-1.x , then the Ptolemy II configure script will find it and automatically make the TinyOS libraries available. Installation instructions Note: As of 10/05, Windows u"
+    },
+    {
+      "chunk_id": 7,
+      "text": "allation instructions Note: As of 10/05, Windows users will not be able to run TinyOS models inside Ptolemy. The reason is that reloading the TinyOS shared objects into the running Ptolemy interface fails because the TinyOS shared objects us"
+    },
+    {
+      "chunk_id": 8,
+      "text": "erface fails because the TinyOS shared objects use pthreads and under Windows, Java is using Windows native threads. We are working on a solution. In the interim, Windows users can convert .nc files to .moml files and create models, but runnin"
+    },
+    {
+      "chunk_id": 9,
+      "text": "files to .moml files and create models, but running the model fails. However, Windows and users on other platforms can generate code for the pc or other targets. See the help instructions in $PTII/ptolemy/configs/viptos/help.htm . These installati"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ptolemy/configs/viptos/help.htm . These installation instructions assume that you already have Ptolemy II installed, and that if you are running on Windows, you already have Cygwin installed. These instructions also assume that you do no"
+    },
+    {
+      "chunk_id": 11,
+      "text": "These instructions also assume that you do not already have the nesC compiler nor TinyOS installed. If you wish to use pre-existing installations, please set up the environment variables described in the steps below to point to prop"
+    },
+    {
+      "chunk_id": 12,
+      "text": "described in the steps below to point to proper directories. If you already have AVR tools, TinyOS and nesC installed, try: cd $PTII mkdir -p vendors/ptinyos cd $PTII/vendors/ptinyos ln -s location_of_your_tiny-1.x_tree tinyos-1.x ln -s location"
+    },
+    {
+      "chunk_id": 13,
+      "text": "on_of_your_tiny-1.x_tree tinyos-1.x ln -s location_of_your_nesc_tree nesc Be sure to update to the latest nesC cvs version, then proceed to Set up the necessary environment variables below. You may skip installing TinyOS and nesc and proceed t"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ay skip installing TinyOS and nesc and proceed to unzipping the opts files and running nc2moml . How to install nc2moml by downloading/building nesC from CVS The nesC compiler can be downloaded and compiled from source, which requires an"
+    },
+    {
+      "chunk_id": 15,
+      "text": "d and compiled from source, which requires an impressive suite of tools. These instructions ask you to first verify that you have the necessary programs installed, then to install the AVR tools, followed by TinyOS, then nesC. Under L"
+    },
+    {
+      "chunk_id": 16,
+      "text": "tools, followed by TinyOS, then nesC. Under Linux or Cygwin, you must have the following programs installed on your system: autoconf 2.50 or later bison emacs emacs-el gperf perl rpm For help with how to install these in Cygwin, see the Pt"
+    },
+    {
+      "chunk_id": 17,
+      "text": "lp with how to install these in Cygwin, see the Ptolemy II Cygwin Instructions . Note that most installations will not have gperf on them, at least, so you will likely need to install at least that. You must install the following AV"
+    },
+    {
+      "chunk_id": 18,
+      "text": "least that. You must install the following AVR tools: avarice avr-binutils avr-gcc avr-insight avr-libc Note: If the files below do not work for you, you can try using the latest files (although these have not been tested wit"
+    },
+    {
+      "chunk_id": 19,
+      "text": "(although these have not been tested with Viptos yet): http://www.tinyos.net/dist-1.2.0/tools . Choose and follow the appropriate directions for your operating system: If you are running Windows XP or Windows 2000, you can either: Download"
+    },
+    {
+      "chunk_id": 20,
+      "text": "dows XP or Windows 2000, you can either: Download WinAVR Go to http://sourceforge.net/project/showfiles.php?group_id=68108 Download WinAVR-20040404-bin-install.exe Note: Do not install WinAVR-20050214-install.exe , as of 10/05, it will not work."
+    },
+    {
+      "chunk_id": 21,
+      "text": "-install.exe , as of 10/05, it will not work. When converting .nc files to .moml files, you will see messages about avr-gcc not being able to find cc1. Instead, install WinAVR-20040404-bin-install.exe . Install Winavr in any directory,"
+    },
+    {
+      "chunk_id": 22,
+      "text": "in-install.exe . Install Winavr in any directory, C:\\WinAVR is preferred. FIXME: Directories with spaces in the pathname might not work? Under Windows with WinAVR-20040404, we had to copy c:/cygwin/usr/local/lib/ncc/ to c:/usr/local/lib/ncc/ : mkdir"
+    },
+    {
+      "chunk_id": 23,
+      "text": "r/local/lib/ncc/ to c:/usr/local/lib/ncc/ : mkdir -p c:/usr/local/lib cd c:/usr/local/lib cp -r /usr/local/lib/ncc . The reason is that Cygwin mounts directories under c:/cygwin and the WinAVR binaries don't know how to handle that. Or Do"
+    },
+    {
+      "chunk_id": 24,
+      "text": "binaries don't know how to handle that. Or Download the TinyOS Installshield Wizard . Run the wizard, and choose \"Custom\" install. Install only the AVR tools. This will install all of the rpms below f"
+    },
+    {
+      "chunk_id": 25,
+      "text": "will install all of the rpms below for you. Do not choose the \"cygwin\" install option (it will overwrite and corrupt your current cygwin installation) or the \"TinyOS\" install option (you will in"
+    },
+    {
+      "chunk_id": 27,
+      "text": "already have them installed on your system. The wizard will install all of the selected rpms for you. JavaCOMM is not needed if you are not planning on using the TinyOS java tools (these are not need"
+    },
+    {
+      "chunk_id": 28,
+      "text": "TinyOS java tools (these are not needed for Viptos). Or If your Cygwin is installed so your 'Default Text File Type' is Unix , download the following rpms to an empty directory: Note : If your Cygwin installat"
+    },
+    {
+      "chunk_id": 29,
+      "text": "n empty directory: Note : If your Cygwin installation has 'Default Text File Type' of Unix instead of DOS, then you will likely have Cygwin CR/NL problems with CVS. Installing the rpms under Cygwin is not recommended , it causes inclu"
+    },
+    {
+      "chunk_id": 30,
+      "text": "nder Cygwin is not recommended , it causes include file problems later. FIXME the list below is old, we should try: http://www.tinyos.net/dist-1.2.0/tools/ http://today.cs.berkeley.edu/tos/dist-1.1.0/tools/windows/avarice-2.0.20030825cvs-1w.cygwin."
+    },
+    {
+      "chunk_id": 33,
+      "text": ".0/tools/windows/avr-libc-20030512cvs-1w.cygwin.i386.rpm and install them on the cygwin command line by typing: rpm --ignoreos -ivh *.rpm in the directory where you saved the files. If you get a message about checksum errors, complain to the TinyOS"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ge about checksum errors, complain to the TinyOS authors and then reinstall Cygwin with Unix line endings. Note to tinyos developers: Unix line endings are not the right choice for naive Windows users. If you get bash-3.00$ rpm --ignoreos -ivh *.r"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ers. If you get bash-3.00$ rpm --ignoreos -ivh *.rpm error: Failed dependencies: /bin/sh is needed by make-3.80tinyos-1 /bin/sh is needed by mspgcc-win32tinyos-20041204-2 bash-3.00$ Then try rpm --ignoreos --nodeps -ivh *.rpm The rpms"
+    },
+    {
+      "chunk_id": 36,
+      "text": "n try rpm --ignoreos --nodeps -ivh *.rpm The rpms are also available here . If you are running Linux (Redhat 9), download the rpms from here . More convenient links are included here: http://today.cs.berkeley.edu/tos/dist-1.1.0/tools/linux/avarice-2"
+    },
+    {
+      "chunk_id": 38,
+      "text": "st-1.1.0/tools/linux/avr-gcc-3.3tinyos-1.i386.rpm http://today.cs.berkeley.edu/tos/dist-1.1.0/tools/linux/avr-insight-pre6.0cvs.tinyos-1.3.i386.rpm http://today.cs.berkeley.edu/tos/dist-1.1.0/tools/linux/avr-libc-20030512cvs-1.i386.rpm and install th"
+    },
+    {
+      "chunk_id": 39,
+      "text": "nux/avr-libc-20030512cvs-1.i386.rpm and install them on the cygwin command line with rpm -ivh *.rpm in the directory where you saved the files. (The directions above were modified from the original TinyOS installation directions ). Make a directory i"
+    },
+    {
+      "chunk_id": 40,
+      "text": "nyOS installation directions ). Make a directory into which to store the source code, for example: mkdir -p $PTII/vendors/ptinyos Note that $PTII should not have spaces in it. We have put into the TinyOS makefiles a rule that you can run"
+    },
+    {
+      "chunk_id": 41,
+      "text": "he TinyOS makefiles a rule that you can run to create all the TinyOS libraries in one step. To use this, as of this writing, you need to get TinyOS from the CVS repository rather than getting the packaged install version. To d"
+    },
+    {
+      "chunk_id": 42,
+      "text": "n getting the packaged install version. To do this, type: cd $PTII/vendors/ptinyos cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/tinyos login Hit Enter when prompted for a password cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsro"
+    },
+    {
+      "chunk_id": 43,
+      "text": "z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/tinyos co tinyos-1.x Note to tinyos developers: why is this download so large? Perhaps there should be a core cvs module and then a contrib module? This will create a directory tinyos-1.x . For m"
+    },
+    {
+      "chunk_id": 44,
+      "text": "? This will create a directory tinyos-1.x . For more information, see http://sourceforge.net/cvs/?group_id=28656 . Set up the necessary environment variables. TOSROOT sets the location of the TinyOS source tree. TOSDIR sets the subdirectory"
+    },
+    {
+      "chunk_id": 45,
+      "text": "TinyOS source tree. TOSDIR sets the subdirectory in the TinyOS source tree. PTINYOS_MOMLROOT sets the MoML output directory. Under bash, type: export TOSROOT=$PTII/vendors/ptinyos/tinyos-1.x export TOSDIR=$TOSROOT/tos export PTINYOS_MOMLROOT=$PTII"
+    },
+    {
+      "chunk_id": 46,
+      "text": "TOSDIR=$TOSROOT/tos export PTINYOS_MOMLROOT=$PTII/vendors/ptinyos/moml Under csh or tcsh: setenv TOSROOT $PTII/vendors/ptinyos/tinyos-1.x setenv TOSDIR $TOSROOT/tos setenv PTINYOS_MOMLROOT $PTII/vendors/ptinyos/moml Under Windows with Cygwin, you ca"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ors/ptinyos/moml Under Windows with Cygwin, you can permanently set environment variables from the System control panel. (For details, see Set the value of the PTII environment variable ). Go to Start Menu -> Settings ->"
+    },
+    {
+      "chunk_id": 48,
+      "text": "onment variable ). Go to Start Menu -> Settings -> Control Panels -> System -> Advanced -> Environment Variables. Set TOSROOT to %PTII%/vendors/ptinyos/tinyos-1.x Set TOSDIR to %PTII%/vendors/ptinyos/tinyos-1.x/tos Set PTINYOS_MOMLROOT to %PTII%/vend"
+    },
+    {
+      "chunk_id": 49,
+      "text": "tinyos-1.x/tos Set PTINYOS_MOMLROOT to %PTII%/vendors/ptinyos/moml Get the nesC CVS Tree, see http://sourceforge.net/cvs/?group_id=56288 cd $PTII/vendors/ptinyos cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/nescc login Hit Enter when prompte"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ge.net:/cvsroot/nescc login Hit Enter when prompted for a password cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/nescc co nesc Boostrap nesC cd $PTII/vendors/ptinyos/nesc ./Bootstrap Run configure for nesc ./configure By default, this con"
+    },
+    {
+      "chunk_id": 51,
+      "text": "onfigure for nesc ./configure By default, this configuration will cause nesC to be installed in /usr/local . We assume that /usr/local/bin is in your path. If you wish to install in a different directory, run ./configure --p"
+    },
+    {
+      "chunk_id": 52,
+      "text": "a different directory, run ./configure --prefix=<MYDIR> instead and add the bin directory to your path. FIXME: Necessary? If you are using Cygwin, and configure has trouble finding TOSROOT or TOSDIR , try expanding your $PTII environm"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ROOT or TOSDIR , try expanding your $PTII environment variable to /cygdrive/c/ptII or something similar. Also try expanding the TOSROOT and TOSDIR environment variables if you still have problems. Install nesc make make install FIXME"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ave problems. Install nesc make make install FIXME: necessary? If you are using Cygwin and make cannot find avr-gcc, then avr-gcc is probably not in your path. Locate avr-gcc and add the directory to your path. If you cannot"
+    },
+    {
+      "chunk_id": 55,
+      "text": "he directory to your path. If you cannot find avr-gcc, then the AVR rpm's were not installed correctly, and you will need to try to reinstall them. Configure and install the TinyOS nesC tools cd $TOSROOT/tools/src/ncc ./Bootstrap ./c"
+    },
+    {
+      "chunk_id": 56,
+      "text": "sC tools cd $TOSROOT/tools/src/ncc ./Bootstrap ./configure By default, this configuration will cause the tools to be installed in /usr/local . We assume that /usr/local/bin is in your path. If you wish to install in a different dire"
+    },
+    {
+      "chunk_id": 57,
+      "text": "If you wish to install in a different directory, run ./configure --prefix=<MYDIR> instead and add the bin directory to your path. make make install make failed for me: Making all in libcompat make[3]: Entering directory `/cygdrive/c/c"
+    },
+    {
+      "chunk_id": 58,
+      "text": "bcompat make[3]: Entering directory `/cygdrive/c/cxh/ptII/vendors/ptinyos/nesc/src/libcompat' if gcc -DHAVE_CONFIG_H -I. -I. -I.. -DNMEMDEBUG -DNDEBUG -O9 -g -Wall -MT regions.o -MD -MP -MF \".deps/regions.Tpo\" -c -o regions.o regions.c; \\ then mv"
+    },
+    {
+      "chunk_id": 59,
+      "text": "regions.Tpo\" -c -o regions.o regions.c; \\ then mv -f \".deps/regions.Tpo\" \".deps/regions.Po\"; else rm -f \".deps/regions.Tpo\"; exit 1; fi In file included from /usr/local/include/sys/types.h:331, from /usr/local/include/sys/unistd.h:9,"
+    },
+    {
+      "chunk_id": 60,
+      "text": "from /usr/local/include/sys/unistd.h:9, from /usr/local/include/unistd.h:4, from stats.c:3, from regions.c:40: /usr/include/cygwin/types.h:152: error: conflicting types for 'key_t' /usr/lo"
+    },
+    {
+      "chunk_id": 61,
+      "text": ":152: error: conflicting types for 'key_t' /usr/local/include/sys/types.h:137: error: previous declaration of 'key_t' was here /usr/include/cygwin/types.h:179: error: parse error before \"u_int16_t\" /usr/include/cygwin/types.h:187: error: parse error"
+    },
+    {
+      "chunk_id": 62,
+      "text": "sr/include/cygwin/types.h:187: error: parse error before \"u_int64_t\" /usr/include/cygwin/types.h:202: error: conflicting types for 'mode_t' /usr/local/include/sys/types.h:142: error: previous declaration of 'mode_t' was here In file included from /us"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ion of 'mode_t' was here In file included from /usr/local/include/fcntl.h:1, from stats.c:4, from regions.c:40: /usr/local/include/sys/fcntl.h:139: error: redefinition of `struct flock' make[3]: *** [regions.o] Error"
+    },
+    {
+      "chunk_id": 64,
+      "text": "n of `struct flock' make[3]: *** [regions.o] Error 1 The solution was to uninstall one of the rpms. cd Location of avr rpms rpm -e arm-thumb-elf-gcc-3.2-1 cd $PTII/vendors/ptinyos/nesc make make install cd Location of avr rpms rpm -force --ignoreos -"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ll cd Location of avr rpms rpm -force --ignoreos --nodeps -ivh *.rpm Note that you need to have pdflatex and bibtex installed, or else edit nesc/Makefile and comment remove doc from the SUBDIRS line. Compile tinyos cd $PTII/vendors/ptinyos/tinyos-1.x"
+    },
+    {
+      "chunk_id": 66,
+      "text": "Compile tinyos cd $PTII/vendors/ptinyos/tinyos-1.x make make install tinyos-1.x/tools/src/uisp/src/Serial.C failed to compile Serial.C: In member function `void TSerial::OpenPort()': Serial.C:243: warning: right-hand operand of comma has no effect Se"
+    },
+    {
+      "chunk_id": 67,
+      "text": "ning: right-hand operand of comma has no effect Serial.C:244: warning: right-hand operand of comma has no effect make[4]: *** [Serial.o] Error 1 The solution is to edit tinyos-1.x/tools/src/uisp/src/Makefile and remove the -Werror and rerun make from"
+    },
+    {
+      "chunk_id": 68,
+      "text": "akefile and remove the -Werror and rerun make from the top. Run the script that will unzip the file that contains additional compiler flags. It will place \"opts\" files into various directories in your tinyos-1.x tree. The script a"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ories in your tinyos-1.x tree. The script assumes that you have placed your tinyos-1.x tree as indicated in the instructions above. cd $PTII/ptolemy/domains/ptinyos/util ./unzip-opts.sh If the executable permissions are not set correctly"
+    },
+    {
+      "chunk_id": 70,
+      "text": "f the executable permissions are not set correctly, run: chmod a+x unzip-opts.sh then try the step above again. Run the script to generate the .moml files from the .nc files. cd $PTII/ptolemy/domains/ptinyos/util/nc2moml ./nc2moml If the executable p"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ptinyos/util/nc2moml ./nc2moml If the executable permissions are not set correctly, run: chmod a+x nc2moml* then try the step above again. The nc2moml command will take 10-30 minutes to complete. Note: The nc2moml tool requires that you build the t"
+    },
+    {
+      "chunk_id": 72,
+      "text": "te: The nc2moml tool requires that you build the tools in $PTII/bin . Do the following and rerun the script above if they are missing: cd $PTII/bin make See if it worked: You should see some valid MoML code in: $PTII/vendors/ptinyos/moml The directo"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ML code in: $PTII/vendors/ptinyos/moml The directory structure should reflect that of the TinyOS directory structure. Try running Viptos: $PTII/bin/vergil -viptos Create a new PtinyOS Graph Editor from the File | New menu. C"
+    },
+    {
+      "chunk_id": 74,
+      "text": "h Editor from the File | New menu. Click in the left hand pane under Actors to see the newly generated directory structure. Contact Update Help Copyright © 1999 - UC Regents; all rights reserved."
+    }
+  ]
+}

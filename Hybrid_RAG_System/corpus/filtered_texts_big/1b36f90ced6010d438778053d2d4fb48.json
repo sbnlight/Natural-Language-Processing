@@ -1,0 +1,285 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII8.0/ptII8.0.1/doc/troubleshooting.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Troubleshooting Troubleshooting Local Resources Frequently Asked Questions Getting Help Applet Information for Developers - including links to Applet resources on the net Contents Troubleshooting Vergil Troubleshooting Build problems Troubleshooting"
+    },
+    {
+      "chunk_id": 2,
+      "text": "il Troubleshooting Build problems Troubleshooting Applets Java version The Java Plug-in Diagnosing problems CLASSPATH variable Appletviewer AccessControlException caused by spaces in path name Applet Troubleshooting Checklist Troubleshooting Vergil H"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Troubleshooting Checklist Troubleshooting Vergil How do I start Vergil by hand? See How do I invoke Ptolemy II? The user interface appears to be frozen, but windows are redrawn. A modal dialog may be open. Unfortunately, these dialogs do not appear"
+    },
+    {
+      "chunk_id": 4,
+      "text": "open. Unfortunately, these dialogs do not appear in the task bar on windows systems, so the only way to find them is to put windows in the background until they appear. You can do this by repeatedly hitting Alt-Escape. My model hangs, failing to ma"
+    },
+    {
+      "chunk_id": 5,
+      "text": "hitting Alt-Escape. My model hangs, failing to make progress. In the DE domain, if an actor has input tokens that it fails to consume when it is fired, then it the director will continue to fire it repeatedly until those tokens are consumed. Actors"
+    },
+    {
+      "chunk_id": 6,
+      "text": "epeatedly until those tokens are consumed. Actors in the DE domain must consume pending input tokens. Ptolemy seems to consume more and more memory after opening and closing several demos. The drag and drop mechanism has contained many memory leaks"
+    },
+    {
+      "chunk_id": 7,
+      "text": "nd drop mechanism has contained many memory leaks in older versions of Sun's JDK. The leak occurs because there are references internal to the platform drag and drop system that do not allow windows using drag and drop to be properly garbage colle"
+    },
+    {
+      "chunk_id": 8,
+      "text": "using drag and drop to be properly garbage collected after they are no longer visible. If you run into problems, we strongly suggest upgrading to the newest version of Java. We have seen memory leaks of this sort in versions of Java prior to 1.3."
+    },
+    {
+      "chunk_id": 9,
+      "text": "aks of this sort in versions of Java prior to 1.3.1 beta. Troubleshooting Build problems The Ptolemy II Installation page describes how to rebuild Ptolemy. If you are having problems building, try removing $PTII/config.cache and then re-running $PTI"
+    },
+    {
+      "chunk_id": 10,
+      "text": "moving $PTII/config.cache and then re-running $PTII/configure and looking at the contents of $PTII/mk/ptII.mk.in . Under NT, configure fails to run with bash: ./configure: No such file or directory Make sure that /usr/bin/sh.exe exists. Be sure that"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ke sure that /usr/bin/sh.exe exists. Be sure that you have installed the ash package As a workaround, try running sh ./configure or bash ./configure Messages about not being the owner of the directory. Run cd $PTII chmod -R a+w . chown -R yourlogin I"
+    },
+    {
+      "chunk_id": 12,
+      "text": ". Run cd $PTII chmod -R a+w . chown -R yourlogin If chown fails, be sure that /etc/passwd exists. If it does not Create /etc/passwd and /etc/group by running mkdir /etc mkpasswd -l -g > /etc/passwd mkgroup -l > /etc/group For more information, type"
+    },
+    {
+      "chunk_id": 13,
+      "text": "kgroup -l > /etc/group For more information, type mkpasswd and mkgroup without any arguments. The Cygwin faq also covers these programs. Under Windows, javac fails to find jar files like diva.jar If you did not install Cygwin in the root directory,"
+    },
+    {
+      "chunk_id": 14,
+      "text": "you did not install Cygwin in the root directory, then incorrect values may be being passed to javac. javac does not understand Cygwin paths like /cygdrive/c . The fix is to set PTII to a windows style path with backslashes: C:\\users\\yourname\\ptII"
+    },
+    {
+      "chunk_id": 15,
+      "text": "yle path with backslashes: C:\\users\\yourname\\ptII Note that if you do this within bash, you would type: PTII=c:\\\\users\\\\yourname\\\\ptII export PTII Troubleshooting Applets In theory, Java programs are \"write once, run everywhere.\" In practice, Java pr"
+    },
+    {
+      "chunk_id": 16,
+      "text": "\"write once, run everywhere.\" In practice, Java programs are somewhat less platform dependent than other programs, but they are still platform dependent. Java programs that run under a web browser, like Netscape or Internet Explorer, are called apple"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ke Netscape or Internet Explorer, are called applets . Whether an applet runs correctly depends on the version of the browser, the operating system, the version of the operating system, and even the hardware configuration. Collectively, all these par"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ardware configuration. Collectively, all these parameters are called the platform . The Ptolemy II applets have been tested with a very limited number of platforms. This page is intended to help you diagnose problems. Please send email to ptII at eec"
+    },
+    {
+      "chunk_id": 19,
+      "text": "iagnose problems. Please send email to ptII at eecs berkeley edu if you find errors or can suggest additions to this page. Java version The applets on these pages require JDK 1.4 (JDK stands for the Java Development Kit). (See the Java section of the"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ava Development Kit). (See the Java section of the installation page for details) The Java Plug-in The Javasoft Java Plug-in provides support for JDK1.4 under Mozilla and Explorer. Under Windows, the Java Plug-in 1.4 is automatically installed when"
+    },
+    {
+      "chunk_id": 21,
+      "text": "Java Plug-in 1.4 is automatically installed when JRE 1.4 is installed (JRE stands for Java Runtime Environment). JRE 1.4 is available as a standalone install from Sun. The JRE does not include the Java compiler ( javac ), so if you are planning on"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ava compiler ( javac ), so if you are planning on doing any development, you should install the JDK, not the JRE. See the Ptolemy II Installation page for installation instructions. Under Solaris 2.6 and 2.7, the plug-in is available as a separate d"
+    },
+    {
+      "chunk_id": 23,
+      "text": "and 2.7, the plug-in is available as a separate download (which we have not tested). If you are on a platform where the browser does not have the Java plug-in 1.4, then you can still run the demos with the JDK Appletviewer Diagnosing problems The Ja"
+    },
+    {
+      "chunk_id": 24,
+      "text": "th the JDK Appletviewer Diagnosing problems The Java Plug-in includes a console window which reports errors. Under JDK1.4, the console window can be enabled by going to Start -> Settings -> Control Panel -> Java Plug-in and selecting Show Java Consol"
+    },
+    {
+      "chunk_id": 25,
+      "text": "nel -> Java Plug-in and selecting Show Java Console . Then restart the browser. Note that the Java Plug-In console is different than the Netscape or IE Java console. The first thing to try is to determine whether the problem is with the Ptolemy Appl"
+    },
+    {
+      "chunk_id": 26,
+      "text": "rmine whether the problem is with the Ptolemy Applets, or with any Java Plug-in applets at all The Java Plug-in page at http://java.sun.com/products/plugin/index-1.4.html has links to demonstrations. The plug-in control panel also has a checkbox to t"
+    },
+    {
+      "chunk_id": 27,
+      "text": "The plug-in control panel also has a checkbox to turn off the Just In Time (JIT) Compiler. If you are having problems with the Netscape process lingering after you exit the browser, then try turning the JIT off and restarting Navigator. This is a b"
+    },
+    {
+      "chunk_id": 28,
+      "text": "the JIT off and restarting Navigator. This is a bug in the JDK1.2.1 Plug-in that may have been fixed in JDK1.2.2, see bug 4236070 in the Java Developer Connection The plug-in control panel also has a checkbox that turns off the Jar Cache. If you ar"
+    },
+    {
+      "chunk_id": 29,
+      "text": "checkbox that turns off the Jar Cache. If you are debugging applets, you may want to turn off the Jar Cache so that .class files and jar files are reloaded when the applet is reloaded. Note that if you turn off the Jar Cache, then memory usage is"
+    },
+    {
+      "chunk_id": 30,
+      "text": "you turn off the Jar Cache, then memory usage is increased. CLASSPATH variable Java supports an environment variable called CLASSPATH that tells the Java virtual machine where to look for code. As a general rule, it is not a good idea to set this va"
+    },
+    {
+      "chunk_id": 31,
+      "text": "general rule, it is not a good idea to set this variable. It is extremely difficult to set it correctly, and if it is set incorrectly, it may prevent all Java programs from running. The symptom is usually that you get a \"class not found\" error, altho"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ally that you get a \"class not found\" error, although this error is generated by Java for almost any kind of problem. Under Windows NT (4.0), open the Start menu (at the lower left), select Settings and then Control Panel. Open the System control pan"
+    },
+    {
+      "chunk_id": 33,
+      "text": "nd then Control Panel. Open the System control panel, and click on the Environment tab. If the CLASSPATH variable is set, we suggest clearing it (you may want to save its value, since it may be needed by some other program). You then probably have to"
+    },
+    {
+      "chunk_id": 34,
+      "text": "by some other program). You then probably have to restart your browser. Appletviewer If you are having problems running an applet with a browser, and the applet is on the local machine and you have a JDK installed, you may want to try using the JDK"
+    },
+    {
+      "chunk_id": 35,
+      "text": "JDK installed, you may want to try using the JDK appletviewer program instead of the browser. For example, to view an applet contained in the file myapplet.htm setenv CLASSPATH $PTII appletviewer myapplet.htm Each Ptolemy II demo has a makefile with"
+    },
+    {
+      "chunk_id": 36,
+      "text": "pplet.htm Each Ptolemy II demo has a makefile with a demo rule that will run the appletviewer for that demo. For example, to run the Inspection demo: cd $PTII/ptolemy/domains/de/demo/Inspection make demo The directory above each individual demo also"
+    },
+    {
+      "chunk_id": 37,
+      "text": "demo The directory above each individual demo also has a demo rule that will run all the individual demos cd $PTII/ptolemy/domains/de/demo make demo To run all the demos: cd $PTII make demo The Solaris appletviewer can also take command line argument"
+    },
+    {
+      "chunk_id": 38,
+      "text": "s appletviewer can also take command line arguments that are passed to the underlying Java engine. For example, to turn on verbose class messages: appletviewer -J-verbose:class myapplet.html If you see the messages below, then you are running a JDK1"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ee the messages below, then you are running a JDK1.1 appletviewer instead of a JDK 1.4 appletviewer . Warning: <param> tag outside <applet> ... </applet>. Warning: <param> tag outside <applet> ... </applet>. Warning: <param> tag outside <applet> ..."
+    },
+    {
+      "chunk_id": 40,
+      "text": "pplet>. Warning: <param> tag outside <applet> ... </applet>. Warning: <param> tag outside <applet> ... </applet>. Warning: <param> tag outside <applet> ... </applet>. Warning: <param> tag outside <applet> ... </applet>. Warning: No Applets were start"
+    },
+    {
+      "chunk_id": 41,
+      "text": "let> ... </applet>. Warning: No Applets were started. Make sure the input contains an <applet> tag. usage: appletviewer [-debug] [-J<javaflag>] [-encoding <character encoding type ] url|file ... The solution is to adjust your path so that the JDK1.4"
+    },
+    {
+      "chunk_id": 42,
+      "text": "solution is to adjust your path so that the JDK1.4 appletviewer is before the JDK1.1 version. AccessControlException caused by spaces in path name Under Java 1.4.0_01, applets that have spaces in the path name may fail if the applet tries to download"
+    },
+    {
+      "chunk_id": 43,
+      "text": "path name may fail if the applet tries to download a data file. For example, the Ptplot Marks demo tries to access a data file but fails if the pathname has a space in it. For example, file:///C:/tmp/ptplot/ptolemy/plot/demo/Marks.htm works fine"
+    },
+    {
+      "chunk_id": 44,
+      "text": "mp/ptplot/ptolemy/plot/demo/Marks.htm works fine But doing cd c:/tmp mv ptplot pt\\ plot and then going to file:///C:/tmp/pt plot/ptolemy/plot/demo/Marks.htm results in java.security.AccessControlException: access denied (java.io.FilePermission C:\\tm"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ption: access denied (java.io.FilePermission C:\\tmp\\ptplot 52\\ptolemy\\plot\\demo\\plotmlSample.txt read) at java.security.AccessControlContext.checkPermission(AccessControlContext.java:270) at java.security.AccessController.checkPermission(AccessCont"
+    },
+    {
+      "chunk_id": 46,
+      "text": "curity.AccessController.checkPermission(AccessController.java:401) at java.lang.SecurityManager.checkPermission(SecurityManager.java:542) at java.lang.SecurityManager.checkRead(SecurityManager.java:887) at java.io.File.isDirectory(File.java:698)"
+    },
+    {
+      "chunk_id": 47,
+      "text": "887) at java.io.File.isDirectory(File.java:698) at sun.net.www.protocol.file.FileURLConnection.connect(FileURLConnection.java:65) at sun.net.www.protocol.file.FileURLConnection.getInputStream(FileURLConnection.java:148) at java.net.URL.openStream"
+    },
+    {
+      "chunk_id": 48,
+      "text": "RLConnection.java:148) at java.net.URL.openStream(URL.java:955) at ptolemy.plot.PlotApplet.init(PlotApplet.java:133) at sun.applet.AppletPanel.run(AppletPanel.java:341) at java.lang.Thread.run(Thread.java:536) This is a known bug, see: http://dev"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ead.java:536) This is a known bug, see: http://developer.java.sun.com/developer/bugParade/bugs/4697178.html which says: CUSTOMER WORKAROUND : A couple of workarounds found: o Don't package the files into a JAR. Problem does not appear to occur when j"
+    },
+    {
+      "chunk_id": 50,
+      "text": "nto a JAR. Problem does not appear to occur when just .class files are available. o Change directory of installed applet to one without spaces in the name. o Access the HTML file using an HTTP URL. Problem only occurs when file is accessed via a file"
+    },
+    {
+      "chunk_id": 51,
+      "text": "oblem only occurs when file is accessed via a file URL. o Use policytool to modify the java security file, giving permission to the file being read (was suggested by another user here with the problem; did not confirm myself). xxxxx@xxxxx 2002-06-11"
+    },
+    {
+      "chunk_id": 52,
+      "text": "; did not confirm myself). xxxxx@xxxxx 2002-06-11 This is due to the special charactor for space. When we add the permission for the file to read, we still use \"%20\" instead of the real \" \" for the path, which cause the applet don't have the permissi"
+    },
+    {
+      "chunk_id": 53,
+      "text": "th, which cause the applet don't have the permission to read the file. Solution: In src/share/classes/sun/applet/AppletClassLoader.java call ParseUtil.decode(path) method before add the permission. Unfortunately, this bug means that if we ship a pr"
+    },
+    {
+      "chunk_id": 54,
+      "text": "Unfortunately, this bug means that if we ship a prebuilt version of ptplot or Ptolemy II and the user tries to access the applets from the local partition, then there will be errors. The only applets that fail are applets that are on a local file sys"
+    },
+    {
+      "chunk_id": 55,
+      "text": "that fail are applets that are on a local file system, accessed with file://, that have spaces in the path and the applet needs to access a data file that is local. This bug is not present in Java 1.3.1_03 and 1.4.1-beta. Applet Troubleshooting Chec"
+    },
+    {
+      "chunk_id": 56,
+      "text": "3.1_03 and 1.4.1-beta. Applet Troubleshooting Checklist If you have problems with applets, follow the checklist below Reload the frame. Under Netscape Communicator, right click on the frame, and then select Reload Frame . Reload all the frames by hi"
+    },
+    {
+      "chunk_id": 57,
+      "text": "select Reload Frame . Reload all the frames by hitting the Reload button. This is likely to bring you back to the Ptolemy II toplevel page. Under Netscape Communicator, holding the Shift key down and hitting the Reload button will reload any Java .c"
+    },
+    {
+      "chunk_id": 58,
+      "text": "hitting the Reload button will reload any Java .class or .jar files Under Internet Explorer, press Ctrl+F5 or Ctrl+the Refresh button Restart your browser. Verify that the Plug-In Control Panel menu choice is present. Under JDK1.4, look for Start ->"
+    },
+    {
+      "chunk_id": 59,
+      "text": "choice is present. Under JDK1.4, look for Start -> Settings -> Control Panel -> Java Plug-in If the Java Plug-In Control Panel menu choice is not present, then you may need to install or reinstall the Java plug-in. Look for an error message in the Ja"
+    },
+    {
+      "chunk_id": 60,
+      "text": "Java plug-in. Look for an error message in the Java console. See Diagnosing problems above. Verify that the browser sees the plug-in In Netscape, go to help->About plugins, or type in about:plugins into the Location entry widget. The Java plug-in 1"
+    },
+    {
+      "chunk_id": 61,
+      "text": "nto the Location entry widget. The Java plug-in 1.4 should be listed. If it is not reinstall the plug-in. If the plug-in is not listed after reinstalling, then remove and reinstall Netscape. Verify that your CLASSPATH variable is not set. See the"
+    },
+    {
+      "chunk_id": 62,
+      "text": "that your CLASSPATH variable is not set. See the CLASSPATH variable instructions above. Verify that you are running a recent version of the browser Try out a non-Ptolemy Java 1.4 applet If are having problems with the plug-in you may want to try Jav"
+    },
+    {
+      "chunk_id": 63,
+      "text": "problems with the plug-in you may want to try Java Plug-In 1.4 Demonstration Applets page has a few sample Java 1.4 applets. Under Internet Explorer, the Swing Query boxes will sometimes not respond. The workaround is to minimize the IE window and b"
+    },
+    {
+      "chunk_id": 64,
+      "text": "The workaround is to minimize the IE window and bring it back. The query box should now work. Try opening the applets on the Ptolemy II Website Try a different browser Try running the applets using the JDK appletviewer program. If you are running un"
+    },
+    {
+      "chunk_id": 65,
+      "text": "he JDK appletviewer program. If you are running under Microsoft Windows or NT, try rebooting. Use the Plugin Control Panel to turning off the Just In Time (JIT) compiler in the plug-in and restart the browser. Under NT, the Plug-In Control Panel can"
+    },
+    {
+      "chunk_id": 66,
+      "text": "browser. Under NT, the Plug-In Control Panel can be found at Start -> Programs -> Java Plug-In Control Panel Try running the applets from a different machine or as a different user. Uninstall and reinstall browser and the JDK The most drastic step i"
+    },
+    {
+      "chunk_id": 67,
+      "text": "nstall browser and the JDK The most drastic step is to uninstall the browser and JDK. Unfortunately, this is likely to require that you reinstall any other plug-ins, such as Adobe Acrobat. Uninstall the browser Uninstall JDK (optional) If deinstallat"
+    },
+    {
+      "chunk_id": 68,
+      "text": "he browser Uninstall JDK (optional) If deinstallation does not remove the directories where the browser and the JDK were installed, then remove them by hand. Reboot Install the browser Install JDK Try the steps above again. If you are still having pr"
+    },
+    {
+      "chunk_id": 69,
+      "text": "the steps above again. If you are still having problems, send email to: ptII at eecs berkeley edu with the following information: The URL or file you were trying to run Your operating system and version The name and version of the browser you were r"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ion The name and version of the browser you were running under The contents of the Java console Last Updated: $Date: 2006-10-28 09:14:14 -0700 (Sat, 28 Oct 2006) $"
+    }
+  ]
+}

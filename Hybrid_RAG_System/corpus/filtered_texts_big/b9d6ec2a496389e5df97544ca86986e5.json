@@ -1,0 +1,621 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/html/Users.Guide/textutil/",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "User's Guide to EECS Instructional Computing [ back to User's Guide Table of Contents ] Text Manipulation Utilities sort The sort utility sorts together the lines of all specified files and writes the result to the standard output. The name ` - ' me"
+    },
+    {
+      "chunk_id": 2,
+      "text": "result to the standard output. The name ` - ' means the standard input. If no input files are specified, the standard input is sorted. The sort command has the form: sort [ options SPMamp ] [+& pos1 [- pos2 ]] [ file ...] The default sort key is a"
+    },
+    {
+      "chunk_id": 3,
+      "text": "1 [- pos2 ]] [ file ...] The default sort key is an entire line. Default ordering is done according to the ASCII machine collating sequence. ASCII is short for American Standard Code for Information Exchange. The notation + pos1 - pos2 restricts a s"
+    },
+    {
+      "chunk_id": 4,
+      "text": "Exchange. The notation + pos1 - pos2 restricts a sort key to a field beginning at pos1 and ending just before pos2 . Pos1 and pos2 each have the form m.n , optionally followed by one or more of the options discussed below. m indicates the number of f"
+    },
+    {
+      "chunk_id": 5,
+      "text": "tions discussed below. m indicates the number of fields to skip from the beginning of the line and n indicates the number of characters to skip further. If any options are present they override all the global ordering options for this key. If the b"
+    },
+    {
+      "chunk_id": 6,
+      "text": "e global ordering options for this key. If the b option is in effect n is counted from the first nonblank in the field; b is attached independently to pos2 . A missing . n means .0 ; a missing - pos2 means the end of the line. Under the - t x optio"
+    },
+    {
+      "chunk_id": 7,
+      "text": "means the end of the line. Under the - t x option, fields are strings separated by x ; otherwise fields are non-empty nonblank strings separated by blanks. When there are multiple sort keys, later keys are compared only after all earlier keys compa"
+    },
+    {
+      "chunk_id": 8,
+      "text": "eys are compared only after all earlier keys compare equal. Lines that otherwise compare equal are ordered with all bytes significant. Options One or more of the following options may be used to globally affect the ordering. Symbol Description of O"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ally affect the ordering. Symbol Description of Option ------------- ------------------------------------------------------- - b Ignores leading blanks (spaces and tabs) in field comparisons. - c Checks sorting order and displays output only if o"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Checks sorting order and displays output only if out of order. - d Sorts data according to dictionary ordering: letters, digits and blanks only. - f Folds uppercase to lowercase while sorting, i.e., ignore case when sorting. - i Ignore characte"
+    },
+    {
+      "chunk_id": 11,
+      "text": "., ignore case when sorting. - i Ignore characters outside the ASCII range 040-0176 in non-numeric comparisons. - m Merges previously sorted data. - n Sorts fields with numbers numerically. An initiali numeric string, consisting of optional bl"
+    },
+    {
+      "chunk_id": 12,
+      "text": "itiali numeric string, consisting of optional blanks, optional minus sign, and zero or more digits with optional decimal point is sorted by arithmetic value. (Note that -0 is taken to be equal to 0 .) Option n implies option b . - o nam"
+    },
+    {
+      "chunk_id": 13,
+      "text": "qual to 0 .) Option n implies option b . - o name Uses specified file as output file. This file may be the same as one of the input files. - r Reverses the sense of comparisons. - T dir Uses specified directory to build temporary files. - t x Us"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ified directory to build temporary files. - t x Uses specified character as field separator. - u Suppresses all duplicate entries. Ignored bytes and bytes outside keys do not participate in this comparison. ------------- ----------------------"
+    },
+    {
+      "chunk_id": 15,
+      "text": "comparison. ------------- ------------------------------------------------------- Examples The first set of examples is based on files the files hot and cool which follow. File hot : orange yellow scarlet magenta fuchsia File co"
+    },
+    {
+      "chunk_id": 16,
+      "text": "low scarlet magenta fuchsia File cool : turquoise aqua violet teal chartreuse Simple Sorting A basic sort of hot and cool . % sort hot cool aqua chartreuse fuchsia magenta orange scarlet teal turquoise violet yellow"
+    },
+    {
+      "chunk_id": 17,
+      "text": "agenta orange scarlet teal turquoise violet yellow The sort command reorders text based upon the ASCII values of the characters. Numbers and special symbols precede letters; all uppercase letters precede all lowercase letters. Every character is ass"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ede all lowercase letters. Every character is associated with a standard numeric code and ordering is based upon these codes. Sorting Mixed-case Items Sort uppercase and lowercase letters (assume that hot is composed entirely of capital letters). %"
+    },
+    {
+      "chunk_id": 19,
+      "text": "t hot is composed entirely of capital letters). % sort hot cool FUCHSIA MAGENTA ORANGE SCARLET YELLOW aqua chartreuse teal turquoise violet Sort upper and lowercase letters without regard for case with the - f (fold) option (assume hot is composed en"
+    },
+    {
+      "chunk_id": 20,
+      "text": "h the - f (fold) option (assume hot is composed entirely of capital letters). % sort - f hot cool aqua chartreuse FUCHSIA MAGENTA ORANGE SCARLET teal turquoise violet YELLOW Reversing the Sorting Order Sort in reverse order with the - r (reverse) opt"
+    },
+    {
+      "chunk_id": 21,
+      "text": "r Sort in reverse order with the - r (reverse) option. % sort - r cool violet turquoise teal chartreuse aqua You can use multiple options on a single sort command. The following sorts in reverse order without regard for case by including both the - r"
+    },
+    {
+      "chunk_id": 22,
+      "text": "without regard for case by including both the - r and - f options. % sort - r - f hot cool YELLOW violet turquoise teal SCARLET ORANGE MAGENTA FUCHSIA chartreuse aqua Eliminating Duplicate Items When you are working with several files, you may find"
+    },
+    {
+      "chunk_id": 23,
+      "text": "you are working with several files, you may find they contain duplicate items. Use the - u option to insure that each item in the output is unique. Merging Sorted Files The sort command can also be used with the - m option to merge sorted files. If"
+    },
+    {
+      "chunk_id": 24,
+      "text": "sed with the - m option to merge sorted files. If you are combining large files that are already in order, using the - m option is much faster than issuing an ordinary sort command. Remember that the - m option only works on sorted files. Sorting a"
+    },
+    {
+      "chunk_id": 25,
+      "text": "e - m option only works on sorted files. Sorting a File Into Itself You can redirect the output of sort into a file. For example: Output redirection % sort hot > cool However, you need to be careful when doing this. The following command will not d"
+    },
+    {
+      "chunk_id": 26,
+      "text": "when doing this. The following command will not do what you might expect: Incorrect use of output redirection with sort % sort hot > hot Instead, you should do the following: Sorting back into the input file with the - o (output) option. % sort -o h"
+    },
+    {
+      "chunk_id": 27,
+      "text": "put file with the - o (output) option. % sort -o hot hot % sort -o cool cool Now the sorted files can be merged using the - m option to the sort command: Using the - m - u options to merge the sorted Files from Example 7 and remove duplicate items. %"
+    },
+    {
+      "chunk_id": 28,
+      "text": "Files from Example 7 and remove duplicate items. % sort - m - u hot cool More Examples The next set of examples uses the family file shown following. File family : Mary Miller 555-1011 Tom Miller 555-3110 Rick"
+    },
+    {
+      "chunk_id": 29,
+      "text": "Tom Miller 555-3110 Rick Miller 555-0107 Emily Miller 555-7200 Sherry Miller 555-0912 Peter Parker 201-4019 Barbara Parker 101-2040"
+    },
+    {
+      "chunk_id": 30,
+      "text": "4019 Barbara Parker 101-2040 Scott Brown 555-3131 Christi Brown 702-0625 Sorting by Different Fields Each line in a file is called a record. Each record can contain any number of fields. A fiel"
+    },
+    {
+      "chunk_id": 31,
+      "text": "h record can contain any number of fields. A field is a group of nonblank characters. The end of a field is usually indicated by a blank character (SPACE, TAB or RETURN). The fields in a record are numbered from left to right, beginning at zero--t"
+    },
+    {
+      "chunk_id": 32,
+      "text": "numbered from left to right, beginning at zero--the first field is field number 0, the second is field number 1 and so on. The term sort key is used to refer to the portion of a record that is compared to other records when the file is sorted. The"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ed to other records when the file is sorted. The standard sort command treats the entire record as a sort key. Often, however, you want to sort a file according to a specific field. Using the entire record as the sort key. % sort family Barbara Pa"
+    },
+    {
+      "chunk_id": 34,
+      "text": "record as the sort key. % sort family Barbara Parker 101-2040 Christi Brown 702-0625 Emily Miller 555-7200 Mary Miller 555-1011 Peter Parker 201-4019 Rick Miller 555-0107 Scott"
+    },
+    {
+      "chunk_id": 35,
+      "text": "201-4019 Rick Miller 555-0107 Scott Brown 555-3131 Sherry Miller 555-0912 Tom Miller 555-3110 Sorting by Field 2 (last name) in the family file. % sort + 1 family Scott Brown 555-3131 Ch"
+    },
+    {
+      "chunk_id": 36,
+      "text": "rt + 1 family Scott Brown 555-3131 Christi Brown 702-0625 Rick Miller 555-0107 Sherry Miller 555-0912 Mary Miller 555-1011 Tom Miller 555-3110 Emily Miller 555-7200 Barb"
+    },
+    {
+      "chunk_id": 37,
+      "text": "555-3110 Emily Miller 555-7200 Barbara Parker 101-2040 Peter Parker 201-4019 Two-level sort by both first and last name. When multiple sort keys are specified, later keys are compared only after all earlier keys ha"
+    },
+    {
+      "chunk_id": 38,
+      "text": "r keys are compared only after all earlier keys have compared equally. This example shows sort ing by first name within last name. % sort + 1 - 2 family Christi Brown 702-0625 Scott Brown 555-3131 Emily Miller 555-7"
+    },
+    {
+      "chunk_id": 39,
+      "text": "555-3131 Emily Miller 555-7200 Mary Miller 555-1011 Rick Miller 555-0107 Sherry Miller 555-0912 Tom Miller 555-3110 Barbara Parker 101-2040 Peter Parker 201-401"
+    },
+    {
+      "chunk_id": 40,
+      "text": "r 101-2040 Peter Parker 201-4019 Yet One More Example The last example uses the following baseball file. File baseball : Babe Ruth .342 714 Reggie Jackson .268 490 Hank A"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ackson .268 490 Hank Aaron .305 755 Mickey Mantle .298 536 Lou Gehrig .340 493 Ty Cobb .367 118"
+    },
+    {
+      "chunk_id": 42,
+      "text": "Ty Cobb .367 118 Rod Carew .331 87 Willie Mays .302 660 Joe DiMaggio .325 361 Roberto Clemente .317"
+    },
+    {
+      "chunk_id": 43,
+      "text": "61 Roberto Clemente .317 240 Jackie Robinson .311 137 Carl Yastremski .285 452 Pete Rose .306 158 Willie Stargell .282"
+    },
+    {
+      "chunk_id": 44,
+      "text": "158 Willie Stargell .282 475 Ted Williams .344 521 Hank Greenberg .313 331 Sorting Numerically Unless the - n option is applied to the desired sort key, the s"
+    },
+    {
+      "chunk_id": 45,
+      "text": "n option is applied to the desired sort key, the sort is made according to ASCII codes. Thus, to get the desired order for the number of home runs from the file baseball : Sorting numerically on a numeric field with the - n (numeric) option. % sort"
+    },
+    {
+      "chunk_id": 46,
+      "text": "meric field with the - n (numeric) option. % sort + 2n baseball Rod Carew .331 87 Ty Cobb .367 118 Jackie Robinson .311 137 Pete Rose .306 158 Roberto Clemente .317"
+    },
+    {
+      "chunk_id": 47,
+      "text": ".306 158 Roberto Clemente .317 240 Hank Greenberg .313 331 Joe DiMaggio .325 361 Carl Yastremski .285 452 Willie Stargell .282 475 Reggie Jackson .268"
+    },
+    {
+      "chunk_id": 48,
+      "text": ".282 475 Reggie Jackson .268 490 Lou Gehrig .340 493 Ted Williams .344 521 Mickey Mantle .298 536 Willie Mays .302 660 Babe Ruth .342"
+    },
+    {
+      "chunk_id": 49,
+      "text": ".302 660 Babe Ruth .342 714 Hank Aaron .305 755 If this is not done, Rod Carew appears as the last item in the sort, whereas numerically, by ascending order, he should be the first item as shown."
+    },
+    {
+      "chunk_id": 50,
+      "text": "nding order, he should be the first item as shown. grep Grep (global regular expression printer) is a UNIX utility used to search for an occurrence of a string in a file or a list of files. It also has the ability to search for records that contain"
+    },
+    {
+      "chunk_id": 51,
+      "text": "as the ability to search for records that contain strings that match a pattern of characters rather than an explicit character sequence. For example, grep can be used to find lines that contain numeric information or lines that are non-blank. The e"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ic information or lines that are non-blank. The expressions used to define these patterns of characters are called regular expressions . There are three forms of the grep command: grep The standard or normal form of the command. Patterns are limite"
+    },
+    {
+      "chunk_id": 53,
+      "text": "r normal form of the command. Patterns are limited regular expressions which use a compact pattern of characters. egrep Command patterns are full regular expressions. It is able to decode more complex regular expressions than grep using a fast dete"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ex regular expressions than grep using a fast deterministic algorithm that sometimes needs lots of memory. fgrep Command patterns are fixed strings; i.e., it is not able to decode regular expressions. This form is fast and compact. Syntax The grep co"
+    },
+    {
+      "chunk_id": 55,
+      "text": "This form is fast and compact. Syntax The grep command has the syntax: grep [ option ...] expression [ file ...] egrep [ option ...] [ expression ] [ file ...] fgrep [ option ...] [ strings ] [ file ] Options Table 8.1 describes the options availabl"
+    },
+    {
+      "chunk_id": 56,
+      "text": "] Options Table 8.1 describes the options available with the grep commands: Option Description ------------- ------------------------------------------------------- -b Precedes each output line with its block number. This is sometimes useful in l"
+    },
+    {
+      "chunk_id": 57,
+      "text": "its block number. This is sometimes useful in locating disk block numbers by context. -c Produces count of matching lines only. -e expression Uses next argument as expression that begins with a minus ( - ). -f file Takes regular expression ( egrep"
+    },
+    {
+      "chunk_id": 58,
+      "text": "us ( - ). -f file Takes regular expression ( egrep ) or string list ( fgrep ) from file. -i Considers uppercase and lowercase letters identical in making comparisons ( grep and fgrep only). -l Lists files with matching lines only once, separated"
+    },
+    {
+      "chunk_id": 59,
+      "text": "files with matching lines only once, separated by a new line. -n Precedes each matching line with its line number. -s Silent mode and nothing is printed (except error messages). This is useful for checking the error status. -v Displays all lines"
+    },
+    {
+      "chunk_id": 60,
+      "text": "r checking the error status. -v Displays all lines that do not match specified expression. -w Searches for an expression as for a word (as if surrounded by `\\<+' and `\\>+'). -x Prints exact lines matched in their entirety ( fgrep only). -----------"
+    },
+    {
+      "chunk_id": 61,
+      "text": "tched in their entirety ( fgrep only). ------------- ------------------------------------------------------- Table 8.1: Options available with the grep Command Basic Rules A \\ followed by a single character other than a new line character matches tha"
+    },
+    {
+      "chunk_id": 62,
+      "text": "racter other than a new line character matches that character. The character ^ matches the beginning of a line. The character $ matches the end of a line. A . (dot) matches any character. A single character not otherwise endowed with special meaning"
+    },
+    {
+      "chunk_id": 63,
+      "text": "racter not otherwise endowed with special meaning matches that character. A string enclosed in brackets [...] matches any single character from the string. Ranges of ASCII character codes may be abbreviated as in ` a-z0-9 '. The ] character may occ"
+    },
+    {
+      "chunk_id": 64,
+      "text": "eviated as in ` a-z0-9 '. The ] character may occur only as the first character of the string. A literal - must be placed where it can't be mistaken as a range indicator. The ^ character may be used as a not operator with a string enclosed in brack"
+    },
+    {
+      "chunk_id": 65,
+      "text": "as a not operator with a string enclosed in brackets. A regular expression followed by an * (asterisk) matches a sequence of 0 or more matches of the regular expression. A regular expression followed by a + (plus) matches a sequence of 1 or more ma"
+    },
+    {
+      "chunk_id": 66,
+      "text": "d by a + (plus) matches a sequence of 1 or more matches of the regular expression. A regular expression followed by a ? (question mark) matches a sequence of 0 or 1 matches of the regular expression. Two regular expressions concatenated match a matc"
+    },
+    {
+      "chunk_id": 67,
+      "text": "Two regular expressions concatenated match a match of the first followed by a match of the second. Two regular expressions separated by | or a new line character match either a match for the first or a match for the second. A regular expression encl"
+    },
+    {
+      "chunk_id": 68,
+      "text": "a match for the second. A regular expression enclosed in parentheses matches a match for the regular expression. The order of precedence of operators at the same parenthesis level is as follows: [ ] , then * + ? , then concatenation, then | and new"
+    },
+    {
+      "chunk_id": 69,
+      "text": ", then * + ? , then concatenation, then | and new line. Examples The examples which follow are based on the price.fruit file which is listed below. The price.fruit File apples .49 oranges .59 g"
+    },
+    {
+      "chunk_id": 70,
+      "text": ".49 oranges .59 grapefruit 0.59 lemons .25 limes 0.33 cantaloupe 1.19 watermelon 0."
+    },
+    {
+      "chunk_id": 71,
+      "text": "1.19 watermelon 0.25 kiwi 3.89 bananas .87 pineapples 1.49 grapes 2.19 raspberries"
+    },
+    {
+      "chunk_id": 72,
+      "text": "2.19 raspberries 3.39 strawberries 2.38 blueberries 1.89 cranberries 1.59 peaches 0.79 nectarines"
+    },
+    {
+      "chunk_id": 73,
+      "text": "0.79 nectarines .79 plums .69 Finding Patterns in Specific Positions Find the expression in any position. % grep 'apples' price.fruit apples .49 pineapples 1.49 Anc"
+    },
+    {
+      "chunk_id": 74,
+      "text": "ruit apples .49 pineapples 1.49 Anchor a pattern to the beginning of a line. % grep '^ apples' price.fruit apples .49 Anchor a pattern to the end of a line. % grep '79$' price.fruit peaches 0.79 nectarines .79 Find Nonfi"
+    },
+    {
+      "chunk_id": 75,
+      "text": "aches 0.79 nectarines .79 Find Nonfixed Patterns Specify a choice of characters. % grep '^[kls]' price.fruit lemons .25 (Every line in file beginning limes 0.33 with k, l, or s) kiwi"
+    },
+    {
+      "chunk_id": 76,
+      "text": "0.33 with k, l, or s) kiwi 3.89 strawberries 2.38 Select a range of characters. % grep '^[a-g]' price.fruit apples .49 (Every line in file beginning grapefruit 0.59 with lett"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ing grapefruit 0.59 with letters a through g) cantaloupe 1.19 bananas .87 grapes 2.19 blueberries 1.89 cranberries 1.59 Using Negation Negate using either -v or (). % grep -v '9$' price.fruit or % grep '[^9]$'"
+    },
+    {
+      "chunk_id": 78,
+      "text": "r (). % grep -v '9$' price.fruit or % grep '[^9]$' price.fruit lemons .25 (Every line that limes 0.33 does not end in a 9) watermelon 0.25 bananas .87 strawberries 2.38 Note:"
+    },
+    {
+      "chunk_id": 79,
+      "text": ".25 bananas .87 strawberries 2.38 Note: a caret () inside the `[ ]' means negation; a caret outside refers to the beginning of the line. Negate using the -v option. % grep -v 'es' price.fruit grapefruit 0.59 (Every line"
+    },
+    {
+      "chunk_id": 80,
+      "text": "it grapefruit 0.59 (Every line that does not lemons .25 contain the pattern \"es\") cantaloupe 1.19 watermelon 0.25 kiwi 3.89 bananas .87 plums .69 Specifying Arbitrary Characters"
+    },
+    {
+      "chunk_id": 81,
+      "text": "plums .69 Specifying Arbitrary Characters Find all lines of file at least ten characters long. Expression is '..........$' Find all lines of file starting with four-letter words beginning with the letter 'R'. Expression is '^R... ' Find all"
+    },
+    {
+      "chunk_id": 82,
+      "text": "h the letter 'R'. Expression is '^R... ' Find all lines of file ending with six-letter words. Expression is ' ......$' Match five characters from the price.fruit file. % grep ' ^ ..... TAB' price.fruit limes 0.33 (Every li"
+    },
+    {
+      "chunk_id": 83,
+      "text": "t limes 0.33 (Every line beginning with plums .69 afive character word) Finding Special Characters To Find: Enter: ------------- ----------- [ \\[ ] \\] . \\. * \\* $ \\$ ? \\? | \\| ^"
+    },
+    {
+      "chunk_id": 84,
+      "text": "] \\] . \\. * \\* $ \\$ ? \\? | \\| ^ \\^ \\ \\\\ ------------- ----------- Use the ' . ' character within a character set. %>/TT> grep ' \\. 59' price.fruit oranges .59 (Every line that contains grapefruit"
+    },
+    {
+      "chunk_id": 85,
+      "text": "9 (Every line that contains grapefruit 0.59 .59 in it) cranberries 1.59 Use the ' . ' character and metacharacter. %>/TT> grep '[0TAB] \\... ' price.fruit apples .49 (Every line wh"
+    },
+    {
+      "chunk_id": 86,
+      "text": "s .49 (Every line where price oranges .59 is under one dollar) grapefruit 0.59 lemons .25 limes 0.33 watermelon 0.25"
+    },
+    {
+      "chunk_id": 87,
+      "text": "0.33 watermelon 0.25 bananas .87 peaches 0.79 nectarines .79 plums .69 Specifying Repeats Use an * to specify repeating characters. % grep '^ [a-g"
+    },
+    {
+      "chunk_id": 88,
+      "text": "* to specify repeating characters. % grep '^ [a-g].*[0TAB] \\... ' price.fruit apples .49 (Every line which grapefruit 0.59 starts with a through g and bananas .87 the price is un"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ananas .87 the price is under one dollar) awk The awk utility is a report generator that processes ASCII text and generates reports involving selective retrieval and string manipulation. It was developed at Bell Laboratories"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ipulation. It was developed at Bell Laboratories and named for its inventors: Alfred V. Aho, Peter J. Weinberger, and Brian W. Kernighan. It is one of the most flexible methods of manipulating text and retrieving specific information from files. Onc"
+    },
+    {
+      "chunk_id": 91,
+      "text": "nd retrieving specific information from files. Once the information is retrieved, awk can print it, alter it, reformat it, or ignore it. One of the most frequent uses of awk is in generating tables and reports from files of raw data. To use awk effe"
+    },
+    {
+      "chunk_id": 92,
+      "text": "nd reports from files of raw data. To use awk effectively, you should be able to select records by field, string function, pattern comparison, arithmetic comparison, or by using variables and special operators. Terminology With awk, as in most of the"
+    },
+    {
+      "chunk_id": 93,
+      "text": "operators. Terminology With awk, as in most of the UNIX filters, the term record refers to a line of input. The different parts of a record are known as fields . The fields are separated by a field separator which, by default, is a blank or a tab. T"
+    },
+    {
+      "chunk_id": 94,
+      "text": "eparator which, by default, is a blank or a tab. The way fields are numbered with awk is different than the way they are numbered in the sort filter. Numbering of awk fields begins with 1 for the first field in the record, 2 for the second field, 3 f"
+    },
+    {
+      "chunk_id": 95,
+      "text": "t field in the record, 2 for the second field, 3 for the third field, up to n for the n th field. Field 0 refers to the entire record. To reference the n th field in a record, the notation is $ n . The awk Program Structure An awk program is define"
+    },
+    {
+      "chunk_id": 96,
+      "text": "The awk Program Structure An awk program is defined in terms of patterns and actions . The format of an awk program is: pattern_1 { action_1 } pattern_2 { action_2 } . . . pattern_n { action_n } Awk uses patterns to select the specified records. Th"
+    },
+    {
+      "chunk_id": 97,
+      "text": "uses patterns to select the specified records. The input file is processed one line at a time, and as each record is read, it is compared to pattern_1 . If pattern_1 matches the record, action_1 is executed. This select and execute process is repe"
+    },
+    {
+      "chunk_id": 98,
+      "text": "executed. This select and execute process is repeated for every pattern/action pair in the awk program. Then the next record is read and processed, beginning with the first pattern/action pair. This procedure continues until all of the records in"
+    },
+    {
+      "chunk_id": 99,
+      "text": "s procedure continues until all of the records in the input file(s) have been processed. If any pattern is missing, the associated action is performed for all of the records in the input file(s). If any action is missing, awk prints every record tha"
+    },
+    {
+      "chunk_id": 100,
+      "text": "any action is missing, awk prints every record that matches the associated pattern. The awk utility does not automatically print every line in the original file. If no action is given, the default action is to print the record. If an action is sup"
+    },
+    {
+      "chunk_id": 101,
+      "text": "ction is to print the record. If an action is supplied, however, the record is not printed unless a print statement is included in the action. Actions may consist of a single command or several commands. The left brace { of an action must appear o"
+    },
+    {
+      "chunk_id": 102,
+      "text": "ands. The left brace { of an action must appear on the same line as the associated pattern. Syntax There are two ways to invoke awk. One way is to include the awk program on the awk command line: % awk ' program ' filename_1 filename_2 ... filename"
+    },
+    {
+      "chunk_id": 103,
+      "text": "awk ' program ' filename_1 filename_2 ... filename_n where: program is an awk program enclosed in single quotes and filename_1 , filename_2 ... filename_n are input files. The other way to invoke awk is to put the program in a file and use the -f opt"
+    },
+    {
+      "chunk_id": 104,
+      "text": "is to put the program in a file and use the -f option on the awk command. This method is preferred for awk programs that are complex or longer than a few commands. The format of the awk command using the -f option is: % awk -f program_file filename"
+    },
+    {
+      "chunk_id": 105,
+      "text": "g the -f option is: % awk -f program_file filename_1 filename_2 ... filename_n where program_file is the file containing the awk program and filename_1 , filename_2 ... filename_n are input files. Since awk is a filter, standard input is used if no i"
+    },
+    {
+      "chunk_id": 106,
+      "text": "ce awk is a filter, standard input is used if no input file is named when you invoke it. Like all filters, awk also writes to standard output unless you use the output redirection pointer > to send the output to a file. Special Symbols, Functions, a"
+    },
+    {
+      "chunk_id": 107,
+      "text": "he output to a file. Special Symbols, Functions, and Expressions Table 8.2 provides a summary of some of the special symbols, functions, and expressions used by awk. Those elements predefined by the system are noted by =>. Table 8.2 Special Symbols"
+    },
+    {
+      "chunk_id": 108,
+      "text": "system are noted by =>. Table 8.2 Special Symbols, Functions, and Expressions with awk Expression Significance ------------- ------------------------------------------------------- $0 Refers to the entire record. $ n Refers to field n . BEGIN Patt"
+    },
+    {
+      "chunk_id": 109,
+      "text": "entire record. $ n Refers to field n . BEGIN Pattern that matches the beginning of the file. END Pattern that matches the end of the file. => NR The number of records that have been read at the time of evaluation. => NF The number of fields in"
+    },
+    {
+      "chunk_id": 110,
+      "text": "ime of evaluation. => NF The number of fields in the current record. => FS The field separator in the input. => OFS The field separator in the output. length Returns the length of the current record. length ( argument\\/ ) Returns the length of"
+    },
+    {
+      "chunk_id": 111,
+      "text": "rd. length ( argument\\/ ) Returns the length of the argument . substr ( string, start, num ) Returns the portion of string that starts at position start and extends for num positions. index ( string_1, string_2 ) Returns the position of the f"
+    },
+    {
+      "chunk_id": 112,
+      "text": "ring_1, string_2 ) Returns the position of the first occurrence of string_2 in string_1 ; returns 0 if string_2 is not found. string_1string_2 Concatenates string_1 with string_2 . expression_1 && expression_2 Evaluates to true only if both express"
+    },
+    {
+      "chunk_id": 113,
+      "text": "xpression_2 Evaluates to true only if both expression_1 and expression_2 evaluate to true. expression_1 || expression_2 Evaluates to true if expression_1 or expression_2 or both evaluate to true. ------------- ----------------------------------------"
+    },
+    {
+      "chunk_id": 114,
+      "text": "--------- ------------------------------------------------------- Statements in awk Actions The following table provides a summary of the statements used in awk actions: Statement Effect ------------- -------------------------------------------------"
+    },
+    {
+      "chunk_id": 115,
+      "text": "------------------------------------------------------- variable = expression Assigns the value of the expression to the variable . The expression can be numeric or string; the variable can be an ordinary awk variable or a field variable. var"
+    },
+    {
+      "chunk_id": 116,
+      "text": "ordinary awk variable or a field variable. variable += expression Increases the value of the variable by the (numeric) value of the expression . variable ++ Increases the value of the variable by 1. variable -= expression Decreases the value o"
+    },
+    {
+      "chunk_id": 117,
+      "text": "by 1. variable -= expression Decreases the value of the variable by the (numeric) value of the expression . variable -- Decreases the value of the variable by 1. print Prints the entire current input record. print parameters Prints the values of"
+    },
+    {
+      "chunk_id": 118,
+      "text": "put record. print parameters Prints the values of all evaluated parameters. If the parameters are separated by commas in the print statement, they will be separated by the OFS in the output. # comment Text between # and end-of-line is ignored."
+    },
+    {
+      "chunk_id": 119,
+      "text": "comment Text between # and end-of-line is ignored. Used for commenting programs. ------------- ------------------------------------------------------- Using Patterns to Select Records Special Patterns The special patterns BEGIN and END match the be"
+    },
+    {
+      "chunk_id": 120,
+      "text": "ns The special patterns BEGIN and END match the beginning and end of the input, respectively. Regular Expressions in Patterns Regular expressions are used to define patterns of characters. When regular expressions are used in a pattern, the notation"
+    },
+    {
+      "chunk_id": 121,
+      "text": "ar expressions are used in a pattern, the notation is the same as the regular expression notation used by grep. The expressions are enclosed in slashes ( / ), and the associated action is executed for any record in the input file that matches the ex"
+    },
+    {
+      "chunk_id": 122,
+      "text": "r any record in the input file that matches the expression. Using Comparisons in Patterns The awk utility allows you to select records by means of comparisons using comparison patterns. A comparison pattern is a logical condition that evaluates to t"
+    },
+    {
+      "chunk_id": 123,
+      "text": "pattern is a logical condition that evaluates to true or false. Comparison patterns have the format: expression_1 operator expression_2 where expression_1 and expression_2 are both arithmetic expressions or string expressions, and operator is one of"
+    },
+    {
+      "chunk_id": 124,
+      "text": "ions or string expressions, and operator is one of the comparison operators listed below. Operator Definition ------------- ---------------------------- == Is equal to != Is not equal to > Is greater than < Is less than >= Is greater than"
+    },
+    {
+      "chunk_id": 125,
+      "text": "reater than < Is less than >= Is greater than or equal to <= Is less than or equal to ------------- ---------------------------- Arithmetic Expressions in awk Arithmetic expressions are expressions that evaluate to a number. These include n"
+    },
+    {
+      "chunk_id": 126,
+      "text": "sions that evaluate to a number. These include numeric constants; field variables that contain numbers; predefined numeric references (such as NF and NR ); functions that return numbers; and any operation that uses the symbols shown below: Symbol"
+    },
+    {
+      "chunk_id": 127,
+      "text": "eration that uses the symbols shown below: Symbol Definition ------------- ------------------------------------------ + Addition - Subtraction * Multiplication / Division % Modulus (integer remainder of a division) ------------- ---------"
+    },
+    {
+      "chunk_id": 128,
+      "text": "remainder of a division) ------------- ------------------------------------------ Combining Comparison of Patterns The syntax for combined comparisons is: comparison_1 logical_operator comparison_2 where: comparison_1 and comparison_2 are any compa"
+    },
+    {
+      "chunk_id": 129,
+      "text": "where: comparison_1 and comparison_2 are any comparisons that evaluate to true or false, and logical operator is either the AND symbol ( && ) or the OR symbol ( || ). Using Ranges in awk Patterns You can select a set of records from the input by refe"
+    },
+    {
+      "chunk_id": 130,
+      "text": "can select a set of records from the input by referring to ranges of patterns in the pattern section. The format for this is: pattern_1 , pattern_2 { action } Variables in awk Variables in awk do not require declarations. They may contain either nu"
+    },
+    {
+      "chunk_id": 131,
+      "text": "require declarations. They may contain either numeric or string values; awk interprets the type of information a variable is supposed to contain from the context of the reference. If a variable is given as an argument to a string function, it is as"
+    },
+    {
+      "chunk_id": 132,
+      "text": "iven as an argument to a string function, it is assumed to be a string. If a variable is given as an operand in an arithmetic statement, it is assumed to be numeric. Examples The following examples use the cities file that is listed below. The citie"
+    },
+    {
+      "chunk_id": 133,
+      "text": "se the cities file that is listed below. The cities File Forestville, CA 95436 Amawalk, NY 10501 Boston, MA 02210 Westchester, PA 19380 Troy, MI 48099"
+    },
+    {
+      "chunk_id": 134,
+      "text": "Troy, MI 48099 Agoura, CA 91301 Westport, CT 06880 Minneapolis, MN 55421 Lowell, MA 01853 Deerfield, IL 60015"
+    },
+    {
+      "chunk_id": 135,
+      "text": "Deerfield, IL 60015 Mankato, MN 56002 Brooklyn, NY 11223 Huntington, NY 11743 Austin, TX 78744 Dallas, TX 75240-6728"
+    },
+    {
+      "chunk_id": 136,
+      "text": "Dallas, TX 75240-6728 Dallas, TX 75240-3145 Lexington, MA 02173 Medford, MA 02156 Minneapolis, MN 55415 Minneapolis, MN 55414"
+    },
+    {
+      "chunk_id": 137,
+      "text": "415 Minneapolis, MN 55414 Braintree, MA 02184 Boston, MA 02107 Berkeley, CA 94704 Dallas, TX 75230 Cambridge, MA 02142"
+    },
+    {
+      "chunk_id": 138,
+      "text": "230 Cambridge, MA 02142 Cambridge, MA 02138-0043 Providence, RI 02912 Cambridge, MA 02138-0057 Chicago, IL 60606 Inglewood, C"
+    },
+    {
+      "chunk_id": 139,
+      "text": "hicago, IL 60606 Inglewood, CA 90301 Glenview, IL 60025 Using awk to Output by Field Print the state and zip code of every record in the cities file. Put a dash between the two fields. % awk ' {print $2, \""
+    },
+    {
+      "chunk_id": 140,
+      "text": "dash between the two fields. % awk ' {print $2, \"-\" , $3}' cities Print the records in the cities file with the zip code first, followed by a TAB, followed by the city, a comma, and the state. % awk ' {print $3 \" TAB \" $1, $2} ' cities The output r"
+    },
+    {
+      "chunk_id": 141,
+      "text": "' {print $3 \" TAB \" $1, $2} ' cities The output records should look like: 95436 Forestville, CA 56002 Mankato, MN 75240-6728 Dallas, TX 02912i Providence, RI Using awk to Output by String Function Print the sentence: ``The length of the record i"
+    },
+    {
+      "chunk_id": 142,
+      "text": "Print the sentence: ``The length of the record is n '' for all records in cities file. % awk '{print \"The length of the record is \" length}' cities Print out the sentence: ``The comma is character number n '' for all records in the cities file."
+    },
+    {
+      "chunk_id": 143,
+      "text": "number n '' for all records in the cities file. % awk '{print \"The comma is character number \" index($0, \",\")}' cities Print city and zip code for every record in cities file without commas. % awk '{print substr($1, 1, length($1) - 1), $3}' cities"
+    },
+    {
+      "chunk_id": 144,
+      "text": "'{print substr($1, 1, length($1) - 1), $3}' cities All the remaining examples represent awk programs developed to do the defined tasks, and executed as % awk -f program.awk cities . Using awk to Output by Patterns Print underlined heading that says:"
+    },
+    {
+      "chunk_id": 145,
+      "text": "t by Patterns Print underlined heading that says: ``Nine-Digit Zip Codes'' followed by all records in cities file with nine-digit zip codes. BEGIN { print \"Nine-Digit Zip Codes\" print \"--------------------"
+    },
+    {
+      "chunk_id": 146,
+      "text": "s\" print \"--------------------\" } length($3) == 10 {print} Print all records from cities file where the zip code ends with a zero (0). Use a regular expression to select the records. /0$/ {pri"
+    },
+    {
+      "chunk_id": 147,
+      "text": "egular expression to select the records. /0$/ {print} Print all records where the zip code starts with a zero. Use a string function for this program. substr($3, 1, 1) == \"0\" {print} or index ($3, \"0\") == 1 {print} Print all record"
+    },
+    {
+      "chunk_id": 148,
+      "text": "index ($3, \"0\") == 1 {print} Print all records where the zip code contains a zero. Use a string function for this program. index ($3, \"0\") != 0 {print} Print all records where the state is either Texas (TX) or Michigan (MI). ($2 == \"TX\") || ($2"
+    },
+    {
+      "chunk_id": 149,
+      "text": "r Texas (TX) or Michigan (MI). ($2 == \"TX\") || ($2 == \"MI\") {print} Print all records where the state is Massachusetts (MA) and the zip code ends with the digit `3'. ($2 == \"MA\") && (substr($3, 5) == \"3\") {print} Print the 15th through the 25th recor"
+    },
+    {
+      "chunk_id": 150,
+      "text": "\"3\") {print} Print the 15th through the 25th record in the list. NR == 15, NR == 25 {print} Using awk to Output by Assigning Values to Field Variables Write an awk program to count and print the number of times the states of California (CA), Mass"
+    },
+    {
+      "chunk_id": 151,
+      "text": "umber of times the states of California (CA), Massachusetts (MA), and Texas (TX) appear in the cities file. Your output should look like: ``There are 4 cities from California.''. # # count.awk -- Count and print the number of cities from #"
+    },
+    {
+      "chunk_id": 152,
+      "text": "ount and print the number of cities from # California, Massachusetts and Texas. # BEGIN { # initialize counters cal = 0 mas = 0 tex = 0 } ($2 == \"CA\") {cal ++} # increment approp. counter ($2 == \"MA\") {mas ++} ($"
+    },
+    {
+      "chunk_id": 153,
+      "text": "rement approp. counter ($2 == \"MA\") {mas ++} ($2 == \"TX\") {tex ++} END { # print the summary print \"There are\", cal, \"cities from California.\" print \"There are\", mas, \"cities from Massachusetts.\" print \"There are\", tex, \"citi"
+    },
+    {
+      "chunk_id": 154,
+      "text": "Massachusetts.\" print \"There are\", tex, \"cities from Texas.\" } inst@eecs.berkeley.edu"
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/ssh-agent.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional & Electronics Support Group /share/b/pub/ssh-agent.help http://inst.eecs.berkeley.edu/share/b/pub/ssh-agent.h"
+    },
+    {
+      "chunk_id": 2,
+      "text": "p://inst.eecs.berkeley.edu/share/b/pub/ssh-agent.help Apr 8, 1999 CONTENTS: What is SSH-Agent? How to Set Up SSH-Agent Enabling Secure Remote Access Without Passwords Running ssh-agent from the command"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ut Passwords Running ssh-agent from the command line ssh-agent Behind The Scenes An Example .xsession for Use with SSH-Agent For More Information What is SSH-Agent? ------------------ SSH (Secure Shell) is a program that can be used to enc"
+    },
+    {
+      "chunk_id": 4,
+      "text": "Secure Shell) is a program that can be used to encrypt all network traffic for X11 connections as well as normal rlogin- or telnet-style remote logins. SSH can use your existing username(s) and password(s) and act just like standard rlogin/rsh, but"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ord(s) and act just like standard rlogin/rsh, but providing an added level of security. It will fall back to standard rlogin/rsh when the remote host does not support SSH, and yet when the remote host *does* support rlogin/rsh, the differences betwe"
+    },
+    {
+      "chunk_id": 6,
+      "text": "t *does* support rlogin/rsh, the differences between an SSH and an rsh connection are almost completely invisible to the user; those differences that do occur mostly derive from the fact that SSH has a much more self-consistent user interface. It ca"
+    },
+    {
+      "chunk_id": 7,
+      "text": "a much more self-consistent user interface. It can also use RSA encryption to make it unnecessary to type a password when connecting to other hosts on the network which recognize your public key. In this system, you start an authentication broker c"
+    },
+    {
+      "chunk_id": 8,
+      "text": "this system, you start an authentication broker called the 'ssh-agent' which responds to remote hosts' requests to authenticate you, and you authenticate yourself *once* to the ssh-agent at the beginning of your session on the workstation. Further"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ning of your session on the workstation. Further authentications, as required, are directed to your ssh-agent, obviating the need for you to type your password at the start of each new network connection. How to Set Up SSH-Agent ------------------"
+    },
+    {
+      "chunk_id": 10,
+      "text": "tion. How to Set Up SSH-Agent ----------------------- When you first use ssh-agent anywhere on the network, you will need to generate your SSH key pair. You can do this by typing 'ssh-keygen' to the shell prompt. Your workstation will grind for a"
+    },
+    {
+      "chunk_id": 11,
+      "text": "e shell prompt. Your workstation will grind for a bit and then ask you where to save the key; the default is fine, so hit return. Then it will ask you to enter a passphrase. The security of your passphrase is of the utmost importance, because in ord"
+    },
+    {
+      "chunk_id": 12,
+      "text": "phrase is of the utmost importance, because in order for ssh-agent to be of much use, your passphrase must serve to authenticate you to any machine you wish to use. This basically means that your SSH passphrase is a password that works on all the ac"
+    },
+    {
+      "chunk_id": 13,
+      "text": "passphrase is a password that works on all the accounts of all the machines you use. Obviously, therefore, if someone figures out your SSH passphrase, they have access to all the machines you use; this is a worst-case scenario which is to be avoide"
+    },
+    {
+      "chunk_id": 14,
+      "text": "his is a worst-case scenario which is to be avoided. Therefore, you should take care never to type your SSH passphrase over an unencrypted network stream. Whenever you type your SSH passphrase, you NEED TO THINK about whether ANY ONE of the network"
+    },
+    {
+      "chunk_id": 15,
+      "text": "NEED TO THINK about whether ANY ONE of the network connections over which you are sending your passphrase is unencrypted or otherwise \"sniffable\"--i.e., are you \"secure to console\"? If you do have insecure connections, don't enter your passphrase. J"
+    },
+    {
+      "chunk_id": 16,
+      "text": "secure connections, don't enter your passphrase. Just hit return, and you can enter your UNIX password instead, or you can hit return again, log out of the insecure network connection, and try again from a secure host. That said, here are some guid"
+    },
+    {
+      "chunk_id": 17,
+      "text": "from a secure host. That said, here are some guidelines for picking passphrases: * Should be between 25 and 80 characters * Should not be English text (or the like) * Should not be the name of any entity, person, place, ... * Should not be anyth"
+    },
+    {
+      "chunk_id": 18,
+      "text": "entity, person, place, ... * Should not be anything anyone could guess from hearing you talk After you enter your passphrase, your SSH secret key will be encrypted with your passphrase, and then saved in your ~/.ssh/identity file. Enabling Secur"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ved in your ~/.ssh/identity file. Enabling Secure Remote Access Without Passwords ----------------------------------------------- As noted above, SSH RSA authentication relies on a broker known as the ssh-agent. The most convenient place I have f"
+    },
+    {
+      "chunk_id": 20,
+      "text": "the ssh-agent. The most convenient place I have found to start your ssh-agent is in your .xsession, at the beginning of the initialization of your X11 desktop. You will need to start two programs: the ssh-agent itself, and ssh-add, which authentic"
+    },
+    {
+      "chunk_id": 21,
+      "text": "the ssh-agent itself, and ssh-add, which authenticates you (the person sitting at the console) to the ssh-agent, in effect, authorizing it to act in your stead for authentication purposes (until you kill it.) There are two practical ways to run ssh"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ill it.) There are two practical ways to run ssh-agent; one way is to run it from the command line like any other program. This has the advantage of being fairly simple; however, it is not as automatic and convenient as running it in your \"~/.xsess"
+    },
+    {
+      "chunk_id": 23,
+      "text": "tic and convenient as running it in your \"~/.xsession\" X Window startup file. Running ssh-agent from the command line --------------------------------------- In a nutshell: type % eval `ssh-agent -c` % ssh-add Then ssh-add will ask for your RS"
+    },
+    {
+      "chunk_id": 24,
+      "text": "-c` % ssh-add Then ssh-add will ask for your RSA passphrase, which you entered when you created the key. After doing this, you can log in to other hosts using ssh as usual... % ssh HOSTNAME ...but ssh should not prompt you for a password or pa"
+    },
+    {
+      "chunk_id": 25,
+      "text": "but ssh should not prompt you for a password or passphrase. (If you see errors and still get prompted, report it to inst@!) When you log out, kill your ssh-agent, by typing % kill $SSH_AGENT_PID ssh-agent Behind The Scenes -----------------------"
+    },
+    {
+      "chunk_id": 26,
+      "text": "sh-agent Behind The Scenes --------------------------- ssh-agent writes a couple of commands to standard output so that it can edit your environment; in this way it is somewhat similar to tset -s. The preferred way to run it is in a command of the f"
+    },
+    {
+      "chunk_id": 27,
+      "text": "e preferred way to run it is in a command of the form eval `ssh-agent ` The pertinent options in this case are \"-c\" if you are using the C-shell in your .xsession, or \"-s\" if you are using the Bourne shell. This has NOTHING TO DO WITH YOUR LOGIN SH"
+    },
+    {
+      "chunk_id": 28,
+      "text": "e shell. This has NOTHING TO DO WITH YOUR LOGIN SHELL; it pertains only to the shell which is interpreting your .xsession (the #! line at the beginning.) To summarize, note that the ssh-agent on the EECS Instructional systems is located in /share/b/b"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ECS Instructional systems is located in /share/b/bin: If your .xsession starts with: | Add the line: ----------------------------------+------------------------------------ #!/bin/sh | eval `/share/b/bin/ssh-agent -s`"
+    },
+    {
+      "chunk_id": 30,
+      "text": "| eval `/share/b/bin/ssh-agent -s` #!/bin/csh | eval `/share/b/bin/ssh-agent -c` After you have started the ssh-agent, you can add a line to authenticate yourself. This does not depend on your shell, and is a"
+    },
+    {
+      "chunk_id": 31,
+      "text": "elf. This does not depend on your shell, and is a command of the form \"ssh-add\". However, in order for ssh-add to realize that it ought to bring up an X window to authenticate you, you have to redirect its standard input to /dev/null; otherwise, it w"
+    },
+    {
+      "chunk_id": 32,
+      "text": "t its standard input to /dev/null; otherwise, it will ask you for your passphrase on your terminal, which might fail if you haven't started it on a terminal! (Note that you can run ssh-add on your terminal if you want, but if it isn't obviously what"
+    },
+    {
+      "chunk_id": 33,
+      "text": "minal if you want, but if it isn't obviously what you want, it probably isn't what you want.) In most cases, then, you will want to add the line /share/b/bin/ssh-add </dev/null after starting the ssh-agent. An Example .xsession for Use with SSH-"
+    },
+    {
+      "chunk_id": 34,
+      "text": "sh-agent. An Example .xsession for Use with SSH-Agent ------------------------------------------- To summarize, here is an example .xsession that can be used to start the ssh-agent and unlock your SSH public key: ---------------------------------"
+    },
+    {
+      "chunk_id": 35,
+      "text": "SSH public key: ------------------------------------------------------------------------------ #!/bin/sh # Start ssh agent. eval `/share/b/bin/ssh-agent -s` /share/b/bin/ssh-add < /dev/null # Start normal X clients. twm & exec xterm"
+    },
+    {
+      "chunk_id": 36,
+      "text": "# Start normal X clients. twm & exec xterm -name 'Exit this shell to log out.' -ls -geometry 80x24+191+61 ------------------------------------------------------------------------------ Basically, once you have enabled the ssh-agent in your .x"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ly, once you have enabled the ssh-agent in your .xsession, all you have to do is copy your ~/.ssh/identity.pub file (generated in the above process) to the file ~/.ssh/authorized_keys on the host(s) you wish to be able to access without a password. ~"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ou wish to be able to access without a password. ~/.ssh/authorized_keys serves the same function as a .rhosts file; however, instead of requiring the username and hostname listed, it requires that the ssh-agent of the connecting user be authorized us"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ssh-agent of the connecting user be authorized using the private key which matches the public key listed. For More Information -------------------- For more information, please read \"/share/b/pub/ssh.help\". EECS Instructional & Electronics S"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ssh.help\". EECS Instructional & Electronics Support 377 & 386 Cory, 333 Soda inst@eecs.berkeley.edu esg@eecs.berkeley.edu"
+    }
+  ]
+}

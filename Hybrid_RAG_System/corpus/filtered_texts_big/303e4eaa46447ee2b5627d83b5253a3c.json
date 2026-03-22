@@ -1,0 +1,1221 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/domains/modal/kernel/FSMActor.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "FSMActor JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method ptol"
+    },
+    {
+      "chunk_id": 2,
+      "text": "nstr | Method Detail: Field | Constr | Method ptolemy.domains.modal.kernel Class FSMActor java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity <T> ptolemy.kernel.ComponentEntity ptolemy.kernel.Compos"
+    },
+    {
+      "chunk_id": 3,
+      "text": "olemy.kernel.ComponentEntity ptolemy.kernel.CompositeEntity ptolemy.domains.modal.kernel.FSMActor All Implemented Interfaces: java.lang.Cloneable, Actor , Executable , Initializable , TypedActor , ExplicitChangeContext , Changeable , Debuggable , Deb"
+    },
+    {
+      "chunk_id": 4,
+      "text": "licitChangeContext , Changeable , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: FmvAutomaton , FSMMatcher , InterfaceAutomaton , ModalController , TDLActor pu"
+    },
+    {
+      "chunk_id": 5,
+      "text": "InterfaceAutomaton , ModalController , TDLActor public class FSMActor extends CompositeEntity implements TypedActor , ExplicitChangeContext An FSMActor contains a set of states and transitions. A transition has a guard expression , any number of out"
+    },
+    {
+      "chunk_id": 6,
+      "text": "sition has a guard expression , any number of output actions , and any number of set actions . It has an initial state , which is the unique state whose isInitialState parameter is true. In outline, a firing of this actor is a sequence of steps a"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e, a firing of this actor is a sequence of steps as follows. In the fire() method: Read inputs. Evaluate guards on outgoing transitions of the current state. Choose a transitions whose guard is true. Execute the output actions. In the postfire() met"
+    },
+    {
+      "chunk_id": 8,
+      "text": "Execute the output actions. In the postfire() method: Execute the set actions of the chosen transition. Change the current state to the destination of the chosen transition. The fire() method may be invoked more than once in an iteration, for examp"
+    },
+    {
+      "chunk_id": 9,
+      "text": "invoked more than once in an iteration, for example in a fixedpoint iteration. This actor makes no persistent state changes in its fire() method, so actor conforms with the actor abstract semantics , and hence can be used in any Ptolemy II doma"
+    },
+    {
+      "chunk_id": 10,
+      "text": "cs , and hence can be used in any Ptolemy II domain. After reading the inputs, this actor examines the outgoing transitions of the current state, evaluating their guard expressions. A transition is enabled if its guard expression evaluates to tru"
+    },
+    {
+      "chunk_id": 11,
+      "text": "enabled if its guard expression evaluates to true. A blank guard expression is interpreted to be always true. The guard expression may refer to any input port and any variable in scope. If an input port name portName is used in a guard expression"
+    },
+    {
+      "chunk_id": 12,
+      "text": "t port name portName is used in a guard expression, it refers to the current input on that port on channel zero. If the input port status is not known, or if the input is absent, then a guard expression referring to portName will not be evaluated."
+    },
+    {
+      "chunk_id": 13,
+      "text": "ssion referring to portName will not be evaluated. The guard expression may alternatively refer to portName _ isPresent , which is a boolean that is true if an input is present on the specified port. Again, if the input port status is not known, s"
+    },
+    {
+      "chunk_id": 14,
+      "text": "t. Again, if the input port status is not known, such a guard would not be evaluated. The status of an input port may not be known during firings under a director with fixed-point semantics, such as SR or Continuous. To refer to a channel specific"
+    },
+    {
+      "chunk_id": 15,
+      "text": "s SR or Continuous. To refer to a channel specifically, a guard expression may use portName _ channelIndex , which has value equal to the token received on the port on the given channel. Similarly, it may refer to portName _ channelIndex _ isPresen"
+    },
+    {
+      "chunk_id": 16,
+      "text": "t may refer to portName _ channelIndex _ isPresent . FIXME: Document multirate behavior. The identifier portName Array or portName _ channelIndex Array refers the array of all tokens consumed from the port in the last firing. This identifier has"
+    },
+    {
+      "chunk_id": 17,
+      "text": "he port in the last firing. This identifier has an array type whose element type is the type of the corresponding input port. Nondeterministic transitions are allowed if all enabled transitions are marked nondeterministic . If more than one trans"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e marked nondeterministic . If more than one transition is enabled and they are all marked nondeterministic, then one is chosen at random in the fire() method. Note that this class provides no guarantees about the probability of selecting a partic"
+    },
+    {
+      "chunk_id": 19,
+      "text": "antees about the probability of selecting a particular nondeterministic transition. It is perfectly valid to always choose the same one, for example. To provide such a guarantee, we would have to impose the constraint that no nondeterministic tra"
+    },
+    {
+      "chunk_id": 20,
+      "text": "mpose the constraint that no nondeterministic transition can be chosen until the guards of all nondeterministic transitions can be evaluated. This would rule out certain models, in particular those that illustrate the celebrated Brock-Ackerman an"
+    },
+    {
+      "chunk_id": 21,
+      "text": "that illustrate the celebrated Brock-Ackerman anomaly. Hence, in this implementation, if the fire() method is invoked more than once in an iteration, then subsequent invocations in the same iteration will always choose the same transition, if i"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ation will always choose the same transition, if it is still enabled. If more transitions become enabled in subsequent firings and they are not all marked nondeterminate, then an exception will thrown. All of this means that if some input is unkn"
+    },
+    {
+      "chunk_id": 23,
+      "text": "own. All of this means that if some input is unknown on the first invocation of fire(), and a guard refers to that input, then that transition will not be chosen. As a consequence, for nondeterministic state machines, the behavior may depend on t"
+    },
+    {
+      "chunk_id": 24,
+      "text": "stic state machines, the behavior may depend on the order of firings in a fixed-point iteration. This is in fact unavoidable (it is related to the celebrated Brock-Ackerman anomaly, which demonstrates that the input/output relations of a nondeter"
+    },
+    {
+      "chunk_id": 25,
+      "text": "tes that the input/output relations of a nondeterministic system do not completely determine its behavior; the context in which it is used can also affect the behavior; specifically, the context may make it impossible to know the value of input o"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ay make it impossible to know the value of input on the first invocation of fire() because of a feedback loop). Thus, to correctly realize all nondeterministic systems, we cannot provide probabilistic execution of nondeterministic transitions. If"
+    },
+    {
+      "chunk_id": 27,
+      "text": "tic execution of nondeterministic transitions. If no transition is enabled and all their guard expressions have been evaluated (all relevant inputs are known), then if there is a transition marked as a default transition , then that transition is c"
+    },
+    {
+      "chunk_id": 28,
+      "text": "s a default transition , then that transition is chosen. If there is more than one default transition and they are all marked nondeterministic, then one is chosen at random. Once a transition is chosen, its output actions are executed. Typically,"
+    },
+    {
+      "chunk_id": 29,
+      "text": "sen, its output actions are executed. Typically, these will write values to output ports. The form of an output action is typically y = expression , where expression may refer to any variable defined as above or any parameter in scope (and also t"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ed as above or any parameter in scope (and also to outputs of state refinements, see below). This gives the behavior of a Mealy machine, where outputs are produced by transitions rather than by states. Moore machine behavior is also achievable us"
+    },
+    {
+      "chunk_id": 31,
+      "text": "tes. Moore machine behavior is also achievable using state refinements that produce outputs (see FSMDirector documentation). Multiple output actions may be given by separating them with semicolons. Also, output actions may take the form of d.p ="
+    },
+    {
+      "chunk_id": 32,
+      "text": "Also, output actions may take the form of d.p = expression , where d is the name of the destination state and p is a parameter of the destination refinement. After a transition is taken, this actor calls fireAtCurrentTime() on its enclosing dire"
+    },
+    {
+      "chunk_id": 33,
+      "text": "r calls fireAtCurrentTime() on its enclosing director. This ensures that if the destination state has an enabled transition, that transition will be taken at the same time (in the next superdense time index). It also supports continuous-time mode"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ime index). It also supports continuous-time models, where the destination state refinement, if any, should produce an output at the next superdense time index. A final state is a state that has its isFinalState parameter set to true. When the ac"
+    },
+    {
+      "chunk_id": 35,
+      "text": "s isFinalState parameter set to true. When the actor reaches a final state, then the postfire method will return false, indicating that the actor does not wish to be fired again. An FSMActor can be used in a modal model to represent the mode cont"
+    },
+    {
+      "chunk_id": 36,
+      "text": "used in a modal model to represent the mode control logic. In this case, the states and transitions have refinements, and this actor works in concert with the FSMDirector to execute those refinements. See the documentation for FSMDirector for d"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ents. See the documentation for FSMDirector for details on how that works. By default, this actor has a conservative causality interface, implemented by the DefaultCausalityInterface , which declares that all outputs depend on all inputs. If, howe"
+    },
+    {
+      "chunk_id": 38,
+      "text": "s that all outputs depend on all inputs. If, however, the enclosing director and all state refinement directors implement the strict actor semantics (as indicated by their implementsStrictActorSemantics() method), then the returned causality int"
+    },
+    {
+      "chunk_id": 39,
+      "text": "antics() method), then the returned causality interface is implemented by the FSMCausalityInterface class. If the stateDependentCausality is false (the default), then this causality interface in conservative and valid in all states. If it is tru"
+    },
+    {
+      "chunk_id": 40,
+      "text": "onservative and valid in all states. If it is true, then the causality interface will show different input/output dependencies depending on the state. See FSMCausalityInterface for details. Since: Ptolemy II 8.0 Version: $Id$ Author: Edward A. Lee"
+    },
+    {
+      "chunk_id": 41,
+      "text": "Ptolemy II 8.0 Version: $Id$ Author: Edward A. Lee, Xiaojun Liu, Haiyang Zheng, Ye Zhou, Christian Motika See Also: State , Transition , Action , FSMDirector Pt.AcceptedRating: Yellow (kienhuis) Pt.ProposedRating: Yellow (liuxj) Nested Class Summary"
+    },
+    {
+      "chunk_id": 42,
+      "text": "oposedRating: Yellow (liuxj) Nested Class Summary Nested Classes Modifier and Type Class and Description class FSMActor.PortScope This class implements a scope, which is used to evaluate the parsed expressions. Nested classes/interfaces inherited f"
+    },
+    {
+      "chunk_id": 43,
+      "text": "expressions. Nested classes/interfaces inherited from class ptolemy.kernel. CompositeEntity CompositeEntity.ContainedObjectsIterator Field Summary Fields Modifier and Type Field and Description protected State _currentState Current state. protected j"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ted State _currentState Current state. protected java.util.Set< Actor > _disabledRefinements State and transition refinements that have returned false in postfire(). protected java.util.List< Initializable > _initializables List of objects whose (pre"
+    },
+    {
+      "chunk_id": 45,
+      "text": "zable > _initializables List of objects whose (pre)initialize() and wrapup() methods should be slaved to these. (package private) State _initialState The initial state. protected java.util.Map _inputTokenMap A map from ports to corresponding input"
+    },
+    {
+      "chunk_id": 46,
+      "text": "tTokenMap A map from ports to corresponding input variables. protected Transition _lastChosenTransition The most recently chosen transition within the fire() method. protected java.util.HashMap< State , Transition > _lastChosenTransitions The last ch"
+    },
+    {
+      "chunk_id": 47,
+      "text": ", Transition > _lastChosenTransitions The last chosen transitions, by state from which these transitions emerge. protected java.util.List< Transition > _lastTakenTransitions The last taken transitions, by state from which these transitions emerge. p"
+    },
+    {
+      "chunk_id": 48,
+      "text": "s, by state from which these transitions emerge. protected java.util.List< Actor > _stateRefinementsToPostfire State refinements to postfire(), as determined by the fire() method. protected boolean _stopRequested Indicator that a stop has been reques"
+    },
+    {
+      "chunk_id": 49,
+      "text": "topRequested Indicator that a stop has been requested by a call to stop(). Parameter errorCause Parameter containing the cause of an exception thrown while executing a refinement if the exception is a KernelException that specified a Nameable. St"
+    },
+    {
+      "chunk_id": 50,
+      "text": "a KernelException that specified a Nameable. StringParameter errorClass Parameter containing the name of the class of exception thrown while executing a refinement. StringParameter errorMessage Parameter containing the message of exception throw"
+    },
+    {
+      "chunk_id": 51,
+      "text": "arameter containing the message of exception thrown while executing a refinement. StringAttribute finalStateNames Attribute specifying the names of the final states of this actor. StringAttribute initialStateName Attribute specifying the name of"
+    },
+    {
+      "chunk_id": 52,
+      "text": "initialStateName Attribute specifying the name of the initial state of this actor. Parameter probability Parameter that is a function which evaluates to true when the randomly generated token value is within the probability range expressed by a t"
+    },
+    {
+      "chunk_id": 53,
+      "text": "is within the probability range expressed by a transition. SharedParameter resetOnEachRun Boolean parameter to determine whether seeds are reset on each run. SharedParameter seed The seed to be used for random token generation, to evaluate probabi"
+    },
+    {
+      "chunk_id": 54,
+      "text": "for random token generation, to evaluate probabilistic transitions between states. Parameter stateDependentCausality Indicate whether input/output dependencies can depend on the state. Parameter timeout Parameter that is a function that evaluates"
+    },
+    {
+      "chunk_id": 55,
+      "text": "imeout Parameter that is a function that evaluates to true when the time elapsed in the current state equals the argument to the function. Fields inherited from class ptolemy.kernel. CompositeEntity _levelCrossingLinks Fields inherited from class"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ty _levelCrossingLinks Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTE"
+    },
+    {
+      "chunk_id": 57,
+      "text": "_isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary Constructors Construc"
+    },
+    {
+      "chunk_id": 58,
+      "text": "TERATING Constructor Summary Constructors Constructor and Description FSMActor () Construct an FSMActor in the default workspace with an empty string as its name. FSMActor ( CompositeEntity container, java.lang.String name) Create an FSMAct"
+    },
+    {
+      "chunk_id": 59,
+      "text": "r, java.lang.String name) Create an FSMActor in the specified container with the specified name. FSMActor ( Workspace workspace) Construct an FSMActor in the specified workspace with an empty string as its name. Method Summary All Methods"
+    },
+    {
+      "chunk_id": 60,
+      "text": "y string as its name. Method Summary All Methods Instance Methods Concrete Methods Deprecated Methods Modifier and Type Method and Description protected void _addEntity ( ComponentEntity entity) Add a state to this FSMActor. protected void _addRela"
+    },
+    {
+      "chunk_id": 61,
+      "text": "a state to this FSMActor. protected void _addRelation ( ComponentRelation relation) Add a transition to this FSMActor. protected boolean _areAllImmediateTransitionsDisabled ( State state) Return true if all immediate transitions from the specified"
+    },
+    {
+      "chunk_id": 62,
+      "text": "if all immediate transitions from the specified state have guards that can be evaluated and that evaluate to false. protected void _chooseTransitions (java.util.List< Transition > transitionList, boolean preemptive,"
+    },
+    {
+      "chunk_id": 63,
+      "text": "boolean preemptive, boolean immediateOnly, boolean inInitialize, boolean inPreinitialize) Choose zero or more transitions enabled in the current state from the list of specifi"
+    },
+    {
+      "chunk_id": 64,
+      "text": "ed in the current state from the list of specified transitions. protected State _destinationState () Return the chosen destination state. protected int _getChannelForIdentifier (java.lang.String identifier) Given an identifier, return a channel num"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ntifier) Given an identifier, return a channel number i if the identifier is of the form portName_i, portName_i_isPresent, portName_iArray. protected IOPort _getPortForIdentifier (java.lang.String identifier) Get the port for the specified identifi"
+    },
+    {
+      "chunk_id": 66,
+      "text": "dentifier) Get the port for the specified identifier, which may be of form portName, portName_isPresent, portName_i, portName_i_isPresent, etc. protected java.util.List< Actor > _getStateRefinementsToPostfire () Return the list used to keep track"
+    },
+    {
+      "chunk_id": 67,
+      "text": "tsToPostfire () Return the list used to keep track of refinements that have been fired. protected java.util.List< Actor > _getTransitionRefinementsToPostfire () Return the list used to keep track of refinements that have been fired. protected voi"
+    },
+    {
+      "chunk_id": 68,
+      "text": "refinements that have been fired. protected void _init () protected void _initializeRefinements ( State state) Initialize the refinements of the specified state. protected boolean _isRefinementOutput ( IOPort port, int channel)"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ut ( IOPort port, int channel) Return true if the channel of the port is connected to an output port of the refinement of current state. protected boolean _isSafeToClear ( IOPort port, int channel, State state,"
+    },
+    {
+      "chunk_id": 70,
+      "text": "port, int channel, State state, boolean immediateOnly, java.util.HashSet< State > visitedStates) Given an output port and channel, determine whether the output port must be absent on the specified channel,"
+    },
+    {
+      "chunk_id": 71,
+      "text": "put port must be absent on the specified channel, given whatever current information about the inputs is available (the inputs may be known or unknown). protected void _readInputs ( IOPort port, int channel) Read tokens from the given"
+    },
+    {
+      "chunk_id": 72,
+      "text": "int channel) Read tokens from the given channel of the given input port and make them accessible to the expressions of guards and transitions through the port scope. protected boolean _schedule ( NamedObj actor, Time timestamp) Schedule"
+    },
+    {
+      "chunk_id": 73,
+      "text": "chedule ( NamedObj actor, Time timestamp) Schedule an actor for execution on a ExecutionAspect. protected void _setCurrentConnectionMap () Set the map from input ports to boolean flags indicating whether a channel is connected to an output port of"
+    },
+    {
+      "chunk_id": 74,
+      "text": "her a channel is connected to an output port of the refinement of the current state. protected void _setTimeForRefinement ( Actor refinement) Set the refinements current time equal to the matching environment, or if there is no environment, do"
+    },
+    {
+      "chunk_id": 75,
+      "text": "environment, or if there is no environment, do nothing. void addChosenTransition ( State state, Transition transition) Add a chosen transition to the set of chosen transitions. void addInitializable ( Initializable initializable) Add the specified"
+    },
+    {
+      "chunk_id": 76,
+      "text": "e ( Initializable initializable) Add the specified object to the list of objects whose preinitialize(), initialize(), and wrapup() methods should be invoked upon invocation of the corresponding methods of this object. void attributeChanged ( At"
+    },
+    {
+      "chunk_id": 77,
+      "text": "methods of this object. void attributeChanged ( Attribute attribute) If the attribute is seed then create the base random number generator. java.lang.Object clone ( Workspace workspace) Clone the actor into the specified workspace. void createReceive"
+    },
+    {
+      "chunk_id": 78,
+      "text": "r into the specified workspace. void createReceivers () Create receivers for each input port. State currentState () Return the current state of this actor. java.util.List enabledTransitions (java.util.List transitionList, boolean pr"
+    },
+    {
+      "chunk_id": 79,
+      "text": ".List transitionList, boolean preemptive, boolean immediateOnly) Return a list of enabled transitions among the given list of transitions. void exportSubmodel (java.io.Writer output, int depth,"
+    },
+    {
+      "chunk_id": 80,
+      "text": "va.io.Writer output, int depth, java.lang.String name) Write this FSMActor into the output writer as a submodel. void fire () Set the values of input variables. boolean foundUnknown () Return true if the most recent call t"
+    },
+    {
+      "chunk_id": 81,
+      "text": "ndUnknown () Return true if the most recent call to enabledTransition() or chooseTransition() found guard expressions or output value expressions that could not be evaluated due to unknown inputs. CausalityInterface getCausalityInterface () Retur"
+    },
+    {
+      "chunk_id": 82,
+      "text": "CausalityInterface getCausalityInterface () Return a causality interface for this actor. Entity getContext () Return the change context being made explicit. Director getDirector () Return the director responsible for the execution of this actor. Dir"
+    },
+    {
+      "chunk_id": 83,
+      "text": "r responsible for the execution of this actor. Director getExecutiveDirector () Return the executive director (same as getDirector()). State getInitialState () Return the initial state of this actor. Transition getLastChosenTransition () Deprecated."
+    },
+    {
+      "chunk_id": 84,
+      "text": "Transition getLastChosenTransition () Deprecated. Use getLastChosenTransitions() instead. java.util.Map< State , Transition > getLastChosenTransitions () Get the last chosen transitions. java.util.List< Transition > getLastTakenTransitions () Get the"
+    },
+    {
+      "chunk_id": 85,
+      "text": "t< Transition > getLastTakenTransitions () Get the last taken transitions. Manager getManager () Return the Manager responsible for execution of this actor, if there is one. java.util.List getModifiedVariables () Return a list of variables that thi"
+    },
+    {
+      "chunk_id": 86,
+      "text": "edVariables () Return a list of variables that this entity modifies. ParserScope getPortScope () Return a scope object that has current values from input ports of this FSMActor in scope. boolean handleModelError ( NamedObj context, IllegalActionExc"
+    },
+    {
+      "chunk_id": 87,
+      "text": "dleModelError ( NamedObj context, IllegalActionException exception) Handle a model error. boolean hasInput () Test whether new input tokens have been received at the input ports. boolean hasInput ( Port port) Test whether new input tokens have been r"
+    },
+    {
+      "chunk_id": 88,
+      "text": "rt port) Test whether new input tokens have been received at the given input port. void initialize () Initialize this actor by setting the current state to the initial state. java.util.List inputPortList () Return a list of the input ports. boole"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ortList () Return a list of the input ports. boolean isBackwardTypeInferenceEnabled () Return false because backward type inference is not implemented for this actor. boolean isFireFunctional () Return false. boolean isOpaque () Return true. boolea"
+    },
+    {
+      "chunk_id": 90,
+      "text": "urn false. boolean isOpaque () Return true. boolean isStrict () Return false. int iterate (int count) Invoke a specified number of iterations of the actor. Port newPort (java.lang.String name) Create a new TypedIOPort with the specified name. Receive"
+    },
+    {
+      "chunk_id": 91,
+      "text": "a new TypedIOPort with the specified name. Receiver newReceiver () Return a new receiver obtained from the director. ComponentRelation newRelation (java.lang.String name) Create a new instance of Transition with the specified name in this actor, an"
+    },
+    {
+      "chunk_id": 92,
+      "text": "sition with the specified name in this actor, and return it. java.util.List outputPortList () Return a list of the output ports. boolean postfire () Execute actions on the last chosen transition. boolean prefire () Return true. void preinitialize ("
+    },
+    {
+      "chunk_id": 93,
+      "text": "olean prefire () Return true. void preinitialize () Create receivers and input variables for the input ports of this actor, and validate attributes of this actor, and attributes of the ports of this actor. void readInputs () Set the value of the"
+    },
+    {
+      "chunk_id": 94,
+      "text": "is actor. void readInputs () Set the value of the shadow variables for input ports of this actor. void readOutputsFromRefinement () Set the input variables for channels that are connected to an output port of the refinement of current state. void r"
+    },
+    {
+      "chunk_id": 95,
+      "text": "ut port of the refinement of current state. void removeInitializable ( Initializable initializable) Remove the specified object from the list of objects whose preinitialize(), initialize(), and wrapup() methods should be invoked upon invocation o"
+    },
+    {
+      "chunk_id": 96,
+      "text": "up() methods should be invoked upon invocation of the corresponding methods of this object. void reset () Reset current state to the initial state. void setLastChosenTransition ( Transition transition) Deprecated. Use addChosenTransition(State, T"
+    },
+    {
+      "chunk_id": 97,
+      "text": "tion) Deprecated. Use addChosenTransition(State, Transition) void setNewIteration (boolean newIteration) Set the flag indicating whether we are at the start of a new iteration (firing). void setSupportMultirate (boolean supportMultirate) Set true i"
+    },
+    {
+      "chunk_id": 98,
+      "text": "ortMultirate (boolean supportMultirate) Set true indicating that this actor supports multirate firing. void stop () Request that execution of the current iteration stop as soon as possible. void stopFire () Do nothing. void terminate () Call stop()"
+    },
+    {
+      "chunk_id": 99,
+      "text": "pFire () Do nothing. void terminate () Call stop(). java.util.Set< Inequality > typeConstraints () Return the type constraints of this actor. boolean wasTransitionTaken () Return true if a transition was taken in the previous iteration, or if this"
+    },
+    {
+      "chunk_id": 100,
+      "text": "was taken in the previous iteration, or if this is before the first iteration concludes, true if during initialize an immediate transition was taken. void wrapup () Do nothing except invoke the wrapup method of any objects that have been added"
+    },
+    {
+      "chunk_id": 101,
+      "text": "apup method of any objects that have been added using addInitializable(). Methods inherited from class ptolemy.kernel. CompositeEntity _adjustDeferrals , _containedDecorators , _deepOpaqueEntityList , _description , _exportMoMLContents , _finishedA"
+    },
+    {
+      "chunk_id": 102,
+      "text": ", _description , _exportMoMLContents , _finishedAddEntity , _removeEntity , _removeRelation , _validateSettables , allAtomicEntityList , allowLevelCrossingConnect , classDefinitionList , connect , connect , containedObjectsIterator , deepCompositeEn"
+    },
+    {
+      "chunk_id": 103,
+      "text": "nnect , containedObjectsIterator , deepCompositeEntityList , deepEntityList , deepGetEntities , deepNamedObjList , deepOpaqueEntityList , deepRelationSet , entityList , entityList , exportLinks , exportMoML , getAttribute , getEntities , getEntity ,"
+    },
+    {
+      "chunk_id": 104,
+      "text": "rtMoML , getAttribute , getEntities , getEntity , getPort , getRelation , getRelations , isAtomic , lazyAllAtomicEntityList , lazyAllCompositeEntityList , lazyAllCompositeTransparentAndOpaqueEntityList , lazyClassDefinitionList , lazyDeepEntityList ,"
+    },
+    {
+      "chunk_id": 105,
+      "text": "t , lazyClassDefinitionList , lazyDeepEntityList , lazyEntityList , lazyRelationList , numberOfEntities , numberOfRelations , numEntities , numRelations , relationList , removeAllEntities , removeAllRelations , setClassDefinition , setContainer , sta"
+    },
+    {
+      "chunk_id": 106,
+      "text": "elations , setClassDefinition , setContainer , statistics , uniqueName Methods inherited from class ptolemy.kernel. ComponentEntity _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , moveDown , moveToFirst , mo"
+    },
+    {
+      "chunk_id": 107,
+      "text": "tainer , instantiate , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _addPort , _removePort , connectedPortList , connectedPorts , connectionsChanged , ge"
+    },
+    {
+      "chunk_id": 108,
+      "text": "ortList , connectedPorts , connectionsChanged , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , getChildren , getElementName , getParent , getP"
+    },
+    {
+      "chunk_id": 109,
+      "text": ", getChildren , getElementName , getParent , getPrototypeList , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _copyCh"
+    },
+    {
+      "chunk_id": 110,
+      "text": ", _attachText , _cloneFixAttributeFields , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHier"
+    },
+    {
+      "chunk_id": 111,
+      "text": "_notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , addHierarchyListener , attributeDeleted , attributeList , at"
+    },
+    {
+      "chunk_id": 112,
+      "text": "hyListener , attributeDeleted , attributeList , attributeList , attributeTypeChanged , clone , decorators , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoM"
+    },
+    {
+      "chunk_id": 113,
+      "text": ", exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getFullNam"
+    },
+    {
+      "chunk_id": 114,
+      "text": "vel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateValue , prop"
+    },
+    {
+      "chunk_id": 115,
+      "text": "ssage , notifyOfNameChange , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , se"
+    },
+    {
+      "chunk_id": 116,
+      "text": "geRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, ha"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ss java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Metho"
+    },
+    {
+      "chunk_id": 118,
+      "text": ", getFullName , getName , getName , setName Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Field Detail errorCause public Parameter errorCause Parameter containing the cause of an ex"
+    },
+    {
+      "chunk_id": 119,
+      "text": "errorCause Parameter containing the cause of an exception thrown while executing a refinement if the exception is a KernelException that specified a Nameable. This parameter may be used in a guard expression or output or set action to access"
+    },
+    {
+      "chunk_id": 120,
+      "text": "rd expression or output or set action to access the object that originated an exception on an error transition. This is an object token that defaults to null. This parameter is not persistent. It will not be exported to MoML. errorClass publi"
+    },
+    {
+      "chunk_id": 121,
+      "text": "It will not be exported to MoML. errorClass public StringParameter errorClass Parameter containing the name of the class of exception thrown while executing a refinement. This parameter may be used in a guard expression or output or set action t"
+    },
+    {
+      "chunk_id": 122,
+      "text": "in a guard expression or output or set action to access the class of an exception on an error transition. This is a string that defaults to the empty string. This parameter is not persistent. It will not be exported to MoML. errorMessage pub"
+    },
+    {
+      "chunk_id": 123,
+      "text": "It will not be exported to MoML. errorMessage public StringParameter errorMessage Parameter containing the message of exception thrown while executing a refinement. This parameter may be used in a guard expression or output or set action to acce"
+    },
+    {
+      "chunk_id": 124,
+      "text": "guard expression or output or set action to access the message of an exception on an error transition. This is a string that defaults to the empty string. This parameter is not persistent. It will not be exported to MoML. probability public P"
+    },
+    {
+      "chunk_id": 125,
+      "text": "will not be exported to MoML. probability public Parameter probability Parameter that is a function which evaluates to true when the randomly generated token value is within the probability range expressed by a transition. resetOnEachRun public Sha"
+    },
+    {
+      "chunk_id": 126,
+      "text": "pressed by a transition. resetOnEachRun public SharedParameter resetOnEachRun Boolean parameter to determine whether seeds are reset on each run. seed public SharedParameter seed The seed to be used for random token generation, to evaluate probabili"
+    },
+    {
+      "chunk_id": 127,
+      "text": "or random token generation, to evaluate probabilistic transitions between states. timeout public Parameter timeout Parameter that is a function that evaluates to true when the time elapsed in the current state equals the argument to the function"
+    },
+    {
+      "chunk_id": 128,
+      "text": "urrent state equals the argument to the function. This can be used in a guard to trigger a transition. finalStateNames public StringAttribute finalStateNames Attribute specifying the names of the final states of this actor. This attribute is kept"
+    },
+    {
+      "chunk_id": 129,
+      "text": "nal states of this actor. This attribute is kept for backward compatibility only, and is set to expert visibility. To set the final states, set the isFinalState parameter of a States. initialStateName public StringAttribute initialStateName Att"
+    },
+    {
+      "chunk_id": 130,
+      "text": "teName public StringAttribute initialStateName Attribute specifying the name of the initial state of this actor. This attribute is kept for backward compatibility only, and is set to expert visibility. To set the initial state, set the isInitia"
+    },
+    {
+      "chunk_id": 131,
+      "text": "lity. To set the initial state, set the isInitialState parameter of a State. stateDependentCausality public Parameter stateDependentCausality Indicate whether input/output dependencies can depend on the state. By default, this is false (the defau"
+    },
+    {
+      "chunk_id": 132,
+      "text": "the state. By default, this is false (the default), indicating that a conservative dependency is provided by the causality interface. Specifically, if there is a dependency in any state, then the causality interface indicates that there is a"
+    },
+    {
+      "chunk_id": 133,
+      "text": "he causality interface indicates that there is a dependency. If this is true, then a less conservative dependency is provided, indicating a dependency only if there can be one in the current state. If this is true, then upon any state transi"
+    },
+    {
+      "chunk_id": 134,
+      "text": "te. If this is true, then upon any state transition, this actor issues a change request, which forces causality analysis to be redone. Note that this can be expensive. _currentState protected State _currentState Current state. _disabledRefinemen"
+    },
+    {
+      "chunk_id": 135,
+      "text": "te _currentState Current state. _disabledRefinements protected java.util.Set< Actor > _disabledRefinements State and transition refinements that have returned false in postfire(). _initializables protected transient java.util.List< Initializable > _i"
+    },
+    {
+      "chunk_id": 136,
+      "text": "ected transient java.util.List< Initializable > _initializables List of objects whose (pre)initialize() and wrapup() methods should be slaved to these. _inputTokenMap protected java.util.Map _inputTokenMap A map from ports to corresponding input va"
+    },
+    {
+      "chunk_id": 137,
+      "text": "okenMap A map from ports to corresponding input variables. _lastChosenTransition protected Transition _lastChosenTransition The most recently chosen transition within the fire() method. _lastChosenTransitions protected java.util.HashMap< State , Tran"
+    },
+    {
+      "chunk_id": 138,
+      "text": "nsitions protected java.util.HashMap< State , Transition > _lastChosenTransitions The last chosen transitions, by state from which these transitions emerge. _lastTakenTransitions protected java.util.List< Transition > _lastTakenTransitions The last t"
+    },
+    {
+      "chunk_id": 139,
+      "text": "ist< Transition > _lastTakenTransitions The last taken transitions, by state from which these transitions emerge. _stateRefinementsToPostfire protected java.util.List< Actor > _stateRefinementsToPostfire State refinements to postfire(), as determined"
+    },
+    {
+      "chunk_id": 140,
+      "text": "ire State refinements to postfire(), as determined by the fire() method. _stopRequested protected boolean _stopRequested Indicator that a stop has been requested by a call to stop(). _initialState State _initialState The initial state. This is packag"
+    },
+    {
+      "chunk_id": 141,
+      "text": "te _initialState The initial state. This is package friendly so that State can access it. Constructor Detail FSMActor public FSMActor() Construct an FSMActor in the default workspace with an empty string as its name. Add the actor to the workspac"
+    },
+    {
+      "chunk_id": 142,
+      "text": "tring as its name. Add the actor to the workspace directory. Increment the version number of the workspace. FSMActor public FSMActor( CompositeEntity container, java.lang.String name) throws IllegalActionException , NameD"
+    },
+    {
+      "chunk_id": 143,
+      "text": "me) throws IllegalActionException , NameDuplicationException Create an FSMActor in the specified container with the specified name. The name must be unique within the container or an exception is thrown. The container argument must not b"
+    },
+    {
+      "chunk_id": 144,
+      "text": "ion is thrown. The container argument must not be null, or a NullPointerException will be thrown. Parameters: container - The container. name - The name of this actor within the container. Throws: IllegalActionException - If the entity cannot be"
+    },
+    {
+      "chunk_id": 145,
+      "text": "IllegalActionException - If the entity cannot be contained by the proposed container. NameDuplicationException - If the name coincides with an entity already in the container. FSMActor public FSMActor( Workspace workspace) Construct an FSMActo"
+    },
+    {
+      "chunk_id": 146,
+      "text": "SMActor( Workspace workspace) Construct an FSMActor in the specified workspace with an empty string as its name. You can then change the name with setName(). If the workspace argument is null, then use the default workspace. Add the actor to th"
+    },
+    {
+      "chunk_id": 147,
+      "text": "n use the default workspace. Add the actor to the workspace directory. Increment the version number of the workspace. Parameters: workspace - The workspace that will list the actor. Method Detail addChosenTransition public void addChosenTransitio"
+    },
+    {
+      "chunk_id": 148,
+      "text": "addChosenTransition public void addChosenTransition( State state, Transition transition) throws IllegalActionException Add a chosen transition to the set of chosen transitions. There may be more than one chosen transition b"
+    },
+    {
+      "chunk_id": 149,
+      "text": ". There may be more than one chosen transition because the destination state of a chosen transition may have immediate transitions emerging from it. Parameters: state - The state that has the last chosen transition. transition - The last chosen"
+    },
+    {
+      "chunk_id": 150,
+      "text": "st chosen transition. transition - The last chosen transition. Throws: IllegalActionException - If there is already a chosen transition associated with the specified state and it is not the same transition. See Also: getLastChosenTransitions()"
+    },
+    {
+      "chunk_id": 151,
+      "text": "transition. See Also: getLastChosenTransitions() addInitializable public void addInitializable( Initializable initializable) Add the specified object to the list of objects whose preinitialize(), initialize(), and wrapup() methods should be invo"
+    },
+    {
+      "chunk_id": 152,
+      "text": "nitialize(), and wrapup() methods should be invoked upon invocation of the corresponding methods of this object. Specified by: addInitializable in interface Initializable Parameters: initializable - The object whose methods should be invoked. See"
+    },
+    {
+      "chunk_id": 153,
+      "text": "- The object whose methods should be invoked. See Also: removeInitializable(Initializable) , CompositeActor.addPiggyback(Executable) attributeChanged public void attributeChanged( Attribute attribute) throws IllegalActionExcept"
+    },
+    {
+      "chunk_id": 154,
+      "text": ") throws IllegalActionException If the attribute is seed then create the base random number generator. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that changed. Throws: IllegalActionExcept"
+    },
+    {
+      "chunk_id": 155,
+      "text": "ttribute that changed. Throws: IllegalActionException - If the change is not acceptable to this container (not thrown in this base class). isBackwardTypeInferenceEnabled public boolean isBackwardTypeInferenceEnabled() Return false because backward"
+    },
+    {
+      "chunk_id": 156,
+      "text": "peInferenceEnabled() Return false because backward type inference is not implemented for this actor. Specified by: isBackwardTypeInferenceEnabled in interface TypedActor Returns: false clone public java.lang.Object clone( Workspace workspace)"
+    },
+    {
+      "chunk_id": 157,
+      "text": "java.lang.Object clone( Workspace workspace) throws java.lang.CloneNotSupportedException Clone the actor into the specified workspace. This calls the base class and then sets the attribute public members to refer to the att"
+    },
+    {
+      "chunk_id": 158,
+      "text": "the attribute public members to refer to the attributes of the new actor. Overrides: clone in class CompositeEntity Parameters: workspace - The workspace for the new actor. Returns: A new FSMActor. Throws: java.lang.CloneNotSupportedException - If"
+    },
+    {
+      "chunk_id": 159,
+      "text": "Throws: java.lang.CloneNotSupportedException - If a derived class contains an attribute that cannot be cloned. See Also: NamedObj.exportMoML(Writer, int, String) , NamedObj.setDeferringChangeRequests(boolean) createReceivers public void createRece"
+    },
+    {
+      "chunk_id": 160,
+      "text": "ts(boolean) createReceivers public void createReceivers() throws IllegalActionException Create receivers for each input port. In case the receivers don't need to be created they are reset Specified by: createReceivers in interf"
+    },
+    {
+      "chunk_id": 161,
+      "text": "are reset Specified by: createReceivers in interface Actor Throws: IllegalActionException - If any port throws it. See Also: AtomicActor.createReceivers() , CompositeActor.createReceivers() currentState public State currentState() Return the current"
+    },
+    {
+      "chunk_id": 162,
+      "text": "ate public State currentState() Return the current state of this actor. Returns: The current state of this actor. enabledTransitions public java.util.List enabledTransitions(java.util.List transitionList, bool"
+    },
+    {
+      "chunk_id": 163,
+      "text": "ist, boolean preemptive, boolean immediateOnly) throws IllegalActionException Return a list of enabled transitions among the given lis"
+    },
+    {
+      "chunk_id": 164,
+      "text": "a list of enabled transitions among the given list of transitions. This includes all transitions whose guards can can be evaluated and evaluate to true, plus, if all guards can be evaluated and evaluate to false, all default transitions. After"
+    },
+    {
+      "chunk_id": 165,
+      "text": "evaluate to false, all default transitions. After calling this method, you can call foundUnknown() to determine whether any guard expressions were found in the specified transition list that referred to input ports that are not currently known"
+    },
+    {
+      "chunk_id": 166,
+      "text": "ferred to input ports that are not currently known. Parameters: transitionList - A list of transitions. preemptive - True to consider only preemptive transitions, false to consider only non-preemptive transitions. immediateOnly - True to consider"
+    },
+    {
+      "chunk_id": 167,
+      "text": "ive transitions. immediateOnly - True to consider only immediate transitions, false to consider both immediate and non-immediate transitions. Returns: A list of enabled transition. Throws: IllegalActionException - If the guard expression of any"
+    },
+    {
+      "chunk_id": 168,
+      "text": "ctionException - If the guard expression of any transition can not be evaluated. exportSubmodel public void exportSubmodel(java.io.Writer output, int depth, java.lang.String name)"
+    },
+    {
+      "chunk_id": 169,
+      "text": "java.lang.String name) throws java.io.IOException Write this FSMActor into the output writer as a submodel. All refinements of the events in this FSMActor will be exported as configurations of those events, not as"
+    },
+    {
+      "chunk_id": 170,
+      "text": "ported as configurations of those events, not as composite entities belonging to the closest modal model. Parameters: output - The output stream to write to. depth - The depth in the hierarchy, to determine indenting. name - The name to use in th"
+    },
+    {
+      "chunk_id": 171,
+      "text": "determine indenting. name - The name to use in the exported MoML. Throws: java.io.IOException - If an I/O error occurs. fire public void fire() throws IllegalActionException Set the values of input variables. Choose the enabled transition"
+    },
+    {
+      "chunk_id": 172,
+      "text": "of input variables. Choose the enabled transition among the outgoing transitions of the current state. Throw an exception if there is more than one transition enabled. Otherwise, execute the output actions contained by the chosen transition."
+    },
+    {
+      "chunk_id": 173,
+      "text": "put actions contained by the chosen transition. Specified by: fire in interface Executable Throws: IllegalActionException - If there is more than one transition enabled. foundUnknown public boolean foundUnknown() Return true if the most recent c"
+    },
+    {
+      "chunk_id": 174,
+      "text": "an foundUnknown() Return true if the most recent call to enabledTransition() or chooseTransition() found guard expressions or output value expressions that could not be evaluated due to unknown inputs. Specifically, after calling enabledTransit"
+    },
+    {
+      "chunk_id": 175,
+      "text": "puts. Specifically, after calling enabledTransitions(List, boolean, boolean) , call this method to see whether there were guard expressions in the specified list that could not be evaluated. After calling _chooseTransitions(List, boolean, boo"
+    },
+    {
+      "chunk_id": 176,
+      "text": "er calling _chooseTransitions(List, boolean, boolean, boolean, boolean) , call this to determine whether any guard expressions or output value expressions on a transition whose guard evaluates to true were found in the specified transition li"
+    },
+    {
+      "chunk_id": 177,
+      "text": "o true were found in the specified transition list that referred to input ports that are not currently known. Returns: True If guards or output value expressions could not be evaluated. getCausalityInterface public CausalityInterface getCausal"
+    },
+    {
+      "chunk_id": 178,
+      "text": "alityInterface public CausalityInterface getCausalityInterface() Return a causality interface for this actor. This method returns an instance of class FSMCausalityInterface if the enclosing director returns true in its implementsStrictActorSemant"
+    },
+    {
+      "chunk_id": 179,
+      "text": "returns true in its implementsStrictActorSemantics() method. Otherwise, it returns an interface of class DefaultCausalityInterface . Specified by: getCausalityInterface in interface Actor Returns: A representation of the dependencies between inp"
+    },
+    {
+      "chunk_id": 180,
+      "text": ": A representation of the dependencies between input ports and output ports. getContext public Entity getContext() Return the change context being made explicit. This class returns this. Specified by: getContext in interface ExplicitChangeContex"
+    },
+    {
+      "chunk_id": 181,
+      "text": "d by: getContext in interface ExplicitChangeContext Returns: The change context being made explicit getDirector public Director getDirector() Return the director responsible for the execution of this actor. In this class, this is always the executi"
+    },
+    {
+      "chunk_id": 182,
+      "text": "actor. In this class, this is always the executive director. Return null if either there is no container or the container has no director. Specified by: getDirector in interface Actor Returns: The director that invokes this actor. getExecutiveD"
+    },
+    {
+      "chunk_id": 183,
+      "text": "he director that invokes this actor. getExecutiveDirector public Director getExecutiveDirector() Return the executive director (same as getDirector()). Specified by: getExecutiveDirector in interface Actor Returns: The executive director. getInitialS"
+    },
+    {
+      "chunk_id": 184,
+      "text": "Actor Returns: The executive director. getInitialState public State getInitialState() throws IllegalActionException Return the initial state of this actor. The initial state is the unique state with its isInitialState paramete"
+    },
+    {
+      "chunk_id": 185,
+      "text": "the unique state with its isInitialState parameter set to true. An exception is thrown if this actor does not contain an initial state. This method is read-synchronized on the workspace. Returns: The initial state of this actor. Throws: Illega"
+    },
+    {
+      "chunk_id": 186,
+      "text": "s: The initial state of this actor. Throws: IllegalActionException - If this actor does not contain a state with the specified name. getLastChosenTransition @Deprecated public Transition getLastChosenTransition() Deprecated. Use getLastChosenTrans"
+    },
+    {
+      "chunk_id": 187,
+      "text": "senTransition() Deprecated. Use getLastChosenTransitions() instead. Get the last chosen transition from the current state. Note that this does not include chosen immediate transitions from the destination of the returned transition. Returns: The"
+    },
+    {
+      "chunk_id": 188,
+      "text": "tination of the returned transition. Returns: The last chosen transition from the current state. See Also: setLastChosenTransition(Transition) getLastChosenTransitions public java.util.Map< State , Transition > getLastChosenTransitions() Get the last"
+    },
+    {
+      "chunk_id": 189,
+      "text": "ansition > getLastChosenTransitions() Get the last chosen transitions. Returns: A map of last chosen transitions. See Also: addChosenTransition(State,Transition) getLastTakenTransitions public java.util.List< Transition > getLastTakenTransitions() Ge"
+    },
+    {
+      "chunk_id": 190,
+      "text": "il.List< Transition > getLastTakenTransitions() Get the last taken transitions. Returns: A list of last taken transition. See Also: setLastChosenTransition(Transition) getManager public Manager getManager() Return the Manager responsible for executio"
+    },
+    {
+      "chunk_id": 191,
+      "text": "ager() Return the Manager responsible for execution of this actor, if there is one. Otherwise, return null. Specified by: getManager in interface Actor Returns: The manager. getModifiedVariables public java.util.List getModifiedVariables()"
+    },
+    {
+      "chunk_id": 192,
+      "text": "lic java.util.List getModifiedVariables() throws IllegalActionException Return a list of variables that this entity modifies. The variables are assumed to have a change context of the given entity. This method"
+    },
+    {
+      "chunk_id": 193,
+      "text": "change context of the given entity. This method returns the destinations of all choice and commit identifiers that are deeply contained by this actor. Note that this actor is also used as the controller of modal models and FSMDirector reports de"
+    },
+    {
+      "chunk_id": 194,
+      "text": "roller of modal models and FSMDirector reports destinations of all choice and commit identifiers, even those not contained by the finite state machine. Specified by: getModifiedVariables in interface ExplicitChangeContext Returns: A list of variab"
+    },
+    {
+      "chunk_id": 195,
+      "text": "ce ExplicitChangeContext Returns: A list of variables. Throws: IllegalActionException - If a valid destination object can not be found. See Also: FSMDirector.getModifiedVariables() getPortScope public ParserScope getPortScope() Return a scope object"
+    },
+    {
+      "chunk_id": 196,
+      "text": "c ParserScope getPortScope() Return a scope object that has current values from input ports of this FSMActor in scope. This scope is used to evaluate guard expressions and set and output actions. Returns: A scope object that has current values f"
+    },
+    {
+      "chunk_id": 197,
+      "text": "Returns: A scope object that has current values from input ports of this FSMActor in scope. handleModelError public boolean handleModelError( NamedObj context, IllegalActionException exception) throws IllegalActionExceptio"
+    },
+    {
+      "chunk_id": 198,
+      "text": "throws IllegalActionException Handle a model error. Specified by: handleModelError in interface ModelErrorHandler Overrides: handleModelError in class NamedObj Parameters: context - The object in which the error occurred. except"
+    },
+    {
+      "chunk_id": 199,
+      "text": "t - The object in which the error occurred. exception - An exception that represents the error. Returns: True if the error has been handled, or false if the error is not handled. Throws: IllegalActionException - If the handler handles the error"
+    },
+    {
+      "chunk_id": 200,
+      "text": "ionException - If the handler handles the error by throwing an exception. See Also: NamedObj.setModelErrorHandler(ModelErrorHandler handler) hasInput public boolean hasInput() Test whether new input tokens have been received at the input ports. Re"
+    },
+    {
+      "chunk_id": 201,
+      "text": "t tokens have been received at the input ports. Returns: true if new input tokens have been received. hasInput public boolean hasInput( Port port) Test whether new input tokens have been received at the given input port. Parameters: port - The inpu"
+    },
+    {
+      "chunk_id": 202,
+      "text": "he given input port. Parameters: port - The input port. Returns: true if new input tokens have been received. initialize public void initialize() throws IllegalActionException Initialize this actor by setting the current state to th"
+    },
+    {
+      "chunk_id": 203,
+      "text": "lize this actor by setting the current state to the initial state. Specified by: initialize in interface Initializable Throws: IllegalActionException - If a derived class throws it. inputPortList public java.util.List inputPortList() Return a list"
+    },
+    {
+      "chunk_id": 204,
+      "text": "blic java.util.List inputPortList() Return a list of the input ports. This method is read-synchronized on the workspace. Specified by: inputPortList in interface Actor Returns: A list of input IOPort objects. isFireFunctional public boolean isFireF"
+    },
+    {
+      "chunk_id": 205,
+      "text": "t objects. isFireFunctional public boolean isFireFunctional() Return false. During the fire() method, if a transition is enabled, it will be taken and the actions associated with this transition are executed. We assume the actions will change sta"
+    },
+    {
+      "chunk_id": 206,
+      "text": "executed. We assume the actions will change states of this actor. Specified by: isFireFunctional in interface Executable Returns: False. isOpaque public boolean isOpaque() Return true. Overrides: isOpaque in class CompositeEntity Returns: True. Se"
+    },
+    {
+      "chunk_id": 207,
+      "text": "sOpaque in class CompositeEntity Returns: True. See Also: CompositeEntity isStrict public boolean isStrict() throws IllegalActionException Return false. This actor checks inputs to see whether they are known before evaluating guard"
+    },
+    {
+      "chunk_id": 208,
+      "text": "e whether they are known before evaluating guards, so it can fired even if it has unknown inputs. Specified by: isStrict in interface Executable Returns: False. Throws: IllegalActionException - Not thrown in this base class. iterate public int it"
+    },
+    {
+      "chunk_id": 209,
+      "text": "t thrown in this base class. iterate public int iterate(int count) throws IllegalActionException Invoke a specified number of iterations of the actor. An iteration is equivalent to invoking prefire(), fire(), and postfire(), in that o"
+    },
+    {
+      "chunk_id": 210,
+      "text": "ing prefire(), fire(), and postfire(), in that order. In an iteration, if prefire() returns true, then fire() will be called once, followed by postfire(). Otherwise, if prefire() returns false, fire() and postfire() are not invoked, and this"
+    },
+    {
+      "chunk_id": 211,
+      "text": "fire() and postfire() are not invoked, and this method returns NOT_READY. If postfire() returns false, then no more iterations are invoked, and this method returns STOP_ITERATING. Otherwise, it returns COMPLETED. If stop() is called while t"
+    },
+    {
+      "chunk_id": 212,
+      "text": "t returns COMPLETED. If stop() is called while this is executing, then cease executing and return STOP_ITERATING. Specified by: iterate in interface Executable Parameters: count - The number of iterations to perform. Returns: NOT_READY, STOP_ITERAT"
+    },
+    {
+      "chunk_id": 213,
+      "text": "ations to perform. Returns: NOT_READY, STOP_ITERATING, or COMPLETED. Throws: IllegalActionException - If iterating is not permitted, or if prefire(), fire(), or postfire() throw it. newPort public Port newPort(java.lang.String name) t"
+    },
+    {
+      "chunk_id": 214,
+      "text": "Port newPort(java.lang.String name) throws NameDuplicationException Create a new TypedIOPort with the specified name. The container of the port is set to this actor. This method is write-synchronized on the workspace. Overrides: newP"
+    },
+    {
+      "chunk_id": 215,
+      "text": "ite-synchronized on the workspace. Overrides: newPort in class ComponentEntity Parameters: name - The name for the new port. Returns: The new port. Throws: NameDuplicationException - If the actor already has a port with the specified name. newRece"
+    },
+    {
+      "chunk_id": 216,
+      "text": "ady has a port with the specified name. newReceiver public Receiver newReceiver() throws IllegalActionException Return a new receiver obtained from the director. Specified by: newReceiver in interface Actor Returns: A new obje"
+    },
+    {
+      "chunk_id": 217,
+      "text": "newReceiver in interface Actor Returns: A new object implementing the Receiver interface. Throws: IllegalActionException - If there is no director. newRelation public ComponentRelation newRelation(java.lang.String name)"
+    },
+    {
+      "chunk_id": 218,
+      "text": "a.lang.String name) throws IllegalActionException , NameDuplicationException Create a new instance of Transition with the specified name in this actor, and return it. This method is write-synchronized on the workspac"
+    },
+    {
+      "chunk_id": 219,
+      "text": "This method is write-synchronized on the workspace. Overrides: newRelation in class CompositeEntity Parameters: name - The name of the new transition. Returns: A transition with the given name. Throws: IllegalActionException - If the name argument i"
+    },
+    {
+      "chunk_id": 220,
+      "text": "s: IllegalActionException - If the name argument is null. NameDuplicationException - If name collides with that of a transition already in this actor. outputPortList public java.util.List outputPortList() Return a list of the output ports. This"
+    },
+    {
+      "chunk_id": 221,
+      "text": "tList() Return a list of the output ports. This method is read-synchronized on the workspace. Specified by: outputPortList in interface Actor Returns: A list of output IOPort objects. postfire public boolean postfire() throws Illeg"
+    },
+    {
+      "chunk_id": 222,
+      "text": "c boolean postfire() throws IllegalActionException Execute actions on the last chosen transition. Change state to the destination state of the last chosen transition. Specified by: postfire in interface Executable Returns: True, un"
+    },
+    {
+      "chunk_id": 223,
+      "text": "postfire in interface Executable Returns: True, unless stop() has been called, in which case, false. Throws: IllegalActionException - If any action throws it. prefire public boolean prefire() throws IllegalActionException Return true."
+    },
+    {
+      "chunk_id": 224,
+      "text": "throws IllegalActionException Return true. Specified by: prefire in interface Executable Returns: True. Throws: IllegalActionException - Not thrown in this base class. preinitialize public void preinitialize() throws Illega"
+    },
+    {
+      "chunk_id": 225,
+      "text": "d preinitialize() throws IllegalActionException Create receivers and input variables for the input ports of this actor, and validate attributes of this actor, and attributes of the ports of this actor. Set current state to th"
+    },
+    {
+      "chunk_id": 226,
+      "text": "the ports of this actor. Set current state to the initial state. Specified by: preinitialize in interface Initializable Throws: IllegalActionException - If this actor does not contain an initial state. readInputs public void readInputs()"
+    },
+    {
+      "chunk_id": 227,
+      "text": "state. readInputs public void readInputs() throws IllegalActionException Set the value of the shadow variables for input ports of this actor. This method skips over ports that connected to outputs of a refinement. Throws: IllegalAct"
+    },
+    {
+      "chunk_id": 228,
+      "text": "ted to outputs of a refinement. Throws: IllegalActionException - If a shadow variable cannot take the token read from its corresponding channel (should not occur). readOutputsFromRefinement public void readOutputsFromRefinement()"
+    },
+    {
+      "chunk_id": 229,
+      "text": "void readOutputsFromRefinement() throws IllegalActionException Set the input variables for channels that are connected to an output port of the refinement of current state. Throws: IllegalActionException - If a value"
+    },
+    {
+      "chunk_id": 230,
+      "text": "tate. Throws: IllegalActionException - If a value variable cannot take the token read from its corresponding channel. removeInitializable public void removeInitializable( Initializable initializable) Remove the specified object from the list of ob"
+    },
+    {
+      "chunk_id": 231,
+      "text": "e) Remove the specified object from the list of objects whose preinitialize(), initialize(), and wrapup() methods should be invoked upon invocation of the corresponding methods of this object. If the specified object is not on the list, do no"
+    },
+    {
+      "chunk_id": 232,
+      "text": "f the specified object is not on the list, do nothing. Specified by: removeInitializable in interface Initializable Parameters: initializable - The object whose methods should no longer be invoked. See Also: addInitializable(Initializable) , Compos"
+    },
+    {
+      "chunk_id": 233,
+      "text": "See Also: addInitializable(Initializable) , CompositeActor.removePiggyback(Executable) reset public void reset() throws IllegalActionException Reset current state to the initial state. Throws: IllegalActionException - If thrown while get"
+    },
+    {
+      "chunk_id": 234,
+      "text": "ws: IllegalActionException - If thrown while getting the initial state or setting the current connection map. setLastChosenTransition @Deprecated public void setLastChosenTransition( Transition transition) Deprecated. Use addChosenTransition(State,"
+    },
+    {
+      "chunk_id": 235,
+      "text": "sition) Deprecated. Use addChosenTransition(State, Transition) Set the last chosen transition. Note that this erases any previously set chosen transitions and makes the specified transition the only chosen transition, ignoring immediate transit"
+    },
+    {
+      "chunk_id": 236,
+      "text": "ly chosen transition, ignoring immediate transitions that this might lead to. Parameters: transition - The last chosen transition. See Also: getLastChosenTransition() setNewIteration public void setNewIteration(boolean newIteration) Set the flag in"
+    },
+    {
+      "chunk_id": 237,
+      "text": "NewIteration(boolean newIteration) Set the flag indicating whether we are at the start of a new iteration (firing). Normally, the flag is set to true. It is only set to false in HDF. Parameters: newIteration - A boolean variable indicating wheth"
+    },
+    {
+      "chunk_id": 238,
+      "text": "newIteration - A boolean variable indicating whether this is a new iteration. setSupportMultirate public void setSupportMultirate(boolean supportMultirate) Set true indicating that this actor supports multirate firing. Parameters: supportMultirate"
+    },
+    {
+      "chunk_id": 239,
+      "text": "ts multirate firing. Parameters: supportMultirate - A boolean variable indicating whether this actor supports multirate firing. stop public void stop() Request that execution of the current iteration stop as soon as possible. In this class, we s"
+    },
+    {
+      "chunk_id": 240,
+      "text": "n stop as soon as possible. In this class, we set a flag indicating that this request has been made (the protected variable _stopRequested). This will result in postfire() returning false. Specified by: stop in interface Executable stopFire pu"
+    },
+    {
+      "chunk_id": 241,
+      "text": "ified by: stop in interface Executable stopFire public void stopFire() Do nothing. Specified by: stopFire in interface Executable terminate public void terminate() Call stop(). Specified by: terminate in interface Executable typeConstraints public ja"
+    },
+    {
+      "chunk_id": 242,
+      "text": "in interface Executable typeConstraints public java.util.Set< Inequality > typeConstraints() Return the type constraints of this actor. The constraints have the form of a set of inequalities. This method first creates constraints such that the t"
+    },
+    {
+      "chunk_id": 243,
+      "text": "method first creates constraints such that the type of any input port that does not have its type declared must be less than or equal to the type of any output port that does not have its type declared. Type constraints from the contained Typ"
+    },
+    {
+      "chunk_id": 244,
+      "text": "declared. Type constraints from the contained Typeables (ports, variables, and parameters) are collected. In addition, type constraints from all the transitions are added. These constraints are determined by the guard and trigger expressions"
+    },
+    {
+      "chunk_id": 245,
+      "text": "determined by the guard and trigger expressions of transitions, and actions contained by the transitions. This method is read-synchronized on the workspace. Specified by: typeConstraints in interface TypedActor Returns: A list of inequalities. S"
+    },
+    {
+      "chunk_id": 246,
+      "text": "face TypedActor Returns: A list of inequalities. See Also: Inequality wasTransitionTaken public boolean wasTransitionTaken() Return true if a transition was taken in the previous iteration, or if this is before the first iteration concludes, true"
+    },
+    {
+      "chunk_id": 247,
+      "text": "is is before the first iteration concludes, true if during initialize an immediate transition was taken. Returns: True if a transition was taken. wrapup public void wrapup() throws IllegalActionException Do nothing except invoke the wra"
+    },
+    {
+      "chunk_id": 248,
+      "text": "alActionException Do nothing except invoke the wrapup method of any objects that have been added using addInitializable(). Derived classes override this method to define operations to be performed exactly once at the end of a complete executi"
+    },
+    {
+      "chunk_id": 249,
+      "text": "ed exactly once at the end of a complete execution of an application. It typically closes files, displays final results, etc. Specified by: wrapup in interface Initializable Throws: IllegalActionException - Not thrown in this base class. _addEnt"
+    },
+    {
+      "chunk_id": 250,
+      "text": "Exception - Not thrown in this base class. _addEntity protected void _addEntity( ComponentEntity entity) throws IllegalActionException , NameDuplicationException Add a state to this FSMActor. This overrides the base-class method"
+    },
+    {
+      "chunk_id": 251,
+      "text": "FSMActor. This overrides the base-class method to make sure the argument is an instance of State. This method is not synchronized on the workspace, so the caller should be. Overrides: _addEntity in class CompositeEntity Parameters: entity - St"
+    },
+    {
+      "chunk_id": 252,
+      "text": "y in class CompositeEntity Parameters: entity - State to contain. Throws: IllegalActionException - If the state has no name, or the action would result in a recursive containment structure, or the argument is not an instance of State. NameDupli"
+    },
+    {
+      "chunk_id": 253,
+      "text": "argument is not an instance of State. NameDuplicationException - If the name collides with a name already on the state list. _addRelation protected void _addRelation( ComponentRelation relation) throws IllegalActionExceptio"
+    },
+    {
+      "chunk_id": 254,
+      "text": "throws IllegalActionException , NameDuplicationException Add a transition to this FSMActor. This method should not be used directly. Call the setContainer() method of the transition instead. This method does not set the con"
+    },
+    {
+      "chunk_id": 255,
+      "text": "sition instead. This method does not set the container of the transition to refer to this container. This method is not synchronized on the workspace, so the caller should be. Overrides: _addRelation in class CompositeEntity Parameters: relatio"
+    },
+    {
+      "chunk_id": 256,
+      "text": "ation in class CompositeEntity Parameters: relation - Transition to contain. Throws: IllegalActionException - If the transition has no name, or is not an instance of Transition. NameDuplicationException - If the name collides with a name alread"
+    },
+    {
+      "chunk_id": 257,
+      "text": "ption - If the name collides with a name already on the contained transitions list. _areAllImmediateTransitionsDisabled protected boolean _areAllImmediateTransitionsDisabled( State state) throws Illeg"
+    },
+    {
+      "chunk_id": 258,
+      "text": "throws IllegalActionException Return true if all immediate transitions from the specified state have guards that can be evaluated and that evaluate to false. Note that this will return true if there are no"
+    },
+    {
+      "chunk_id": 259,
+      "text": "Note that this will return true if there are no immediate transitions. Parameters: state - The state to check for immediate transitions. Returns: true If there are no immediate transitions or if they are all disabled. Throws: IllegalActionExcept"
+    },
+    {
+      "chunk_id": 260,
+      "text": "they are all disabled. Throws: IllegalActionException - If the guard expression cannot be parsed or if it cannot yet be evaluated. _chooseTransitions protected void _chooseTransitions(java.util.List< Transition > transitionList,"
+    },
+    {
+      "chunk_id": 261,
+      "text": "< Transition > transitionList, boolean preemptive, boolean immediateOnly, boolean inInitialize, boolean inPreiniti"
+    },
+    {
+      "chunk_id": 262,
+      "text": "boolean inPreinitialize) throws IllegalActionException Choose zero or more transitions enabled in the current state from the list of specified transitions. This method follows chains of i"
+    },
+    {
+      "chunk_id": 263,
+      "text": "ied transitions. This method follows chains of immediate transitions, if there are any. As a side effect, the controller's _lastChosenTransitions protected variable will contain the chosen transitions. Parameters: transitionList - The candidate"
+    },
+    {
+      "chunk_id": 264,
+      "text": "itions. Parameters: transitionList - The candidate transitions. preemptive - True to consider only preemptive transitions, and false to consider only non-preemptive transitions. immediateOnly - If true, look only at immediate transitions from t"
+    },
+    {
+      "chunk_id": 265,
+      "text": "true, look only at immediate transitions from the current state. Otherwise, look at both immediate and non-immediate transitions. inInitialize - True when this method is called from initialize or preinitialize, in which case, firing and init"
+    },
+    {
+      "chunk_id": 266,
+      "text": "e or preinitialize, in which case, firing and initializing refinements is not allowed; note that the refinements will be initialized by the initialize method, but this prevents them from being initialized more than once. This could be imp"
+    },
+    {
+      "chunk_id": 267,
+      "text": "g initialized more than once. This could be important if, for example, the refinement produces an output during initialize in a domain where outputs are consumed, such as SDF. inPreinitialize - True if this is being called in preinitializ"
+    },
+    {
+      "chunk_id": 268,
+      "text": "- True if this is being called in preinitialize. Outputs must not be produced in preinitialize, so we don't execute output actions if this argument is true. Throws: IllegalActionException - If something goes wrong. _destinationState protected"
+    },
+    {
+      "chunk_id": 269,
+      "text": "something goes wrong. _destinationState protected State _destinationState() throws IllegalActionException Return the chosen destination state. This method follows the chain of chosen transitions from the current state t"
+    },
+    {
+      "chunk_id": 270,
+      "text": "n of chosen transitions from the current state to the new state, possibly traversing several immediate transitions. Returns: The state that will be the current state after all chosen transitions are taken, or null if there are no chosen tra"
+    },
+    {
+      "chunk_id": 271,
+      "text": "s are taken, or null if there are no chosen transitions. Throws: IllegalActionException - If no controller is found. _getChannelForIdentifier protected int _getChannelForIdentifier(java.lang.String identifier) throw"
+    },
+    {
+      "chunk_id": 272,
+      "text": "identifier) throws IllegalActionException Given an identifier, return a channel number i if the identifier is of the form portName_i, portName_i_isPresent, portName_iArray. Otherwise, return -1. Parameters: identi"
+    },
+    {
+      "chunk_id": 273,
+      "text": "iArray. Otherwise, return -1. Parameters: identifier - An identifier. Returns: A channel index, if the identifier refers to one. Throws: IllegalActionException - If getting the width of the port fails. _getPortForIdentifier protected IOPort _getPor"
+    },
+    {
+      "chunk_id": 274,
+      "text": "ls. _getPortForIdentifier protected IOPort _getPortForIdentifier(java.lang.String identifier) throws IllegalActionException Get the port for the specified identifier, which may be of form portName, portName_isPresent"
+    },
+    {
+      "chunk_id": 275,
+      "text": "hich may be of form portName, portName_isPresent, portName_i, portName_i_isPresent, etc. Parameters: identifier - The specified identifier. Returns: The port that corresponds with the specified identifier. Throws: IllegalActionException - If gett"
+    },
+    {
+      "chunk_id": 276,
+      "text": "entifier. Throws: IllegalActionException - If getting the width of the port fails. _getStateRefinementsToPostfire protected java.util.List< Actor > _getStateRefinementsToPostfire() Return the list used to keep track of refinements that have been fi"
+    },
+    {
+      "chunk_id": 277,
+      "text": "d to keep track of refinements that have been fired. This is protected so that FSMDirector can mirror it with its own protected method so that subclasses of FSMDirector can access it. Returns: A list of actors to postfire. _getTransitionRefinem"
+    },
+    {
+      "chunk_id": 278,
+      "text": "list of actors to postfire. _getTransitionRefinementsToPostfire protected java.util.List< Actor > _getTransitionRefinementsToPostfire() Return the list used to keep track of refinements that have been fired. This is protected so that FSMDirector c"
+    },
+    {
+      "chunk_id": 279,
+      "text": "n fired. This is protected so that FSMDirector can mirror it with its own protected method so that subclasses of FSMDirector can access it. Returns: A list of actors to postfire. _initializeRefinements protected void _initializeRefinements( Sta"
+    },
+    {
+      "chunk_id": 280,
+      "text": "nements protected void _initializeRefinements( State state) throws IllegalActionException Initialize the refinements of the specified state. Parameters: state - The state. Throws: IllegalActionException - If initializat"
+    },
+    {
+      "chunk_id": 281,
+      "text": "e. Throws: IllegalActionException - If initialization fails. _isRefinementOutput protected boolean _isRefinementOutput( IOPort port, int channel) throws IllegalActionException Retur"
+    },
+    {
+      "chunk_id": 282,
+      "text": "throws IllegalActionException Return true if the channel of the port is connected to an output port of the refinement of current state. If the current state does not have refinement, return false. Parameters: port - An input port o"
+    },
+    {
+      "chunk_id": 283,
+      "text": ", return false. Parameters: port - An input port of this actor. channel - A channel of the input port. Returns: True if the channel of the port is connected to an output port of the refinement of current state. Throws: IllegalActionException - If"
+    },
+    {
+      "chunk_id": 284,
+      "text": "urrent state. Throws: IllegalActionException - If the refinement specified for one of the states is not valid. _isSafeToClear protected boolean _isSafeToClear( IOPort port, int channel, State state,"
+    },
+    {
+      "chunk_id": 285,
+      "text": "int channel, State state, boolean immediateOnly, java.util.HashSet< State > visitedStates) throws IllegalActionException Given an output port and cha"
+    },
+    {
+      "chunk_id": 286,
+      "text": "llegalActionException Given an output port and channel, determine whether the output port must be absent on the specified channel, given whatever current information about the inputs is available (the inputs may be known or unknown). The way th"
+    },
+    {
+      "chunk_id": 287,
+      "text": "(the inputs may be known or unknown). The way this works is that it examines all the outgoing transitions of the current state. If the guard on the transition can be evaluated to false, then as far as this transition is concerned, the output"
+    },
+    {
+      "chunk_id": 288,
+      "text": "far as this transition is concerned, the output port can be absent. Otherwise, two things happen. First, we check to see whether the output actions of a transition writes to the specified port. Second, we look at the destination state of the"
+    },
+    {
+      "chunk_id": 289,
+      "text": ". Second, we look at the destination state of the transition and examine all immediate transition emanating from that state. If none of the transitions makes an assignment to the output port, then we can safely assert that the output is absen"
+    },
+    {
+      "chunk_id": 290,
+      "text": "en we can safely assert that the output is absent, with one exception. If the output port already has a value, that value was probably set by another refinement. Thus, we should leave it alone. This method ignores any state refinements, and con"
+    },
+    {
+      "chunk_id": 291,
+      "text": "This method ignores any state refinements, and consequently its analysis is valid only if all state refinements also assert that the output is absent. Parameters: port - The IOPort in question. channel - The channel in question. state - The state"
+    },
+    {
+      "chunk_id": 292,
+      "text": "annel - The channel in question. state - The state whose transitions are examined. immediateOnly - True to examine only immediate transitions. visitedStates - The set of states already visited, or null if none have yet been visited. Returns: True,"
+    },
+    {
+      "chunk_id": 293,
+      "text": "l if none have yet been visited. Returns: True, if successful. Throws: IllegalActionException - If we cannot determine whether the port is known and absent. _readInputs protected void _readInputs( IOPort port, int cha"
+    },
+    {
+      "chunk_id": 294,
+      "text": "s( IOPort port, int channel) throws IllegalActionException Read tokens from the given channel of the given input port and make them accessible to the expressions of guards and transitions through the"
+    },
+    {
+      "chunk_id": 295,
+      "text": "xpressions of guards and transitions through the port scope. If the specified port is not an input port, then do nothing. Parameters: port - An input port of this actor. channel - A channel of the input port. Throws: IllegalActionException - If"
+    },
+    {
+      "chunk_id": 296,
+      "text": "e input port. Throws: IllegalActionException - If the port is not contained by this actor. _setCurrentConnectionMap protected void _setCurrentConnectionMap() throws IllegalActionException Set the map from input por"
+    },
+    {
+      "chunk_id": 297,
+      "text": "IllegalActionException Set the map from input ports to boolean flags indicating whether a channel is connected to an output port of the refinement of the current state. Throws: IllegalActionException - If the refinement specified for one of t"
+    },
+    {
+      "chunk_id": 298,
+      "text": "tion - If the refinement specified for one of the states is not valid. _setTimeForRefinement protected void _setTimeForRefinement( Actor refinement) throws IllegalActionException Set the refinements current time equal"
+    },
+    {
+      "chunk_id": 299,
+      "text": "onException Set the refinements current time equal to the matching environment, or if there is no environment, do nothing. Parameters: refinement - The refinement. Throws: IllegalActionException - If setModelTime() throws it. _schedule protected bo"
+    },
+    {
+      "chunk_id": 300,
+      "text": "f setModelTime() throws it. _schedule protected boolean _schedule( NamedObj actor, Time timestamp) throws IllegalActionException Schedule an actor for execution on a ExecutionAspect. If the actor can execute this method returns"
+    },
+    {
+      "chunk_id": 301,
+      "text": "ct. If the actor can execute this method returns true. If resources are not available this method returns false. Parameters: actor - The actor. timestamp - The time the actor requests to be scheduled. Returns: True if actor was scheduled and can"
+    },
+    {
+      "chunk_id": 302,
+      "text": "led. Returns: True if actor was scheduled and can be fired. Throws: IllegalActionException - Thrown if parameters cannot be read, actor cannot be scheduled or container cannot be fired at future time. _init protected void _init() Skip navigation l"
+    },
+    {
+      "chunk_id": 303,
+      "text": "me. _init protected void _init() Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    },
+    {
+      "chunk_id": 304,
+      "text": "tail: Field | Constr | Method"
+    }
+  ]
+}

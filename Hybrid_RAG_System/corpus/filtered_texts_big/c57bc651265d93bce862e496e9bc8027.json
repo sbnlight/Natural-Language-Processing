@@ -1,0 +1,177 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/1aAccessorsSpecification",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / 1aAccessorsSpecification Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / 1aAccessorsSpecification This page descri"
+    },
+    {
+      "chunk_id": 2,
+      "text": "rsion0 / 1aAccessorsSpecification This page describes the specification for version 0.1a accessors. It is a working document. For background on accessors, see the Accessors white paper . An accessor specification has up to four parts: an interface, d"
+    },
+    {
+      "chunk_id": 3,
+      "text": "pecification has up to four parts: an interface, documentation, functionality, and composition, as explained below. Known implementations of hosts supporting this specification are: Ptolemy II Accessor Host (see also auto-generated code documentation"
+    },
+    {
+      "chunk_id": 4,
+      "text": "r Host (see also auto-generated code documentation ) Accessors that are to be checked in the TerraSwarm accessors repository must follow the Ptolemy Coding Style , which includes the license and JSHint directives. However, it is not required that ac"
+    },
+    {
+      "chunk_id": 5,
+      "text": "t directives. However, it is not required that accessors include those features, so they are documented elsewhere. Below is a description of the minimal accessor. A minimal accessor that takes a numeric input, doubles it, and sends the result to an"
+    },
+    {
+      "chunk_id": 6,
+      "text": "eric input, doubles it, and sends the result to an output is given below: exports. setup = function ( ) { input ( 'input' ) ; output ( 'output' ) ; } ; exports. fire = function ( ) { send ( 'output' , get ( 'input' ) * 2 ) ; } ; [$[Get Code]] This ac"
+    },
+    {
+      "chunk_id": 7,
+      "text": "get ( 'input' ) * 2 ) ; } ; [$[Get Code]] This accessor has two of the four parts, an interface definition in the setup() function, and a specification of the function to be performed. In this case, the function is specified by defining a fire() fun"
+    },
+    {
+      "chunk_id": 8,
+      "text": "the function is specified by defining a fire() function, which will be invoked by the host whenever a new input is provided, and possibly at other times. To specify a function that is performed only exactly when a particular new input named 'input' i"
+    },
+    {
+      "chunk_id": 9,
+      "text": "xactly when a particular new input named 'input' is provided, use an input handler, as in this example: exports. setup = function ( ) { input ( 'input' ) ; output ( 'output' ) ; } ; exports. initialize = function ( ) { addInputHandler ( 'input' , fun"
+    },
+    {
+      "chunk_id": 10,
+      "text": "e = function ( ) { addInputHandler ( 'input' , function ( ) { send ( 'output' , get ( 'input' ) * 2 ) ; } ) ; } ; [$[Get Code]] In this case, the function to be performed is given by an input handler function. More interesting examples are found on t"
+    },
+    {
+      "chunk_id": 11,
+      "text": "function. More interesting examples are found on the TerraSwarm accessor repository . TO DO: Out of the box, JSLint and JSHint generate warnings for the above. We need to figure out how to ensure that it knows about top-level functions. This can be d"
+    },
+    {
+      "chunk_id": 12,
+      "text": "it knows about top-level functions. This can be done in the file by adding /*globals addInputHandler, get, send, removeInputHandler*/ , but this should not be required of accessor writers. Also, JSLint complains about strictness, which can be silen"
+    },
+    {
+      "chunk_id": 13,
+      "text": "int complains about strictness, which can be silenced by including 'use strict'; in the file. See JSHint for suggested code to include in each file. Interface An accessor interface specifies what it requires of an accessor host and what its inputs,"
+    },
+    {
+      "chunk_id": 14,
+      "text": "requires of an accessor host and what its inputs, outputs, and parameters are. An accessor interface definition may include the following elements in the accessor specification file: require : Modules required by the accessor. An exports.setup() func"
+    },
+    {
+      "chunk_id": 15,
+      "text": "required by the accessor. An exports.setup() function that can invoke the following functions: input : Specify an input to the accessor. output : Specify an output from the accessor. parameter : Specify a parameter for the accessor. implement : Decl"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ify a parameter for the accessor. implement : Declare that the accessor implements another interface. extend : Declare that the accessor extends another accessor. Documentation Documentation and metadata such as author, version, etc., are given using"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ata such as author, version, etc., are given using JSDoc tags in comments in the JavaScript accessor specification file. For example, the above minimal accessor might be documented as follows: /** Double the value provided at *input* and send to *out"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ble the value provided at *input* and send to *output*. * @accessor Minimal * @module Minimal * @author Edward A. Lee (eal@eecs.berkeley.edu) * @input {number} input A numeric input. * @output {number} output The output for the doubled valu"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ut {number} output The output for the doubled value. */ The main body of the documentation is given after the first /** in the accessor specification file. It can include any formatting commands supported by Markdown . For example, above, *input* wi"
+    },
+    {
+      "chunk_id": 20,
+      "text": "orted by Markdown . For example, above, *input* will be rendered in italics. The documentation may include any of the following tags, in alphabetic order: @accessor Name : The name of the accessor. This should be capitalized and should match the nam"
+    },
+    {
+      "chunk_id": 21,
+      "text": "his should be capitalized and should match the name of the accessor file (without the .js extension). This is an accessor-specific tag used by the JSDoc Ptdoc Plugin @author Author : The author(s) of the accessor. This is arbitrary text and may opti"
+    },
+    {
+      "chunk_id": 22,
+      "text": "the accessor. This is arbitrary text and may optionally include contact information. See the JSDoc @author documentation . @input {type} name : A description of the input with the specified name and an optional type. If the input has a default value"
+    },
+    {
+      "chunk_id": 23,
+      "text": "an optional type. If the input has a default value, that should be explained in the text. See JSDoc @type tag documentation for formatting of the type. This is an accessor-specific tag used by the JSDoc Ptdoc Plugin . @module Name : The name of the"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Doc Ptdoc Plugin . @module Name : The name of the accessor again, if the accessor is also available as a module. This is an accessor-specific tag used by the JSDoc Ptdoc Plugin . @output {type} name : A description of the output with the specified n"
+    },
+    {
+      "chunk_id": 25,
+      "text": ": A description of the output with the specified name and an optional type. This is an accessor-specific tag used by the JSDoc Ptdoc Plugin . @parameter {type} name : A description of the parameter with the specified name and an optional type. The d"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ith the specified name and an optional type. The default value should be explained in the text, if given. This is an accessor-specific tag used by the JSDoc Ptdoc Plugin . @version version : A version designator for the accessor. For example, if the"
+    },
+    {
+      "chunk_id": 27,
+      "text": "designator for the accessor. For example, if the accessor is stored under an SVN version control system, this might specify $$Id:$$ , which SVN will automatically replace with the current version number. This is an accessor-specific tag used by the"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ber. This is an accessor-specific tag used by the JSDoc Ptdoc Plugin . Note that to avoid issues with expanding $, we use $$Id$$ instead of $Id$ . See the Accessor JSDoc page for how to invoke JSDoc. Functionality A component accessor has an interfa"
+    },
+    {
+      "chunk_id": 29,
+      "text": "Functionality A component accessor has an interface and some functionality given in JavaScript. The can define local state variables used by the accessor and functions to be invoked by the swarmlet host . The accessor's script will be executed in an"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ost . The accessor's script will be executed in an accessor context provided by the host. The context provides some built-in functions and modules that are available for accessors to use. A swarmlet host must provide all the built-in functions and mo"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ost must provide all the built-in functions and modules and may provide some or all of the optional modules. The set of required functions and modules is deliberately small, so that implementing a basic accessor host is easy. Action Functions : A set"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ic accessor host is easy. Action Functions : A set of functions that an accessor may define that are invoked by the host to execute a swarmlet. Top-Level JavaScript Functions : These function enable the accessor to get inputs and produce outputs. The"
+    },
+    {
+      "chunk_id": 33,
+      "text": "he accessor to get inputs and produce outputs. They also provide a small set of basic mechanisms that are commonly found in a JavaScript environment. Built-In JavaScript Modules : All swarmlet hosts are required to support all built-in modules. Modul"
+    },
+    {
+      "chunk_id": 34,
+      "text": "re required to support all built-in modules. Modules conform with the CommonJS specification. Optional JavaScript Modules : More sophisticated capabilities that may or may not be supported by a particular swarmlet host. These modules must also confor"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ular swarmlet host. These modules must also conform with the CommonJS specification. Composition The contract between an accessor and its environment is one of the key questions that this research raises. In the Ptolemy II/Nashorn host, we use the di"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ses. In the Ptolemy II/Nashorn host, we use the discrete-event director to govern the interactions between an accessor and its environment. This has a number of attractive consequences. One is that setTimeout and setInterval are precise. For example,"
+    },
+    {
+      "chunk_id": 37,
+      "text": "tTimeout and setInterval are precise. For example, if two accessors produce data with the same interval using setInterval, then any downstream accessor will see data from these two accessors simultaneously . Also, if two uses of setTimeout have diffe"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ously . Also, if two uses of setTimeout have different time values, the order of invocation is guaranteed. This is not usually true in JavaScript programming environments. In the DE model of computation, all interactions between actors is via time-s"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ion, all interactions between actors is via time-stamped events. The contract is that each actor will see events in time-stamp order. If there are multiple events with the same time stamp, then an actor will see them simultaneously (in the same hand"
+    },
+    {
+      "chunk_id": 40,
+      "text": "tor will see them simultaneously (in the same handler or fire invocation). By default, the DE director in Ptolemy II does not synchronize with real time. It runs as quickly as possible, so time stamps will typically advance faster than real time. If"
+    },
+    {
+      "chunk_id": 41,
+      "text": "will typically advance faster than real time. If you double click on the director and select synchronizeToRealTime , then the execution will slow so that time stamps do not advance more rapidly than real time. It may also be useful to uncheck stopW"
+    },
+    {
+      "chunk_id": 42,
+      "text": "real time. It may also be useful to uncheck stopWhenQueueIsEmpty so that the execution does not stop prematurely. This is useful, for example, when setTimeout() is being used to trigger an action in the future. For pure Nashorn, Node, or browser hos"
+    },
+    {
+      "chunk_id": 43,
+      "text": "the future. For pure Nashorn, Node, or browser hosts, it remains an open question whether DE semantics should be required as part of the accessor definition. Back to main accessors wiki Edit - History - Print - Recent Changes - Search Page last modif"
+    }
+  ]
+}

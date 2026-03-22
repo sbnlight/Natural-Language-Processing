@@ -1,0 +1,137 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/PtolemyIIAccessorTutorial?action=sourceblock&num=30",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "n instance of a socket client that can send or receive messages * to a server at the specified host and port. * The returned object subclasses EventEmitter."
+    },
+    {
+      "chunk_id": 3,
+      "text": "ses EventEmitter. * You can register handlers for events 'open', 'message', 'close', or 'error'. * The event 'open' will be emitted when the socket has been successfully opened. * T"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ocket has been successfully opened. * The event 'message' will be emitted with the body of the message as an * argument when an incoming message arrives on the socket. * You can invoke th"
+    },
+    {
+      "chunk_id": 5,
+      "text": "* You can invoke the send() function to send data to the server. * * The type of data sent and receive"
+    },
+    {
+      "chunk_id": 6,
+      "text": "* The type of data sent and received can be specified with the 'sendType' * and 'receiveType' options. * In principle, any MIME type can be specified, but"
+    },
+    {
+      "chunk_id": 7,
+      "text": "In principle, any MIME type can be specified, but the host may support only * a subset of MIME types. The client and the server have to agree on the type, * or the data will not get through correctly."
+    },
+    {
+      "chunk_id": 8,
+      "text": "l not get through correctly. * * The default type for both sending and receiving"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ng and receiving * is 'application/json'. The types supported by this implementation * include at least: * * __a"
+    },
+    {
+      "chunk_id": 10,
+      "text": "* * __application/json__: The this.send() function uses JSON.stringify() and sends the * result with a UTF-8 encoding. An incoming byte stream will be parsed as JSON, * and if the parsing"
+    },
+    {
+      "chunk_id": 11,
+      "text": "parsed as JSON, * and if the parsing fails, will be provided as a string interpretation of the byte * stream. * * __text/\\*__: Any text type is sent"
+    },
+    {
+      "chunk_id": 12,
+      "text": "* * __text/\\*__: Any text type is sent as a string encoded in UTF-8. * * __image/x__: Where __x__ is one of __json__, __png__, __gif__, * and more (FIXME: which, exactly?)."
+    },
+    {
+      "chunk_id": 13,
+      "text": "nd more (FIXME: which, exactly?). * In this case, the data passed to this.send() is assumed to be an image, as encoded * on the host, and the image will be encoded as a byte stream in the"
+    },
+    {
+      "chunk_id": 14,
+      "text": "the image will be encoded as a byte stream in the specified * format before sending. A received byte stream will be decoded as an image, * if possible. FIXME: What happens if decoding fails?"
+    },
+    {
+      "chunk_id": 15,
+      "text": "if decoding fails? * * The event 'close' will be emitted when the socket is closed, and 'error' if an * an error"
+    },
+    {
+      "chunk_id": 16,
+      "text": "s closed, and 'error' if an * an error occurs (with an error message as an argument). * For example, * * var WebSocket = require('webSocketClient'); * v"
+    },
+    {
+      "chunk_id": 17,
+      "text": "* var client = new WebSocket.Client({'host': 'localhost', 'port': 8080}); * client.send({'foo': 'bar'}); * client.on('messag"
+    },
+    {
+      "chunk_id": 18,
+      "text": "* client.on('message', function(message) { * console.log('Received from web socket: ' + message); * });"
+    },
+    {
+      "chunk_id": 19,
+      "text": "* }); * client.open(); * *"
+    },
+    {
+      "chunk_id": 20,
+      "text": "* The above code may send a message even before the socket is opened. This module * implementation will queue that message to be sent later when the so"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ll queue that message to be sent later when the socket is opened. * * The options argument is a JSON object that can contain the following properties:"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ject that can contain the following properties: * * host: The IP address or host name for the host. Defaults to 'localhost'. * * port: The port on which the host is listening. Defaults to 80. * * recei"
+    },
+    {
+      "chunk_id": 23,
+      "text": "Defaults to 80. * * receiveType: The MIME type for incoming messages, which defaults to 'application/json'. * * sendType: The MIME type"
+    },
+    {
+      "chunk_id": 24,
+      "text": "* * sendType: The MIME type for outgoing messages, which defaults to 'application/json'. * * connectTimeout: The time to wait before giving up on a connection, in milliseconds * (defaults to 1000)."
+    },
+    {
+      "chunk_id": 25,
+      "text": "* (defaults to 1000). * * numberOfRetries: The number of times to retry connecting. Defaults to 10. * * timeBetweenRetries: The time between retries, in millise"
+    },
+    {
+      "chunk_id": 26,
+      "text": "tweenRetries: The time between retries, in milliseconds. Defaults to 500. * * discardMessagesBeforeOpen: If true, discard messages before the socket is open. Defaults to false."
+    },
+    {
+      "chunk_id": 27,
+      "text": "* * throttleFactor: The number milliseconds to stall for each item that is queued waiting to be sent. Defaults to 0. *"
+    },
+    {
+      "chunk_id": 28,
+      "text": "* @param options The options. */ exports.Client = function (options) { options = options || {}; this.port"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ions) { options = options || {}; this.port = options.port || 80; this.host = options.host || 'localhost'; this.sslTls = options.sslTls || false; this.receiveType = options.receiveType || 'application/json'; this.sendType = opt"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ype || 'application/json'; this.sendType = options.sendType || 'application/json'; this.connectTimeout = options.connectTimeout || 1000; this.numberOfRetries = options.numberOfRetries || 10; this.timeBetweenRetries = options.timeBetwe"
+    },
+    {
+      "chunk_id": 31,
+      "text": "0; this.timeBetweenRetries = options.timeBetweenRetries || 500; this.trustAll = options.trustAll || false; this.trustedCACertPath = options.trustedCACertPath || ''; this.discardMessagesBeforeOpen = options.discardMessagesBeforeOpen ||"
+    },
+    {
+      "chunk_id": 32,
+      "text": "sBeforeOpen = options.discardMessagesBeforeOpen || false; this.throttleFactor = options.throttleFactor || 0; this.helper = WebSocketHelper.createClientSocket( this, this.host, this.sslTls, this.port, th"
+    },
+    {
+      "chunk_id": 33,
+      "text": "this.sslTls, this.port, this.receiveType, this.sendType, this.connectTimeout, this.numberOfRetries, this.timeBetweenRetries, this.trustAll, this.trustedCACertPath, this.d"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ll, this.trustedCACertPath, this.discardMessagesBeforeOpen, this.throttleFactor); };"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/~cxh/java/tclblend/println.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Hints about java.lang.System.out.println and Tcl Blend Hints about java.lang.System.out.println and Tcl Blend Calling println from Tcl Blend The Tcl Blend code below calls System.err.println set err [java::field System err] $err {println String} foo"
+    },
+    {
+      "chunk_id": 2,
+      "text": "java::field System err] $err {println String} foo To see the signatures of the methods that can be run on $err , eval java::info methods $err Rebinding stdout and stderr Java code sometimes prints to stdout or stderr, and it would be nice to capture"
+    },
+    {
+      "chunk_id": 3,
+      "text": "stdout or stderr, and it would be nice to capture this output so that Tcl can process it. The Tcl Blend code below rebinds err to a stream and then gets the String value of the stream. set stream [java::new java.io.ByteArrayOutputStream] set printSt"
+    },
+    {
+      "chunk_id": 4,
+      "text": "va::new java.io.ByteArrayOutputStream] set printStream [java::new \\ {java.io.PrintStream java.io.OutputStream} $stream] java::call System setErr $printStream set err [java::field System err] $err {println String} foo $printStream flush puts \"T"
+    },
+    {
+      "chunk_id": 5,
+      "text": "r {println String} foo $printStream flush puts \"The error was [$stream toString]\" jdkCapture util.tcl contains the jdkCapture proc: # Capture output to System.out proc jdkCapture {script varName} { upvar $varName output set stream [java::new"
+    },
+    {
+      "chunk_id": 6,
+      "text": "upvar $varName output set stream [java::new java.io.ByteArrayOutputStream] set printStream [java::new \\ {java.io.PrintStream java.io.OutputStream} $stream] set stdout [java::field System out] java::call System setOut $printStr"
+    },
+    {
+      "chunk_id": 7,
+      "text": "System out] java::call System setOut $printStream set result [uplevel $script] java::call System setOut $stdout $printStream flush set output [$stream toString] return $result } Below is an example: % jdkCapture {puts stderr \""
+    },
+    {
+      "chunk_id": 8,
+      "text": "} Below is an example: % jdkCapture {puts stderr \"This output goes to stderr\"} erroutput This output goes to stderr % set erroutput % % jdkCapture {puts stdout \"This output goes to stdout\"} stdoutput % set stdoutput This output goes to stdout % Las"
+    },
+    {
+      "chunk_id": 9,
+      "text": "% set stdoutput This output goes to stdout % Last updated: 10/09/05, cxh at eecs"
+    }
+  ]
+}

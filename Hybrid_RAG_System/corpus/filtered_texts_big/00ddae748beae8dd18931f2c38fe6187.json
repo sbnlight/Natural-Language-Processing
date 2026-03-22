@@ -1,0 +1,613 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/actor/AtomicActor.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "AtomicActor JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method p"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Constr | Method Detail: Field | Constr | Method ptolemy.actor Class AtomicActor<T extends IOPort > java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity <T> ptolemy.kernel.ComponentEntity <T> ptolemy"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ity <T> ptolemy.kernel.ComponentEntity <T> ptolemy.actor.AtomicActor<T> All Implemented Interfaces: java.lang.Cloneable, Actor , Executable , FiringsRecordable , Initializable , Changeable , Debuggable , DebugListener , Derivable , Instantiable , Mod"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: NCComponentBase , TypedAtomicActor public class AtomicActor<T extends IOPort > extends ComponentEntity <T> implements Act"
+    },
+    {
+      "chunk_id": 5,
+      "text": "OPort > extends ComponentEntity <T> implements Actor , FiringsRecordable An AtomicActor is an executable entity that cannot itself contain other actors. The Ports of AtomicActors are constrained to be IOPorts. Derived classes may further constrain"
+    },
+    {
+      "chunk_id": 6,
+      "text": "e IOPorts. Derived classes may further constrain the ports by overriding the public method newPort() to create a port of the appropriate subclass, and the protected method _addPort() to throw an exception if its argument is a port that is not of"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ception if its argument is a port that is not of the appropriate subclass. In this base class, the actor does nothing in the action methods (prefire, fire, ...). Since: Ptolemy II 0.2 Version: $Id$ Author: Mudit Goel, Edward A. Lee, Lukito Muliadi,"
+    },
+    {
+      "chunk_id": 8,
+      "text": "Author: Mudit Goel, Edward A. Lee, Lukito Muliadi, Steve Neuendorffer, Contributor: Daniel Crawl See Also: CompositeActor , IOPort Pt.AcceptedRating: Green (neuendor) Pt.ProposedRating: Green (eal) Nested Class Summary Nested classes/interfaces inher"
+    },
+    {
+      "chunk_id": 9,
+      "text": "sted Class Summary Nested classes/interfaces inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary Fields Modifier and Type Field and Description protected java.util.LinkedList< ActorFiringListener > _actorFiringLi"
+    },
+    {
+      "chunk_id": 10,
+      "text": "l.LinkedList< ActorFiringListener > _actorFiringListeners The list of ActorFiringListeners registered with this object. protected java.util.Set< Initializable > _initializables List of objects whose (pre)initialize() and wrapup() methods should be"
+    },
+    {
+      "chunk_id": 11,
+      "text": "pre)initialize() and wrapup() methods should be slaved to these. protected boolean _notifyingActorFiring Flag that is true if there are actor firing listeners. protected boolean _stopRequested Indicator that a stop has been requested by a call to s"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ator that a stop has been requested by a call to stop(). Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent ,"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constru"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ble COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary Constructors Constructor and Description AtomicActor () Construct an actor in the default workspace with an empty string as its name. AtomicActor ( CompositeEntity container,"
+    },
+    {
+      "chunk_id": 15,
+      "text": "tomicActor ( CompositeEntity container, java.lang.String name) Create a new actor in the specified container with the specified name. AtomicActor ( Workspace workspace) Construct an actor in the specified workspace with an empty string"
+    },
+    {
+      "chunk_id": 16,
+      "text": "in the specified workspace with an empty string as a name. Method Summary All Methods Instance Methods Concrete Methods Deprecated Methods Modifier and Type Method and Description protected void _actorFiring ( FiringEvent.FiringEventType type,"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ctorFiring ( FiringEvent.FiringEventType type, int multiplicity) Send an actor firing event type to all actor firing listeners that have registered with this actor. protected void _actorFiring ( FiringEvent event) Send an actor firing e"
+    },
+    {
+      "chunk_id": 18,
+      "text": "Firing ( FiringEvent event) Send an actor firing event to all actor firing listeners that have registered with this actor. protected void _declareDelayDependency ( IOPort input, IOPort output, double timeDelay) Set the depend"
+    },
+    {
+      "chunk_id": 19,
+      "text": "double timeDelay) Set the dependency between the input and output port to represent a time delay with the specified value. void addActorFiringListener ( ActorFiringListener listener) Append a listener to the current set of actor f"
+    },
+    {
+      "chunk_id": 20,
+      "text": "r) Append a listener to the current set of actor firing listeners. void addInitializable ( Initializable initializable) Add the specified object to the set of objects whose preinitialize(), initialize(), and wrapup() methods should be invoked upo"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ze(), and wrapup() methods should be invoked upon invocation of the corresponding methods of this object. java.lang.Object clone ( Workspace workspace) Clone this actor into the specified workspace. void connectionsChanged ( Port port) Create new"
+    },
+    {
+      "chunk_id": 22,
+      "text": "e. void connectionsChanged ( Port port) Create new receivers if the port is an input port and there is a director. void createReceivers () Create receivers for each input port. void declareDelayDependency () Set the dependency between all output po"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ndency () Set the dependency between all output ports and all input ports of this actor. void fire () Do nothing. CausalityInterface getCausalityInterface () Return a causality interface for this actor. Director getDirector () Return the director r"
+    },
+    {
+      "chunk_id": 24,
+      "text": "tor. Director getDirector () Return the director responsible for the execution of this actor. Director getExecutiveDirector () Return the executive director (same as getDirector()). Manager getManager () Return the Manager responsible for execution o"
+    },
+    {
+      "chunk_id": 25,
+      "text": "() Return the Manager responsible for execution of this actor, if there is one. void initialize () Initialize this actor. java.util.List< T > inputPortList () List all the input ports. boolean isFireFunctional () Return true. boolean isStrict () R"
+    },
+    {
+      "chunk_id": 26,
+      "text": "reFunctional () Return true. boolean isStrict () Return true unless all input ports have non-empty default values. int iterate (int count) Invoke a specified number of iterations of the actor. Port newPort (java.lang.String name) Create a new IOPort"
+    },
+    {
+      "chunk_id": 27,
+      "text": "wPort (java.lang.String name) Create a new IOPort with the specified name. Receiver newReceiver () Return a new receiver of a type compatible with the director. java.util.List< T > outputPortList () List the output ports. boolean postfire () Return t"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ist the output ports. boolean postfire () Return true, unless stop() has been called, in which case, return false. boolean prefire () Return true. void preinitialize () Create receivers and declare delay dependencies. void pruneDependencies () Depr"
+    },
+    {
+      "chunk_id": 29,
+      "text": "delay dependencies. void pruneDependencies () Deprecated. There is no need to override this method anymore. Just call removeDependency() in preinitialize(). void recordFiring ( FiringEvent.FiringEventType type) Record a firing event. void removeAc"
+    },
+    {
+      "chunk_id": 30,
+      "text": "entType type) Record a firing event. void removeActorFiringListener ( ActorFiringListener listener) Unregister an actor firing listener. void removeDependency ( IOPort input, IOPort output) Remove the dependency that the specified output port has,"
+    },
+    {
+      "chunk_id": 31,
+      "text": "dependency that the specified output port has, by default, on the specified input port. void removeInitializable ( Initializable initializable) Remove the specified object from the list of objects whose preinitialize(), initialize(), and wrapup("
+    },
+    {
+      "chunk_id": 32,
+      "text": "whose preinitialize(), initialize(), and wrapup() methods should be invoked upon invocation of the corresponding methods of this object. void setContainer ( CompositeEntity container) Override the base class to invalidate the schedule and res"
+    },
+    {
+      "chunk_id": 33,
+      "text": "he base class to invalidate the schedule and resolved types of the director. void stop () Request that execution of the current iteration stop as soon as possible. void stopFire () Request that execution of the current iteration complete. void te"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ecution of the current iteration complete. void terminate () Terminate execution immediately. void wrapup () Do nothing except invoke the wrapup() methods of any objects that have been registered with addInitializable(). Methods inherited from clas"
+    },
+    {
+      "chunk_id": 35,
+      "text": "th addInitializable(). Methods inherited from class ptolemy.kernel. ComponentEntity _adjustDeferrals , _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , isAtomic , isOpaque , moveDown , moveToFirst , moveToInd"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ic , isOpaque , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _addPort , _description , _exportMoMLContents , _removePort , _validateSettables , connected"
+    },
+    {
+      "chunk_id": 37,
+      "text": "nts , _removePort , _validateSettables , connectedPortList , connectedPorts , containedObjectsIterator , getAttribute , getPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition , uniqueName Methods in"
+    },
+    {
+      "chunk_id": 38,
+      "text": "Ports , setClassDefinition , uniqueName Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition , isWithinClassDefinition Methods inhe"
+    },
+    {
+      "chunk_id": 39,
+      "text": "sDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _containedDecorators , _copyChangeRequestList , _debug , _debug , _debug , _de"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _propagateValue , _"
+    },
+    {
+      "chunk_id": 41,
+      "text": "erarchyListenersBeforeChange , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , addHierarchyListener , attributeChanged , attributeDeleted , attributeList , attributeList , attributeTypeCh"
+    },
+    {
+      "chunk_id": 42,
+      "text": ", attributeList , attributeList , attributeTypeChanged , clone , decorators , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttr"
+    },
+    {
+      "chunk_id": 43,
+      "text": "xportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , ge"
+    },
+    {
+      "chunk_id": 44,
+      "text": "playName , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateValue , propagateValue"
+    },
+    {
+      "chunk_id": 45,
+      "text": "tifyOfNameChange , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErro"
+    },
+    {
+      "chunk_id": 46,
+      "text": ", setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, no"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ng.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Methods inherit"
+    },
+    {
+      "chunk_id": 48,
+      "text": "Name , getName , getName , setName Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Field Detail _actorFiringListeners protected java.util.LinkedList< ActorFiringListener > _actorFiring"
+    },
+    {
+      "chunk_id": 49,
+      "text": "til.LinkedList< ActorFiringListener > _actorFiringListeners The list of ActorFiringListeners registered with this object. NOTE: Because of the way we synchronize on this object, it should never be reset to null after the first list is created. _i"
+    },
+    {
+      "chunk_id": 50,
+      "text": "reset to null after the first list is created. _initializables protected transient java.util.Set< Initializable > _initializables List of objects whose (pre)initialize() and wrapup() methods should be slaved to these. _notifyingActorFiring protect"
+    },
+    {
+      "chunk_id": 51,
+      "text": "be slaved to these. _notifyingActorFiring protected boolean _notifyingActorFiring Flag that is true if there are actor firing listeners. _stopRequested protected boolean _stopRequested Indicator that a stop has been requested by a call to stop(). Co"
+    },
+    {
+      "chunk_id": 52,
+      "text": "a stop has been requested by a call to stop(). Constructor Detail AtomicActor public AtomicActor() Construct an actor in the default workspace with an empty string as its name. Increment the version number of the workspace. The object is added t"
+    },
+    {
+      "chunk_id": 53,
+      "text": "n number of the workspace. The object is added to the workspace directory. AtomicActor public AtomicActor( Workspace workspace) Construct an actor in the specified workspace with an empty string as a name. You can then change the name with setNam"
+    },
+    {
+      "chunk_id": 54,
+      "text": "s a name. You can then change the name with setName(). If the workspace argument is null, then use the default workspace. The object is added to the workspace directory. Increment the version number of the workspace. Parameters: workspace - The"
+    },
+    {
+      "chunk_id": 55,
+      "text": "mber of the workspace. Parameters: workspace - The workspace that will list this actor. AtomicActor public AtomicActor( CompositeEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationEx"
+    },
+    {
+      "chunk_id": 56,
+      "text": "throws IllegalActionException , NameDuplicationException Create a new actor in the specified container with the specified name. The name must be unique within the container or an exception is thrown. The container argument must not be null, or"
+    },
+    {
+      "chunk_id": 57,
+      "text": "rown. The container argument must not be null, or a NullPointerException will be thrown. Parameters: container - The container. name - The name of this actor within the container. Throws: IllegalActionException - If the entity cannot be contained"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ionException - If the entity cannot be contained by the proposed container (see the setContainer() method). NameDuplicationException - If the name coincides with an entity already in the container. Method Detail addInitializable public void add"
+    },
+    {
+      "chunk_id": 59,
+      "text": "er. Method Detail addInitializable public void addInitializable( Initializable initializable) Add the specified object to the set of objects whose preinitialize(), initialize(), and wrapup() methods should be invoked upon invocation of the corres"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ds should be invoked upon invocation of the corresponding methods of this object. Specified by: addInitializable in interface Initializable Parameters: initializable - The object whose methods should be invoked. See Also: removeInitializable(Initia"
+    },
+    {
+      "chunk_id": 61,
+      "text": "d be invoked. See Also: removeInitializable(Initializable) , CompositeActor.addPiggyback(Executable) addActorFiringListener public void addActorFiringListener( ActorFiringListener listener) Append a listener to the current set of actor firing listene"
+    },
+    {
+      "chunk_id": 62,
+      "text": "istener to the current set of actor firing listeners. If the listener is already in the set, it will not be added again. Note that this method is basically the same as addDebugListener in the class NamedObj. Specified by: addActorFiringListener"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ass NamedObj. Specified by: addActorFiringListener in interface FiringsRecordable Parameters: listener - The listener to which to send actor firing messages. See Also: removeActorFiringListener(ActorFiringListener) clone public java.lang.Object clone"
+    },
+    {
+      "chunk_id": 64,
+      "text": "iringListener) clone public java.lang.Object clone( Workspace workspace) throws java.lang.CloneNotSupportedException Clone this actor into the specified workspace. The new actor is not added to the directory of that workspace ("
+    },
+    {
+      "chunk_id": 65,
+      "text": "is not added to the directory of that workspace (you must do this yourself if you want it there). The result is a new actor with the same ports as the original, but no connections and no container. A container must be set before much can be"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ner. A container must be set before much can be done with this actor. Overrides: clone in class ComponentEntity < T extends IOPort > Parameters: workspace - The workspace for the cloned object. Returns: A new ComponentEntity. Throws: java.lang.Clo"
+    },
+    {
+      "chunk_id": 67,
+      "text": "urns: A new ComponentEntity. Throws: java.lang.CloneNotSupportedException - If cloned ports cannot have as their container the cloned entity (this should not occur), or if one of the attributes cannot be cloned. See Also: NamedObj.exportMoML(Wr"
+    },
+    {
+      "chunk_id": 68,
+      "text": "cannot be cloned. See Also: NamedObj.exportMoML(Writer, int, String) , NamedObj.setDeferringChangeRequests(boolean) connectionsChanged public void connectionsChanged( Port port) Create new receivers if the port is an input port and there is a direc"
+    },
+    {
+      "chunk_id": 69,
+      "text": "f the port is an input port and there is a director. Overrides: connectionsChanged in class Entity < T extends IOPort > Parameters: port - The port that has connection changes. createReceivers public void createReceivers() thro"
+    },
+    {
+      "chunk_id": 70,
+      "text": "c void createReceivers() throws IllegalActionException Create receivers for each input port. Specified by: createReceivers in interface Actor Throws: IllegalActionException - If any port throws it. See Also: createReceivers() , C"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ny port throws it. See Also: createReceivers() , CompositeActor.createReceivers() declareDelayDependency public void declareDelayDependency() throws IllegalActionException Set the dependency between all output ports and al"
+    },
+    {
+      "chunk_id": 72,
+      "text": "Set the dependency between all output ports and all input ports of this actor. By default, each output port is assumed to have a dependency on all input ports. Since this is the assumed behavior, this method does nothing by default. Howeve"
+    },
+    {
+      "chunk_id": 73,
+      "text": ", this method does nothing by default. However, for subclasses such as TimeDelay , where output ports depend on input ports with a time delay, this method should be overridden. Protected method _declareDelayDependency() should be used to"
+    },
+    {
+      "chunk_id": 74,
+      "text": "thod _declareDelayDependency() should be used to declare dependency between input and output ports for this actor. Throws: IllegalActionException - Not thrown in this base class, derived classes should throw this exception if the delay depend"
+    },
+    {
+      "chunk_id": 75,
+      "text": "should throw this exception if the delay dependency cannot be computed. See Also: getCausalityInterface() , _declareDelayDependency(IOPort, IOPort, double) fire public void fire() throws IllegalActionException Do nothing. Derived classe"
+    },
+    {
+      "chunk_id": 76,
+      "text": "IllegalActionException Do nothing. Derived classes override this method to define their primary run-time action. Specified by: fire in interface Executable Throws: IllegalActionException - Not thrown in this base class. getCausalityInterface publi"
+    },
+    {
+      "chunk_id": 77,
+      "text": "wn in this base class. getCausalityInterface public CausalityInterface getCausalityInterface() throws IllegalActionException Return a causality interface for this actor. In this base class, we return an inst"
+    },
+    {
+      "chunk_id": 78,
+      "text": "his actor. In this base class, we return an instance of DefaultCausalityInterface with the dependency type given by the director, or with a BooleanDependency if there is no director. This declares that all output ports of the actor depend on al"
+    },
+    {
+      "chunk_id": 79,
+      "text": "es that all output ports of the actor depend on all input ports, unless the actor calls removeDependency(IOPort, IOPort) or _declareDelayDependency(IOPort, IOPort, double) . If this is called multiple times, the same object is returned each tim"
+    },
+    {
+      "chunk_id": 80,
+      "text": "iple times, the same object is returned each time unless the director has changed since the last call, in which case a new object is returned. Specified by: getCausalityInterface in interface Actor Returns: A representation of the dependencies be"
+    },
+    {
+      "chunk_id": 81,
+      "text": "r Returns: A representation of the dependencies between input ports and output ports. Throws: IllegalActionException - Thrown in subclasses if causality interface cannot be computed. getDirector public Director getDirector() Return the director r"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ublic Director getDirector() Return the director responsible for the execution of this actor. In this class, this is always the executive director. Return null if either there is no container or the container has no director. Specified by: getD"
+    },
+    {
+      "chunk_id": 83,
+      "text": "he container has no director. Specified by: getDirector in interface Actor Returns: The director that invokes this actor. getExecutiveDirector public Director getExecutiveDirector() Return the executive director (same as getDirector()). Specified b"
+    },
+    {
+      "chunk_id": 84,
+      "text": "tive director (same as getDirector()). Specified by: getExecutiveDirector in interface Actor Returns: The executive director. getManager public Manager getManager() Return the Manager responsible for execution of this actor, if there is one. Otherw"
+    },
+    {
+      "chunk_id": 85,
+      "text": "execution of this actor, if there is one. Otherwise, return null. Specified by: getManager in interface Actor Returns: The manager. initialize public void initialize() throws IllegalActionException Initialize this actor. Derived cl"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ActionException Initialize this actor. Derived classes override this method to perform actions that should occur once at the beginning of an execution, but after type resolution. Derived classes can produce output data and schedule events. Sp"
+    },
+    {
+      "chunk_id": 87,
+      "text": "can produce output data and schedule events. Specified by: initialize in interface Initializable Throws: IllegalActionException - If a derived class throws it. inputPortList public java.util.List< T > inputPortList() List all the input ports. Th"
+    },
+    {
+      "chunk_id": 88,
+      "text": "T > inputPortList() List all the input ports. This method is read-synchronized on the workspace. Specified by: inputPortList in interface Actor Returns: A list of input IOPort objects. isFireFunctional public boolean isFireFunctional() Return true."
+    },
+    {
+      "chunk_id": 89,
+      "text": "nal public boolean isFireFunctional() Return true. Most actors are written so that the prefire() and fire() methods do not change the state of the actor. Hence, for convenience, this base class by default returns true. An actor that does change"
+    },
+    {
+      "chunk_id": 90,
+      "text": "default returns true. An actor that does change state in prefire() or fire() must override this method to return false. Specified by: isFireFunctional in interface Executable Returns: True. isStrict public boolean isStrict() thr"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ict public boolean isStrict() throws IllegalActionException Return true unless all input ports have non-empty default values. By default, most actors do not check their inputs to see whether they are known. They assume they ar"
+    },
+    {
+      "chunk_id": 92,
+      "text": "see whether they are known. They assume they are known. Note that ParameterPort is not treated as having a default value because such ports might be used in a context where it is important to supply them with an input value. Specified by: is"
+    },
+    {
+      "chunk_id": 93,
+      "text": "supply them with an input value. Specified by: isStrict in interface Executable Returns: False if this actor does not need to be provided with inputs to fire. Throws: IllegalActionException - If the defaultValue expression cannot be evaluated"
+    },
+    {
+      "chunk_id": 94,
+      "text": "he defaultValue expression cannot be evaluated for an input port. iterate public int iterate(int count) throws IllegalActionException Invoke a specified number of iterations of the actor. An iteration is equivalent to invoking prefir"
+    },
+    {
+      "chunk_id": 95,
+      "text": "r. An iteration is equivalent to invoking prefire(), fire(), and postfire(), in that order. In an iteration, if prefire() returns true, then fire() will be called once, followed by postfire(). Otherwise, if prefire() returns false, fire() a"
+    },
+    {
+      "chunk_id": 96,
+      "text": "Otherwise, if prefire() returns false, fire() and postfire() are not invoked, and this method returns NOT_READY. If postfire() returns false, then no more iterations are invoked, and this method returns STOP_ITERATING. Otherwise, it returns"
+    },
+    {
+      "chunk_id": 97,
+      "text": "d returns STOP_ITERATING. Otherwise, it returns COMPLETED. If stop() is called while this is executing, then cease executing and return STOP_ITERATING. This base class method actually invokes prefire(), fire(), and postfire(), as described abov"
+    },
+    {
+      "chunk_id": 98,
+      "text": "ire(), fire(), and postfire(), as described above, but a derived class may override the method to execute more efficient code. Specified by: iterate in interface Executable Parameters: count - The number of iterations to perform. Returns: NOT_REA"
+    },
+    {
+      "chunk_id": 99,
+      "text": "number of iterations to perform. Returns: NOT_READY, STOP_ITERATING, or COMPLETED. Throws: IllegalActionException - If iterating is not permitted, or if prefire(), fire(), or postfire() throw it. newPort public Port newPort(java.lang.String name)"
+    },
+    {
+      "chunk_id": 100,
+      "text": "newPort public Port newPort(java.lang.String name) throws NameDuplicationException Create a new IOPort with the specified name. The container of the port is set to this actor. This method is write-synchronized on the workspace. Nor"
+    },
+    {
+      "chunk_id": 101,
+      "text": "thod is write-synchronized on the workspace. Normally this method is not called directly by actor code. Instead, a change request should be queued with the director. Overrides: newPort in class ComponentEntity < T extends IOPort > Parameters: nam"
+    },
+    {
+      "chunk_id": 102,
+      "text": "mponentEntity < T extends IOPort > Parameters: name - The name for the new port. Returns: The new port. Throws: NameDuplicationException - If this actor already has a port with the specified name. See Also: Workspace.getWriteAccess() newReceiver p"
+    },
+    {
+      "chunk_id": 103,
+      "text": "See Also: Workspace.getWriteAccess() newReceiver public Receiver newReceiver() throws IllegalActionException Return a new receiver of a type compatible with the director. Derived classes may further specialize this to return a"
+    },
+    {
+      "chunk_id": 104,
+      "text": "d classes may further specialize this to return a receiver specialized to the particular actor. Specified by: newReceiver in interface Actor Returns: A new object implementing the Receiver interface. Throws: IllegalActionException - If there is no"
+    },
+    {
+      "chunk_id": 105,
+      "text": ". Throws: IllegalActionException - If there is no director. outputPortList public java.util.List< T > outputPortList() List the output ports. This method is read-synchronized on the workspace. Specified by: outputPortList in interface Actor Returns"
+    },
+    {
+      "chunk_id": 106,
+      "text": "fied by: outputPortList in interface Actor Returns: A list of output IOPort objects. postfire public boolean postfire() throws IllegalActionException Return true, unless stop() has been called, in which case, return false. Derived"
+    },
+    {
+      "chunk_id": 107,
+      "text": "en called, in which case, return false. Derived classes override this method to define operations to be performed at the end of every iteration of its execution, after one invocation of the prefire() method and any number of invocations of t"
+    },
+    {
+      "chunk_id": 108,
+      "text": "fire() method and any number of invocations of the fire() method. This method typically wraps up an iteration, which may involve updating local state. In derived classes, this method returns false to indicate that this actor should not be"
+    },
+    {
+      "chunk_id": 109,
+      "text": "false to indicate that this actor should not be fired again. Specified by: postfire in interface Executable Returns: True if execution can continue into the next iteration. Throws: IllegalActionException - Not thrown in this base class. prefire pub"
+    },
+    {
+      "chunk_id": 110,
+      "text": "ption - Not thrown in this base class. prefire public boolean prefire() throws IllegalActionException Return true. Derived classes override this method to define operations to be performed at the beginning of every iteration of it"
+    },
+    {
+      "chunk_id": 111,
+      "text": "formed at the beginning of every iteration of its execution, prior the invocation of the fire() method. Derived classes may also use it to check preconditions for an iteration, if there are any. Specified by: prefire in interface Executable Ret"
+    },
+    {
+      "chunk_id": 112,
+      "text": "Specified by: prefire in interface Executable Returns: True if this actor is ready for firing, false otherwise. Throws: IllegalActionException - Not thrown in this base class. preinitialize public void preinitialize() throws Illeg"
+    },
+    {
+      "chunk_id": 113,
+      "text": "id preinitialize() throws IllegalActionException Create receivers and declare delay dependencies. Derived classes can override this method to perform additional initialization functions, but they should call this base class met"
+    },
+    {
+      "chunk_id": 114,
+      "text": "unctions, but they should call this base class methods or create the receivers themselves. This method gets executed exactly once prior to any other action methods. It cannot produce output data since type resolution is typically not yet don"
+    },
+    {
+      "chunk_id": 115,
+      "text": "a since type resolution is typically not yet done. It also gets invoked prior to any static scheduling that might occur in the domain, so it can change scheduling information. Specified by: preinitialize in interface Initializable Throws: Illeg"
+    },
+    {
+      "chunk_id": 116,
+      "text": "nitialize in interface Initializable Throws: IllegalActionException - Not thrown in this base class. pruneDependencies @Deprecated public void pruneDependencies() throws IllegalActionException Deprecated. There is n"
+    },
+    {
+      "chunk_id": 117,
+      "text": "rows IllegalActionException Deprecated. There is no need to override this method anymore. Just call removeDependency() in preinitialize(). Prune the dependency declarations, which by default state that each output port depends on all input ports"
+    },
+    {
+      "chunk_id": 118,
+      "text": "that each output port depends on all input ports in a firing. This base class does no pruning, but subclasses that have output ports that do not depend on input ports should override this method to prune the dependencies. To declare that an"
+    },
+    {
+      "chunk_id": 119,
+      "text": "od to prune the dependencies. To declare that an output port does not depend on an input port, subclasses can call removeDependency(input, output) rather than implementing a specialized CausalityInterface , at least for the simple cases wher"
+    },
+    {
+      "chunk_id": 120,
+      "text": "tyInterface , at least for the simple cases where output ports do not depend at all on input ports. Throws: IllegalActionException - Thrown by subclasses if causality interface cannot be computed. See Also: removeDependency(IOPort, IOPort) , getC"
+    },
+    {
+      "chunk_id": 121,
+      "text": "See Also: removeDependency(IOPort, IOPort) , getCausalityInterface() recordFiring public void recordFiring( FiringEvent.FiringEventType type) Record a firing event. Specified by: recordFiring in interface FiringsRecordable Parameters: type - The fir"
+    },
+    {
+      "chunk_id": 122,
+      "text": "rface FiringsRecordable Parameters: type - The firing event to be recorded. removeActorFiringListener public void removeActorFiringListener( ActorFiringListener listener) Unregister an actor firing listener. If the specified listener has not been"
+    },
+    {
+      "chunk_id": 123,
+      "text": "stener. If the specified listener has not been previously registered, then do nothing. Note that this method is basically the same as removeDebugListener in the class NamedObj. Specified by: removeActorFiringListener in interface FiringsRecorda"
+    },
+    {
+      "chunk_id": 124,
+      "text": "oveActorFiringListener in interface FiringsRecordable Parameters: listener - The listener to remove from the list of listeners to which actor firing messages are sent. See Also: addActorFiringListener(ActorFiringListener) removeDependency public v"
+    },
+    {
+      "chunk_id": 125,
+      "text": "ner(ActorFiringListener) removeDependency public void removeDependency( IOPort input, IOPort output) throws IllegalActionException Remove the dependency that the specified output port has, by default, on the specified input po"
+    },
+    {
+      "chunk_id": 126,
+      "text": "port has, by default, on the specified input port. By default, each output port is assumed to have a dependency on all input ports. Subclasses can call this method in preinitialize() instead of implementing a custom CausalityInterface for th"
+    },
+    {
+      "chunk_id": 127,
+      "text": "of implementing a custom CausalityInterface for the simple cases where output ports do not depend at all on certain input ports. There should be one such call for each input, output pair that does not have a dependency. Parameters: input - The"
+    },
+    {
+      "chunk_id": 128,
+      "text": "es not have a dependency. Parameters: input - The input port. output - The output port that does not depend on the input port. Throws: IllegalActionException - If causality interface cannot be computed. See Also: getCausalityInterface() removeIn"
+    },
+    {
+      "chunk_id": 129,
+      "text": "mputed. See Also: getCausalityInterface() removeInitializable public void removeInitializable( Initializable initializable) Remove the specified object from the list of objects whose preinitialize(), initialize(), and wrapup() methods should be i"
+    },
+    {
+      "chunk_id": 130,
+      "text": ", initialize(), and wrapup() methods should be invoked upon invocation of the corresponding methods of this object. If the specified object is not on the list, do nothing. Specified by: removeInitializable in interface Initializable Parameters:"
+    },
+    {
+      "chunk_id": 131,
+      "text": "itializable in interface Initializable Parameters: initializable - The object whose methods should no longer be invoked. See Also: addInitializable(Initializable) , CompositeActor.removePiggyback(Executable) setContainer public void setContainer( Com"
+    },
+    {
+      "chunk_id": 132,
+      "text": "utable) setContainer public void setContainer( CompositeEntity container) throws IllegalActionException , NameDuplicationException Override the base class to invalidate the schedule and resolved types of the director. Overrides: s"
+    },
+    {
+      "chunk_id": 133,
+      "text": "and resolved types of the director. Overrides: setContainer in class ComponentEntity < T extends IOPort > Parameters: container - The proposed container. Throws: IllegalActionException - If the action would result in a recursive containment stru"
+    },
+    {
+      "chunk_id": 134,
+      "text": "on would result in a recursive containment structure, or if this entity and container are not in the same workspace. NameDuplicationException - If the container already has an entity with the name of this entity. See Also: ComponentEntity.ge"
+    },
+    {
+      "chunk_id": 135,
+      "text": "name of this entity. See Also: ComponentEntity.getContainer() stop public void stop() Request that execution of the current iteration stop as soon as possible. In this base class, we set a flag indicating that this request has been made (the pr"
+    },
+    {
+      "chunk_id": 136,
+      "text": "dicating that this request has been made (the protected variable _stopRequested). Most atomic actors have bounded fire() methods, so they can simply ignore this. Atomic actors with unbounded fire() methods should react by saving their state"
+    },
+    {
+      "chunk_id": 137,
+      "text": "fire() methods should react by saving their state and returning from the fire() method at the next convenient point. Specified by: stop in interface Executable stopFire public void stopFire() Request that execution of the current iteration comple"
+    },
+    {
+      "chunk_id": 138,
+      "text": "est that execution of the current iteration complete. Most atomic actors have bounded fire() methods, so they can simply ignore this. Atomic actors with unbounded fire() methods should override this method to save their state and return from"
+    },
+    {
+      "chunk_id": 139,
+      "text": "this method to save their state and return from the fire() method at the next convenient point. In this base class, do nothing. Specified by: stopFire in interface Executable terminate public void terminate() Terminate execution immediately. In"
+    },
+    {
+      "chunk_id": 140,
+      "text": "d terminate() Terminate execution immediately. In this base class, call stop(). Derived classes may wish to do something more aggressive, such as terminating any threads they have started. Specified by: terminate in interface Executable wrapup p"
+    },
+    {
+      "chunk_id": 141,
+      "text": "ied by: terminate in interface Executable wrapup public void wrapup() throws IllegalActionException Do nothing except invoke the wrapup() methods of any objects that have been registered with addInitializable(). Derived classes overri"
+    },
+    {
+      "chunk_id": 142,
+      "text": "with addInitializable(). Derived classes override this method to define operations to be performed exactly once at the end of a complete execution of an application. It typically closes files, displays final results, etc. Specified by: wrap"
+    },
+    {
+      "chunk_id": 143,
+      "text": "s, displays final results, etc. Specified by: wrapup in interface Initializable Throws: IllegalActionException - Not thrown in this base class. _actorFiring protected final void _actorFiring( FiringEvent event) Send an actor firing event to all actor"
+    },
+    {
+      "chunk_id": 144,
+      "text": "ent event) Send an actor firing event to all actor firing listeners that have registered with this actor. Parameters: event - The event. _actorFiring protected final void _actorFiring( FiringEvent.FiringEventType type,"
+    },
+    {
+      "chunk_id": 145,
+      "text": "iringEventType type, int multiplicity) Send an actor firing event type to all actor firing listeners that have registered with this actor. Parameters: type - The type. multiplicity - The multiplicity of the firing,"
+    },
+    {
+      "chunk_id": 146,
+      "text": "pe. multiplicity - The multiplicity of the firing, that is, the number of times the firing will occur or has occurred. _declareDelayDependency protected void _declareDelayDependency( IOPort input, IOPort output,"
+    },
+    {
+      "chunk_id": 147,
+      "text": "OPort output, double timeDelay) throws IllegalActionException Set the dependency between the input and output port to represent a time delay with the specified value. Subclass"
+    },
+    {
+      "chunk_id": 148,
+      "text": "a time delay with the specified value. Subclasses can call this method instead of implementing a custom CausalityInterface for the cases where output ports depend on input ports with a time delay. If the time delay is 0.0, this method noneth"
+    },
+    {
+      "chunk_id": 149,
+      "text": "ay. If the time delay is 0.0, this method nonetheless assumes that the output port does not (immediately) depend on the input port (this amounts to a superdense time delay of (0.0, 1)). There should be one such call for each input, output p"
+    },
+    {
+      "chunk_id": 150,
+      "text": "should be one such call for each input, output pair that does not have a dependency. Parameters: input - The input port. output - The output port with a time delay dependency on the input port. timeDelay - The time delay. Throws: IllegalActionEx"
+    },
+    {
+      "chunk_id": 151,
+      "text": "imeDelay - The time delay. Throws: IllegalActionException - If causality interface cannot be computed. See Also: getCausalityInterface() Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames"
+    },
+    {
+      "chunk_id": 152,
+      "text": "Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/kernel/util/Decorator.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Decorator JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method pto"
+    },
+    {
+      "chunk_id": 2,
+      "text": "onstr | Method Detail: Field | Constr | Method ptolemy.kernel.util Interface Decorator All Superinterfaces: Nameable All Known Subinterfaces: ActorExecutionAspect All Known Implementing Classes: AccessorCodeGenerator , AccessorSSHCodeGenerator , AFDX"
+    },
+    {
+      "chunk_id": 3,
+      "text": "sorCodeGenerator , AccessorSSHCodeGenerator , AFDXESs , AFDXSwitch , AtomicCommunicationAspect , AtomicExecutionAspect , BasicSwitch , Bus , CanBus , CCodeGenerator , CompositeCommunicationAspect , CompositeExecutionAspect , ConstraintMonitor , Cross"
+    },
+    {
+      "chunk_id": 4,
+      "text": "mpositeExecutionAspect , ConstraintMonitor , CrossbarSwitch , DynamicCoreAssignmentScheduler , EDFScheduler , FCFSScheduler , FixedPriorityScheduler , FMIMACodeGenerator , FMIMAHybridCodeGenerator , GaussianMeasurementModel , GenericCodeGenerator , G"
+    },
+    {
+      "chunk_id": 5,
+      "text": "aussianMeasurementModel , GenericCodeGenerator , GiottoDirector , GiottoTimingManager , HMMGaussianEstimator , HTMLCodeGenerator , JavaCodeGenerator , Map , MeasurementModel , MirrorDecorator , ModularCodeGenerator , ModularSDFCodeGenerator , PacketD"
+    },
+    {
+      "chunk_id": 6,
+      "text": "rCodeGenerator , ModularSDFCodeGenerator , PacketDropFaultGenerator , ParameterEstimator , ProceduralCodeGenerator , ProgramCodeGenerator , PtidesDirector , PtidyOSCodeGenerator , RunnableCodeGenerator , StateSpaceModel , StuckAtFaultGenerator , Synt"
+    },
+    {
+      "chunk_id": 7,
+      "text": "r , StateSpaceModel , StuckAtFaultGenerator , SyntacticCodeGenerator , TTESwitch , VariableDelaySwitch public interface Decorator extends Nameable A decorator is a class that decorates other instances of NamedObj with extra attributes that are specif"
+    },
+    {
+      "chunk_id": 8,
+      "text": "of NamedObj with extra attributes that are specific to both the decorator and the NamedObj. Those extra attributes are contained by an attribute of class DecoratorAttributes that is created by calling createDecoratorAttributes(NamedObj) and specifyi"
+    },
+    {
+      "chunk_id": 9,
+      "text": "g createDecoratorAttributes(NamedObj) and specifying the object that will contain the additional attributes. The decorated NamedObj will contain these instances of DecoratorAttributes. These attributes are stored separately and can be retrieved by us"
+    },
+    {
+      "chunk_id": 10,
+      "text": "s are stored separately and can be retrieved by using NamedObj.getDecoratorAttributes(Decorator) or NamedObj.getDecoratorAttributes(Decorator) . NOTE: An implementer of this interface should override the setContainer() method to look for objects that"
+    },
+    {
+      "chunk_id": 11,
+      "text": "the setContainer() method to look for objects that will be in scope with the new container and establish a connection with them. Specifically, it should do this: public void setContainer(NamedObj container) throws IllegalActionException,"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ainer) throws IllegalActionException, NameDuplicationException { super.setContainer(container); if (container != null) { List<NamedObj> decoratedObjects = decoratedObjects(); for (NamedObj decorated"
+    },
+    {
+      "chunk_id": 13,
+      "text": "atedObjects(); for (NamedObj decoratedObject : decoratedObjects) { // The following will create the DecoratorAttributes if it does not // already exist, and associate it with this decorator."
+    },
+    {
+      "chunk_id": 14,
+      "text": "associate it with this decorator. decoratedObject.getDecoratorAttributes(this); } } } For a description of a decorator pattern, see http://en.wikipedia.org/wiki/Decorator_pattern . Since: Ptolemy II 8.0 Versio"
+    },
+    {
+      "chunk_id": 15,
+      "text": "i/Decorator_pattern . Since: Ptolemy II 8.0 Version: $Id$ Author: Bert Rodiers, Edward A. Lee Pt.AcceptedRating: Red (rodiers) Pt.ProposedRating: Red (rodiers) Method Summary All Methods Instance Methods Abstract Methods Modifier and Type Method and"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ods Abstract Methods Modifier and Type Method and Description DecoratorAttributes createDecoratorAttributes ( NamedObj target) Create and return the decorated attributes for the target NamedObj. java.util.List< NamedObj > decoratedObjects () Return a"
+    },
+    {
+      "chunk_id": 17,
+      "text": "util.List< NamedObj > decoratedObjects () Return a list of the objects that this decorator decorates. boolean isGlobalDecorator () Return true if this decorator should decorate objects across opaque hierarchy boundaries. Methods inherited from inte"
+    },
+    {
+      "chunk_id": 18,
+      "text": "hierarchy boundaries. Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Method Detail createDecoratorAttributes DecoratorAttributes createDecoratorA"
+    },
+    {
+      "chunk_id": 19,
+      "text": "torAttributes DecoratorAttributes createDecoratorAttributes( NamedObj target) throws IllegalActionException Create and return the decorated attributes for the target NamedObj. Implementations of this method sh"
+    },
+    {
+      "chunk_id": 20,
+      "text": "rget NamedObj. Implementations of this method should create an Attribute that implements DecoratorAttributes . Implementations should populate that attribute with parameters that have appropriate default values. This method is called if NamedObj."
+    },
+    {
+      "chunk_id": 21,
+      "text": "default values. This method is called if NamedObj.getDecoratorAttribute(Decorator, String) or NamedObj.getDecoratorAttributes(Decorator) is called, and the specified target object does not already have decorated attributes for this decorator. The"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ave decorated attributes for this decorator. The implementer of this method is responsible for ensuring consistency with the decoratedObjects() method. Specifically, any object returned by decoratedObjects() , when passed as an argument to th"
+    },
+    {
+      "chunk_id": 23,
+      "text": "atedObjects() , when passed as an argument to this method, should not result in a null returned value. And conversely, any object passed to this method that is not in the list returned by decoratedObjects() should result in a null returned valu"
+    },
+    {
+      "chunk_id": 24,
+      "text": "tedObjects() should result in a null returned value. Parameters: target - The NamedObj that will be decorated. Returns: The decorated attributes for the target NamedObj, or null if the specified NamedObj is not decorated by this decorator. Throws:"
+    },
+    {
+      "chunk_id": 25,
+      "text": "medObj is not decorated by this decorator. Throws: IllegalActionException - If the target cannot be determined to be decorated or not (e.g., a parameter cannot be evaluated). decoratedObjects java.util.List< NamedObj > decoratedObjects()"
+    },
+    {
+      "chunk_id": 26,
+      "text": "util.List< NamedObj > decoratedObjects() throws IllegalActionException Return a list of the objects that this decorator decorates. This could be, for example, all of the entities contained by the container of th"
+    },
+    {
+      "chunk_id": 27,
+      "text": "of the entities contained by the container of this decorator. An implementer of this method is responsible for ensuring that createDecoratorAttributes(NamedObj) will not return null for any object included in the returned list. Implementers of"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ct included in the returned list. Implementers of this method are required to maintain consistency with createDecoratorAttributes(NamedObj) . Returns: A list of the objects decorated by this decorator. Throws: IllegalActionException - If some objec"
+    },
+    {
+      "chunk_id": 29,
+      "text": "or. Throws: IllegalActionException - If some object cannot be determined to be decorated or not (e.g., a parameter cannot be evaluated). isGlobalDecorator boolean isGlobalDecorator() throws IllegalActionException Return true if"
+    },
+    {
+      "chunk_id": 30,
+      "text": "throws IllegalActionException Return true if this decorator should decorate objects across opaque hierarchy boundaries. That is, return true to make this decorator visible to objects even within opaque composites. Returns: True if decorator"
+    },
+    {
+      "chunk_id": 31,
+      "text": "hin opaque composites. Returns: True if decorator is global. Throws: IllegalActionException - If it cannot be determined whether this is global or not (e.g., a parameter cannot be evaluated). Skip navigation links Overview Package Class Tree Depre"
+    }
+  ]
+}

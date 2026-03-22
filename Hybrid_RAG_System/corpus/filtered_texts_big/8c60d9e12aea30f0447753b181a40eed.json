@@ -1,0 +1,29 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/WhatToDoAboutCallbacksThatOccurAfterASwarmletStopsExecuting",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "deBar View Edit History Print Notes / WhatToDoAboutCallbacksThatOccurAfterASwarmletStopsExecuting An accessor that makes an asynchronous request (e.g. an HTTP request) may receive the response after the swarmlet has stopped executing. What should it"
+    },
+    {
+      "chunk_id": 3,
+      "text": "he swarmlet has stopped executing. What should it do with the response? Currently, in the Ptolemy host, it handles the response as normal, but if it tries to produce an accessor output, an exception is triggered, indicating that you can't produce an"
+    },
+    {
+      "chunk_id": 4,
+      "text": "is triggered, indicating that you can't produce an output when the swarmlet is not running. This exception occurs frequently, and is annoying. Possible solutions: Specify a timeout, and don't allow the model to stop executing until the timeout expir"
+    },
+    {
+      "chunk_id": 5,
+      "text": "he model to stop executing until the timeout expires. This would give a more deterministic termination of a model. It would require some minor extension to Ptolemy II, as I believe there isn't currently any mechanism for an actor to _prevent_ termina"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ly any mechanism for an actor to _prevent_ termination of a model execution (it can trigger termination, but not prevent it). A potential problem is that requests could keep coming in, preventing the execution from ever stopping. Ignore any outputs p"
+    },
+    {
+      "chunk_id": 7,
+      "text": "execution from ever stopping. Ignore any outputs produced when the model is not running, perhaps simply logging them to stdout or stderr. Some hybrid solution, where an accessor could request continued execution, but an override mechanism is provided"
+    }
+  ]
+}

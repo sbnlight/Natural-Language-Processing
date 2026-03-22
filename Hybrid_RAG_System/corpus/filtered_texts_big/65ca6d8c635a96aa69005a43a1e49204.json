@@ -1,0 +1,33 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/lookat",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; $opt_d = \"LOOK\"; CmndLin"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; $opt_d = \"LOOK\"; CmndLine (\"d:\", 1, 1); require \"GradingCommon.pl\"; require \"TestingCommon.pl\"; $target = shift; if ($target =~ /.*\\.\\d\\d\\d+$/) { if (! -e $target) { Fatal (\"No entries match $target\"); } $file"
+    },
+    {
+      "chunk_id": 3,
+      "text": "atal (\"No entries match $target\"); } $file = $target; } else { if (@allEntries = GLOB (\"$target.*\")) { @allEntries = sort SubmissionOrder @allEntries; $file = pop(@allEntries); } else { Fatal (\"No entries match $target\");"
+    },
+    {
+      "chunk_id": 4,
+      "text": "} else { Fatal (\"No entries match $target\"); } } if ($opt_d ne \"LOOK\" && -e $opt_d && not Yorn (\"Really delete current contents of $opt_d? \")) { Fatal (\"Terminated.\"); } $here = CurrentDir (); $referent = readlink ($file) or Fa"
+    },
+    {
+      "chunk_id": 5,
+      "text": "entDir (); $referent = readlink ($file) or Fatal (\"Could not read $file or it was not a link, as expected.\"); ($assgn) = ($referent =~ m{.*/(.*)/}); UnpackSubmission ($assgn, \"$here/$file\", $opt_d) || Fatal (\"Could not unpack $file properly"
+    },
+    {
+      "chunk_id": 6,
+      "text": "_d) || Fatal (\"Could not unpack $file properly\"); if (-e \"ok-$file\") { symlink (\"$here/ok-$file\", \"$opt_d/ok-$file\"); } elsif (-e \"problem-$file\") { symlink (\"$here/problem-$file\", \"$opt_d/problem-$file\"); } else { Warn (\"No log file"
+    },
+    {
+      "chunk_id": 7,
+      "text": "d/problem-$file\"); } else { Warn (\"No log file found.\"); } Note (\"$file unpacked into $opt_d.\"); exit 0;"
+    }
+  ]
+}

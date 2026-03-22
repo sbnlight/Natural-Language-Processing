@@ -1,0 +1,193 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/SupportForImplementAndExtendInPtolemyIIDiscussion",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / SupportForImplementAndExtendInPtolemyIIDiscussion Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / SupportForImplementAndEx"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Edit History Print Main / SupportForImplementAndExtendInPtolemyIIDiscussion Below are discussion and design notes about how we check out the accessors repo inside the ptII tree. See Also Support For Implement And Extend In Ptolemy II Configure Behavi"
+    },
+    {
+      "chunk_id": 3,
+      "text": "mplement And Extend In Ptolemy II Configure Behavior Below, we outline various behaviours of configure Anonymous PTII SVN, No Certificate If the user checks out the ptII tree with anonymous svn and temporarily accepts the certificate: bash-3.2$ bash-"
+    },
+    {
+      "chunk_id": 4,
+      "text": "mporarily accepts the certificate: bash-3.2$ bash- 3.2 $ time svn co https: // repo.eecs.berkeley.edu / svn-anon / projects / eal / ptII / trunk ptII-anon Error validating server certificate for 'https://repo.eecs.berkeley.edu:443' : - The certificat"
+    },
+    {
+      "chunk_id": 5,
+      "text": "s://repo.eecs.berkeley.edu:443' : - The certificate is not issued by a trusted authority. Use the fingerprint to validate the certificate manually ! Certificate information: - Hostname: repo.eecs.berkeley.edu - Valid: from Fri, 11 Apr 2014 00:00:00 G"
+    },
+    {
+      "chunk_id": 6,
+      "text": "eley.edu - Valid: from Fri, 11 Apr 2014 00:00:00 GMT until Mon, 10 Apr 2017 23 : 59 : 59 GMT - Issuer: InCommon, Internet2, US - Fingerprint: 7f:00:eb:6b: 48 :e3: 77 :0f: 34 :d8:f4: 92 :5f: 57 : 39 :6e:a6: 12 : 34 :e0 ( R ) eject, accept ( t ) empora"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e:a6: 12 : 34 :e0 ( R ) eject, accept ( t ) emporarily or accept ( p ) ermanently? t A ptII-anon / copyright.htm A ptII-anon / vergil.jnlp.in ... [$[Get Code]] Then, when ./configure is run, we see: Error validating server certificate for 'http"
+    },
+    {
+      "chunk_id": 8,
+      "text": "see: Error validating server certificate for 'https://repo.eecs.berkeley.edu:443' : - The certificate is not issued by a trusted authority. Use the fingerprint to validate the certificate manually ! Certificate information: - Hostname: repo.eecs.berk"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ertificate information: - Hostname: repo.eecs.berkeley.edu - Valid: from Fri, 11 Apr 2014 00:00:00 GMT until Mon, 10 Apr 2017 23 : 59 : 59 GMT - Issuer: InCommon, Internet2, US - Fingerprint: 7f:00:eb:6b: 48 :e3: 77 :0f: 34 :d8:f4: 92 :5f: 57 : 39 :6"
+    },
+    {
+      "chunk_id": 10,
+      "text": ":6b: 48 :e3: 77 :0f: 34 :d8:f4: 92 :5f: 57 : 39 :6e:a6: 12 : 34 :e0 ( R ) eject, accept ( t ) emporarily or accept ( p ) ermanently? svn: E175002: Unable to connect to a repository at URL 'https://repo.eecs.berkeley.edu/svn/projects\\ /terraswarm/acce"
+    },
+    {
+      "chunk_id": 11,
+      "text": "o.eecs.berkeley.edu/svn/projects\\ /terraswarm/accessors/trunk/accessors' svn: E175002: OPTIONS of 'https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/accessors' : Server certificate verification failed: issuer\\ is not trusted ( ht"
+    },
+    {
+      "chunk_id": 12,
+      "text": "e verification failed: issuer\\ is not trusted ( https: // repo.eecs.berkeley.edu ) configure: WARNING: Could not check out the accessors svn repo. Accessors that extend the TerraSwarm accessors will not work. checking for ant... / usr / local / bin"
+    },
+    {
+      "chunk_id": 13,
+      "text": "not work. checking for ant... / usr / local / bin / ant [$[Get Code]] The above is ok, but can be fixed by adding --trust-server-cert --non-interactive to the svn co command. Anonymous PTII SVN, Certificate accepted If the user who has an anonymous t"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ficate accepted If the user who has an anonymous tree but no access to the repo then does a svn update in the tree a bash-3.2$ svn update Updating '.' : Error validating server certificate for 'https://repo.eecs.berkeley.edu:443' : - The certificate"
+    },
+    {
+      "chunk_id": 15,
+      "text": "//repo.eecs.berkeley.edu:443' : - The certificate is not issued by a trusted authority. Use the fingerprint to validate the certificate manually ! Certificate information: - Hostname: repo.eecs.berkeley.edu - Valid: from Fri, 11 Apr 2014 00:00:00 GMT"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ey.edu - Valid: from Fri, 11 Apr 2014 00:00:00 GMT until Mon, 10 Apr 2017 23 : 59 : 59 GMT - Issuer: InCommon, Internet2, US - Fingerprint: 7f:00:eb:6b: 48 :e3: 77 :0f: 34 :d8:f4: 92 :5f: 57 : 39 :6e:a6: 12 : 34 :e0 ( R ) eject, accept ( t ) emporari"
+    },
+    {
+      "chunk_id": 17,
+      "text": "a6: 12 : 34 :e0 ( R ) eject, accept ( t ) emporarily or accept ( p ) ermanently? p At revision 73242 . bash-3.2$ [$[Get Code]] and then runs ./configure Authentication realm: < https: // repo.eecs.berkeley.edu: 443 > UCB / EECS Subversion Repository"
+    },
+    {
+      "chunk_id": 18,
+      "text": "keley.edu: 443 > UCB / EECS Subversion Repository Password for 'cxbrooks' : Authentication realm: < https: // repo.eecs.berkeley.edu: 443 > UCB / EECS Subversion Repository Username: svn: E170001: Unable to connect to a repository at URL 'https://rep"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ble to connect to a repository at URL 'https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/accessors' svn: E170001: OPTIONS of 'https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/accessors' : authorization faile"
+    },
+    {
+      "chunk_id": 20,
+      "text": "m/accessors/trunk/accessors' : authorization failed: Could not authenticate to server: rejected Basic challenge ( https: // repo.eecs.berkeley.edu ) configure: WARNING: Could not check out the accessors svn repo. Accessors that extend the TerraSwarm"
+    },
+    {
+      "chunk_id": 21,
+      "text": "rs svn repo. Accessors that extend the TerraSwarm accessors will not work. checking for ant... / usr / local / bin / ant [$[Get Code]] Problems: The are prompted for the password (configure will hang here). One possible solution is to add --non-inte"
+    },
+    {
+      "chunk_id": 22,
+      "text": "here). One possible solution is to add --non-interactive to the svn command What if they do have access and have a different account name? After adding --trust-server-cert --non-interactive to the svn command in $PTII/configure.in and running autoco"
+    },
+    {
+      "chunk_id": 23,
+      "text": "n command in $PTII/configure.in and running autoconf , if the user does not have access, we now get: About to check out the accessors repo. This will fail for people who do not have access. svn: E170001: Unable to connect to a repository at URL 'htt"
+    },
+    {
+      "chunk_id": 24,
+      "text": "001: Unable to connect to a repository at URL 'https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/accessors' svn: E170001: OPTIONS of 'https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/accessors' : authorizati"
+    },
+    {
+      "chunk_id": 25,
+      "text": "erraswarm/accessors/trunk/accessors' : authorization failed: Could not authenticate to server: rejected Basic challenge ( https: // repo.eecs.berkeley.edu ) configure: WARNING: Could not check out the accessors svn repo. Accessors that extend the Te"
+    },
+    {
+      "chunk_id": 26,
+      "text": "accessors svn repo. Accessors that extend the TerraSwarm accessors will not work. Access to the repo is restricted. If you have an account on repo.eecs.berkeley.edu and your login on repo.eecs.berkeley.edu is different than your login , then try c"
+    },
+    {
+      "chunk_id": 27,
+      "text": "eley.edu is different than your login , then try cd org / terraswarm / accessor svn co --username yourname @ youremail.com https: // repo.eecs.berkeley.edu / svn / projects / terraswarm / accessors / trunk / accessors and rerun . / configure [$[Get C"
+    },
+    {
+      "chunk_id": 28,
+      "text": "trunk / accessors and rerun . / configure [$[Get Code]] Now this is ok. Anonymous PTII SVN, No Network If there is no network, then ./configure results in About to check out the accessors repo. This will fail for people who do not have access. svn:"
+    },
+    {
+      "chunk_id": 29,
+      "text": "will fail for people who do not have access. svn: E175002: Unable to connect to a repository at URL 'https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/accessors' svn: E175002: OPTIONS of 'https://repo.eecs.berkeley.edu/svn/projec"
+    },
+    {
+      "chunk_id": 30,
+      "text": "IONS of 'https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/accessors' : Could not resolve hostname ` repo.eecs.berkeley.edu ': Host not found (https://repo.eecs.berkeley.edu) configure: WARNING: Could not check out the accessors"
+    },
+    {
+      "chunk_id": 31,
+      "text": "igure: WARNING: Could not check out the accessors svn repo. Accessors that extend the TerraSwarm accessors will not work. Access to the repo is restricted. If you have an account on repo.eecs.berkeley.edu and your login on repo.eecs.berkeley.edu is"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ey.edu and your login on repo.eecs.berkeley.edu is different than your login, then try cd org/terraswarm/accessor svn co --username yourname@youremail.com https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/accessors and rerun ./co"
+    },
+    {
+      "chunk_id": 33,
+      "text": "erraswarm/accessors/trunk/accessors and rerun ./configure checking for ant... /usr/local/bin/ant [$[Get Code]] The above is ok. Runtime Behaviours Anonymous PTII SVN, No access to the repo If the user does not have access to the accessors repo and th"
+    },
+    {
+      "chunk_id": 34,
+      "text": "does not have access to the accessors repo and then reload an accessor, vergil hangs! Edward wrote: \"But then, in vergil, Import Accessor also asks on stdout/in for the password. No matter what I enter, the exec process hangs and I have to quit verg"
+    },
+    {
+      "chunk_id": 35,
+      "text": "er, the exec process hangs and I have to quit vergil. Same thing happens in capecode if I try to expand the accessor library.\" bash-3.2$ $PTII / bin / vergil org / terraswarm / accessor / demo / Camera / Camera.xml 8297 ms. Memory: 333312K Free: 2881"
+    },
+    {
+      "chunk_id": 36,
+      "text": "a / Camera.xml 8297 ms. Memory: 333312K Free: 288149K ( 86 % ) Checking out the accessors repository. In \"/Users/cxbrooks/ptII-anon/org/terraswarm/accessor\" , about to execute: svn co https: // repo.eecs.berkeley.edu / svn / projects / terraswarm / a"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ecs.berkeley.edu / svn / projects / terraswarm / accessors / trunk / accessors Password for 'cxbrooks' : Authentication realm: < https: // repo.eecs.berkeley.edu: 443 > UCB / EECS Subversion Repository [$[Get Code]] Solution: Modify JSAccessor.java t"
+    },
+    {
+      "chunk_id": 38,
+      "text": "y [$[Get Code]] Solution: Modify JSAccessor.java to invoke svn with --trust-server-cert --non-interactive . Also, the checkout or update keeps happening even after it fails. Solution: Modify JSAccessor.java so that it sets a static boolean if the che"
+    },
+    {
+      "chunk_id": 39,
+      "text": "r.java so that it sets a static boolean if the checkout or update fails. To reset the flag, restart the JVM. Below is a sample run, where we get a bunch of text the first time it fails and then nothing after each reload. [ cxbrooks @ terratest ptII-"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ng after each reload. [ cxbrooks @ terratest ptII-anon ] $ $PTII / bin / vergil org / terraswarm / accessor / demo / StockTick / StockTick.xml Checking out the accessors repository. In \"/home/cxbrooks/ptII-anon/org/terraswarm/accessor\" , about to exe"
+    },
+    {
+      "chunk_id": 41,
+      "text": "/ptII-anon/org/terraswarm/accessor\" , about to execute: svn co --non-interactive --trust-server-cert https: // repo.eecs.berkeley.edu / svn / projects / terraswarm / accessors / trunk / notreadable svn: OPTIONS of 'https://repo.eecs.berkeley.edu/svn/"
+    },
+    {
+      "chunk_id": 42,
+      "text": "n: OPTIONS of 'https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/notreadable' : authorization failed: Could not authenticate to serve\\ r: rejected Basic challenge ( https: // repo.eecs.berkeley.edu ) All Done Failed to check out"
+    },
+    {
+      "chunk_id": 43,
+      "text": ".eecs.berkeley.edu ) All Done Failed to check out the accessors repository. Failed to check out the accessors repository. Failed to checkout or update the TerraSwarm accessor repo. This could happen if you don 't have read access to the repo.The mes"
+    },
+    {
+      "chunk_id": 44,
+      "text": "if you don 't have read access to the repo.The message was: java.io.IOException: Failed to check out the TerraSwarm accessors repository with: cd /home/cxbrooks/ptII-anon/org/terraswarm/accessor svn co --non-interactive --trust-server-cert https://re"
+    },
+    {
+      "chunk_id": 45,
+      "text": "o --non-interactive --trust-server-cert https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/notreadable Perhaps you don' t have read access?The TerraSwarm accessors repository is under development. The output was: In \"/home/cxbrook"
+    },
+    {
+      "chunk_id": 46,
+      "text": "der development. The output was: In \"/home/cxbrooks/ptII-anon/org/terraswarm/accessor\" , about to execute: svn co --non-interactive --trust-server-cert https: // repo.eecs.berkeley.edu / svn / projects / terraswarm / accessors / trunk / notreada ble"
+    },
+    {
+      "chunk_id": 47,
+      "text": "s / terraswarm / accessors / trunk / notreada ble svn: OPTIONS of 'https://repo.eecs.berkeley.edu/svn/projects/terraswarm/accessors/trunk/notreadable' : authorization failed: Could not authenticate to serve\\ r: rejected Basic challenge ( https: // re"
+    }
+  ]
+}

@@ -1,0 +1,505 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/vergil/actor/DocManager.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "DocManager Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.vergil.actor Class DocManager java.lang.Object com.micro"
+    },
+    {
+      "chunk_id": 2,
+      "text": ".actor Class DocManager java.lang.Object com.microstar.xml.HandlerBase ptolemy.vergil.actor.DocManager All Implemented Interfaces: XmlHandler public class DocManager extends HandlerBase A manager for documentation for an associated Ptolemy II object."
+    },
+    {
+      "chunk_id": 3,
+      "text": "documentation for an associated Ptolemy II object. The constructor specifies the associated Ptolemy II object, and then various methods provide access to portions of the documentation. For example, the getDescription() method returns a description"
+    },
+    {
+      "chunk_id": 4,
+      "text": "the getDescription() method returns a description of the object. The getPortDoc() method returns a description of the specified port. The documentation is constructed by a multi-tiered method. The first level of information is provided by an att"
+    },
+    {
+      "chunk_id": 5,
+      "text": "first level of information is provided by an attribute named DOC_ATTRIBUTE_NAME contained by the object. The second level of information is provided by an XML file in the same package as the class of the associated object. The name of the XML fi"
+    },
+    {
+      "chunk_id": 6,
+      "text": "of the associated object. The name of the XML file is \"xDoc.xml\", where x is the name of the class of the object. The third level of information is provided by an XML file associated with the base class of the associated object. The remaining l"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e class of the associated object. The remaining levels are provided by searching up the inheritance hierarchy. When a method of the DocManager class is invoked to get documentation information, this class looks first in the first tier for the in"
+    },
+    {
+      "chunk_id": 8,
+      "text": "is class looks first in the first tier for the information. If the information is not present in the first tier, then it looks in the second tier, etc. If the information is not present in any tier, then it returns a string indicating that there"
+    },
+    {
+      "chunk_id": 9,
+      "text": ", then it returns a string indicating that there is no information. Except for the first tier, the documentation information is constructed lazily, only when the methods to access the information are invoked, and only if the first tier has not"
+    },
+    {
+      "chunk_id": 10,
+      "text": "are invoked, and only if the first tier has not provided the information. If the information is found but is malformed, then all information methods return a description of the error. At all tiers, the documentation information is given in XML wi"
+    },
+    {
+      "chunk_id": 11,
+      "text": "the documentation information is given in XML with a specified DTD. A doc file should be an XML file beginning with <?xml version=\"1.0\" standalone=\"yes\"?> <!DOCTYPE doc PUBLIC \"-//UC Berkeley//DTD DocML 1//EN\" \"http://ptolemy.eecs.berkeley.edu/xm"
+    },
+    {
+      "chunk_id": 12,
+      "text": "DocML 1//EN\" \"http://ptolemy.eecs.berkeley.edu/xml/dtd/DocML_1.dtd\"> and should then have a top-level element of the form <doc name=\" actorName \" class=\" actorClass \"> The main description is text included within the description element, as in <des"
+    },
+    {
+      "chunk_id": 13,
+      "text": "cluded within the description element, as in <description> description here </description> The description can include HTML formatting, although any < and > should be escaped and represented as &lt; and &gt;. Additional information can be provided"
+    },
+    {
+      "chunk_id": 14,
+      "text": "and &gt;. Additional information can be provided in the author, version, since, Pt.ProposedRating, and Pt.AcceptedRating elements. These are, like the description, simple text that gets rendered (and HTML formatted) in the documentation. Documen"
+    },
+    {
+      "chunk_id": 15,
+      "text": "(and HTML formatted) in the documentation. Documentation for ports and parameters is given using the following forms: <port name=\" portName \"> documentation </port> <property name=\" parameterName \"> documentation </property> The use of the \"propert"
+    },
+    {
+      "chunk_id": 16,
+      "text": "documentation </property> The use of the \"property\" keyword matches MoML. Since: Ptolemy II 5.2 Version: $Id: DocManager.java,v 1.25 2006/08/20 19:55:38 cxh Exp $ Author: Edward A. Lee Accepted Rating: Red (cxh) Proposed Rating: Red (eal) Field Summ"
+    },
+    {
+      "chunk_id": 17,
+      "text": "g: Red (cxh) Proposed Rating: Red (eal) Field Summary static java.lang.String DocML_DTD_1 The standard DocML DTD, represented as a string. Constructor Summary DocManager ( Configuration configuration, java.lang.Class targetClass) Construct"
+    },
+    {
+      "chunk_id": 18,
+      "text": "java.lang.Class targetClass) Construct a manager to handle documentation for the specified target class. DocManager ( Configuration configuration, NamedObj target) Construct a manager to handle documentation for the specified target. Do"
+    },
+    {
+      "chunk_id": 19,
+      "text": "handle documentation for the specified target. DocManager ( Configuration configuration, java.net.URL url) Construct a manager for documentation at the specified URL. Method Summary protected void _checkForNull (java.lang.Object object,"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ted void _checkForNull (java.lang.Object object, java.lang.String message) If the argument is null, throw an exception with the given message. protected java.lang.String _currentExternalEntity () Get the the URI for the current extern"
+    },
+    {
+      "chunk_id": 21,
+      "text": "alEntity () Get the the URI for the current external entity. void attribute (java.lang.String name, java.lang.String value, boolean specified) Handle an attribute assignment that is part of an XML element. void charData (char[] ch"
+    },
+    {
+      "chunk_id": 22,
+      "text": "s part of an XML element. void charData (char[] chars, int offset, int length) Handle character data. static java.net.URL docClassNameToURL ( Configuration configuration, java.lang.String className,"
+    },
+    {
+      "chunk_id": 23,
+      "text": "java.lang.String className, boolean lookForPtDoc, boolean lookForJavadoc, boolean lookForSource, boolean lookForActorIndex) Given a dot separated class name, return the UR"
+    },
+    {
+      "chunk_id": 24,
+      "text": "x) Given a dot separated class name, return the URL of the documentation. void endDocument () End the document. void endElement (java.lang.String elementName) End an element. void error (java.lang.String message, java.lang.String systemID,"
+    },
+    {
+      "chunk_id": 25,
+      "text": "tring message, java.lang.String systemID, int line, int column) Indicate a fatal XML parsing error. java.lang.String getAcceptedRating () Return the Pt.AcceptedRating field, or null if none has been given. java.lang.String getAuth"
+    },
+    {
+      "chunk_id": 26,
+      "text": "if none has been given. java.lang.String getAuthor () Return the author field, or the string \"No author given\" if none has been given. java.lang.String getClassName () Return the class name, or null if none has been given. java.lang.String getDes"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ll if none has been given. java.lang.String getDescription () Return the description, or null if none has been given. DocManager getNextTier () Return next tier, if there is one. java.lang.String getPortDoc (java.lang.String name) Return the document"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ortDoc (java.lang.String name) Return the documentation for the specified port, or null if there is none. java.lang.String getPropertyDoc (java.lang.String name) Return the documentation for the specified property (parameter or attribute), or nul"
+    },
+    {
+      "chunk_id": 29,
+      "text": "cified property (parameter or attribute), or null if there is none. java.lang.String getProposedRating () Return the Pt.ProposedRating field, or null if none has been given. static java.lang.String getRemoteDocumentationURLBase () Get the locatio"
+    },
+    {
+      "chunk_id": 30,
+      "text": "g getRemoteDocumentationURLBase () Get the location of the website documentation. java.lang.String getSeeAlso () Return \"see also\" information. java.lang.String getSince () Return the since field, or null if none has been given. java.lang.Class get"
+    },
+    {
+      "chunk_id": 31,
+      "text": "null if none has been given. java.lang.Class getTargetClass () Return the class of the target. java.lang.String getVersion () Return the version field, or null if none has been given. boolean hadException () Return true if an exception was encoun"
+    },
+    {
+      "chunk_id": 32,
+      "text": "xception () Return true if an exception was encountered parsing the DocML data. boolean isInstanceDoc () Return true if the primary source of documentation is the instance. boolean isTargetInstantiableAttribute () Return true if the target class"
+    },
+    {
+      "chunk_id": 33,
+      "text": "iableAttribute () Return true if the target class is a subclass of Attribute that has a two-argument constructor compatible where the first argument is a CompositeEntity and the second is a String. boolean isTargetInstantiableEntity () Return t"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ng. boolean isTargetInstantiableEntity () Return true if the target class is a subclass of Entity that has a two-argument constructor compatible where the first argument is a CompositeEntity and the second is a String. boolean isTargetInstantia"
+    },
+    {
+      "chunk_id": 35,
+      "text": "he second is a String. boolean isTargetInstantiablePort () Return true if the target class is a subclass of Port that has a two-argument constructor compatible where the first argument is a CompositeEntity and the second is a String. void par"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ositeEntity and the second is a String. void parse (java.lang.String text) Parse the given text as DocML. void parse (java.net.URL base, java.io.InputStream input) Parse the given stream as a DocML file. void parse (java.net.URL base, j"
+    },
+    {
+      "chunk_id": 37,
+      "text": "DocML file. void parse (java.net.URL base, java.io.Reader reader) Parse the given stream as a DocML file. java.lang.Object resolveEntity (java.lang.String publicID, java.lang.String systemID) Resolve an external entity. static voi"
+    },
+    {
+      "chunk_id": 38,
+      "text": "g systemID) Resolve an external entity. static void setRemoteDocumentationURLBase (java.lang.String remoteDocumentationURLBase) Set the location of the remote documentation. void startDocument () Start a document. void startElement (java.lang.String"
+    },
+    {
+      "chunk_id": 39,
+      "text": "t a document. void startElement (java.lang.String elementName) Start an element. void startExternalEntity (java.lang.String systemID) Handle the start of an external entity. Methods inherited from class com.microstar.xml. HandlerBase doctypeDecl , en"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ss com.microstar.xml. HandlerBase doctypeDecl , endExternalEntity , ignorableWhitespace , processingInstruction Methods inherited from class java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait F"
+    },
+    {
+      "chunk_id": 41,
+      "text": "e, notify, notifyAll, toString, wait, wait, wait Field Detail DocML_DTD_1 public static java.lang.String DocML_DTD_1 The standard DocML DTD, represented as a string. This is used to parse DocML data when a compatible PUBLIC DTD is specified. Const"
+    },
+    {
+      "chunk_id": 42,
+      "text": "a when a compatible PUBLIC DTD is specified. Constructor Detail DocManager public DocManager ( Configuration configuration, NamedObj target) Construct a manager to handle documentation for the specified target. Parameters: configuration - The configu"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ed target. Parameters: configuration - The configuration in which to look up the _docApplicationSpecializer and _applicationName parameters target - The object to be documented. DocManager public DocManager ( Configuration configuration,"
+    },
+    {
+      "chunk_id": 44,
+      "text": "cManager ( Configuration configuration, java.lang.Class targetClass) Construct a manager to handle documentation for the specified target class. Parameters: configuration - The configuration in which to look up the _docApplicati"
+    },
+    {
+      "chunk_id": 45,
+      "text": "figuration in which to look up the _docApplicationSpecializer and _applicationName parameters targetClass - The class to be documented. DocManager public DocManager ( Configuration configuration, java.net.URL url) Construct a mana"
+    },
+    {
+      "chunk_id": 46,
+      "text": "java.net.URL url) Construct a manager for documentation at the specified URL. Parameters: configuration - The configuration in which to look up the _docApplicationSpecializer and _applicationName parameters url - The URL. Method Det"
+    },
+    {
+      "chunk_id": 47,
+      "text": "plicationName parameters url - The URL. Method Detail attribute public void attribute (java.lang.String name, java.lang.String value, boolean specified) throws XmlException Handle an attribut"
+    },
+    {
+      "chunk_id": 48,
+      "text": "throws XmlException Handle an attribute assignment that is part of an XML element. This method is called prior to the corresponding startElement() call, so it simply accumulates attributes in a hashtable for use by startElement(). S"
+    },
+    {
+      "chunk_id": 49,
+      "text": "utes in a hashtable for use by startElement(). Specified by: attribute in interface XmlHandler Overrides: attribute in class HandlerBase Parameters: name - The name of the attribute. value - The value of the attribute, or null if the attribute i"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ue of the attribute, or null if the attribute is #IMPLIED and not specified. specified - True if the value is specified, false if the value comes from the default value in the DTD rather than from the XML file. Throws: XmlException - If the"
+    },
+    {
+      "chunk_id": 51,
+      "text": "om the XML file. Throws: XmlException - If the name or value is null. See Also: XmlHandler.attribute(java.lang.String, java.lang.String, boolean) docClassNameToURL public static java.net.URL docClassNameToURL ( Configuration configuration,"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ssNameToURL ( Configuration configuration, java.lang.String className, boolean lookForPtDoc, boolean lookForJavadoc"
+    },
+    {
+      "chunk_id": 53,
+      "text": "boolean lookForJavadoc, boolean lookForSource, boolean lookForActorIndex) Given a dot separated class name, return the URL of the"
+    },
+    {
+      "chunk_id": 54,
+      "text": "dot separated class name, return the URL of the documentation. If the configuration has a parameter _docApplicationSpecializer and that parameter names a class that that implements the DocApplicationSpecializer interface, then we pass the class"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ationSpecializer interface, then we pass the class name to DocApplicationSpecializer.docClassNameToURL(String, String, boolean, boolean, boolean, boolean) and if a non-null is returned from docClassNameToURL(), we return that value. If the configur"
+    },
+    {
+      "chunk_id": 56,
+      "text": "meToURL(), we return that value. If the configuration has a parameter _applicationName, then we search in doc/codeDoc applicationName for the PtDoc, Javadoc and Actor Index files. Otherwise, we search in doc/codeDoc . Source files are searc"
+    },
+    {
+      "chunk_id": 57,
+      "text": "search in doc/codeDoc . Source files are searched for in the classpath by using getResource(). The lookForPtDoc , lookForJavadoc , lookForSource and lookForActorIndex parameters control which documents are searched for. The documents are s"
+    },
+    {
+      "chunk_id": 58,
+      "text": "documents are searched for. The documents are searched in the same order as the parameters that have true values, that is if the parameters are true, true, false, false, then if the the PtDoc .xml file is searched for locally, then the Javad"
+    },
+    {
+      "chunk_id": 59,
+      "text": "xml file is searched for locally, then the Javadoc .html file is search for locally and then if the _remoteDocumentation base attribute is set the PtDoc .xml file is searched for on the remote host and then the Javadoc .html file is search fo"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ost and then the Javadoc .html file is search for on the remote host. Parameters: configuration - The configuration in which to look up the _docApplicationSpecializer and _applicationName parameters className - The dot separated class name. lookF"
+    },
+    {
+      "chunk_id": 61,
+      "text": "rs className - The dot separated class name. lookForPtDoc - True if we should look for ptdoc .xml files. lookForJavadoc - True if we should look for javadoc files. lookForSource - True if we should look for source files. Note that lookForPtDoc and"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ok for source files. Note that lookForPtDoc and lookForJavadoc must both be false for the source code to be found. lookForActorIndex - True if we should look for the actor index. Returns: The URL of the documentation, if any. If no documentation"
+    },
+    {
+      "chunk_id": 63,
+      "text": "of the documentation, if any. If no documentation was found, return null. charData public void charData (char[] chars, int offset, int length) Handle character data. In this implementation, the characte"
+    },
+    {
+      "chunk_id": 64,
+      "text": "cter data. In this implementation, the character data is accumulated in a buffer until the end element. Ælfred will call this method once for each chunk of character data found in the contents of elements. Note that the parser may break u"
+    },
+    {
+      "chunk_id": 65,
+      "text": "s of elements. Note that the parser may break up a long sequence of characters into smaller chunks and call this method once for each chunk. Specified by: charData in interface XmlHandler Overrides: charData in class HandlerBase Parameters: char"
+    },
+    {
+      "chunk_id": 66,
+      "text": "es: charData in class HandlerBase Parameters: chars - The character data. offset - The starting position in the array. length - The number of characters available. See Also: XmlHandler.charData(char[], int, int) endDocument public void endDocument ()"
+    },
+    {
+      "chunk_id": 67,
+      "text": ", int, int) endDocument public void endDocument () throws java.lang.Exception End the document. In this implementation, do nothing. Ælfred will call this method once, when it has finished parsing the XML document. It is guaran"
+    },
+    {
+      "chunk_id": 68,
+      "text": "finished parsing the XML document. It is guaranteed that this will be the last method called. Specified by: endDocument in interface XmlHandler Overrides: endDocument in class HandlerBase Throws: java.lang.Exception - Derived methods may throw exc"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ava.lang.Exception - Derived methods may throw exceptions. See Also: XmlHandler.endDocument() endElement public void endElement (java.lang.String elementName) throws java.lang.Exception End an element. Ælfred will call this method a"
+    },
+    {
+      "chunk_id": 70,
+      "text": "n End an element. Ælfred will call this method at the end of each element (including EMPTY elements). Specified by: endElement in interface XmlHandler Overrides: endElement in class HandlerBase Parameters: elementName - The element type name. Thr"
+    },
+    {
+      "chunk_id": 71,
+      "text": "rameters: elementName - The element type name. Throws: java.lang.Exception - Not thrown in this base class. See Also: XmlHandler.endElement(java.lang.String) error public void error (java.lang.String message, java.lang.String system"
+    },
+    {
+      "chunk_id": 72,
+      "text": "message, java.lang.String systemID, int line, int column) throws XmlException Indicate a fatal XML parsing error. Ælfred will call this method whenever it encounters a serious error"
+    },
+    {
+      "chunk_id": 73,
+      "text": "is method whenever it encounters a serious error. This method simply throws an XmlException. Specified by: error in interface XmlHandler Overrides: error in class HandlerBase Parameters: message - The error message. systemID - The URI of the entit"
+    },
+    {
+      "chunk_id": 74,
+      "text": "The error message. systemID - The URI of the entity that caused the error. line - The approximate line number of the error. column - The approximate column number of the error. Throws: XmlException - If called. See Also: XmlHandler.error(java.lang.St"
+    },
+    {
+      "chunk_id": 75,
+      "text": "If called. See Also: XmlHandler.error(java.lang.String, java.lang.String, int, int) getAcceptedRating public java.lang.String getAcceptedRating () Return the Pt.AcceptedRating field, or null if none has been given. Note that unlike some of the othe"
+    },
+    {
+      "chunk_id": 76,
+      "text": "has been given. Note that unlike some of the other fields, this does not delegate to the next tier if no since field has been given. Returns: The Pt.AcceptedRating field. getAuthor public java.lang.String getAuthor () Return the author field, or"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ng.String getAuthor () Return the author field, or the string \"No author given\" if none has been given. Note that unlike some of the other fields, this does not delegate to the next tier if no author has been given. Returns: The author field. g"
+    },
+    {
+      "chunk_id": 78,
+      "text": "uthor has been given. Returns: The author field. getClassName public java.lang.String getClassName () Return the class name, or null if none has been given. Returns: The class name. getDescription public java.lang.String getDescription () Return the"
+    },
+    {
+      "chunk_id": 79,
+      "text": "lic java.lang.String getDescription () Return the description, or null if none has been given. Returns: The description. getNextTier public DocManager getNextTier () Return next tier, if there is one. If this is an instance, then the next tier is"
+    },
+    {
+      "chunk_id": 80,
+      "text": "If this is an instance, then the next tier is the documentation for the class. If it is a class, then the next tier is the documentation for the superclass. Returns: The next tier, or null if there isn't one. getPortDoc public java.lang.Stri"
+    },
+    {
+      "chunk_id": 81,
+      "text": "there isn't one. getPortDoc public java.lang.String getPortDoc (java.lang.String name) Return the documentation for the specified port, or null if there is none. Parameters: name - The name of the port. Returns: The documentation for the specified"
+    },
+    {
+      "chunk_id": 82,
+      "text": "port. Returns: The documentation for the specified port, or null if there is none. getPropertyDoc public java.lang.String getPropertyDoc (java.lang.String name) Return the documentation for the specified property (parameter or attribute), or nul"
+    },
+    {
+      "chunk_id": 83,
+      "text": "cified property (parameter or attribute), or null if there is none. Parameters: name - The name of the property. Returns: The documentation for the specified property, or null if there is none. getProposedRating public java.lang.String getPropos"
+    },
+    {
+      "chunk_id": 84,
+      "text": "etProposedRating public java.lang.String getProposedRating () Return the Pt.ProposedRating field, or null if none has been given. Note that unlike some of the other fields, this does not delegate to the next tier if no since field has been give"
+    },
+    {
+      "chunk_id": 85,
+      "text": "to the next tier if no since field has been given. Returns: The Pt.ProposedRating field. getSince public java.lang.String getSince () Return the since field, or null if none has been given. Note that unlike some of the other fields, this does n"
+    },
+    {
+      "chunk_id": 86,
+      "text": "hat unlike some of the other fields, this does not delegate to the next tier if no since field has been given. Returns: The since field. getRemoteDocumentationURLBase public static java.lang.String getRemoteDocumentationURLBase () Get the locatio"
+    },
+    {
+      "chunk_id": 87,
+      "text": "g getRemoteDocumentationURLBase () Get the location of the website documentation. The website documentation is set by the _remoteDocumentationURLBase attribute in the configuration. That attribute, if present, should be a parameter that whose"
+    },
+    {
+      "chunk_id": 88,
+      "text": "te, if present, should be a parameter that whose value is a string that represents the URL where the documentation may be found. If the _remoteDocumentationURLBase attribute is not set, then the location of the website documentation defaults"
+    },
+    {
+      "chunk_id": 89,
+      "text": "e location of the website documentation defaults to http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII/ Major.Version , where Major.Version is the value returned by VersionAttribute.majorCurrentVersion() . Returns: The URL location of the website do"
+    },
+    {
+      "chunk_id": 90,
+      "text": "on() . Returns: The URL location of the website documentation. See Also: setRemoteDocumentationURLBase(String) getTargetClass public java.lang.Class getTargetClass () Return the class of the target. Returns: The class of the target. getVersion public"
+    },
+    {
+      "chunk_id": 91,
+      "text": "eturns: The class of the target. getVersion public java.lang.String getVersion () Return the version field, or null if none has been given. Note that unlike some of the other fields, this does not delegate to the next tier if no version has bee"
+    },
+    {
+      "chunk_id": 92,
+      "text": "delegate to the next tier if no version has been given. If the version field is the standard CVS version, then return only the version number and date. Returns: The version field. getSeeAlso public java.lang.String getSeeAlso () Return \"see also"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ic java.lang.String getSeeAlso () Return \"see also\" information. This includes a link to the javadoc documentation, the source code, and the superclass information. Returns: The \"see also\" information. hadException public boolean hadException ()"
+    },
+    {
+      "chunk_id": 94,
+      "text": "tion. hadException public boolean hadException () Return true if an exception was encountered parsing the DocML data. Returns: True if an exception was encountered. isInstanceDoc public boolean isInstanceDoc () Return true if the primary source of"
+    },
+    {
+      "chunk_id": 95,
+      "text": "stanceDoc () Return true if the primary source of documentation is the instance. That is, return true if the target has an instance of DocAttribute in it, and at least one of the fields of the DocAttribute is not empty. Returns: True if this do"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ocAttribute is not empty. Returns: True if this documents an instance (vs. a class). isTargetInstantiableAttribute public boolean isTargetInstantiableAttribute () Return true if the target class is a subclass of Attribute that has a two-argument co"
+    },
+    {
+      "chunk_id": 97,
+      "text": "subclass of Attribute that has a two-argument constructor compatible where the first argument is a CompositeEntity and the second is a String. This will return true if the target is itself an instance of Attribute or a subclass. Returns: True"
+    },
+    {
+      "chunk_id": 98,
+      "text": "instance of Attribute or a subclass. Returns: True if the target is an instantiable attribute. isTargetInstantiableEntity public boolean isTargetInstantiableEntity () Return true if the target class is a subclass of Entity that has a two-argument c"
+    },
+    {
+      "chunk_id": 99,
+      "text": "s a subclass of Entity that has a two-argument constructor compatible where the first argument is a CompositeEntity and the second is a String. This will return true if the target is itself an instance of Entity or a subclass. Returns: True i"
+    },
+    {
+      "chunk_id": 100,
+      "text": "instance of Entity or a subclass. Returns: True if the target is an instantiable entity. isTargetInstantiablePort public boolean isTargetInstantiablePort () Return true if the target class is a subclass of Port that has a two-argument constructor"
+    },
+    {
+      "chunk_id": 101,
+      "text": "ass of Port that has a two-argument constructor compatible where the first argument is a CompositeEntity and the second is a String. This will return true if the target is itself an instance of Port or a subclass. Returns: True if the target"
+    },
+    {
+      "chunk_id": 102,
+      "text": "f Port or a subclass. Returns: True if the target is an instantiable port. parse public void parse (java.net.URL base, java.io.InputStream input) throws java.lang.Exception Parse the given stream as a DocML file. For ex"
+    },
+    {
+      "chunk_id": 103,
+      "text": "n Parse the given stream as a DocML file. For example, a user might use this method as follows: DocManager parser = new DocManager(); URL xmlFile = new URL(null, docURL); parser.parse(xmlFile.openStream()); A variety of exceptions might b"
+    },
+    {
+      "chunk_id": 104,
+      "text": "ile.openStream()); A variety of exceptions might be thrown if the parsed data does not represent a valid DocML file. Parameters: base - The base URL from which the XML is read. input - The stream from which to read XML. Throws: java.lang.Exception"
+    },
+    {
+      "chunk_id": 105,
+      "text": "om which to read XML. Throws: java.lang.Exception - If the parser fails. parse public void parse (java.net.URL base, java.io.Reader reader) throws java.lang.Exception Parse the given stream as a DocML file. A variety of"
+    },
+    {
+      "chunk_id": 106,
+      "text": "e the given stream as a DocML file. A variety of exceptions might be thrown if the parsed data does not represent a valid DocML file. Parameters: base - The base URL from which the XML is read. reader - The stream from which to read XML. Throws:"
+    },
+    {
+      "chunk_id": 107,
+      "text": "ader - The stream from which to read XML. Throws: java.lang.Exception - If the parser fails. parse public void parse (java.lang.String text) throws java.lang.Exception Parse the given text as DocML. A variety of exceptions might be throw"
+    },
+    {
+      "chunk_id": 108,
+      "text": "as DocML. A variety of exceptions might be thrown if the parsed data does not represent valid DocML data. Parameters: text - The DocML data. Throws: java.lang.Exception - If the parser fails. resolveEntity public java.lang.Object resolveEntity (j"
+    },
+    {
+      "chunk_id": 109,
+      "text": "lveEntity public java.lang.Object resolveEntity (java.lang.String publicID, java.lang.String systemID) Resolve an external entity. If the first argument is the name of the DocML PUBLIC DTD (\"-//UC Berkeley//DTD"
+    },
+    {
+      "chunk_id": 110,
+      "text": "name of the DocML PUBLIC DTD (\"-//UC Berkeley//DTD DocML 1//EN\"), then return a StringReader that will read the locally cached version of this DTD (the public variable DocML_DTD_1). Otherwise, return null, which has the effect of deferring to"
+    },
+    {
+      "chunk_id": 111,
+      "text": "eturn null, which has the effect of deferring to Ælfred for resolution of the URI. Derived classes may return a a modified URI (a string), an InputStream, or a Reader. In the latter two cases, the input character stream is provided. Specif"
+    },
+    {
+      "chunk_id": 112,
+      "text": ", the input character stream is provided. Specified by: resolveEntity in interface XmlHandler Overrides: resolveEntity in class HandlerBase Parameters: publicID - The public identifier, or null if none was supplied. systemID - The system identifier"
+    },
+    {
+      "chunk_id": 113,
+      "text": "one was supplied. systemID - The system identifier. Returns: Null, indicating to use the default system identifier. See Also: XmlHandler.resolveEntity(java.lang.String, java.lang.String) setRemoteDocumentationURLBase public static void setRemoteDocum"
+    },
+    {
+      "chunk_id": 114,
+      "text": "mentationURLBase public static void setRemoteDocumentationURLBase (java.lang.String remoteDocumentationURLBase) Set the location of the remote documentation. Parameters: remoteDocumentationURLBase - The remote location of the class documentation. S"
+    },
+    {
+      "chunk_id": 115,
+      "text": "he remote location of the class documentation. See Also: getRemoteDocumentationURLBase() startDocument public void startDocument () Start a document. This method is called just before the parser attempts to read the first entity (the root of the"
+    },
+    {
+      "chunk_id": 116,
+      "text": "attempts to read the first entity (the root of the document). It is guaranteed that this will be the first method called. Specified by: startDocument in interface XmlHandler Overrides: startDocument in class HandlerBase See Also: XmlHandler.startDo"
+    },
+    {
+      "chunk_id": 117,
+      "text": "in class HandlerBase See Also: XmlHandler.startDocument() startElement public void startElement (java.lang.String elementName) throws XmlException Start an element. This is called at the beginning of each XML element. By the t"
+    },
+    {
+      "chunk_id": 118,
+      "text": "at the beginning of each XML element. By the time it is called, all of the attributes for the element will already have been reported using the attribute() method. Unrecognized elements are ignored. Specified by: startElement in interface Xm"
+    },
+    {
+      "chunk_id": 119,
+      "text": "gnored. Specified by: startElement in interface XmlHandler Overrides: startElement in class HandlerBase Parameters: elementName - The element type name. Throws: XmlException - If the element produces an error in constructing the model. See Also: X"
+    },
+    {
+      "chunk_id": 120,
+      "text": "an error in constructing the model. See Also: XmlHandler.startElement(java.lang.String) startExternalEntity public void startExternalEntity (java.lang.String systemID) Handle the start of an external entity. This pushes the stack so that error"
+    },
+    {
+      "chunk_id": 121,
+      "text": "al entity. This pushes the stack so that error reporting correctly reports the external entity that causes the error. Specified by: startExternalEntity in interface XmlHandler Overrides: startExternalEntity in class HandlerBase Parameters: syste"
+    },
+    {
+      "chunk_id": 122,
+      "text": "ernalEntity in class HandlerBase Parameters: systemID - The URI for the external entity. See Also: XmlHandler.startExternalEntity(java.lang.String) _checkForNull protected void _checkForNull (java.lang.Object object, java"
+    },
+    {
+      "chunk_id": 123,
+      "text": "g.Object object, java.lang.String message) throws XmlException If the argument is null, throw an exception with the given message. Parameters: object - The reference to check for null. message - The"
+    },
+    {
+      "chunk_id": 124,
+      "text": "- The reference to check for null. message - The message to issue if the reference is null. Throws: XmlException - If the object parameter is null. _currentExternalEntity protected java.lang.String _currentExternalEntity () Get the the URI for the c"
+    },
+    {
+      "chunk_id": 125,
+      "text": "currentExternalEntity () Get the the URI for the current external entity. Returns: A string giving the URI of the external entity being read, or null if none. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES"
+    }
+  ]
+}

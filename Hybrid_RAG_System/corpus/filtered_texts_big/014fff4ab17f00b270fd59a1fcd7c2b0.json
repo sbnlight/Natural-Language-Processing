@@ -1,0 +1,93 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version1/Extend",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / Extend Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / Extend An accessor may specify that it extends another acce"
+    },
+    {
+      "chunk_id": 2,
+      "text": "accessor may specify that it extends another accessor in its setup() function by invoking: extend ( <string> name ): Extend an accessor with the specified name. This has the effect of implementing the interface of the other accessor, as if implement"
+    },
+    {
+      "chunk_id": 3,
+      "text": "e interface of the other accessor, as if implement had been invoked, but in addition, it inherits all exported fields and functions of the specified accessor. Specifically, the exports property of the base accessor becomes the prototype of the export"
+    },
+    {
+      "chunk_id": 4,
+      "text": "base accessor becomes the prototype of the exports property of the extending accessor. For example, suppose a base accessor MyBase has the following: exports. initialize = function ( ) { console. log ( 'Initialize base accessor.' ) ; } [$[Get Code]]"
+    },
+    {
+      "chunk_id": 5,
+      "text": "( 'Initialize base accessor.' ) ; } [$[Get Code]] Then if an accessor specifies the following: exports. setup = function ( ) { this . extend ( \"MyBase\" ) ; } [$[Get Code]] then it will inherit the exports.initialize() function of the base accessor."
+    },
+    {
+      "chunk_id": 6,
+      "text": "ports.initialize() function of the base accessor. Functions An accessor may override any exported function of the base accessor by simply defining a function with the same name. Moreover, the override function can invoke the overridden function as in"
+    },
+    {
+      "chunk_id": 7,
+      "text": "function can invoke the overridden function as in the following example: exports. initialize = function ( ) { exports. ssuper . initialize . call ( this ) ; console. log ( 'Initialize extending accessor.' ) ; } ; [$[Get Code]] When the initialize()"
+    },
+    {
+      "chunk_id": 8,
+      "text": "sor.' ) ; } ; [$[Get Code]] When the initialize() function of the extended accessor is invoked, then the following will appear on the console: Initialize base accessor. Initialize extending accessor. Notice that the exports property has a ssuper pr"
+    },
+    {
+      "chunk_id": 9,
+      "text": ". Notice that the exports property has a ssuper property that refers to the exports property of the base accessor, which is also the prototype of the exports property of the extending accessor. Thus, ssuper refers to the prototype. Notice further tha"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ssuper refers to the prototype. Notice further that the initialize function is invoked using initialize.call(this) . This ensures that while the base accessors initialize function is executing, the variable \" this \" refers to the extending accessor."
+    },
+    {
+      "chunk_id": 11,
+      "text": "riable \" this \" refers to the extending accessor. Input Handlers An accessor can also override input handler functions. Suppose that a Base accessor has the following: exports. inputHandler = function ( ) { // Send true to output. this . send ( 'outp"
+    },
+    {
+      "chunk_id": 12,
+      "text": "( ) { // Send true to output. this . send ( 'output' , true ) ; } exports. initialize = function ( ) { this . addInputHandler ( 'input' , this . exports . inputHandler . bind ( this ) ) ; } [$[Get Code]] Notice that this.exports.inputHandler not exp"
+    },
+    {
+      "chunk_id": 13,
+      "text": "de]] Notice that this.exports.inputHandler not exports.inputHandler is added as an input handler. Hence, a derived accessor that extends this base can override the input handler with the following code: exports. inputHandler = function ( ) { // Send"
+    },
+    {
+      "chunk_id": 14,
+      "text": "e: exports. inputHandler = function ( ) { // Send false to output instead. this . send ( 'output' , false ) ; } [$[Get Code]] When the initialize function of the base accessor is invoked, it will actually add the derived accessor's handler rather tha"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ally add the derived accessor's handler rather than its own because \" this \" will refer to the derived accessor. In an instance of Derived, when an input arrives on 'input', the accessor will send false to 'output', not true as in the Base accessor."
+    },
+    {
+      "chunk_id": 16,
+      "text": "se to 'output', not true as in the Base accessor. If instead we had written in the base accessor this . addInputHandler ( 'input' , exports. inputHandler . bind ( this ) ) ; [$[Get Code]] then the override would not succeed. As with all JavaScript f"
+    },
+    {
+      "chunk_id": 17,
+      "text": "rride would not succeed. As with all JavaScript functions, exports.inputHandler is resolved in the scope in which initialize() is _defined_, not in the scope in which it _executes_. Therefore, exports.inputHandler refers to the 'inputHandler' proper"
+    },
+    {
+      "chunk_id": 18,
+      "text": "s.inputHandler refers to the 'inputHandler' property of the Base accessor. This latter pattern can be used to prevent extended accessors from overriding certain behavior. Inputs, Outputs and Parameters A derived accessor may modify the options of th"
+    },
+    {
+      "chunk_id": 19,
+      "text": "rs A derived accessor may modify the options of the inputs, outputs, and parameters of the extended accessor. For example, if MyBase has a parameter named foo , then exports. setup = function ( ) { this . extend ( 'MyBase' ) ; this . parameter ( 'foo"
+    },
+    {
+      "chunk_id": 20,
+      "text": "is . extend ( 'MyBase' ) ; this . parameter ( 'foo' , { 'value' : 43 } ) ; } [$[Get Code]] modifies the default value of 'foo' from whatever it is in the base to 43. Accessing Base Variables in a Derived Accessor A derived accessor may read and write"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ved Accessor A derived accessor may read and write the values of variables in the parent accessor if the parent accessor declares the variables using exports . For example if the MyBase accessor has: exports. socket = null ; [$[Get Code]] Then deriv"
+    },
+    {
+      "chunk_id": 22,
+      "text": "exports. socket = null ; [$[Get Code]] Then derived accessors may refer to that variable with exports. ssuper . socket [$[Get Code]] For example UDPSocketListener is extended by Moto360GestureListener and Moto360GestureListener uses exports.ssuper.s"
+    }
+  ]
+}

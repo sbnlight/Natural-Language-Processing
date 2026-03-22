@@ -1,0 +1,133 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/ROS/ConfiguringTheScarabRobot",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | ROS / ConfiguringTheScarabRobot Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print ROS / ConfiguringTheScarabRobot Overview This page docum"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ConfiguringTheScarabRobot Overview This page documents how to configure and control the Scarab robot from another computer (abbreviated to PC here). The PC we ran also had Ubuntu 14.04 and ROS Indigo installed, so we could start a ROS node on it that"
+    },
+    {
+      "chunk_id": 3,
+      "text": "installed, so we could start a ROS node on it that was connected to the ROS master node on the Scarab. Pre-configuration The Scarab has an onboard computer. Penn installed Ubuntu 14.04, ROS Indigo and the Scarab's packages before shipping it out. Thi"
+    },
+    {
+      "chunk_id": 4,
+      "text": "the Scarab's packages before shipping it out. This documents how Penn configured the onboard computer before shipping it out. A monitor and keyboard were connected to the onboard computer to install them. Once the network is configured, you can also"
+    },
+    {
+      "chunk_id": 5,
+      "text": "them. Once the network is configured, you can also configure a PC to SSH into the Scarab. The Scarabs are given usernames with 2 numbers behind, eg \"scarab46\" or \"scarab47\". The configuration here is for scarab46. Replace \"scarab46\" with \"scarabXX\" a"
+    },
+    {
+      "chunk_id": 6,
+      "text": "for scarab46. Replace \"scarab46\" with \"scarabXX\" accordingly. Set the IP address your router.We configured our router to have the IP address of 192.168.131.1. Install Ubuntu 14.04 Set the password of the 'root' user to 'scarab'. Set the hostname of t"
+    },
+    {
+      "chunk_id": 7,
+      "text": "the 'root' user to 'scarab'. Set the hostname of the Scarab in /etc/hostname to \"scarab46\" (or 'scarabXX' for other scarabs). Set the static IP address of the Scarab to 192.168.131.46 (or 192.168.131.XX) for other scarabs). Install ROS indigo desktop"
+    },
+    {
+      "chunk_id": 8,
+      "text": "XX) for other scarabs). Install ROS indigo desktop full version http://wiki.ros.org/indigo/Installation/Ubuntu Add a user 'terraswarm' with the password 'terraswarm'. Install the Scarab's packages under terraswarm: #create a catkin workspace #http://"
+    },
+    {
+      "chunk_id": 9,
+      "text": "er terraswarm: #create a catkin workspace #http://wiki.ros.org/catkin/Tutorials/create_a_workspace echo \"source /opt/ros/indigo/setup.bash\" >> ~ / .bashrc source ~ / .bashrc cd / home / terraswarm / mkdir -p scarab_ws / src cd src catkin_init_workspa"
+    },
+    {
+      "chunk_id": 10,
+      "text": "kdir -p scarab_ws / src cd src catkin_init_workspace #get the master branch of scarab's packages from a git repo git clone https: // github.com / bcharrow / scarab.git #Repeat catkin_make if it fails the first time cd ~ / scarab_ws catkin_make #Add t"
+    },
+    {
+      "chunk_id": 11,
+      "text": "the first time cd ~ / scarab_ws catkin_make #Add the ROS and Scarab setup files to bashrc and source echo \"source /opt/ros/indigo/setup.bash\" >> ~ / .bashrc echo \"source /home/terraswarm/scarab_ws/devel/setup.bash\" >> ~ / .bashrc source ~ / .bashrc ["
+    },
+    {
+      "chunk_id": 12,
+      "text": "el/setup.bash\" >> ~ / .bashrc source ~ / .bashrc [$[Get Code]] SSH into the Scarab from an external computer (abbreviated to PC). These steps show how to connect to the scarab46 from a PC running Linux Turn on all the switches on the Scarab Assuming"
+    },
+    {
+      "chunk_id": 13,
+      "text": "x Turn on all the switches on the Scarab Assuming scarab46 has been assigned the hostname of \"scarab46\", and the IP address of \"192.168.131.46\", add the following lines to /etc/hosts of your PC: #In /etc/hosts/ 192.168.131.46 scarab46 [$[Get Code]] F"
+    },
+    {
+      "chunk_id": 14,
+      "text": "etc/hosts/ 192.168.131.46 scarab46 [$[Get Code]] From your PC, login to the Scarab as terraswarm: ssh terraswarm @ scarab46 #password: terraswarm [$[Get Code]] If you want to login as root: ssh root @ scarab46 #password: scarab [$[Get Code]] Test a R"
+    },
+    {
+      "chunk_id": 15,
+      "text": "scarab46 #password: scarab [$[Get Code]] Test a ROS Publisher (Scarab) and Subscriber (PC) Login to the Scarab as terraswarm and run a ROS Publisher: #The following commands would be run from different terminals logged in to terraswarm@scarab46: #st"
+    },
+    {
+      "chunk_id": 16,
+      "text": "nt terminals logged in to terraswarm@scarab46: #start ROS roscore #Publish a string \"hello\" on the topic /chatter rostopic pub chatter std_msgs / String \"hello\" -r 1 [$[Get Code]] Run a ROS Subscriber on the PC. Running roscore on scarab46 would set"
+    },
+    {
+      "chunk_id": 17,
+      "text": "on the PC. Running roscore on scarab46 would set the master node on the scarab46 and ROS_MASTER_URI to http://scarab46:11311 (by default). To set up another ROS node on your PC, export the value of ROS_MASTER_URI: export ROS_MASTER_URI =http: // sca"
+    },
+    {
+      "chunk_id": 18,
+      "text": "OS_MASTER_URI: export ROS_MASTER_URI =http: // scarab46: 11311 #subscribe to the topic /chatter rostopic echo chatter #you should see \"hello\" being published at 1 Hz [$[Get Code]] Controlling the Scarab SSH into the Scarab and start up the scarab lau"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ab SSH into the Scarab and start up the scarab launch script #The following commands are run from different terminals logged into the terraswarm@scarab46 roscore #main start-up script to launch the Scarab roslaunch scarab scarab.launch #launch the ma"
+    },
+    {
+      "chunk_id": 20,
+      "text": "arab roslaunch scarab scarab.launch #launch the mapping script that creates a map using the Hokuyo laser scanner roslaunch scarab gmapping #drive the robot around to create the map rosrun scarab_twist key_to_twist [$[Get Code]] Visualize the map from"
+    },
+    {
+      "chunk_id": 21,
+      "text": "key_to_twist [$[Get Code]] Visualize the map from your PC. You can only run the visualization program from a machine with a screen, so we run it from the PC: export ROS_MASTER_URI =http: // scarab46: 11311 roslaunch scarab rviz.launch [$[Get Code]]"
+    },
+    {
+      "chunk_id": 22,
+      "text": "11311 roslaunch scarab rviz.launch [$[Get Code]] Save the Map You can write the current map data to a file to take a snapshot using the map_server package. Note, this only saves the current value of the map, not the internal state of GMapping. There"
+    },
+    {
+      "chunk_id": 23,
+      "text": "the map, not the internal state of GMapping. Therefore, mapping cannot be resumed from this saved copy of the map. rosrun map_server map_saver -f \"map_ `date --rfc-3339=seconds` \" map:= / map_hokuyo [$[Get Code]] Use the Map Note: I (Brad) haven't go"
+    },
+    {
+      "chunk_id": 24,
+      "text": "$[Get Code]] Use the Map Note: I (Brad) haven't gotten this fully working quite yet... Edit scarab / scarab / localization.launch with your map name ROS_NAMESPACE =scarab roslaunch scarab localization.launch rosrun rviz rviz # load the relevant topic"
+    },
+    {
+      "chunk_id": 25,
+      "text": ".launch rosrun rviz rviz # load the relevant topics [$[Get Code]] Getting Battery Information There is already code for full battery diagnostics, it is just not enabled by default. To start it, add this to localization.launch inside of the <group> ta"
+    },
+    {
+      "chunk_id": 26,
+      "text": "is to localization.launch inside of the <group> tag. (Note that a previous version had a typo) <node name=\"battery\" pkg=\"bb04\" type=\"bb04_node\"> <remap from=\"/diagnostics\" to=\"diagnostics\" /> </node> [$[Get Code]] Using a Joystick If you find the key"
+    },
+    {
+      "chunk_id": 27,
+      "text": "[$[Get Code]] Using a Joystick If you find the keyboard based control hard to use, you can use a Joystick to control the Scarab. References http://askubuntu.com/questions/409761/how-do-i-use-a-ps3-sixaxis-controller-with-ubuntu-to-control-games http:"
+    },
+    {
+      "chunk_id": 28,
+      "text": "axis-controller-with-ubuntu-to-control-games http://wiki.ros.org/joy/Tutorials/ConfiguringALinuxJoystick ### PS3 Wireless Sixaxis Controller # Installs sudo add-apt-repository ppa:falk-t-j / qtsixa sudo apt-get update sudo apt-get install qtsixa sudo"
+    },
+    {
+      "chunk_id": 29,
+      "text": "do apt-get update sudo apt-get install qtsixa sudo apt-get install xboxdrv # Setup for BLE wireless connection sudo sixpair sudo sixad -s # ROS roslaunch scarab_twist joystick.launch rosparam set joy_node / dev \"/dev/input/js1\" rosrun joy joy_node [$"
+    },
+    {
+      "chunk_id": 30,
+      "text": "node / dev \"/dev/input/js1\" rosrun joy joy_node [$[Get Code]] /joy topic: buttons: 0: select 1: left joystick push 2: right joystick push 3: start 4: up 5: right 6: down 7: left 8: l2 9: r2 10: l1 11: r1 12: triangle 13: circle 14: x 15: square 16: p"
+    },
+    {
+      "chunk_id": 31,
+      "text": "r1 12: triangle 13: circle 14: x 15: square 16: playstation axes: 0: left joystick left-right 1: left joystick up-down 2: right joystick left-right 3: right joystick up down 4: accelerometer left right 5: accelerometer up down [$[Get Code]] Problems"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ht 5: accelerometer up down [$[Get Code]] Problems and Solutions catkin_make fails delete the scarab_ws and rerun the process of creating a catkin workspace. This actually works sometimes See Also ROS Edit - History - Print - Recent Changes - Search"
+    }
+  ]
+}

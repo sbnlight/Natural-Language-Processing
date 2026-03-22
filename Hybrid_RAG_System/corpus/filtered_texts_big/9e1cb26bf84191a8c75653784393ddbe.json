@@ -1,0 +1,481 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/moml/EntityLibrary.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "EntityLibrary JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    },
+    {
+      "chunk_id": 2,
+      "text": "| Constr | Method Detail: Field | Constr | Method ptolemy.moml Class EntityLibrary java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity <T> ptolemy.kernel.ComponentEntity ptolemy.kernel.CompositeEnt"
+    },
+    {
+      "chunk_id": 3,
+      "text": "kernel.ComponentEntity ptolemy.kernel.CompositeEntity ptolemy.moml.EntityLibrary All Implemented Interfaces: java.lang.Cloneable, Librariable , Changeable , Configurable , Debuggable , DebugListener , Derivable , Instantiable , LazyComposite , ModelE"
+    },
+    {
+      "chunk_id": 4,
+      "text": "Derivable , Instantiable , LazyComposite , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: AccessorLibrary public class EntityLibrary extends CompositeEntity implements LazyComposite , Librariable This class provide"
+    },
+    {
+      "chunk_id": 5,
+      "text": "nts LazyComposite , Librariable This class provides a hierarchical library of components specified in MoML. The contents are typically specified via the configure() method, which is passed MoML code. The MoML is evaluated lazily; i.e. it is not"
+    },
+    {
+      "chunk_id": 6,
+      "text": "e. The MoML is evaluated lazily; i.e. it is not actually evaluated until there is a request for its contents, via a call to getEntity(), numEntities(), entityList(), or any related method. You can also force evaluation of the MoML by calling pop"
+    },
+    {
+      "chunk_id": 7,
+      "text": "also force evaluation of the MoML by calling populate(). When you export MoML for this object, the MoML description of the contents is wrapped in a configure element. This object contains an attribute with name \"_libraryMarker\", which marks it"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ribute with name \"_libraryMarker\", which marks it as a library. This is used by the library browser in vergil to know to expand the composite entity. The contents of the library can be entities, ports, relations, or attributes. I.e., it can cont"
+    },
+    {
+      "chunk_id": 9,
+      "text": "rts, relations, or attributes. I.e., it can contain anything contained by a CompositeEntity. An attempt to access any of these will trigger populating the library. The configure method can be given a URL or MoML text or both. If it is given MoML"
+    },
+    {
+      "chunk_id": 10,
+      "text": "a URL or MoML text or both. If it is given MoML text, that text will normally be wrapped in a processing instruction, as follows: <?moml <group>[ ... MoML elements giving library contents ... </group> ?> The processing instruction, which is en"
+    },
+    {
+      "chunk_id": 11,
+      "text": "group> ?> The processing instruction, which is enclosed in \"<?\" and \"?>\" prevents premature evaluation of the MoML. The processing instruction has a target , \"moml\", which specifies that it contains MoML code. The keyword \"moml\" in the processin"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ns MoML code. The keyword \"moml\" in the processing instruction must be exactly as above, or the entire processing instruction will be ignored. The populate() method strips off the processing instruction and evaluates the MoML elements. The grou"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ruction and evaluates the MoML elements. The group element allows the library contents to be given as a set of elements (the MoML parser requires that there always be a single top-level element, which in this case will be the group element). One s"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ich in this case will be the group element). One subtlety in using this class arises because of a problem typical of lazy evaluation. A number of exceptions may be thrown because of errors in the MoML code when the MoML code is evaluated. However"
+    },
+    {
+      "chunk_id": 15,
+      "text": "oML code when the MoML code is evaluated. However, since that code is evaluated lazily, it is evaluated in a context where these exceptions are not expected. There is no completely clean solution to this problem; our solution is to translate all"
+    },
+    {
+      "chunk_id": 16,
+      "text": "to this problem; our solution is to translate all exceptions to runtime exceptions in the populate() method. This method, therefore, violates the condition for using runtime exceptions in that the condition that causes these exceptions to be thr"
+    },
+    {
+      "chunk_id": 17,
+      "text": "condition that causes these exceptions to be thrown is not a testable precondition. A second subtlety involves cloning. When this class is cloned, if the configure MoML text has not yet been evaluated, then the clone is created with the same (un"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ated, then the clone is created with the same (unevaluated) MoML text, rather than being populated with the contents specified by that text. If the object is cloned after being populated, the clone will also be populated. A third subtlety involve"
+    },
+    {
+      "chunk_id": 19,
+      "text": "e will also be populated. A third subtlety involves the doc element. Unfortunately, MoML semantics define the doc element to replace any previously existing doc elements. But to find out whether there is any previously existing doc element, the"
+    },
+    {
+      "chunk_id": 20,
+      "text": "here is any previously existing doc element, the MoML parser calls getAttribute, which has the effect of populating the library. Thus, doc elements should go inside the group, not outside. For example, the following organization results in no d"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ample, the following organization results in no deferred evaluation: <entity name=\"director library\" class=\"ptolemy.moml.EntityLibrary\"> <doc>default director library</doc> <configure> <?moml <group> ... </group> ?> </configure> </entity> T"
+    },
+    {
+      "chunk_id": 22,
+      "text": "oup> ... </group> ?> </configure> </entity> The following, by contrast, is OK: <entity name=\"director library\" class=\"ptolemy.moml.EntityLibrary\"> <configure> <?moml <group> <doc>default director library</doc> ... </group> ?> </configure"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ctor library</doc> ... </group> ?> </configure> </entity> Since: Ptolemy II 1.0 Version: $Id$ Author: Edward A. Lee Pt.AcceptedRating: Red (bilung) Pt.ProposedRating: Red (eal) Nested Class Summary Nested classes/interfaces inherited from class"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ry Nested classes/interfaces inherited from class ptolemy.kernel. CompositeEntity CompositeEntity.ContainedObjectsIterator Field Summary Fields Modifier and Type Field and Description protected java.net.URL _base The base specified by the configure()"
+    },
+    {
+      "chunk_id": 25,
+      "text": "et.URL _base The base specified by the configure() method. protected boolean _cloning Indicate that we are cloning. protected boolean _configureDone Indicate whether data given by configure() has been processed. protected java.lang.String _configureS"
+    },
+    {
+      "chunk_id": 26,
+      "text": "processed. protected java.lang.String _configureSource URL specified to the configure() method. protected java.lang.String _configureText Text specified to the configure() method. protected boolean _populated Flag indicating populate() has been call"
+    },
+    {
+      "chunk_id": 27,
+      "text": "populated Flag indicating populate() has been called, and hence the configuration should be obtained from the current contents (in case they have changed) rather than from the _configureText. protected boolean _populating Indicator that we are in"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ected boolean _populating Indicator that we are in the midst of populating. Fields inherited from class ptolemy.kernel. CompositeEntity _levelCrossingLinks Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _ch"
+    },
+    {
+      "chunk_id": 29,
+      "text": "til. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Const"
+    },
+    {
+      "chunk_id": 30,
+      "text": "OMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary Constructors Constructor and Description EntityLibrary () Construct a library in the default workspace with no container and an empty string as its name. EntityLibrary ( CompositeEnti"
+    },
+    {
+      "chunk_id": 31,
+      "text": "string as its name. EntityLibrary ( CompositeEntity container, java.lang.String name) Construct a library with the given container and name. EntityLibrary ( Workspace workspace) Construct a library in the specified workspace with no c"
+    },
+    {
+      "chunk_id": 32,
+      "text": "t a library in the specified workspace with no container and an empty string as a name. Method Summary All Methods Instance Methods Concrete Methods Modifier and Type Method and Description protected void _attachText (java.lang.String name,"
+    },
+    {
+      "chunk_id": 33,
+      "text": "d void _attachText (java.lang.String name, java.lang.String text) Override the base class to prevent triggering a populate() call when this occurs. protected void _exportMoMLContents (java.io.Writer output, int depth)"
+    },
+    {
+      "chunk_id": 34,
+      "text": "a.io.Writer output, int depth) Write a MoML description of the contents of this object, wrapped in a configure element. java.util.List attributeList () Return a list of the attributes contained by this object. java.util.List attr"
+    },
+    {
+      "chunk_id": 35,
+      "text": "utes contained by this object. java.util.List attributeList (java.lang.Class filter) Return a list of the attributes contained by this object that are instances of the specified class. java.util.List classDefinitionList () List the contained class"
+    },
+    {
+      "chunk_id": 36,
+      "text": "t classDefinitionList () List the contained class definitions in the order they were added (using their setContainer() method). java.lang.Object clone ( Workspace workspace) Clone the library into the specified workspace. void configure (java.net.U"
+    },
+    {
+      "chunk_id": 37,
+      "text": "he specified workspace. void configure (java.net.URL base, java.lang.String source, java.lang.String text) Specify the library contents by giving either a URL (the source argument), or by directly giving the MoML text (the text ar"
+    },
+    {
+      "chunk_id": 38,
+      "text": "or by directly giving the MoML text (the text argument), or both. boolean deepContains ( NamedObj inside) Return true if this object contains the specified object, directly or indirectly. java.util.List deepEntityList () List the opaque entities"
+    },
+    {
+      "chunk_id": 39,
+      "text": "l.List deepEntityList () List the opaque entities that are directly or indirectly contained by this entity. java.util.List entityList () List the contained entities in the order they were added (using their setContainer() method). Attribute getAt"
+    },
+    {
+      "chunk_id": 40,
+      "text": "sing their setContainer() method). Attribute getAttribute (java.lang.String name) Get the attribute with the given name. java.lang.String getConfigureSource () Return the input source that was specified the last time the configure method was called"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ed the last time the configure method was called. java.lang.String getConfigureText () Return the text string that represents the current configuration of this object. ComponentEntity getEntity (java.lang.String name) Get a contained entity by na"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ava.lang.String name) Get a contained entity by name. java.util.Iterator lazyContainedObjectsIterator () Override the base class to prevent populating. int numberOfEntities () Return the number of contained entities. void populate () Populate the act"
+    },
+    {
+      "chunk_id": 43,
+      "text": "tained entities. void populate () Populate the actor by reading the file specified by the source parameter. Methods inherited from class ptolemy.kernel. CompositeEntity _addEntity , _addRelation , _adjustDeferrals , _containedDecorators , _deepOpaque"
+    },
+    {
+      "chunk_id": 44,
+      "text": "justDeferrals , _containedDecorators , _deepOpaqueEntityList , _description , _finishedAddEntity , _removeEntity , _removeRelation , _validateSettables , allAtomicEntityList , allowLevelCrossingConnect , connect , connect , containedObjectsIterator ,"
+    },
+    {
+      "chunk_id": 45,
+      "text": "t , connect , connect , containedObjectsIterator , deepCompositeEntityList , deepGetEntities , deepNamedObjList , deepOpaqueEntityList , deepRelationSet , entityList , exportLinks , exportMoML , getEntities , getPort , getRelation , getRelations , is"
+    },
+    {
+      "chunk_id": 46,
+      "text": "tities , getPort , getRelation , getRelations , isAtomic , isOpaque , lazyAllAtomicEntityList , lazyAllCompositeEntityList , lazyAllCompositeTransparentAndOpaqueEntityList , lazyClassDefinitionList , lazyDeepEntityList , lazyEntityList , lazyRelation"
+    },
+    {
+      "chunk_id": 47,
+      "text": "lazyDeepEntityList , lazyEntityList , lazyRelationList , newRelation , numberOfRelations , numEntities , numRelations , relationList , removeAllEntities , removeAllRelations , setClassDefinition , setContainer , statistics , uniqueName Methods inheri"
+    },
+    {
+      "chunk_id": 48,
+      "text": "Container , statistics , uniqueName Methods inherited from class ptolemy.kernel. ComponentEntity _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , n"
+    },
+    {
+      "chunk_id": 49,
+      "text": "oveToFirst , moveToIndex , moveToLast , moveUp , newPort , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _addPort , _removePort , connectedPortList , connectedPorts , connectionsChanged , getPorts , linkedRelationLi"
+    },
+    {
+      "chunk_id": 50,
+      "text": ", connectionsChanged , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , getChildren , getElementName , getParent , getPrototypeList , isClassDef"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ntName , getParent , getPrototypeList , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _cloneFixAttributeFields , _copyChangeRequestList , _debug , _debug , _de"
+    },
+    {
+      "chunk_id": 52,
+      "text": "s , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _propagate"
+    },
+    {
+      "chunk_id": 53,
+      "text": "_notifyHierarchyListenersBeforeChange , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , addHierarchyListener , attributeChanged , attributeDeleted , attributeTypeChanged , clone , decorat"
+    },
+    {
+      "chunk_id": 54,
+      "text": "teDeleted , attributeTypeChanged , clone , decorators , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListe"
+    },
+    {
+      "chunk_id": 55,
+      "text": "in , getAttribute , getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , handleMo"
+    },
+    {
+      "chunk_id": 56,
+      "text": "Handler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , notifyOfNameChange , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , re"
+    },
+    {
+      "chunk_id": 57,
+      "text": ", removeChangeListener , removeDebugListener , removeHierarchyListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , topleve"
+    },
+    {
+      "chunk_id": 59,
+      "text": "it, wait, wait Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getDisplayName , getFullName , getName , get"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ion , getDisplayName , getFullName , getName , getName Field Detail _base protected java.net.URL _base The base specified by the configure() method. _cloning protected boolean _cloning Indicate that we are cloning. _configureDone protected boolean _c"
+    },
+    {
+      "chunk_id": 61,
+      "text": "e are cloning. _configureDone protected boolean _configureDone Indicate whether data given by configure() has been processed. _configureSource protected java.lang.String _configureSource URL specified to the configure() method. _configureText protect"
+    },
+    {
+      "chunk_id": 62,
+      "text": "to the configure() method. _configureText protected java.lang.String _configureText Text specified to the configure() method. _populated protected boolean _populated Flag indicating populate() has been called, and hence the configuration should be"
+    },
+    {
+      "chunk_id": 63,
+      "text": "en called, and hence the configuration should be obtained from the current contents (in case they have changed) rather than from the _configureText. _populating protected boolean _populating Indicator that we are in the midst of populating. Const"
+    },
+    {
+      "chunk_id": 64,
+      "text": "ator that we are in the midst of populating. Constructor Detail EntityLibrary public EntityLibrary() Construct a library in the default workspace with no container and an empty string as its name. Add the library to the workspace directory. Inc"
+    },
+    {
+      "chunk_id": 65,
+      "text": "dd the library to the workspace directory. Increment the version number of the workspace. EntityLibrary public EntityLibrary( Workspace workspace) Construct a library in the specified workspace with no container and an empty string as a name. Y"
+    },
+    {
+      "chunk_id": 66,
+      "text": "th no container and an empty string as a name. You can then change the name with setName(). If the workspace argument is null, then use the default workspace. Add the actor to the workspace directory. Increment the version number of the works"
+    },
+    {
+      "chunk_id": 67,
+      "text": "ctory. Increment the version number of the workspace. Parameters: workspace - The workspace that will list the actor. EntityLibrary public EntityLibrary( CompositeEntity container, java.lang.String name) throws Na"
+    },
+    {
+      "chunk_id": 68,
+      "text": "java.lang.String name) throws NameDuplicationException , IllegalActionException Construct a library with the given container and name. Parameters: container - The container. name - The name of this library. Throws: IllegalActionExce"
+    },
+    {
+      "chunk_id": 69,
+      "text": "he name of this library. Throws: IllegalActionException - If the entity cannot be contained by the proposed container. NameDuplicationException - If the container already has an actor with this name. Method Detail attributeList public java.util"
+    },
+    {
+      "chunk_id": 70,
+      "text": "name. Method Detail attributeList public java.util.List attributeList() Return a list of the attributes contained by this object. If there are no attributes, return an empty list. This overrides the base class to first populate the library, if"
+    },
+    {
+      "chunk_id": 71,
+      "text": "he base class to first populate the library, if necessary, by calling populate(). This method is read-synchronized on the workspace. Overrides: attributeList in class NamedObj Returns: An unmodifiable list of instances of Attribute. attributeList"
+    },
+    {
+      "chunk_id": 72,
+      "text": "able list of instances of Attribute. attributeList public java.util.List attributeList(java.lang.Class filter) Return a list of the attributes contained by this object that are instances of the specified class. If there are no such instances, th"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ified class. If there are no such instances, then return an empty list. This overrides the base class to first populate the library, if necessary, by calling populate(). This method is read-synchronized on the workspace. Overrides: attribute"
+    },
+    {
+      "chunk_id": 74,
+      "text": "ynchronized on the workspace. Overrides: attributeList in class NamedObj Parameters: filter - The class of attribute of interest. Returns: A list of instances of specified class. clone public java.lang.Object clone( Workspace workspace)"
+    },
+    {
+      "chunk_id": 75,
+      "text": "g.Object clone( Workspace workspace) throws java.lang.CloneNotSupportedException Clone the library into the specified workspace. The new object is not added to the directory of that workspace (you must do this yourself if you"
+    },
+    {
+      "chunk_id": 76,
+      "text": "that workspace (you must do this yourself if you want it there). If the library has not yet been populated, then the clone will also not have been populated. Overrides: clone in class CompositeEntity Parameters: workspace - The workspace for the"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ity Parameters: workspace - The workspace for the cloned object. Returns: A new EntityLibrary. Throws: java.lang.CloneNotSupportedException - If the library contains level crossing transitions so that its connections cannot be cloned, or if one"
+    },
+    {
+      "chunk_id": 78,
+      "text": "hat its connections cannot be cloned, or if one of the attributes cannot be cloned. See Also: NamedObj.exportMoML(Writer, int, String) , NamedObj.setDeferringChangeRequests(boolean) configure public void configure(java.net.URL base,"
+    },
+    {
+      "chunk_id": 79,
+      "text": "c void configure(java.net.URL base, java.lang.String source, java.lang.String text) Specify the library contents by giving either a URL (the source argument), or by directly giving the MoML text (the text"
+    },
+    {
+      "chunk_id": 80,
+      "text": "), or by directly giving the MoML text (the text argument), or both. The MoML is evaluated when the populate() method is called. This occurs lazily, when there is a request for the contents of the library. Specified by: configure in interface"
+    },
+    {
+      "chunk_id": 81,
+      "text": "the library. Specified by: configure in interface Configurable Parameters: base - The base relative to which references within the input are found, or null if this is not known, or there is none. source - The input source, which specifies a URL,"
+    },
+    {
+      "chunk_id": 82,
+      "text": "source - The input source, which specifies a URL, or null if none. text - Configuration information given as text, or null if none. classDefinitionList public java.util.List classDefinitionList() List the contained class definitions in the orde"
+    },
+    {
+      "chunk_id": 83,
+      "text": ") List the contained class definitions in the order they were added (using their setContainer() method). The returned list is static in the sense that it is not affected by any subsequent additions or removals of entities. This overrides the"
+    },
+    {
+      "chunk_id": 84,
+      "text": "ons or removals of entities. This overrides the base class to first populate the library, if necessary, by calling populate(). Note that this may result in a runtime exception being thrown (if there is an error evaluating the MoML). This m"
+    },
+    {
+      "chunk_id": 85,
+      "text": "f there is an error evaluating the MoML). This method is read-synchronized on the workspace. Overrides: classDefinitionList in class CompositeEntity Returns: An unmodifiable list of ComponentEntity objects. See Also: CompositeEntity.entityList() de"
+    },
+    {
+      "chunk_id": 86,
+      "text": "objects. See Also: CompositeEntity.entityList() deepContains public boolean deepContains( NamedObj inside) Return true if this object contains the specified object, directly or indirectly. That is, return true if the specified object is containe"
+    },
+    {
+      "chunk_id": 87,
+      "text": "return true if the specified object is contained by an object that this contains, or by an object contained by an object contained by this, etc. This method ignores whether the entities report that they are atomic (see CompositeEntity), and"
+    },
+    {
+      "chunk_id": 88,
+      "text": "that they are atomic (see CompositeEntity), and always returns false if the entities are not in the same workspace. This method is read-synchronized on the workspace. Overrides: deepContains in class NamedObj Parameters: inside - The NamedObj t"
+    },
+    {
+      "chunk_id": 89,
+      "text": "class NamedObj Parameters: inside - The NamedObj that is searched for. Returns: True if this contains the argument, directly or indirectly. See Also: CompositeEntity.isAtomic() deepEntityList public java.util.List deepEntityList() List the opaque ent"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ava.util.List deepEntityList() List the opaque entities that are directly or indirectly contained by this entity. The list will be empty if there are no such contained entities. This overrides the base class to first populate the library, if"
+    },
+    {
+      "chunk_id": 91,
+      "text": "he base class to first populate the library, if necessary, by calling populate(). Note that this may result in a runtime exception being thrown (if there is an error evaluating the MoML). This method is read-synchronized on the workspace. Ove"
+    },
+    {
+      "chunk_id": 92,
+      "text": "method is read-synchronized on the workspace. Overrides: deepEntityList in class CompositeEntity Returns: A list of opaque ComponentEntity objects. See Also: CompositeEntity.classDefinitionList() , CompositeEntity.allAtomicEntityList() entityList pu"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ompositeEntity.allAtomicEntityList() entityList public java.util.List entityList() List the contained entities in the order they were added (using their setContainer() method). The returned list is static in the sense that it is not affected by"
+    },
+    {
+      "chunk_id": 94,
+      "text": "s static in the sense that it is not affected by any subsequent additions or removals of entities. This overrides the base class to first populate the library, if necessary, by calling populate(). Note that this may result in a runtime excep"
+    },
+    {
+      "chunk_id": 95,
+      "text": "(). Note that this may result in a runtime exception being thrown (if there is an error evaluating the MoML). This method is read-synchronized on the workspace. Overrides: entityList in class CompositeEntity Returns: An unmodifiable list of Com"
+    },
+    {
+      "chunk_id": 96,
+      "text": "mpositeEntity Returns: An unmodifiable list of ComponentEntity objects. See Also: CompositeEntity.classDefinitionList() getAttribute public Attribute getAttribute(java.lang.String name) Get the attribute with the given name. The name may be compound,"
+    },
+    {
+      "chunk_id": 97,
+      "text": "ute with the given name. The name may be compound, with fields separated by periods, in which case the attribute returned is contained by a (deeply) contained attribute. This overrides the base class to first populate the library, if necessar"
+    },
+    {
+      "chunk_id": 98,
+      "text": "class to first populate the library, if necessary, by calling populate(). This method is read-synchronized on the workspace. Overrides: getAttribute in class CompositeEntity Parameters: name - The name of the desired attribute. Returns: The reque"
+    },
+    {
+      "chunk_id": 99,
+      "text": "name of the desired attribute. Returns: The requested attribute if it is found, null otherwise. getEntity public ComponentEntity getEntity(java.lang.String name) Get a contained entity by name. The name may be compound, with fields separated by pe"
+    },
+    {
+      "chunk_id": 100,
+      "text": "ame may be compound, with fields separated by periods, in which case the entity returned is contained by a (deeply) contained entity. This overrides the base class to first populate the library, if necessary, by calling populate(). Note tha"
+    },
+    {
+      "chunk_id": 101,
+      "text": "y, if necessary, by calling populate(). Note that this may result in a runtime exception being thrown (if there is an error evaluating the MoML). This method is read-synchronized on the workspace. Overrides: getEntity in class CompositeEntity P"
+    },
+    {
+      "chunk_id": 102,
+      "text": "e. Overrides: getEntity in class CompositeEntity Parameters: name - The name of the desired entity. Returns: An entity with the specified name, or null if none exists. getConfigureSource public java.lang.String getConfigureSource() Return the input s"
+    },
+    {
+      "chunk_id": 103,
+      "text": "ang.String getConfigureSource() Return the input source that was specified the last time the configure method was called. Specified by: getConfigureSource in interface Configurable Returns: The string representation of the input URL, or null if the"
+    },
+    {
+      "chunk_id": 104,
+      "text": "ng representation of the input URL, or null if the no source has been used to configure this object, or null if no external source need be used to configure this object. getConfigureText public java.lang.String getConfigureText() Return the text"
+    },
+    {
+      "chunk_id": 105,
+      "text": "va.lang.String getConfigureText() Return the text string that represents the current configuration of this object. Note that any configuration that was previously specified using the source attribute need not be represented here as well. Speci"
+    },
+    {
+      "chunk_id": 106,
+      "text": "bute need not be represented here as well. Specified by: getConfigureText in interface Configurable Returns: A configuration string, or null if no configuration has been used to configure this object, or null if no configuration string need be"
+    },
+    {
+      "chunk_id": 107,
+      "text": "ect, or null if no configuration string need be used to configure this object. lazyContainedObjectsIterator public java.util.Iterator lazyContainedObjectsIterator() Override the base class to prevent populating. Overrides: lazyContainedObjectsItera"
+    },
+    {
+      "chunk_id": 108,
+      "text": "t populating. Overrides: lazyContainedObjectsIterator in class NamedObj Returns: An iterator over instances of NamedObj contained by this object. numberOfEntities public int numberOfEntities() Return the number of contained entities. This override"
+    },
+    {
+      "chunk_id": 109,
+      "text": "rn the number of contained entities. This overrides the base class to first populate the library, if necessary, by calling populate(). Note that this may result in a runtime exception being thrown (if there is an error evaluating the MoML). T"
+    },
+    {
+      "chunk_id": 110,
+      "text": "(if there is an error evaluating the MoML). This method is read-synchronized on the workspace. Overrides: numberOfEntities in class CompositeEntity Returns: The number of entities. populate public void populate() throws InvalidStat"
+    },
+    {
+      "chunk_id": 111,
+      "text": "c void populate() throws InvalidStateException Populate the actor by reading the file specified by the source parameter. Note that the exception thrown here is a runtime exception, inappropriately. This is because execution of thi"
+    },
+    {
+      "chunk_id": 112,
+      "text": "appropriately. This is because execution of this method is deferred to the last possible moment, and it is often evaluated in a context where a compile-time exception cannot be thrown. Thus, extra care should be exercised to provide valid M"
+    },
+    {
+      "chunk_id": 113,
+      "text": "xtra care should be exercised to provide valid MoML specifications. Specified by: populate in interface LazyComposite Throws: InvalidStateException - If the source cannot be read, or if an exception is thrown parsing its MoML data. _attachText p"
+    },
+    {
+      "chunk_id": 114,
+      "text": "ion is thrown parsing its MoML data. _attachText protected void _attachText(java.lang.String name, java.lang.String text) Override the base class to prevent triggering a populate() call when this occurs. Overrides: _attac"
+    },
+    {
+      "chunk_id": 115,
+      "text": "ulate() call when this occurs. Overrides: _attachText in class NamedObj Parameters: name - The name of the attribute. text - The text with which to configure the attribute. _exportMoMLContents protected void _exportMoMLContents(java.io.Writer outpu"
+    },
+    {
+      "chunk_id": 116,
+      "text": "cted void _exportMoMLContents(java.io.Writer output, int depth) throws java.io.IOException Write a MoML description of the contents of this object, wrapped in a configure element. This"
+    },
+    {
+      "chunk_id": 117,
+      "text": "is object, wrapped in a configure element. This is done by first populating the model, and then exporting its contents into a configure element. This method is called by exportMoML(). Each description is indented according to the specified"
+    },
+    {
+      "chunk_id": 118,
+      "text": "cription is indented according to the specified depth and terminated with a newline character. Overrides: _exportMoMLContents in class CompositeEntity Parameters: output - The output stream to write to. depth - The depth in the hierarchy, to determ"
+    },
+    {
+      "chunk_id": 119,
+      "text": "to. depth - The depth in the hierarchy, to determine indenting. Throws: java.io.IOException - If an I/O error occurs. See Also: NamedObj.exportMoML(Writer, int) Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next"
+    },
+    {
+      "chunk_id": 120,
+      "text": "Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

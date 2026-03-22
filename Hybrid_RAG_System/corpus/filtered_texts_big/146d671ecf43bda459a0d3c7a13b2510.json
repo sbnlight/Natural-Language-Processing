@@ -1,0 +1,45 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/svn-check-submission",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"\", 2, 2); require \"GradingCommon.pl\"; # getEntries (\\@TREE) sub getEntries { my $tree = shift; shift @$tree; my @prefixes = (''); my @entries = (); forea"
+    },
+    {
+      "chunk_id": 3,
+      "text": "@prefixes = (''); my @entries = (); foreach (@$tree) { my ($prefix, $file) = /(\\s+)(.+)/; while (length ($prefix) - 1 < $#prefixes) { pop @prefixes; } if ($file =~ m{ /$ }x) { push @prefixes, $file; } else { push @entries"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ush @prefixes, $file; } else { push @entries, $prefixes[$#prefixes] . $file; } } return @entries; } $repos = shift; $txn = shift; $author = `svnlook author -t $txn $repos`; chomp $author; $instructor = 0; if ($READER_IS_INSTRUCTOR{$a"
+    },
+    {
+      "chunk_id": 5,
+      "text": "hor; $instructor = 0; if ($READER_IS_INSTRUCTOR{$author}) { $instructor = 1; } @changes = `svnlook changed -t $txn $repos`; %submitted = (); foreach (@changes) { if (($type, $path) = /^(.).\\s+(.*)\\s*$/) { if (($dir, $trailing) = ($path =~ /"
+    },
+    {
+      "chunk_id": 6,
+      "text": "+(.*)\\s*$/) { if (($dir, $trailing) = ($path =~ /$SVN_SUBMISSION_PATN/)) { ($who) = ($path =~ /$SVN_SUBMITTER_PATN/); ($assgn) = ($path =~ /$SVN_ASSGN_PATN/); if (! (StudentExists ($who) or TeamExists ($who))) { Fatal (\"No registrat"
+    },
+    {
+      "chunk_id": 7,
+      "text": "o) or TeamExists ($who))) { Fatal (\"No registration found for $who.\"); } if (!AssignmentExists ($assgn)) { Fatal (\"There is no assignment named $assgn.\"); } if (($type eq \"D\" or $type eq \"U\" or $trailing) and not"
+    },
+    {
+      "chunk_id": 8,
+      "text": "eq \"D\" or $type eq \"U\" or $trailing) and not $instructor) { Fatal (\"Unauthorized attempt to remove or modify a submission.\"); } $submitted{$dir} = $path; } } } if ($instructor) { exit 0; } foreach $dir (keys %submitted) {"
+    },
+    {
+      "chunk_id": 9,
+      "text": "{ exit 0; } foreach $dir (keys %submitted) { ($assgn) = ($submitted{$dir} =~ /$SVN_ASSGN_PATN/); @required = split (/ /, $ASSGN_REQUIRED{$assgn}); @tree = `svnlook tree -t $txn $repos $dir`; @entries = getEntries (\\@tree); %n"
+    },
+    {
+      "chunk_id": 10,
+      "text": "$dir`; @entries = getEntries (\\@tree); %notFound = (); REQUIRECHECK: foreach $patn (@required) { foreach $entry (@entries) { if ($entry =~ m{^${patn}$}) { next REQUIRECHECK; } } $notFound{$patn} = 1; } if (%notFo"
+    },
+    {
+      "chunk_id": 11,
+      "text": "} } $notFound{$patn} = 1; } if (%notFound) { Fatal (\"Required entries for $assgn not found:\\n \" . join (', ', keys (%notFound))); } } exit 0;"
+    }
+  ]
+}

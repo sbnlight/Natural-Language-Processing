@@ -1,0 +1,93 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/1bAccessorsSpecification",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / 1bAccessorsSpecification Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / 1bAccessorsSpecification Accessor specifi"
+    },
+    {
+      "chunk_id": 2,
+      "text": "rsion0 / 1bAccessorsSpecification Accessor specifications are organized according to three levels described in the Accessors white paper (Interface, Component, and Composition). This specification describes the current Michigan prototype described in"
+    },
+    {
+      "chunk_id": 3,
+      "text": "cribes the current Michigan prototype described in the Michigan accessors concept paper . This page is a working document, describing version 0.1b of a design for accessors. Resources Available accessors Interface An accessor interface specifies wha"
+    },
+    {
+      "chunk_id": 4,
+      "text": "sors Interface An accessor interface specifies what it requires of an accessor host, what its inputs and outputs are, and various pieces of metadata such as author, version, etc. An accessor interface may extend another interface, in which case it in"
+    },
+    {
+      "chunk_id": 5,
+      "text": "may extend another interface, in which case it inherits the inputs and outputs of the interface that it extends. An accessor has an interface and an implementation. The interface may extend one or more other accessor interfaces. A key property of th"
+    },
+    {
+      "chunk_id": 6,
+      "text": "re other accessor interfaces. A key property of the interface of an accessor is that a host can tell whether it can instantiate an accessor by examining its interface. For ease of construction, we provide an interface specification in JSON and XML (t"
+    },
+    {
+      "chunk_id": 7,
+      "text": "vide an interface specification in JSON and XML (they are isomorphic). The specification is available here https://github.com/lab11/accessors/blob/master/server/ACCESSOR_IR.md . Component A component accessor has an interface and a script. The script"
+    },
+    {
+      "chunk_id": 8,
+      "text": "accessor has an interface and a script. The script defines one or more functions that are invoked by the swarmlet host, and can also define local state variables used by the accessor. In version 0.1b accessors, an accessor may define some number of a"
+    },
+    {
+      "chunk_id": 9,
+      "text": "accessors, an accessor may define some number of action functions . The accessor context is the execution environment from the accessor perspective , it is a defined set of interfaces (functions) that is available for accessors to use. The accessor r"
+    },
+    {
+      "chunk_id": 10,
+      "text": "is available for accessors to use. The accessor runtime is the execution environment in which an accessor runs. An accessor runtime must adhere to the context specification, described here. The runtime is responsible for providing implementations of"
+    },
+    {
+      "chunk_id": 11,
+      "text": "me is responsible for providing implementations of all of the functions made available to accessors in an accessor execution context. This specification defines a common environment that ensures that accessors will operate correctly whether run in a"
+    },
+    {
+      "chunk_id": 12,
+      "text": "accessors will operate correctly whether run in a node.js host, a Ptolemy II host, a Python host, etc. Top-Level JavaScript Functions B : These function enable the script to get inputs and produce outputs. They are the only functions that are necessa"
+    },
+    {
+      "chunk_id": 13,
+      "text": "puts. They are the only functions that are necessarily specific to accessors. That is, these are the class of functions that a programmer semantically thinks, I wish to interact with the accessor framework when using these functions. The accessor run"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ework when using these functions. The accessor runtime also exposes and extensive runtime library . This is a collection of functions that abstract away host-implementation-specific details such as how to open sockets or issue http requests. All libr"
+    },
+    {
+      "chunk_id": 15,
+      "text": "w to open sockets or issue http requests. All library functions are placed into a rt. namespace. The primary incentive for this is to improve the readability of accessor code by persons other than the initial author. So-called \"magic functions\" such"
+    },
+    {
+      "chunk_id": 16,
+      "text": "initial author. So-called \"magic functions\" such as a naked getURL make learning the accessor ecosystem difficult for new coders, whereas rt.coap.get is both clear in purpose, clear in origin, and clearly disambiguated from rt.http.get . Built-In Ja"
+    },
+    {
+      "chunk_id": 17,
+      "text": "early disambiguated from rt.http.get . Built-In JavaScript Modules B : All accessor runtimes are required to support all built-in modules. Many modules are taken from the CommonJS specification. Error Handling : Policies for handling errors. The requ"
+    },
+    {
+      "chunk_id": 18,
+      "text": "Handling : Policies for handling errors. The requires tag in the interface specification for an accessor declares all modules required by the accessor. The built-in versus optional distinction is for accessor authors. Thought from Pat: It would be i"
+    },
+    {
+      "chunk_id": 19,
+      "text": "accessor authors. Thought from Pat: It would be interesting to explore accessors that \"gracefully degrade\", e.g. support partial functionality if bluetooth isn't available. That really complicates the port contract, where some ports suddenly \"wouldn"
+    },
+    {
+      "chunk_id": 20,
+      "text": "e port contract, where some ports suddenly \"wouldn't work\". Perhaps we could do something creative such as transparently creating permutations of accessors with and without ports. This would let accessor authors write code with optional ports (intuit"
+    },
+    {
+      "chunk_id": 21,
+      "text": "sor authors write code with optional ports (intuitive for authors) but let the framework preserve the stronger port model. We expect in the future that base classes other than JSAccessor will be developed. The goal would be for other runtimes to use"
+    },
+    {
+      "chunk_id": 22,
+      "text": "oped. The goal would be for other runtimes to use the same top-level API for interacting with the accessors ecosystem. The set of built-in versus optional modules may shift, however the interfaces should be able to remain identical. Composition FIXME"
+    }
+  ]
+}

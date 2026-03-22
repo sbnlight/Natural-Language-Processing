@@ -1,0 +1,413 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/projects/mobies/reports/01/3",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "QUARTERLY PROGRESS REPORT CONTRACTOR: University of California at Berkeley AGREEMENT NUMBER: F33615-00-C-1703 CONTRACT PERIOD: 5/25/00-11/1/03 TITLE: Process-Based Software Components for"
+    },
+    {
+      "chunk_id": 2,
+      "text": "sed Software Components for Networked Embedded Systems REPORT PERIOD: 7/1/01 - 9/30/01 SPONSOR: Air Force Research Laboratory (AFRL) TECHNICAL POC: Stephen L. Hary REPORT PREPARED BY: Edward A."
+    },
+    {
+      "chunk_id": 3,
+      "text": "Stephen L. Hary REPORT PREPARED BY: Edward A. Lee 0. Executive Summary Our focus is on component-based design using principled models of computation and their runtime environments for embedded systems. The emphasis of this project is o"
+    },
+    {
+      "chunk_id": 4,
+      "text": "bedded systems. The emphasis of this project is on the dynamics of the components, including the communication protocols that they use to interface with other components, the modeling of their state, and their flow of control. The objective is to"
+    },
+    {
+      "chunk_id": 5,
+      "text": "e, and their flow of control. The objective is to provide mechanisms for introspection, supporting both the ability of the run-time environment to safely dispatch tasks and the ability of components to adapt their interfaces using polymorphism. T"
+    },
+    {
+      "chunk_id": 6,
+      "text": "s to adapt their interfaces using polymorphism. The focus is on real-time applications, which implies that models of time are a critical part of the abstractions that we are developing. The purpose of the mechanisms we develop is to improve robus"
+    },
+    {
+      "chunk_id": 7,
+      "text": "of the mechanisms we develop is to improve robustness and safety while promoting component-based design. This reporting period was quite busy. Stimulated by the challenge problems from the automotive OEP, we have built a clean mechanism for co"
+    },
+    {
+      "chunk_id": 8,
+      "text": "otive OEP, we have built a clean mechanism for constructing modal models in Ptolemy II. We have also made major progress in our process-level type system, providing a mechanism for constructing and composing interface automata graphs. We have made"
+    },
+    {
+      "chunk_id": 9,
+      "text": "composing interface automata graphs. We have made progress on the code generator architecture, and have begun definition of a language for defining actors. We have begun to define how various models of computation should perform real-time I/O, an"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ls of computation should perform real-time I/O, and have made a number of improvements in the visual syntax in Ptolemy II. We have also installed a Matlab interface to Ptolemy II that permits actor functionality to be specified in Matlab. 1."
+    },
+    {
+      "chunk_id": 11,
+      "text": "functionality to be specified in Matlab. 1. Research Status Automotive OEP ============== Our interaction with the automotive Phase II researchers at Berkeley, Ford, and GM, continues. Stimulated by their \"challenge problems\" we have"
+    },
+    {
+      "chunk_id": 12,
+      "text": "Stimulated by their \"challenge problems\" we have constructed and demonstrated a convenient visual syntax for modal models. A modal model is an FSM (finite state machine) combined hierarchically with other models. In our visual syntax, the system"
+    },
+    {
+      "chunk_id": 13,
+      "text": "h other models. In our visual syntax, the system builder directly interacts with this hierarchical view. If you look inside the modal model, you will see a visual rendition of the FSM. If you create a state in this FSM, then you can create a refin"
+    },
+    {
+      "chunk_id": 14,
+      "text": "e a state in this FSM, then you can create a refinement, and also you can look inside the state using the context menu on the state. The refinement can be another FSM or some other model using some other Ptolemy domain. For example, by using the C"
+    },
+    {
+      "chunk_id": 15,
+      "text": "other Ptolemy domain. For example, by using the CT domain (continuous time), one can easily build hybrid systems. Hierarchical Heterogeneity ========================== Ptolemy II allows multiple models of computation to be composed hierar"
+    },
+    {
+      "chunk_id": 16,
+      "text": "tiple models of computation to be composed hierarchically. Yuhong Xiong has been working on a type-theoretic approach for managing this hierarchical heterogeneity. Informally, our approach is: If the outside domain is A, inside domain is B, we mak"
+    },
+    {
+      "chunk_id": 17,
+      "text": "he outside domain is A, inside domain is B, we make a composite actor (director plus a group of actors built in domain B) \"behave like\" an actor of domain A. We then expect that the composite actor \"can work\" in domain A. The objective is to captu"
+    },
+    {
+      "chunk_id": 18,
+      "text": "\"can work\" in domain A. The objective is to capture this informal notion in a manipulable formalism akin to a type system. Yuhong's approach is based on interface automata theory. We model the following using interface automata: (1) The out"
+    },
+    {
+      "chunk_id": 19,
+      "text": "owing using interface automata: (1) The outside domain A. Call this automaton A_domain. (2) The interface of an actor in A. Call this automaton A_actor. (3) Each of the director and actors of the inside domain, composed togethe"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ors of the inside domain, composed together. Call this composition B_actor. Given the above, the phrase \"behave like\" is the refinement (alternating simulation) relation between A_actor and B_actor, and \"can work\" is the compatibility ch"
+    },
+    {
+      "chunk_id": 21,
+      "text": "d B_actor, and \"can work\" is the compatibility check of interface automata. Based on a theorem in interface automata, if A_actor is compatible with A_domain, and the above refinement relation holds, B_actor is also compatible with A_domain. Pr"
+    },
+    {
+      "chunk_id": 22,
+      "text": ", B_actor is also compatible with A_domain. Precisely, the interface automata capture two things: communication protocol and execution control. These two essentially define a model of computation. For example, if the outside domain is DE, the i"
+    },
+    {
+      "chunk_id": 23,
+      "text": "n. For example, if the outside domain is DE, the inside domain is SDF, and we pick execution control, then a type theoretic framework consists of: (1) An automaton DE_domain that describes how the domain calls the initialize, prefire,"
+    },
+    {
+      "chunk_id": 24,
+      "text": "the domain calls the initialize, prefire, fire, postfire, and wrapup methods of actors in DE. (2) An automaton DE_Actor that shows how a DE actor reacts to those calls. (3) Automata modeling SDF director, SDF actors,"
+    },
+    {
+      "chunk_id": 25,
+      "text": "(3) Automata modeling SDF director, SDF actors, and their composition. The composition is SDF_actor. (4) Show that DE_domain is compatible with DE_Actor, and SDF_actor refines DE_actor. If this succeeds, then we have formally"
+    },
+    {
+      "chunk_id": 26,
+      "text": "_actor. If this succeeds, then we have formally shown that the hierarchical heterogeneity approach is sound. Interface Automaton Domain ========================== Tom Henzinger and Luca de Alfaro have made significant strides in their i"
+    },
+    {
+      "chunk_id": 27,
+      "text": "e Alfaro have made significant strides in their interface theories and in the interface automata formalism. Yuhong Xiong has successfully remapped our process-level type system to use interface automata, which offer the major benefit of correctly"
+    },
+    {
+      "chunk_id": 28,
+      "text": "omata, which offer the major benefit of correctly contravariant types on inputs vs. outputs. Yuhong has implemented an interface automaton domain in Ptolemy II, which permits construction of executable and analyzable models, and has implemented a"
+    },
+    {
+      "chunk_id": 29,
+      "text": "able and analyzable models, and has implemented a composition algorithm that takes two interface automata and composes them synchronously to produce a third. He has shown how this composition can be used to explore system-level type definitions fo"
+    },
+    {
+      "chunk_id": 30,
+      "text": "e used to explore system-level type definitions for various forms of domain-polymorphic actors and the domains in which they might reside. The composition can be used to perform compatibility checks. Yuhong made the composition mechanism accessibl"
+    },
+    {
+      "chunk_id": 31,
+      "text": ". Yuhong made the composition mechanism accessible from the Ptolemy II GUI, so building type definitions and experimenting with their composition is easy. A reasonable next step is to use the refinement relation in software design. For example"
+    },
+    {
+      "chunk_id": 32,
+      "text": "finement relation in software design. For example, if a high level interface A is compatible with a component P, then the refinements of A will also be compatible with P. The process of refining A can be done in multiple steps. For example, A is"
+    },
+    {
+      "chunk_id": 33,
+      "text": "can be done in multiple steps. For example, A is refined by B, and B is refined by the composition of C and D, and C and D are further refined (possibly by different developers) by E and F, respectively. In this case, as long as A is compatible wi"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ively. In this case, as long as A is compatible with P, then the composition of E and F is also compatible with P. The objective is to build a development environment that facilitates software design through refinement. Code Generation ====="
+    },
+    {
+      "chunk_id": 35,
+      "text": "n through refinement. Code Generation =============== Shuvra Bhattacharyya (under subcontract from Univ. of Maryland) has checked in several files that implement C code generation from class files via Soot. Only a limited set of Java lang"
+    },
+    {
+      "chunk_id": 36,
+      "text": "s files via Soot. Only a limited set of Java language features is presently supported by the code generation functionality. His group is actively working on adding more features. Presently, everything in Object is being translated except for the"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ing in Object is being translated except for the throw statements, as exceptions are not supported yet in the C code generator. Elaine Cheong and Fred Reiss have created three tools based on the Soot compiler toolkit: - ChangeNamesApp: takes"
+    },
+    {
+      "chunk_id": 38,
+      "text": "Soot compiler toolkit: - ChangeNamesApp: takes a class file and replaces all references to one class with references to another class. - MergeLibsApp: merges various libraries (specifically, the embedded JDK, desktop JDK, embedded JDK ex"
+    },
+    {
+      "chunk_id": 39,
+      "text": "the embedded JDK, desktop JDK, embedded JDK extensions, desktop JDK replacement classes). - StripLibsApp: minimizes the program size by removing unused classes and methods. Elaine also created 2 sets of drivers for experimentation wit"
+    },
+    {
+      "chunk_id": 40,
+      "text": "created 2 sets of drivers for experimentation with Lego Mindstorm kits, one for the desktop, and one for lejos. A program targeted for the lego can be compiled and be tested on the desktop. She also created extensions for lejos so that some commo"
+    },
+    {
+      "chunk_id": 41,
+      "text": "so created extensions for lejos so that some commonly used APIs would compile correctly (e.g., System.print, Writer, Integer, some more exceptions). Finally, she created several demo programs (in Java), and generated code. With minor hand modifica"
+    },
+    {
+      "chunk_id": 42,
+      "text": "va), and generated code. With minor hand modifications, she was able to run the generated code on the Legos. Finally, Steve Neuendorffer continues to build the generic Soot-based code generation framework for Ptolemy II. Graph Manipulation"
+    },
+    {
+      "chunk_id": 43,
+      "text": "framework for Ptolemy II. Graph Manipulations =================== Many of the algorithms used in Ptolemy II, particularly those involved with code generation, perform graph-theoretic operations on a model. The graph package in Ptolemy II"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ions on a model. The graph package in Ptolemy II contains utilities for performing such manipulations. Shuvra Bhattacharyya, under subcontract from U. of Maryland, has made a number of improvements to this package. In summary, the new version use"
+    },
+    {
+      "chunk_id": 45,
+      "text": "to this package. In summary, the new version uses Node and Edge classes that allow for traversal through node predecessors, and allow one to associate objects (called \"weights\") with edges as well as with nodes. With Yuhong Xiong's help in ins"
+    },
+    {
+      "chunk_id": 46,
+      "text": "as with nodes. With Yuhong Xiong's help in instrumenting the type unification code, which heavily uses the graph package, Shuvra compared the performance of unification on many of the demo examples. Among these, unification with the new versio"
+    },
+    {
+      "chunk_id": 47,
+      "text": "les. Among these, unification with the new version was a little slower, as expected (due to the increased generality), but it did not seem seriously so. The Java timing has increments of only 10ms, but the data suggest that type unification remai"
+    },
+    {
+      "chunk_id": 48,
+      "text": "but the data suggest that type unification remains a negligible part of the computation time. Caltrop - An Actor Language =========================== Johan Eker and Jorn Janneck have been working on the design of a language for specifying"
+    },
+    {
+      "chunk_id": 49,
+      "text": "orking on the design of a language for specifying actors in an actor-oriented design. They are addressing the issue that to design actors today, system builders have to understand many subtleties about Ptolemy II. In particular, they have to unde"
+    },
+    {
+      "chunk_id": 50,
+      "text": "bout Ptolemy II. In particular, they have to understand the abstract semantics. The objective of the actor design language is to insulate the system builder from many of these subtleties by offering an actor language with semantics that lends its"
+    },
+    {
+      "chunk_id": 51,
+      "text": "g an actor language with semantics that lends itself to automatically extracting the actor structure. The language, tentatively called Caltrop, is a small domain-specific language for writing down the functionality of (atomic, as a first step)"
+    },
+    {
+      "chunk_id": 52,
+      "text": "n the functionality of (atomic, as a first step) actors -- including specifically their ports, their parameters, typing constraints, and preconditions for firing. The idea is to make producing an atomic actor more accessible to users, and at the s"
+    },
+    {
+      "chunk_id": 53,
+      "text": "tomic actor more accessible to users, and at the same time provide a somewhat higher-level description of actor functionality, which may be helpful in generating code. As a side effect, atomic actors in this language are insulated against API cha"
+    },
+    {
+      "chunk_id": 54,
+      "text": "rs in this language are insulated against API changes. Jorn and Johan have discussed the design with people at Kestrel, specifically Lindsay Errington and John Anton, and it seems as if specifying a language like this would in fact be an intere"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ng a language like this would in fact be an interesting (to them) challenge in the use of their tool, and possibly an ideal driver application for integrating better handling of stateful specifications, since handling of state is in fact an essent"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ons, since handling of state is in fact an essential (and non-trivial) part of this language. On our side, we think that generating good code (first Java code that works against the Ptolemy API, but later other languages as well) from these descr"
+    },
+    {
+      "chunk_id": 57,
+      "text": "t later other languages as well) from these descriptions is a key to their usefulness, and that the Kestrel people and their experience in this area might be helpful. Our plans right now are to bring the language definition to an initially use"
+    },
+    {
+      "chunk_id": 58,
+      "text": "bring the language definition to an initially useful stage, produce a parser and an interpreter for it (by hand, for the moment), and experiment a little with it. Once we have nailed the initial informal spec and are reasonably confident that the"
+    },
+    {
+      "chunk_id": 59,
+      "text": "formal spec and are reasonably confident that the project makes sense, we will try to collaborate with the Kestrel people on a formal specification and a more elaborate code-generation framework. I/O Actors ========== Wintrop Williams has"
+    },
+    {
+      "chunk_id": 60,
+      "text": "I/O Actors ========== Wintrop Williams has begun a project to systematically add sophisticated I/O capabilities to Ptolemy II. He has begun with a pair of datagram actors, which transmit and receive datagrams over a socket connection. A ma"
+    },
+    {
+      "chunk_id": 61,
+      "text": "receive datagrams over a socket connection. A major issue confronting Win is the concurrency management for I/O. Intrinsically, these actors interact with an environment that is outside the model of computation governing the actor itself. Identi"
+    },
+    {
+      "chunk_id": 62,
+      "text": "of computation governing the actor itself. Identifying the right semantics for domain-polymorphic I/O actors is a major part of this effort. Data Type System ================ Yuhong Xiong has re-examined the strategy in Ptolemy II for poly"
+    },
+    {
+      "chunk_id": 63,
+      "text": "as re-examined the strategy in Ptolemy II for polymorphic arithmetic operators and has improved some of the infrastructure in the type system and in the actor library. In a related issue, we have augmented the mechanism for setting types of por"
+    },
+    {
+      "chunk_id": 64,
+      "text": "augmented the mechanism for setting types of ports so that you can now set the type to be abstract types as well as concrete ones. This removes one of the objections that was originally raised to using this mechanism, where the type is given by a"
+    },
+    {
+      "chunk_id": 65,
+      "text": "using this mechanism, where the type is given by a prototype. To declare the type of a port to be \"matrix\", just say \"matrix\". To declare the type of a port to be \"scalar\", just say \"scalar\". The way this is implemented is that there are now concr"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ay this is implemented is that there are now concrete tokens called ConcreteMatrixToken and ConcreteScalarToken (in data.expr). These tokens are instantiated in the Constants class with names \"matrix\" and \"scalar\". Visual Syntaxes =========="
+    },
+    {
+      "chunk_id": 67,
+      "text": "ix\" and \"scalar\". Visual Syntaxes =============== We made a significant push to make the visual editor infrastructure in Ptolemy II more flexible and extensible, and made a number of improvements to the existing visual editors. The changes"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ements to the existing visual editors. The changes include: - Modularization of the architecture so that end-users can customize the interaction with visual elements. This enables the creation of domain-specific interaction mechanisms with a"
+    },
+    {
+      "chunk_id": 69,
+      "text": "f domain-specific interaction mechanisms with actors, states, or annotations. - Use of this modular structure to create an annotation mechanism for diagrams, and to customize annotations, for example by choosing whether or not to displ"
+    },
+    {
+      "chunk_id": 70,
+      "text": "for example by choosing whether or not to display actor and port names. - Improved the visual layout of diagrams, implemented snap-to-grid, created a usable panner for large designs, and created a zooming mechanism (also to support large"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ted a zooming mechanism (also to support large designs). - Improved the \"bubble-and-arc\" editor used by the FSM and interface automata domains. This editor now supports multiple arcs between a given pair of states, and allows customizati"
+    },
+    {
+      "chunk_id": 72,
+      "text": "a given pair of states, and allows customization of the curvature of the arcs. - Enabled explicit definition of the data types handled by a port. Previously, this was always inferred from the connections and the constraints imposed by"
+    },
+    {
+      "chunk_id": 73,
+      "text": "the connections and the constraints imposed by an actor, and there was no mechanism to force specialization from the user interface. - Started an effort to systematize the way that files and URLs are specified as parameters to actors. T"
+    },
+    {
+      "chunk_id": 74,
+      "text": "URLs are specified as parameters to actors. This is not yet complete. Infrastructure ============== Thanks to a generous donation from Sony, we have received a new batch of laptops. This is particularly convenient, since there is no ot"
+    },
+    {
+      "chunk_id": 75,
+      "text": "s is particularly convenient, since there is no other mechanism for acquiring laptops for use on a DARPA project. We have also received an MPC-555 board and the Vision Probe from Teja, which is finished with it. Teja was porting their software t"
+    },
+    {
+      "chunk_id": 76,
+      "text": "inished with it. Teja was porting their software to it as part of their subcontract under the Mobies Phase II project at Berkeley. Personnel ========= Farhana Sheikh joined the group as a graduate student. Simon Lee joined the group as an"
+    },
+    {
+      "chunk_id": 77,
+      "text": "raduate student. Simon Lee joined the group as an undergraduate researcher. Gilles Guerassimoff completed his visit (from CMA, in France). Study Group =========== Our quasi-weekly study group examined the following topics: -- F. Thoen,"
+    },
+    {
+      "chunk_id": 78,
+      "text": "up examined the following topics: -- F. Thoen, M. Cornero, G. Goossens, and H. De Man, \"Software Synthesis for Real-Time Information Processing Systems.\" -- John Backus, \"Can programming be liberated from the von Neumann style?\" -- OCL, a co"
+    },
+    {
+      "chunk_id": 79,
+      "text": "berated from the von Neumann style?\" -- OCL, a constraint language for UML static structure diagrams. -- GME, from Vanderbilt. -- Localization technologies. 2. Interactions, Meetings, and Technology Transfer Presentations ============="
+    },
+    {
+      "chunk_id": 80,
+      "text": "hnology Transfer Presentations ============= * Jie Liu, \"Hybrid System Modeling in Ptolemy II,\" Embedded Software Seminar Series, UC Berkeley, September, 2001. * Yuhong Xiong presented Ptolemy II at the Symposium on Visual Languages a"
+    },
+    {
+      "chunk_id": 81,
+      "text": "olemy II at the Symposium on Visual Languages and Formal Methods, Stresa, Italy, Sept. 5-7, 2001. Other Interactions ================== * Johan Eker and Jorn Janneck have been visiting Kestrel about once a week with the goal of learnin"
+    },
+    {
+      "chunk_id": 82,
+      "text": "trel about once a week with the goal of learning more about what they are doing and developing joint research within the MoBIES framework. They have primarily been interacting on the Caltrop language design (see above). * Zoltan Kemenczy"
+    },
+    {
+      "chunk_id": 83,
+      "text": "language design (see above). * Zoltan Kemenczy and Sean Simmons of Research In Motion, Ltd., Waterloo, Canada, have contributed a Matlab interface package for Ptolemy II. This interface includes a C++ Java Native Interface translation layer,"
+    },
+    {
+      "chunk_id": 84,
+      "text": "des a C++ Java Native Interface translation layer, a ptolemy.matlab.Engine java class, and a ptolemy.matlab.Expression actor class that is similar in nature to ptolemy.actor.lib.Expression. The Matlab expression actor allows users to define"
+    },
+    {
+      "chunk_id": 85,
+      "text": "he Matlab expression actor allows users to define the functionality of an actor in Matlab. * Aleksandar Necakov, also of Research in Motion Limited, has contributed a data-polymorphic version of the IIR (infinite impulse response) filter"
+    },
+    {
+      "chunk_id": 86,
+      "text": "of the IIR (infinite impulse response) filter actor. * Zoltan Kemenczy of Research In Motion, Ltd., Waterloo, Canada, has fixed a bug in the FIR filter actor, where decimation was not properly handled. * With the beginning of the seme"
+    },
+    {
+      "chunk_id": 87,
+      "text": "perly handled. * With the beginning of the semester, we have started an embedded software seminar series. Topics so far have included: -- Rupak Majumdar, \"Symbolic algorithms for infinite-state systems\" -- Jie Liu, \"Hybrid System Modeling"
+    },
+    {
+      "chunk_id": 88,
+      "text": "te systems\" -- Jie Liu, \"Hybrid System Modeling in Ptolemy II\" -- Anton Cervin (Lund), \"Analysis and Simulation of Control Loop Timing\" * Anton Cervin, a control engineering researcher from Lund, Sweden, visited our group for four weeks"
+    },
+    {
+      "chunk_id": 89,
+      "text": "Lund, Sweden, visited our group for four weeks and built a number of control system models in Ptolemy II. * Yuke Wang, on the faculty at UT Dallas, spent the summer visiting Berkeley. He created a preliminary Petri Net domain in Ptolemy I"
+    },
+    {
+      "chunk_id": 90,
+      "text": "reated a preliminary Petri Net domain in Ptolemy II, with the objective of using it as a framework for system analysis. Here is his summary of the domain: \"This domain implements the basic Petri Net model where Places and Transitio"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ic Petri Net model where Places and Transitions form a bipartite graph and enabled Transitions can fire randomly. It also allows Transitions to be replaced by any other Actors in Ptolemy. It implements two forms of Hierarchical and"
+    },
+    {
+      "chunk_id": 92,
+      "text": "y. It implements two forms of Hierarchical and compositional Petri nets. The first form of hierarchical and compositional Petri net semantics comes from the fact that a Transition can contain a sub-Petri-net which is invisible to the"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ontain a sub-Petri-net which is invisible to the director of the container of the Transition. The second form of hierarchical and compositional Petri net semantics comes from a new Actor called PetriNetActor which is a collection of Pl"
+    },
+    {
+      "chunk_id": 94,
+      "text": "r called PetriNetActor which is a collection of Places and Transitions, and those Places and Transitions are visible to the director of the container of the PetriNetActor. The users can choose which form of models to use, and/or mix th"
+    },
+    {
+      "chunk_id": 95,
+      "text": "choose which form of models to use, and/or mix them together.\" * Prof. Michael Wirthlin, of Brigham Young University, now has a student (Matthew Koecher) who will be working on the JHDL code generation and will be more involved over the nex"
+    },
+    {
+      "chunk_id": 96,
+      "text": "generation and will be more involved over the next two semesters and hopefully through the next summer. JHDL is a Java-based hardware description language that Wirthlin's group is developing. They are building a JHDL code generator for Ptol"
+    },
+    {
+      "chunk_id": 97,
+      "text": "hey are building a JHDL code generator for Ptolemy II. * The Metropolis project at Berkeley, and their partners at Cadence, have borrowed and adapted our first version code generation framework for their own research purposes. 4. Pub"
+    },
+    {
+      "chunk_id": 98,
+      "text": "rk for their own research purposes. 4. Publications [1] Xiaojun Liu, Yuhong Xiong, and Edward A. Lee, \"The Ptolemy II Framework for Visual Languages,\" Symposium on Visual Languages and Formal Methods, Stresa, Italy, Sept. 5-7, 20"
+    },
+    {
+      "chunk_id": 99,
+      "text": "Formal Methods, Stresa, Italy, Sept. 5-7, 2001. [2] Edward A. Lee, \"Embedded Software,\" Technical Memorandum UCB/ERL M01/26, University of California, Berkeley, CA 94720, July 12, 2001. (joint work with Mobies) [3] Xiaojun Liu,"
+    },
+    {
+      "chunk_id": 100,
+      "text": "(joint work with Mobies) [3] Xiaojun Liu, Yuhong Xiong, and Edward A. Lee, \"The Ptolemy II Framework for Visual Languages,\" poster paper, Symposium on Visual Languages and Formal Methods, Stresa, Italy, Sept. 5-7, 2001. (joint"
+    },
+    {
+      "chunk_id": 101,
+      "text": "hods, Stresa, Italy, Sept. 5-7, 2001. (joint with Mobies). [4] \"Ptolemy II - Tool Integration Information,\" Unpublished memorandum, September 24, 2001. 5. Financial Data Provided separately on a quarterly basis by the university."
+    },
+    {
+      "chunk_id": 102,
+      "text": "separately on a quarterly basis by the university."
+    }
+  ]
+}

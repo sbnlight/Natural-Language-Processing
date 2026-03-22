@@ -1,0 +1,993 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII8.0/ptII8.0.1/doc/ptII8.0.release.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Ptolemy II 8.0.1 Release Notes Ptolemy II 8.0.1 Release Notes Ptolemy II is a set of Java packages supporting heterogeneous, concurrent modeling and design. Its kernel package supports clustered hierarchical graphs, which are collections of entities"
+    },
+    {
+      "chunk_id": 2,
+      "text": "archical graphs, which are collections of entities and relations between those entities. Its actor package extends the kernel so that entities have functionality and can communicate via the relations. Its domains extend the actor package by imposin"
+    },
+    {
+      "chunk_id": 3,
+      "text": ". Its domains extend the actor package by imposing models of computation on the interaction between entities. Examples of models of computation include discrete-event systems, dataflow, process networks, synchronous/reactive systems, and communicat"
+    },
+    {
+      "chunk_id": 4,
+      "text": "orks, synchronous/reactive systems, and communicating sequential processes. Ptolemy II includes a number of support packages, such as data , providing a type system, data encapsulation and an expression parser, plot , providing visual display of dat"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ion parser, plot , providing visual display of data, math , providing matrix and vector math and signal processing functions, and graph , providing graph-theoretic manipulations. The three volumes of the Ptolemy II Design Document describes the Ptole"
+    },
+    {
+      "chunk_id": 6,
+      "text": "the Ptolemy II Design Document describes the Ptolemy II design and the implementation of the Java classes. Volume 1: Introduction to Ptolemy II (Local PDF) Volume 2: Ptolemy II Software Architecture (Local PDF) Volume 3: Ptolemy II Domains (Local PDF"
+    },
+    {
+      "chunk_id": 7,
+      "text": "Local PDF) Volume 3: Ptolemy II Domains (Local PDF) The \" Using Vergil \" describes how to use Vergil. Complete List of Domains in Ptolemy II CI : component interaction (experimental), Continuous : continuous-time modeling (redesign of the CT domai"
+    },
+    {
+      "chunk_id": 8,
+      "text": "continuous-time modeling (redesign of the CT domain) CSP : communicating sequential processes, CT : continuous-time modeling, DE : discrete-event modeling, DDE : distributed discrete events (experimental), DDF : dynamic dataflow DT : discrete"
+    },
+    {
+      "chunk_id": 9,
+      "text": "rimental), DDF : dynamic dataflow DT : discrete time, FSM : finite state machines, Giotto : periodic time-driven (experimental), GR : 3-D graphics (experimental), HDF : heterochronous dataflow Modal : finite state machines and modal model (re"
+    },
+    {
+      "chunk_id": 10,
+      "text": "odal : finite state machines and modal model (redesign of the FSM domain) PN : process networks, PSDF : parameterized synchronous dataflow (experimental), Rendezvous : rendezvous (experimental), SDF : synchronous dataflow, SR : synchronous/rea"
+    },
+    {
+      "chunk_id": 11,
+      "text": "SDF : synchronous dataflow, SR : synchronous/reactive, TM : timed multitasking (experimental), and Wireless : wireless (experimental). Platforms The core of Ptolemy II 8.0.1 is 100% Java, so it should work on any platform that has JDK 1.5 or lat"
+    },
+    {
+      "chunk_id": 12,
+      "text": "hould work on any platform that has JDK 1.5 or later. We developed Ptolemy II 8.0.1 under Mac OS 10.5 and Windows Server 2003 and with JDK1.5.0._22. Ptolemy II 8.0 will not compile under Java 1.3 because we use the java.lang.URI class, which is prese"
+    },
+    {
+      "chunk_id": 13,
+      "text": "use we use the java.lang.URI class, which is present only in Java 1.4 and later. JDK 1.5 or later is required so that these packages can use generics: backtrack, ptalon and others. Ptolemy II has been compiled and run under IBM JDK 1.6.0. There are"
+    },
+    {
+      "chunk_id": 14,
+      "text": "compiled and run under IBM JDK 1.6.0. There are the following limitations under IBM JDK 1.6.0 The Copernicus code generator does not work. Caltrop does not work. The IBM JDK seems to return directory contents in a different order than the Sun JDK."
+    },
+    {
+      "chunk_id": 15,
+      "text": "y contents in a different order than the Sun JDK. Thus actor.lib.io.DirectoryListing might return elements in a different order. Contents: Highlights Model Transformation Ptera Domain Causality Analysis Continuous and Modal Domains Other Key New Cap"
+    },
+    {
+      "chunk_id": 16,
+      "text": "sis Continuous and Modal Domains Other Key New Capabilities Additional features New demonstrations New and Enhanced Actor Libraries Works in Progress Bug fixes Limitations Highlights Model Transformation The model transformation facility provides a f"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ion The model transformation facility provides a framework for the analysis and transformation of actor models using model transformation techniques. The design of large-scale models poses a number of challenges. As the size of the models increases t"
+    },
+    {
+      "chunk_id": 18,
+      "text": "challenges. As the size of the models increases to thousands of actors or hundreds of thousands of actors, analysis and consistent modification on the models become extremely hard. Furthermore, to maximize component reuse, a systematic approach is n"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ximize component reuse, a systematic approach is needed for the specification and maintenance of common patterns in the models and the transformation of those patterns. The model transformation framework to be developed in this project aims to suppor"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ork to be developed in this project aims to support the flexible specification of patterns and replacements by means of rules in graph grammar. An intuitive graphical user interface will be built. For novice users, a set of common transformations wil"
+    },
+    {
+      "chunk_id": 21,
+      "text": "novice users, a set of common transformations will be included in a library to facilitate their common tasks. The transformations are models in their own right. They can be embedded in larger models hierarchically. Heterogeneous models of computatio"
+    },
+    {
+      "chunk_id": 22,
+      "text": "hierarchically. Heterogeneous models of computation can be used to control the application of individual \"atomic\" transformations. This makes it easy to create sophisticated transformations by composing simple ones in a manageable and disciplined way"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ng simple ones in a manageable and disciplined way. The sophisticated transformations will also take advantage of the concurrency inherent in those models of computation. Model transformation can be applied as an optimization of modal models. These a"
+    },
+    {
+      "chunk_id": 24,
+      "text": "pplied as an optimization of modal models. These are hierarchical state machines with refinements in their states, which are sub-models to be executed when those states are active. The current implementation includes the complete description of each"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ntation includes the complete description of each refinement in the model description, even though refinements of the states in a state machine tend to have large commonality. With the transformation technique, only one refinement needs to be stored"
+    },
+    {
+      "chunk_id": 26,
+      "text": "technique, only one refinement needs to be stored completely. The others are obtained by transformations performed on the stored refinement. This eliminates redundancy and eases the job of modifying multiple refinements consistently. Other applicatio"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ultiple refinements consistently. Other applications of the model transformation technique include recognizing common design patterns in the models in a static analysis, replacing exiting design patterns with more efficient ones, and reusing design p"
+    },
+    {
+      "chunk_id": 28,
+      "text": "rns with more efficient ones, and reusing design patterns by incorporating them into new models. References Thomas Huining Feng, \" Model Transformation with Hierarchical Discrete-Event Control ,\" Ph.D. Dissertation, EECS Department, University of Cal"
+    },
+    {
+      "chunk_id": 29,
+      "text": ". Dissertation, EECS Department, University of California, Berkeley. UCB/EECS-2009-77. May 2009. Christopher Brooks, Chihhong Cheng, Thomas Huining Feng, Edward A. Lee and Reinhard von Hanxleden, \" Model Engineering using Multimodeling ,\" In 1st Inte"
+    },
+    {
+      "chunk_id": 30,
+      "text": "del Engineering using Multimodeling ,\" In 1st International Workshop on Model Co-Evolution and Consistency Management (MCCM '08) , Toulouse, France, Sep. 2008. Thomas Huining Feng and Edward A. Lee, \" Scalable Models Using Model Transformation ,\" In"
+    },
+    {
+      "chunk_id": 31,
+      "text": "Scalable Models Using Model Transformation ,\" In 1st International Workshop on Model Based Architecting and Construction of Embedded Systems (ACESMB 2008) , Toulouse, France, Sep. 2008. Thomas Huining Feng, Miriam Zia, and Hans Vangheluwe, \" Multi-F"
+    },
+    {
+      "chunk_id": 32,
+      "text": "g Feng, Miriam Zia, and Hans Vangheluwe, \" Multi-Formalism Modelling and Model Transformation for the Design of Reactive Systems ,\" In 2007 Summer Computer Simulation Conference (SCSC 2007) , San Diego, CA, USA, Jul. 2007. Model Transformation Demons"
+    },
+    {
+      "chunk_id": 33,
+      "text": "o, CA, USA, Jul. 2007. Model Transformation Demonstrations AdaptiveCarWash (With ModelUpdater) Adder (Requires Ptalon and Antlr) BouncingBallX2 (Requires Java 3D, see the GR domain ) ConstOptimization (Using Model-Based Transformation) ConstOptimizat"
+    },
+    {
+      "chunk_id": 34,
+      "text": "(Using Model-Based Transformation) ConstOptimization DE (With TransformationController) ConstOptimization DDF (Without TransformationController) DiningPhilosophers GameOfLife HierarchyFlattening MapReduce MapReduceDDF ModelExecution ModelGeneration"
+    },
+    {
+      "chunk_id": 35,
+      "text": "educe MapReduceDDF ModelExecution ModelGeneration ModelGeneration DE PublisherTest RegressionTest SinewaveOptimization Sample design patterns may be found under MoreLibraries -> DesignPatterns. To use a design pattern, drag a design pattern into a"
+    },
+    {
+      "chunk_id": 36,
+      "text": "e a design pattern, drag a design pattern into a model. Primary Model Transformation Developer: Thomas Huining Feng Ptera (Ptolemy Event Relationship Actor) Domain The Ptera (Ptolemy Event Relationship Actor) domain is a discrete-event model of com"
+    },
+    {
+      "chunk_id": 37,
+      "text": "hip Actor) domain is a discrete-event model of computation. A model in Ptera is represented with a graph of nodes and edges, where nodes represent events and directed edges between events represent scheduling relation. One or more events can be selec"
+    },
+    {
+      "chunk_id": 38,
+      "text": "heduling relation. One or more events can be selected as initial events, which are scheduled at model time 0.0. When an event is fired, it possibly performs certain actions, and if there are outgoing edges from that event, the events at the end point"
+    },
+    {
+      "chunk_id": 39,
+      "text": "edges from that event, the events at the end points of those edges are scheduled after non-negative delays. One or more events can also be selected as final events. The firing of final events causes the event queue to be emptied after their actions a"
+    },
+    {
+      "chunk_id": 40,
+      "text": "he event queue to be emptied after their actions are performed, and therefore no more events can be processed. The Ptera domain supports a different kind of modal models called PteraModalModels, compared to modal models using FSMs (Finite State Machi"
+    },
+    {
+      "chunk_id": 41,
+      "text": "red to modal models using FSMs (Finite State Machines) as the control. A PteraModalModel uses Ptera at the top level, and each event is refined into a sub-model. The refinements can use Ptera and any other Ptolemy models of computation. A Ptera model"
+    },
+    {
+      "chunk_id": 42,
+      "text": "other Ptolemy models of computation. A Ptera model is timed. Although it should work in many domains, the DE (Discrete-Event) domain or Ptera domain itself are recommended. When embedded in those domains, the scheduling of the Ptera model is delegate"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ins, the scheduling of the Ptera model is delegated to the container by calling the fireAt() function of its director. There are many useful additional features for Ptera, such as canceling edges and parameters. A canceling edge, denoted by a dotted"
+    },
+    {
+      "chunk_id": 44,
+      "text": "parameters. A canceling edge, denoted by a dotted line, cancels a previously scheduled event instead of scheduling a new one. If the pointed to event has multiple instances in the event queue, then the first instance is cancelled. Events may also hav"
+    },
+    {
+      "chunk_id": 45,
+      "text": "e first instance is cancelled. Events may also have parameters, and the actual values for those parameters are specified by the expressions on the edges that schedule them. Those expressions are evaluated at run-time. The events may refer to the valu"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ated at run-time. The events may refer to the values of those parameters in their actions by parameter names. References Thomas Huining Feng, \" Model Transformation with Hierarchical Discrete-Event Control ,\" Ph.D. Dissertation, EECS Department, Univ"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ntrol ,\" Ph.D. Dissertation, EECS Department, University of California, Berkeley. UCB/EECS-2009-77. May 2009. Lee W. Schruben, \" Simulation Modeling with Event Graphs ,\" Communications of the ACM (CACM), 26(11): 957-963, 1983. Ptera Domain Demonstrat"
+    },
+    {
+      "chunk_id": 48,
+      "text": "M), 26(11): 957-963, 1983. Ptera Domain Demonstrations AdaptiveCarWash (With ModelUpdater) AdaptiveCarWash (With FSM Submodel) CarWash CarWash (With DE) ConstOptimization (Using Model-Based Transformation) ConstOptimization (With TransformationContro"
+    },
+    {
+      "chunk_id": 49,
+      "text": "tion) ConstOptimization (With TransformationController) GameOfLife SimultaneousCarWash TrafficLight Primary Ptera Developer: Thomas Huining Feng Causality Analysis Ptolemy II 8.0 includes an update to our Causality Analysis framework. We identified p"
+    },
+    {
+      "chunk_id": 50,
+      "text": "our Causality Analysis framework. We identified performance problems with our current non-conservative causality analysis for modal models within discrete-event (DE) systems. In this scheme, causality analysis is performed on the entire model at run"
+    },
+    {
+      "chunk_id": 51,
+      "text": "y analysis is performed on the entire model at run time each time there is a mode change in the model. This mechanism is far too costly. We are investigating techniques for performing the causality analysis in a compositional way for the various mode"
+    },
+    {
+      "chunk_id": 52,
+      "text": "alysis in a compositional way for the various modes at compile time. Unfortunately, brute force solutions result in exponentially growing memory requirements for the results of the causality analysis. We designed, implemented and reviewed an interfac"
+    },
+    {
+      "chunk_id": 53,
+      "text": "We designed, implemented and reviewed an interface that defines a causality interfaces for actor networks as described in the paper \" Causality Interfaces for Actor Networks .\" Causality interfaces are also described in Ye Zhou Ph.D. Thesis, \" Inter"
+    },
+    {
+      "chunk_id": 54,
+      "text": "re also described in Ye Zhou Ph.D. Thesis, \" Interface Theories for Causality Analysis in Actor Networks. \" Causality interfaces represent dependencies between input and output ports of an actor and can be used to perform scheduling or static analysi"
+    },
+    {
+      "chunk_id": 55,
+      "text": "an be used to perform scheduling or static analysis on actor models. This substantial new work helps address performance problems in large Discrete Event (DE) models. The new work provides more efficient static analysis for directed cycles and sched"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ient static analysis for directed cycles and scheduling. This work solved a bug concerning execution time with DE models that had many actors at one level of hierarchy. The table below illustrates the improvement. # of actors Total execution time be"
+    },
+    {
+      "chunk_id": 57,
+      "text": "e improvement. # of actors Total execution time before Total execution time after 100 ~0.2 sec. ~0.2 sec. 600 149 sec. 0.7 sec. Run times for DE models One of the challenges in complex, heterogeneous models is that portions of the model have tempo"
+    },
+    {
+      "chunk_id": 58,
+      "text": "models is that portions of the model have temporal behavior while other portions are purely functional. We have reworked the interfaces that hierarchically heterogeneous models in Ptolemy II present to one another for managing the passage"
+    },
+    {
+      "chunk_id": 59,
+      "text": "present to one another for managing the passage of time. This rework supports much more robust multithreaded and distributed execution without compromising temporal coherence. Concretely, we have defined a formalism whereby a model reques"
+    },
+    {
+      "chunk_id": 60,
+      "text": "have defined a formalism whereby a model requests temporal behavior of its container in the hierarchy, and the container responds with an indication of the extent to which it can honor the request. If the extent is sufficient for the app"
+    },
+    {
+      "chunk_id": 61,
+      "text": "quest. If the extent is sufficient for the application, then the models are compatibly composed. Otherwise, they are not, and the model is marked defective. BooleanDependency BreakCausalityInterface CausalityInterface CausalityInterfaceForC"
+    },
+    {
+      "chunk_id": 62,
+      "text": "nterface CausalityInterface CausalityInterfaceForComposites DefaultCausalityInterface Dependency RealDependency SuperdenseDependency References Ye Zhou , Edward A. Lee. Causality Interfaces for Actor Networks , ACM Transactions on Embedded Computing"
+    },
+    {
+      "chunk_id": 63,
+      "text": "Networks , ACM Transactions on Embedded Computing Systems (TECS) , 7(3):1-35, April 2008. Ye Zhou Interface Theories for Causality Analysis in Actor Networks , PhD thesis, University of California, Berkeley, May, 2007. Continuous and Modal Domains P"
+    },
+    {
+      "chunk_id": 64,
+      "text": "erkeley, May, 2007. Continuous and Modal Domains Ptolemy II 8.0 includes a substantial rework of modal models and the underlying finite state machine infrastructure to make them work predictably and consistently across domains. Ptolemy II 8.0 include"
+    },
+    {
+      "chunk_id": 65,
+      "text": "onsistently across domains. Ptolemy II 8.0 includes a new implementation of continuous-time models based on the semantics given in \" Synchronous Language Principles for Heterogeneous Modeling and Design of Embedded Systems .\" In particular, the Conti"
+    },
+    {
+      "chunk_id": 66,
+      "text": "gn of Embedded Systems .\" In particular, the Continuous domain cleanly supports continuous-time models (using an ODE solver), discrete-event models, and arbitrary mixtures of the two, including signals that combine continuous-time segments with discr"
+    },
+    {
+      "chunk_id": 67,
+      "text": "s that combine continuous-time segments with discrete events. It also interoperates cleanly with most other domains (pretty much all except PN and Rendezvous, for which there does not appear to be reasonable semantic model of such an interaction). Mo"
+    },
+    {
+      "chunk_id": 68,
+      "text": "sonable semantic model of such an interaction). Modal models are also cleanly supported with the Continuous domain, enabling hybrid system modeling with a rigorous semantics. The Continuous domain is expected to eventually replace CT. New Continuous"
+    },
+    {
+      "chunk_id": 69,
+      "text": "expected to eventually replace CT. New Continuous and Modal Demonstrations Continuous Car Tracking LevelCrossingDetectorDetectsGlitches Modal The Modal models below are copies of the FSM models with the same name but the Modal models use the continuo"
+    },
+    {
+      "chunk_id": 70,
+      "text": "he same name but the Modal models use the continuous domain, whereas the FSM models use the ct domain. ABP Blending Case Chaine dTransitions ModalBSC MultipleRuns StateTracker System Level Type Models References Edward A. Lee, Haiyang Zheng . Leverag"
+    },
+    {
+      "chunk_id": 71,
+      "text": "References Edward A. Lee, Haiyang Zheng . Leveraging Synchronous Language Principles for Heterogeneous Modeling and Design of Embedded Systems , Proceedings of the 7th ACM & IEEE international conference on Embedded software, Christoph M. Kirsch, R"
+    },
+    {
+      "chunk_id": 72,
+      "text": "ence on Embedded software, Christoph M. Kirsch, Reinhard Wilhelm (eds.), ACM, 114-123, 2007. Other Key New Capabilities New width inference algorithm Relations have a width specifying the number of channels of that relation. Having to explicitly spe"
+    },
+    {
+      "chunk_id": 73,
+      "text": "hannels of that relation. Having to explicitly specify this width can be a tedious job. To make it even worse, the addition of one relation to a multiport might result in a model builder needing to go through the model again to adapt widths. To cope"
+    },
+    {
+      "chunk_id": 74,
+      "text": "through the model again to adapt widths. To cope with this you can now set the width to Auto . In this case the width of the relation is inferred from other relations or other ports with a graph algorithm. This algorithm removes a lot of restriction"
+    },
+    {
+      "chunk_id": 75,
+      "text": "rithm. This algorithm removes a lot of restriction that were present in the previous implementation. In this implementation we tried to come up with a solution that can infer the width of all relations for most scenarios without imposing a large perf"
+    },
+    {
+      "chunk_id": 76,
+      "text": "s for most scenarios without imposing a large performance cost. The algorithm propagates the widths it knows and at multiports tries to infer the widths of other relations from these propagated widths. For certain actors there is a relation between t"
+    },
+    {
+      "chunk_id": 77,
+      "text": ". For certain actors there is a relation between the widths of the input ports and the widths of the output ports. To resolve this problem, width constraints on ports have been introduced. There exists two types of width constraints. The first one im"
+    },
+    {
+      "chunk_id": 78,
+      "text": "s two types of width constraints. The first one imposes an equality constraints between two different ports. With the second type of constraints you can set the width of a port equal to a certain parameter. The last step of the algorithm is a consist"
+    },
+    {
+      "chunk_id": 79,
+      "text": "meter. The last step of the algorithm is a consistency check in which it is checked that the solution obtained by the width inference algorithm is a unique one. A non unique solution is treated as a error. In this release the default width has also b"
+    },
+    {
+      "chunk_id": 80,
+      "text": "rror. In this release the default width has also been changed from 1 to Auto . (Bert Rodiers) New model generators for verification . This release contains capabilities to generate, from Ptolemy models, other types of models, suitable for formal veri"
+    },
+    {
+      "chunk_id": 81,
+      "text": "s, other types of models, suitable for formal verification. In particular, the Formal Model Converter component (developed by Chihhong Patrick Cheng) allows to generate models compatible with the SMV or NuSMV model-checkers, from Ptolemy models in t"
+    },
+    {
+      "chunk_id": 82,
+      "text": "or NuSMV model-checkers, from Ptolemy models in the SR domain. Also, the RTMaudeCodeGenerator component (developed by Kyungmin Bae) allows to generate models compatible with the Real Time Maude tool, from Ptolemy models in the DE domain. Please see"
+    },
+    {
+      "chunk_id": 83,
+      "text": "from Ptolemy models in the DE domain. Please see the Verification README file for details. References Chihhong Patrick Cheng, Teale Fristoe and Edward A. Lee. Applied Verification: The Ptolemy Approach . EECS Department, University of California, Be"
+    },
+    {
+      "chunk_id": 84,
+      "text": "ch . EECS Department, University of California, Berkeley, Technical Report No. UCB/EECS-2008-41. April 19, 2008. (Chihong Patrick Cheng, Teale Fristoe, Kyunming Bae) Additional Features Kieler Graph Layout Experiment graph layout support using Kieler"
+    },
+    {
+      "chunk_id": 85,
+      "text": "ayout Experiment graph layout support using Kieler , from University of Kiel. This facility will automatically arrange the icons in a model. To use the layout tool, see the Graph -> Automatic Layout menu choice. (Miro Spoenemann (University of Kie"
+    },
+    {
+      "chunk_id": 86,
+      "text": "t menu choice. (Miro Spoenemann (University of Kiel), Hauke Fuhrmann (University of Kiel)) Configurable User Interface GUI (graphical user interface) properties allow Ptolemy II users or redistributors to configure the Ptolemy user interface by simpl"
+    },
+    {
+      "chunk_id": 87,
+      "text": "s to configure the Ptolemy user interface by simply making changes to configuration files in the XML format. For example, buttons on the tool bar or menu items specific to a certain application domain can be added that trigger user-defined actions. T"
+    },
+    {
+      "chunk_id": 88,
+      "text": "can be added that trigger user-defined actions. Those actions may be defined in Java classes or as MoML change requests to be applied to the model being edited. Please see the ptolemy.actor.gui.properties documentation for details. (Thomas Huining F"
+    },
+    {
+      "chunk_id": 89,
+      "text": "rties documentation for details. (Thomas Huining Feng) ThreadedComposite The ThreadedComposite actor supports execution of either an atomic actor or a composite actor in a separate thread. It thus brings multithreading to Ptolemy domains where the di"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ngs multithreading to Ptolemy domains where the director does not use threads, such as DE, SR, and SDF. The actor can be used to get parallel execution on multicore machines, to execute actors that block on I/O without blocking the model execution,"
+    },
+    {
+      "chunk_id": 91,
+      "text": "lock on I/O without blocking the model execution, and to execute actors in the background. ThreadedComposite demonstrations Background Execution Concurrent Chat Multicore Execution Parallel Execution Spontaneous Sources (Edward A. Lee) Lazy Opening o"
+    },
+    {
+      "chunk_id": 92,
+      "text": "Spontaneous Sources (Edward A. Lee) Lazy Opening of Composites LazyTypedCompositeActor is a replacement for TypedCompositeActor that does lazy evaluation, which means that he contents of a LazyTypedCompositeActor are not evaluated at runtime, instead"
+    },
+    {
+      "chunk_id": 93,
+      "text": "mpositeActor are not evaluated at runtime, instead they are evaluated at start up time. LazyTypedCompositeActor was developed to improve the opening time of very large models. One issue is that this changes the results slightly because different res"
+    },
+    {
+      "chunk_id": 94,
+      "text": "changes the results slightly because different results will occur if the results depend on the order in which actors are created. Unforuntately, the scheme we have for setting seeds in the random number generator \"deterministically\" has this property"
+    },
+    {
+      "chunk_id": 95,
+      "text": "er generator \"deterministically\" has this property. LazyComposite LazyTypedCompositeActor LazyTypedCompositeActorChanges - a MoMLFilter that may be used to convert models to use LazyTypedCompositeActor ConvertToLazy - A class that converts models to"
+    },
+    {
+      "chunk_id": 96,
+      "text": "r ConvertToLazy - A class that converts models to use LazyTypedCompositeActor (Edward A. Lee, Christopher Brooks) printPDF Vergil and Ptplot now handle an optional -printPDF command line argument. This option finds the first printer with the string"
+    },
+    {
+      "chunk_id": 97,
+      "text": "is option finds the first printer with the string PDF in the name and then prints to that printer. Thus, -printPDF requires that the full (non-free) version of Adobe Acrobat be installed, or some other method of printing to PDF. Unfortunately, the lo"
+    },
+    {
+      "chunk_id": 98,
+      "text": "r method of printing to PDF. Unfortunately, the location of the resulting PDF file is not easily controlled, on the Mac look in ~/Documents/Java Printing.pdf . (Christopher Brooks) New demonstrations Discrete Event (DE) Clock (Requires Java 3D, see t"
+    },
+    {
+      "chunk_id": 99,
+      "text": "Discrete Event (DE) Clock (Requires Java 3D, see the GR domain ) Pong (Requires Java 3D, see the GR domain ) Process Network (PN) Stack Synchronous Dataflow (SDF) Objects - A demo for different kinds of ObjectTokens, see ObjectType . Gravitation With"
+    },
+    {
+      "chunk_id": 100,
+      "text": "of ObjectTokens, see ObjectType . Gravitation With Collision Detection (Requires Java 3D, see the GR domain ) Synchronous/Reactive (SR) $PTII/ptolemy/verification/demo/iRobotHillClimbing/iRobotHillClimbing.xml (Requires NuSMV, see the Verification do"
+    },
+    {
+      "chunk_id": 101,
+      "text": "mbing.xml (Requires NuSMV, see the Verification documentation) MulticoreExecution $PTII/ptolemy/verification/demo/RailroadControl/RailroadSystem.htm (Requires NuSMV, see the Verification documentation) Simple Traffic Light (Requires NuSMV, see the Ve"
+    },
+    {
+      "chunk_id": 102,
+      "text": ") Simple Traffic Light (Requires NuSMV, see the Verification documentation) PN Code Generation Gravitation PN Butterfly SDF Code Generation Expression demo with Java CompiledCompositeActor Mod4Counter Scale Scale with EmbeddedCFileActor Scale with Em"
+    },
+    {
+      "chunk_id": 103,
+      "text": "Scale Scale with EmbeddedCFileActor Scale with Embedded Java Simple Pass Pointer Simple Pass Pointer With ECFA Wireless Intersections Zigbee New and Enhanced Actor Libraries New Domain Polymorphic actors : DiscreteClock ExecutionTime GetCausalityInt"
+    },
+    {
+      "chunk_id": 104,
+      "text": "tors : DiscreteClock ExecutionTime GetCausalityInterface MovingMaximum ResettableTimer TimeDelay ArrowKeyProbe Database actors Ptolemy II 8.0 includes actors that access a database. We have included a sample application, DOPCenter , which we use t"
+    },
+    {
+      "chunk_id": 105,
+      "text": "a sample application, DOPCenter , which we use to manage the seating in the Donald O. Pederson Center ArrayOfRecordsExporter ArrayOfRecordsRecorder DatabaseInsert DatabaseManager DatabaseQuery DatabaseSelect SQLStatement Codegen CodegenActor Embedd"
+    },
+    {
+      "chunk_id": 106,
+      "text": "aseSelect SQLStatement Codegen CodegenActor EmbeddedCFileActor Interpolator OrderedMerge StringToUnsignedByteArray TimedPlotter MultiCompositePort RefinementPort ModalPort RefinementPort TransitionRefinementPort Director PortCodeGenerator The code ge"
+    },
+    {
+      "chunk_id": 107,
+      "text": "inementPort Director PortCodeGenerator The code generator has been extended so that Java code may be generated for a model. ptolemy/actor/lib/embeddedJava ptolemy.codegen.java.actor ptolemy.codegen.java.kernel ptolemy.codegen.java.domains.modal.kerne"
+    },
+    {
+      "chunk_id": 108,
+      "text": "va.kernel ptolemy.codegen.java.domains.modal.kernel ptolemy.codegen.java.domains.sdf.kernel ptolemy.codegen.java.domains.sdf.lib New Parameter: Priority New Continuous actors : ContinuousMerge PeriodicSampler New Discrete Event (DE) actors : AverageO"
+    },
+    {
+      "chunk_id": 109,
+      "text": "cSampler New Discrete Event (DE) actors : AverageOverTime SharedQueue TestActorPortDepth TimeCompare Other new classes ptolemy.actor LazyTypedCompositeActor RelationWidthInference SuperdenseTimeDirector ptolemy/actor/gt The Model Transformation facil"
+    },
+    {
+      "chunk_id": 110,
+      "text": "or ptolemy/actor/gt The Model Transformation facility (GT) has been substantially updated to support Ptera. New GT classes include: AttributeMatcher Checkable ContainerIgnoringAttribute CreationAttribute GTAttribute GTCompositeActor IgnoringAttribute"
+    },
+    {
+      "chunk_id": 111,
+      "text": "ute GTAttribute GTCompositeActor IgnoringAttribute IterativeParameter MatchingAttribute MoMLGenerator ModalModelMatcher ModelCombine ModelExecutor NegationAttribute OptionAttribute PreservationAttribute TransformationListener TransformationMode Trans"
+    },
+    {
+      "chunk_id": 112,
+      "text": "te TransformationListener TransformationMode TransitionMatcher ValueIterator SequentialTwoWayHashMap GuardCriterion NameCriterion StateTypeCriterion BooleanOperationElement PortCreationOperation PortRemovalOperation ptolemy/actor/gui ArrayOfRecordsPa"
+    },
+    {
+      "chunk_id": 113,
+      "text": "emovalOperation ptolemy/actor/gui ArrayOfRecordsPane CustomQueryBoxParameter ModelRepaintController TopPack HiddenStyle ptolemy.data AbsentToken OrderedRecordToken ChoiceParameter ContainmentExtender ObjectType , see the Objects demo . ptolemy.domain"
+    },
+    {
+      "chunk_id": 114,
+      "text": "ObjectType , see the Objects demo . ptolemy.domains.fsm ConfigurableEntity Configurer ContainmentExtender FSMCausalityInterface RefinementActor ptolemy.domains.modal MirrorCausalityInterface RefinementExtender RefinementSuggestion PtGUIUtilities ptol"
+    },
+    {
+      "chunk_id": 115,
+      "text": "tExtender RefinementSuggestion PtGUIUtilities ptolemy.gui QueryChooser QueryChooserHelper SettableQueryChooser UndeferredGraphicalMessageHandler UndoListener ptolemy.kernel UndoActionsList DecoratedAttributes Decorator DropTargetHandler ptolemy.vergi"
+    },
+    {
+      "chunk_id": 116,
+      "text": "tributes Decorator DropTargetHandler ptolemy.vergil MonitorReceiverAttribute MonitorReceiverContents - Drag this icon into a model to show the contents of the recievers. DependencyHighlighter DesignPatternIcon TableIcon ListenToAction Arrow"
+    },
+    {
+      "chunk_id": 117,
+      "text": "r DesignPatternIcon TableIcon ListenToAction ArrowAttribute UpdateAnnotations ArrayOfRecordsConfigureFactory MenuItemListener RadioMenuActionFactory Works in Progress The experimental UI build in ptolemy.actor.gui.run is a prototype of some ideas abo"
+    },
+    {
+      "chunk_id": 118,
+      "text": "emy.actor.gui.run is a prototype of some ideas about how to create run-time control panels. JarSigner Bug fixes For the current list of bugs, see Ptolemy II Bugs and Kepler Bugs Level-crossing links are now correctly exported to MoML. The way thi"
+    },
+    {
+      "chunk_id": 119,
+      "text": "re now correctly exported to MoML. The way this works is that the lowest common container of the objects being linked is responsible for producing the MoML description of the link. This ensures that when the MoML is encountered for creat"
+    },
+    {
+      "chunk_id": 120,
+      "text": "res that when the MoML is encountered for creating the link, that both objects being linked have already been created. Various classes were moved to make the dependencies between packages cleaner. In general, the ptolemy.moml.filter.ClassChang"
+    },
+    {
+      "chunk_id": 121,
+      "text": "r. In general, the ptolemy.moml.filter.ClassChanges to handle the changes that will appear in MoML files. Old Class New Class ptolemy/actor/gui.DependencyHighlighter ptolemy.vergil.basic.DependencyHighlighter ptolemy/actor/lib/CodegenActor ptolemy"
+    },
+    {
+      "chunk_id": 122,
+      "text": "Highlighter ptolemy/actor/lib/CodegenActor ptolemy.actor.lib.jni.CodegenActor ptolemy/actor/lib.gui.LEDMatrix ptolemy.vergil.actor.lib.LEDMatrix ptolemy/actor/lib.gui.ModelDisplay ptolemy.vergil.actor.lib.ModelDisplay ptolemy.codegen.c.actor.lib.Code"
+    },
+    {
+      "chunk_id": 123,
+      "text": ".lib.ModelDisplay ptolemy.codegen.c.actor.lib.CodegenActor was moved to ptolemy.actor.lib.jni.CodegenActor ptolemy.codegen.c.actor.lib.gui.LEDMatrix ptolemy.codegen.c.vergil.actor.lib.LEDMatrix ptolemy.codegen.kernel.Director ptolemy.codegen.actor.Di"
+    },
+    {
+      "chunk_id": 124,
+      "text": "y.codegen.kernel.Director ptolemy.codegen.actor.Director ptolemy.domains.curriculum.DependencyHighlighter was moved to vergil.actor.basic.DependencyHighlighter ptolemy.domains.sr.lib.AbsentToken ptolemy.data.AbsentToken ptolemy.domains.sr.lib.ButtonT"
+    },
+    {
+      "chunk_id": 125,
+      "text": "my.data.AbsentToken ptolemy.domains.sr.lib.ButtonTime ptolemy.domains.sr.lib.gui.ButtonTime ptolemy.domains.sr.lib.NonStrictDisplay ptolemy.domains.sr.lib.gui.NonStrictDisplay ptolemy.moml.SharedParameter ptolemy.actor.parameters.SharedParameter ptol"
+    },
+    {
+      "chunk_id": 126,
+      "text": "eter ptolemy.actor.parameters.SharedParameter ptolemy.vergil.unit.ConfigureUnitsAction ptolemy.vergil.unit.ConfigureUnitsAction Various classes were moved out of ptolemy.data.unit to ptolemy.moml.unit A few features and classes were removed outright."
+    },
+    {
+      "chunk_id": 127,
+      "text": "A few features and classes were removed outright. ptolemy/copernicus/{java,c,actor} were removed because the Ptolemy kernel has evolved and maintaining Copernicus was too timeconsuming. ptolemy.domains.continuous.lib.ZeroCrossingDetector was remov"
+    },
+    {
+      "chunk_id": 128,
+      "text": "ains.continuous.lib.ZeroCrossingDetector was removed because it had cloning problems because of how it extended a class and removed a parameter. ptolemy.domains.curriculum.DependencyHighlighter was removed, use ptolemy.vergil.basic.DependencyHighli"
+    },
+    {
+      "chunk_id": 129,
+      "text": "removed, use ptolemy.vergil.basic.DependencyHighlighter instead. ptolemy/actor/util.FunctionDependency ptolemy/actor/util.FunctionDependencyOfAtomicActor, ptolemy/actor/util.FunctionDependencyOfCompositeActor, ptolemy.domains.fsm.kernel.FunctionDepen"
+    },
+    {
+      "chunk_id": 130,
+      "text": "iteActor, ptolemy.domains.fsm.kernel.FunctionDependencyOfFSMActor, ptolemy.domains.fsm.modal.FunctionDependencyOfModalModel and ptolemy.domains.sr.lib.FunctionDependencyOfEnabledCompositeActor were removed as part of the Causality Analysis work. Fe"
+    },
+    {
+      "chunk_id": 131,
+      "text": "removed as part of the Causality Analysis work. Features that were new in previous Ptolemy II releases Features that were new in previous Ptolemy II releases Limitations Ptolemy II 8.0.1 Limitations Page - Limitations found after release. Ptolemy II"
+    },
+    {
+      "chunk_id": 132,
+      "text": "age - Limitations found after release. Ptolemy II Bugzilla Version 8.0.1 has the following limitations: Release Limitations The gzipped tar file of Ptolemy II source files with Unix line endings ( ptII8.0.1.src.tar.gz ) requires GNU tar or WinZip."
+    },
+    {
+      "chunk_id": 133,
+      "text": "II8.0.1.src.tar.gz ) requires GNU tar or WinZip. Solaris tar will fail to untar this file with a checksum error because the pathnames are longer than 100 characters. Note further that some of the .class names are longer than 31 characters, which may"
+    },
+    {
+      "chunk_id": 134,
+      "text": "ass names are longer than 31 characters, which may cause problems when downloading zip files on the Macintosh and using Stuffit. The documentation for custom actors used in demonstrations is not included in the release. The source code for the custo"
+    },
+    {
+      "chunk_id": 135,
+      "text": "ded in the release. The source code for the custom actors can be found in the source download. If a URL ends with #in_browser , then Ptolemy II will invoke the User's web browser. Unfortunately, this does not always work, especially under Windows i"
+    },
+    {
+      "chunk_id": 136,
+      "text": "s does not always work, especially under Windows if Netscape is already running. The workaround is to exit Netscape and let Ptolemy II start up Netscape for you. Web Start does not work very well if the pathname to the vergil.jnlp file has spaces in"
+    },
+    {
+      "chunk_id": 137,
+      "text": "the pathname to the vergil.jnlp file has spaces in it. The workaround is to place your Ptolemy II tree in a directory that does not have spaces in the path name if you plan on using Web Start. If your user library contains actors that are not presen"
+    },
+    {
+      "chunk_id": 138,
+      "text": "r user library contains actors that are not present in vergil, then you may see a dialog or dialogs asking if you want to skip these elements. This could happen if you had developed custom actors and put them into your user library and these custom"
+    },
+    {
+      "chunk_id": 139,
+      "text": "put them into your user library and these custom actors are not present in the release. The work around is to click 'Skip Element' and continue with the start up. Installer issues We don't like the first window that pops up, it is rather blank a"
+    },
+    {
+      "chunk_id": 140,
+      "text": "first window that pops up, it is rather blank and seems unnecessary. However, if we don't have that first window pop up, then the html pane that is rendered in the second window is sometimes the wrong size. We think this is an event thre"
+    },
+    {
+      "chunk_id": 141,
+      "text": "the wrong size. We think this is an event thread issue, but we have not checked. Mac OS X installer issues: When the download the Mac installer, it does not automatically open, The user has to go to the downloads folder and open it. After i"
+    },
+    {
+      "chunk_id": 142,
+      "text": "to go to the downloads folder and open it. After installing, Vergil.app is rather hard to find. Vergil.app is in bin/ , the default location is /Applications/Ptolemy/ptII8.0.1/bin/Vergil.app The reason we use this path is because if the user rebuilds"
+    },
+    {
+      "chunk_id": 143,
+      "text": "n we use this path is because if the user rebuilds, then the Vergil.app script will be generated in bin/ On the command line, the open command does not work. open -a Vergil Adder.xml it starts Vergil, but it doesn't open Adder.xml To fix this would"
+    },
+    {
+      "chunk_id": 144,
+      "text": "l, but it doesn't open Adder.xml To fix this would require having Ptolemy use Apple Java Extensions, much like Kepler does. See also http://book.javanb.com/mac-os-x-for-java-geeks/0596004001_macxjvgks-chp-5.html#macxjvgks-CHP-5 . Applet issues: Ap"
+    },
+    {
+      "chunk_id": 145,
+      "text": "gks-chp-5.html#macxjvgks-CHP-5 . Applet issues: Applets seem to run out of memory after about 82Mb. The workaround is to either restart your browser or to use the Web Start versions. The Ptalon applets don't work because antlr tries to get"
+    },
+    {
+      "chunk_id": 146,
+      "text": "plets don't work because antlr tries to get properties. Distributed SDF applets are very difficult or impossible to run because the user must start up servers. The caltrop applets fail because caltrop.main.Util.setDBFI() calls setPro"
+    },
+    {
+      "chunk_id": 147,
+      "text": "ecause caltrop.main.Util.setDBFI() calls setProperty to set the parser: System.setProperty(\"javax.xml.parsers.DocumentBuilderFactory\", name); The workaround is to run the caltrop demos as Web Start applications. Running the Networked demo via an a"
+    },
+    {
+      "chunk_id": 148,
+      "text": "applications. Running the Networked demo via an applet on the local file system results in an AccessControlException. com.microstar.htm.htmException: XML element \"entity\" triggers exception: java.lang.Exception: Attempted to lookup 'Waveform', bu"
+    },
+    {
+      "chunk_id": 149,
+      "text": "lang.Exception: Attempted to lookup 'Waveform', but got: java.lang.ClassNotFoundException: Waveform Attempted to find as a moml class, but got: java.security.AccessControlException: access denied (java.net.SocketPermissi"
+    },
+    {
+      "chunk_id": 150,
+      "text": "ccess denied (java.net.SocketPermission ptolemy.eecs.berkeley.edu resolve) in file:/C:/Program Files/Ptolemy/Ptolemy II 3.0 beta2/ ptolemy/moml/demo/Networked/ at line 62 and column 118 at ptolemy.moml.MoMLParse"
+    },
+    {
+      "chunk_id": 151,
+      "text": "line 62 and column 118 at ptolemy.moml.MoMLParser.startElement(MoMLParser.java:1341) at com.microstar.htm.htmParser.parseElement(XmlParser.java:944) at com.microstar.htm.htmParser.parseContent(XmlParser.java:1117) at com.microstar.htm.htmParser."
+    },
+    {
+      "chunk_id": 152,
+      "text": "Parser.java:1117) at com.microstar.htm.htmParser.parseElement(XmlParser.java:946) at com.microstar.htm.htmParser.parseDocument(XmlParser.java:495) at com.microstar.htm.htmParser.doParse(XmlParser.java:175) at com.microstar.htm.htmParser.parse(Xml"
+    },
+    {
+      "chunk_id": 153,
+      "text": "ava:175) at com.microstar.htm.htmParser.parse(XmlParser.java:145) at ptolemy.moml.MoMLParser.parse(MoMLParser.java:492) at ptolemy.moml.MoMLParser.parse(MoMLParser.java:471) at ptolemy.moml.MoMLParser.parse(MoMLParser.java:456) at ptolemy.actor."
+    },
+    {
+      "chunk_id": 154,
+      "text": "rser.parse(MoMLParser.java:456) at ptolemy.actor.gui.MoMLApplet._createModel(MoMLApplet.java:188) The Network demo does not work as a local applet because the xml file includes a reference to http://ptolemy.eecs.berkeley.edu, which is not on the l"
+    },
+    {
+      "chunk_id": 155,
+      "text": "/ptolemy.eecs.berkeley.edu, which is not on the local file system, so we get a SecurityException. The workaround is to run the applet by downloading it from the Ptolemy Website: http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII8.0/ptII8.0.1/ptolemy/m"
+    },
+    {
+      "chunk_id": 156,
+      "text": "berkeley.edu/ptolemyII/ptII8.0/ptII8.0.1/ptolemy/moml/demo/Networked/Networked.htm If an icon file is not present, then a Vergil applet might try to download the icon file multiple times. Ptolemy II uses XML files to store icons. For example $PTI"
+    },
+    {
+      "chunk_id": 157,
+      "text": "uses XML files to store icons. For example $PTII/ptolemy/actor/lib/BooleanSwitchIcon.xml is an icon for $PTII/ptolemy/actor/lib/BooleanSwitch.java The problem is that if an actor does not have an icon file, then the applet may go back to the serv"
+    },
+    {
+      "chunk_id": 158,
+      "text": "con file, then the applet may go back to the server multiple times looking for the icon. Web Start issues: The Web Start download tends to be large because we are not using lazy downloading. The modelTransformation HierarchyFlattening demo fai"
+    },
+    {
+      "chunk_id": 159,
+      "text": "e modelTransformation HierarchyFlattening demo fails under Web Start. When the \"Match Ptolemy models in a directory\" button is pressed, the a window with the title \"Error\" and the contents: Directory \"/ptolemy.eecs.berkeley.edu/ptolemy"
+    },
+    {
+      "chunk_id": 160,
+      "text": "nts: Directory \"/ptolemy.eecs.berkeley.edu/ptolemyII/ptII8.0/jnlp-8.0.1/signed/ptolemy/actor/gt/patterns\" does not exist, the value of the DefaultDirectoryAttribute parameter was \"$PTII/ptolemy/actor/gt/patterns\" There is no stack trace. This"
+    },
+    {
+      "chunk_id": 161,
+      "text": "/actor/gt/patterns\" There is no stack trace. This is annoying, it is like \"Abort, Retry, Cancel?\" because it does not tell the user where the error occurred. The offending code is in ptolemy/vergil/gt/TransformationEditor.java The Ma"
+    },
+    {
+      "chunk_id": 162,
+      "text": "ptolemy/vergil/gt/TransformationEditor.java The Matlab Wireless demo fails under Web Start. Currently, the problem is that the share library cannot be found Formerly, the problem was that the Matlab .m file cannot be found. Viewing a pdf fi"
+    },
+    {
+      "chunk_id": 163,
+      "text": "e Matlab .m file cannot be found. Viewing a pdf file may bring up a blank window along with the pdf file. Running the code generator may bring up a blank window while the java or javac processes are running. Some of the links on the GR dom"
+    },
+    {
+      "chunk_id": 164,
+      "text": "esses are running. Some of the links on the GR domain instructions page might not work under Web Start because the files they refer to are not present. The ModelTranformation PublisherTest model fails under Web Start because it"
+    },
+    {
+      "chunk_id": 165,
+      "text": "odel fails under Web Start because it can't find the file in ../../test. The ptalon/gt/demo/Adder/Adder.xml model does not work in Web Start because it can't find the BaseModel.xml. The ptolemy/demo/RunDemos.xml mode does not"
+    },
+    {
+      "chunk_id": 166,
+      "text": ".xml. The ptolemy/demo/RunDemos.xml mode does not work in Web Start because the .xml files can't be found. The ExecDemos model fails to run under Web Start - there is no vergil script. Bug #298: ptinyViewer and fullViewer should optionall"
+    },
+    {
+      "chunk_id": 167,
+      "text": "#298: ptinyViewer and fullViewer should optionally disable selection and drag Limitations in demonstrations (alphabetical by domain and demonstration) The CT CarTracking demonstration should be run using View->Run so that the user can change th"
+    },
+    {
+      "chunk_id": 168,
+      "text": "sing View->Run so that the user can change the fault parameter. The database domain needs a space database demo that uses some sort of dummy public database. Java 1.6 includes Java db, see http://weblogs.java.net/blog/forsini/archive/2006/0"
+    },
+    {
+      "chunk_id": 169,
+      "text": "ttp://weblogs.java.net/blog/forsini/archive/2006/06/java_db_is_now.html . However, Mac would need a separate install. The DDF RijndaelEncryption demo never terminates. Note that we have two Rijndael demos, the problem demo is at $PTII/./pto"
+    },
+    {
+      "chunk_id": 170,
+      "text": "ael demos, the problem demo is at $PTII/./ptolemy/domains/ddf/demo/RijndaelEncryption/RijndaelEncryption.xml Bug #324: PN Gravitation codegen fails because of a segfault The SDF Bouncer demo: If the user drags the bouncing icon, it no longe"
+    },
+    {
+      "chunk_id": 171,
+      "text": "the user drags the bouncing icon, it no longer bounces. In HyVisual, the HSIF translater is merely a prototype, it is not a full implementation of a HSIF translator. Minor Limitations in demonstrations (alphabetical by domain and demonstrat"
+    },
+    {
+      "chunk_id": 172,
+      "text": "onstrations (alphabetical by domain and demonstration) When the DE/GR Clock demo is run, the gong sound at the end is truncated. The GT Model Execution demonstration highlights the stop button? After hitting the run button, a model opens up and"
+    },
+    {
+      "chunk_id": 173,
+      "text": "fter hitting the run button, a model opens up and is running, but the toolbar icon has the stop button highlighted? Instead, the run button should be highlighted. gt GameOfLife does something similar. How do I stop it? Maybe these need to brin"
+    },
+    {
+      "chunk_id": 174,
+      "text": "milar. How do I stop it? Maybe these need to bring up a viewer that does not have a run button. Limitations in building Bug #286: JavaCC 4.1 and 4.2 fail because of ReInit() problems . The \"export PDF\" facility is incomplete. The issue is that the"
+    },
+    {
+      "chunk_id": 175,
+      "text": "F\" facility is incomplete. The issue is that the library that is used is GPL'd, so we need to be sure that it is possible to build a version of Ptolemy that does not include the GPL'd library. One possible workaround would be to have an inte"
+    },
+    {
+      "chunk_id": 176,
+      "text": "One possible workaround would be to have an interim dialog pop up that tells the user how to install the library. 1/8/07: GNU Make 3.81 no longer supports Windows style path names with colons in them. The affects the Copernicus code ge"
+    },
+    {
+      "chunk_id": 177,
+      "text": "s in them. The affects the Copernicus code generator because $PTII needs to be set to a pathname with a colon in it like c:/Ptolemy/ptII8.0.1 . A path name like /cygdrive/c/Ptolemy/ptII8.0.1 will not work with Java. For example, if you r"
+    },
+    {
+      "chunk_id": 178,
+      "text": "0.1 will not work with Java. For example, if you run copernicus and copernicus runs make, you may see makefile:360: *** target pattern contains no `%'. Stop. This is because a makefile variable uses the windows style pathnames with colon"
+    },
+    {
+      "chunk_id": 179,
+      "text": "uses the windows style pathnames with colons in them. One solution is to edit the file to use pathnames with /cygdrive. Another solution is to download a working version from http://www.cmake.org/files/cygwin/make.exe For details,"
+    },
+    {
+      "chunk_id": 180,
+      "text": "//www.cmake.org/files/cygwin/make.exe For details, see http://www.cygwin.com/ml/cygwin-announce/2006-07/msg00008.html From: Christopher Faylor <cgf-no-personal-reply-please at cygwin dot com> To: cygwin-announce at cygwin dot com Date: Sun, 9 Jul 200"
+    },
+    {
+      "chunk_id": 181,
+      "text": "in-announce at cygwin dot com Date: Sun, 9 Jul 2006 18:13:29 -0400 I've made a new version of 'make' available for download. This updates the package to the latest version available from fedora.redhat.com. I've included the relevant portio"
+    },
+    {
+      "chunk_id": 182,
+      "text": "redhat.com. I've included the relevant portions of the NEWS file and the Fedora ChangeLog at the end of this message. For a brief description of this package, see http://cygwin.com/packages/ . Note that the --win32 command line option and \""
+    },
+    {
+      "chunk_id": 183,
+      "text": ". Note that the --win32 command line option and \"MAKE_MODE\" environment variable are no longer supported in Cygwin's make. If you need to use a Makefile which contains MS-DOS path names, then please use a MinGW version of make. See:"
+    },
+    {
+      "chunk_id": 184,
+      "text": "hen please use a MinGW version of make. See: http://mingw.org/ for details on downloading a version of make which understands MS-DOS path names. Please! direct any questions about the MinGW version of make to the appropriate MinGW mai"
+    },
+    {
+      "chunk_id": 185,
+      "text": "MinGW version of make to the appropriate MinGW mailing list. I have no idea what prompted this change, it seems really lame. The code worked fine under Cygwin for many years. It seems like breaking an important tool such as make only hur"
+    },
+    {
+      "chunk_id": 186,
+      "text": "king an important tool such as make only hurts the GNU tools. This means that it is impossible to use Cygwin make with Sun Java, which uses MS-DOS paths. For further updates, see https://chess.eecs.berkeley.edu/bugzilla/show_bug.cgi?id=5"
+    },
+    {
+      "chunk_id": 187,
+      "text": "chess.eecs.berkeley.edu/bugzilla/show_bug.cgi?id=55 . 4/26/07: Wile compiling in $PTII/jni/test , I was getting Process_begin: CreateProcess((null), /usr/bin/gcc -shared -Wl,--add-stdcall-alias -o testDeux.dll testDeux.c, ...) failed. The prob"
+    },
+    {
+      "chunk_id": 188,
+      "text": "-o testDeux.dll testDeux.c, ...) failed. The problem was I was running a broken version of make and updating to http://www.cmake.org/files/cygwin/make.exe helped. Limitations in the Actor Oriented Class Mechanism The actor oriented class mecha"
+    },
+    {
+      "chunk_id": 189,
+      "text": "ted Class Mechanism The actor oriented class mechanism described in Edward A. Lee, Xiaojun Liu, Stephen Neuendorffer. Classes and inheritance in actor-oriented design , ACM Transactions on Embedded Computing Systems (TECS) , 8(4):Article No. 29, July"
+    },
+    {
+      "chunk_id": 190,
+      "text": "mputing Systems (TECS) , 8(4):Article No. 29, July 2009. has various restrictions and limitations: If an atomic actor is to be used in an Actor Oriented Class definition, then the atomic actor must have a properly implemented clone(Workspace)"
+    },
+    {
+      "chunk_id": 191,
+      "text": "t have a properly implemented clone(Workspace) method. See the design documents for details. Several higher-order-components will not work inside class definitions. (ModalModel, several CT actors, etc.). Name collisions can occur when adding"
+    },
+    {
+      "chunk_id": 192,
+      "text": "tors, etc.). Name collisions can occur when adding objects to base classes whose names collide with objects in derived classes. Auto naming should look through the derivedList for name conflicts. Propagation of changes to a base class is very"
+    },
+    {
+      "chunk_id": 193,
+      "text": "ts. Propagation of changes to a base class is very slow in Vergil. If there are more than just a very few instances or derived classes, interactive editing is not practical. As a workaround, put the class definitions in a separate file a"
+    },
+    {
+      "chunk_id": 194,
+      "text": "put the class definitions in a separate file and edit them without opening the model that creates instances. The probable reason is that MoMLParser handles propagation by issuing large numbers of change requests. Certain actors, such"
+    },
+    {
+      "chunk_id": 195,
+      "text": "numbers of change requests. Certain actors, such as MathFunction, change the number of ports when parameters change. This violates the derivation invariance for classes. To demonstrate the bug, put a MathFunction actor in a base class"
+    },
+    {
+      "chunk_id": 196,
+      "text": "bug, put a MathFunction actor in a base class that has a subclass. Change the function parameter in the subclass to anything but \"modulo\". Then change the function in the base class to \"modulo\" (which adds a port). Now attempt to i"
+    },
+    {
+      "chunk_id": 197,
+      "text": "modulo\" (which adds a port). Now attempt to insert a parameter into the port. You will get an InternalErrorException when it tries to propagate the change. Limitations in the Actor Libraries The actor library is far from complete. The Expre"
+    },
+    {
+      "chunk_id": 198,
+      "text": "The actor library is far from complete. The Expression actor does not properly propagate type constraints in an expression-dependent fashion. It works correctly for double-valued expressions of double-valued inputs. The Ptolemy parameter parser"
+    },
+    {
+      "chunk_id": 199,
+      "text": "ouble-valued inputs. The Ptolemy parameter parser uses comma \",\" to separate elements in an array. This causes problems when Ptolemy is run on European machines that use a comma \"1,0\" instead of a period \"1.1\" in floating point numbers. See ["
+    },
+    {
+      "chunk_id": 200,
+      "text": "a period \"1.1\" in floating point numbers. See [Kepler-users]: Where to go with the problems of internationalization or how create account into forum? The Datagram actors do not work very well. The tests sometimes fail. See Bug #54: Datagram ac"
+    },
+    {
+      "chunk_id": 201,
+      "text": "e tests sometimes fail. See Bug #54: Datagram actors fail their test . The Display actor uses the Swing JTextArea component which is known to have memory leaks. The readFile() parameter function does not work with applets. Instead, use readRes"
+    },
+    {
+      "chunk_id": 202,
+      "text": "does not work with applets. Instead, use readResource(). Matlab Interface issues The Matlab interface works only under Windows, Linux and Mac OS X. The Matlab interface requires that Matlab be installed on the local machine. The version of the"
+    },
+    {
+      "chunk_id": 203,
+      "text": "talled on the local machine. The version of the Matlab interface that is shipped with the release might not work with your version of Matlab. The solution is to recompile from source. Under Windows, Matlab models sometimes cause Ptolemy to ex"
+    },
+    {
+      "chunk_id": 204,
+      "text": "ndows, Matlab models sometimes cause Ptolemy to exit the second time the model is run! The problem seems to be a segfault within a Windows library. The problem only affects systems where Matlab is compiled with Microsoft Visual C. The Matlab i"
+    },
+    {
+      "chunk_id": 205,
+      "text": "compiled with Microsoft Visual C. The Matlab interface is not very stable under Windows. As a workaround, try running the Matlab demos by compiling Ptolemy II from source and then running vergil -jni . IterateOverArray issues Bug #322: Iterat"
+    },
+    {
+      "chunk_id": 206,
+      "text": "il -jni . IterateOverArray issues Bug #322: IterateOverArray has a Configuration clone problem . IterateOverArray: When you drop in an actor, and then another actor, and then select \"undo,\" the second actor is deleted without the first one being re"
+    },
+    {
+      "chunk_id": 207,
+      "text": "d actor is deleted without the first one being re-created. Thus, undo is only a partial undo. The fix to this is extremely complicated. Probably the only viable mechanism is to use UndoStackAttribute.getUndoInfo() to get the"
+    },
+    {
+      "chunk_id": 208,
+      "text": "o use UndoStackAttribute.getUndoInfo() to get the undo stack and then to manipulate the contents of that stack directly. IterateOverArray: There should be an option to reset between firings of the inside actor. IterateOverArray: If you drop"
+    },
+    {
+      "chunk_id": 209,
+      "text": "f the inside actor. IterateOverArray: If you drop a new actor onto an IterateOverArray in a subclass, it will simply acquire the new contents, but not actually do anything with them. It should somehow refuse to accept the new"
+    },
+    {
+      "chunk_id": 210,
+      "text": "t should somehow refuse to accept the new object in the subclass, since to do so, it would have to delete the original object defined in the base class, and this would violate the derived invariant. IterateOverArray: If an ins"
+    },
+    {
+      "chunk_id": 211,
+      "text": "the derived invariant. IterateOverArray: If an instance of IterateOverArray in a derived class has overridden values of parameters, those are lost if contained entity of the instance in the base class is replaced and then an u"
+    },
+    {
+      "chunk_id": 212,
+      "text": "n the base class is replaced and then an undo is requested. IterateOverArray: When an actor with a display icon like Const, Expression, or MathFunction is put into IterateOverArray, the CopyCatIcon doesn't reflect the text dis"
+    },
+    {
+      "chunk_id": 213,
+      "text": "rray, the CopyCatIcon doesn't reflect the text display. Limitations in the PN Domain The PN domain documents that it locally handles mutations. However, this is currently not true in the implementation. For the basic PN model, this doesn't really m"
+    },
+    {
+      "chunk_id": 214,
+      "text": "on. For the basic PN model, this doesn't really matter, since mutations happen pretty much the same as they would otherwise. (i.e. they are non-deterministic in when they execute) However, for timed PN models, there is actually some expressiveness"
+    },
+    {
+      "chunk_id": 215,
+      "text": "d PN models, there is actually some expressiveness lost, since timed PN models can locally execute mutations deterministically. Embedding a PN typed composite actor inside a non-process top level such as DE does not work. In fact embedding a process"
+    },
+    {
+      "chunk_id": 216,
+      "text": "as DE does not work. In fact embedding a process domain inside a non-process domain is likely to have problems. Profess Lee wrote: Yes, it looks as if the code is designed so that process domains (PN, CSP) can only be used within process domai"
+    },
+    {
+      "chunk_id": 217,
+      "text": "(PN, CSP) can only be used within process domains. I'm not sure to what extent this is a limitation of the process domains vs. a semantic problem. What would PN mean within DE? Since PN has no well-defined notion of a \"firing\", how"
+    },
+    {
+      "chunk_id": 218,
+      "text": "has no well-defined notion of a \"firing\", how would you assign time stamps to the outputs of a PN actor? By default in DE, the time stamps of the outputs of an actor match those of the inputs that triggered the firing. There is no su"
+    },
+    {
+      "chunk_id": 219,
+      "text": "puts that triggered the firing. There is no such notion in PN. Limitations in other domains Bug #297: Warn if ct and modal are combined or if continuous and fsm are combined Bug #326: DDF scheduler problem with SequenceToArray Limitations in the"
+    },
+    {
+      "chunk_id": 220,
+      "text": "r problem with SequenceToArray Limitations in the User Interface Below are some of the limitations of Vergil, the Ptolemy II Graphical User Interface. The Bug #323: Up button does not work in modal models . If a parameter name end with an underscore"
+    },
+    {
+      "chunk_id": 221,
+      "text": "dels . If a parameter name end with an underscore and a number, then cutting and pasting drops the underscore and number. The labeling of ports gets messed up if you change cardinality. Cancelling a style change doesn't restore original state"
+    },
+    {
+      "chunk_id": 222,
+      "text": "a style change doesn't restore original state. There are FIXME's about this in actor.gui.style.StyleConfigurer. If there are multiple windows open for a model, say, the top level vergil window and the tree view, or the top level window"
+    },
+    {
+      "chunk_id": 223,
+      "text": "ow and the tree view, or the top level window and the inside look of a composite component, when the top level window is closed, all other windows are closed, but the user is not prompted to save any change to the model. When setting the"
+    },
+    {
+      "chunk_id": 224,
+      "text": "to save any change to the model. When setting the type of a port, we should provide a combo box that lists the common ports When creating a Modal Model, to create a transition between states, hold the (Mac: Command-Mouse-Button, Windows: Cont"
+    },
+    {
+      "chunk_id": 225,
+      "text": "hold the (Mac: Command-Mouse-Button, Windows: Control-Right-Mouse-Button) and drag from one state to another. One potential workaround would be to have an information message in the status bar about this. You should not change the names"
+    },
+    {
+      "chunk_id": 226,
+      "text": "us bar about this. You should not change the names of built in ports - The port mechanism should disallow port name changes on ports that are named in Java. The UI could recognize this. The UI should not allow the user to remove built i"
+    },
+    {
+      "chunk_id": 227,
+      "text": "UI should not allow the user to remove built in Java defined ports. Manually setting of the types of actors like ArrayToSequence that have constraints on their element types can cause problems. HTVQ demo is badly laid out when run under vergi"
+    },
+    {
+      "chunk_id": 228,
+      "text": ". HTVQ demo is badly laid out when run under vergil. Weak support for multiports in the graph editor. The integrated web browser is not a full-featured browser. Debugger not yet integrated. It is difficult to add actors to the libraries. No dynamic c"
+    },
+    {
+      "chunk_id": 229,
+      "text": "icult to add actors to the libraries. No dynamic class reloading. Plot windows don't resize when control panel is resized If a model with plotters is executed using the run button on the toolbar, and then re-executed using the run control panel acc"
+    },
+    {
+      "chunk_id": 230,
+      "text": "d then re-executed using the run control panel accessed through the View menu, then resizing the run control panel does not cause the plots to resize to fit. Workaround: Close the model and re-open it, and then run first using the run control p"
+    },
+    {
+      "chunk_id": 231,
+      "text": "pen it, and then run first using the run control panel. There is no mechanism in the UI to save a model as a class, nor to save a submodel as a class. There is no mechanism in the UI to create a custom icon for a library element and store it"
+    },
+    {
+      "chunk_id": 232,
+      "text": "ustom icon for a library element and store it in the right place. If an actor uses a slider, then the actor tree navigator pane incorrectly shows the slider as a subitem of the actor. It seems that if you close a model that has been modified,"
+    },
+    {
+      "chunk_id": 233,
+      "text": "that if you close a model that has been modified, get prompted to save it, and select save, then the model is saved but not closed. It should be closed too... When I select a large number of items from one model, and copy and paste them"
+    },
+    {
+      "chunk_id": 234,
+      "text": "items from one model, and copy and paste them into a new one, they sometimes all get placed at the origin. Strangely, if I then auto-place, and then undo, they get their original (correct) placement! Bug #289: Under Mac OS X, printing t"
+    },
+    {
+      "chunk_id": 235,
+      "text": "t) placement! Bug #289: Under Mac OS X, printing to Acrobat 9.0 fails Printing a model that contains transparent objects can result in problems when printing to Encapsulated Postscript (EPS). If a model has transparent objects, then when it is pr"
+    },
+    {
+      "chunk_id": 236,
+      "text": "model has transparent objects, then when it is printed to EPS, the resulting file is a bitmap instead of a Postscript description of the graphics. You can tell by the file size (several Meg vs. several K) and by opening it in Illustrator, whe"
+    },
+    {
+      "chunk_id": 237,
+      "text": ". several K) and by opening it in Illustrator, where in theory you should be able to ungroup and select and edit individual components. The way Java prints EPS is that there is an implementation of Graphics2D that literally translates each grap"
+    },
+    {
+      "chunk_id": 238,
+      "text": "f Graphics2D that literally translates each graphics2D call into a Postscript snippet. If Java detects any transparent colors or images, then the literal translation of each element independently doesn't work, so the printing code reverts to"
+    },
+    {
+      "chunk_id": 239,
+      "text": "ly doesn't work, so the printing code reverts to writing everything to an image and then sending the image, encapsulated in Postscript to the printer. Solution1: Use one of these pdf writing programs to generate pdf-1.4 compliant pdf files, whi"
+    },
+    {
+      "chunk_id": 240,
+      "text": "ams to generate pdf-1.4 compliant pdf files, which have extensions to support transparency that Postscript lacks, and then print them to eps, which would use the distill implementation of the above algorithm. Or alternatively, we could switch"
+    },
+    {
+      "chunk_id": 241,
+      "text": "ove algorithm. Or alternatively, we could switch to using pdftex instead of latex->dvips->distill which should embed pdf for figures directly at the expense of less robust latex support. Solution 2: Use the undocumented flag -Dsun.java2d.pri"
+    },
+    {
+      "chunk_id": 242,
+      "text": "on 2: Use the undocumented flag -Dsun.java2d.print.pipeline=pdl on the command line to force the printing to use the postscript path, ignoring transparency. Under Cygwin: export JAVAFLAGS=-Dsun.java2d.print.pipeline=pdl vergil Then edit the f"
+    },
+    {
+      "chunk_id": 243,
+      "text": "java2d.print.pipeline=pdl vergil Then edit the file by hand in Illustrator to add the transparency back in. Limitations in $PTII/jni $PTII/jni has been replaced by the EmbeddedCActor . We keep $PTII/jni around because we need the launcher for use w"
+    },
+    {
+      "chunk_id": 244,
+      "text": "/jni around because we need the launcher for use with JNI under Cygwin and $PTII/jni has some simple JNI tests. The Interface to C actors using the Java Native Interface is not available via the Windows Installer (or Web Start). To use the JNI/Pt"
+    },
+    {
+      "chunk_id": 245,
+      "text": "dows Installer (or Web Start). To use the JNI/Ptolemy II interface, you must download Ptolemy II as source files and compile. The JNI user interface was removed between Ptolemy II 4.0 and Ptolemy II 5.0 because the UI stopped working. Code Gen"
+    },
+    {
+      "chunk_id": 246,
+      "text": "my II 5.0 because the UI stopped working. Code Generation Limitations Bug #285: PointerTokens do not work on 64 bit Java Code Generation limitations are covered on the Code Generation page. Missing Domains Boolean and integer dataflow. For limitation"
+    },
+    {
+      "chunk_id": 247,
+      "text": "mains Boolean and integer dataflow. For limitations discovered after the release, see the Ptolemy II 8.0.1 website Last Updated: $Date: 2010-11-01 13:16:13 -0700 (Mon, 01 Nov 2010) $"
+    }
+  ]
+}

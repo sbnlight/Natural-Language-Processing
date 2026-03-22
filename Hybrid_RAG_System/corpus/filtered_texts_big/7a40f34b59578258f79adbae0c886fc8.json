@@ -1,0 +1,305 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/distributed/domains/sdf/kernel/DistributedSDFDirector.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "DistributedSDFDirector Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.distributed.domains.sdf.kernel Class Distrib"
+    },
+    {
+      "chunk_id": 2,
+      "text": "olemy.distributed.domains.sdf.kernel Class DistributedSDFDirector java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.util.Attribute ptolemy.actor.Director ptolemy.actor.sched.StaticSchedulingDirector ptolemy.domains.sdf.kernel.SDFDirector p"
+    },
+    {
+      "chunk_id": 3,
+      "text": "gDirector ptolemy.domains.sdf.kernel.SDFDirector ptolemy.distributed.domains.sdf.kernel.DistributedSDFDirector All Implemented Interfaces: Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , ModelErrorHandler , MoM"
+    },
+    {
+      "chunk_id": 4,
+      "text": ", Derivable , Executable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , java.io.Serializable public class DistributedSDFDirector extends SDFDirector Director for the distributed version of the synchronous dataflow (SDF) model of comput"
+    },
+    {
+      "chunk_id": 5,
+      "text": "of the synchronous dataflow (SDF) model of computation. Distributed-SDF overview The Distributed-SDF domain is an extended version of the existing SDF Domain that performs the simulation in a distributed manner. Requirements A distributed platform"
+    },
+    {
+      "chunk_id": 6,
+      "text": "buted manner. Requirements A distributed platform is required to perform the simulation. Every node in the distributed platform has to run a server application (DistributedServerRMIGeneric). A Jini service locator must be running on one of the nodes"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ervice locator must be running on one of the nodes (peer discovery). Features Exploits the degree of parallelism that many models expose in their topology. The distributed execution is transparent to the user. Keeps the existing software architectu"
+    },
+    {
+      "chunk_id": 8,
+      "text": "o the user. Keeps the existing software architecture untouched, only extending it. (Except some minor modifications in the SDFScheduler). It achieves smaller simulation times for models with certain degree of parallelism, specially those were: cos"
+    },
+    {
+      "chunk_id": 9,
+      "text": "degree of parallelism, specially those were: cost(computation) >>>> cost(communication). Allows for bigger models (in terms of memory consumption). A DistributedSDFDirector is the class that controls execution of actors under the distributed versi"
+    },
+    {
+      "chunk_id": 10,
+      "text": "s execution of actors under the distributed version of the SDF domain. It extends SDFDirector. By default, actor scheduling is handled by the DistributedSDFScheduler class. Furthermore, the newReceiver method creates Receivers of type DistributedS"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ver method creates Receivers of type DistributedSDFReceiver, which extends SDFReceiver. See ptolemy.domains.sdf.kernel.SDFScheduler for more information about the SDF Domain. Parameters The parallelSchedule parameter of this director determines wh"
+    },
+    {
+      "chunk_id": 12,
+      "text": "Schedule parameter of this director determines whether a sequential or parallel schedule will be performed. The default value of the parallelSchedule parameter is a BooleanToken with the value false. The parallelExecution parameter of this directo"
+    },
+    {
+      "chunk_id": 13,
+      "text": "e. The parallelExecution parameter of this director determines whether a sequential or parallel execution will be performed. The default value of the parallelExecution parameter is a BooleanToken with the value false. Since: Ptolemy II 5.1 Version"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ith the value false. Since: Ptolemy II 5.1 Version: $Id: DistributedSDFDirector.java,v 1.21.4.1 2006/12/30 22:17:39 cxh Exp $ Author: Daniel Lazaro Cuadrado (kapokasa@kom.aau.dk) See Also: DistributedServerRMIGeneric , DistributedSDFReceiver , Distri"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ServerRMIGeneric , DistributedSDFReceiver , DistributedSDFScheduler , SDFDirector , SDFScheduler , Serialized Form Accepted Rating: Red (cxh) Proposed Rating: Red (kapokasa) Nested Class Summary Nested classes inherited from class ptolemy.kernel.util"
+    },
+    {
+      "chunk_id": 16,
+      "text": "d classes inherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary Parameter parallelExecution A Parameter representing whether a sequential or parallel execution will be performed. Parameter parallelSchedu"
+    },
+    {
+      "chunk_id": 17,
+      "text": "tion will be performed. Parameter parallelSchedule A Parameter representing whether a sequential or parallel schedule will be computed. Parameter pipelining A Parameter representing whether a pipelined parallel execution will be performed. Fiel"
+    },
+    {
+      "chunk_id": 18,
+      "text": "lined parallel execution will be performed. Fields inherited from class ptolemy.domains.sdf.kernel. SDFDirector _iterationCount , allowDisconnectedGraphs , allowRateChanges , constrainBufferSizes , iterations , period , synchronizeToRealTime , vect"
+    },
+    {
+      "chunk_id": 19,
+      "text": "iterations , period , synchronizeToRealTime , vectorizationFactor Fields inherited from class ptolemy.actor.sched. StaticSchedulingDirector _postfireReturns Fields inherited from class ptolemy.actor. Director _actorsFinishedExecution , _currentTime ,"
+    },
+    {
+      "chunk_id": 20,
+      "text": "Director _actorsFinishedExecution , _currentTime , _stopRequested , timeResolution Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersisten"
+    },
+    {
+      "chunk_id": 22,
+      "text": "utable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary DistributedSDFDirector () Construct a director in the default workspace with an empty string as its name. DistributedSDFDirector ( CompositeEntity container, j"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ompositeEntity container, java.lang.String name) Construct a director in the given container with the given name. DistributedSDFDirector ( Workspace workspace) Construct a director in the workspace with an empty name. Method S"
+    },
+    {
+      "chunk_id": 24,
+      "text": "tor in the workspace with an empty name. Method Summary void attributeChanged ( Attribute attribute) React to a change in an attribute. void fire () Calculate the current schedule, if necessary, and iterate the contained actors in the order given"
+    },
+    {
+      "chunk_id": 25,
+      "text": "iterate the contained actors in the order given by the schedule. void initialize () Initialize the actors associated with this director (super). Receiver newReceiver () Return a new receiver consistent with the Distributed-SDF domain. void preiniti"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ent with the Distributed-SDF domain. void preinitialize () Preinitialize the actors associated with this director and compute the schedule (super). void wrapup () Invoke the wrapup() method of all the actors contained in the director's container"
+    },
+    {
+      "chunk_id": 27,
+      "text": "he actors contained in the director's container (super). Methods inherited from class ptolemy.domains.sdf.kernel. SDFDirector getModelNextIterationTime , postfire , prefire , suggestedModalModelDirectors , supportMultirateFiring , transferInputs ,"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ctors , supportMultirateFiring , transferInputs , transferOutputs Methods inherited from class ptolemy.actor.sched. StaticSchedulingDirector _setScheduler , addDebugListener , getScheduler , invalidateSchedule , isScheduleValid , removeDebugListener"
+    },
+    {
+      "chunk_id": 29,
+      "text": "eSchedule , isScheduleValid , removeDebugListener , setScheduler Methods inherited from class ptolemy.actor. Director _description , _isEmbedded , _isTopLevel , _transferInputs , _transferOutputs , fireAt , fireAt , fireAtCurrentTime , getCurrentTime"
+    },
+    {
+      "chunk_id": 30,
+      "text": "reAt , fireAt , fireAtCurrentTime , getCurrentTime , getErrorTolerance , getModelStartTime , getModelStopTime , getModelTime , getNextIterationTime , getStartTime , getStopTime , getTimeResolution , initialize , invalidateResolvedTypes , isFireFuncti"
+    },
+    {
+      "chunk_id": 31,
+      "text": "nitialize , invalidateResolvedTypes , isFireFunctional , isStopRequested , isStrict , iterate , requestInitialization , setContainer , setCurrentTime , setModelTime , stop , stopFire , terminate Methods inherited from class ptolemy.kernel.util. Attri"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ds inherited from class ptolemy.kernel.util. Attribute _getContainedObject , _propagateExistence , clone , getContainer , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , setName , updateContent Methods inherited from class ptolemy.kernel"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ontent Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _exportMoMLContents , _getIndentPrefix , _isMoMLSuppressed , _ma"
+    },
+    {
+      "chunk_id": 34,
+      "text": "tents , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , _validateSettables , addChangeListener , attributeList , attributeList , attributeTypeChanged , clone , cont"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ttributeList , attributeTypeChanged , clone , containedObjectsIterator , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain ,"
+    },
+    {
+      "chunk_id": 36,
+      "text": "oML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getDisplayName , getElementName , getFullName , getModelErrorHandler , getName , ge"
+    },
+    {
+      "chunk_id": 37,
+      "text": "getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateExistence , propagateValue , propagateValues , removeChangeListen"
+    },
+    {
+      "chunk_id": 38,
+      "text": "pagateValue , propagateValues , removeChangeListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , uniq"
+    },
+    {
+      "chunk_id": 39,
+      "text": "sortContainedObjects , toplevel , toString , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail parallelSchedule public Para"
+    },
+    {
+      "chunk_id": 40,
+      "text": "it, wait Field Detail parallelSchedule public Parameter parallelSchedule A Parameter representing whether a sequential or parallel schedule will be computed. This parameter must be a boolean. The default value is false BooleanToken. pipelining"
+    },
+    {
+      "chunk_id": 41,
+      "text": "e default value is false BooleanToken. pipelining public Parameter pipelining A Parameter representing whether a pipelined parallel execution will be performed. A pipelined execution only makes sense when parallel execution is true. This param"
+    },
+    {
+      "chunk_id": 42,
+      "text": "e when parallel execution is true. This parameter must be a boolean. The default value is false BooleanToken. parallelExecution public Parameter parallelExecution A Parameter representing whether a sequential or parallel execution will be pe"
+    },
+    {
+      "chunk_id": 43,
+      "text": "er a sequential or parallel execution will be performed. This parameter must be a boolean. The default value is false BooleanToken. Constructor Detail DistributedSDFDirector public DistributedSDFDirector () throws Illegal"
+    },
+    {
+      "chunk_id": 44,
+      "text": "FDirector () throws IllegalActionException , NameDuplicationException Construct a director in the default workspace with an empty string as its name. The director is added to the list of objects in the workspace. Increment"
+    },
+    {
+      "chunk_id": 45,
+      "text": "the list of objects in the workspace. Increment the version number of the workspace. The DistributedSDFDirector will have a default scheduler of type DistributedSDFScheduler. Throws: IllegalActionException - If the name has a period in it, or"
+    },
+    {
+      "chunk_id": 46,
+      "text": "onException - If the name has a period in it, or the director is not compatible with the specified container. NameDuplicationException - If the container already contains an entity with the specified name. DistributedSDFDirector public Distribu"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ified name. DistributedSDFDirector public DistributedSDFDirector ( Workspace workspace) throws IllegalActionException , NameDuplicationException Construct a director in the workspace with an empty name. The director is added"
+    },
+    {
+      "chunk_id": 48,
+      "text": "kspace with an empty name. The director is added to the list of objects in the workspace. Increment the version number of the workspace. The DistributedSDFDirector will have a default scheduler of type DistributedSDFScheduler. Parameters: wor"
+    },
+    {
+      "chunk_id": 49,
+      "text": "of type DistributedSDFScheduler. Parameters: workspace - The workspace for this object. Throws: IllegalActionException - If the name has a period in it, or the director is not compatible with the specified container. NameDuplicationException - I"
+    },
+    {
+      "chunk_id": 50,
+      "text": "specified container. NameDuplicationException - If the container already contains an entity with the specified name. DistributedSDFDirector public DistributedSDFDirector ( CompositeEntity container, java.lang.String"
+    },
+    {
+      "chunk_id": 51,
+      "text": "r, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct a director in the given container with the given name. The container argument must not be null, or a"
+    },
+    {
+      "chunk_id": 52,
+      "text": "The container argument must not be null, or a NullPointerException will be thrown. If the name argument is null, then the name is set to the empty string. Increment the version number of the workspace. The DistributedSDFDirector will have"
+    },
+    {
+      "chunk_id": 53,
+      "text": "workspace. The DistributedSDFDirector will have a default scheduler of type DistributedSDFScheduler. Parameters: container - Container of the director. name - Name of this director. Throws: IllegalActionException - If the director is not compatib"
+    },
+    {
+      "chunk_id": 54,
+      "text": "lActionException - If the director is not compatible with the specified container. May be thrown in a derived class. NameDuplicationException - If the container is not a CompositeActor and the name collides with an entity in the container. Met"
+    },
+    {
+      "chunk_id": 55,
+      "text": "name collides with an entity in the container. Method Detail attributeChanged public void attributeChanged ( Attribute attribute) throws IllegalActionException React to a change in an attribute. If the changed attribute matche"
+    },
+    {
+      "chunk_id": 56,
+      "text": "in an attribute. If the changed attribute matches a parameter of the director, then the corresponding local copy of the parameter value will be updated. If the attribute that changes is parallelSchedule the schedule is invalidated. Overrides:"
+    },
+    {
+      "chunk_id": 57,
+      "text": "Schedule the schedule is invalidated. Overrides: attributeChanged in class SDFDirector Parameters: attribute - The changed parameter. Throws: IllegalActionException - If the parameter set is not valid. fire public void fire () throws Ille"
+    },
+    {
+      "chunk_id": 58,
+      "text": "id. fire public void fire () throws IllegalActionException Calculate the current schedule, if necessary, and iterate the contained actors in the order given by the schedule. Depending on the value of parallelSchedule either a sequential"
+    },
+    {
+      "chunk_id": 59,
+      "text": "the value of parallelSchedule either a sequential or a parallel schedule will be computed. Depending on the value of parallelExecution either a sequential or a parallel execution of the schedule will be computed. No internal state of the direc"
+    },
+    {
+      "chunk_id": 60,
+      "text": "will be computed. No internal state of the director is updated during fire, so it may be used with domains that require this property, such as CT. Iterating an actor involves calling the actor's iterate() method, which is equivalent to callin"
+    },
+    {
+      "chunk_id": 61,
+      "text": "iterate() method, which is equivalent to calling the actor's prefire(), fire() and postfire() methods in succession. If iterate() returns NOT_READY, indicating that the actor is not ready to execute, then an IllegalActionException will be t"
+    },
+    {
+      "chunk_id": 62,
+      "text": "xecute, then an IllegalActionException will be thrown. The values returned from iterate() are recorded and are used to determine the value that postfire() will return at the end of the director's iteration. This method may be overridden by some"
+    },
+    {
+      "chunk_id": 63,
+      "text": "s iteration. This method may be overridden by some domains to perform additional domain-specific operations. Specified by: fire in interface Executable Overrides: fire in class StaticSchedulingDirector Throws: IllegalActionException - If any actor"
+    },
+    {
+      "chunk_id": 64,
+      "text": "tor Throws: IllegalActionException - If any actor executed by this actor return false in prefire. initialize public void initialize () throws IllegalActionException Initialize the actors associated with this director (super). If p"
+    },
+    {
+      "chunk_id": 65,
+      "text": "tors associated with this director (super). If parallelExecution is true, the infrastructure for a distributed execution is initialized. Once the required number of services are discovered, the actors are mapped on to them, sent to the distri"
+    },
+    {
+      "chunk_id": 66,
+      "text": "actors are mapped on to them, sent to the distributed services and virtually connected over the network. Specified by: initialize in interface Executable Overrides: initialize in class SDFDirector Throws: IllegalActionException - If the initializ"
+    },
+    {
+      "chunk_id": 67,
+      "text": "Throws: IllegalActionException - If the initialize() method of one of the associated actors throws it, or if there is no scheduler. newReceiver public Receiver newReceiver () Return a new receiver consistent with the Distributed-SDF domain. Over"
+    },
+    {
+      "chunk_id": 68,
+      "text": "r consistent with the Distributed-SDF domain. Overrides: newReceiver in class SDFDirector Returns: A new DistributedSDFReceiver. preinitialize public void preinitialize () throws IllegalActionException Preinitialize the actors asso"
+    },
+    {
+      "chunk_id": 69,
+      "text": "legalActionException Preinitialize the actors associated with this director and compute the schedule (super). The schedule is computed during preinitialization so that hierarchical opaque composite actors can be scheduled properly, since the"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ite actors can be scheduled properly, since the act of computing the schedule sets the rate parameters of the external ports. In addition, performing scheduling during preinitialization enables it to be present during code generation. The or"
+    },
+    {
+      "chunk_id": 71,
+      "text": "s it to be present during code generation. The order in which the actors are preinitialized is arbitrary. The schedule computed will be either sequential or parallel depending on the value of parallelSchedule . Specified by: preinitialize in i"
+    },
+    {
+      "chunk_id": 72,
+      "text": "arallelSchedule . Specified by: preinitialize in interface Executable Overrides: preinitialize in class SDFDirector Throws: IllegalActionException - If the preinitialize() method of one of the associated actors throws it. wrapup public void wrapup"
+    },
+    {
+      "chunk_id": 73,
+      "text": "iated actors throws it. wrapup public void wrapup () throws IllegalActionException Invoke the wrapup() method of all the actors contained in the director's container (super). In case of parallelExecution being true, exit from all the"
+    },
+    {
+      "chunk_id": 74,
+      "text": "f parallelExecution being true, exit from all the client threads is performed. This method should be invoked once per execution. None of the other action methods should be invoked after it in the execution. This method is not synchronized o"
+    },
+    {
+      "chunk_id": 75,
+      "text": "the execution. This method is not synchronized on the workspace, so the caller should be. Specified by: wrapup in interface Executable Overrides: wrapup in class Director Throws: IllegalActionException - If the wrapup() method of one of the as"
+    },
+    {
+      "chunk_id": 76,
+      "text": "ption - If the wrapup() method of one of the associated actors throws it. See Also: ClientThread Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL:"
+    }
+  ]
+}

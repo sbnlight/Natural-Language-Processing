@@ -1,0 +1,273 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII4.0/ptII4.0.1/doc/codeDoc/ptolemy/actor/lib/security/KeyStoreActor.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "KeyStoreActor Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.lib.security Class KeyStoreActor java.lang.Obje"
+    },
+    {
+      "chunk_id": 2,
+      "text": "or.lib.security Class KeyStoreActor java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.actor.AtomicActor ptolemy.actor.TypedAtomicActor ptolemy.actor.lib.secu"
+    },
+    {
+      "chunk_id": 3,
+      "text": "lemy.actor.TypedAtomicActor ptolemy.actor.lib.security.KeyStoreActor All Implemented Interfaces: Actor , Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , Instantiable , ModelErrorHandler , MoMLExportable , Namea"
+    },
+    {
+      "chunk_id": 4,
+      "text": "iable , ModelErrorHandler , MoMLExportable , Nameable , java.io.Serializable, TypedActor Direct Known Subclasses: KeyReader , KeyWriter public class KeyStoreActor extends TypedAtomicActor A baseclass for actors that read or write keystores. Keystores"
+    },
+    {
+      "chunk_id": 5,
+      "text": "for actors that read or write keystores. Keystores are ways to manage keys and certificates. A keystore file can be created by using the keytool executable that comes with Java. To create a simple keystore that contains a private key and a public ke"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ystore that contains a private key and a public key signed with a self signed certificate, run: cd $PTII make ptKeystore which will create a keystore with a store password of this.is.the.storePassword,change.it and key password of of this.is.the.keyP"
+    },
+    {
+      "chunk_id": 7,
+      "text": ",change.it and key password of of this.is.the.keyPassword,change.it . The alias of the certificate will be claudius A keystore may have at most one type, which describes the format of the keystore. If a keyStore file exists, then the keyStoreType pa"
+    },
+    {
+      "chunk_id": 8,
+      "text": "f a keyStore file exists, then the keyStoreType parameter is set to the type of the preexisting keyStore. Changing the keyStoreType of a preexisting keystore to a different type is likely to throw an exception when the keyStore is opened. If a keySt"
+    },
+    {
+      "chunk_id": 9,
+      "text": "exception when the keyStore is opened. If a keyStore file does not exist, then when it is created it will be created with the type from the keyStoreType parameter. The keytool creates keystores that have a type of \"JKS\". To view the keystore type,"
+    },
+    {
+      "chunk_id": 10,
+      "text": "have a type of \"JKS\". To view the keystore type, run keytool -keystore keystoreFile -list . The SecretKey actor outputs a key that must read in with a keystore type of \"JCEKS\", so if this actor is being used with a SecretKey actor, then the type sho"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ing used with a SecretKey actor, then the type should be set to \"JCEKS\". Derived classes should add input or output ports as necessary. Derived classes should call _loadKeyStore() so that _keyStore is properly initialized before accessing _keyStore t"
+    },
+    {
+      "chunk_id": 12,
+      "text": "properly initialized before accessing _keyStore themselves. How to exchange data securely with a remote part http://java.sun.com/docs/books/tutorial/security1.2/toolfilex/index.html discusses how to exchange files using signatures, keytool and jarsi"
+    },
+    {
+      "chunk_id": 13,
+      "text": "exchange files using signatures, keytool and jarsigner. In Ptolemy II, we use actors derived from the KeyStoreActor. Steps for the Sender Generate keys using keytool, which is included in the JDK keytool -genkey -alias claudius -keystore $PTII/ptKey"
+    },
+    {
+      "chunk_id": 14,
+      "text": "tool -genkey -alias claudius -keystore $PTII/ptKeystore -keypass myKeyPassword -storepass myStorePassword You will be prompted for information about yourself. Optional: Generate a Certificate Signing Request (CSR), send it to your vendor and import t"
+    },
+    {
+      "chunk_id": 15,
+      "text": "Request (CSR), send it to your vendor and import the response. Since we are using a self signed certificate, this step is option. Export the certificate keytool -alias claudius -export -keystore $PTII/ptKeystore -keypass myKeyPassword -storepass myS"
+    },
+    {
+      "chunk_id": 16,
+      "text": "I/ptKeystore -keypass myKeyPassword -storepass myStorePassword -file claudius.cer -rfc Send the output file (claudius.cer) to the recipient Create a Ptolemy model that uses the PrivateKeyReader actor to read $PTII/ptKeystore with the appropriate pass"
+    },
+    {
+      "chunk_id": 17,
+      "text": "to read $PTII/ptKeystore with the appropriate passwords and sign your data. See the left side of $PTII/ptolemy/actor/lib/security/test/auto/Signature.xml for an example model. Steps for the Receiver Receive the public key from the sender and import i"
+    },
+    {
+      "chunk_id": 18,
+      "text": "eceive the public key from the sender and import it into your keystore cxh@cooley 91% keytool -import -alias claudius -keystore $PTII/receivedKeystore -file claudius.cer Enter keystore password: foobar Owner: CN=Claudius Ptolemaus, OU=Your Project,"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ar Owner: CN=Claudius Ptolemaus, OU=Your Project, O=Your University, L=Your Town, ST=Your State, C=US Issuer: CN=Claudius Ptolemaus, OU=Your Project, O=Your University, L=Your Town, ST=Your State, C=US Serial number: 3fa9b2c5 Valid from: Wed Nov 05 1"
+    },
+    {
+      "chunk_id": 20,
+      "text": "S Serial number: 3fa9b2c5 Valid from: Wed Nov 05 18:32:37 PST 2003 until: Tue Feb 03 18:32:37 PST 2004 Certificate fingerprints: MD5: D7:43:A0:C0:39:49:A8:80:69:EA:11:91:17:CE:E5:E3 SHA1: C1:3B:9A:92:35:4F:7F:A5:23:AB:57:28:D6:67:E"
+    },
+    {
+      "chunk_id": 21,
+      "text": "SHA1: C1:3B:9A:92:35:4F:7F:A5:23:AB:57:28:D6:67:ED:43:AB:EA:A9:2B Trust this certificate? [no]: yes Certificate was added to keystore cxh@cooley 92% Verify the signature by calling up the sender and comparing the fingerprints on the phone. The sen"
+    },
+    {
+      "chunk_id": 22,
+      "text": "comparing the fingerprints on the phone. The send can view the fingerprints with cxh@cooley 93% keytool -printcert -file claudius.cer Owner: CN=Claudius Ptolemaus, OU=Your Project, O=Your University, L=Your Town, ST=Your State, C=US Issuer: CN=Clau"
+    },
+    {
+      "chunk_id": 23,
+      "text": ", L=Your Town, ST=Your State, C=US Issuer: CN=Claudius Ptolemaus, OU=Your Project, O=Your University, L=Your Town, ST=Your State, C=US Serial number: 3fa9b2c5 Valid from: Wed Nov 05 18:32:37 PST 2003 until: Tue Feb 03 18:32:37 PST 2004 Certificate fi"
+    },
+    {
+      "chunk_id": 24,
+      "text": "until: Tue Feb 03 18:32:37 PST 2004 Certificate fingerprints: MD5: D7:43:A0:C0:39:49:A8:80:69:EA:11:91:17:CE:E5:E3 SHA1: C1:3B:9A:92:35:4F:7F:A5:23:AB:57:28:D6:67:ED:43:AB:EA:A9:2B cxh@cooley 94% If the Certificate fingerprints mat"
+    },
+    {
+      "chunk_id": 25,
+      "text": "cxh@cooley 94% If the Certificate fingerprints match, then the file has not been modified in transit. The receiver should then create a model that uses the PublicKeyReader actor with the appropriate passwords. See the right side of $PTII/ptolemy/acto"
+    },
+    {
+      "chunk_id": 26,
+      "text": "asswords. See the right side of $PTII/ptolemy/actor/lib/security/test/auto/Signature.xml for an example model. For more information about keystores, see Security Tools Summary and Keytool . Since: Ptolemy II 4.0 Version: $Id: KeyStoreActor.java,v 1.2"
+    },
+    {
+      "chunk_id": 27,
+      "text": "lemy II 4.0 Version: $Id: KeyStoreActor.java,v 1.23 2004/04/13 05:12:38 cxh Exp $ Author: Christopher Hylands Brooks See Also: Serialized Form Accepted Rating: Red (cxh) Proposed Rating: Yellow (cxh) Nested Class Summary Nested classes inherited from"
+    },
+    {
+      "chunk_id": 28,
+      "text": "Nested Class Summary Nested classes inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary protected java.lang.String _alias The alias of the Certificate that we are looking for. protected java.lang.String _keyPas"
+    },
+    {
+      "chunk_id": 29,
+      "text": "e looking for. protected java.lang.String _keyPassword The password for the key. protected java.security.KeyStore _keyStore The KeyStore itself. protected java.lang.String _keyStoreType The keyStore type. protected boolean _loadKeyStoreNeeded Set"
+    },
+    {
+      "chunk_id": 30,
+      "text": "e type. protected boolean _loadKeyStoreNeeded Set to true if fileOrURL has changed and the keyStore needs to be read in again and the aliases updated. protected java.lang.String _provider The provider to be used for a provider specific implementat"
+    },
+    {
+      "chunk_id": 31,
+      "text": "der to be used for a provider specific implementation. protected java.lang.String _storePassword The password for the keyStore. StringParameter alias The alias of the certificate that we are looking for. FileParameter fileOrURL The file name or URL"
+    },
+    {
+      "chunk_id": 32,
+      "text": "for. FileParameter fileOrURL The file name or URL from which to read. PortParameter keyPassword The password to the Key. StringParameter keyStoreType The type of the keystore. StringParameter provider Specify a provider for the given algorithm. PortP"
+    },
+    {
+      "chunk_id": 33,
+      "text": "Specify a provider for the given algorithm. PortParameter storePassword The password to the KeyStore. Fields inherited from class ptolemy.actor. AtomicActor _stopRequested Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners ,"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from"
+    },
+    {
+      "chunk_id": 35,
+      "text": "S , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary KeyStoreActor ( CompositeEntity container, java.lang.String name) Construct an actor with t"
+    },
+    {
+      "chunk_id": 36,
+      "text": "java.lang.String name) Construct an actor with the given container and name. Method Summary protected void _initializeKeyStore () If necessary, initialize the _keyStore by calling KeyStore.getInstance(). protected void _loadKeyStore () If neces"
+    },
+    {
+      "chunk_id": 37,
+      "text": "tance(). protected void _loadKeyStore () If necessary, load the _keyStore and update the choice of aliases. void attributeChanged ( Attribute attribute) If the specified attribute is URL , then close the current file (if there is one) and open the"
+    },
+    {
+      "chunk_id": 38,
+      "text": "the current file (if there is one) and open the new one. void fire () Load the keystore for use by derived classes. Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChanged , clone , newPort , typeConstraintList"
+    },
+    {
+      "chunk_id": 39,
+      "text": "TypeChanged , clone , newPort , typeConstraintList Methods inherited from class ptolemy.actor. AtomicActor _createReceivers , clone , connectionsChanged , getDirector , getExecutiveDirector , getFunctionDependency , getManager , initialize , inputPor"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ionDependency , getManager , initialize , inputPortList , iterate , newReceiver , outputPortList , postfire , prefire , preinitialize , pruneDependencies , removeDependency , setContainer , stop , stopFire , terminate , wrapup Methods inherited from"
+    },
+    {
+      "chunk_id": 41,
+      "text": "pFire , terminate , wrapup Methods inherited from class ptolemy.kernel. ComponentEntity _adjustDeferrals , _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , isAtomic , isOpaque , propagateExistence , setName M"
+    },
+    {
+      "chunk_id": 42,
+      "text": "Atomic , isOpaque , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _description , _exportMoMLContents , _removePort , connectedPortList , connectedPorts , containedObjectsIterator , getAttribute , getPort , getPorts"
+    },
+    {
+      "chunk_id": 43,
+      "text": "jectsIterator , getAttribute , getPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition , uniqueName , validateSettables Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent ,"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _attachText , _cloneFixAttribute"
+    },
+    {
+      "chunk_id": 45,
+      "text": "j _addAttribute , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeLis"
+    },
+    {
+      "chunk_id": 46,
+      "text": ", _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeList , attributeList , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMo"
+    },
+    {
+      "chunk_id": 52,
+      "text": "up Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getFullName , getName , getName Field Detail alias publi"
+    },
+    {
+      "chunk_id": 53,
+      "text": "lName , getName , getName Field Detail alias public StringParameter alias The alias of the certificate that we are looking for. The default alias is the String \"claudius\" fileOrURL public FileParameter fileOrURL The file name or URL from which to r"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ter fileOrURL The file name or URL from which to read. This is a string with any form accepted by FileParameter. The initial default is \"$PTII/ptKeystore\". To create the initial default keystore, run \"cd $PTII; make ptKeystore\" See Also: File"
+    },
+    {
+      "chunk_id": 55,
+      "text": "re, run \"cd $PTII; make ptKeystore\" See Also: FileParameter keyStoreType public StringParameter keyStoreType The type of the keystore. See Java Cryptography Architecture API Specification & Reference for information about keystore types. The initi"
+    },
+    {
+      "chunk_id": 56,
+      "text": "for information about keystore types. The initial value is the string returned by java.security.KeyStore.getDefaultType(). Note that secret keys generated by the SecretKey actor should be saved in a keystore of type \"JCEKS\". keyPassword public"
+    },
+    {
+      "chunk_id": 57,
+      "text": "n a keystore of type \"JCEKS\". keyPassword public PortParameter keyPassword The password to the Key. The default password is \"this.is.the.keyPassword,change.it\". If the port is left unconnected, then the parameter value will be used. provider pu"
+    },
+    {
+      "chunk_id": 58,
+      "text": "then the parameter value will be used. provider public StringParameter provider Specify a provider for the given algorithm. The default value is \"SystemDefault\" which allows the system to choose the provider based on the JCE architecture. storePa"
+    },
+    {
+      "chunk_id": 59,
+      "text": "he provider based on the JCE architecture. storePassword public PortParameter storePassword The password to the KeyStore. The default password is \"this.is.the.storePassword,change.it\". If the port is left unconnected, then the parameter value wil"
+    },
+    {
+      "chunk_id": 60,
+      "text": "is left unconnected, then the parameter value will be used. _alias protected java.lang.String _alias The alias of the Certificate that we are looking for. _keyPassword protected java.lang.String _keyPassword The password for the key. _keyStore prote"
+    },
+    {
+      "chunk_id": 61,
+      "text": "Password The password for the key. _keyStore protected java.security.KeyStore _keyStore The KeyStore itself. _keyStoreType protected java.lang.String _keyStoreType The keyStore type. _provider protected java.lang.String _provider The provider to be u"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ed java.lang.String _provider The provider to be used for a provider specific implementation. _storePassword protected java.lang.String _storePassword The password for the keyStore. _loadKeyStoreNeeded protected boolean _loadKeyStoreNeeded Set to tru"
+    },
+    {
+      "chunk_id": 63,
+      "text": "d protected boolean _loadKeyStoreNeeded Set to true if fileOrURL has changed and the keyStore needs to be read in again and the aliases updated. Constructor Detail KeyStoreActor public KeyStoreActor ( CompositeEntity container,"
+    },
+    {
+      "chunk_id": 64,
+      "text": "( CompositeEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct an actor with the given container and name. Parameters: container - The container. name - The na"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ntainer already has an actor with this name. Method Detail attributeChanged public void attributeChanged ( Attribute attribute) throws IllegalActionException If the specified attribute is URL , then close the current file ("
+    },
+    {
+      "chunk_id": 67,
+      "text": "attribute is URL , then close the current file (if there is one) and open the new one. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that has changed. Throws: IllegalActionException - If the specified attribute"
+    },
+    {
+      "chunk_id": 68,
+      "text": "llegalActionException - If the specified attribute is URL and the file cannot be opened. fire public void fire () throws IllegalActionException Load the keystore for use by derived classes. Specified by: fire in interface Executable Over"
+    },
+    {
+      "chunk_id": 69,
+      "text": "s. Specified by: fire in interface Executable Overrides: fire in class AtomicActor Throws: IllegalActionException - Not thrown in this base class. _initializeKeyStore protected void _initializeKeyStore () throws IllegalAct"
+    },
+    {
+      "chunk_id": 70,
+      "text": "e () throws IllegalActionException If necessary, initialize the _keyStore by calling KeyStore.getInstance(). Throws: IllegalActionException - If KeyStore.getInstance() throws an exception. _loadKeyStore protected void"
+    },
+    {
+      "chunk_id": 71,
+      "text": "throws an exception. _loadKeyStore protected void _loadKeyStore () throws IllegalActionException If necessary, load the _keyStore and update the choice of aliases. Throws: IllegalActionException - If there is a problem creating"
+    },
+    {
+      "chunk_id": 72,
+      "text": "lActionException - If there is a problem creating a new keystore or loading a preexisting keystore. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAI"
+    },
+    {
+      "chunk_id": 73,
+      "text": "es SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

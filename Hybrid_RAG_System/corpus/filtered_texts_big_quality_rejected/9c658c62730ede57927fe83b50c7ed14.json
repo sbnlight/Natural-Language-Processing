@@ -1,0 +1,245 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/safetp.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/ftp.help /share/b/pub/scp.help /share/b/pub/file-transfer.help Feb 17"
+    },
+    {
+      "chunk_id": 2,
+      "text": "lp /share/b/pub/file-transfer.help Feb 17, 2013 CONTENTS: FTP Overview File Transfers from Windows to UNIX File Transfers from UNIX to Windows File Transfers from UNIX to UNIX FTPS for EECS Instructional accounts SFTP for EECS Instru"
+    },
+    {
+      "chunk_id": 3,
+      "text": "EECS Instructional accounts SFTP for EECS Instructional accounts SafeTP for EECS Instructional accounts Troubleshooting FTP Overview ------------- FTP (File Transfer Protocol) allows you to copy files between computers. You use an ftp clien"
+    },
+    {
+      "chunk_id": 4,
+      "text": "py files between computers. You use an ftp client program on your computer. The remote computer must be running a compatable ftp server. Until about 2000, the traditional \"ftp\" program that ships with most UNIX and Windows systems was suff"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ips with most UNIX and Windows systems was sufficient. But it passes your password and data over the network in an un-encrypted format, which is now unacceptable. Newer versions of ftp are now available that do encrypt all the data. These i"
+    },
+    {
+      "chunk_id": 6,
+      "text": "available that do encrypt all the data. These include FTPS, SFTP and SafeTP, which are described below. FTP does not allow you to execute programs on a remote computer - you have to login to the remote computer with an interactive shell to do"
+    },
+    {
+      "chunk_id": 7,
+      "text": "he remote computer with an interactive shell to do that. You can login to UNIX computers using \"ssh\" and into Windows computers using \"Remote Desktop Connection\". For more information about that, see http://inst.eecs.berkeley.edu/connectin"
+    },
+    {
+      "chunk_id": 8,
+      "text": "hat, see http://inst.eecs.berkeley.edu/connecting.html#labs. Other programs for copying files securely over the network include 'scp' (see /share/b/pub/ssh.help) 'sftp' (see /share/b/pub/ssh.help) Please see http://inst.eecs.berkeley.edu"
+    },
+    {
+      "chunk_id": 9,
+      "text": ".help) Please see http://inst.eecs.berkeley.edu/connecting.html#file_transfers For examples of file transfers between different types of computers. File Transfers from Windows to UNIX ----------------------------------- On a Windows, compute"
+    },
+    {
+      "chunk_id": 10,
+      "text": "-------------------------- On a Windows, computer, use one of these Windows programs to transfer files to your UNIX account: \"WinSCP\" (http://winscp.net/eng/download.php) \"Filezilla\" (http://filezilla-project.org/download.php) File Transfer"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ilezilla-project.org/download.php) File Transfers from UNIX to Windows ----------------------------------- On an UNIX computer, use the UNIX 'smbclient' command to list and copy the files in your Instructional Windows home directory (where $USE"
+    },
+    {
+      "chunk_id": 12,
+      "text": "r Instructional Windows home directory (where $USER is your login name), for example: smbclient //fileservice/named -U $USER -c \"cd $USER; recurse; ls\" smbclient //fileservice/named -U $USER -c \"cd $USER; tar c winfiles.tar $USER\" smbclient"
+    },
+    {
+      "chunk_id": 13,
+      "text": "c \"cd $USER; tar c winfiles.tar $USER\" smbclient //fileservice/named -U $USER -c \"cd $USER; put unixfile.txt\" The first line lists all of the files in your Windows home directory. The second line creates a tar file called \"winfiles.tar\" in yo"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ine creates a tar file called \"winfiles.tar\" in your current UNIX directory that contains all of your Windows files. The third line copies \"unixfile.txt\" from your current UNIX directory to your Windows home directory. If you have a cl"
+    },
+    {
+      "chunk_id": 15,
+      "text": "your Windows home directory. If you have a class account, with a login such as \"ee100-zz\", replace \"named\" with the class name, such as \"ee100\", in those examples. The class name is typically set in the variable $MASTER on the EECS Ins"
+    },
+    {
+      "chunk_id": 16,
+      "text": "lly set in the variable $MASTER on the EECS Instructional UNIX computers, so this should work: smbclient //fileservice/$MASTER -U $USER -c \"recurse; ls\" smbclient //fileservice/$MASTER -U $USER -c \"tar c myWindows.tar $USER\" File Transfers"
+    },
+    {
+      "chunk_id": 17,
+      "text": "R -c \"tar c myWindows.tar $USER\" File Transfers from UNIX to UNIX -------------------------------- Use one of these UNIX programs to transfer files with other UNIX accounts (for example, if your login is 'jdoe' on cory.eecs.berekley.edu):"
+    },
+    {
+      "chunk_id": 18,
+      "text": "login is 'jdoe' on cory.eecs.berekley.edu): /usr/sww/bin/sftp jdoe@cory.eecs.berekley.edu This opens an interactive text-based file transfer interface. Type 'man stfp' foe help. /usr/sww/bin/ssh Xfile jdoe@cory.eecs.berekley.edu:Xfile T"
+    },
+    {
+      "chunk_id": 19,
+      "text": "in/ssh Xfile jdoe@cory.eecs.berekley.edu:Xfile This copies the file 'Xfile' from where you are to the account on cory.eecs. Type 'man scp' foe help. FTPS for EECS Instructional accounts ------------------------------------ EECS Instruction is"
+    },
+    {
+      "chunk_id": 20,
+      "text": "---------------------------- EECS Instruction is running an FTPS server on inst.eecs.berkeley.edu. (It is ProFTPD from http://www.proftpd.org/.) This allows you to connect to your Instructional UNIX account from another UNIX, Windows or Mac"
+    },
+    {
+      "chunk_id": 21,
+      "text": "l UNIX account from another UNIX, Windows or MacOSX comuter. Compatible FTPS clients include: UNIX: lftp (http://lftp.yar.ru/) MacOSX: Fetch (http://software.berkeley.edu/mac/connect-to-ftps/current/) Windows: WinSCP (http://win"
+    },
+    {
+      "chunk_id": 22,
+      "text": "-to-ftps/current/) Windows: WinSCP (http://winscp.net/eng/download.php) SFTP for EECS Instructional accounts ------------------------------------ EECS Instructional UNIX computers run OpenSSH servers. This allows you to connect to your In"
+    },
+    {
+      "chunk_id": 23,
+      "text": "servers. This allows you to connect to your Instructional UNIX account using the SFTP protocol and copy files from another UNIX, Windows or MacOSX computer. Compatible SFTP clients include: UNIX: OpenSSH, including ssh, scp, sftp (h"
+    },
+    {
+      "chunk_id": 24,
+      "text": "de: UNIX: OpenSSH, including ssh, scp, sftp (http://www.openssh.com/) MacOSX: Fetch (http://software.berkeley.edu/mac/connect-to-ftps/current/) Filezilla (http://filezilla-project.org/download.php) Cyberduck (http://cyberduck.ch Windo"
+    },
+    {
+      "chunk_id": 25,
+      "text": "load.php) Cyberduck (http://cyberduck.ch Windows: WinSCP (http://winscp.net/eng/download.php) Filezilla (http://filezilla-project.org/download.php) The security protocol needs to be set to \"SFTP\" (no local certificate is needed). In File"
+    },
+    {
+      "chunk_id": 26,
+      "text": "FTP\" (no local certificate is needed). In Filezilla, the protocol is set in under \"Preferences\". In Cyberduck, it is set in the \"Open Connection\" window. SafeTP for EECS Instructional accounts -------------------------------------- SafeTP"
+    },
+    {
+      "chunk_id": 27,
+      "text": "s -------------------------------------- SafeTP is a system for securing the canonical FTP protocol using strong cryptography. You can use SafeTP to copy files into or out of the EECS Instructional UNIX filesystem over the network without comp"
+    },
+    {
+      "chunk_id": 28,
+      "text": "onal UNIX filesystem over the network without compromising the integrity of your UNIX password, using a normal ftp program. You can use the Windows SafeTP client to copy files from your Instructional Unix account to your Windows workstation."
+    },
+    {
+      "chunk_id": 29,
+      "text": "tional Unix account to your Windows workstation. The Windows SafeTP client works as a transparent proxy within the operating system, in the sense that once it's installed on your Windows machine, you can connect to secure servers using any Win"
+    },
+    {
+      "chunk_id": 30,
+      "text": "you can connect to secure servers using any Windows FTP client. You can download the Windows SafeTP client from the SafeTP web site: http://safetp.cs.berkeley.edu/safetpc.html Windows NT and 9x ship with an ftp client named \"FTP.EXE\"; you"
+    },
+    {
+      "chunk_id": 31,
+      "text": "d 9x ship with an ftp client named \"FTP.EXE\"; you can run it by selecting Start->Run, typing \"ftp\", and hitting Return. (It also works with WS_FTP, CuteFTP, etc., if you have those.) (Sep 2000) The Instructional UNIX SafeTP server is po.eecs.b"
+    },
+    {
+      "chunk_id": 32,
+      "text": "The Instructional UNIX SafeTP server is po.eecs.berkeley.edu; you may log in with your Instructional UNIX login and password. An example of using the Windows SafeTP client is available at http://safetp.cs.berkeley.edu/safetpc.html#Usage The"
+    },
+    {
+      "chunk_id": 33,
+      "text": "//safetp.cs.berkeley.edu/safetpc.html#Usage The SafeTP UNIX client (sftpc) is installed as /usr/sww/pkg/safetp/sftpc for UNIX systems in EECS. The SafeTP UNIX client can be used to connect to any SafeTP server. Some SafeTP servers are liste"
+    },
+    {
+      "chunk_id": 34,
+      "text": "any SafeTP server. Some SafeTP servers are listed on the developers' web site, at http://safetp.cs.berkeley.edu. To connect to the Instructional UNIX SafeTP server using the UNIX SafeTP client, for example, you would type: /usr/sww/pkg/sa"
+    },
+    {
+      "chunk_id": 35,
+      "text": "nt, for example, you would type: /usr/sww/pkg/safetp/sftpc po.eecs.berkeley.edu Then it will ask you to generate a key, if you haven't already done so on that client machine. This involves typing some words to generate random numbers (the"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ing some words to generate random numbers (the time intervals between keystrokes are measured.) See \"Generating Keys under Unix\", below, for more information. Here is an example of what it looks like when you connect to po using the Unix"
+    },
+    {
+      "chunk_id": 37,
+      "text": "oks like when you connect to po using the Unix client. adderly% /usr/sww/pkg/safetp/sftpc po sftpc version 1.44 Connected to localhost (127.0.0.1, port 21). 220-po.EECS.Berkeley.EDU FTP server (SunOS 5.7) ready. 220-*** This server can accep"
+    },
+    {
+      "chunk_id": 38,
+      "text": "(SunOS 5.7) ready. 220-*** This server can accept secure (encrypted) connections. *** 220 *** See http://safetp.cs.berkeley.edu for info. *** Starting negotiation... [... skipping several lines of output ...] 235 Security data exchange complete"
+    },
+    {
+      "chunk_id": 39,
+      "text": "f output ...] 235 Security data exchange complete. 211 DIGT=98P3WZ1zf2oppF1sVKj1jozdWiE= Negotiation completed. 200 The PBSZ is ok. 200 Data channel protection set to: private At this point, sftpc will prompt you for your EECS Instructional"
+    },
+    {
+      "chunk_id": 40,
+      "text": "sftpc will prompt you for your EECS Instructional Unix username and password. You can hit Enter to accept the default username, if your username is the same on the client and the server. At the \"sftpc>\" prompt you can use the usual ftp comman"
+    },
+    {
+      "chunk_id": 41,
+      "text": "e \"sftpc>\" prompt you can use the usual ftp commands (e.g., get, put, cd, ls), as well as some others. Please see the documentation, available at http://safetp.cs.berkeley.edu/sftpc.html and the online help (available via the \"help\" command),"
+    },
+    {
+      "chunk_id": 42,
+      "text": "he online help (available via the \"help\" command), for more details. Type \"quit\" to quit. Generating Keys under Unix: Whenever you use SafeTP on a different machine, you have to generate an ElGamal key pair for yourself, unless you keep yo"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ElGamal key pair for yourself, unless you keep your key in your network- accessible home directory. When you start the client for the first time on any particular machine, you see: % /usr/sww/pkg/safetp/sftpc po sftpc version 1.44 Please t"
+    },
+    {
+      "chunk_id": 44,
+      "text": "/pkg/safetp/sftpc po sftpc version 1.44 Please type some sentences to add entropy to the system. You type random words until the dots march all the way across the screen to the rightmost vertical bar. Then you can hit Enter to finish the key"
+    },
+    {
+      "chunk_id": 45,
+      "text": "cal bar. Then you can hit Enter to finish the key generation process and log in. The process looks something like this: % /usr/sww/pkg/safetp/sftpc po sftpc version 1.44 Please type some sentences to add entropy to the system. |-----------"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ress Enter once: creating ElGamal keys with 1024 bits... Time used to create ElGamal key: 1.3940 sec Verifying ElGamal keys Verified. Connected to po (128.32.138.172, port 21). You can use the command % setenv SAFETP_CONFIG $HOME t"
+    },
+    {
+      "chunk_id": 48,
+      "text": "e the command % setenv SAFETP_CONFIG $HOME to tell the SafeTP UNIX client that the key is in your home directory, with the proviso that since NFS is an insecure protocol, there is the distinct chance that your private key could be interce"
+    },
+    {
+      "chunk_id": 49,
+      "text": "t chance that your private key could be intercepted by a malicious sniffer on the network. (If you don't keep your key in your home directory, SafeTP will be less prone to attack by network sniffers, but you will have to generate keys mu"
+    },
+    {
+      "chunk_id": 50,
+      "text": "sniffers, but you will have to generate keys much more often.) Your ElGamal key (especially the file ElGamal/private.key) should be kept inaccessible from any other users. Use the command % chmod -R go-rwx ElGamal randomSeed to do this,"
+    },
+    {
+      "chunk_id": 51,
+      "text": "chmod -R go-rwx ElGamal randomSeed to do this, if you note that the permissions are too permissive; however, these permissions should take effect by default. For more information, visit the developers' web site and see the documentation"
+    },
+    {
+      "chunk_id": 52,
+      "text": "developers' web site and see the documentation at http://safetp.cs.berkeley.edu/ http://safetp.cs.berkeley.edu/doc.html Troubleshooting --------------- If you get an error such as these when you run WinSCP on Windows or 'scp' or 'sf"
+    },
+    {
+      "chunk_id": 53,
+      "text": "when you run WinSCP on Windows or 'scp' or 'sftp' on UNIX: \"File server transfer could not be started or it exited early. Exit value 0 returned. Most likely the sftp-server is not in the path of the user on the server-side.\" \"Recei"
+    },
+    {
+      "chunk_id": 54,
+      "text": "e path of the user on the server-side.\" \"Received too large packet\" This occurs when your login scripts print things while the file transfer program is trying to login. The problem is often caused by something generating text output indi"
+    },
+    {
+      "chunk_id": 55,
+      "text": "caused by something generating text output indiscriminately during your UNIX login. That should only happen when you are logging in with an interactive shell (ie at the console or using 'ssh' or 'putty'). The files that are run during yo"
+    },
+    {
+      "chunk_id": 56,
+      "text": "' or 'putty'). The files that are run during your login depend on what UNIX shell your account has, amongst other things. If the problem is in the .cshrc file, the solution is usually to enclose the offending command in a case statement"
+    },
+    {
+      "chunk_id": 57,
+      "text": "lose the offending command in a case statement that only runs if you are logging in with an interactive shell, such as if ($?prompt) then echo 'this print statement would break scp' endif so that its output does not interfere w"
+    },
+    {
+      "chunk_id": 58,
+      "text": "endif so that its output does not interfere with scp (and WinSCP). For example, if you want this command to run when you logon to a UNIX comuter: source /usr/eesww/cadence/setup/config/cadence.cshrc In a .cshrc file, it should be insert"
+    },
+    {
+      "chunk_id": 59,
+      "text": "nce.cshrc In a .cshrc file, it should be inserted between the lines if ($?prompt) then source /usr/eesww/cadence/setup/config/cadence.cshrc endif so that its output does not interfere with a file transfer connection, which does have a"
+    },
+    {
+      "chunk_id": 60,
+      "text": "h a file transfer connection, which does have an interactive UNIX command line. \"$prompt\" is only defined when the login connection is interactive (such as with 'ssh' or 'putty' or at a UNIX workstation). EECS Instructional Support"
+    },
+    {
+      "chunk_id": 61,
+      "text": "workstation). EECS Instructional Support 378/386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

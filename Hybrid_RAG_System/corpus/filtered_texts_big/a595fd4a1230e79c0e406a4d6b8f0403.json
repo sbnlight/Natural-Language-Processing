@@ -1,0 +1,237 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/moml/MoMLFilter.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "MoMLFilter JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method pt"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Constr | Method Detail: Field | Constr | Method ptolemy.moml Interface MoMLFilter All Known Implementing Classes: AddEditorFactory , AddIcon , AddMissingParameter , ChangeFixedWidth1ToAuto , ClassChanges , DocAttributeChanges , GRColorChanges , HideA"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ges , DocAttributeChanges , GRColorChanges , HideAnnotationNames , JavaScriptThisUpdate , LazyTypedCompositeActorChanges , MoMLFilterSimple , MultiportToSinglePort , NamedObjClassesSeen , ParameterNameChanges , PortClassChanges , PortNameChanges , Pr"
+    },
+    {
+      "chunk_id": 4,
+      "text": "eChanges , PortClassChanges , PortNameChanges , PropertyClassChanges , RelationWidthChanges , RemoveClasses , RemoveGraphicalClasses , RemoveNonPtinyClasses , RemoveProperties , UpdateAnnotations public interface MoMLFilter This class filters MoML (m"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ic interface MoMLFilter This class filters MoML (modeling markup language) identifiers. It can be used to Remove graphical classes for use in a non-graphical environment Change the names of actors and ports for backward compatibility. Since: Ptolemy"
+    },
+    {
+      "chunk_id": 6,
+      "text": "d ports for backward compatibility. Since: Ptolemy II 2.0 Version: $Id$ Author: Christopher Hylands, Edward A. Lee Pt.AcceptedRating: Red (cxh) Pt.ProposedRating: Red (cxh) Method Summary All Methods Instance Methods Abstract Methods Modifier and Typ"
+    },
+    {
+      "chunk_id": 7,
+      "text": "Instance Methods Abstract Methods Modifier and Type Method and Description java.lang.String filterAttributeValue ( NamedObj container, java.lang.String element, java.lang.String attributeName,"
+    },
+    {
+      "chunk_id": 8,
+      "text": "java.lang.String attributeName, java.lang.String attributeValue, java.lang.String xmlFile) Given a container, attribute name and attribute value, return a new attribute value. java.lang.String filterAttribut"
+    },
+    {
+      "chunk_id": 9,
+      "text": "w attribute value. java.lang.String filterAttributeValue ( NamedObj container, java.lang.String element, java.lang.String attributeName, java.lang.String attributeValue,"
+    },
+    {
+      "chunk_id": 10,
+      "text": "a.lang.String attributeValue, java.lang.String xmlFile, MoMLParser parser) Given a container, attribute name and attribute value, return a new attribute value. void filterEndElement ( NamedObj container, java.lan"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ent ( NamedObj container, java.lang.String elementName, java.lang.StringBuffer currentCharData, java.lang.String xmlFile) Make modifications to the specified container, which is defined in a MoML elem"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ified container, which is defined in a MoML element with the specified name. void filterEndElement ( NamedObj container, java.lang.String elementName, java.lang.StringBuffer currentCharData, java.lang"
+    },
+    {
+      "chunk_id": 13,
+      "text": "gBuffer currentCharData, java.lang.String xmlFile, MoMLParser parser) Make modifications to the specified container, which is defined in a MoML element with the specified name. java.lang.String toString () Return a string that descr"
+    },
+    {
+      "chunk_id": 14,
+      "text": "lang.String toString () Return a string that describes what the filter does. Method Detail filterAttributeValue java.lang.String filterAttributeValue( NamedObj container, java.lang.String element,"
+    },
+    {
+      "chunk_id": 15,
+      "text": "java.lang.String element, java.lang.String attributeName, java.lang.String attributeValue, java.lang.String xmlFile) Given a co"
+    },
+    {
+      "chunk_id": 16,
+      "text": "java.lang.String xmlFile) Given a container, attribute name and attribute value, return a new attribute value. Note that \"attribute\" means XML attribute, not Ptolemy II attribute. Also, the container is the context of the current"
+    },
+    {
+      "chunk_id": 17,
+      "text": "lso, the container is the context of the current of XML element. So, for example, if you have: <entity name=\"foo\" class=\"...\"> <property name=\"x\" value=\"10\"/> </entity> then this method will be called twice with the container being"
+    },
+    {
+      "chunk_id": 18,
+      "text": "d will be called twice with the container being the instance \"foo\". On the first call, the attributeName will be \"name\" and the attributeValue will be \"x\". On the second call, attributeName will be \"value\" and the attributeValue will be \"10\". To"
+    },
+    {
+      "chunk_id": 19,
+      "text": "\"value\" and the attributeValue will be \"10\". To make no change to the attribute value, an implementer should simply return the same attributeValue. To cause the MoMLParser to ignore the current element altogether, an implementer should retur"
+    },
+    {
+      "chunk_id": 20,
+      "text": "element altogether, an implementer should return null. For example, to skip a graphical class, create a filter that looks for attributeName equal to \"class\" and attributeValue equal to the class name to skip. Note that if the attributeValue"
+    },
+    {
+      "chunk_id": 21,
+      "text": "s name to skip. Note that if the attributeValue argument is null, then returning null is interpreted as no change, rather than as an indication to skip the element. To change the value of the attribute, simply return a a new value for the a"
+    },
+    {
+      "chunk_id": 22,
+      "text": "attribute, simply return a a new value for the attribute. If modifies the attribute value, then it should call the static method MoMLParser.setModified(true), which indicates that the model was modified so that the user can optionally save th"
+    },
+    {
+      "chunk_id": 23,
+      "text": "modified so that the user can optionally save the modified model. Parameters: container - The container for XML element. element - The XML element name. attributeName - The name of the attribute. attributeValue - The value of the attribute. xmlFile"
+    },
+    {
+      "chunk_id": 24,
+      "text": "tributeValue - The value of the attribute. xmlFile - The file currently being parsed. Returns: A new value for the attribute, or the same value to leave it unchanged, or null to cause the current element to be ignored (unless the attributeValue"
+    },
+    {
+      "chunk_id": 25,
+      "text": "lement to be ignored (unless the attributeValue argument is null). filterAttributeValue java.lang.String filterAttributeValue( NamedObj container, java.lang.String element,"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ring element, java.lang.String attributeName, java.lang.String attributeValue, java.lang.String xmlFile, MoMLParser parser) Given a cont"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ng.String xmlFile, MoMLParser parser) Given a container, attribute name and attribute value, return a new attribute value. Note that \"attribute\" means XML attribute, not Ptolemy II attribute. Also, the container is the context of the current o"
+    },
+    {
+      "chunk_id": 28,
+      "text": "o, the container is the context of the current of XML element. So, for example, if you have: <entity name=\"foo\" class=\"...\"> <property name=\"x\" value=\"10\"/> </entity> then this method will be called twice with the container being th"
+    },
+    {
+      "chunk_id": 29,
+      "text": "will be called twice with the container being the instance \"foo\". On the first call, the attributeName will be \"name\" and the attributeValue will be \"x\". On the second call, attributeName will be \"value\" and the attributeValue will be \"10\". To m"
+    },
+    {
+      "chunk_id": 30,
+      "text": "value\" and the attributeValue will be \"10\". To make no change to the attribute value, an implementer should simply return the same attributeValue. To cause the MoMLParser to ignore the current element altogether, an implementer should return"
+    },
+    {
+      "chunk_id": 31,
+      "text": "lement altogether, an implementer should return null. For example, to skip a graphical class, create a filter that looks for attributeName equal to \"class\" and attributeValue equal to the class name to skip. Note that if the attributeValue ar"
+    },
+    {
+      "chunk_id": 32,
+      "text": "name to skip. Note that if the attributeValue argument is null, then returning null is interpreted as no change, rather than as an indication to skip the element. To change the value of the attribute, simply return a a new value for the att"
+    },
+    {
+      "chunk_id": 33,
+      "text": "tribute, simply return a a new value for the attribute. If modifies the attribute value, then it should call the static method MoMLParser.setModified(true), which indicates that the model was modified so that the user can optionally save the"
+    },
+    {
+      "chunk_id": 34,
+      "text": "dified so that the user can optionally save the modified model. This method takes a MoMLParser argument, which is optionally used to parse MoML. We have to parse the MoML as opposed to calling the Java classes directly so that ptolemy.moml.fil"
+    },
+    {
+      "chunk_id": 35,
+      "text": "the Java classes directly so that ptolemy.moml.filter does not depend on other packages, such as ptolemy.vergil. Derived classes usually call parser.setContext(container) so that the MoML is parsed in the correct context. Note that it is prob"
+    },
+    {
+      "chunk_id": 36,
+      "text": "rsed in the correct context. Note that it is probably not correct to call this method and pass in the current MoMLParser because setContext() calls reset(). Instead, the caller (MoMLParser), creates a MoMLParser instance that is shared amongs"
+    },
+    {
+      "chunk_id": 37,
+      "text": "reates a MoMLParser instance that is shared amongst all the calls to the MoMLFilter methods that take a MoMLParser argument. Parameters: container - The container for XML element. element - The XML element name. attributeName - The name of the attr"
+    },
+    {
+      "chunk_id": 38,
+      "text": "element name. attributeName - The name of the attribute. attributeValue - The value of the attribute. xmlFile - The file currently being parsed. parser - The MoMLParser that is sometimes used by derived classes. MoMLParser shares a separate MoMLPa"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ed classes. MoMLParser shares a separate MoMLParser between the filters. Each filter should call setContext(container) on the passed-in filter. Since setContext() calls reset(), we don't want to pass in the main MoMLParser. We share one"
+    },
+    {
+      "chunk_id": 40,
+      "text": "nt to pass in the main MoMLParser. We share one MoMLParser so as to avoid the expense of constructing one each time we read an attribute. Returns: A new value for the attribute, or the same value to leave it unchanged, or null to cause the cu"
+    },
+    {
+      "chunk_id": 41,
+      "text": "to leave it unchanged, or null to cause the current element to be ignored (unless the attributeValue argument is null). filterEndElement void filterEndElement( NamedObj container, java.lang.String elementName,"
+    },
+    {
+      "chunk_id": 42,
+      "text": "java.lang.String elementName, java.lang.StringBuffer currentCharData, java.lang.String xmlFile) throws java.lang.Exception Make modifications to the specified container, which is d"
+    },
+    {
+      "chunk_id": 43,
+      "text": "fications to the specified container, which is defined in a MoML element with the specified name. This method is called when an end element in MoML is encountered. A typical use of this method is to make some modification to the object (the c"
+    },
+    {
+      "chunk_id": 44,
+      "text": "s to make some modification to the object (the container) that was constructed. If an implementor makes changes to the specified container, then it should call MoMLParser.setModified(true) which indicates that the model was modified so that t"
+    },
+    {
+      "chunk_id": 45,
+      "text": "indicates that the model was modified so that the user can optionally save the modified model. Parameters: container - The object defined by the element that this is the end of. elementName - The element name. currentCharData - The character"
+    },
+    {
+      "chunk_id": 46,
+      "text": "The element name. currentCharData - The character data, which appears only in the doc and configure elements xmlFile - The file currently being parsed. Throws: java.lang.Exception - If there is a problem modifying the specified container. filter"
+    },
+    {
+      "chunk_id": 47,
+      "text": "roblem modifying the specified container. filterEndElement void filterEndElement( NamedObj container, java.lang.String elementName, java.lang.StringBuffer currentCharData, java.lang."
+    },
+    {
+      "chunk_id": 48,
+      "text": "currentCharData, java.lang.String xmlFile, MoMLParser parser) throws java.lang.Exception Make modifications to the specified container, which is defined in a MoML element with the specified name. This method"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ML element with the specified name. This method is called when an end element in MoML is encountered. A typical use of this method is to make some modification to the object (the container) that was constructed. If an implementor makes change"
+    },
+    {
+      "chunk_id": 50,
+      "text": "was constructed. If an implementor makes changes to the specified container, then it should call MoMLParser.setModified(true) which indicates that the model was modified so that the user can optionally save the modified model. This method ta"
+    },
+    {
+      "chunk_id": 51,
+      "text": "tionally save the modified model. This method takes a MoMLParser argument, which is optionally used to parse MoML. We have to parse the MoML as opposed to calling the Java classes directly so that ptolemy.moml.filter does not depend on other"
+    },
+    {
+      "chunk_id": 52,
+      "text": "hat ptolemy.moml.filter does not depend on other packages, such as ptolemy.vergil. Derived classes usually call parser.setContext(container) so that the MoML is parsed in the correct context. Note that it is probably not correct to call thi"
+    },
+    {
+      "chunk_id": 53,
+      "text": "Note that it is probably not correct to call this method and pass in the current MoMLParser because setContext() calls reset(). Instead, the caller (MoMLParser), creates a MoMLParser instance that is shared amongst all the calls to the MoMLF"
+    },
+    {
+      "chunk_id": 54,
+      "text": "hat is shared amongst all the calls to the MoMLFilter methods that take a MoMLParser argument. Parameters: container - The object defined by the element that this is the end of. elementName - The element name. currentCharData - The character dat"
+    },
+    {
+      "chunk_id": 55,
+      "text": "element name. currentCharData - The character data, which appears only in the doc and configure elements xmlFile - The file currently being parsed. parser - The parser in which MoML is optionally evaluated. Throws: java.lang.Exception - If there"
+    },
+    {
+      "chunk_id": 56,
+      "text": "evaluated. Throws: java.lang.Exception - If there is a problem modifying the specified container. toString java.lang.String toString() Return a string that describes what the filter does. Overrides: toString in class java.lang.Object Returns: A des"
+    },
+    {
+      "chunk_id": 57,
+      "text": "toString in class java.lang.Object Returns: A description of the filter (ending with a newline). Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Con"
+    },
+    {
+      "chunk_id": 58,
+      "text": "o Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

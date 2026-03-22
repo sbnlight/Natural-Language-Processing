@@ -1,0 +1,433 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/data/Token.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Token Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.data Class Token java.lang.Object ptolemy.data.Token All Impl"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Token java.lang.Object ptolemy.data.Token All Implemented Interfaces: java.io.Serializable Direct Known Subclasses: AbsentToken , AbstractConvertibleToken , AbstractNotConvertibleToken , ActorToken , EventToken , FunctionToken , GeneralToken , ImageT"
+    },
+    {
+      "chunk_id": 3,
+      "text": "EventToken , FunctionToken , GeneralToken , ImageToken , KeyToken , MatrixToken , NullToken , ObjectToken , ScalarToken , Scene2DToken , SceneGraphToken , UnknownToken , XMLToken public class Token extends java.lang.Object implements java.io.Serializ"
+    },
+    {
+      "chunk_id": 4,
+      "text": "tends java.lang.Object implements java.io.Serializable Token is the base class for data capsules. Tokens are immutable, meaning that their value cannot change after construction. They have a set of polymorphic methods providing a set of basic ari"
+    },
+    {
+      "chunk_id": 5,
+      "text": "f polymorphic methods providing a set of basic arithmetic and logical operations. Generally, derived classes should override the methods to implement type specific operations that make sense for a given type. For operations that are non-sensical"
+    },
+    {
+      "chunk_id": 6,
+      "text": "given type. For operations that are non-sensical for a given type, such as division of matrices, the implementation of this base class can be used, which simply throws an exception. Generally, it is painful to implement both the operation and op"
+    },
+    {
+      "chunk_id": 7,
+      "text": "is painful to implement both the operation and operationReverse methods of this class. It is also painful to implement tokens that are automatically converted to other tokens in a consistent fashion. As such, there are several subclasses of this"
+    },
+    {
+      "chunk_id": 8,
+      "text": "on. As such, there are several subclasses of this class that implement these methods and provide a somewhat nicer abstraction. The ScalarToken derived class is useful for many types that are losslessly convertible to other types and may be assoc"
+    },
+    {
+      "chunk_id": 9,
+      "text": "lessly convertible to other types and may be associated with units, such as IntToken. The MatrixToken derived class is useful for implementing matrices of ScalarTokens, such as IntMatrixToken. The AbstractNotConvertible derived class is useful fo"
+    },
+    {
+      "chunk_id": 10,
+      "text": "AbstractNotConvertible derived class is useful for implementing tokens that are not losslessly convertible to a token in implemented in another class, such as ArrayToken. Lastly, AbstractConvertibleToken is useful for implementing tokens that ar"
+    },
+    {
+      "chunk_id": 11,
+      "text": "bleToken is useful for implementing tokens that are losslessly convertible to a token in another class, but don't have units, such as BooleanToken. Instances of this base class *should not* be used to represent pure events, i.e., to indicate that"
+    },
+    {
+      "chunk_id": 12,
+      "text": "to represent pure events, i.e., to indicate that an event is present. To represent pure events, it is better to use the EventToken class. The reasoning is that the type BaseType.GENERAL is reserved to represent types which the type system cannot"
+    },
+    {
+      "chunk_id": 13,
+      "text": "d to represent types which the type system cannot represent exactly. Using the EventToken class, and the type BaseType.EVENT allows typesafe use of pure events. Nil, null or missing tokens are common in analytical systems like R and SAS where the"
+    },
+    {
+      "chunk_id": 14,
+      "text": "on in analytical systems like R and SAS where they are used to handle sparsely populated data sources. This class has support for such tokens, see NIL for details. Since: Ptolemy II 0.2 Version: $Id: Token.java,v 1.140 2006/08/01 17:05:43 cxh Exp $"
+    },
+    {
+      "chunk_id": 15,
+      "text": ": Token.java,v 1.140 2006/08/01 17:05:43 cxh Exp $ Author: Neil Smyth, Yuhong Xiong, Edward A. Lee, Christopher Brooks, Steve Neuendorffer See Also: ScalarToken , AbstractConvertibleToken , AbstractNotConvertibleToken , MatrixToken , Serialized Form"
+    },
+    {
+      "chunk_id": 16,
+      "text": "otConvertibleToken , MatrixToken , Serialized Form Accepted Rating: Red (cxh) nil token code Proposed Rating: Yellow (cxh) Field Summary static Token NIL A token that represents a missing value. Constructor Summary Token () Create a Token. Method Sum"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ructor Summary Token () Create a Token. Method Summary Token add ( Token rightArgument) Return a new token whose value is the sum of this token and the argument. Token addReverse ( Token leftArgument) Return a new token whose value is the sum of th"
+    },
+    {
+      "chunk_id": 18,
+      "text": "t) Return a new token whose value is the sum of this token and the argument. Token divide ( Token rightArgument) Return a new token whose value is the value of this token divided by the value of the argument token. Token divideReverse ( Token lef"
+    },
+    {
+      "chunk_id": 19,
+      "text": "he argument token. Token divideReverse ( Token leftArgument) Return a new token whose value is the value of the argument token divided by the value of this token. Type getType () Return the type of this token. BooleanToken isCloseTo ( Token token)"
+    },
+    {
+      "chunk_id": 20,
+      "text": "this token. BooleanToken isCloseTo ( Token token) Test that the value of this Token is close to the argument Token. BooleanToken isCloseTo ( Token token, double epsilon) Test that the value of this Token is close to the first argument,"
+    },
+    {
+      "chunk_id": 21,
+      "text": "e of this Token is close to the first argument, where \"close\" means that the distance between them is less than or equal to the second argument. BooleanToken isEqualTo ( Token rightArgument) Test for equality of the values of this Token and the a"
+    },
+    {
+      "chunk_id": 22,
+      "text": "for equality of the values of this Token and the argument Token. boolean isNil () Return true if the token is nil, (aka null or missing). Token modulo ( Token rightArgument) Return a new token whose value is the value of this token modulo the val"
+    },
+    {
+      "chunk_id": 23,
+      "text": "value is the value of this token modulo the value of the argument token. Token moduloReverse ( Token leftArgument) Return a new token whose value is the value of the argument token modulo the value of this token. Token multiply ( Token rightArgu"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ue of this token. Token multiply ( Token rightArgument) Return a new token whose value is the value of this token multiplied by the value of the argument token. Token multiplyReverse ( Token leftArgument) Return a new token whose value is the value"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ument) Return a new token whose value is the value of the argument token multiplied by the value of this token. static java.lang.String notSupportedConversionMessage ( Token token, java.lang.String typeString) Return a"
+    },
+    {
+      "chunk_id": 26,
+      "text": "java.lang.String typeString) Return a string with an error message that states that the given token cannot be converted to the given token type. static java.lang.String notSupportedIncomparableConversionMessage ( Token token,"
+    },
+    {
+      "chunk_id": 27,
+      "text": "mparableConversionMessage ( Token token, java.lang.String typeString) Return a string with an error message that states that the given token cannot be converted to the given token type. static java.lang.Str"
+    },
+    {
+      "chunk_id": 28,
+      "text": "rted to the given token type. static java.lang.String notSupportedIncomparableMessage (java.lang.String operation, Token firstToken, Token secondToken) Return a string with an error message that states that the given operation is not supported betw"
+    },
+    {
+      "chunk_id": 29,
+      "text": "s that the given operation is not supported between two tokens, because they have incomparable types and cannot be converted to the same type. static java.lang.String notSupportedMessage (java.lang.String operation, Token firstToken, Token seco"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ang.String operation, Token firstToken, Token secondToken) Return a string with an error message that states that the given operation is not supported between two tokens. static java.lang.String notSupportedNullNilStringMessage (java.lang.String ty"
+    },
+    {
+      "chunk_id": 31,
+      "text": "SupportedNullNilStringMessage (java.lang.String type, java.lang.String init) Return a string with an error message that states that the token cannot be created with a string that is null or the value of the init"
+    },
+    {
+      "chunk_id": 32,
+      "text": "a string that is null or the value of the init parameter. Token one () Returns a new Token representing the multiplicative identity. Token pow (int times) Return a new token computed as follows: For positive times arguments, the result represents"
+    },
+    {
+      "chunk_id": 33,
+      "text": "r positive times arguments, the result represents the product of this token multiplied by itself the number of times given by the argument. Token subtract ( Token rightArgument) Return a new token whose value is the value of the argument token"
+    },
+    {
+      "chunk_id": 34,
+      "text": "whose value is the value of the argument token subtracted from the value of this token. Token subtractReverse ( Token leftArgument) Return a new token whose value is the value of this token subtracted from the value of the argument token. java.l"
+    },
+    {
+      "chunk_id": 35,
+      "text": "acted from the value of the argument token. java.lang.String toString () Return the value of this token as a string that can be parsed by the expression language to recover a token with the same value. Token zero () Returns a new token representing"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ue. Token zero () Returns a new token representing the additive identity. static Type zeroReturnType ( Type type) Return the (exact) return type of the zero function above. Methods inherited from class java.lang.Object clone, equals, finalize, getCla"
+    },
+    {
+      "chunk_id": 37,
+      "text": "s java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail NIL public static final Token NIL A token that represents a missing value. Null or missing tokens are common in analytical systems li"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ssing tokens are common in analytical systems like R and SAS where they are used to handle sparsely populated data sources. In database parlance, missing tokens are sometimes called null tokens. Since null is a Java keyword, we use the term \""
+    },
+    {
+      "chunk_id": 39,
+      "text": ". Since null is a Java keyword, we use the term \"nil\". The toString() method on a nil token returns the string \"nil\". Constructor Detail Token public Token () Create a Token. Method Detail add public Token add ( Token rightArgument) thro"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ic Token add ( Token rightArgument) throws IllegalActionException Return a new token whose value is the sum of this token and the argument. Parameters: rightArgument - The token to add to this token. Returns: A new token containing the re"
+    },
+    {
+      "chunk_id": 41,
+      "text": "this token. Returns: A new token containing the result. If either this token or the argument token is a nil token, then NIL is returned. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the ope"
+    },
+    {
+      "chunk_id": 42,
+      "text": "this token are of incomparable types, or the operation does not make sense for the given types. addReverse public Token addReverse ( Token leftArgument) throws IllegalActionException Return a new token whose value is the sum of t"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ion Return a new token whose value is the sum of this token and the argument. Parameters: leftArgument - The token to add this token to. Returns: A new token containing the result. If either this token or the argument token is a nil token, then N"
+    },
+    {
+      "chunk_id": 44,
+      "text": "token or the argument token is a nil token, then NIL is returned. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operation does not make sense for the given types. divide public Token divid"
+    },
+    {
+      "chunk_id": 45,
+      "text": "nse for the given types. divide public Token divide ( Token rightArgument) throws IllegalActionException Return a new token whose value is the value of this token divided by the value of the argument token. Parameters: rightArgument -"
+    },
+    {
+      "chunk_id": 46,
+      "text": "f the argument token. Parameters: rightArgument - The token to divide into this token. Returns: A new token containing the result. If either this token or the argument token is a nil token, then NIL is returned. Throws: IllegalActionException - If"
+    },
+    {
+      "chunk_id": 47,
+      "text": "is returned. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operation does not make sense for the given types. divideReverse public Token divideReverse ( Token leftArgument)"
+    },
+    {
+      "chunk_id": 48,
+      "text": "divideReverse ( Token leftArgument) throws IllegalActionException Return a new token whose value is the value of the argument token divided by the value of this token. Parameters: leftArgument - The token to be divided by the va"
+    },
+    {
+      "chunk_id": 49,
+      "text": ": leftArgument - The token to be divided by the value of this token. Returns: A new token containing the result. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operation does not make sen"
+    },
+    {
+      "chunk_id": 50,
+      "text": "arable types, or the operation does not make sense for the given types. getType public Type getType () Return the type of this token. Returns: BaseType.GENERAL isCloseTo public final BooleanToken isCloseTo ( Token token)"
+    },
+    {
+      "chunk_id": 51,
+      "text": "CloseTo ( Token token) throws IllegalActionException Test that the value of this Token is close to the argument Token. In this base class, we call isEqualTo(). This method should be overridden in derived classes suc"
+    },
+    {
+      "chunk_id": 52,
+      "text": "thod should be overridden in derived classes such as DoubleToken and ComplexToken to provide type specific actions for equality testing using an epsilon factor. Parameters: token - The token to test closeness of this token with. Returns: a bool"
+    },
+    {
+      "chunk_id": 53,
+      "text": "test closeness of this token with. Returns: a boolean token that contains the value true if the value and units of this token are close to those of the argument token. If either this token or the argument token is a nil token, then a boolean"
+    },
+    {
+      "chunk_id": 54,
+      "text": "e argument token is a nil token, then a boolean token that contains the value false is returned. Throws: IllegalActionException - If the argument token is not of a type that can be compared with this token. See Also: isEqualTo(ptolemy.data.Token)"
+    },
+    {
+      "chunk_id": 55,
+      "text": "his token. See Also: isEqualTo(ptolemy.data.Token) isCloseTo public BooleanToken isCloseTo ( Token token, double epsilon) throws IllegalActionException Test that the value of this Token is close to"
+    },
+    {
+      "chunk_id": 56,
+      "text": "tion Test that the value of this Token is close to the first argument, where \"close\" means that the distance between them is less than or equal to the second argument. This method only makes sense for tokens where the distance between them is"
+    },
+    {
+      "chunk_id": 57,
+      "text": "e for tokens where the distance between them is reasonably represented as a double. Parameters: token - The token to test closeness of this token with. epsilon - The value that we use to determine whether two tokens are close. Returns: A boole"
+    },
+    {
+      "chunk_id": 58,
+      "text": "whether two tokens are close. Returns: A boolean token that contains the value true if the value of this token are close to those of the argument token. If either this token or the argument token is a nil token, then a boolean token tha"
+    },
+    {
+      "chunk_id": 59,
+      "text": "t token is a nil token, then a boolean token that contains the value false is returned. Throws: IllegalActionException - If the argument token is not of a type that can be compared with this token. isEqualTo public BooleanToken isEqualTo ( Token"
+    },
+    {
+      "chunk_id": 60,
+      "text": "n. isEqualTo public BooleanToken isEqualTo ( Token rightArgument) throws IllegalActionException Test for equality of the values of this Token and the argument Token. Parameters: rightArgument - The token with which to test eq"
+    },
+    {
+      "chunk_id": 61,
+      "text": "s: rightArgument - The token with which to test equality. Returns: A BooleanToken which contains the result of the test. If either this token or the argument token is a nil token, then a boolean token that contains the value false is returned. Th"
+    },
+    {
+      "chunk_id": 62,
+      "text": "oken that contains the value false is returned. Throws: IllegalActionException - If the argument token is not of a type that can be compared with this token. isNil public boolean isNil () Return true if the token is nil, (aka null or missing). Ni"
+    },
+    {
+      "chunk_id": 63,
+      "text": "e if the token is nil, (aka null or missing). Nil or missing tokens occur when a data source is sparsely populated. Returns: True if the token is equals() to NIL . modulo public Token modulo ( Token rightArgument) throws IllegalActionE"
+    },
+    {
+      "chunk_id": 64,
+      "text": "rightArgument) throws IllegalActionException Return a new token whose value is the value of this token modulo the value of the argument token. Parameters: rightArgument - The token to divide into this token. Returns: A new token conta"
+    },
+    {
+      "chunk_id": 65,
+      "text": "divide into this token. Returns: A new token containing the result. If either this token or the argument token is a nil token, then NIL is returned. Throws: IllegalActionException - If the argument token and this token are of incomparable types,"
+    },
+    {
+      "chunk_id": 66,
+      "text": "token and this token are of incomparable types, or the operation does not make sense for the given types. moduloReverse public Token moduloReverse ( Token leftArgument) throws IllegalActionException Return a new token whose va"
+    },
+    {
+      "chunk_id": 67,
+      "text": "IllegalActionException Return a new token whose value is the value of the argument token modulo the value of this token. Parameters: leftArgument - The token to apply modulo to by the value of this token. If either this token or the argument to"
+    },
+    {
+      "chunk_id": 68,
+      "text": "s token. If either this token or the argument token is a nil token, then NIL is returned. Returns: A new token containing the result. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operatio"
+    },
+    {
+      "chunk_id": 69,
+      "text": "s token are of incomparable types, or the operation does not make sense for the given types. multiply public Token multiply ( Token rightArgument) throws IllegalActionException Return a new token whose value is the value of this toke"
+    },
+    {
+      "chunk_id": 70,
+      "text": "a new token whose value is the value of this token multiplied by the value of the argument token. Parameters: rightArgument - The token to multiply this token by. Returns: A new token containing the result. If either this token or the argument t"
+    },
+    {
+      "chunk_id": 71,
+      "text": "e result. If either this token or the argument token is a nil token, then NIL is returned. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operation does not make sense for the given types"
+    },
+    {
+      "chunk_id": 72,
+      "text": "peration does not make sense for the given types. multiplyReverse public Token multiplyReverse ( Token leftArgument) throws IllegalActionException Return a new token whose value is the value of the argument token multiplied"
+    },
+    {
+      "chunk_id": 73,
+      "text": "e is the value of the argument token multiplied by the value of this token. Parameters: leftArgument - The token to be multiplied by the value of this token. Returns: A new token containing the result. Throws: IllegalActionException - If the argu"
+    },
+    {
+      "chunk_id": 74,
+      "text": "sult. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operation does not make sense for the given types. notSupportedConversionMessage public static java.lang.String notSupportedConversionMe"
+    },
+    {
+      "chunk_id": 75,
+      "text": "c static java.lang.String notSupportedConversionMessage ( Token token, java.lang.String typeString) Return a string with an error message that states that the given token cannot be conver"
+    },
+    {
+      "chunk_id": 76,
+      "text": "hat states that the given token cannot be converted to the given token type. Parameters: token - The token being converted. typeString - A string representing the type that is being converted to. Returns: A string error message. notSupportedIncom"
+    },
+    {
+      "chunk_id": 77,
+      "text": "Returns: A string error message. notSupportedIncomparableConversionMessage public static java.lang.String notSupportedIncomparableConversionMessage ( Token token, java.lang.Stri"
+    },
+    {
+      "chunk_id": 78,
+      "text": "java.lang.String typeString) Return a string with an error message that states that the given token cannot be converted to the given token type. Parameters: token - The token being converted. typeString - A strin"
+    },
+    {
+      "chunk_id": 79,
+      "text": "- The token being converted. typeString - A string representing the type that is being converted to. Returns: A string error message. notSupportedIncomparableMessage public static java.lang.String notSupportedIncomparableMessage (java.lang.String"
+    },
+    {
+      "chunk_id": 80,
+      "text": "notSupportedIncomparableMessage (java.lang.String operation, Token firstToken, Token secondToken) Return a string with an error message that states that the given operation is not supported between two tokens, because they have incomparable types"
+    },
+    {
+      "chunk_id": 81,
+      "text": "two tokens, because they have incomparable types and cannot be converted to the same type. Parameters: operation - A string naming the unsupported token operation. firstToken - The first token in the message. secondToken - The second token in t"
+    },
+    {
+      "chunk_id": 82,
+      "text": "n the message. secondToken - The second token in the message. Returns: A string error message. notSupportedMessage public static java.lang.String notSupportedMessage (java.lang.String operation, Token firstToken, Token secondToken) Return a string wi"
+    },
+    {
+      "chunk_id": 83,
+      "text": "firstToken, Token secondToken) Return a string with an error message that states that the given operation is not supported between two tokens. Parameters: operation - A string naming the unsupported token operation. firstToken - The first token"
+    },
+    {
+      "chunk_id": 84,
+      "text": "d token operation. firstToken - The first token in the message. secondToken - The second token in the message. Returns: A string error message. one public Token one () throws IllegalActionException Returns a new Token representing the mul"
+    },
+    {
+      "chunk_id": 85,
+      "text": "Exception Returns a new Token representing the multiplicative identity. It should be overridden in subclasses. Returns: A new Token containing the multiplicative identity. If this token is a nil token, then NIL is returned. Throws: IllegalActionE"
+    },
+    {
+      "chunk_id": 86,
+      "text": "oken, then NIL is returned. Throws: IllegalActionException - If this method is not supported by the derived class. pow public Token pow (int times) throws IllegalActionException Return a new token computed as follows: For positive times"
+    },
+    {
+      "chunk_id": 87,
+      "text": "new token computed as follows: For positive times arguments, the result represents the product of this token multiplied by itself the number of times given by the argument. For negative times arguments, the result represents the multiplicative"
+    },
+    {
+      "chunk_id": 88,
+      "text": "ments, the result represents the multiplicative inverse of the product of this token multiplied by itself the number of times given by the absolute value of the argument. More succinctly: one().divide(pow(-times)) If the argument is zero, then"
+    },
+    {
+      "chunk_id": 89,
+      "text": "divide(pow(-times)) If the argument is zero, then the result is defined to be the result of applying the one() method to this token. The token type returned by this method is the same as the type of this token. Note that the method is different"
+    },
+    {
+      "chunk_id": 90,
+      "text": "of this token. Note that the method is different from java.lang.Math.pow(), since it returns an integer given an integer token type, and is also well defined for matrix types. Parameters: times - The number of times to multiply. Returns: The p"
+    },
+    {
+      "chunk_id": 91,
+      "text": "- The number of times to multiply. Returns: The power. If this token is a nil token, then NIL is returned. Throws: IllegalActionException - If the token is not compatible for this operation. Specifically, if the Token type does not support di"
+    },
+    {
+      "chunk_id": 92,
+      "text": "cifically, if the Token type does not support division (for example matrices) then using a negative times argument may throw an exception. subtract public Token subtract ( Token rightArgument) throws IllegalActionException Return a"
+    },
+    {
+      "chunk_id": 93,
+      "text": "throws IllegalActionException Return a new token whose value is the value of the argument token subtracted from the value of this token. Parameters: rightArgument - The token to subtract from this token. Returns: A new token containing"
+    },
+    {
+      "chunk_id": 94,
+      "text": "from this token. Returns: A new token containing the result. If either this token or the argument token is a nil token, then NIL is returned. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the"
+    },
+    {
+      "chunk_id": 95,
+      "text": "and this token are of incomparable types, or the operation does not make sense for the given types. subtractReverse public Token subtractReverse ( Token leftArgument) throws IllegalActionException Return a new token whose va"
+    },
+    {
+      "chunk_id": 96,
+      "text": "IllegalActionException Return a new token whose value is the value of this token subtracted from the value of the argument token. Parameters: leftArgument - The token to subtract this token from. Returns: A new token containing the result. If eit"
+    },
+    {
+      "chunk_id": 97,
+      "text": "turns: A new token containing the result. If either this token or the argument token is a nil token, then NIL is returned. Throws: IllegalActionException - If the argument token and this token are of incomparable types, or the operation does no"
+    },
+    {
+      "chunk_id": 98,
+      "text": "of incomparable types, or the operation does not make sense for the given types. toString public java.lang.String toString () Return the value of this token as a string that can be parsed by the expression language to recover a token with the sa"
+    },
+    {
+      "chunk_id": 99,
+      "text": "expression language to recover a token with the same value. This method should be overridden by derived classes. In this base class, return the String \"present\" to indicate that an event is present. If this token is NIL then return \"nil\" Retu"
+    },
+    {
+      "chunk_id": 100,
+      "text": "ent. If this token is NIL then return \"nil\" Returns: The String \"present\", unless this token is NIL , in which case return the String \"nil\". zero public Token zero () throws IllegalActionException Returns a new token representing the a"
+    },
+    {
+      "chunk_id": 101,
+      "text": "onException Returns a new token representing the additive identity. It should be overridden in subclasses. Returns: A new Token containing the additive identity. If this token is a nil token, then NIL is returned. Throws: IllegalActionException -"
+    },
+    {
+      "chunk_id": 102,
+      "text": "NIL is returned. Throws: IllegalActionException - If this method is not supported by the derived class. zeroReturnType public static Type zeroReturnType ( Type type) Return the (exact) return type of the zero function above. The argument type is"
+    },
+    {
+      "chunk_id": 103,
+      "text": "of the zero function above. The argument type is always returned Parameters: type - The type of the argument to the corresponding function. Returns: The type of the value returned from the corresponding function. notSupportedNullNilStringMessage pu"
+    },
+    {
+      "chunk_id": 104,
+      "text": "ding function. notSupportedNullNilStringMessage public static java.lang.String notSupportedNullNilStringMessage (java.lang.String type, java.lang.String init) Return a string with an err"
+    },
+    {
+      "chunk_id": 105,
+      "text": "java.lang.String init) Return a string with an error message that states that the token cannot be created with a string that is null or the value of the init parameter. Parameters: type - The type we are trying to create. init - The initializati"
+    },
+    {
+      "chunk_id": 106,
+      "text": "e we are trying to create. init - The initialization string. Returns: A string error message. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD"
+    },
+    {
+      "chunk_id": 107,
+      "text": "RY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

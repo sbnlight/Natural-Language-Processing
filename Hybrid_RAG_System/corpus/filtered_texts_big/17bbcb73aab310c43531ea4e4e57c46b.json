@@ -1,0 +1,177 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII5.0/ptII5.0.1/doc/codeDoc/ptolemy/domains/ct/kernel/solver/ExplicitRK45Solver.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "ExplicitRK45Solver Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.domains.ct.kernel.solver Class ExplicitRK45Solve"
+    },
+    {
+      "chunk_id": 2,
+      "text": "y.domains.ct.kernel.solver Class ExplicitRK45Solver java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.domains.ct.kernel.ODESolver ptolemy.domains.ct.kernel.solver.ExplicitRK45Solver All Implemented Interfaces: Changeable , java.lang.Cloneable, De"
+    },
+    {
+      "chunk_id": 3,
+      "text": "d Interfaces: Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , java.io.Serializable public class ExplicitRK45Solver extends ODESolver This class implements a fourth-"
+    },
+    {
+      "chunk_id": 4,
+      "text": "extends ODESolver This class implements a fourth-order Runge-Kutta ODE solving method. The algorithm was introduced in \"A Variable Order Runge-Kutta Method for Initial Value Problems with Rapidly Varying Right-Hand Sides\" by J. R. Cash and"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ly Varying Right-Hand Sides\" by J. R. Cash and Alan H. Karp, ACM Transactions on Mathematical Software, vol 16, pp. 201-222, 1990. For completeness, a brief explanation of the algorithm is explained below. For an ODE of the form: dx(t)/dt ="
+    },
+    {
+      "chunk_id": 9,
+      "text": "250.0/621 - 18575.0/48384)*K2 + (125.0/594 - 13525.0/55296)*K3 + (0.0 - 277.0/14336)*K4 + (512.0/1771 - 0.25)*K5]*h. If the LTE is less than the error tolerance, then this step size h is considered successful, and the next integration step"
+    },
+    {
+      "chunk_id": 10,
+      "text": "sidered successful, and the next integration step size h' is predicted as: h' = h * Math.pow((ErrorTolerance/LTE), 1.0/5.0) This is a fourth order method, but uses a fifth order procedure to estimate the local truncation error. It takes 6 steps fo"
+    },
+    {
+      "chunk_id": 11,
+      "text": "the local truncation error. It takes 6 steps for this solver to resolve a state with an integration step size. A round counter is used to record which step this solver performs. Since: Ptolemy II 4.1 Version: $Id: ExplicitRK45Solver.java,v 1.7."
+    },
+    {
+      "chunk_id": 12,
+      "text": "I 4.1 Version: $Id: ExplicitRK45Solver.java,v 1.7.2.1 2005/05/04 02:58:08 cxh Exp $ Author: Haiyang Zheng See Also: Serialized Form Accepted Rating: Green (hyzheng) Proposed Rating: Green (hyzheng) Nested Class Summary Nested classes inherited from c"
+    },
+    {
+      "chunk_id": 13,
+      "text": "sted Class Summary Nested classes inherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debuggi"
+    },
+    {
+      "chunk_id": 14,
+      "text": "steners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary ExplicitRK45Solver () Construct"
+    },
+    {
+      "chunk_id": 15,
+      "text": "onstructor Summary ExplicitRK45Solver () Construct a solver in the default workspace. ExplicitRK45Solver ( Workspace workspace) Construct a solver in the given workspace. Method Summary void fireDynamicActors () Fire dynamic actors. void fireStateTra"
+    },
+    {
+      "chunk_id": 16,
+      "text": "icActors () Fire dynamic actors. void fireStateTransitionActors () Fire state transition actors. int getAmountOfHistoryInformation () Return 0 to indicate that no history information is needed by this solver. int getIntegratorAuxVariableCount () Re"
+    },
+    {
+      "chunk_id": 17,
+      "text": "is solver. int getIntegratorAuxVariableCount () Return 7 to indicate that 7 auxiliary variables are needed by this solver. void integratorFire ( CTBaseIntegrator integrator) Fire the given integrator. boolean integratorIsAccurate ( CTBaseIntegrator"
+    },
+    {
+      "chunk_id": 18,
+      "text": "r. boolean integratorIsAccurate ( CTBaseIntegrator integrator) Return true if the integration is accurate for the given integrator. double integratorPredictedStepSize ( CTBaseIntegrator integrator) Predict the next step size for the integrators exe"
+    },
+    {
+      "chunk_id": 19,
+      "text": "Predict the next step size for the integrators executed under this solver. Methods inherited from class ptolemy.domains.ct.kernel. ODESolver _getRoundCount , _getSchedule , _incrementRoundCount , _isConverged , _makeSolverOf , _prefireIfNecessary ,"
+    },
+    {
+      "chunk_id": 20,
+      "text": "sConverged , _makeSolverOf , _prefireIfNecessary , _resetRoundCount , _setConverged , _voteForConverged , getContainer , resolveStates Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _attachText , _cloneFixAttributeFields ,"
+    },
+    {
+      "chunk_id": 21,
+      "text": "tribute , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _description , _exportMoMLContents , _getContainedObject , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateExistence , _propagateV"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ontentsDerived , _propagateExistence , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeChanged , attributeList , attributeList , attributeTypeChanged , clone , clone , containedO"
+    },
+    {
+      "chunk_id": 23,
+      "text": "attributeTypeChanged , clone , clone , containedObjectsIterator , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoML , getAttribute , getAttrib"
+    },
+    {
+      "chunk_id": 24,
+      "text": "exportMoML , exportMoML , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource , ha"
+    },
+    {
+      "chunk_id": 25,
+      "text": "Name , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , propagateValue , propagateValues"
+    },
+    {
+      "chunk_id": 26,
+      "text": "agateExistence , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setModelErrorHandler , setName , setNormalDebugging , setPersistent , setSo"
+    },
+    {
+      "chunk_id": 27,
+      "text": "tName , setNormalDebugging , setPersistent , setSource , setVerboseDebugging , sortContainedObjects , toplevel , toString , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode,"
+    },
+    {
+      "chunk_id": 28,
+      "text": ".lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Constructor Detail ExplicitRK45Solver public ExplicitRK45Solver () Construct a solver in the default workspace. The solver is added to the list of objects in t"
+    },
+    {
+      "chunk_id": 29,
+      "text": "The solver is added to the list of objects in the workspace. Increment the version number of the workspace. The name of the solver is set to \"CT_Runge_Kutta_4_5_Solver\". ExplicitRK45Solver public ExplicitRK45Solver ( Workspace workspace) Constru"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ExplicitRK45Solver ( Workspace workspace) Construct a solver in the given workspace. If the workspace argument is null, use the default workspace. The director is added to the list of objects in the workspace. Increment the version number of t"
+    },
+    {
+      "chunk_id": 31,
+      "text": "the workspace. Increment the version number of the workspace. The name of the solver is set to \"CT_Runge_Kutta_4_5_Solver\". Parameters: workspace - Object for synchronization and version tracking. Method Detail fireDynamicActors public void fireD"
+    },
+    {
+      "chunk_id": 32,
+      "text": "Method Detail fireDynamicActors public void fireDynamicActors () throws IllegalActionException Fire dynamic actors. Advance the model time. The amount of the increment is decided by the number of the round counter and the"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ided by the number of the round counter and the current step size. Overrides: fireDynamicActors in class ODESolver Throws: IllegalActionException - If thrown in the super class or the model time can not be set. fireStateTransitionActors public vo"
+    },
+    {
+      "chunk_id": 34,
+      "text": "an not be set. fireStateTransitionActors public void fireStateTransitionActors () throws IllegalActionException Fire state transition actors. Increment the round count. If the current round is the last (sixth) round,"
+    },
+    {
+      "chunk_id": 35,
+      "text": "If the current round is the last (sixth) round, set converged flag to true indicating the fixed-point states have been reached. Reset the round count if the current round is the last round. Overrides: fireStateTransitionActors in class ODESolve"
+    },
+    {
+      "chunk_id": 36,
+      "text": "rides: fireStateTransitionActors in class ODESolver Throws: IllegalActionException - If thrown in the super class. getAmountOfHistoryInformation public final int getAmountOfHistoryInformation () Return 0 to indicate that no history information is nee"
+    },
+    {
+      "chunk_id": 37,
+      "text": "n 0 to indicate that no history information is needed by this solver. Specified by: getAmountOfHistoryInformation in class ODESolver Returns: 0. getIntegratorAuxVariableCount public final int getIntegratorAuxVariableCount () Return 7 to indicate th"
+    },
+    {
+      "chunk_id": 38,
+      "text": "egratorAuxVariableCount () Return 7 to indicate that 7 auxiliary variables are needed by this solver. Specified by: getIntegratorAuxVariableCount in class ODESolver Returns: 7. integratorFire public void integratorFire ( CTBaseIntegrator integrator"
+    },
+    {
+      "chunk_id": 39,
+      "text": "void integratorFire ( CTBaseIntegrator integrator) throws IllegalActionException Fire the given integrator. This method performs the ODE solving algorithm described in the class comment. Specified by: integratorFire in class OD"
+    },
+    {
+      "chunk_id": 40,
+      "text": "comment. Specified by: integratorFire in class ODESolver Parameters: integrator - The integrator of that calls this method. Throws: IllegalActionException - If there is no director, or can not read input, or can not send output. integratorIsAccura"
+    },
+    {
+      "chunk_id": 41,
+      "text": "input, or can not send output. integratorIsAccurate public boolean integratorIsAccurate ( CTBaseIntegrator integrator) Return true if the integration is accurate for the given integrator. This estimates the local truncation error for that integr"
+    },
+    {
+      "chunk_id": 42,
+      "text": "mates the local truncation error for that integrator and compare it with the error tolerance. Specified by: integratorIsAccurate in class ODESolver Parameters: integrator - The integrator of that calls this method. Returns: True if the integration"
+    },
+    {
+      "chunk_id": 43,
+      "text": "lls this method. Returns: True if the integration is successful. integratorPredictedStepSize public double integratorPredictedStepSize ( CTBaseIntegrator integrator) Predict the next step size for the integrators executed under this solver. It uses"
+    },
+    {
+      "chunk_id": 44,
+      "text": "integrators executed under this solver. It uses the algorithm in the class comments to predict the next step size based on the current estimation of the local truncation error. Specified by: integratorPredictedStepSize in class ODESolver Param"
+    },
+    {
+      "chunk_id": 45,
+      "text": "tegratorPredictedStepSize in class ODESolver Parameters: integrator - The integrator that calls this method. Returns: The next step size suggested by the given integrator. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES"
+    },
+    {
+      "chunk_id": 46,
+      "text": "Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

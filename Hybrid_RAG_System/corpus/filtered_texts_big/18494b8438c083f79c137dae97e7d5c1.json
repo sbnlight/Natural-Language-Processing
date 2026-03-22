@@ -1,0 +1,89 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/Cameras",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / cameras Module Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / cameras Module This module provides an interface to"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ameras Module This module provides an interface to built-in and USB cameras on the host that runs the module. See also the auto-generated doc file for the current version of the Ptolemy II/Nashorn host implementation of this module. Functions The fol"
+    },
+    {
+      "chunk_id": 3,
+      "text": "t implementation of this module. Functions The following functions are implemented by this module: cameras (): Return an array of camera names for cameras currently available on the current host, or null if there are no cameras. This array includes a"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ull if there are no cameras. This array includes a special name \"default camera\", which represents the system default camera, if there is one. defaultCamera (): Return the name of the default camera on the current host, or null if there is none. Came"
+    },
+    {
+      "chunk_id": 5,
+      "text": "n the current host, or null if there is none. Camera ( name ): Constructor for a Camera object. The optional argument is the camera name, which is required to be one of the names returned by by the cameras () function above. If no name is given, then"
+    },
+    {
+      "chunk_id": 6,
+      "text": "meras () function above. If no name is given, then the default camera will be used. The returned object has the following member functions: close (): Close the camera, stopping any image acquisition. getViewSize (): Return the current view size for t"
+    },
+    {
+      "chunk_id": 7,
+      "text": "getViewSize (): Return the current view size for this camera, an object with a \"width\" and \"height\" field, as in {\"width\":176, \"height\":144}. on ( event , handler ): Invoke the specified handler when the specified event occurs. open (): Open the came"
+    },
+    {
+      "chunk_id": 8,
+      "text": "the specified event occurs. open (): Open the camera, initiating emission of the 'image' event each time the camera obtains a new image. once ( event , handler ): Invoke the specified handler once when the specified event occurs. setViewSize ( size )"
+    },
+    {
+      "chunk_id": 9,
+      "text": "n the specified event occurs. setViewSize ( size ): Set the current view size for this camera. The argument can either be a JSON string or an object with a width and height field, as in for example {\"width\":176, \"height\":144}. snapshot (): Return the"
+    },
+    {
+      "chunk_id": 10,
+      "text": "width\":176, \"height\":144}. snapshot (): Return the most recently acquired image from the camera. viewSizes (): Return an array of view sizes supported by this camera, each given as a JSON string of the form '{\"width\":176, \"height\":144}', for example."
+    },
+    {
+      "chunk_id": 11,
+      "text": "e form '{\"width\":176, \"height\":144}', for example. This implementation uses the event emitter pattern common in JavaScript. The events emitted by this object include: closed : Emitted whenever the camera is closed. image : Emitted whenever a new imag"
+    },
+    {
+      "chunk_id": 12,
+      "text": "era is closed. image : Emitted whenever a new image is captured by the camera. The handler will be passed the image as an argument. opened : Emitted whenever a the camera has been opened, so image events will start being sent. Usage To capture a sing"
+    },
+    {
+      "chunk_id": 13,
+      "text": "nts will start being sent. Usage To capture a single image from the default camera, you can do this: var cameras = require(\"cameras\"); var camera = new cameras.Camera(); camera.open(); var image = camera.snapshot(); camera.close(); The im"
+    },
+    {
+      "chunk_id": 14,
+      "text": "age = camera.snapshot(); camera.close(); The image will be a binary object. On a reasonable host implementation, this object can be sent to an output port displayed or otherwise further processed. To capture every image from the camera, you can d"
+    },
+    {
+      "chunk_id": 15,
+      "text": "To capture every image from the camera, you can do this: var cameras = require(\"cameras\"); var camera = new cameras.Camera(); camera.on('image', function(image) { ... handle the image ... }); camera.open(); ... camera.close(); Open Is"
+    },
+    {
+      "chunk_id": 16,
+      "text": "camera.open(); ... camera.close(); Open Issues: Browser Host The browser handles video using a <video> HTML element. This is different from Cape Code in some ways: Source, display combined : The <video> element acts as both a source and disp"
+    },
+    {
+      "chunk_id": 17,
+      "text": "The <video> element acts as both a source and display. So, in a way, the accessor is outputting to itself? The accessor also can generate an image on the output port. Audio, video combined : Audio and video can be accessed through the same HTML ele"
+    },
+    {
+      "chunk_id": 18,
+      "text": "nd video can be accessed through the same HTML element. Therefore the audio and camera modules might be combined in the browser host. Stream output? : Is it useful for the accessor to offer a stream output in addition to an image output? User choose"
+    },
+    {
+      "chunk_id": 19,
+      "text": "output in addition to an image output? User chooses camera : The user ultimately picks the camera in a pop-up dialog. This affects the constructor - any name passed in could be ignored. View sizing is not guaranteed : The user can request a view si"
+    },
+    {
+      "chunk_id": 20,
+      "text": "is not guaranteed : The user can request a view size, but the browser might not provide exactly that size. Browser compatibility : getUserMedia appears to not be supported in Safari. Is there a workaround? See Also Browser Host Demos hosts/browser/d"
+    },
+    {
+      "chunk_id": 21,
+      "text": "round? See Also Browser Host Demos hosts/browser/demo/camera/camera.html hosts/browser/demo/cameraText/cameraText.html The Ptolemy/Nashorn implementation of this module uses the webcam-capture package by Bartosz Firyn (SarXos), available from https:/"
+    }
+  ]
+}

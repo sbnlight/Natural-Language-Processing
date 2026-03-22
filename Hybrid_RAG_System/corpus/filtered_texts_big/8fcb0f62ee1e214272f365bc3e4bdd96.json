@@ -1,0 +1,1225 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/actor/CompositeActor.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "CompositeActor JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Metho"
+    },
+    {
+      "chunk_id": 2,
+      "text": "d | Constr | Method Detail: Field | Constr | Method ptolemy.actor Class CompositeActor java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity <T> ptolemy.kernel.ComponentEntity ptolemy.kernel.Composite"
+    },
+    {
+      "chunk_id": 3,
+      "text": "my.kernel.ComponentEntity ptolemy.kernel.CompositeEntity ptolemy.actor.CompositeActor All Implemented Interfaces: java.lang.Cloneable, Actor , Executable , FiringsRecordable , Initializable , Changeable , Debuggable , DebugListener , Derivable , Inst"
+    },
+    {
+      "chunk_id": 4,
+      "text": "le , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: Configurer , TypedCompositeActor , TypeOpaqueCompositeActor public class CompositeActor extends CompositeEn"
+    },
+    {
+      "chunk_id": 5,
+      "text": "or public class CompositeActor extends CompositeEntity implements Actor , FiringsRecordable A CompositeActor is an aggregation of actors. It may have a local director , which is an attribute of class Director that is responsible for executing the c"
+    },
+    {
+      "chunk_id": 6,
+      "text": "Director that is responsible for executing the contained actors. At the top level of a hierarchy, a composite actor (the toplevel CompositeActor of the topology) will normally exist with a local Director, and no container. A composite actor at"
+    },
+    {
+      "chunk_id": 7,
+      "text": "irector, and no container. A composite actor at a lower level of the hierarchy may also have a local director. A composite actor with a local director is opaque , and serves the role of the wormhole from Ptolemy Classic. Its ports are opaque, bu"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ole from Ptolemy Classic. Its ports are opaque, but it can contain actors and relations. The toplevel composite actor is also associated with a Manager object that is responsible for managing any execution within the topology at a high level. The"
+    },
+    {
+      "chunk_id": 9,
+      "text": "execution within the topology at a high level. The executive director of a composite actor is the local director of the actor's container. The toplevel composite actor has no executive director, and getExecutiveDirector will return null. For tr"
+    },
+    {
+      "chunk_id": 10,
+      "text": "nd getExecutiveDirector will return null. For transparent composite actors, the executive director and the local director will be the same. The getDirector() method returns the local director if there is one. Otherwise, it returns the executive"
+    },
+    {
+      "chunk_id": 11,
+      "text": "here is one. Otherwise, it returns the executive director of the CompositeActor, if there is one. Whatever it returns is called (simply) the director of the composite (it may be local or executive). This Director is responsible for the execution"
+    },
+    {
+      "chunk_id": 12,
+      "text": ". This Director is responsible for the execution of all the actors contained within the composite actor. A composite actor must have an executive director in order to communicate with the hierarchy around it. In fact, it cannot even receive dat"
+    },
+    {
+      "chunk_id": 13,
+      "text": "y around it. In fact, it cannot even receive data in its input ports without an executive director, since the executive director is responsible for supplying the receivers to the ports. The toplevel composite actor has no executive director and"
+    },
+    {
+      "chunk_id": 14,
+      "text": "vel composite actor has no executive director and cannot have ports that transmit data, but it can still be executed as long as it has a local director. If the getDirector() method returns null, then the composite is not executable. When a compos"
+    },
+    {
+      "chunk_id": 15,
+      "text": "en the composite is not executable. When a composite actor has both a director and an executive director, then the model of computation implemented by the director need not be the same as the model of computation implemented by the executive direc"
+    },
+    {
+      "chunk_id": 16,
+      "text": "of computation implemented by the executive director. This is the source of the hierarchical heterogeneity in Ptolemy II. Multiple models of computation can be cleanly nested. The ports of a CompositeActor are constrained to be IOPorts, the relat"
+    },
+    {
+      "chunk_id": 17,
+      "text": "iteActor are constrained to be IOPorts, the relations to be IORelations, and the actors to be instances of ComponentEntity that implement the Actor interface. Derived classes may impose further constraints by overriding newPort(), _addPort(), ne"
+    },
+    {
+      "chunk_id": 18,
+      "text": "nstraints by overriding newPort(), _addPort(), newRelation(), _addRelation(), and _addEntity(). Since: Ptolemy II 0.2 Version: $Id$ Author: Mudit Goel, Edward A. Lee, Lukito Muliadi, Steve Neuendorffer, Contributor: Daniel Crawl, Bert Rodiers See Al"
+    },
+    {
+      "chunk_id": 19,
+      "text": "er, Contributor: Daniel Crawl, Bert Rodiers See Also: IOPort , IORelation , ComponentEntity , Director , Manager Pt.AcceptedRating: Yellow (neuendor) Pt.ProposedRating: Green (cxh) Nested Class Summary Nested classes/interfaces inherited from class p"
+    },
+    {
+      "chunk_id": 20,
+      "text": "y Nested classes/interfaces inherited from class ptolemy.kernel. CompositeEntity CompositeEntity.ContainedObjectsIterator Field Summary Fields Modifier and Type Field and Description protected java.util.LinkedList< ActorFiringListener > _actorFiringL"
+    },
+    {
+      "chunk_id": 21,
+      "text": "il.LinkedList< ActorFiringListener > _actorFiringListeners The list of ActorFiringListeners registered with this object. protected CausalityInterface _causalityInterface The causality interface, if it has been created. protected java.util.Set< Execut"
+    },
+    {
+      "chunk_id": 22,
+      "text": "has been created. protected java.util.Set< Executable > _derivedPiggybacks The derived piggybacked executables. protected java.util.Set< Initializable > _initializables List of objects whose (pre)initialize() and wrapup() methods should be slaved"
+    },
+    {
+      "chunk_id": 23,
+      "text": "tialize() and wrapup() methods should be slaved to these. protected boolean _notifyingActorFiring Flag that is true if there are actor firing listeners. protected java.util.Set< Executable > _piggybacks List piggybacked objects. protected java.util"
+    },
+    {
+      "chunk_id": 24,
+      "text": "acks List piggybacked objects. protected java.util.Map<java.lang.String,java.util.Set< IOPort >> _publishedPorts Keep track of all published ports accessible in this container. protected java.util.Map<java.lang.String, IORelation > _publisherRelation"
+    },
+    {
+      "chunk_id": 25,
+      "text": "<java.lang.String, IORelation > _publisherRelations Keep track of all relations with published ports accessible in this container. protected boolean _stopRequested Indicator that a stop has been requested by a call to stop(). protected java.util.Map<"
+    },
+    {
+      "chunk_id": 26,
+      "text": "sted by a call to stop(). protected java.util.Map<java.lang.String,java.util.List< IOPort >> _subscribedPorts Keep track of all published ports accessible in this container. Fields inherited from class ptolemy.kernel. CompositeEntity _levelCrossingLi"
+    },
+    {
+      "chunk_id": 27,
+      "text": "s ptolemy.kernel. CompositeEntity _levelCrossingLinks Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _v"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructo"
+    },
+    {
+      "chunk_id": 29,
+      "text": "COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary Constructors Constructor and Description CompositeActor () Construct a CompositeActor in the default workspace with no container and an empty string as its name. CompositeActor ( Composite"
+    },
+    {
+      "chunk_id": 30,
+      "text": "pty string as its name. CompositeActor ( CompositeEntity container, java.lang.String name) Create an actor with a name and a container. CompositeActor ( Workspace workspace) Construct a CompositeActor in the specified workspace with no"
+    },
+    {
+      "chunk_id": 31,
+      "text": "CompositeActor in the specified workspace with no container and an empty string as a name. Method Summary All Methods Instance Methods Concrete Methods Modifier and Type Method and Description protected void _actorFiring ( FiringEvent.FiringEventTy"
+    },
+    {
+      "chunk_id": 32,
+      "text": "cted void _actorFiring ( FiringEvent.FiringEventType type, int multiplicity) Send an actor firing event type to all actor firing listeners that have registered with this actor. protected void _actorFiring ( FiringEvent event) Send an ac"
+    },
+    {
+      "chunk_id": 33,
+      "text": "void _actorFiring ( FiringEvent event) Send an actor firing event to all actor firing listeners that have registered with this actor. protected void _addEntity ( ComponentEntity entity) Add an actor to this container with minimal error checking. p"
+    },
+    {
+      "chunk_id": 34,
+      "text": "r to this container with minimal error checking. protected void _addPort ( Port port) Add a port to this actor. protected void _addRelation ( ComponentRelation relation) Add a relation to this container. protected void _finishedAddEntity ( ComponentE"
+    },
+    {
+      "chunk_id": 35,
+      "text": "er. protected void _finishedAddEntity ( ComponentEntity entity) Notify this actor that the given entity has been added inside it. protected void _setDirector ( Director director) Set the local director for execution of this CompositeActor. protected"
+    },
+    {
+      "chunk_id": 36,
+      "text": "r for execution of this CompositeActor. protected void _transferPortParameterInputs () Read inputs from ParameterPorts and update. void addActorFiringListener ( ActorFiringListener listener) Append a listener to the current set of actor firing listen"
+    },
+    {
+      "chunk_id": 37,
+      "text": "listener to the current set of actor firing listeners. void addInitializable ( Initializable initializable) Add the specified object to the set of objects whose preinitialize(), initialize(), and wrapup() methods should be invoked upon invocation"
+    },
+    {
+      "chunk_id": 38,
+      "text": "apup() methods should be invoked upon invocation of the corresponding methods of this object. void addPiggyback ( Executable piggyback) Add the specified object to the set of objects whose action methods should be invoked upon invocation of the"
+    },
+    {
+      "chunk_id": 39,
+      "text": "methods should be invoked upon invocation of the corresponding actions methods of this object. java.lang.Object clone ( Workspace workspace) Clone the actor into the specified workspace. void connectionsChanged ( Port port) Invalidate the schedul"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ectionsChanged ( Port port) Invalidate the schedule and type resolution and create new receivers if the specified port is an opaque output port. void createReceivers () Create receivers for each port. void createSchedule () Create the schedule fo"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ort. void createSchedule () Create the schedule for this model, if necessary. void fire () If this actor is opaque, transfer any data from the input ports of this composite to the ports connected on the inside, and then invoke the fire() method o"
+    },
+    {
+      "chunk_id": 42,
+      "text": "the inside, and then invoke the fire() method of its local director. CausalityInterface getCausalityInterface () Return a causality interface for this actor. Director getDirector () Return the director responsible for execution of the contained"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ctor responsible for execution of the contained actors. Director getExecutiveDirector () Return the executive director of this CompositeActor. Manager getManager () Get the manager responsible for execution of this composite actor. IOPort getPublis"
+    },
+    {
+      "chunk_id": 44,
+      "text": "xecution of this composite actor. IOPort getPublishedPort (java.lang.String name) Get the published port with named name. java.lang.String getPublishedPortChannel ( IOPort port) Get the channel name of a published port. java.util.List< IOPort > getPu"
+    },
+    {
+      "chunk_id": 45,
+      "text": "f a published port. java.util.List< IOPort > getPublishedPorts (java.util.regex.Pattern pattern) Get the published ports with names that match a regular expression. java.lang.String getSubscribedPortChannel ( IOPort port) Get the name of the channel"
+    },
+    {
+      "chunk_id": 46,
+      "text": "hannel ( IOPort port) Get the name of the channel that the port subscribes to. boolean inferringWidths () Determine whether widths are currently being inferred or not. void inferWidths () Infer the width of the relations for which no width has been"
+    },
+    {
+      "chunk_id": 47,
+      "text": "dth of the relations for which no width has been specified yet. void initialize () Initialize this actor. java.util.List inputPortList () List the input ports of this actor. boolean isFireFunctional () If this actor is opaque, invoke the isFireFunc"
+    },
+    {
+      "chunk_id": 48,
+      "text": "() If this actor is opaque, invoke the isFireFunctional() method of the local director and return its result. boolean isOpaque () Return true if this actor contains a local director. boolean isPublishedPort ( IOPort port) Return true if a port is"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ishedPort ( IOPort port) Return true if a port is in the published port list at this level. boolean isStrict () Return false if all input ports have non-empty default values, or if this actor is opaque and the contained director indicates that"
+    },
+    {
+      "chunk_id": 50,
+      "text": "paque and the contained director indicates that it is non-strict. int iterate (int count) Invoke a specified number of iterations of the actor. void linkToPublishedPort (java.util.regex.Pattern pattern, TypedIOPort subscriberPort) Link the subscrib"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ern, TypedIOPort subscriberPort) Link the subscriberPort with a already registered \"published port\" coming from a publisher. void linkToPublishedPort (java.util.regex.Pattern pattern, TypedIOPort subscriberPort, boolean global) L"
+    },
+    {
+      "chunk_id": 52,
+      "text": "bscriberPort, boolean global) Link the subscriberPort with a already registered \"published port\" coming from a publisher. IOPort linkToPublishedPort (java.lang.String name, IOPort subscriberPort) Link the subscriberPort with a al"
+    },
+    {
+      "chunk_id": 53,
+      "text": "subscriberPort) Link the subscriberPort with a already registered \"published port\" coming from a publisher. IOPort linkToPublishedPort (java.lang.String name, IOPort subscriberPort, boolean global) Link the subscriberPort with a"
+    },
+    {
+      "chunk_id": 54,
+      "text": "boolean global) Link the subscriberPort with an already registered \"published port\" coming from a publisher. boolean needsWidthInference () Return whether the current widths of the relation in the model are no longer valid anymore and the wid"
+    },
+    {
+      "chunk_id": 55,
+      "text": "he model are no longer valid anymore and the widths need to be inferred again. Receiver newInsideReceiver () Return a new receiver of a type compatible with the local director. Port newPort (java.lang.String name) Create a new IOPort with the speci"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ng.String name) Create a new IOPort with the specified name. Receiver newReceiver () Return a new receiver of a type compatible with the executive director. ComponentRelation newRelation (java.lang.String name) Create a new IORelation with the specif"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ring name) Create a new IORelation with the specified name, add it to the relation list, and return it. void notifyConnectivityChange () Notify the manager that the connectivity in the model changed (width of relation changed, relations added, li"
+    },
+    {
+      "chunk_id": 58,
+      "text": "(width of relation changed, relations added, linked to different ports, ...). java.util.List outputPortList () Return an enumeration of the output ports. boolean postfire () If this actor is opaque, invoke the postfire() method of its local dire"
+    },
+    {
+      "chunk_id": 59,
+      "text": ", invoke the postfire() method of its local director and transfer output data. boolean prefire () If this actor is opaque, invoke the prefire() method of the local director. void preinitialize () Create receivers and invoke the preinitialize()"
+    },
+    {
+      "chunk_id": 60,
+      "text": "Create receivers and invoke the preinitialize() method of the local director. void recordFiring ( FiringEvent.FiringEventType type) Record a firing event. void registerPublisherPort (java.lang.String name, IOPort port) Register a \"published port\" c"
+    },
+    {
+      "chunk_id": 61,
+      "text": "g name, IOPort port) Register a \"published port\" coming from a publisher. void registerPublisherPort (java.lang.String name, IOPort port, boolean global) Register a \"published port\" coming from a publisher. void removeActorFiring"
+    },
+    {
+      "chunk_id": 62,
+      "text": "t\" coming from a publisher. void removeActorFiringListener ( ActorFiringListener listener) Unregister an actor firing listener. void removeInitializable ( Initializable initializable) Remove the specified object from the list of objects whose prein"
+    },
+    {
+      "chunk_id": 63,
+      "text": "fied object from the list of objects whose preinitialize(), initialize(), and wrapup() methods should be invoked upon invocation of the corresponding methods of this object. void removePiggyback ( Executable piggyback) Remove the specified obje"
+    },
+    {
+      "chunk_id": 64,
+      "text": "( Executable piggyback) Remove the specified object from the list of objects whose action methods should be invoked upon invocation of the corresponding actions methods of this object. void requestChange ( ChangeRequest change) Queue a change re"
+    },
+    {
+      "chunk_id": 65,
+      "text": "stChange ( ChangeRequest change) Queue a change request. void setContainer ( CompositeEntity container) Override the base class to invalidate the schedule and resolved types of the director. void setDirector ( Director director) Set the local direc"
+    },
+    {
+      "chunk_id": 66,
+      "text": "tDirector ( Director director) Set the local director for execution of this CompositeActor. void setManager ( Manager manager) Set the Manager for execution of this CompositeActor. void stop () Request that execution stop as soon as possible. void st"
+    },
+    {
+      "chunk_id": 67,
+      "text": "t that execution stop as soon as possible. void stopFire () Request that execution of the current iteration complete. void terminate () If this is an opaque CompositeActor, then look to our director for help. void unlinkToPublishedPort (java.util.r"
+    },
+    {
+      "chunk_id": 68,
+      "text": "for help. void unlinkToPublishedPort (java.util.regex.Pattern pattern, TypedIOPort subscriberPort) Unlink the subscriberPort with a already registered \"published port\" coming from a publisher. void unlinkToPublishedPort (java.util.regex.Pattern pa"
+    },
+    {
+      "chunk_id": 69,
+      "text": "unlinkToPublishedPort (java.util.regex.Pattern pattern, TypedIOPort subscriberPort, boolean global) Unlink the subscriberPort with a already registered \"published port\" coming from a publisher. void unlinkToPublishedPort (java"
+    },
+    {
+      "chunk_id": 70,
+      "text": "from a publisher. void unlinkToPublishedPort (java.lang.String name, IOPort subscriberPort) Unlink the subscriberPort with a already registered \"published port\" coming from a publisher. void unlinkToPublishedPort (java.lang.String name, IOPort subs"
+    },
+    {
+      "chunk_id": 71,
+      "text": "oPublishedPort (java.lang.String name, IOPort subscriberPort, boolean global) Unlink the subscriberPort with a already registered \"published port\" coming from a publisher. void unregisterPublisherPort (java.lang.String name, IO"
+    },
+    {
+      "chunk_id": 72,
+      "text": "unregisterPublisherPort (java.lang.String name, IOPort publisherPort) Unregister a \"published port\" coming from a publisher. void unregisterPublisherPort (java.lang.String name, IOPort publisherPort, boolean global) Unregiste"
+    },
+    {
+      "chunk_id": 73,
+      "text": ", boolean global) Unregister a \"published port\" coming from a publisher. void wrapup () If this actor is opaque, then invoke the wrapup() method of the local director. Methods inherited from class ptolemy.kernel. CompositeE"
+    },
+    {
+      "chunk_id": 84,
+      "text": ", addChangeListener , addDebugListener , addHierarchyListener , attributeChanged , attributeDeleted , attributeList , attributeList , attributeTypeChanged , clone , decorators , deepContains , depthInHierarchy , description , description , event , ex"
+    },
+    {
+      "chunk_id": 85,
+      "text": "Hierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttri"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ssName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersist"
+    },
+    {
+      "chunk_id": 87,
+      "text": "DeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , setClass"
+    },
+    {
+      "chunk_id": 88,
+      "text": "DebugListener , removeHierarchyListener , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Met"
+    },
+    {
+      "chunk_id": 89,
+      "text": "vel , toString , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.kernel.util. Nameable description , getCon"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Field Detail _acto"
+    },
+    {
+      "chunk_id": 91,
+      "text": "getDerivedList , propagateValue Field Detail _actorFiringListeners protected java.util.LinkedList< ActorFiringListener > _actorFiringListeners The list of ActorFiringListeners registered with this object. NOTE: Because of the way we synchronize on"
+    },
+    {
+      "chunk_id": 92,
+      "text": "ect. NOTE: Because of the way we synchronize on this object, it should never be reset to null after the first list is created. _causalityInterface protected CausalityInterface _causalityInterface The causality interface, if it has been created. _"
+    },
+    {
+      "chunk_id": 93,
+      "text": "The causality interface, if it has been created. _derivedPiggybacks protected transient java.util.Set< Executable > _derivedPiggybacks The derived piggybacked executables. Derived piggybacked executables are executables that are added to transparent"
+    },
+    {
+      "chunk_id": 94,
+      "text": "les are executables that are added to transparent composite actors that are contained by this composite actor. These should also piggy back on this actor. These are only filled in if this actor is a opaque composite actor. _initializables protecte"
+    },
+    {
+      "chunk_id": 95,
+      "text": "a opaque composite actor. _initializables protected transient java.util.Set< Initializable > _initializables List of objects whose (pre)initialize() and wrapup() methods should be slaved to these. _notifyingActorFiring protected boolean _notifyingA"
+    },
+    {
+      "chunk_id": 96,
+      "text": "notifyingActorFiring protected boolean _notifyingActorFiring Flag that is true if there are actor firing listeners. _piggybacks protected transient java.util.Set< Executable > _piggybacks List piggybacked objects. _publishedPorts protected java.util."
+    },
+    {
+      "chunk_id": 97,
+      "text": "cked objects. _publishedPorts protected java.util.Map<java.lang.String,java.util.Set< IOPort >> _publishedPorts Keep track of all published ports accessible in this container. _subscribedPorts protected java.util.Map<java.lang.String,java.util.List<"
+    },
+    {
+      "chunk_id": 98,
+      "text": "ed java.util.Map<java.lang.String,java.util.List< IOPort >> _subscribedPorts Keep track of all published ports accessible in this container. _publisherRelations protected java.util.Map<java.lang.String, IORelation > _publisherRelations Keep track of"
+    },
+    {
+      "chunk_id": 99,
+      "text": "g, IORelation > _publisherRelations Keep track of all relations with published ports accessible in this container. _stopRequested protected boolean _stopRequested Indicator that a stop has been requested by a call to stop(). Constructor Detail Compos"
+    },
+    {
+      "chunk_id": 100,
+      "text": "ted by a call to stop(). Constructor Detail CompositeActor public CompositeActor() Construct a CompositeActor in the default workspace with no container and an empty string as its name. Add the actor to the workspace directory. You should set a"
+    },
+    {
+      "chunk_id": 101,
+      "text": "r to the workspace directory. You should set a director before attempting to execute it. You should set the container before sending data to it. Increment the version number of the workspace. CompositeActor public CompositeActor( Workspace wo"
+    },
+    {
+      "chunk_id": 102,
+      "text": "CompositeActor public CompositeActor( Workspace workspace) Construct a CompositeActor in the specified workspace with no container and an empty string as a name. You can then change the name with setName(). If the workspace argument is null, then"
+    },
+    {
+      "chunk_id": 103,
+      "text": "setName(). If the workspace argument is null, then use the default workspace. You should set a director before attempting to execute it. You should set the container before sending data to it. Increment the version number of the workspace. Pa"
+    },
+    {
+      "chunk_id": 104,
+      "text": "Increment the version number of the workspace. Parameters: workspace - The workspace that will list the actor. CompositeActor public CompositeActor( CompositeEntity container, java.lang.String name) throws Illega"
+    },
+    {
+      "chunk_id": 105,
+      "text": "ava.lang.String name) throws IllegalActionException , NameDuplicationException Create an actor with a name and a container. The container argument must not be null, or a NullPointerException will be thrown. This actor will use the"
+    },
+    {
+      "chunk_id": 106,
+      "text": "Exception will be thrown. This actor will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to the empty string. Increment the version of the workspace. This actor w"
+    },
+    {
+      "chunk_id": 107,
+      "text": "ement the version of the workspace. This actor will have no local director initially, and its executive director will be simply the director of the container. You should set a director before attempting to execute it. Parameters: container -"
+    },
+    {
+      "chunk_id": 108,
+      "text": "attempting to execute it. Parameters: container - The container actor. name - The name of this actor. Throws: IllegalActionException - If the container is incompatible with this actor. NameDuplicationException - If the name coincides with an ac"
+    },
+    {
+      "chunk_id": 109,
+      "text": "ionException - If the name coincides with an actor already in the container. Method Detail addActorFiringListener public void addActorFiringListener( ActorFiringListener listener) Append a listener to the current set of actor firing listeners. I"
+    },
+    {
+      "chunk_id": 110,
+      "text": "to the current set of actor firing listeners. If the listener is already in the set, it will not be added again. Note that this method is basically the same as addDebugListener in the class NamedObj. Specified by: addActorFiringListener in int"
+    },
+    {
+      "chunk_id": 111,
+      "text": "edObj. Specified by: addActorFiringListener in interface FiringsRecordable Parameters: listener - The listener to which to send actor firing messages. See Also: removeActorFiringListener(ActorFiringListener) addInitializable public void addInitializa"
+    },
+    {
+      "chunk_id": 112,
+      "text": "stener) addInitializable public void addInitializable( Initializable initializable) Add the specified object to the set of objects whose preinitialize(), initialize(), and wrapup() methods should be invoked upon invocation of the corresponding"
+    },
+    {
+      "chunk_id": 113,
+      "text": "be invoked upon invocation of the corresponding methods of this object. Specified by: addInitializable in interface Initializable Parameters: initializable - The object whose methods should be invoked. See Also: removeInitializable(Initializable) ,"
+    },
+    {
+      "chunk_id": 114,
+      "text": "ed. See Also: removeInitializable(Initializable) , addPiggyback(Executable) addPiggyback public void addPiggyback( Executable piggyback) Add the specified object to the set of objects whose action methods should be invoked upon invocation of the co"
+    },
+    {
+      "chunk_id": 115,
+      "text": "ethods should be invoked upon invocation of the corresponding actions methods of this object. These methods will be invoked before the corresponding methods of this object. Parameters: piggyback - The piggyback object. See Also: addInitializable("
+    },
+    {
+      "chunk_id": 116,
+      "text": "The piggyback object. See Also: addInitializable(Initializable) , removePiggyback(Executable) clone public java.lang.Object clone( Workspace workspace) throws java.lang.CloneNotSupportedException Clone the actor into the speci"
+    },
+    {
+      "chunk_id": 117,
+      "text": "tSupportedException Clone the actor into the specified workspace. The new object is not added to the directory of that workspace (you must do this yourself if you want it there). The result is a composite actor with clones of the ports of the o"
+    },
+    {
+      "chunk_id": 118,
+      "text": "omposite actor with clones of the ports of the original actor, the contained actors, and the contained relations. The ports of the returned actor are not connected to anything. The connections of the relations are duplicated in the new composit"
+    },
+    {
+      "chunk_id": 119,
+      "text": "f the relations are duplicated in the new composite, unless they cross levels, in which case an exception is thrown. The local director is cloned, if there is one. The executive director is not cloned. NOTE: This will not work if there are le"
+    },
+    {
+      "chunk_id": 120,
+      "text": "cloned. NOTE: This will not work if there are level-crossing transitions. Overrides: clone in class CompositeEntity Parameters: workspace - The workspace for the cloned object. Returns: A new CompositeActor. Throws: java.lang.CloneNotSupportedExcep"
+    },
+    {
+      "chunk_id": 121,
+      "text": "iteActor. Throws: java.lang.CloneNotSupportedException - If the actor contains level crossing transitions so that its connections cannot be cloned, or if one of the attributes cannot be cloned. See Also: NamedObj.exportMoML(Writer, int, String)"
+    },
+    {
+      "chunk_id": 122,
+      "text": "See Also: NamedObj.exportMoML(Writer, int, String) , NamedObj.setDeferringChangeRequests(boolean) connectionsChanged public void connectionsChanged( Port port) Invalidate the schedule and type resolution and create new receivers if the specified po"
+    },
+    {
+      "chunk_id": 123,
+      "text": "ion and create new receivers if the specified port is an opaque output port. Also, notify the containers of any ports deeply connected on the inside by calling their connectionsChanged() methods, since their width may have changed. Overrides"
+    },
+    {
+      "chunk_id": 124,
+      "text": "ods, since their width may have changed. Overrides: connectionsChanged in class Entity Parameters: port - The port that has connection changes. fire public void fire() throws IllegalActionException If this actor is opaque, transfer any data"
+    },
+    {
+      "chunk_id": 125,
+      "text": "ception If this actor is opaque, transfer any data from the input ports of this composite to the ports connected on the inside, and then invoke the fire() method of its local director. The transfer is accomplished by calling the transferInputs("
+    },
+    {
+      "chunk_id": 126,
+      "text": "fer is accomplished by calling the transferInputs() method of the local director (the exact behavior of which depends on the domain). If the actor is not opaque, throw an exception. This method is read-synchronized on the workspace, so the f"
+    },
+    {
+      "chunk_id": 127,
+      "text": "is read-synchronized on the workspace, so the fire() method of the director need not be (assuming it is only called from here). After the fire() method of the director returns, send any output data created by calling the local director's tr"
+    },
+    {
+      "chunk_id": 128,
+      "text": "data created by calling the local director's transferOutputs method. Specified by: fire in interface Executable Throws: IllegalActionException - If there is no director, or if the director's fire() method throws it, or if the actor is not op"
+    },
+    {
+      "chunk_id": 129,
+      "text": "e() method throws it, or if the actor is not opaque. createReceivers public void createReceivers() throws IllegalActionException Create receivers for each port. If the port is an input port, then receivers are created for ou"
+    },
+    {
+      "chunk_id": 130,
+      "text": "an input port, then receivers are created for outside connections. If it is an output port, then receivers are created for inside connections. This method replaces any pre-existing receivers, so any data they contain will be lost. Specified"
+    },
+    {
+      "chunk_id": 131,
+      "text": "so any data they contain will be lost. Specified by: createReceivers in interface Actor Throws: IllegalActionException - If any port throws it. See Also: AtomicActor.createReceivers() , createReceivers() createSchedule public void createSchedule()"
+    },
+    {
+      "chunk_id": 132,
+      "text": "ers() createSchedule public void createSchedule() throws IllegalActionException Create the schedule for this model, if necessary. Throws: IllegalActionException - If the schedule can't be created. getCausalityInterface public Caus"
+    },
+    {
+      "chunk_id": 133,
+      "text": "an't be created. getCausalityInterface public CausalityInterface getCausalityInterface() Return a causality interface for this actor. This returns an instance of CausalityInterfaceForComposites . If this is called multiple times, the same object"
+    },
+    {
+      "chunk_id": 134,
+      "text": "If this is called multiple times, the same object is returned each time unless the director has changed since the last call, in which case a new object is returned. Specified by: getCausalityInterface in interface Actor Returns: A representation"
+    },
+    {
+      "chunk_id": 135,
+      "text": "face in interface Actor Returns: A representation of the dependencies between input ports and output ports. getDirector public Director getDirector() Return the director responsible for execution of the contained actors. This will be either the"
+    },
+    {
+      "chunk_id": 136,
+      "text": "f the contained actors. This will be either the local director (if it exists) or the executive director (obtained using getExecutiveDirector()). This method is read-synchronized on the workspace. Specified by: getDirector in interface Actor Re"
+    },
+    {
+      "chunk_id": 137,
+      "text": "e. Specified by: getDirector in interface Actor Returns: The director responsible for invocation of inside actors. See Also: setDirector(Director) getExecutiveDirector public Director getExecutiveDirector() Return the executive director of this Compo"
+    },
+    {
+      "chunk_id": 138,
+      "text": "ctor() Return the executive director of this CompositeActor. The container (if any) is queried for its (local) director. If it has none, or there is no container, then return null. This method is read-synchronized on the workspace. Specified"
+    },
+    {
+      "chunk_id": 139,
+      "text": "s read-synchronized on the workspace. Specified by: getExecutiveDirector in interface Actor Returns: The executive director of this composite actor. getManager public Manager getManager() Get the manager responsible for execution of this composite"
+    },
+    {
+      "chunk_id": 140,
+      "text": "nager responsible for execution of this composite actor. If this is the toplevel composite actor, then return what was set with setManager(). For others, recursively call on the container, until the toplevel composite actor is reached. This"
+    },
+    {
+      "chunk_id": 141,
+      "text": "the toplevel composite actor is reached. This method is read-synchronized on the workspace. Specified by: getManager in interface Actor Returns: The Manager of the topology that contains the composite actor. See Also: setManager(Manager) getPubl"
+    },
+    {
+      "chunk_id": 142,
+      "text": "osite actor. See Also: setManager(Manager) getPublishedPort public final IOPort getPublishedPort(java.lang.String name) throws IllegalActionException , NameDuplicationException Get the published port with named name. Par"
+    },
+    {
+      "chunk_id": 143,
+      "text": "eption Get the published port with named name. Parameters: name - The name of the published port. Returns: The port of the publisher that has named name. Throws: IllegalActionException - If the publisher can't be found. NameDuplicationException - If"
+    },
+    {
+      "chunk_id": 144,
+      "text": "her can't be found. NameDuplicationException - If there are multiple publishers with the same name. getPublishedPorts public final java.util.List< IOPort > getPublishedPorts(java.util.regex.Pattern pattern)"
+    },
+    {
+      "chunk_id": 145,
+      "text": "pattern) throws IllegalActionException , NameDuplicationException Get the published ports with names that match a regular expression. Parameters: pattern - The regular expression pattern to match. Return"
+    },
+    {
+      "chunk_id": 146,
+      "text": "- The regular expression pattern to match. Returns: The ports of the publisher that match the regular expression. Throws: IllegalActionException - If the publisher can't be found. NameDuplicationException - If there are multiple publishers with th"
+    },
+    {
+      "chunk_id": 147,
+      "text": "ption - If there are multiple publishers with the same name. getPublishedPortChannel public java.lang.String getPublishedPortChannel( IOPort port) Get the channel name of a published port. Parameters: port - The published port. Returns: The name of"
+    },
+    {
+      "chunk_id": 148,
+      "text": "s: port - The published port. Returns: The name of the channel of the published port. getSubscribedPortChannel public java.lang.String getSubscribedPortChannel( IOPort port) Get the name of the channel that the port subscribes to. Parameters: port -"
+    },
+    {
+      "chunk_id": 149,
+      "text": "l that the port subscribes to. Parameters: port - The subscribed port. Returns: The name of the channel. inferringWidths public boolean inferringWidths() Determine whether widths are currently being inferred or not. Returns: True When widths are curr"
+    },
+    {
+      "chunk_id": 150,
+      "text": "nferred or not. Returns: True When widths are currently being inferred. inferWidths public void inferWidths() throws IllegalActionException Infer the width of the relations for which no width has been specified yet. The specified"
+    },
+    {
+      "chunk_id": 151,
+      "text": "no width has been specified yet. The specified actor must be the top level container of the model. Throws: IllegalActionException - If the widths of the relations at port are not consistent or if the width cannot be inferred for a relation. i"
+    },
+    {
+      "chunk_id": 152,
+      "text": "f the width cannot be inferred for a relation. initialize public void initialize() throws IllegalActionException Initialize this actor. If this actor is opaque, invoke the initialize() method of its local director. Otherwise, thr"
+    },
+    {
+      "chunk_id": 153,
+      "text": "ize() method of its local director. Otherwise, throw an exception. This method is read-synchronized on the workspace, so the initialize() method of the director need not be (assuming it is only called from here). Specified by: initialize in in"
+    },
+    {
+      "chunk_id": 154,
+      "text": "called from here). Specified by: initialize in interface Initializable Throws: IllegalActionException - If there is no director, or if the director's initialize() method throws it, or if the actor is not opaque. inputPortList public java.util.Li"
+    },
+    {
+      "chunk_id": 155,
+      "text": "r is not opaque. inputPortList public java.util.List inputPortList() List the input ports of this actor. Note that this method returns the ports directly contained by this actor, whether they are transparent or not. This method is read-synchron"
+    },
+    {
+      "chunk_id": 156,
+      "text": "transparent or not. This method is read-synchronized on the workspace. Specified by: inputPortList in interface Actor Returns: A list of IOPort objects. isFireFunctional public boolean isFireFunctional() If this actor is opaque, invoke the isFireFu"
+    },
+    {
+      "chunk_id": 157,
+      "text": "nal() If this actor is opaque, invoke the isFireFunctional() method of the local director and return its result. Otherwise, return true. Normally this method will not be invoked on a non-opaque composite actor. Specified by: isFireFunctional in"
+    },
+    {
+      "chunk_id": 158,
+      "text": "composite actor. Specified by: isFireFunctional in interface Executable Returns: True if the local director's isFireFunctional() method returns true or if this actor is not opaque. isOpaque public boolean isOpaque() Return true if this actor conta"
+    },
+    {
+      "chunk_id": 159,
+      "text": "boolean isOpaque() Return true if this actor contains a local director. Otherwise, return false. This method is not synchronized on the workspace, so the caller should be. Overrides: isOpaque in class CompositeEntity Returns: True if the entity is"
+    },
+    {
+      "chunk_id": 160,
+      "text": "ass CompositeEntity Returns: True if the entity is opaque. See Also: CompositeEntity isPublishedPort public boolean isPublishedPort( IOPort port) Return true if a port is in the published port list at this level. Parameters: port - The port to be c"
+    },
+    {
+      "chunk_id": 161,
+      "text": "at this level. Parameters: port - The port to be checked against the list of published ports. Returns: True if the port was added with registerPublisherPort(String, IOPort, boolean) . isStrict public boolean isStrict() throws Illegal"
+    },
+    {
+      "chunk_id": 162,
+      "text": "boolean isStrict() throws IllegalActionException Return false if all input ports have non-empty default values, or if this actor is opaque and the contained director indicates that it is non-strict. Normally this method will no"
+    },
+    {
+      "chunk_id": 163,
+      "text": "t it is non-strict. Normally this method will not be invoked on a non-opaque composite actor. Note that ParameterPort is not treated as having a default value because such ports might be used in a context where it is important to supply the"
+    },
+    {
+      "chunk_id": 164,
+      "text": "in a context where it is important to supply them with an input value. Specified by: isStrict in interface Executable Returns: False if this actor does not need to be provided with inputs to fire. Throws: IllegalActionException - Thrown if causa"
+    },
+    {
+      "chunk_id": 165,
+      "text": ". Throws: IllegalActionException - Thrown if causality interface cannot be computed, or if the defaultValue expression cannot be evaluated on an input port. iterate public int iterate(int count) throws IllegalActionException Invoke"
+    },
+    {
+      "chunk_id": 166,
+      "text": "throws IllegalActionException Invoke a specified number of iterations of the actor. An iteration is equivalent to invoking prefire(), fire(), and postfire(), in that order. In an iteration, if prefire() returns true, then fire() wi"
+    },
+    {
+      "chunk_id": 167,
+      "text": "ation, if prefire() returns true, then fire() will be called once, followed by postfire(). Otherwise, if prefire() returns false, fire() and postfire() are not invoked, and this method returns NOT_READY. If postfire() returns false, then no m"
+    },
+    {
+      "chunk_id": 168,
+      "text": "NOT_READY. If postfire() returns false, then no more iterations are invoked, and this method returns STOP_ITERATING. Otherwise, it returns COMPLETED. If stop() is called during this iteration, then cease iterating and return STOP_ITERATING. T"
+    },
+    {
+      "chunk_id": 169,
+      "text": "then cease iterating and return STOP_ITERATING. This base class method actually invokes prefire(), fire(), and postfire(), as described above, but a derived class may override the method to execute more efficient code. Specified by: iterate in i"
+    },
+    {
+      "chunk_id": 170,
+      "text": "te more efficient code. Specified by: iterate in interface Executable Parameters: count - The number of iterations to perform. Returns: NOT_READY, STOP_ITERATING, or COMPLETED. Throws: IllegalActionException - If iterating is not permitted, or if"
+    },
+    {
+      "chunk_id": 171,
+      "text": "ception - If iterating is not permitted, or if prefire(), fire(), or postfire() throw it. linkToPublishedPort public IOPort linkToPublishedPort(java.lang.String name, IOPort subscriberPort) throws IllegalActionException"
+    },
+    {
+      "chunk_id": 172,
+      "text": "throws IllegalActionException , NameDuplicationException Link the subscriberPort with a already registered \"published port\" coming from a publisher. The name is the name being used in the matching process to match publisher an"
+    },
+    {
+      "chunk_id": 173,
+      "text": "ed in the matching process to match publisher and subscriber. A subscriber interested in the output of this publisher uses the name. This registration process of publisher typically happens before the model is preinitialized, for example w"
+    },
+    {
+      "chunk_id": 174,
+      "text": "efore the model is preinitialized, for example when opening the model. The subscribers will look for publishers during the preinitialization phase. Parameters: name - The name is being used in the matching process to match publisher and"
+    },
+    {
+      "chunk_id": 175,
+      "text": "matching process to match publisher and subscriber. subscriberPort - The subscribed port. Returns: The publisher port. Throws: NameDuplicationException - If there are name conflicts as a result of the added relations or ports. Il"
+    },
+    {
+      "chunk_id": 176,
+      "text": "as a result of the added relations or ports. IllegalActionException - If the published port cannot be found. linkToPublishedPort public IOPort linkToPublishedPort(java.lang.String name, IOPort subscriberPort, bool"
+    },
+    {
+      "chunk_id": 177,
+      "text": "criberPort, boolean global) throws IllegalActionException , NameDuplicationException Link the subscriberPort with an already registered \"published port\" coming from a publisher. The name"
+    },
+    {
+      "chunk_id": 178,
+      "text": "blished port\" coming from a publisher. The name gives the channel that matches the publisher and subscriber. The publisher is registered before the model is preinitialized, when its channel parameter is set. The subscribers call this method"
+    },
+    {
+      "chunk_id": 179,
+      "text": "rameter is set. The subscribers call this method to look for publishers during the preinitialization phase. Parameters: name - The name being used in the matching process to match publisher and subscriber. subscriberPort - The subscriber port."
+    },
+    {
+      "chunk_id": 180,
+      "text": "subscriber. subscriberPort - The subscriber port. global - Specification of whether the data is subscribed globally. If set to true, then subscribers will see values published by publishers anywhere in the model that reference the same cha"
+    },
+    {
+      "chunk_id": 181,
+      "text": "ywhere in the model that reference the same channel by name. If set to false, then only values published by publishers that are fired by the same director are seen by this subscriber. Returns: The publisher port. Throws: NameDuplicationExce"
+    },
+    {
+      "chunk_id": 182,
+      "text": "s: The publisher port. Throws: NameDuplicationException - If there are name conflicts as a result of the added relations or ports. IllegalActionException - If the published port cannot be found. linkToPublishedPort public void linkToPublishedPort("
+    },
+    {
+      "chunk_id": 183,
+      "text": "nkToPublishedPort public void linkToPublishedPort(java.util.regex.Pattern pattern, TypedIOPort subscriberPort) throws IllegalActionException , NameDuplicationException Link the subscriberPort with a already registered \"publis"
+    },
+    {
+      "chunk_id": 184,
+      "text": "e subscriberPort with a already registered \"published port\" coming from a publisher. The pattern represents the name being used in the matching process to match publisher and subscriber. A subscriber interested in the output of this publisher u"
+    },
+    {
+      "chunk_id": 186,
+      "text": "The subscribers will look for publishers during the preinitialization phase. Parameters: pattern - The pattern is being used in the matching process to match publisher and subscriber. subscriberPort - The subscribed port. Throws: NameDupl"
+    },
+    {
+      "chunk_id": 187,
+      "text": "criberPort - The subscribed port. Throws: NameDuplicationException - If there are name conflicts as a result of the added relations or ports. IllegalActionException - If the published port cannot be found. linkToPublishedPort public void li"
+    },
+    {
+      "chunk_id": 188,
+      "text": "annot be found. linkToPublishedPort public void linkToPublishedPort(java.util.regex.Pattern pattern, TypedIOPort subscriberPort, boolean global) throws IllegalActionException , NameDuplicationE"
+    },
+    {
+      "chunk_id": 189,
+      "text": "throws IllegalActionException , NameDuplicationException Link the subscriberPort with a already registered \"published port\" coming from a publisher. The pattern represents the name being used in the matching process to match publisher and subsc"
+    },
+    {
+      "chunk_id": 190,
+      "text": "he matching process to match publisher and subscriber. A subscriber interested in the output of this publisher uses the name. This registration process of publisher typically happens before the model is preinitialized, for example when ope"
+    },
+    {
+      "chunk_id": 191,
+      "text": "he model is preinitialized, for example when opening the model. The subscribers will look for publishers during the preinitialization phase. Parameters: pattern - The pattern is being used in the matching process to match publisher and"
+    },
+    {
+      "chunk_id": 192,
+      "text": "matching process to match publisher and subscriber. subscriberPort - The subscribed port. global - Specification of whether the data is subscribed globally. If set to true, then subscribers will see values published by publishers anywh"
+    },
+    {
+      "chunk_id": 193,
+      "text": "rs will see values published by publishers anywhere in the model that reference the same channel by name. If set to false, then only values published by publishers that are fired by the same director are seen by this subscriber. Throws: Name"
+    },
+    {
+      "chunk_id": 194,
+      "text": "rector are seen by this subscriber. Throws: NameDuplicationException - If there are name conflicts as a result of the added relations or ports. IllegalActionException - If the published port cannot be found. needsWidthInference public boo"
+    },
+    {
+      "chunk_id": 195,
+      "text": "rt cannot be found. needsWidthInference public boolean needsWidthInference() throws KernelRuntimeException Return whether the current widths of the relation in the model are no longer valid anymore and the widths need to"
+    },
+    {
+      "chunk_id": 196,
+      "text": "are no longer valid anymore and the widths need to be inferred again. Returns: True when width inference needs to be executed again. Throws: KernelRuntimeException - If toplevel not a CompositeActor. notifyConnectivityChange public void notifyConnect"
+    },
+    {
+      "chunk_id": 197,
+      "text": "notifyConnectivityChange public void notifyConnectivityChange() Notify the manager that the connectivity in the model changed (width of relation changed, relations added, linked to different ports, ...). This will invalidate the current width inf"
+    },
+    {
+      "chunk_id": 198,
+      "text": "...). This will invalidate the current width inference. newInsideReceiver public Receiver newInsideReceiver() throws IllegalActionException Return a new receiver of a type compatible with the local director. Derived cla"
+    },
+    {
+      "chunk_id": 199,
+      "text": "compatible with the local director. Derived classes may further specialize this to return a receiver specialized to the particular actor. This method is not synchronized on the workspace, so the caller should be. Returns: A new object implement"
+    },
+    {
+      "chunk_id": 200,
+      "text": "caller should be. Returns: A new object implementing the Receiver interface. Throws: IllegalActionException - If there is no local director. newPort public Port newPort(java.lang.String name) throws NameDuplicationException Create a new"
+    },
+    {
+      "chunk_id": 201,
+      "text": "throws NameDuplicationException Create a new IOPort with the specified name. The container of the port is set to this actor. This method is write-synchronized on the workspace. Overrides: newPort in class ComponentEntity Parameters: name -"
+    },
+    {
+      "chunk_id": 202,
+      "text": "wPort in class ComponentEntity Parameters: name - The name for the new port. Returns: The new port. Throws: NameDuplicationException - If the actor already has a port with the specified name. newReceiver public Receiver newReceiver()"
+    },
+    {
+      "chunk_id": 203,
+      "text": "ceiver public Receiver newReceiver() throws IllegalActionException Return a new receiver of a type compatible with the executive director. Derived classes may further specialize this to return a receiver specialized to the pa"
+    },
+    {
+      "chunk_id": 204,
+      "text": "this to return a receiver specialized to the particular actor. This method is not synchronized on the workspace, so the caller should be. Specified by: newReceiver in interface Actor Returns: A new object implementing the Receiver interface. Thro"
+    },
+    {
+      "chunk_id": 205,
+      "text": "w object implementing the Receiver interface. Throws: IllegalActionException - If there is no executive director. newRelation public ComponentRelation newRelation(java.lang.String name) throws IllegalActionException , Na"
+    },
+    {
+      "chunk_id": 206,
+      "text": "throws IllegalActionException , NameDuplicationException Create a new IORelation with the specified name, add it to the relation list, and return it. Derived classes can override this to create domain-specific subclasses of IORela"
+    },
+    {
+      "chunk_id": 207,
+      "text": "his to create domain-specific subclasses of IORelation. This method is write-synchronized on the workspace. Overrides: newRelation in class CompositeEntity Parameters: name - The name of the new relation. Returns: The new relation. Throws: IllegalA"
+    },
+    {
+      "chunk_id": 208,
+      "text": "ation. Returns: The new relation. Throws: IllegalActionException - If name argument is null. NameDuplicationException - If name collides with a name already on the container's contents list. outputPortList public java.util.List outputPortList() Re"
+    },
+    {
+      "chunk_id": 209,
+      "text": "PortList public java.util.List outputPortList() Return an enumeration of the output ports. Note that this method returns the ports directly contained by this actor, whether they are transparent or not. This method is read-synchronized on the wo"
+    },
+    {
+      "chunk_id": 210,
+      "text": "not. This method is read-synchronized on the workspace. Specified by: outputPortList in interface Actor Returns: An enumeration of IOPort objects. postfire public boolean postfire() throws IllegalActionException If this actor is o"
+    },
+    {
+      "chunk_id": 211,
+      "text": "throws IllegalActionException If this actor is opaque, invoke the postfire() method of its local director and transfer output data. Specifically, transfer any data from the output ports of this composite to the ports connected on the outside."
+    },
+    {
+      "chunk_id": 212,
+      "text": "composite to the ports connected on the outside. The transfer is accomplished by calling the transferOutputs() method of the executive director. If there is no executive director, then no transfer occurs. This method is read-synchronized on t"
+    },
+    {
+      "chunk_id": 213,
+      "text": "er occurs. This method is read-synchronized on the workspace. Specified by: postfire in interface Executable Returns: True if the execution can continue into the next iteration. Throws: IllegalActionException - If there is no director, or if the"
+    },
+    {
+      "chunk_id": 214,
+      "text": "nException - If there is no director, or if the director's postfire() method throws it, or if this actor is not opaque. prefire public boolean prefire() throws IllegalActionException If this actor is opaque, invoke the prefire()"
+    },
+    {
+      "chunk_id": 215,
+      "text": "tion If this actor is opaque, invoke the prefire() method of the local director. This method returns true if the actor is ready to fire (determined by the prefire() method of the director). It is read-synchronized on the workspace. Specified by"
+    },
+    {
+      "chunk_id": 216,
+      "text": "s read-synchronized on the workspace. Specified by: prefire in interface Executable Returns: True if the iteration can proceed. Throws: IllegalActionException - If there is no director, or if the director's prefire() method throws it, or if this a"
+    },
+    {
+      "chunk_id": 217,
+      "text": "irector's prefire() method throws it, or if this actor is not opaque. preinitialize public void preinitialize() throws IllegalActionException Create receivers and invoke the preinitialize() method of the local director. If thi"
+    },
+    {
+      "chunk_id": 218,
+      "text": "einitialize() method of the local director. If this actor is not opaque, throw an exception. This method also resets the protected variable _stopRequested to false, so if a derived class overrides this method, then it should also do that. T"
+    },
+    {
+      "chunk_id": 219,
+      "text": "des this method, then it should also do that. This method is read-synchronized on the workspace, so the preinitialize() method of the director need not be, assuming it is only called from here. Specified by: preinitialize in interface Initia"
+    },
+    {
+      "chunk_id": 220,
+      "text": "e. Specified by: preinitialize in interface Initializable Throws: IllegalActionException - If there is no director, or if the director's preinitialize() method throws it, or if this actor is not opaque. recordFiring public void recordFiring( Fi"
+    },
+    {
+      "chunk_id": 221,
+      "text": "opaque. recordFiring public void recordFiring( FiringEvent.FiringEventType type) Record a firing event. Specified by: recordFiring in interface FiringsRecordable Parameters: type - The firing event to be recorded. registerPublisherPort public void r"
+    },
+    {
+      "chunk_id": 222,
+      "text": "o be recorded. registerPublisherPort public void registerPublisherPort(java.lang.String name, IOPort port) throws NameDuplicationException , IllegalActionException Register a \"published port\" coming from a publisher. The na"
+    },
+    {
+      "chunk_id": 223,
+      "text": "a \"published port\" coming from a publisher. The name is the name being used in the matching process to match publisher and subscriber. A subscriber interested in the output of this publisher uses the same name. This registration process of pu"
+    },
+    {
+      "chunk_id": 224,
+      "text": "s the same name. This registration process of publisher typically happens before the model is preinitialized, for example when opening the model. The subscribers will look for publishers during the preinitialization phase. Parameters: name -"
+    },
+    {
+      "chunk_id": 225,
+      "text": "g the preinitialization phase. Parameters: name - The name is being used in the matching process to match publisher and subscriber. port - The published port. Throws: NameDuplicationException - If the published port is already reg"
+    },
+    {
+      "chunk_id": 226,
+      "text": "n - If the published port is already registered. IllegalActionException - If the published port can't be added. registerPublisherPort public void registerPublisherPort(java.lang.String name, IOPort port,"
+    },
+    {
+      "chunk_id": 227,
+      "text": "ring name, IOPort port, boolean global) throws NameDuplicationException , IllegalActionException Register a \"published port\" coming from a publisher. The name is the name being used in th"
+    },
+    {
+      "chunk_id": 228,
+      "text": "publisher. The name is the name being used in the matching process to match publisher and subscriber. A subscriber interested in the output of this publisher uses the same name. This registration process of publisher typically happens befor"
+    },
+    {
+      "chunk_id": 229,
+      "text": "ion process of publisher typically happens before the model is preinitialized, for example when opening the model. The subscribers will look for publishers during the preinitialization phase. This call is ignored if this composite is a class"
+    },
+    {
+      "chunk_id": 230,
+      "text": "This call is ignored if this composite is a class definition or is within a class definition. Parameters: name - The name is being used in the matching process to match publisher and subscriber. port - The published port. global - If true"
+    },
+    {
+      "chunk_id": 231,
+      "text": "riber. port - The published port. global - If true, publish globally. If false, publish only to subscribers that are fired by the same director. Throws: NameDuplicationException - If the published port is already registered. IllegalActio"
+    },
+    {
+      "chunk_id": 232,
+      "text": "port is already registered. IllegalActionException - If the published port can't be added. removeActorFiringListener public void removeActorFiringListener( ActorFiringListener listener) Unregister an actor firing listener. If the"
+    },
+    {
+      "chunk_id": 233,
+      "text": "ener) Unregister an actor firing listener. If the specified listener has not been previously registered, then do nothing. Note that this method is basically the same as removeDebugListener in the class NamedObj. Specified by: removeActorFiringL"
+    },
+    {
+      "chunk_id": 234,
+      "text": "e class NamedObj. Specified by: removeActorFiringListener in interface FiringsRecordable Parameters: listener - The listener to remove from the list of listeners to which actor firing messages are sent. See Also: addActorFiringListener(ActorFiring"
+    },
+    {
+      "chunk_id": 235,
+      "text": "sent. See Also: addActorFiringListener(ActorFiringListener) removeInitializable public void removeInitializable( Initializable initializable) Remove the specified object from the list of objects whose preinitialize(), initialize(), and wrapup() m"
+    },
+    {
+      "chunk_id": 236,
+      "text": "preinitialize(), initialize(), and wrapup() methods should be invoked upon invocation of the corresponding methods of this object. If the specified object is not on the list, do nothing. Specified by: removeInitializable in interface Initial"
+    },
+    {
+      "chunk_id": 237,
+      "text": "ified by: removeInitializable in interface Initializable Parameters: initializable - The object whose methods should no longer be invoked. See Also: addInitializable(Initializable) , removePiggyback(Executable) removePiggyback public void removePiggy"
+    },
+    {
+      "chunk_id": 238,
+      "text": "xecutable) removePiggyback public void removePiggyback( Executable piggyback) Remove the specified object from the list of objects whose action methods should be invoked upon invocation of the corresponding actions methods of this object. If the"
+    },
+    {
+      "chunk_id": 239,
+      "text": "sponding actions methods of this object. If the specified object is not on the list, do nothing. Parameters: piggyback - The piggyback object. See Also: removeInitializable(Initializable) , addPiggyback(Executable) requestChange public void reque"
+    },
+    {
+      "chunk_id": 240,
+      "text": "gyback(Executable) requestChange public void requestChange( ChangeRequest change) Queue a change request. If there is a manager, then first call stopFire() before deferring to the base class. Also, if there is a waiting thread registered with th"
+    },
+    {
+      "chunk_id": 241,
+      "text": "o, if there is a waiting thread registered with the manager, then wake it up to let it handle change requests. Specified by: requestChange in interface Changeable Overrides: requestChange in class NamedObj Parameters: change - The requested change."
+    },
+    {
+      "chunk_id": 242,
+      "text": "amedObj Parameters: change - The requested change. See Also: NamedObj.executeChangeRequests() , NamedObj.setDeferringChangeRequests(boolean) , Changeable setContainer public void setContainer( CompositeEntity container) throws Illeg"
+    },
+    {
+      "chunk_id": 243,
+      "text": "teEntity container) throws IllegalActionException , NameDuplicationException Override the base class to invalidate the schedule and resolved types of the director. Overrides: setContainer in class CompositeEntity Parameters: conta"
+    },
+    {
+      "chunk_id": 244,
+      "text": "ntainer in class CompositeEntity Parameters: container - The proposed container. Throws: IllegalActionException - If the action would result in a recursive containment structure, or if this entity and container are not in the same workspace. Na"
+    },
+    {
+      "chunk_id": 245,
+      "text": "ty and container are not in the same workspace. NameDuplicationException - If the container already has an entity with the name of this entity. See Also: ComponentEntity.getContainer() setDirector public void setDirector( Director director)"
+    },
+    {
+      "chunk_id": 246,
+      "text": "public void setDirector( Director director) throws IllegalActionException , NameDuplicationException Set the local director for execution of this CompositeActor. Calling this method with a non-null argument makes this entity opaque"
+    },
+    {
+      "chunk_id": 247,
+      "text": "with a non-null argument makes this entity opaque. Calling it with a null argument makes it transparent. The container of the specified director is set to this composite actor, and if there was previously a local director, its container is s"
+    },
+    {
+      "chunk_id": 248,
+      "text": "previously a local director, its container is set to null. This method is write-synchronized on the workspace. NOTE: Calling this method is almost equivalent to calling setContainer() on the director with this composite as an argument. The dif"
+    },
+    {
+      "chunk_id": 249,
+      "text": "rector with this composite as an argument. The difference is that if you call this method with a null argument, it effectively removes the director from its role as director, but without removing it from its container. Parameters: director - Th"
+    },
+    {
+      "chunk_id": 250,
+      "text": "g it from its container. Parameters: director - The Director responsible for execution. Throws: IllegalActionException - If the director is not in the same workspace as this actor. It may also be thrown in derived classes if the director is not c"
+    },
+    {
+      "chunk_id": 251,
+      "text": "rown in derived classes if the director is not compatible. NameDuplicationException - If an attribute already exists in this container with the same name as the given director. See Also: getDirector() setManager public void setManager( Manager ma"
+    },
+    {
+      "chunk_id": 252,
+      "text": "or() setManager public void setManager( Manager manager) throws IllegalActionException Set the Manager for execution of this CompositeActor. This can only be done for a composite actor that has no container. For others, the Manage"
+    },
+    {
+      "chunk_id": 253,
+      "text": "or that has no container. For others, the Manager is inherited from the container. This method is write-synchronized on the workspace. Parameters: manager - The Manager Throws: IllegalActionException - If this actor has a container, or the mana"
+    },
+    {
+      "chunk_id": 254,
+      "text": "ion - If this actor has a container, or the manager is not in the same workspace as this actor. See Also: getManager() stop public void stop() Request that execution stop as soon as possible. This sets a flag indicating that this request has be"
+    },
+    {
+      "chunk_id": 255,
+      "text": "is sets a flag indicating that this request has been made (the protected variable _stopRequested). If this actor is opaque, then invoke the stop() method of the local director. This method is read-synchronized on the workspace. Specified by:"
+    },
+    {
+      "chunk_id": 256,
+      "text": "read-synchronized on the workspace. Specified by: stop in interface Executable stopFire public void stopFire() Request that execution of the current iteration complete. If this actor is opaque, then invoke the stopFire() method of the local direc"
+    },
+    {
+      "chunk_id": 257,
+      "text": "invoke the stopFire() method of the local director, if there is one. Otherwise, do nothing. This method is read-synchronized on the workspace. Specified by: stopFire in interface Executable terminate public void terminate() If this is an opaqu"
+    },
+    {
+      "chunk_id": 258,
+      "text": "minate public void terminate() If this is an opaque CompositeActor, then look to our director for help. If we are transparent, then we really shouldn't have been called, so just ignore. Specified by: terminate in interface Executable unlinkToPu"
+    },
+    {
+      "chunk_id": 259,
+      "text": "d by: terminate in interface Executable unlinkToPublishedPort public void unlinkToPublishedPort(java.lang.String name, IOPort subscriberPort) throws IllegalActionException Unlink the subscriberPort with a already registered"
+    },
+    {
+      "chunk_id": 260,
+      "text": "nlink the subscriberPort with a already registered \"published port\" coming from a publisher. The name is the name being used in the matching process to match publisher and subscriber. A subscriber interested in the output of this publisher uses"
+    },
+    {
+      "chunk_id": 261,
+      "text": "er interested in the output of this publisher uses the name. This registration process of publisher typically happens before the model is preinitialized, for example when opening the model. The subscribers will look for publishers during the"
+    },
+    {
+      "chunk_id": 262,
+      "text": "subscribers will look for publishers during the preinitialization phase. Parameters: name - The name is being used in the matching process to match publisher and subscriber. subscriberPort - The subscribed port. Throws: IllegalActionExce"
+    },
+    {
+      "chunk_id": 263,
+      "text": "t - The subscribed port. Throws: IllegalActionException - If the published port cannot be found. unlinkToPublishedPort public void unlinkToPublishedPort(java.lang.String name, IOPort subscriberPort, boolean global)"
+    },
+    {
+      "chunk_id": 264,
+      "text": "boolean global) throws IllegalActionException Unlink the subscriberPort with a already registered \"published port\" coming from a publisher. The name is the name being used in the matchin"
+    },
+    {
+      "chunk_id": 265,
+      "text": ". The name is the name being used in the matching process to match publisher and subscriber. A subscriber interested in the output of this publisher uses the name. This registration process of publisher typically happens before the model is"
+    },
+    {
+      "chunk_id": 266,
+      "text": "publisher typically happens before the model is preinitialized, for example when opening the model. The subscribers will look for publishers during the preinitialization phase. Parameters: name - The name is being used in the matching process"
+    },
+    {
+      "chunk_id": 267,
+      "text": "- The name is being used in the matching process to match publisher and subscriber. subscriberPort - The subscribed port. global - Specification of whether the data is subscribed globally. If set to true, then subscribers will see values"
+    },
+    {
+      "chunk_id": 268,
+      "text": "If set to true, then subscribers will see values published by publishers anywhere in the model that reference the same channel by name. If set to false, then only values published by publishers that are fired by the same director are seen"
+    },
+    {
+      "chunk_id": 269,
+      "text": "rs that are fired by the same director are seen by this subscriber. Throws: IllegalActionException - If the published port cannot be found. unlinkToPublishedPort public void unlinkToPublishedPort(java.util.regex.Pattern pattern, TypedIOPort subscri"
+    },
+    {
+      "chunk_id": 270,
+      "text": "va.util.regex.Pattern pattern, TypedIOPort subscriberPort) throws IllegalActionException Unlink the subscriberPort with a already registered \"published port\" coming from a publisher. The pattern is the pattern being used"
+    },
+    {
+      "chunk_id": 271,
+      "text": "publisher. The pattern is the pattern being used in the matching process to match publisher and subscriber. A subscriber interested in the output of this publisher uses the name. This registration process of publisher typically happens befo"
+    },
+    {
+      "chunk_id": 272,
+      "text": "tion process of publisher typically happens before the model is preinitialized, for example when opening the model. The subscribers will look for publishers during the preinitialization phase. Parameters: pattern - The pattern is being used in"
+    },
+    {
+      "chunk_id": 273,
+      "text": "arameters: pattern - The pattern is being used in the matching process to match publisher and subscriber. subscriberPort - The subscribed port. Throws: IllegalActionException - If the published port cannot be found. unlinkToPublishedPort pu"
+    },
+    {
+      "chunk_id": 274,
+      "text": "hed port cannot be found. unlinkToPublishedPort public void unlinkToPublishedPort(java.util.regex.Pattern pattern, TypedIOPort subscriberPort, boolean global) throws IllegalActionException"
+    },
+    {
+      "chunk_id": 275,
+      "text": "throws IllegalActionException Unlink the subscriberPort with a already registered \"published port\" coming from a publisher. The pattern is the pattern being used in the matching process to match publisher and subscriber. A s"
+    },
+    {
+      "chunk_id": 276,
+      "text": "g process to match publisher and subscriber. A subscriber interested in the output of this publisher uses the name. This registration process of publisher typically happens before the model is preinitialized, for example when opening the mod"
+    },
+    {
+      "chunk_id": 277,
+      "text": "preinitialized, for example when opening the model. The subscribers will look for publishers during the preinitialization phase. Parameters: pattern - The pattern is being used in the matching process to match publisher and subscriber."
+    },
+    {
+      "chunk_id": 278,
+      "text": "cess to match publisher and subscriber. subscriberPort - The subscribed port. global - Specification of whether the data is subscribed globally. If set to true, then subscribers will see values published by publishers anywhere in the m"
+    },
+    {
+      "chunk_id": 279,
+      "text": "values published by publishers anywhere in the model that reference the same channel by name. If set to false, then only values published by publishers that are fired by the same director are seen by this subscriber. Throws: IllegalActionExc"
+    },
+    {
+      "chunk_id": 280,
+      "text": "seen by this subscriber. Throws: IllegalActionException - If the published port cannot be found. unregisterPublisherPort public void unregisterPublisherPort(java.lang.String name, IOPort publisherPort) throws IllegalActi"
+    },
+    {
+      "chunk_id": 281,
+      "text": "t) throws IllegalActionException , NameDuplicationException Unregister a \"published port\" coming from a publisher. The name is the name being used in the matching process to match publisher and subscriber. A subscri"
+    },
+    {
+      "chunk_id": 282,
+      "text": "ess to match publisher and subscriber. A subscriber interested in the output of this publisher uses the same name. This registration process of publisher typically happens before the model is preinitialized, for example when opening the model"
+    },
+    {
+      "chunk_id": 283,
+      "text": "einitialized, for example when opening the model. The subscribers will look for publishers during the preinitialization phase. Parameters: name - The name is being used in the matching process to match publisher and subscriber. This wil"
+    },
+    {
+      "chunk_id": 284,
+      "text": "to match publisher and subscriber. This will be the port that should be removed publisherPort - The publisher port. Throws: IllegalActionException - If the container of the port cannot be set. NameDuplicationException - If the cont"
+    },
+    {
+      "chunk_id": 285,
+      "text": "t be set. NameDuplicationException - If the container of the port cannot be set unregisterPublisherPort public void unregisterPublisherPort(java.lang.String name, IOPort publisherPort, boolean global)"
+    },
+    {
+      "chunk_id": 286,
+      "text": "boolean global) throws IllegalActionException , NameDuplicationException Unregister a \"published port\" coming from a publisher. The name is the name being used in the matching process to match"
+    },
+    {
+      "chunk_id": 287,
+      "text": "name being used in the matching process to match publisher and subscriber. A subscriber interested in the output of this publisher uses the same name. This registration process of publisher typically happens before the model is preinitialized"
+    },
+    {
+      "chunk_id": 288,
+      "text": "pically happens before the model is preinitialized, for example when opening the model. The subscribers will look for publishers during the preinitialization phase. Parameters: name - The name is being used in the matching process to ma"
+    },
+    {
+      "chunk_id": 289,
+      "text": "being used in the matching process to match publisher and subscriber. This will be the port that should be removed publisherPort - The publisher port. global - If true, unregister the port all the way up the hierarchy. Throws: Ill"
+    },
+    {
+      "chunk_id": 290,
+      "text": "the port all the way up the hierarchy. Throws: IllegalActionException - If the container of the port cannot be set. NameDuplicationException - If the container of the port cannot be set wrapup public void wrapup() throws IllegalAction"
+    },
+    {
+      "chunk_id": 291,
+      "text": "lic void wrapup() throws IllegalActionException If this actor is opaque, then invoke the wrapup() method of the local director. This method is read-synchronized on the workspace. Specified by: wrapup in interface Initializable Throws: I"
+    },
+    {
+      "chunk_id": 292,
+      "text": "ed by: wrapup in interface Initializable Throws: IllegalActionException - If there is no director, or if the director's wrapup() method throws it, or if this actor is not opaque. _actorFiring protected final void _actorFiring( FiringEvent event"
+    },
+    {
+      "chunk_id": 293,
+      "text": "otected final void _actorFiring( FiringEvent event) Send an actor firing event to all actor firing listeners that have registered with this actor. Parameters: event - The event. _actorFiring protected final void _actorFiring( FiringEvent.FiringEven"
+    },
+    {
+      "chunk_id": 294,
+      "text": "ed final void _actorFiring( FiringEvent.FiringEventType type, int multiplicity) Send an actor firing event type to all actor firing listeners that have registered with this actor. Parameters: type - The type. multi"
+    },
+    {
+      "chunk_id": 295,
+      "text": "ith this actor. Parameters: type - The type. multiplicity - The multiplicity of the firing, that is, the number of times the firing will occur or has occurred. _addEntity protected void _addEntity( ComponentEntity entity) throws"
+    },
+    {
+      "chunk_id": 296,
+      "text": "ComponentEntity entity) throws IllegalActionException , NameDuplicationException Add an actor to this container with minimal error checking. This overrides the base-class method to make sure the argument implements the Actor in"
+    },
+    {
+      "chunk_id": 297,
+      "text": "o make sure the argument implements the Actor interface. It is not synchronized on the workspace, so the caller should be. Overrides: _addEntity in class CompositeEntity Parameters: entity - Actor to contain. Throws: IllegalActionException - If"
+    },
+    {
+      "chunk_id": 298,
+      "text": "or to contain. Throws: IllegalActionException - If the actor has no name, or the action would result in a recursive containment structure, or the argument does not implement the Actor interface. NameDuplicationException - If the name collides w"
+    },
+    {
+      "chunk_id": 299,
+      "text": "NameDuplicationException - If the name collides with a name already on the actor contents list. _addPort protected void _addPort( Port port) throws IllegalActionException , NameDuplicationException Add a port to this actor. This"
+    },
+    {
+      "chunk_id": 300,
+      "text": "plicationException Add a port to this actor. This overrides the base class to throw an exception if the added port is not an instance of IOPort. This method should not be used directly. Call the setContainer() method of the port instead. This"
+    },
+    {
+      "chunk_id": 301,
+      "text": "setContainer() method of the port instead. This method does not set the container of the port to point to this actor. It assumes that the port is in the same workspace as this actor, but does not check. The caller should check. This metho"
+    },
+    {
+      "chunk_id": 302,
+      "text": "not check. The caller should check. This method is not synchronized on the workspace, so the caller should be. Overrides: _addPort in class Entity Parameters: port - The port to add to this actor. Throws: IllegalActionException - If the port cl"
+    },
+    {
+      "chunk_id": 303,
+      "text": "r. Throws: IllegalActionException - If the port class is not acceptable to this actor, or the port has no name. NameDuplicationException - If the port name collides with a name already in the actor. _addRelation protected void _addRelation( Com"
+    },
+    {
+      "chunk_id": 304,
+      "text": "tor. _addRelation protected void _addRelation( ComponentRelation relation) throws IllegalActionException , NameDuplicationException Add a relation to this container. This method should not be used directly. Call the setContain"
+    },
+    {
+      "chunk_id": 305,
+      "text": "hould not be used directly. Call the setContainer() method of the relation instead. This method does not set the container of the relation to refer to this container. This method is not synchronized on the workspace, so the caller should be."
+    },
+    {
+      "chunk_id": 306,
+      "text": "nized on the workspace, so the caller should be. Overrides: _addRelation in class CompositeEntity Parameters: relation - Relation to contain. Throws: IllegalActionException - If the relation has no name, or is not an instance of IORelation. Name"
+    },
+    {
+      "chunk_id": 307,
+      "text": "name, or is not an instance of IORelation. NameDuplicationException - If the name collides with a name already on the contained relations list. _finishedAddEntity protected void _finishedAddEntity( ComponentEntity entity) Notify this actor that"
+    },
+    {
+      "chunk_id": 308,
+      "text": "ty( ComponentEntity entity) Notify this actor that the given entity has been added inside it. This overrides the base-class method to invalidate the schedule and type resolution, and to request initialization with the director. This method does"
+    },
+    {
+      "chunk_id": 309,
+      "text": "itialization with the director. This method does not alter the actor in any way. It is not synchronized on the workspace, so the caller should be. Overrides: _finishedAddEntity in class CompositeEntity Parameters: entity - Actor to contain. _se"
+    },
+    {
+      "chunk_id": 310,
+      "text": "eEntity Parameters: entity - Actor to contain. _setDirector protected void _setDirector( Director director) throws IllegalActionException , NameDuplicationException Set the local director for execution of this CompositeActor. T"
+    },
+    {
+      "chunk_id": 311,
+      "text": "director for execution of this CompositeActor. This should not be called be directly. Instead, call setContainer() on the director. This method removes any previous director from this container, and caches a local reference to the director"
+    },
+    {
+      "chunk_id": 312,
+      "text": "r, and caches a local reference to the director so that this composite does not need to search its attributes each time the director is accessed. Parameters: director - The Director responsible for execution. Throws: IllegalActionException - If r"
+    },
+    {
+      "chunk_id": 313,
+      "text": "r execution. Throws: IllegalActionException - If removing the old director causes this to be thrown. Should not be thrown. NameDuplicationException - If removing the old director causes this to be thrown. Should not be thrown. _transferPortPara"
+    },
+    {
+      "chunk_id": 314,
+      "text": "be thrown. Should not be thrown. _transferPortParameterInputs protected void _transferPortParameterInputs() throws IllegalActionException Read inputs from ParameterPorts and update. Throws: IllegalActionException"
+    },
+    {
+      "chunk_id": 315,
+      "text": "rPorts and update. Throws: IllegalActionException - If reading from parameter associated with port fails. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | F"
+    },
+    {
+      "chunk_id": 316,
+      "text": "s Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

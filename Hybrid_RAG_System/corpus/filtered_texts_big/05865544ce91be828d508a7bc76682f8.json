@@ -1,0 +1,125 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/DuktapeHost",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / DuktapeHost Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / DuktapeHost The Duktape Host is a work in progress \" Duktape i"
+    },
+    {
+      "chunk_id": 2,
+      "text": "The Duktape Host is a work in progress \" Duktape is an embeddable Javascript engine, with a focus on portability and compact footprint.\" Status The Duktape host is an effort to run accessors in a very small memory footprint. The executable is under 3"
+    },
+    {
+      "chunk_id": 3,
+      "text": "small memory footprint. The executable is under 300k. Under Mac OS X, using the Activity Monitor to inspect the duk process shows: Real Memory Size: 1.5MB Virtual Memory Size: 2.38GB Shared Memory Size: 224 KB Private Memory Size: 848 KB. To get thi"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ze: 224 KB Private Memory Size: 848 KB. To get this data, I added a busy loop at the end of test/testComposite.js : function sleepFor ( sleepDuration ) { var now = new Date ( ) . getTime ( ) ; while ( new Date ( ) . getTime ( ) < now + sleepDuration"
+    },
+    {
+      "chunk_id": 5,
+      "text": "new Date ( ) . getTime ( ) < now + sleepDuration ) { /* do nothing */ } } sleepFor ( 20000 ) ; [$[Get Code]] For hints about lowering the memory usage see https://github.com/svaarala/duktape/blob/master/doc/low-memory.rst https://github.com/svaarala"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ter/doc/low-memory.rst https://github.com/svaarala/duktape/blob/master/config/examples/low_memory.yaml https://github.com/svaarala/duktape/tree/master/examples/alloc-hybrid The current status is that accessors can be instantiated and run, but there i"
+    },
+    {
+      "chunk_id": 7,
+      "text": "accessors can be instantiated and run, but there is much to do. See Maxim Pegasus for running on a 512K RAM/2Mb Flash Cortex-M4. A Simple Example In the example below, we compile the duk executable from sources that include a C function that reads fi"
+    },
+    {
+      "chunk_id": 8,
+      "text": "om sources that include a C function that reads files. We then run duk on a file that uses test/testComposite.js Due to limitations about how Duktape handles relative paths in require() , we need to run this from the hosts/ directory, not the hosts/d"
+    },
+    {
+      "chunk_id": 9,
+      "text": "un this from the hosts/ directory, not the hosts/duktape/ directory. Note that the results is 50! bash-3.2$ cd accessors / web / hosts / duktape / duktape bash-3.2$ make clean rm -f duk bash-3.2$ make / Applications / Xcode.app / Contents / Developer"
+    },
+    {
+      "chunk_id": 10,
+      "text": "/ Applications / Xcode.app / Contents / Developer / usr / bin / make -f Makefile.cmdline gcc -o duk -Os -pedantic -std =c99 -Wall -fstrict-aliasing -fomit-frame-pointer -I. -I. / src \\ -DDUK_OPT_SELF_TESTS src / duktape.c examples / cmdline / duk"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ELF_TESTS src / duktape.c examples / cmdline / duk_cmdline.c examples / eventloop / fileio.c e\\ xamples / eventloop / poll.c -lm bash-3.2$ ls -l duk -rwxr-xr-x 1 cxh staff 300376 Apr 26 14 : 21 duk bash-3.2$ cd .. / .. bash-3.2$ . / duktape / duktap"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ash-3.2$ cd .. / .. bash-3.2$ . / duktape / duktape / duk --accessor --timeout 2000 duktape / test / testComposite.js duktapeHost.js done duk: About to instantiate duktape / test / testComposite.js timeout 2000 .. / eduk / nofileio.c: 163 Could not f"
+    },
+    {
+      "chunk_id": 13,
+      "text": "meout 2000 .. / eduk / nofileio.c: 163 Could not find . / duktape / test / testComposite.js .. / eduk / nofileio.c: 163 Could not find .. / duktape / test / testComposite.js .. / eduk / nofileio.c: 163 Could not find .. / .. / duktape / test / testCo"
+    },
+    {
+      "chunk_id": 14,
+      "text": "3 Could not find .. / .. / duktape / test / testComposite.js TestGain: input 10 gain: 4 TestAdder: inputLeft: 10 inputRight: 40 duktape / test / testComposite.js: OK: output was 50 , which is equal to 50 . bash-3.2$ [$[Get Code]] Invoke Composite Acc"
+    },
+    {
+      "chunk_id": 15,
+      "text": "50 . bash-3.2$ [$[Get Code]] Invoke Composite Accessor duk_cmdline.c has been extended to handle --accessor Run the command line arguments as Accessors --timeout time Exit after time milliseconds See also Command Line Arguments . For example: Use th"
+    },
+    {
+      "chunk_id": 16,
+      "text": "also Command Line Arguments . For example: Use the Cape Code Host to generate a composite accessor Invoke vergil: $ PTII / bin / vergil / Users / cxh / ptII / ptolemy / cg / kernel / generic / accessor / test / auto / RampJSDisplay.xml [$[Get Code]]"
+    },
+    {
+      "chunk_id": 17,
+      "text": "or / test / auto / RampJSDisplay.xml [$[Get Code]] Click on the AccessorCodeGenerator and then the Generate button hosts/node/RampJSDisplay.js will be created note: this file may be moved sometime soon. Invoke the Duktape host: Build: cd hosts svn up"
+    },
+    {
+      "chunk_id": 18,
+      "text": "n. Invoke the Duktape host: Build: cd hosts svn update ( cd duktape / duktape; make clean; make ) [$[Get Code]] Invoke the Duktape Accessor Host: bash-3.2$ duktape / duktape / duk --timeout 5000 --accessor node / RampJSDisplay.js examples / cmdline /"
+    },
+    {
+      "chunk_id": 19,
+      "text": "essor node / RampJSDisplay.js examples / cmdline / duk_cmdline.c Loading C version of duktapeHost loading module: common / commonHost loading module: common / commonHost.js loaded Ecmascript: common / commonHost.js loading module: common / modules /"
+    },
+    {
+      "chunk_id": 20,
+      "text": "commonHost.js loading module: common / modules / util.js loading module: common / modules / util.js loaded Ecmascript: common / modules / util.js loading module: common / modules / events.js loading module: common / modules / events.js loaded Ecmasc"
+    },
+    {
+      "chunk_id": 21,
+      "text": "module: common / modules / events.js loaded Ecmascript: common / modules / events.js loading module: duktape / duktape / examples / eventloop / ecma_eventloop loading module: duktape / duktape / examples / eventloop / ecma_eventloop.js loaded Ecmascr"
+    },
+    {
+      "chunk_id": 22,
+      "text": "les / eventloop / ecma_eventloop.js loaded Ecmascript: duktape / duktape / examples / eventloop / ecma_eventloop.js Loaded duktapeHost.js examples / cmdline / duk_cmdline.c: Loading C version of duktapeHost worked duktapeHost.js: instantiateAndInitia"
+    },
+    {
+      "chunk_id": 23,
+      "text": "peHost worked duktapeHost.js: instantiateAndInitialize ( ) start: node / RampJSDisplay.js 1 duktapeHost.js: instantiateAndInitialize ( ) : node / RampJSDisplay.js Instantiated accessor RampJSDisplay.js with class node / RampJSDisplay.js ecmap_eventlo"
+    },
+    {
+      "chunk_id": 24,
+      "text": "s with class node / RampJSDisplay.js ecmap_eventloop.js: setInterval ( ) : 1000 ecmap_eventloop.js: setTimeout ( ) : 5000 calling EventLoop.run ( ) ecmap_eventloop.js: setTimeout ( ) : 0 ecmap_eventloop.js: setTimeout ( ) : 0 1 ecmap_eventloop.js: se"
+    },
+    {
+      "chunk_id": 25,
+      "text": "op.js: setTimeout ( ) : 0 1 ecmap_eventloop.js: setTimeout ( ) : 0 ecmap_eventloop.js: setTimeout ( ) : 0 2 ecmap_eventloop.js: setTimeout ( ) : 0 ecmap_eventloop.js: setTimeout ( ) : 0 3 ecmap_eventloop.js: setTimeout ( ) : 0 ecmap_eventloop.js: set"
+    },
+    {
+      "chunk_id": 26,
+      "text": "oop.js: setTimeout ( ) : 0 ecmap_eventloop.js: setTimeout ( ) : 0 4 bash-3.2$ [$[Get Code]] Debugging Compile with Debugging Adding the following to duktape.c and recompiling turns on debugging: #define DUK_USE_DEBUG 1 #define DUK_USE_DDPRINT 1 [$[Ge"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ne DUK_USE_DEBUG 1 #define DUK_USE_DDPRINT 1 [$[Get Code]] JSON.Stringify To print the contents of an object in Duktape, download json2.js cd hosts/duktape wget https://raw.g"
+    },
+    {
+      "chunk_id": 28,
+      "text": "wget https://raw.githubusercontent.com/douglascrockford/JSON-js/master/json2.js And then use code like: var json = require ( \"duktape/json2\" ) ; console. log ( \"commonHost is: \" + JSON. stringify ( commonHost ) ) ; [$["
+    },
+    {
+      "chunk_id": 29,
+      "text": "ost is: \" + JSON. stringify ( commonHost ) ) ; [$[Get Code]] See Also Duktape Code Generation Maxim Pegasus Duktape Memory Usage Duktape Notes Duktape Host Duktape for Small Processors Duktape Eclipse Linux Duktape Eclipse Setup Duktape Eclipse ARM C"
+    },
+    {
+      "chunk_id": 30,
+      "text": "Linux Duktape Eclipse Setup Duktape Eclipse ARM Cortex M3 Duktape Eclipse ARM Cortex M4 DUKtape Implementation In ARM-M4 Heap Configuration For ARM Cortex Signpost TockOS - Notes about the Hail board, which uses a Cortex M4 and Duktape Duktape Host"
+    }
+  ]
+}

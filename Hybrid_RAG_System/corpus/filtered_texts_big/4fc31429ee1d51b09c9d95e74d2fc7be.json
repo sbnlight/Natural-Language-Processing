@@ -1,0 +1,593 @@
+{
+  "url": "http://rail.eecs.berkeley.edu/deeprlcourse-fa18/static/misc/TF_lecture.ipynb",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "{ \"cells\": [ { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"# CS294-112 Fall 2018 Tensorflow Tutorial\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"This tutorial will provide a brief overvi"
+    },
+    {
+      "chunk_id": 2,
+      "text": ": [ \"This tutorial will provide a brief overview of the core concepts and functionality of Tensorflow. This tutorial will cover the following:\\n\", \"\\n\", \"0. What is Tensorflow\\n\", \"1. How to input data\\n\", \"2. How to perform compu"
+    },
+    {
+      "chunk_id": 3,
+      "text": "How to input data\\n\", \"2. How to perform computations\\n\", \"3. How to create variables\\n\", \"4. How to train a neural network for a simple regression problem\\n\", \"5. Tips and tricks\" ] }, { \"cell_type\": \"code\", \"execution_c"
+    },
+    {
+      "chunk_id": 4,
+      "text": "] }, { \"cell_type\": \"code\", \"execution_count\": 1, \"metadata\": {}, \"outputs\": [], \"source\": [ \"import tensorflow as tf\\n\", \"import numpy as np\\n\", \"import matplotlib.pyplot as plt\\n\", \"import matplotlib.cm as cm\\n\","
+    },
+    {
+      "chunk_id": 5,
+      "text": "ot as plt\\n\", \"import matplotlib.cm as cm\\n\", \"import matplotlib.patches as mpatches\" ] }, { \"cell_type\": \"code\", \"execution_count\": 2, \"metadata\": {}, \"outputs\": [], \"source\": [ \"def tf_reset():\\n\", \" try:\\n\""
+    },
+    {
+      "chunk_id": 6,
+      "text": "urce\": [ \"def tf_reset():\\n\", \" try:\\n\", \" sess.close()\\n\", \" except:\\n\", \" pass\\n\", \" tf.reset_default_graph()\\n\", \" return tf.Session()\" ] }, { \"cell_type\": \"markdown\", \"metadata\":"
+    },
+    {
+      "chunk_id": 7,
+      "text": "}, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"# 0. What is Tensorflow\\n\", \"\\n\", \"Tensorflow is a framework to define a series of computations. You define inputs, what operations should be performed, and then Tensor"
+    },
+    {
+      "chunk_id": 8,
+      "text": "at operations should be performed, and then Tensorflow will compute the outputs for you.\\n\", \"\\n\", \"Below is a simple high-level example:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 3, \"metadata\": {}, \"outputs\": [ {"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ount\": 3, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"c = 3.0\\n\" ] } ], \"source\": [ \"# create the session you'll work in\\n\", \"# you can think of this as a"
+    },
+    {
+      "chunk_id": 10,
+      "text": "'ll work in\\n\", \"# you can think of this as a \\\"blank piece of paper\\\" that you'll be writing math on\\n\", \"sess = tf_reset()\\n\", \"\\n\", \"# define your inputs\\n\", \"a = tf.constant(1.0)\\n\", \"b = tf.constant(2.0)\\n\", \"\\n\","
+    },
+    {
+      "chunk_id": 11,
+      "text": "0)\\n\", \"b = tf.constant(2.0)\\n\", \"\\n\", \"# do some operations\\n\", \"c = a + b\\n\", \"\\n\", \"# get the result\\n\", \"c_run = sess.run(c)\\n\", \"\\n\", \"print('c = {0}'.format(c_run))\" ] }, { \"cell_type\": \"markdown\","
+    },
+    {
+      "chunk_id": 12,
+      "text": "_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"# 1. How to input data\\n\", \"\\n\", \"Tensorflow has multiple ways for you to input data. One way is to have the inputs be constants:\" ] }, { \"cell"
+    },
+    {
+      "chunk_id": 13,
+      "text": "e the inputs be constants:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 4, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"c = 3.0\\n\" ] } ], \"source\":"
+    },
+    {
+      "chunk_id": 14,
+      "text": "\"c = 3.0\\n\" ] } ], \"source\": [ \"sess = tf_reset()\\n\", \"\\n\", \"# define your inputs\\n\", \"a = tf.constant(1.0)\\n\", \"b = tf.constant(2.0)\\n\", \"\\n\", \"# do some operations\\n\", \"c = a + b\\n\", \"\\n\","
+    },
+    {
+      "chunk_id": 15,
+      "text": "ome operations\\n\", \"c = a + b\\n\", \"\\n\", \"# get the result\\n\", \"c_run = sess.run(c)\\n\", \"\\n\", \"print('c = {0}'.format(c_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"However, having our"
+    },
+    {
+      "chunk_id": 16,
+      "text": "data\": {}, \"source\": [ \"However, having our inputs be constants is inflexible. We want to be able to change what data we input at runtime. We can do this using placeholders:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 5, \"m"
+    },
+    {
+      "chunk_id": 17,
+      "text": "cell_type\": \"code\", \"execution_count\": 5, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"c0 = [3.]\\n\", \"c1 = [6.]\\n\" ] } ], \"source\": [ \"sess = tf_reset("
+    },
+    {
+      "chunk_id": 18,
+      "text": "] } ], \"source\": [ \"sess = tf_reset()\\n\", \"\\n\", \"# define your inputs\\n\", \"a = tf.placeholder(dtype=tf.float32, shape=[1], name='a_placeholder')\\n\", \"b = tf.placeholder(dtype=tf.float32, shape=[1], name='b_placeholder')\\"
+    },
+    {
+      "chunk_id": 19,
+      "text": "type=tf.float32, shape=[1], name='b_placeholder')\\n\", \"\\n\", \"# do some operations\\n\", \"c = a + b\\n\", \"\\n\", \"# get the result\\n\", \"c0_run = sess.run(c, feed_dict={a: [1.0], b: [2.0]})\\n\", \"c1_run = sess.run(c, feed_dict={a:"
+    },
+    {
+      "chunk_id": 20,
+      "text": "2.0]})\\n\", \"c1_run = sess.run(c, feed_dict={a: [2.0], b: [4.0]})\\n\", \"\\n\", \"print('c0 = {0}'.format(c0_run))\\n\", \"print('c1 = {0}'.format(c1_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"But w"
+    },
+    {
+      "chunk_id": 21,
+      "text": "own\", \"metadata\": {}, \"source\": [ \"But what if we don't know the size of our input beforehand? One dimension of a tensor is allowed to be 'None', which means it can be variable sized:\" ] }, { \"cell_type\": \"code\", \"execution_cou"
+    },
+    {
+      "chunk_id": 22,
+      "text": "}, { \"cell_type\": \"code\", \"execution_count\": 6, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"Tensor(\\\"a_placeholder:0\\\", shape=(?,), dtype=float32)\\n\", \"a shape: ("
+    },
+    {
+      "chunk_id": 23,
+      "text": ", shape=(?,), dtype=float32)\\n\", \"a shape: (?,)\\n\", \"Tensor(\\\"b_placeholder:0\\\", shape=(?,), dtype=float32)\\n\", \"b shape: (?,)\\n\", \"c0 = [3.]\\n\", \"c1 = [3. 6.]\\n\" ] } ], \"source\": [ \"sess = tf_reset()\\"
+    },
+    {
+      "chunk_id": 24,
+      "text": "} ], \"source\": [ \"sess = tf_reset()\\n\", \"\\n\", \"# inputs\\n\", \"a = tf.placeholder(dtype=tf.float32, shape=[None], name='a_placeholder')\\n\", \"b = tf.placeholder(dtype=tf.float32, shape=[None], name='b_placeholder')\\n\","
+    },
+    {
+      "chunk_id": 25,
+      "text": "at32, shape=[None], name='b_placeholder')\\n\", \"\\n\", \"# do some operations\\n\", \"c = a + b\\n\", \"\\n\", \"# get outputs\\n\", \"c0_run = sess.run(c, feed_dict={a: [1.0], b: [2.0]})\\n\", \"c1_run = sess.run(c, feed_dict={a: [1.0, 2.0]"
+    },
+    {
+      "chunk_id": 26,
+      "text": "\"c1_run = sess.run(c, feed_dict={a: [1.0, 2.0], b: [2.0, 4.0]})\\n\", \"\\n\", \"print(a)\\n\", \"print('a shape: {0}'.format(a.get_shape()))\\n\", \"print(b)\\n\", \"print('b shape: {0}'.format(b.get_shape()))\\n\", \"print('c0 = {0}'.form"
+    },
+    {
+      "chunk_id": 27,
+      "text": "mat(b.get_shape()))\\n\", \"print('c0 = {0}'.format(c0_run))\\n\", \"print('c1 = {0}'.format(c1_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"# 2. How to perform computations\\n\", \"\\n\", \"Now that we"
+    },
+    {
+      "chunk_id": 28,
+      "text": "rform computations\\n\", \"\\n\", \"Now that we can input data, we want to perform useful computations on the data.\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"First, let's create some data to work with:\" ]"
+    },
+    {
+      "chunk_id": 29,
+      "text": "First, let's create some data to work with:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 7, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"a:\\n\", \"[[-1.]\\n\","
+    },
+    {
+      "chunk_id": 31,
+      "text": "inputs\\n\", \"a = tf.constant([[-1.], [-2.], [-3.]], dtype=tf.float32)\\n\", \"b = tf.constant([[1., 2., 3.]], dtype=tf.float32)\\n\", \"\\n\", \"a_run, b_run = sess.run([a, b])\\n\", \"print('a:\\\\n{0}'.format(a_run))\\n\", \"print('b:\\\\n{0}'"
+    },
+    {
+      "chunk_id": 32,
+      "text": "a:\\\\n{0}'.format(a_run))\\n\", \"print('b:\\\\n{0}'.format(b_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"We can do simple operations, such as addition:\" ] }, { \"cell_type\": \"code\", \"execution_co"
+    },
+    {
+      "chunk_id": 33,
+      "text": "}, { \"cell_type\": \"code\", \"execution_count\": 8, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"b:\\n\", \"[[1. 2. 3.]]\\n\", \"c:\\n\", \"[[2. 4. 6.]]\\n\" ]"
+    },
+    {
+      "chunk_id": 35,
+      "text": "rmat(c_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"Be careful about the dimensions of the tensors, some operations may work even when you think they shouldn't...\" ] }, { \"cell_type\": \"code\", \"e"
+    },
+    {
+      "chunk_id": 36,
+      "text": "'t...\" ] }, { \"cell_type\": \"code\", \"execution_count\": 9, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"a:\\n\", \"[[-1.]\\n\", \" [-2.]\\n\", \" [-3.]]\\n\","
+    },
+    {
+      "chunk_id": 38,
+      "text": "\"source\": [ \"c = a + b\\n\", \"\\n\", \"c_run = sess.run(c)\\n\", \"print('a:\\\\n{0}'.format(a_run))\\n\", \"print('b:\\\\n{0}'.format(b_run))\\n\", \"print('c:\\\\n{0}'.format(c_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {},"
+    },
+    {
+      "chunk_id": 39,
+      "text": "{ \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"Also, some operations may be different than what you expect:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 10, \"metadata\": {}, \"outputs\": [ { \"name\":"
+    },
+    {
+      "chunk_id": 42,
+      "text": "elementwise = a * b\\n\", \"c_matmul = tf.matmul(b, a)\\n\", \"\\n\", \"c_elementwise_run, c_matmul_run = sess.run([c_elementwise, c_matmul])\\n\", \"print('a:\\\\n{0}'.format(a_run))\\n\", \"print('b:\\\\n{0}'.format(b_run))\\n\", \"print('c_eleme"
+    },
+    {
+      "chunk_id": 43,
+      "text": "('b:\\\\n{0}'.format(b_run))\\n\", \"print('c_elementwise:\\\\n{0}'.format(c_elementwise_run))\\n\", \"print('c_matmul: \\\\n{0}'.format(c_matmul_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"Operations can be ch"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ata\": {}, \"source\": [ \"Operations can be chained together:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 11, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"b:\\"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ations can be chained together\\n\", \"c0 = b + b\\n\", \"c1 = c0 + 1\\n\", \"\\n\", \"c0_run, c1_run = sess.run([c0, c1])\\n\", \"print('b:\\\\n{0}'.format(b_run))\\n\", \"print('c0:\\\\n{0}'.format(c0_run))\\n\", \"print('c1:\\\\n{0}'.format(c1_ru"
+    },
+    {
+      "chunk_id": 47,
+      "text": "t(c0_run))\\n\", \"print('c1:\\\\n{0}'.format(c1_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"Finally, Tensorflow has many useful built-in operations:\" ] }, { \"cell_type\": \"code\", \"execution_coun"
+    },
+    {
+      "chunk_id": 48,
+      "text": "}, { \"cell_type\": \"code\", \"execution_count\": 12, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"b:\\n\", \"[[1. 2. 3.]]\\n\", \"c:\\n\", \"2.0\\n\" ] } ]"
+    },
+    {
+      "chunk_id": 49,
+      "text": "\\n\", \"c:\\n\", \"2.0\\n\" ] } ], \"source\": [ \"c = tf.reduce_mean(b)\\n\", \"\\n\", \"c_run = sess.run(c)\\n\", \"print('b:\\\\n{0}'.format(b_run))\\n\", \"print('c:\\\\n{0}'.format(c_run))\" ] }, { \"cell_type\": \"mar"
+    },
+    {
+      "chunk_id": 50,
+      "text": "format(c_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"# 3. How to create variables\\n\", \"\\n\", \"Now that we can input data and perform computations, we want some of these operations to involve variable"
+    },
+    {
+      "chunk_id": 51,
+      "text": "want some of these operations to involve variables that are free parameters, and can be trained using an optimizer (e.g., gradient descent).\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"First, let's create some d"
+    },
+    {
+      "chunk_id": 52,
+      "text": "{}, \"source\": [ \"First, let's create some data to work with:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 13, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"b"
+    },
+    {
+      "chunk_id": 53,
+      "text": "\"output_type\": \"stream\", \"text\": [ \"b:\\n\", \"[[1. 2. 3.]]\\n\" ] } ], \"source\": [ \"sess = tf_reset()\\n\", \"\\n\", \"# inputs\\n\", \"b = tf.constant([[1., 2., 3.]], dtype=tf.float32)\\n\", \"\\n\", \"sess = t"
+    },
+    {
+      "chunk_id": 54,
+      "text": ".]], dtype=tf.float32)\\n\", \"\\n\", \"sess = tf.Session()\\n\", \"\\n\", \"b_run = sess.run(b)\\n\", \"print('b:\\\\n{0}'.format(b_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"We'll now create a variabl"
+    },
+    {
+      "chunk_id": 55,
+      "text": "{}, \"source\": [ \"We'll now create a variable\" ] }, { \"cell_type\": \"code\", \"execution_count\": 14, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \" \\n\" ] }"
+    },
+    {
+      "chunk_id": 56,
+      "text": "\"stream\", \"text\": [ \" \\n\" ] } ], \"source\": [ \"var_init_value = [[2.0, 4.0, 6.0]]\\n\", \"var = tf.get_variable(name='myvar',\\n\", \" shape=[1, 3],\\n\", \" dtype=tf.float32,"
+    },
+    {
+      "chunk_id": 57,
+      "text": ",\\n\", \" dtype=tf.float32,\\n\", \" initializer=tf.constant_initializer(var_init_value))\\n\", \"\\n\", \"print(var)\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"and"
+    },
+    {
+      "chunk_id": 58,
+      "text": "kdown\", \"metadata\": {}, \"source\": [ \"and check that it's been added to Tensorflow's variables list:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 15, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"outpu"
+    },
+    {
+      "chunk_id": 59,
+      "text": "tputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"[ ]\\n\" ] } ], \"source\": [ \"print(tf.global_variables())\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"We"
+    },
+    {
+      "chunk_id": 60,
+      "text": "rkdown\", \"metadata\": {}, \"source\": [ \"We can do operations with the variable just like any other tensor:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 16, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \""
+    },
+    {
+      "chunk_id": 61,
+      "text": "\"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"Tensor(\\\"Const:0\\\", shape=(1, 3), dtype=float32)\\n\", \" \\n\", \"Tensor(\\\"add:0\\\", shape=(1, 3), dtype=float32)\\n\" ] } ], \"source\":"
+    },
+    {
+      "chunk_id": 62,
+      "text": "dtype=float32)\\n\" ] } ], \"source\": [ \"# can do operations\\n\", \"c = b + var\\n\", \"print(b)\\n\", \"print(var)\\n\", \"print(c)\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"Before we can"
+    },
+    {
+      "chunk_id": 63,
+      "text": "\"metadata\": {}, \"source\": [ \"Before we can run any of these operations, we must first initalize the variables\" ] }, { \"cell_type\": \"code\", \"execution_count\": 17, \"metadata\": {}, \"outputs\": [], \"source\": [ \"init_op ="
+    },
+    {
+      "chunk_id": 64,
+      "text": ", \"outputs\": [], \"source\": [ \"init_op = tf.global_variables_initializer()\\n\", \"sess.run(init_op)\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"and then we can run the operations just as we normally wo"
+    },
+    {
+      "chunk_id": 65,
+      "text": "n we can run the operations just as we normally would.\" ] }, { \"cell_type\": \"code\", \"execution_count\": 18, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"b:\\n\", \""
+    },
+    {
+      "chunk_id": 67,
+      "text": ".run(c)\\n\", \"\\n\", \"print('b:\\\\n{0}'.format(b_run))\\n\", \"print('var:\\\\n{0}'.format(var_init_value))\\n\", \"print('c:\\\\n{0}'.format(c_run))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"So far we haven'"
+    },
+    {
+      "chunk_id": 68,
+      "text": "etadata\": {}, \"source\": [ \"So far we haven't said yet how to optimize these variables. We'll cover that next in the context of an example.\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"# 4. How to train a ne"
+    },
+    {
+      "chunk_id": 69,
+      "text": "a\": {}, \"source\": [ \"# 4. How to train a neural network for a simple regression problem\\n\", \"\\n\", \"We've discussed how to input data, perform operations, and create variables. We'll now show how to combine all of these---with some mino"
+    },
+    {
+      "chunk_id": 70,
+      "text": "show how to combine all of these---with some minor additions---to train a neural network on a simple regression problem.\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"First, we'll create data for a 1-dimensional r"
+    },
+    {
+      "chunk_id": 71,
+      "text": "\"First, we'll create data for a 1-dimensional regression problem:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 19, \"metadata\": {}, \"outputs\": [ { \"data\": { \"text/plain\": [ \" \" ] }, \"execu"
+    },
+    {
+      "chunk_id": 72,
+      "text": "t/plain\": [ \" \" ] }, \"execution_count\": 19, \"metadata\": {}, \"output_type\": \"execute_result\" }, { \"data\": { \"image/png\": \"iVBORw0KGgoAAAANSUhEUgAAAX8AAAD8CAYAAACfF6SlAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzA"
+    },
+    {
+      "chunk_id": 238,
+      "text": "9ZeS774jIvydRpkxkObBtxIh4B7hnsgXQO3w1Go0mA8lUt49Go9FkNFr5azQaTQailb9Go9FkIFr5azQaTQailb9Go9FkIFr5azQaTQailb9Go9FkIFr5azQaTQby/wDPxE3RVZQewwAAAABJRU5ErkJggg==\\n\", \"text/plain\": [ \" \" ] }, \"metadata\": {}, \"output_type\""
+    },
+    {
+      "chunk_id": 239,
+      "text": "] }, \"metadata\": {}, \"output_type\": \"display_data\" } ], \"source\": [ \"# generate the data\\n\", \"inputs = np.linspace(-2*np.pi, 2*np.pi, 10000)[:, None]\\n\", \"outputs = np.sin(inputs) + 0.05 * np.random.normal(size=["
+    },
+    {
+      "chunk_id": 240,
+      "text": "= np.sin(inputs) + 0.05 * np.random.normal(size=[len(inputs),1])\\n\", \"\\n\", \"plt.scatter(inputs[:, 0], outputs[:, 0], s=0.1, color='k', marker='o')\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"The below co"
+    },
+    {
+      "chunk_id": 241,
+      "text": "\"metadata\": {}, \"source\": [ \"The below code creates the inputs, variables, neural network operations, mean-squared-error loss, gradient descent optimizer, and runs the optimizer using minibatches of the data.\" ] }, { \"cell_type\": \""
+    },
+    {
+      "chunk_id": 242,
+      "text": "ches of the data.\" ] }, { \"cell_type\": \"code\", \"execution_count\": 20, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"0000 mse: 0.428\\n\", \"1000 mse: 0.067\\n\","
+    },
+    {
+      "chunk_id": 244,
+      "text": "001\\n\", \"8000 mse: 0.002\\n\", \"9000 mse: 0.001\\n\" ] } ], \"source\": [ \"sess = tf_reset()\\n\", \"\\n\", \"def create_model():\\n\", \" # create inputs\\n\", \" input_ph = tf.placeholder(dtype=tf.float32, shape=["
+    },
+    {
+      "chunk_id": 245,
+      "text": "nput_ph = tf.placeholder(dtype=tf.float32, shape=[None, 1])\\n\", \" output_ph = tf.placeholder(dtype=tf.float32, shape=[None, 1])\\n\", \"\\n\", \" # create variables\\n\", \" W0 = tf.get_variable(name='W0', shape=[1, 20], initializer=t"
+    },
+    {
+      "chunk_id": 246,
+      "text": "t_variable(name='W0', shape=[1, 20], initializer=tf.contrib.layers.xavier_initializer())\\n\", \" W1 = tf.get_variable(name='W1', shape=[20, 20], initializer=tf.contrib.layers.xavier_initializer())\\n\", \" W2 = tf.get_variable(name='W2', sha"
+    },
+    {
+      "chunk_id": 247,
+      "text": ")\\n\", \" W2 = tf.get_variable(name='W2', shape=[20, 1], initializer=tf.contrib.layers.xavier_initializer())\\n\", \"\\n\", \" b0 = tf.get_variable(name='b0', shape=[20], initializer=tf.constant_initializer(0.))\\n\", \" b1 = tf.get_var"
+    },
+    {
+      "chunk_id": 248,
+      "text": "tant_initializer(0.))\\n\", \" b1 = tf.get_variable(name='b1', shape=[20], initializer=tf.constant_initializer(0.))\\n\", \" b2 = tf.get_variable(name='b2', shape=[1], initializer=tf.constant_initializer(0.))\\n\", \"\\n\", \" weights ="
+    },
+    {
+      "chunk_id": 249,
+      "text": "initializer(0.))\\n\", \"\\n\", \" weights = [W0, W1, W2]\\n\", \" biases = [b0, b1, b2]\\n\", \" activations = [tf.nn.relu, tf.nn.relu, None]\\n\", \"\\n\", \" # create computation graph\\n\", \" layer = input_ph\\n\", \" f"
+    },
+    {
+      "chunk_id": 250,
+      "text": "graph\\n\", \" layer = input_ph\\n\", \" for W, b, activation in zip(weights, biases, activations):\\n\", \" layer = tf.matmul(layer, W) + b\\n\", \" if activation is not None:\\n\", \" layer = activation(layer)\\n\""
+    },
+    {
+      "chunk_id": 251,
+      "text": "\\n\", \" layer = activation(layer)\\n\", \" output_pred = layer\\n\", \" \\n\", \" return input_ph, output_ph, output_pred\\n\", \" \\n\", \"input_ph, output_ph, output_pred = create_model()\\n\", \" \\n\", \"# crea"
+    },
+    {
+      "chunk_id": 252,
+      "text": "red = create_model()\\n\", \" \\n\", \"# create loss\\n\", \"mse = tf.reduce_mean(0.5 * tf.square(output_pred - output_ph))\\n\", \"\\n\", \"# create optimizer\\n\", \"opt = tf.train.AdamOptimizer().minimize(mse)\\n\", \"\\n\", \"# initial"
+    },
+    {
+      "chunk_id": 253,
+      "text": "mizer().minimize(mse)\\n\", \"\\n\", \"# initialize variables\\n\", \"sess.run(tf.global_variables_initializer())\\n\", \"# create saver to save model variables\\n\", \"saver = tf.train.Saver()\\n\", \"\\n\", \"# run training\\n\", \"batch_si"
+    },
+    {
+      "chunk_id": 254,
+      "text": "\", \"\\n\", \"# run training\\n\", \"batch_size = 32\\n\", \"for training_step in range(10000):\\n\", \" # get a random subset of the training data\\n\", \" indices = np.random.randint(low=0, high=len(inputs), size=batch_size)\\n\", \""
+    },
+    {
+      "chunk_id": 255,
+      "text": "ow=0, high=len(inputs), size=batch_size)\\n\", \" input_batch = inputs[indices]\\n\", \" output_batch = outputs[indices]\\n\", \" \\n\", \" # run the optimizer and get the mse\\n\", \" _, mse_run = sess.run([opt, mse], feed_dict={"
+    },
+    {
+      "chunk_id": 256,
+      "text": "\" _, mse_run = sess.run([opt, mse], feed_dict={input_ph: input_batch, output_ph: output_batch})\\n\", \" \\n\", \" # print the mse every so often\\n\", \" if training_step % 1000 == 0:\\n\", \" print('{0:04d} mse: {1:.3f}'.form"
+    },
+    {
+      "chunk_id": 257,
+      "text": "n\", \" print('{0:04d} mse: {1:.3f}'.format(training_step, mse_run))\\n\", \" saver.save(sess, '/tmp/model.ckpt')\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"Now that the neural network is traine"
+    },
+    {
+      "chunk_id": 258,
+      "text": "rce\": [ \"Now that the neural network is trained, we can use it to make predictions:\" ] }, { \"cell_type\": \"code\", \"execution_count\": 21, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\","
+    },
+    {
+      "chunk_id": 259,
+      "text": "name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"INFO:tensorflow:Restoring parameters from /tmp/model.ckpt\\n\" ] }, { \"data\": { \"text/plain\": [ \" \" ] }, \"execution_count\": 21, \"me"
+    },
+    {
+      "chunk_id": 260,
+      "text": "] }, \"execution_count\": 21, \"metadata\": {}, \"output_type\": \"execute_result\" }, { \"data\": { \"image/png\": \"iVBORw0KGgoAAAANSUhEUgAAAX8AAAD8CAYAAACfF6SlAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADl0RV"
+    },
+    {
+      "chunk_id": 423,
+      "text": "3cSKdGZE5JhS6vvAFsAOrBeRHQkW61yZCHwTaFFKvWnsu09E/j2BMqUjc4CNhhOxB7h9oAXQM3w1Go0mDUnXsI9Go9GkNdr4azQaTRqijb9Go9GkIdr4azQaTRqijb9Go9GkIdr4azQaTRqijb9Go9GkIdr4azQaTRry/wFoZbXjNh4QMQAAAABJRU5ErkJggg==\\n\", \"text/plain\": [ \" \" ] },"
+    },
+    {
+      "chunk_id": 424,
+      "text": "\"text/plain\": [ \" \" ] }, \"metadata\": {}, \"output_type\": \"display_data\" } ], \"source\": [ \"sess = tf_reset()\\n\", \"\\n\", \"# create the model\\n\", \"input_ph, output_ph, output_pred = create_model"
+    },
+    {
+      "chunk_id": 425,
+      "text": "\"input_ph, output_ph, output_pred = create_model()\\n\", \"\\n\", \"# restore the saved model\\n\", \"saver = tf.train.Saver()\\n\", \"saver.restore(sess, \\\"/tmp/model.ckpt\\\")\\n\", \"\\n\", \"output_pred_run = sess.run(output_pred, feed_dict"
+    },
+    {
+      "chunk_id": 426,
+      "text": "\"output_pred_run = sess.run(output_pred, feed_dict={input_ph: inputs})\\n\", \"\\n\", \"plt.scatter(inputs[:, 0], outputs[:, 0], c='k', marker='o', s=0.1)\\n\", \"plt.scatter(inputs[:, 0], output_pred_run[:, 0], c='r', marker='o', s=0.1)\" ] }"
+    },
+    {
+      "chunk_id": 427,
+      "text": "red_run[:, 0], c='r', marker='o', s=0.1)\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"Not so hard after all! There is much more functionality to Tensorflow besides what we've covered, but you now know the basics.\""
+    },
+    {
+      "chunk_id": 428,
+      "text": "what we've covered, but you now know the basics.\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"# 5. Tips and tricks\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"##### (a) Check"
+    },
+    {
+      "chunk_id": 429,
+      "text": "metadata\": {}, \"source\": [ \"##### (a) Check your dimensions\" ] }, { \"cell_type\": \"code\", \"execution_count\": 22, \"metadata\": {}, \"outputs\": [], \"source\": [ \"# example of \\\"surprising\\\" resulting dimensions due to broad"
+    },
+    {
+      "chunk_id": 430,
+      "text": "f \\\"surprising\\\" resulting dimensions due to broadcasting\\n\", \"a = tf.constant(np.random.random((4, 1)))\\n\", \"b = tf.constant(np.random.random((1, 4)))\\n\", \"c = a * b\\n\", \"assert c.get_shape() == (4, 4)\" ] }, { \"cell_type\":"
+    },
+    {
+      "chunk_id": 431,
+      "text": "_shape() == (4, 4)\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"##### (b) Check what variables have been created\" ] }, { \"cell_type\": \"code\", \"execution_count\": 23, \"metadata\": {}, \"outputs\": ["
+    },
+    {
+      "chunk_id": 432,
+      "text": "on_count\": 23, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"I_am_a_variable:0\\n\", \"I_am_a_variable_too:0\\n\" ] } ], \"source\": [ \"sess = tf_reset()\\n\","
+    },
+    {
+      "chunk_id": 433,
+      "text": "], \"source\": [ \"sess = tf_reset()\\n\", \"a = tf.get_variable('I_am_a_variable', shape=[4, 6])\\n\", \"b = tf.get_variable('I_am_a_variable_too', shape=[2, 7])\\n\", \"for var in tf.global_variables():\\n\", \" print(var.name)\" ]"
+    },
+    {
+      "chunk_id": 434,
+      "text": "variables():\\n\", \" print(var.name)\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"##### (c) Look at the [tensorflow API](https://www.tensorflow.org/api_docs/python/), or open up a python terminal and investig"
+    },
+    {
+      "chunk_id": 435,
+      "text": "ython/), or open up a python terminal and investigate!\" ] }, { \"cell_type\": \"code\", \"execution_count\": 24, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"Help on functi"
+    },
+    {
+      "chunk_id": 436,
+      "text": "e\": \"stream\", \"text\": [ \"Help on function reduce_mean in module tensorflow.python.ops.math_ops:\\n\", \"\\n\", \"reduce_mean(input_tensor, axis=None, keepdims=None, name=None, reduction_indices=None, keep_dims=None)\\n\", \" Co"
+    },
+    {
+      "chunk_id": 437,
+      "text": "on_indices=None, keep_dims=None)\\n\", \" Computes the mean of elements across dimensions of a tensor. (deprecated arguments)\\n\", \" \\n\", \" SOME ARGUMENTS ARE DEPRECATED. They will be removed in a future version.\\n\", \""
+    },
+    {
+      "chunk_id": 438,
+      "text": "ill be removed in a future version.\\n\", \" Instructions for updating:\\n\", \" keep_dims is deprecated, use keepdims instead\\n\", \" \\n\", \" Reduces `input_tensor` along the dimensions given in `axis`.\\n\", \" Unle"
+    },
+    {
+      "chunk_id": 439,
+      "text": "he dimensions given in `axis`.\\n\", \" Unless `keepdims` is true, the rank of the tensor is reduced by 1 for each\\n\", \" entry in `axis`. If `keepdims` is true, the reduced dimensions\\n\", \" are retained with length 1.\\n\","
+    },
+    {
+      "chunk_id": 440,
+      "text": "\", \" are retained with length 1.\\n\", \" \\n\", \" If `axis` is None, all dimensions are reduced, and a\\n\", \" tensor with a single element is returned.\\n\", \" \\n\", \" For example:\\n\", \" \\n\","
+    },
+    {
+      "chunk_id": 442,
+      "text": "[1.5, 1.5]\\n\", \" tf.reduce_mean(x, 1) # [1., 2.]\\n\", \" ```\\n\", \" \\n\", \" Args:\\n\", \" input_tensor: The tensor to reduce. Should have numeric type.\\n\", \" axis: The dimensions to reduce. If `No"
+    },
+    {
+      "chunk_id": 443,
+      "text": "\" axis: The dimensions to reduce. If `None` (the default),\\n\", \" reduces all dimensions. Must be in the range\\n\", \" `[-rank(input_tensor), rank(input_tensor))`.\\n\", \" keepdims: If true, retains reduced d"
+    },
+    {
+      "chunk_id": 444,
+      "text": "\" keepdims: If true, retains reduced dimensions with length 1.\\n\", \" name: A name for the operation (optional).\\n\", \" reduction_indices: The old (deprecated) name for axis.\\n\", \" keep_dims: Deprecated alia"
+    },
+    {
+      "chunk_id": 445,
+      "text": "axis.\\n\", \" keep_dims: Deprecated alias for `keepdims`.\\n\", \" \\n\", \" Returns:\\n\", \" The reduced tensor.\\n\", \" \\n\", \" @compatibility(numpy)\\n\", \" Equivalent to np.mean\\n\", \""
+    },
+    {
+      "chunk_id": 446,
+      "text": ", \" Equivalent to np.mean\\n\", \" \\n\", \" Please note that `np.mean` has a `dtype` parameter that could be used to\\n\", \" specify the output type. By default this is `dtype=float64`. On the other\\n\", \" hand, `"
+    },
+    {
+      "chunk_id": 447,
+      "text": "type=float64`. On the other\\n\", \" hand, `tf.reduce_mean` has an aggressive type inference from `input_tensor`,\\n\", \" for example:\\n\", \" \\n\", \" ```python\\n\", \" x = tf.constant([1, 0, 1, 0])\\n\", \" t"
+    },
+    {
+      "chunk_id": 448,
+      "text": "x = tf.constant([1, 0, 1, 0])\\n\", \" tf.reduce_mean(x) # 0\\n\", \" y = tf.constant([1., 0., 1., 0.])\\n\", \" tf.reduce_mean(y) # 0.5\\n\", \" ```\\n\", \" \\n\", \" @end_compatibility\\n\", \"\\n\""
+    },
+    {
+      "chunk_id": 449,
+      "text": "\" @end_compatibility\\n\", \"\\n\" ] } ], \"source\": [ \"help(tf.reduce_mean)\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"##### (d) Tensorflow has some built-in layers to simplify your"
+    },
+    {
+      "chunk_id": 450,
+      "text": "sorflow has some built-in layers to simplify your code.\" ] }, { \"cell_type\": \"code\", \"execution_count\": 25, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"Help on funct"
+    },
+    {
+      "chunk_id": 451,
+      "text": "pe\": \"stream\", \"text\": [ \"Help on function fully_connected in module tensorflow.contrib.layers.python.layers.layers:\\n\", \"\\n\", \"fully_connected(inputs, num_outputs, activation_fn= , normalizer_fn=None, normalizer_params=None, w"
+    },
+    {
+      "chunk_id": 452,
+      "text": "n= , normalizer_fn=None, normalizer_params=None, weights_initializer= ._initializer at 0x7ff9f2ecd158>, weights_regularizer=None, biases_initializer= , biases_regularizer=None, reuse=None, variables_collections=None, outputs_collections=None, trainab"
+    },
+    {
+      "chunk_id": 453,
+      "text": "ollections=None, outputs_collections=None, trainable=True, scope=None)\\n\", \" Adds a fully connected layer.\\n\", \" \\n\", \" `fully_connected` creates a variable called `weights`, representing a fully\\n\", \" connected we"
+    },
+    {
+      "chunk_id": 454,
+      "text": ", representing a fully\\n\", \" connected weight matrix, which is multiplied by the `inputs` to produce a\\n\", \" `Tensor` of hidden units. If a `normalizer_fn` is provided (such as\\n\", \" `batch_norm`), it is then applied. Other"
+    },
+    {
+      "chunk_id": 455,
+      "text": "\" `batch_norm`), it is then applied. Otherwise, if `normalizer_fn` is\\n\", \" None and a `biases_initializer` is provided then a `biases` variable would be\\n\", \" created and added the hidden units. Finally, if `activation_fn`"
+    },
+    {
+      "chunk_id": 456,
+      "text": "ded the hidden units. Finally, if `activation_fn` is not `None`,\\n\", \" it is applied to the hidden units as well.\\n\", \" \\n\", \" Note: that if `inputs` have a rank greater than 2, then `inputs` is flattened\\n\", \" pri"
+    },
+    {
+      "chunk_id": 457,
+      "text": "n 2, then `inputs` is flattened\\n\", \" prior to the initial matrix multiply by `weights`.\\n\", \" \\n\", \" Args:\\n\", \" inputs: A tensor of at least rank 2 and static value for the last dimension;\\n\", \" i."
+    },
+    {
+      "chunk_id": 458,
+      "text": "alue for the last dimension;\\n\", \" i.e. `[batch_size, depth]`, `[None, None, None, channels]`.\\n\", \" num_outputs: Integer or long, the number of output units in the layer.\\n\", \" activation_fn: Activation function. T"
+    },
+    {
+      "chunk_id": 459,
+      "text": "\" activation_fn: Activation function. The default value is a ReLU function.\\n\", \" Explicitly set it to None to skip it and maintain a linear activation.\\n\", \" normalizer_fn: Normalization function to use instead of"
+    },
+    {
+      "chunk_id": 460,
+      "text": "izer_fn: Normalization function to use instead of `biases`. If\\n\", \" `normalizer_fn` is provided then `biases_initializer` and\\n\", \" `biases_regularizer` are ignored and `biases` are not created nor added.\\n\", \""
+    },
+    {
+      "chunk_id": 461,
+      "text": "ses` are not created nor added.\\n\", \" default set to None for no normalizer function\\n\", \" normalizer_params: Normalization function parameters.\\n\", \" weights_initializer: An initializer for the weights.\\n\", \""
+    },
+    {
+      "chunk_id": 462,
+      "text": "lizer: An initializer for the weights.\\n\", \" weights_regularizer: Optional regularizer for the weights.\\n\", \" biases_initializer: An initializer for the biases. If None skip biases.\\n\", \" biases_regularizer: Optional"
+    },
+    {
+      "chunk_id": 463,
+      "text": "es.\\n\", \" biases_regularizer: Optional regularizer for the biases.\\n\", \" reuse: Whether or not the layer and its variables should be reused. To be\\n\", \" able to reuse the layer scope must be given.\\n\", \""
+    },
+    {
+      "chunk_id": 464,
+      "text": "e the layer scope must be given.\\n\", \" variables_collections: Optional list of collections for all the variables or\\n\", \" a dictionary containing a different list of collections per variable.\\n\", \" outputs_collectio"
+    },
+    {
+      "chunk_id": 465,
+      "text": "s per variable.\\n\", \" outputs_collections: Collection to add the outputs.\\n\", \" trainable: If `True` also add variables to the graph collection\\n\", \" `GraphKeys.TRAINABLE_VARIABLES` (see tf.Variable).\\n\", \""
+    },
+    {
+      "chunk_id": 466,
+      "text": "NABLE_VARIABLES` (see tf.Variable).\\n\", \" scope: Optional scope for variable_scope.\\n\", \" \\n\", \" Returns:\\n\", \" The tensor variable representing the result of the series of operations.\\n\", \" \\n\","
+    },
+    {
+      "chunk_id": 467,
+      "text": "the series of operations.\\n\", \" \\n\", \" Raises:\\n\", \" ValueError: If x has rank less than 2 or if its last dimension is not set.\\n\", \"\\n\" ] } ], \"source\": [ \"help(tf.contrib.layers.fully_connected)"
+    },
+    {
+      "chunk_id": 468,
+      "text": "e\": [ \"help(tf.contrib.layers.fully_connected)\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"##### (e) Use [variable scope](https://www.tensorflow.org/guide/variables#sharing_variables) to keep your variables o"
+    },
+    {
+      "chunk_id": 469,
+      "text": "iables#sharing_variables) to keep your variables organized.\" ] }, { \"cell_type\": \"code\", \"execution_count\": 26, \"metadata\": {}, \"outputs\": [ { \"name\": \"stdout\", \"output_type\": \"stream\", \"text\": [ \"layer_0/W"
+    },
+    {
+      "chunk_id": 470,
+      "text": "t_type\": \"stream\", \"text\": [ \"layer_0/W0:0\\n\", \"layer_0/b0:0\\n\", \"layer_1/W1:0\\n\", \"layer_1/b1:0\\n\", \"layer_2/W2:0\\n\", \"layer_2/b2:0\\n\" ] } ], \"source\": [ \"sess = tf_reset()\\n\", \"\\n\","
+    },
+    {
+      "chunk_id": 471,
+      "text": "source\": [ \"sess = tf_reset()\\n\", \"\\n\", \"# create variables\\n\", \"with tf.variable_scope('layer_0'):\\n\", \" W0 = tf.get_variable(name='W0', shape=[1, 20], initializer=tf.contrib.layers.xavier_initializer())\\n\", \" b0 = tf.g"
+    },
+    {
+      "chunk_id": 472,
+      "text": "ayers.xavier_initializer())\\n\", \" b0 = tf.get_variable(name='b0', shape=[20], initializer=tf.constant_initializer(0.))\\n\", \"\\n\", \"with tf.variable_scope('layer_1'):\\n\", \" W1 = tf.get_variable(name='W1', shape=[20, 20], initializ"
+    },
+    {
+      "chunk_id": 473,
+      "text": ".get_variable(name='W1', shape=[20, 20], initializer=tf.contrib.layers.xavier_initializer())\\n\", \" b1 = tf.get_variable(name='b1', shape=[20], initializer=tf.constant_initializer(0.))\\n\", \" \\n\", \"with tf.variable_scope('layer_2'):\\n"
+    },
+    {
+      "chunk_id": 474,
+      "text": "\\n\", \"with tf.variable_scope('layer_2'):\\n\", \" W2 = tf.get_variable(name='W2', shape=[20, 1], initializer=tf.contrib.layers.xavier_initializer())\\n\", \" b2 = tf.get_variable(name='b2', shape=[1], initializer=tf.constant_initializ"
+    },
+    {
+      "chunk_id": 475,
+      "text": "'b2', shape=[1], initializer=tf.constant_initializer(0.))\\n\", \"\\n\", \"# print the variables\\n\", \"var_names = sorted([v.name for v in tf.global_variables()])\\n\", \"print('\\\\n'.join(var_names))\" ] }, { \"cell_type\": \"markdown\","
+    },
+    {
+      "chunk_id": 476,
+      "text": "mes))\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"##### (f) You can specify which GPU you want to use and how much memory you want to use\" ] }, { \"cell_type\": \"code\", \"execution_count\": 27, \"metad"
+    },
+    {
+      "chunk_id": 477,
+      "text": "type\": \"code\", \"execution_count\": 27, \"metadata\": {}, \"outputs\": [], \"source\": [ \"gpu_device = 0\\n\", \"gpu_frac = 0.5\\n\", \"\\n\", \"# make only one of the GPUs visible\\n\", \"import os\\n\", \"os.environ[\\\"CUDA_VISIBLE_DEVI"
+    },
+    {
+      "chunk_id": 478,
+      "text": "\"import os\\n\", \"os.environ[\\\"CUDA_VISIBLE_DEVICES\\\"] = str(gpu_device)\\n\", \"\\n\", \"# only use part of the GPU memory\\n\", \"gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_frac)\\n\", \"config = tf.ConfigProto(gpu_option"
+    },
+    {
+      "chunk_id": 479,
+      "text": "_frac)\\n\", \"config = tf.ConfigProto(gpu_options=gpu_options)\\n\", \"\\n\", \"# create the session\\n\", \"tf_sess = tf.Session(graph=tf.Graph(), config=config)\" ] }, { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \""
+    },
+    {
+      "chunk_id": 480,
+      "text": "markdown\", \"metadata\": {}, \"source\": [ \"##### (g) You can use [tensorboard](https://www.tensorflow.org/guide/summaries_and_tensorboard) to visualize and monitor the training process.\" ] } ], \"metadata\": { \"kernelspec\": { \"displa"
+    },
+    {
+      "chunk_id": 481,
+      "text": "} ], \"metadata\": { \"kernelspec\": { \"display_name\": \"Python 3\", \"language\": \"python\", \"name\": \"python3\" }, \"language_info\": { \"codemirror_mode\": { \"name\": \"ipython\", \"version\": 3 }, \"file_extension\": \".py\", \"mimet"
+    },
+    {
+      "chunk_id": 482,
+      "text": "on\": 3 }, \"file_extension\": \".py\", \"mimetype\": \"text/x-python\", \"name\": \"python\", \"nbconvert_exporter\": \"python\", \"pygments_lexer\": \"ipython3\", \"version\": \"3.6.5\" } }, \"nbformat\": 4, \"nbformat_minor\": 2 }"
+    },
+    {
+      "chunk_id": 483,
+      "text": "at\": 4, \"nbformat_minor\": 2 }"
+    }
+  ]
+}

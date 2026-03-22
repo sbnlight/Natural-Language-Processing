@@ -1,0 +1,189 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/jumphost.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/jumphost.help CONTENTS: Background Install SSH key OpenSSH users PuTTY"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Background Install SSH key OpenSSH users PuTTY users X2Go users Visual Studio Code Remote-SSH extension users Background --------------------------------------------------------- In the fall of 2022, the Information Security Office implemente"
+    },
+    {
+      "chunk_id": 3,
+      "text": "f 2022, the Information Security Office implemented a new security policy that required password-based SSH connections from off-campus to be routed through the bSecure VPN. Users who are not able to use the bSecure VPN service may connect to our ins"
+    },
+    {
+      "chunk_id": 4,
+      "text": "use the bSecure VPN service may connect to our instructional machines using passphrase-protected SSH key via our jumphost: instgw.eecs.berkeley.edu The instructional machines allowed for SSH jumphost connection are: {ashby,cedar,cory,derby,gilma"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ost connection are: {ashby,cedar,cory,derby,gilman,hearst,oxford,solano}.cs.berkeley.edu hive{1..30}.cs.berkeley.edu eda-{1..8}.eecs.berkeley.edu c111-{1..17}.eecs.berkeley.edu Install SSH key ------------------------------------------------------"
+    },
+    {
+      "chunk_id": 6,
+      "text": "----------------------------------------------------- Before using the Instructional SSH jumphost, first, install a SSH key for logging into your account, if you haven't already. See https://security.berkeley.edu/education-awareness/ssh-key-manage"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ty.berkeley.edu/education-awareness/ssh-key-management (or /share/b/pub/ssh.help on any instructional machine) for instructions. Installing your SSH key the first time will require you to log into the Instructional machines in our computer labs, or"
+    },
+    {
+      "chunk_id": 8,
+      "text": "he Instructional machines in our computer labs, or connect to our machines using SSH (with your Instructional username and password) via the bSecure VPN. OpenSSH users --------------------------------------------------------- The easiest way to us"
+    },
+    {
+      "chunk_id": 9,
+      "text": "--------------------------- The easiest way to use the jumphost is with the -J option to OpenSSH. For example, if you're trying to log into ashby.cs.berkeley.edu, you would use $ ssh -J yourusername@instgw.eecs.berkeley.edu -l yourusername ash"
+    },
+    {
+      "chunk_id": 10,
+      "text": "rname@instgw.eecs.berkeley.edu -l yourusername ashby.cs.berkeley.edu When you run this command, OpenSSH will log into instgw.eecs, automatically set up the appropriate port forward, and then use the port forward to log into ashby.cs through instgw.e"
+    },
+    {
+      "chunk_id": 11,
+      "text": "port forward to log into ashby.cs through instgw.eecs. Similarly, OpenSSH's scp command accepts the -J option: $ scp -J yourusername@instgw.eecs.berkeley.edu local-file yourusername@ashby.cs.berkeley.edu:remote-file will copy local-file on you"
+    },
+    {
+      "chunk_id": 12,
+      "text": "keley.edu:remote-file will copy local-file on your local computer to remote-file on ashby.cs, using instgw.eecs as the gateway into the campus network. If you don't want to (or can't -- for example, if you're using some program that is invoking Ope"
+    },
+    {
+      "chunk_id": 13,
+      "text": "if you're using some program that is invoking OpenSSH automatically) add command line options, you can also specify a jumphost using the ProxyJump option in the ssh_config file. For example, adding Host ashby.cs.berkeley.edu ProxyJump"
+    },
+    {
+      "chunk_id": 14,
+      "text": "Host ashby.cs.berkeley.edu ProxyJump yourusername@instgw.eecs.berkeley.edu to your ~/.ssh/ssh_config (on Windows: C:\\Users\\yourlocalusername\\.ssh\\ssh_config) file will cause OpenSSH to use instgw.eecs as the jumphost whenever it tries t"
+    },
+    {
+      "chunk_id": 15,
+      "text": "se instgw.eecs as the jumphost whenever it tries to connect to ashby.cs. Note for Windows users: if you are running a release of Windows 10 older than 21H1, and running \"ssh -V\" reports your OpenSSH version is older than 8.1p1, the -J and ProxyJump"
+    },
+    {
+      "chunk_id": 16,
+      "text": "version is older than 8.1p1, the -J and ProxyJump options will not work due to a bug (https://github.com/PowerShell/Win32-OpenSSH/issues/1172). If you'd like to use the jumphost: * Upgrade to Windows 10 21H1 or later, which will install a fixed ver"
+    },
+    {
+      "chunk_id": 17,
+      "text": "s 10 21H1 or later, which will install a fixed version of OpenSSH; * As a workaround, you can specify a proxy command explicitly, either on the command line: PS C:\\> ssh -o ProxyCommand='ssh.exe -W %h:%p yourusername@instgw.eecs.berkeley.e"
+    },
+    {
+      "chunk_id": 18,
+      "text": "h.exe -W %h:%p yourusername@instgw.eecs.berkeley.edu' yourusername@ashby.cs.berkeley.edu or in a configuration file: Host ashby.cs.berkeley.edu ProxyCommand ssh.exe -W %h:%p yourusername@instgw.eecs.berkeley.edu If you can't use"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ername@instgw.eecs.berkeley.edu If you can't use OpenSSH's jumphost support, you can also use regular port forwarding with OpenSSH. $ ssh -N -L localhost:12345:ashby.cs.berkeley.edu:22 -l yourusername instgw.eecs.berkeley.edu will forward port"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ername instgw.eecs.berkeley.edu will forward port 12345 on your local system to the SSH server on ashby.cs through instgw.eecs -- you can then connect with any SSH/SFTP client to localhost port 12345 in order to reach ashby.cs. (Note the -N option,"
+    },
+    {
+      "chunk_id": 21,
+      "text": "in order to reach ashby.cs. (Note the -N option, which prevents any attempt to run a shell command -- without this, you will be logged out immediately.) NOTE: Port forwarding to inst-operated SSH servers (specifically, the named login servers, the"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ervers (specifically, the named login servers, the eda-* machines, and the c111-* machines in the 111/117 Cory lab) is the only supported use of instgw.eecs. If you attempt an ordinary login to instgw.eecs, you'll get logged out after receiving a me"
+    },
+    {
+      "chunk_id": 23,
+      "text": "w.eecs, you'll get logged out after receiving a message pointing you to these usage instructions; SFTP connections to instgw.eecs will fail. Attempts to port forward to other machines, or to any ports other than port 22, will fail. PuTTY users ----"
+    },
+    {
+      "chunk_id": 24,
+      "text": "other than port 22, will fail. PuTTY users --------------------------------------------------------- With PuTTY 0.77 (May 2022) or later, you can use PuTTY's built-in support for proxying by port forwarding through a SSH server. To use it, we fi"
+    },
+    {
+      "chunk_id": 25,
+      "text": "forwarding through a SSH server. To use it, we first need to save connection settings for the jumphost in PuTTY: 1. Open PuTTY. In the Session panel (the first one that comes up), enter instgw.eecs.berkeley.edu under \"Host Name (or IP addre"
+    },
+    {
+      "chunk_id": 26,
+      "text": "gw.eecs.berkeley.edu under \"Host Name (or IP address)\". 2. Open the Data panel (under the Connection heading -- look in the list in the left-hand side of the window). Under \"Auto-login username\", enter your inst username. 3. Open the C"
+    },
+    {
+      "chunk_id": 27,
+      "text": "e\", enter your inst username. 3. Open the Credentials panel (under Connection->SSH->Auth). Select your PuTTY private key file under \"Private key file for authentication\". 4. Go back to the Session panel. In the box under \"Saved Sessio"
+    },
+    {
+      "chunk_id": 28,
+      "text": "the Session panel. In the box under \"Saved Sessions\", enter a name like \"instgw.eecs proxy\", then click Save to save the settings. Now, to use the proxy to connect to another SSH server: 1. In PuTTY's connection settings, look for the Proxy"
+    },
+    {
+      "chunk_id": 29,
+      "text": "In PuTTY's connection settings, look for the Proxy panel (under the Connection heading). 2. For \"Proxy type\", choose \"SSH to proxy and use port forwarding\". 3. Enter the name of the jumphost's saved session (in our example, \"instgw.eecs"
+    },
+    {
+      "chunk_id": 30,
+      "text": "s saved session (in our example, \"instgw.eecs proxy\") under \"Proxy hostname\". (You can leave the other settings on this page untouched -- they will be ignored in favor of the saved settings for the proxy.) 4. Configure the other SSH"
+    },
+    {
+      "chunk_id": 31,
+      "text": "tings for the proxy.) 4. Configure the other SSH connection settings (hostname, username, SSH key and so on) as usual. Alternately, you can configure regular port forwarding, for use with applications that don't have their own support for SSH"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ications that don't have their own support for SSH proxies or jump hosts. To forward port 12345 on your local system to ashby.cs.berkeley.edu through instgw.eecs, for example: 1. In PuTTY's connection settings, in the Session panel, enter ins"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ion settings, in the Session panel, enter instgw.eecs.berkeley.edu as the host name. 2. Open the SSH panel (under Connection). 3. Check the \"Don't start a shell or command at all\" box under \"Protocol options\". 4. Open the Tunnels pane"
+    },
+    {
+      "chunk_id": 34,
+      "text": "Protocol options\". 4. Open the Tunnels panel (under Connection->SSH). 5. Enter 12345 into the \"Source port\" box. 6. Enter ashby.cs.berkeley.edu:22 into the \"Destination\" box. 7. Accept the \"Local\" port forwarding option (the default)."
+    },
+    {
+      "chunk_id": 35,
+      "text": "e \"Local\" port forwarding option (the default). 8. Click \"Add\" to add the port forward to the configuration. See the PuTTY documentation for more details, including usage information for PuTTY's command-line tools Plink, PSCP and PSFTP. NOTE: Por"
+    },
+    {
+      "chunk_id": 36,
+      "text": "mmand-line tools Plink, PSCP and PSFTP. NOTE: Port forwarding to inst-operated SSH servers (specifically, the named login servers, the eda-* machines, and the c111-* machines in the 111/117 Cory lab) is the only supported use of instgw.eecs. If you"
+    },
+    {
+      "chunk_id": 37,
+      "text": "is the only supported use of instgw.eecs. If you attempt an ordinary login to instgw.eecs, you'll get logged out after receiving a message pointing you to these usage instructions; SFTP connections to instgw.eecs will fail. Attempts to port forward"
+    },
+    {
+      "chunk_id": 38,
+      "text": "to instgw.eecs will fail. Attempts to port forward to other machines, or to any ports other than port 22, will fail. X2Go users --------------------------------------------------------- In your X2Go session preferences, under the \"Session\" tab, ch"
+    },
+    {
+      "chunk_id": 39,
+      "text": "o session preferences, under the \"Session\" tab, check the \"Use Proxy server for SSH connection\" box. Leave the proxy type as \"SSH\" (the default), then enter \"!instgw.eecs.berkeley.edu\" in the \"Host\" box (note the exclamation mark at the beginning --"
+    },
+    {
+      "chunk_id": 40,
+      "text": "box (note the exclamation mark at the beginning -- this will tell X2Go not to expect to be able to perform a shell login). Check the \"Same login as on X2Go Server\" box. Under \"RSA/DSA key\", click the Browse button and choose your SSH key file (or e"
+    },
+    {
+      "chunk_id": 41,
+      "text": "e Browse button and choose your SSH key file (or enter the path to the key in the box). (If you have a running SSH agent on the system, you can check the \"SSH Agent or default SSH key\" box instead.) Visual Studio Code Remote-SSH extension users --"
+    },
+    {
+      "chunk_id": 42,
+      "text": "Visual Studio Code Remote-SSH extension users --------------------------------------------------------- VS Code uses OpenSSH to establish its connections, so the easiest way to configure VS Code to use the jumphost is to edit your ssh_config file"
+    },
+    {
+      "chunk_id": 43,
+      "text": "use the jumphost is to edit your ssh_config file as described above under \"OpenSSH users\". If you prefer, VS Code will edit this file directly for you: select \"Remote-SSH: Add New SSH Host\" from the Command Palette (F1 or Ctrl-Shift-P), then enter"
+    },
+    {
+      "chunk_id": 44,
+      "text": "Command Palette (F1 or Ctrl-Shift-P), then enter the full SSH command you'd use to connect to the host; for example to connect to ashby.cs, use ssh -J yourusername@instgw.eecs.berkeley.edu -l yourusername ashby.cs.berkeley.edu Then choose the"
+    },
+    {
+      "chunk_id": 45,
+      "text": "urusername ashby.cs.berkeley.edu Then choose the ssh_config file to save this new configuration to -- VS Code will automatically convert the SSH commandline into appropriate ssh_config settings and save those to the configuration file. See https:/"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ave those to the configuration file. See https://code.visualstudio.com/docs/remote/ssh#_remember-hosts-and-advanced-settings for more information on how to use this feature."
+    }
+  ]
+}

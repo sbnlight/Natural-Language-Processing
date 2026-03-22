@@ -1,0 +1,329 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/ToDoList",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / To Do List for the Accessors Project Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / To Do List for the Accessors Project"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Print Main / To Do List for the Accessors Project Key: Completed To Be Checked In Progress Urgent Later General Life Cycle Management Define setTimeout, setInterval, clearTimeout, clearInterval in commonHost and then keep track of timeouts and interv"
+    },
+    {
+      "chunk_id": 3,
+      "text": "monHost and then keep track of timeouts and intervals. Merge common code from nodeHost.js, capeCodeHost.js and duktapeHost.js into commonHost.js. nodeHost.js needs both instantiate() and instantiateAndInitialize() because we need to bind require so t"
+    },
+    {
+      "chunk_id": 4,
+      "text": "dInitialize() because we need to bind require so that require looks in the nodeHost/ directory. Is there a way around this Migrate Command Line Arguments from host-specific code to processCommandLineArguments() in commonHost. Node and Nashorn are u"
+    },
+    {
+      "chunk_id": 5,
+      "text": "Arguments() in commonHost. Node and Nashorn are using this. We need an accessor and module registry to avoid naming conflicts. A mechanism should be provided for \"publishing\" accessors. Hosts should provide utilities like npm for installing modules."
+    },
+    {
+      "chunk_id": 6,
+      "text": "provide utilities like npm for installing modules. See Accessor Registration . How to support graceful degradation when a required module is not available? Optional ports? See Mutable . Need version management for hosts, accessors, and modules. In p"
+    },
+    {
+      "chunk_id": 7,
+      "text": "management for hosts, accessors, and modules. In particular: Check compatibility at run time between accessors, hosts, and modules. Be able to invoke multiple versions of a module in the same executable. Some approach to testing a physical thing with"
+    },
+    {
+      "chunk_id": 8,
+      "text": "le. Some approach to testing a physical thing without the physical thing is needed. See Testing -> Test Doubles Figure out the \"this\" warnings in Coverity Scan TestSpontaneous.js: exports. initialize = function ( ) { count = 0 ; // Need to record 't"
+    },
+    {
+      "chunk_id": 9,
+      "text": "= function ( ) { count = 0 ; // Need to record 'this' for use in the callback. var thiz = this ; CID 157082 ( # 1 of 1 ) : Explicit this expected ( EXPLICIT_THIS_EXPECTED ) implicit_this_used : Calling function setTimeout with implicit 'this' argume"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ng function setTimeout with implicit 'this' argument when explicit 'this' is expected. handle = setTimeout ( function ( ) { count += 1 ; thiz. send ( 'output' , count ) ; } , this . getParameter ( 'interval' ) ) ; } ; [$[Get Code]] How to access the"
+    },
+    {
+      "chunk_id": 11,
+      "text": "terval' ) ) ; } ; [$[Get Code]] How to access the correct this inside a callback (Stackoverflow) suggests using bind/ Current status is that the Duktape2 implementation of setTimeout() was trigging this, so we removed that implementation from the fil"
+    },
+    {
+      "chunk_id": 12,
+      "text": "is, so we removed that implementation from the files we submit to Coverity Figure out some sort of debug mechanism so at run time, we can enable and disable debug messages in the hosts. Documentation We need a better Getting Started document for acce"
+    },
+    {
+      "chunk_id": 13,
+      "text": "We need a better Getting Started document for accessors. Node Host We need a tutorial document on how to write accessors. This should go through examples like those in the test library, including explaining how to define local variables in accessors,"
+    },
+    {
+      "chunk_id": 14,
+      "text": "aining how to define local variables in accessors, and how to define variables that are visible to subclasses (see test/TestAccessor.js and test/TestInheritance.js). See Tutor 2017 Tutorial . Update the jsdoc output to include links to code coverage"
+    },
+    {
+      "chunk_id": 15,
+      "text": "he jsdoc output to include links to code coverage page Update the jsdoc and ptdoc output to include links to tests and demos Update the CapeCode tour in $PTII/ptolemy/configs/capecode/tour.htm Accessor Management Create subpalettes in Accessors/util"
+    },
+    {
+      "chunk_id": 16,
+      "text": "r Management Create subpalettes in Accessors/util that match the Ptolemy II Actors: Utilities Sources Spontaneous Sources Clock: Generate a periodic output. Make this simpler than the DiscreteClock actor: Two parameters: period and value. (Was: TestS"
+    },
+    {
+      "chunk_id": 17,
+      "text": "tor: Two parameters: period and value. (Was: TestSpontaneous) SingleEvent (Was: TestSpontaneousOnce) Triggered Sources Counter: Each time an input arrives, produce an output that is a count of the inputs so far. Simpler than Ramp... Sinks Display: Th"
+    },
+    {
+      "chunk_id": 18,
+      "text": "uts so far. Simpler than Ramp... Sinks Display: This should figure out how to best display the input based on the data type. It should pretty print JSON. The CapeCode implementation should pop up a display window. Discrete Event Merge: Merge some num"
+    },
+    {
+      "chunk_id": 19,
+      "text": "splay window. Discrete Event Merge: Merge some number of input streams into one input stream. Consider creating a colored rating system for accessors that would appear in the JSDoc. Consider creating a table that shows what accessors work with which"
+    },
+    {
+      "chunk_id": 20,
+      "text": "a table that shows what accessors work with which hosts and that have demos and tests. Ideally, use Javascript that takes Jenkins test results as input, so table updates automatically as new test cases are added. See Status Update the Status page so"
+    },
+    {
+      "chunk_id": 21,
+      "text": "es are added. See Status Update the Status page so that it takes into account accessors that extend other accessors. Automatically update Accessor library status page . The PtDoc for the accessors show links for demos, but links point to demos that u"
+    },
+    {
+      "chunk_id": 22,
+      "text": "w links for demos, but links point to demos that use JSAccessor, which is all the demos. Instead, we should only link to demos that use a particular accessor. The PtDoc for the accessors should link to tests If we export the Cape Code demos to HTML,"
+    },
+    {
+      "chunk_id": 23,
+      "text": "to tests If we export the Cape Code demos to HTML, then the JSDoc could like to those pages. Running the Cape Code demos might not be that interesting because they typically do actuation and not plotting. Software Engineering Look for test failures i"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ing. Software Engineering Look for test failures in the ptII and accessors nightly builds Rename modules to follow npm module naming : dashes, not CamelCase. Code Cleaning util.js should not have platform dependency tests, instead we should have a se"
+    },
+    {
+      "chunk_id": 25,
+      "text": "form dependency tests, instead we should have a separate module for platform dependencies. There are multiple copies of util.js in the repositoryies. The CapeCode and common util.js files should probably be the same and the others should add host-de"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ably be the same and the others should add host-dependent changes? ptolemy / actor / lib / jjs / node / util.js org / terraswarm / accessor / accessors / web / hosts / browser / modules / util.js org / terraswarm / accessor / accessors / web / hosts"
+    },
+    {
+      "chunk_id": 27,
+      "text": "/ terraswarm / accessor / accessors / web / hosts / common / modules / util.js org / terraswarm / accessor / accessors / web / hosts / cordova / modules / util.js org / terraswarm / accessor / accessors / web / hosts / duktape / modules / util.js [$["
+    },
+    {
+      "chunk_id": 28,
+      "text": "rs / web / hosts / duktape / modules / util.js [$[Get Code]] Browser Host Browser The implementation of the require() function in the browser host currently doesn't support packages. Only modules defined in a single file are supported. The browser ho"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ned in a single file are supported. The browser host currently has very few modules implemented . Highest priorities are: httpClient (Beth Osyk, beth@berkeley.edu, has responsibility) webSocket : Mostly complete. See FIXMEs in the file cameras image"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ly complete. See FIXMEs in the file cameras image FaceDetector : Consider using OpenCV in the browser audio : Need demo audio browser (this module has not yet really been designed) When an accessor extends another, the docs for the base class inputs,"
+    },
+    {
+      "chunk_id": 31,
+      "text": "tends another, the docs for the base class inputs, outputs, and parameters do not appear in the table. Instead it shows \"No description found\". See for example test/TestInheritance. Is this fixed in the Browser Host? See https://ptolemy.berkeley.edu"
+    },
+    {
+      "chunk_id": 32,
+      "text": "he Browser Host? See https://ptolemy.berkeley.edu/accessors/library/index.html?accessor=test.TestInheritance Viewing the documentation of test/TestInheritance in Cape Code shows for example that accessorSource has \"No Description\". test/TestComposit"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ssorSource has \"No Description\". test/TestComposite.js shows \"undefined\" for instances of contained accessors. CapeCode Host CapeCode should not have duplicate copies of commonHost.js and modules/deterministicTemporalSemantics , instead CapeCode shou"
+    },
+    {
+      "chunk_id": 34,
+      "text": "rministicTemporalSemantics , instead CapeCode should search $PTII/org/terraswarm/accessor/accessors/web/hosts/common > If users run ./configure , then the accessors repo will be checked out If users execute a model without running ./configure , then"
+    },
+    {
+      "chunk_id": 35,
+      "text": "xecute a model without running ./configure , then the accessors repo should be checked out. If this fails, then CapeCode will not work The installer will have a copy of the accessors repo. Cape Code JUnit Output Error messages are unfriendly. When t"
+    },
+    {
+      "chunk_id": 36,
+      "text": "JUnit Output Error messages are unfriendly. When they give line numbers, they do not identify what file the error occurred in. We should consider have an AccessorError defined in commonHost.js that would defer to the hosts about how to print the stac"
+    },
+    {
+      "chunk_id": 37,
+      "text": "uld defer to the hosts about how to print the stack trace. For example, Cape Code could see if the exception is a Java Exception and if it is, pass a string representation of the Java stack trace. See the code for input handlers in commonHost.js Co"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ee the code for input handlers in commonHost.js Consider creating a way to run the Cape Code host on a composite accessor from the command line. This would require creating a Java class with a main() method that would take composite accessor(s) as ("
+    },
+    {
+      "chunk_id": 39,
+      "text": "method that would take composite accessor(s) as (an) argument(s) and instantiate them. The path for how require() works would need to be set up. See ptolemy.actor.lib.jjs.NashornAccessorHostApplication Review the CapeCode demos AugmentedRealityFeed"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ion Review the CapeCode demos AugmentedRealityFeedback demo uses an ImageReader actor. We should have an ImageReader accessor for CapeCode AugmentedRealityVideo demo works under Firefox, not Safari AugmentedRealityFeedback Uses simple tables, is ugl"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ugmentedRealityFeedback Uses simple tables, is ugly. Use ontology info to synthesize UI. If you have light switch, put a picture of a light switch. Temperature sensor: Use thermometer. Tagless odometery: about knowing where you are, what you are"
+    },
+    {
+      "chunk_id": 42,
+      "text": "metery: about knowing where you are, what you are looking at. SpeechSynthesis 11/17/17: http://mary.dfki.de:59125 seems to be non-op? $PTII/ptolemy/actor/lib/jjs/modules/socket/demo/TCPSocket/TCPSocketImage.xml Sometimes has a corrupt image? Delete u"
+    },
+    {
+      "chunk_id": 43,
+      "text": "tImage.xml Sometimes has a corrupt image? Delete useless demos Add descriptions Add authors annotation at the bottom ptolemy/actor/lib/jjs/modules/httpServer/demo/KeyValueStoreClient/KeyValueStoreServer.xml uses ptango Beth wrote: \"OK, these test cas"
+    },
+    {
+      "chunk_id": 44,
+      "text": "er.xml uses ptango Beth wrote: \"OK, these test cases are refactored, and the WebServer accessor now outputs parameters and headers: $PTII/ptolemy/actor/lib/jjs/modules/httpClient/test/auto/RESTWithBody.xml $PTII/ptolemy/actor/lib/jjs/modules/httpServ"
+    },
+    {
+      "chunk_id": 45,
+      "text": "y.xml $PTII/ptolemy/actor/lib/jjs/modules/httpServer/demo/KeyValueStoreClient/KeyValueStoreServer.xml $PTII/ptolemy/actor/lib/jjs/modules/httpClient/test/auto/RESTPostDataTypes.xml Create a CapeCode Triquetrum product Need a test for AccessorSSHCodeG"
+    },
+    {
+      "chunk_id": 46,
+      "text": "riquetrum product Need a test for AccessorSSHCodeGenerator by sshing to localhost. When the audio demos like $PTII/ptolemy/actor/lib/jjs/modules/audio/demo/Audio/AudioCapture.xml are run on terra.eecs, we get mismatches because there is no audio hard"
+    },
+    {
+      "chunk_id": 47,
+      "text": ", we get mismatches because there is no audio hardware on the machine. We should gracefully degrade here. In Cape Code, require() and getAccessorCode() should work with jar files without creating temporary copies of files. WebServer Accessor Once we"
+    },
+    {
+      "chunk_id": 48,
+      "text": "porary copies of files. WebServer Accessor Once we no longer depend on ptango, remove ptango from the Cape Code installer jjs/testing/test/auto/testNestedSuites.js does not run under mocha and it should be moved to a separate mocha/ directory. Access"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ld be moved to a separate mocha/ directory. Accessors Check the status page and add tests. The Mqtt accessors are in a very primitive state. They are barely concept demonstrations. They should be able to handle a much wider range of data types and sp"
+    },
+    {
+      "chunk_id": 50,
+      "text": "to handle a much wider range of data types and specifically JSON. They need a lot of work. readURL() in capeCodeHost.js uses ptango. Could it use ptolemy/actor/lib/jjs/modules/httpClient/HttpClientHelper.java instead? Review Memory Leaks commonHos"
+    },
+    {
+      "chunk_id": 51,
+      "text": "Helper.java instead? Review Memory Leaks commonHost getResource() is only implemented in Nashorn and CapeCode. getResource() should take a callback. There should be an async version with a timeout and error handler. Monitoring functionality Monitor"
+    },
+    {
+      "chunk_id": 52,
+      "text": "nd error handler. Monitoring functionality Monitoring Implementation Document Test Cordova Host Replicate build, see Cordova Host Set up JUnit test output Nashorn Host Invoking (cd $PTII/org/terraswarm/accessor/accessors/web/hosts; java -classpath $P"
+    },
+    {
+      "chunk_id": 53,
+      "text": "m/accessor/accessors/web/hosts; java -classpath $PTII ptolemy.actor.lib.jjs.NashornAccessorHostApplication -timeout 10000 hosts/nashorn/test/testNashornHost.js) is non-determinate. (Edward) Refactor NashornAccessorHostApplication to use java.util.con"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ashornAccessorHostApplication to use java.util.concurrent.ScheduleExecutorService (tutorial) In nashornHost.js , processCommandLineArguments() calls System.exit() . In general we should not be calling exit if the code is to be used elsewhere. exit"
+    },
+    {
+      "chunk_id": 55,
+      "text": "g exit if the code is to be used elsewhere. exit should be disabled, see Sandbox . Interrupt java thread running nashorn script (stackoverflow) It would be helpful if we could use Futures so that we can invoke an Accessor from Java and get back a re"
+    },
+    {
+      "chunk_id": 56,
+      "text": "can invoke an Accessor from Java and get back a return value via a Callable. ScheduledExecutorService might provide this. ScheduledExecutorService would possibly make it trivial to implement setTimeout and setInterval In NashornAccessorHostApplicati"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ut and setInterval In NashornAccessorHostApplication, ActorSubstitute should be renamed to ActorProxy so as to better match the Gang of Four design pattern. Try refactoring capeCodeHost.js so that we have a nashornHost.js that does not include any Pt"
+    },
+    {
+      "chunk_id": 58,
+      "text": "have a nashornHost.js that does not include any Ptolemy code. capecode would then require() nashornHost.js Setup JUnit test output Add more tests Increase the Code Coverage Add exit handler that invokes wrapup(). Node Host Node JUnit output Use proc"
+    },
+    {
+      "chunk_id": 59,
+      "text": "kes wrapup(). Node Host Node JUnit output Use processCommandLineArguments(), see Command Line Arguments . Nightly build should show more code coverage . The node host does not properly handle error ports in the WebServer accessors such as web/net/tes"
+    },
+    {
+      "chunk_id": 60,
+      "text": "rts in the WebServer accessors such as web/net/test/auto/WebServerTimeout.js: bash-3.2$ ( cd $PTII / org / terraswarm / accessor / accessors / web / net / test / auto; node .. / .. / .. / node_modules /@ accessors-hosts / node / nodeHostInvoke.js ne"
+    },
+    {
+      "chunk_id": 61,
+      "text": "/@ accessors-hosts / node / nodeHostInvoke.js net / test / auto / WebServerTimeout ) nodeHost.js: Error: Error: connect ( ) : Source has no such output: error at Accessor.connect ( / Users / cxh / src / ptII11.0.devel / org / terraswarm / accessor"
+    },
+    {
+      "chunk_id": 62,
+      "text": "rc / ptII11.0.devel / org / terraswarm / accessor / accessors / web / hosts / common / commonHost.js: 1102 : 19 ) ... [$[Get Code]] The node host currently has very few modules implemented . aprilTags - This would require porting C code to a npm modu"
+    },
+    {
+      "chunk_id": 63,
+      "text": "- This would require porting C code to a npm module audio-io cameras discovery : eventbus: not started gdp GDP Accessors should use metadata for the log name. The GDP Subscriber demo is missing data, see #99 Subscribe seems to be missing data http-c"
+    },
+    {
+      "chunk_id": 64,
+      "text": "see #99 Subscribe seems to be missing data http-client : The node version not have quite the same API as the Cape Code version. http-server image-display : Use browser image-processing-display instead of image-display However, image-processing-disp"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ad of image-display However, image-processing-display displays two images and image-display displays only one? serial : Loopback implemented, need to test with real serial device. services GeoCoder and works in CapeCode, but not node. See $PTII/pto"
+    },
+    {
+      "chunk_id": 66,
+      "text": "d works in CapeCode, but not node. See $PTII/ptolemy/actor/lib/jjs/modules/httpClient/test/auto/GeoCoderWeather.xml socket - See Notes -> Socket udp-socket web-socket-client web-socket-server When npm installs packages, the module might timeout. S"
+    },
+    {
+      "chunk_id": 67,
+      "text": "pm installs packages, the module might timeout. See accessors/hosts/node/node_modules/serial/serial.js Duktape Host Set up JUnit test output Use commonHost.js main(), see Command Line Arguments commonHost.js should not attempt to detect the type of"
+    },
+    {
+      "chunk_id": 68,
+      "text": "nHost.js should not attempt to detect the type of accessor host and then require() different files. The fix would be to modify the duktape host so that require() looks in commonHost/modules. Port more accessors to the Maxim Pegasus Rust Host Impleme"
+    },
+    {
+      "chunk_id": 69,
+      "text": "e accessors to the Maxim Pegasus Rust Host Implement a Rust Host : almost done, just need a test Set up JUnit test output Use commonHost.js main(), see Command Line Arguments Release Products Ptolemy II 11.0 sources, installers See https://chess.eecs"
+    },
+    {
+      "chunk_id": 70,
+      "text": "II 11.0 sources, installers See https://chess.eecs.berkeley.edu/ptexternal/nightly/ . Clean the ptII tree. See $PTII/doc/coding/releasemgt.htm Need to make another pass, especially using Eclipse cleanup. Update the Windows JREs that we ship. Need t"
+    },
+    {
+      "chunk_id": 71,
+      "text": "nup. Update the Windows JREs that we ship. Need to test Windows installers.% Decide about whether to support WebStart Update Code Signing Certificate Re-sign book jar files Clicking on the JNLP file under Mac OS X does not directly work, though http"
+    },
+    {
+      "chunk_id": 72,
+      "text": "under Mac OS X does not directly work, though http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/webStartHelp_index.htm has been updated. Need to unjar files and directors to be searched for by Nashorn and Node and place them in the path."
+    },
+    {
+      "chunk_id": 73,
+      "text": "or by Nashorn and Node and place them in the path. Not sure if running from jar files will really work with Node. Fix timestamp warnings. We can fix these in the final release, but signing the jars with a timestamp takes 15 sec./jar, which is too s"
+    },
+    {
+      "chunk_id": 74,
+      "text": "with a timestamp takes 15 sec./jar, which is too slow. Review web page versions of demos Create Release Notes. Major changes: Accessors Updates to FMI - Fabio, Marten iotAuth ( Is this the correct name? ) - Hokeun Pilot - Ilge CapeCode 1.0 sources a"
+    },
+    {
+      "chunk_id": 75,
+      "text": "me? ) - Hokeun Pilot - Ilge CapeCode 1.0 sources and installers can be built in $PTII/adm/gen-11.0 are being built as part of the ptII nightly build . capecode-latest.setup.mac.app.tar.gz capecode-latest_setup_windows_64.exe capecode-latest.src.tar."
+    },
+    {
+      "chunk_id": 76,
+      "text": "test_setup_windows_64.exe capecode-latest.src.tar.gz Next Steps Set up Cape Code Install Continuous Integration . Test Installers Remove unnecessary files. node_modules Mac: Multiple copies of the JDK being shipped in bin/CapeCode.app and bin/Vergil."
+    },
+    {
+      "chunk_id": 77,
+      "text": "being shipped in bin/CapeCode.app and bin/Vergil.app Share the jdk bundled with the installer with the app. Test ant Test make Test Eclipse Test .classpath.default.in Test build.default.xml Run tests @terraswarm/accessors See NPM Upload for how to u"
+    },
+    {
+      "chunk_id": 78,
+      "text": "@terraswarm/accessors See NPM Upload for how to update npm. @terraswarm/gdp See $PTII/vendors/gdp/gdp/lang/java/README.txt for how to update. @terraswarm/jsdoc Update copyrights for Node modules that have been checked in See adm/bin/collectLicenses"
+    },
+    {
+      "chunk_id": 79,
+      "text": "have been checked in See adm/bin/collectLicenses Include ant in the installers$$ Test installers on clean installations Linux Mac Windows Eclipse instructions Need to install Cygwin Tell the user to not use the installer No need to check out the ac"
+    },
+    {
+      "chunk_id": 80,
+      "text": "not use the installer No need to check out the accessors repo separately Add the Java path to the beginning of the system path Add Cygwin to the path Docs: Use website does not work. GeneratorRegulatorFMUProtector: Going in to Controller and clickin"
+    },
+    {
+      "chunk_id": 81,
+      "text": "orFMUProtector: Going in to Controller and clicking up link does not work FMU under Windows, need to install Visual Studio Need to edit the Cygwin .bash_profile, not the Windows one. When settng VS170COMNTOOLS, use forward slashes in .bash_profile Su"
+    }
+  ]
+}

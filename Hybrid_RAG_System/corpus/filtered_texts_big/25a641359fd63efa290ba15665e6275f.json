@@ -1,0 +1,761 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/actor/TypedIOPort.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "TypedIOPort JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method p"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Constr | Method Detail: Field | Constr | Method ptolemy.actor Class TypedIOPort java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.Port ptolemy.kernel.ComponentPort ptolemy.actor.IOPort ptolemy.actor.TypedIOPort All Implemented Interfaces:"
+    },
+    {
+      "chunk_id": 3,
+      "text": "lemy.actor.TypedIOPort All Implemented Interfaces: java.lang.Cloneable, HasTypeConstraints , Typeable , Changeable , Debuggable , DebugListener , Derivable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: Assert.Ass"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ble , Nameable Direct Known Subclasses: Assert.AssertPort , CPort , DDEIOPort , MirrorPort , ModalBasePort , MultiCompositePort , ParameterPort , PortMatcher , PubSubPort , QueuedTypedIOPort , RefinementPort , SDFIOPort , TDLTaskPort , WirelessIOPort"
+    },
+    {
+      "chunk_id": 5,
+      "text": "entPort , SDFIOPort , TDLTaskPort , WirelessIOPort public class TypedIOPort extends IOPort implements Typeable An IOPort with a type. This class implements the Typeable interface. The type is represented by an instance of Type in data.type package."
+    },
+    {
+      "chunk_id": 6,
+      "text": "nted by an instance of Type in data.type package. It can be declared by calling setTypeEquals(). If this method is not called, or called with a BaseType.UNKNOWN argument, the type of this port will be set by type resolution using the type constrai"
+    },
+    {
+      "chunk_id": 7,
+      "text": "be set by type resolution using the type constraints. The type constraints on this port can be specified using the methods defined in the Typeable interface. This class keeps a list of TypeListeners. Whenever the type changes, this class will gen"
+    },
+    {
+      "chunk_id": 8,
+      "text": "s. Whenever the type changes, this class will generate an instance of TypeEvent and pass it to the listeners by calling their typeChanged() method. A TypeListener register its interest in the type change event of this port by calling addTypeListe"
+    },
+    {
+      "chunk_id": 9,
+      "text": "change event of this port by calling addTypeListener(), and can be removed from the listener list by calling the removeTypeListener(). A TypedIOPort can only link to instances of TypedIORelation. Derived classes may further constrain links to a su"
+    },
+    {
+      "chunk_id": 10,
+      "text": "rived classes may further constrain links to a subclass of TypedIORelation. To do this, they should override the protected methods _link() and _linkInside() to throw an exception if their arguments are not of the appropriate type. Similarly, an"
+    },
+    {
+      "chunk_id": 11,
+      "text": "are not of the appropriate type. Similarly, an TypeIOPort can only be contained by a class derived from ComponentEntity and implementing the TypedActor interface. Subclasses may further constrain the containers by overriding _checkContainer()."
+    },
+    {
+      "chunk_id": 12,
+      "text": "n the containers by overriding _checkContainer(). Note that actors that call some of the setType XXX methods may also need to have a clone() method. Although the base classes neatly handle most aspects of the clone operation, there are subtletie"
+    },
+    {
+      "chunk_id": 13,
+      "text": "pects of the clone operation, there are subtleties involved with cloning type constraints. Absolute type constraints on ports and parameters are carried automatically into the clone, so clone() methods should never call setTypeEquals(). However,"
+    },
+    {
+      "chunk_id": 14,
+      "text": "hods should never call setTypeEquals(). However, relative type constraints of the other setType XXX () methods are not cloned automatically because of the difficulty of ensuring that the other object being referred to in a relative constraint is t"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ct being referred to in a relative constraint is the intended one. For example the Ramp actor constructor calls: output.setTypeAtLeast(init); so the clone() method of the Ramp actor calls: newObject.output.setTypeAtLeast(newObject.init); Since: Ptol"
+    },
+    {
+      "chunk_id": 16,
+      "text": "output.setTypeAtLeast(newObject.init); Since: Ptolemy II 0.2 Version: $Id$ Author: Yuhong Xiong, Lukito Muliadi Pt.AcceptedRating: Yellow (neuendor) Pt.ProposedRating: Green (yuhong) Nested Class Summary Nested Classes Modifier and Type Class and Des"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ary Nested Classes Modifier and Type Class and Description static class TypedIOPort.RunTimeTypeCheckException Exception class for run-time type errors. Nested classes/interfaces inherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObj"
+    },
+    {
+      "chunk_id": 18,
+      "text": "tolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary Fields Modifier and Type Field and Description protected Type _resolvedType The resolved type of the port. static int TYPE Indicate that the description(int) method should i"
+    },
+    {
+      "chunk_id": 19,
+      "text": "Indicate that the description(int) method should include information about the type of this port. Fields inherited from class ptolemy.actor. IOPort _constantLimit , _constantToken , _constantTokensSent , _hasPortEventListeners , _portEventListeners"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ent , _hasPortEventListeners , _portEventListeners , CONFIGURATION , defaultValue , RECEIVERS , REMOTERECEIVERS Fields inherited from class ptolemy.kernel. Port _insideLinks , _relationsList Fields inherited from class ptolemy.kernel.util. NamedObj _"
+    },
+    {
+      "chunk_id": 21,
+      "text": "herited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTE"
+    },
+    {
+      "chunk_id": 22,
+      "text": "kspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary Constructors Constructor and Description TypedIOPort () Construct a TypedIOPort with no container and no name that is neither an input nor an output"
+    },
+    {
+      "chunk_id": 23,
+      "text": "d no name that is neither an input nor an output. TypedIOPort ( ComponentEntity container, java.lang.String name) Construct a TypedIOPort with a containing actor and a name that is neither an input nor an output. TypedIOPort ( Componen"
+    },
+    {
+      "chunk_id": 24,
+      "text": "her an input nor an output. TypedIOPort ( ComponentEntity container, java.lang.String name, boolean isInput, boolean isOutput) Construct a TypedIOPort with a container and a name that is either an input, an output,"
+    },
+    {
+      "chunk_id": 25,
+      "text": "and a name that is either an input, an output, or both, depending on the third and fourth arguments. TypedIOPort ( Workspace workspace) Construct a port in the specified workspace with an empty string as a name. Method Summary All Methods Inst"
+    },
+    {
+      "chunk_id": 26,
+      "text": "string as a name. Method Summary All Methods Instance Methods Concrete Methods Deprecated Methods Modifier and Type Method and Description protected void _checkContainer ( Entity container) Override the base class to ensure that the proposed contain"
+    },
+    {
+      "chunk_id": 27,
+      "text": "the base class to ensure that the proposed container implements the TypedActor interface (the base class ensures that the container implements the Actor interface), is null, or is an EntityLibrary. protected void _checkLiberalLink ( ComponentRe"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ry. protected void _checkLiberalLink ( ComponentRelation relation) Override the method in the super class to ensure compatibility of the relation. protected void _checkLink ( Relation relation) Override the method in the super class to ensure compa"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ride the method in the super class to ensure compatibility of the relation. protected void _checkType ( Token token) Check that the specified token as well as the token in the default value, if specified, is compatible with the resolved type of"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ecified, is compatible with the resolved type of this port. protected void _checkTypedIOPortContainer ( Entity container) Override the base class to ensure that the proposed container implements the TypedActor interface (the base class ensures th"
+    },
+    {
+      "chunk_id": 31,
+      "text": "he TypedActor interface (the base class ensures that the container implements the Actor interface), is null, or is an EntityLibrary. protected java.lang.String _description (int detail, int indent, int bracket) Return a de"
+    },
+    {
+      "chunk_id": 32,
+      "text": "int indent, int bracket) Return a description of the object. void addTypeListener ( TypeListener listener) Add a type listener to this port. void attributeChanged ( Attribute attribute) React to a change in an attribute. void broadcast"
+    },
+    {
+      "chunk_id": 33,
+      "text": "React to a change in an attribute. void broadcast ( Token token) Send a token to all connected receivers. void broadcast ( Token [] tokenArray, int vectorLength) Send the specified portion of a token array to all receivers connected to thi"
+    },
+    {
+      "chunk_id": 34,
+      "text": "a token array to all receivers connected to this port. java.lang.Object clone ( Workspace workspace) Clone this port into the specified workspace. Token convert ( Token token) Convert the specified token into a token with type equal to the type"
+    },
+    {
+      "chunk_id": 35,
+      "text": "token into a token with type equal to the type returned by getType(). boolean getAutomaticTypeConversion () Indicates whether conversion of received tokens is enabled or not. Type getType () Return the type of this port. InequalityTerm getTypeTerm"
+    },
+    {
+      "chunk_id": 36,
+      "text": "the type of this port. InequalityTerm getTypeTerm () Return an InequalityTerm encapsulating the type of this port. boolean isTypeAcceptable () Check whether the current type of this port is acceptable. void removeTypeListener ( TypeListener listen"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ble. void removeTypeListener ( TypeListener listener) Remove a type listener from this port. void send (int channelIndex, Token token) Send a token to the specified channel, checking the type and converting the token if necessary. void send (int ch"
+    },
+    {
+      "chunk_id": 38,
+      "text": "nverting the token if necessary. void send (int channelIndex, Token [] tokenArray, int vectorLength) Send the specified portion of a token array to all receivers connected to the specified channel, checking the type and converting the token i"
+    },
+    {
+      "chunk_id": 39,
+      "text": "el, checking the type and converting the token if necessary. void sendInside (int channelIndex, Token token) Send the specified token to all receivers connected to the specified inside channel of this port, checking the type and converting the"
+    },
+    {
+      "chunk_id": 40,
+      "text": "this port, checking the type and converting the token if necessary. void setAutomaticTypeConversion (boolean automaticTypeConversion) Allow actors to disable automatic type conversion on their input ports in case they do not need it. void setType"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ports in case they do not need it. void setTypeAtLeast ( InequalityTerm typeTerm) Constrain the type of this port to be equal to or greater than the type represented by the specified InequalityTerm. void setTypeAtLeast ( Typeable lesser) Constra"
+    },
+    {
+      "chunk_id": 42,
+      "text": "rm. void setTypeAtLeast ( Typeable lesser) Constrain the type of this port to be equal to or greater than the type of the specified Typeable object. void setTypeAtMost ( Type type) Constrain the type of this port to be equal to or less than the a"
+    },
+    {
+      "chunk_id": 43,
+      "text": "e of this port to be equal to or less than the argument. void setTypeEquals ( Type type) Set the type of this port. void setTypeSameAs ( Typeable equal) Constrain the type of this port to be the same as the type of the specified Typeable object."
+    },
+    {
+      "chunk_id": 44,
+      "text": "e as the type of the specified Typeable object. java.util.List typeConstraintList () Deprecated. Use typeConstraints(). java.util.Set< Inequality > typeConstraints () Return the type constraints of this port in the form of a set of inequalities."
+    },
+    {
+      "chunk_id": 45,
+      "text": "this port in the form of a set of inequalities. Methods inherited from class ptolemy.actor. IOPort _checkLiberalLink , _exportMoMLContents , _getInsideWidth , _getOutsideWidth , _getReceiversLinkedToGroup , _newInsideReceiver , _newInsideReceiver ,"
+    },
+    {
+      "chunk_id": 46,
+      "text": "oGroup , _newInsideReceiver , _newInsideReceiver , _newReceiver , _newReceiver , _notifyPortEventListeners , _removeReceivers , _setConstant , _wrapReceiver , addIOPortEventListener , broadcastClear , checkWidthConstraints , createReceivers , deepCon"
+    },
+    {
+      "chunk_id": 47,
+      "text": "checkWidthConstraints , createReceivers , deepConnectedInPortList , deepConnectedInPorts , deepConnectedOutPortList , deepConnectedOutPorts , deepGetReceivers , get , get , getChannelForReceiver , getCommunicationAspects , getCurrentTime , getDefaul"
+    },
+    {
+      "chunk_id": 48,
+      "text": "tCommunicationAspects , getCurrentTime , getDefaultWidth , getInside , getInsideReceivers , getIOPortEventListeners , getModelTime , getModelTime , getReceivers , getReceivers , getReceivers , getRelationIndex , getRemoteReceivers , getRemoteReceiver"
+    },
+    {
+      "chunk_id": 49,
+      "text": "tionIndex , getRemoteReceivers , getRemoteReceivers , getWidth , getWidthFromConstraints , getWidthInside , hasNewToken , hasNewTokenInside , hasRoom , hasRoomInside , hasToken , hasToken , hasTokenInside , hasWidthConstraints , insertLink , insideSi"
+    },
+    {
+      "chunk_id": 50,
+      "text": "side , hasWidthConstraints , insertLink , insideSinkPortList , insideSourcePortList , invalidateCommunicationAspects , isInput , isInsideConnected , isKnown , isKnown , isKnownInside , isMultiport , isOutput , isOutsideConnected , liberalLink , link"
+    },
+    {
+      "chunk_id": 51,
+      "text": "sOutput , isOutsideConnected , liberalLink , link , numberOfSinks , numberOfSources , removeIOPortEventListener , reset , sendClear , sendClearInside , setContainer , setDefaultWidth , setInput , setMultiport , setOutput , setWidthEquals , setWidthEq"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ultiport , setOutput , setWidthEquals , setWidthEquals , sinkPortList , sourcePortList , transferInputs , transferOutputs , unlink , unlink , unlinkAll , unlinkAllInside , unlinkInside , unlinkInside Methods inherited from class ptolemy.kernel. Compo"
+    },
+    {
+      "chunk_id": 53,
+      "text": "Methods inherited from class ptolemy.kernel. ComponentPort _deepConnectedPortList , _deepConnectedPorts , _deepInsidePortList , _deepInsidePorts , _isInsideLinkable , deepConnectedPortList , deepConnectedPorts , deepInsidePortList , deepInsidePorts ,"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ctedPorts , deepInsidePortList , deepInsidePorts , insertInsideLink , insidePortList , insidePorts , insideRelationList , insideRelations , isDeeplyConnected , isInsideGroupLinked , isInsideLinked , isOpaque , numInsideLinks Methods inherited from cl"
+    },
+    {
+      "chunk_id": 55,
+      "text": "sOpaque , numInsideLinks Methods inherited from class ptolemy.kernel. Port _getContainedObject , _propagateExistence , connectedPortList , connectedPorts , getContainer , isGroupLinked , isLinked , linkedRelationList , linkedRelations , moveDown , mo"
+    },
+    {
+      "chunk_id": 56,
+      "text": "nkedRelationList , linkedRelations , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , numLinks , setName Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields ,"
+    },
+    {
+      "chunk_id": 57,
+      "text": "verride , _attachText , _cloneFixAttributeFields , _containedDecorators , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyLis"
+    },
+    {
+      "chunk_id": 58,
+      "text": "essed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , _validateSettables , addChangeListener , addDebugListener , addHiera"
+    },
+    {
+      "chunk_id": 59,
+      "text": ", addChangeListener , addDebugListener , addHierarchyListener , attributeDeleted , attributeList , attributeList , attributeTypeChanged , clone , containedObjectsIterator , decorators , deepContains , depthInHierarchy , description , description , e"
+    },
+    {
+      "chunk_id": 60,
+      "text": ", depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName , getD"
+    },
+    {
+      "chunk_id": 61,
+      "text": "ributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource"
+    },
+    {
+      "chunk_id": 62,
+      "text": "getName , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateExistence , propagateValue , propagateValues , rem"
+    },
+    {
+      "chunk_id": 63,
+      "text": "Existence , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandle"
+    },
+    {
+      "chunk_id": 64,
+      "text": "erivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCo"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ava.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail TYPE public static final int TYPE Indicate that the description(int) method should include information about the type of this port. See Also: Con"
+    },
+    {
+      "chunk_id": 66,
+      "text": "rmation about the type of this port. See Also: Constant Field Values _resolvedType protected Type _resolvedType The resolved type of the port. The value of this variable is set when the InequalityTerm methods initialize(Object), setTypeEquals(), an"
+    },
+    {
+      "chunk_id": 67,
+      "text": "m methods initialize(Object), setTypeEquals(), and setValue(Object) are called. Constructor Detail TypedIOPort public TypedIOPort() Construct a TypedIOPort with no container and no name that is neither an input nor an output. TypedIOPort public Ty"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ther an input nor an output. TypedIOPort public TypedIOPort( Workspace workspace) throws IllegalActionException Construct a port in the specified workspace with an empty string as a name. You can then change the name with setName(). I"
+    },
+    {
+      "chunk_id": 69,
+      "text": ". You can then change the name with setName(). If the workspace argument is null, then use the default workspace. The object is added to the workspace directory. Increment the version number of the workspace. Parameters: workspace - The works"
+    },
+    {
+      "chunk_id": 70,
+      "text": "f the workspace. Parameters: workspace - The workspace that will list the port. Throws: IllegalActionException - If thrown by the superclass. TypedIOPort public TypedIOPort( ComponentEntity container, java.lang.String name)"
+    },
+    {
+      "chunk_id": 71,
+      "text": "java.lang.String name) throws IllegalActionException , NameDuplicationException Construct a TypedIOPort with a containing actor and a name that is neither an input nor an output. The specified container must imple"
+    },
+    {
+      "chunk_id": 72,
+      "text": "r an output. The specified container must implement the TypedActor interface, or an exception will be thrown. Parameters: container - The container actor. name - The name of the port. Throws: IllegalActionException - If the port is not of an acc"
+    },
+    {
+      "chunk_id": 73,
+      "text": "egalActionException - If the port is not of an acceptable class for the container, or if the container does not implement the TypedActor interface. NameDuplicationException - If the name coincides with a port already in the container. TypedI"
+    },
+    {
+      "chunk_id": 74,
+      "text": "es with a port already in the container. TypedIOPort public TypedIOPort( ComponentEntity container, java.lang.String name, boolean isInput, boolean isOutput) throws IllegalAction"
+    },
+    {
+      "chunk_id": 75,
+      "text": "boolean isOutput) throws IllegalActionException , NameDuplicationException Construct a TypedIOPort with a container and a name that is either an input, an output, or both, depending on the third and fourth arguments. The specified con"
+    },
+    {
+      "chunk_id": 76,
+      "text": "he third and fourth arguments. The specified container must implement the TypedActor interface or an exception will be thrown. Parameters: container - The container actor. name - The name of the port. isInput - True if this is to be an input port"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ort. isInput - True if this is to be an input port. isOutput - True if this is to be an output port. Throws: IllegalActionException - If the port is not of an acceptable class for the container, or if the container does not implement the TypedA"
+    },
+    {
+      "chunk_id": 78,
+      "text": "if the container does not implement the TypedActor interface. NameDuplicationException - If the name coincides with a port already in the container. Method Detail addTypeListener public void addTypeListener( TypeListener listener) Add a type l"
+    },
+    {
+      "chunk_id": 79,
+      "text": "dTypeListener( TypeListener listener) Add a type listener to this port. The listener will be notified of all the type changes. If the listener is already listening to this port, then do nothing. Parameters: listener - The TypeListener to add. Se"
+    },
+    {
+      "chunk_id": 80,
+      "text": "Parameters: listener - The TypeListener to add. See Also: removeTypeListener(TypeListener) attributeChanged public void attributeChanged( Attribute attribute) throws IllegalActionException React to a change in an attribute. Thi"
+    },
+    {
+      "chunk_id": 81,
+      "text": "nException React to a change in an attribute. This method is called by a contained attribute when its value changes. This overrides the base class so that if the attribute is an instance of TypeAttribute, then it sets the type of the port. Ov"
+    },
+    {
+      "chunk_id": 82,
+      "text": "peAttribute, then it sets the type of the port. Overrides: attributeChanged in class IOPort Parameters: attribute - The attribute that changed. Throws: IllegalActionException - If the change is not acceptable to this container. broadcast public vo"
+    },
+    {
+      "chunk_id": 83,
+      "text": "ceptable to this container. broadcast public void broadcast( Token token) throws IllegalActionException , NoRoomException Send a token to all connected receivers. Tokens are in general immutable, so each receiver is given a refe"
+    },
+    {
+      "chunk_id": 84,
+      "text": "eral immutable, so each receiver is given a reference to the same token and no clones are made. The transfer is accomplished by calling getRemoteReceivers() to determine the number of channels with valid receivers and then calling send() on t"
+    },
+    {
+      "chunk_id": 85,
+      "text": "ith valid receivers and then calling send() on the appropriate channels. It would probably be faster to call put() directly on the receivers. If there are no destination receivers, then nothing is sent. If the port is not connected to anythin"
+    },
+    {
+      "chunk_id": 86,
+      "text": "is sent. If the port is not connected to anything, or receivers have not been created in the remote port, then just return. Some of this method is read-synchronized on the workspace. Since it is possible for a thread to block while executing a"
+    },
+    {
+      "chunk_id": 87,
+      "text": "possible for a thread to block while executing a put, it is important that the thread does not hold read access on the workspace when it is blocked. Thus this method releases read access on the workspace before calling put. Overrides: broadcas"
+    },
+    {
+      "chunk_id": 88,
+      "text": "workspace before calling put. Overrides: broadcast in class IOPort Parameters: token - The token to send Throws: IllegalActionException - If the token to be sent cannot be converted to the type of this port NoRoomException - If a send to one of t"
+    },
+    {
+      "chunk_id": 89,
+      "text": "this port NoRoomException - If a send to one of the channels throws it. broadcast public void broadcast( Token [] tokenArray, int vectorLength) throws IllegalActionException , NoRoomException Send the specif"
+    },
+    {
+      "chunk_id": 90,
+      "text": "lActionException , NoRoomException Send the specified portion of a token array to all receivers connected to this port. The first vectorLength tokens of the token array are sent. Tokens are in general immutable, so each receiver is given a refe"
+    },
+    {
+      "chunk_id": 91,
+      "text": "eral immutable, so each receiver is given a reference to the same token and no clones are made. If the port is not connected to anything, or receivers have not been created in the remote port, or the channel index is out of range, or the port"
+    },
+    {
+      "chunk_id": 92,
+      "text": "r the channel index is out of range, or the port is not an output port, then just silently return. This behavior makes it easy to leave output ports unconnected when you are not interested in the output. The transfer is accomplished by ca"
+    },
+    {
+      "chunk_id": 93,
+      "text": "the output. The transfer is accomplished by calling the vectorized put() method of the remote receivers. If the port is not connected to anything, or receivers have not been created in the remote port, then just return. Some of this method is"
+    },
+    {
+      "chunk_id": 94,
+      "text": "ote port, then just return. Some of this method is read-synchronized on the workspace. Since it is possible for a thread to block while executing a put, it is important that the thread does not hold read access on the workspace when it is block"
+    },
+    {
+      "chunk_id": 95,
+      "text": "ld read access on the workspace when it is blocked. Thus this method releases read access on the workspace before calling put. Overrides: broadcast in class IOPort Parameters: tokenArray - The token array to send vectorLength - The number of elem"
+    },
+    {
+      "chunk_id": 96,
+      "text": "en array to send vectorLength - The number of elements of the token array to send. Throws: NoRoomException - If there is no room in the receiver. IllegalActionException - If the tokens to be sent cannot be converted to the type of this port clo"
+    },
+    {
+      "chunk_id": 97,
+      "text": "annot be converted to the type of this port clone public java.lang.Object clone( Workspace workspace) throws java.lang.CloneNotSupportedException Clone this port into the specified workspace. The new port is not added to the"
+    },
+    {
+      "chunk_id": 98,
+      "text": "cified workspace. The new port is not added to the directory of that workspace (you must do this yourself if you want it there). The result is a new port with no connections and no container. The new port will have the same type as this one, bu"
+    },
+    {
+      "chunk_id": 99,
+      "text": "e new port will have the same type as this one, but will not have any type listeners and type constraints attached to it. Overrides: clone in class IOPort Parameters: workspace - The workspace for the cloned object. Returns: A new TypedIOPort. Thro"
+    },
+    {
+      "chunk_id": 100,
+      "text": "he cloned object. Returns: A new TypedIOPort. Throws: java.lang.CloneNotSupportedException - If one or more of the attributes cannot be cloned. See Also: NamedObj.exportMoML(Writer, int, String) , NamedObj.setDeferringChangeRequests(boolean) conve"
+    },
+    {
+      "chunk_id": 101,
+      "text": "NamedObj.setDeferringChangeRequests(boolean) convert public Token convert( Token token) throws IllegalActionException Convert the specified token into a token with type equal to the type returned by getType(). If the token is already"
+    },
+    {
+      "chunk_id": 102,
+      "text": "pe returned by getType(). If the token is already of this type, then simply return the specified token. Overrides: convert in class IOPort Parameters: token - The token to convert. Returns: The converted token. Throws: IllegalActionException - If t"
+    },
+    {
+      "chunk_id": 103,
+      "text": "erted token. Throws: IllegalActionException - If the conversion is invalid. getType public Type getType() Return the type of this port. If this port is opaque, this method returns the resolved type of this port; if this port is a transparent"
+    },
+    {
+      "chunk_id": 104,
+      "text": "ype of this port; if this port is a transparent input port, this method returns the greatest lower bound of the types of the inside ports; if this port is a transparent output port, this method returns the least upper bound of the types of the"
+    },
+    {
+      "chunk_id": 105,
+      "text": "returns the least upper bound of the types of the inside ports. This method is read-synchronized on the workspace. Specified by: getType in interface Typeable Returns: An instance of Type. getTypeTerm public InequalityTerm getTypeTerm() Return an I"
+    },
+    {
+      "chunk_id": 106,
+      "text": "rm public InequalityTerm getTypeTerm() Return an InequalityTerm encapsulating the type of this port. The InequalityTerm can be used to form type constraints. If the type is set through setTypeEquals(), the inequality term represents a type cons"
+    },
+    {
+      "chunk_id": 107,
+      "text": "ls(), the inequality term represents a type constant; otherwise, it represents a type variable. Specified by: getTypeTerm in interface Typeable Returns: An InequalityTerm whose value is the type of this port. isTypeAcceptable public boolean isTyp"
+    },
+    {
+      "chunk_id": 108,
+      "text": "f this port. isTypeAcceptable public boolean isTypeAcceptable() Check whether the current type of this port is acceptable. A type is acceptable if it represents an instantiable object. Any type is acceptable (including non-instantiable types) i"
+    },
+    {
+      "chunk_id": 109,
+      "text": "acceptable (including non-instantiable types) if the associated port is not connected to anything. Specified by: isTypeAcceptable in interface Typeable Returns: True if the current type is acceptable. getAutomaticTypeConversion public boolean getA"
+    },
+    {
+      "chunk_id": 110,
+      "text": "le. getAutomaticTypeConversion public boolean getAutomaticTypeConversion() Indicates whether conversion of received tokens is enabled or not. Returns: True if conversion is enabled, or false otherwise. See Also: setAutomaticTypeConversion(boolean) re"
+    },
+    {
+      "chunk_id": 111,
+      "text": ". See Also: setAutomaticTypeConversion(boolean) removeTypeListener public void removeTypeListener( TypeListener listener) Remove a type listener from this port. If the listener is not attached to this port, do nothing. Parameters: listener - The T"
+    },
+    {
+      "chunk_id": 112,
+      "text": "his port, do nothing. Parameters: listener - The TypeListener to be removed. See Also: addTypeListener(TypeListener) send public void send(int channelIndex, Token token) throws IllegalActionException , NoRoomException Send a token to the sp"
+    },
+    {
+      "chunk_id": 113,
+      "text": "Exception , NoRoomException Send a token to the specified channel, checking the type and converting the token if necessary. If the port is not connected to anything, or receivers have not been created in the remote port, or the channel index is"
+    },
+    {
+      "chunk_id": 114,
+      "text": "reated in the remote port, or the channel index is out of range, or the port is not an output port, then just silently return. This behavior makes it easy to leave output ports unconnected when you are not interested in the output. If the"
+    },
+    {
+      "chunk_id": 115,
+      "text": "you are not interested in the output. If the type of the specified token is the type of this port, or the token can be converted to that type losslessly, the token is sent to all receivers connected to the specified channel. Otherwise, Ill"
+    },
+    {
+      "chunk_id": 116,
+      "text": "nnected to the specified channel. Otherwise, IllegalActionException is thrown. Before putting the token into the destination receivers, this method also checks the type of the remote input port, and converts the token if necessary. The conv"
+    },
+    {
+      "chunk_id": 117,
+      "text": "and converts the token if necessary. The conversion is done by calling the convert() method of the type of the remote input port. If the token argument is null, then no token is sent. What this means exactly is domain dependent. In some doma"
+    },
+    {
+      "chunk_id": 118,
+      "text": "is means exactly is domain dependent. In some domains (SR, Continuous), it asserts that the output is \"absent.\" That is, IOPort.isKnown(int) will return true and IOPort.hasToken(int) will return false. In other domains (SDF, DE, PN), it simpl"
+    },
+    {
+      "chunk_id": 119,
+      "text": "false. In other domains (SDF, DE, PN), it simply does nothing. Nothing is sent. Hence, IOPort.isKnown(int) and IOPort.hasToken(int) will return whatever they would have returned before the call. Some of this method is read-synchronized on the"
+    },
+    {
+      "chunk_id": 120,
+      "text": ". Some of this method is read-synchronized on the workspace. Since it is possible for a thread to block while executing a put, it is important that the thread does not hold read access on the workspace when it is blocked. Thus this method relea"
+    },
+    {
+      "chunk_id": 121,
+      "text": "rkspace when it is blocked. Thus this method releases read access on the workspace before calling put. Overrides: send in class IOPort Parameters: channelIndex - The index of the channel, from 0 to width-1. token - The token to send, or null to sen"
+    },
+    {
+      "chunk_id": 122,
+      "text": "width-1. token - The token to send, or null to send no token. Throws: IllegalActionException - If the token to be sent cannot be converted to the type of this port, or if the token is null. NoRoomException - If there is no room in the receiver. se"
+    },
+    {
+      "chunk_id": 123,
+      "text": "xception - If there is no room in the receiver. send public void send(int channelIndex, Token [] tokenArray, int vectorLength) throws IllegalActionException , NoRoomException Send the specified portion of a token array to a"
+    },
+    {
+      "chunk_id": 124,
+      "text": "n Send the specified portion of a token array to all receivers connected to the specified channel, checking the type and converting the token if necessary. The first vectorLength tokens of the token array are sent. If the port is not connected"
+    },
+    {
+      "chunk_id": 125,
+      "text": "en array are sent. If the port is not connected to anything, or receivers have not been created in the remote port, or the channel index is out of range, or the port is not an output port, then just silently return. This behavior makes it"
+    },
+    {
+      "chunk_id": 126,
+      "text": "n just silently return. This behavior makes it easy to leave output ports unconnected when you are not interested in the output. If the type of the tokens in the specified portion of the token array is the type of this port, or the tokens in"
+    },
+    {
+      "chunk_id": 127,
+      "text": "array is the type of this port, or the tokens in the specified portion of the token array can be converted to that type losslessly, the tokens in the specified portion of the token array are sent to all receivers connected to the specified"
+    },
+    {
+      "chunk_id": 128,
+      "text": "ent to all receivers connected to the specified channel. Otherwise, IllegalActionException is thrown. Before putting the tokens in the specified portion of the token array into the destination receivers, this method also checks the type of th"
+    },
+    {
+      "chunk_id": 129,
+      "text": "eceivers, this method also checks the type of the remote input port, and converts the tokens if necessary. The conversion is done by calling the convert() method of the type of the remote input port. Some of this method is read-synchronized o"
+    },
+    {
+      "chunk_id": 130,
+      "text": "t port. Some of this method is read-synchronized on the workspace. Since it is possible for a thread to block while executing a put, it is important that the thread does not hold read access on the workspace when it is blocked. Thus this method"
+    },
+    {
+      "chunk_id": 131,
+      "text": "the workspace when it is blocked. Thus this method releases read access on the workspace before calling put. Overrides: send in class IOPort Parameters: channelIndex - The index of the channel, from 0 to width-1 tokenArray - The token array to send"
+    },
+    {
+      "chunk_id": 132,
+      "text": "0 to width-1 tokenArray - The token array to send vectorLength - The number of elements of the token array to send. Throws: NoRoomException - If there is no room in the receiver. IllegalActionException - If the tokens to be sent cannot be conv"
+    },
+    {
+      "chunk_id": 133,
+      "text": "ption - If the tokens to be sent cannot be converted to the type of this port, or if the vectorLength argument is greater than the length of the tokenArray argument. sendInside public void sendInside(int channelIndex, Token token)"
+    },
+    {
+      "chunk_id": 134,
+      "text": "de(int channelIndex, Token token) throws IllegalActionException , NoRoomException Send the specified token to all receivers connected to the specified inside channel of this port, checking the type and converting the token if nece"
+    },
+    {
+      "chunk_id": 135,
+      "text": "ecking the type and converting the token if necessary. Tokens are in general immutable, so each receiver is given a reference to the same token and no clones are made. If the port is not connected to anything on the inside, or receivers hav"
+    },
+    {
+      "chunk_id": 136,
+      "text": "cted to anything on the inside, or receivers have not been created in the remote port, or the channel index is out of range, or the port is not an input port, then just silently return. This behavior makes it easy to leave external input por"
+    },
+    {
+      "chunk_id": 137,
+      "text": "behavior makes it easy to leave external input ports of a composite unconnected when you are not interested in the received values. The transfer is accomplished by calling the put() method of the inside remote receivers. If the port is not"
+    },
+    {
+      "chunk_id": 138,
+      "text": "he inside remote receivers. If the port is not connected to anything, or receivers have not been created in the remote port, then just return. This method is normally called only by the transferInputs method of directors of composite actors"
+    },
+    {
+      "chunk_id": 139,
+      "text": "erInputs method of directors of composite actors, as AtomicActors do not usually have any relations on the inside of their ports. Before putting the token into the destination receivers, this method also checks the type of the inside input p"
+    },
+    {
+      "chunk_id": 140,
+      "text": "ethod also checks the type of the inside input port, and converts the token if necessary. The conversion is done by calling the convert() method of the type of the inside input port. If the token argument is null, then no token is sent. What"
+    },
+    {
+      "chunk_id": 141,
+      "text": "en argument is null, then no token is sent. What this means exactly is domain dependent. In some domains (SR, Continuous), it asserts that the output is \"absent.\" That is, IOPort.isKnown(int) will return true and IOPort.hasToken(int) will ret"
+    },
+    {
+      "chunk_id": 142,
+      "text": "ll return true and IOPort.hasToken(int) will return false. In other domains (SDF, DE, PN), it simply does nothing. Nothing is sent. Hence, IOPort.isKnown(int) and IOPort.hasToken(int) will return whatever they would have returned before the c"
+    },
+    {
+      "chunk_id": 143,
+      "text": "n whatever they would have returned before the call. Some of this method is read-synchronized on the workspace. Since it is possible for a thread to block while executing a put, it is important that the thread does not hold read access on the"
+    },
+    {
+      "chunk_id": 144,
+      "text": "that the thread does not hold read access on the workspace when it is blocked. Thus this method releases read access on the workspace before calling put. Overrides: sendInside in class IOPort Parameters: channelIndex - The index of the channel, f"
+    },
+    {
+      "chunk_id": 145,
+      "text": "meters: channelIndex - The index of the channel, from 0 to width-1 token - The token to send Throws: NoRoomException - If there is no room in the receiver. IllegalActionException - If conversion to the type of the destination port cannot be done."
+    },
+    {
+      "chunk_id": 146,
+      "text": "e type of the destination port cannot be done. setAutomaticTypeConversion public void setAutomaticTypeConversion(boolean automaticTypeConversion) Allow actors to disable automatic type conversion on their input ports in case they do not need it."
+    },
+    {
+      "chunk_id": 147,
+      "text": "n their input ports in case they do not need it. For example, AddSubtract and Display accept any token type, because they make use of methods that are inherited by all token types. Disabling automatic type conversion lets actors use Java's dy"
+    },
+    {
+      "chunk_id": 148,
+      "text": "omatic type conversion lets actors use Java's dynamic dispatch mechanism instead. If set to false, received tokens will not be converted. Parameters: automaticTypeConversion - False in order to disable conversion of received tokens, true othe"
+    },
+    {
+      "chunk_id": 149,
+      "text": "disable conversion of received tokens, true otherwise. See Also: getAutomaticTypeConversion() setTypeAtLeast public void setTypeAtLeast( Typeable lesser) Constrain the type of this port to be equal to or greater than the type of the specified Typ"
+    },
+    {
+      "chunk_id": 150,
+      "text": "to or greater than the type of the specified Typeable object. Actors that call this method should have a clone() method that repeats the relative type constraints that were specified in the constructor. Specified by: setTypeAtLeast in interface"
+    },
+    {
+      "chunk_id": 151,
+      "text": "tructor. Specified by: setTypeAtLeast in interface Typeable Parameters: lesser - A Typeable object. setTypeAtLeast public void setTypeAtLeast( InequalityTerm typeTerm) Constrain the type of this port to be equal to or greater than the type represen"
+    },
+    {
+      "chunk_id": 152,
+      "text": "to be equal to or greater than the type represented by the specified InequalityTerm. Actors that call this method should have a clone() method that repeats the relative type constraints that were specified in the constructor. Specified by: setT"
+    },
+    {
+      "chunk_id": 153,
+      "text": "specified in the constructor. Specified by: setTypeAtLeast in interface Typeable Parameters: typeTerm - An InequalityTerm. setTypeAtMost public void setTypeAtMost( Type type) Constrain the type of this port to be equal to or less than the argumen"
+    },
+    {
+      "chunk_id": 154,
+      "text": "his port to be equal to or less than the argument. Actors that call this method should have a clone() method that repeats the relative type constraints that were specified in the constructor. Specified by: setTypeAtMost in interface Typeable Pa"
+    },
+    {
+      "chunk_id": 155,
+      "text": "ecified by: setTypeAtMost in interface Typeable Parameters: type - An instance of Type. setTypeEquals public void setTypeEquals( Type type) Set the type of this port. The type is represented by an instance of Type. If the type is BaseType.UNKNOWN,"
+    },
+    {
+      "chunk_id": 156,
+      "text": "tance of Type. If the type is BaseType.UNKNOWN, the determination of the type is left to type resolution. Actors that call setTypeEquals() are not required to have a clone() method. Absolute type constraints on ports and parameters are carri"
+    },
+    {
+      "chunk_id": 157,
+      "text": "pe constraints on ports and parameters are carried automatically into the clone, so clone() methods of actors should never call setTypeEquals(). Actors that call the other setType XXX () methods should have a clone() method. This method is wr"
+    },
+    {
+      "chunk_id": 158,
+      "text": "should have a clone() method. This method is write-synchronized on the workspace. Specified by: setTypeEquals in interface Typeable Parameters: type - A Type. setTypeSameAs public void setTypeSameAs( Typeable equal) Constrain the type of this port"
+    },
+    {
+      "chunk_id": 159,
+      "text": "s( Typeable equal) Constrain the type of this port to be the same as the type of the specified Typeable object. Actors that call this method should have a clone() method that repeats the relative type constraints that were specified in the cons"
+    },
+    {
+      "chunk_id": 160,
+      "text": "type constraints that were specified in the constructor. Specified by: setTypeSameAs in interface Typeable Parameters: equal - A Typeable object. typeConstraints public java.util.Set< Inequality > typeConstraints() Return the type constraints of th"
+    },
+    {
+      "chunk_id": 161,
+      "text": "ypeConstraints() Return the type constraints of this port in the form of a set of inequalities. Specified by: typeConstraints in interface HasTypeConstraints Returns: A set of inequalities. See Also: Inequality typeConstraintList @Deprecated public"
+    },
+    {
+      "chunk_id": 162,
+      "text": ": Inequality typeConstraintList @Deprecated public java.util.List typeConstraintList() Deprecated. Use typeConstraints(). Return the type constraints of this variable. The constraints include the ones explicitly set to this variable, plus the con"
+    },
+    {
+      "chunk_id": 163,
+      "text": "es explicitly set to this variable, plus the constraint that the type of this variable must be no less than its current type, if it has one. The constraints are a list of inequalities. Returns: a list of Inequality objects. See Also: Inequality"
+    },
+    {
+      "chunk_id": 164,
+      "text": "a list of Inequality objects. See Also: Inequality _checkContainer protected void _checkContainer( Entity container) throws IllegalActionException Override the base class to ensure that the proposed container implements the"
+    },
+    {
+      "chunk_id": 165,
+      "text": "sure that the proposed container implements the TypedActor interface (the base class ensures that the container implements the Actor interface), is null, or is an EntityLibrary. Overrides: _checkContainer in class IOPort Parameters: container -"
+    },
+    {
+      "chunk_id": 166,
+      "text": "kContainer in class IOPort Parameters: container - The proposed container. Throws: IllegalActionException - If the proposed container is not a TypedActor, or if the base class throws it. _checkTypedIOPortContainer protected final void _checkTypedI"
+    },
+    {
+      "chunk_id": 167,
+      "text": "dIOPortContainer protected final void _checkTypedIOPortContainer( Entity container) throws IllegalActionException Override the base class to ensure that the proposed container implements the TypedActor inter"
+    },
+    {
+      "chunk_id": 168,
+      "text": "oposed container implements the TypedActor interface (the base class ensures that the container implements the Actor interface), is null, or is an EntityLibrary. Derived classes may call this method to get the appropriate functionality if p"
+    },
+    {
+      "chunk_id": 169,
+      "text": "method to get the appropriate functionality if parent classes have redefined _checkContainer(); Parameters: container - The proposed container. Throws: IllegalActionException - If the proposed container is not a TypedActor, or if the base class"
+    },
+    {
+      "chunk_id": 170,
+      "text": "iner is not a TypedActor, or if the base class throws it. _checkLiberalLink protected void _checkLiberalLink( ComponentRelation relation) throws IllegalActionException Override the method in the super class to ensure comp"
+    },
+    {
+      "chunk_id": 171,
+      "text": "rride the method in the super class to ensure compatibility of the relation. This method is not synchronized on the workspace, so the caller should be. Parameters: relation - The relation to link to on the inside. Throws: IllegalActionException -"
+    },
+    {
+      "chunk_id": 172,
+      "text": "to on the inside. Throws: IllegalActionException - If this port has no container or the relation is not an TypedIORelation, or the port already linked to a relation and is not a multiport, or the relation has width not exactly one and the po"
+    },
+    {
+      "chunk_id": 173,
+      "text": "e relation has width not exactly one and the port is not a multiport, or the relation is incompatible with this port, or the port is not in the same workspace as the relation. _checkLink protected void _checkLink( Relation relation)"
+    },
+    {
+      "chunk_id": 174,
+      "text": "ected void _checkLink( Relation relation) throws IllegalActionException Override the method in the super class to ensure compatibility of the relation. This method is not synchronized on the workspace, so the caller should be."
+    },
+    {
+      "chunk_id": 175,
+      "text": "ized on the workspace, so the caller should be. Overrides: _checkLink in class IOPort Parameters: relation - The relation to link to. Throws: IllegalActionException - If this port has no container or the relation is not an TypedIORelation, or th"
+    },
+    {
+      "chunk_id": 176,
+      "text": "r the relation is not an TypedIORelation, or the port already linked to a relation and is not a multiport, or if the relation has width not exactly one and the port is not a multiport, or the port is not in the same workspace as the relat"
+    },
+    {
+      "chunk_id": 177,
+      "text": "port is not in the same workspace as the relation. _checkType protected void _checkType( Token token) throws IllegalActionException Check that the specified token as well as the token in the default value, if specified, is co"
+    },
+    {
+      "chunk_id": 178,
+      "text": "token in the default value, if specified, is compatible with the resolved type of this port. If the resolved type is UNKNOWN then we have to assume unknown is acceptable (e.g. the port is not connected to anything), so we accept any token ty"
+    },
+    {
+      "chunk_id": 179,
+      "text": "connected to anything), so we accept any token type. If the type is GENERAL, then we don't check the type because all types are lower and none are incomparable to GENERAL. Parameters: token - The token to check. Throws: IllegalActionException -"
+    },
+    {
+      "chunk_id": 180,
+      "text": "token to check. Throws: IllegalActionException - If the specified token is either incomparable to the resolved type or higher in the type lattice. _description protected java.lang.String _description(int detail,"
+    },
+    {
+      "chunk_id": 181,
+      "text": "iption(int detail, int indent, int bracket) throws IllegalActionException Return a description of the object. The level of detail depend"
+    },
+    {
+      "chunk_id": 182,
+      "text": "ription of the object. The level of detail depends on the argument, which is an or-ing of the static final constants defined in the NamedObj class and in this class. Lines are indented according to to the level argument using the protected m"
+    },
+    {
+      "chunk_id": 183,
+      "text": "g to to the level argument using the protected method _getIndentPrefix(). Zero, one or two brackets can be specified to surround the returned description. If one is specified it is the leading bracket. This is used by derived classes that wi"
+    },
+    {
+      "chunk_id": 184,
+      "text": "bracket. This is used by derived classes that will append to the description. Those derived classes are responsible for the closing bracket. An argument other than 0, 1, or 2 is taken to be equivalent to 0. If the detail argument sets the bit d"
+    },
+    {
+      "chunk_id": 185,
+      "text": "valent to 0. If the detail argument sets the bit defined by the constant TYPE, then append to the description a field of the form \"type {declared declaredType resolved resolvedType }\". The declared type is the type set through setTypeEquals()."
+    },
+    {
+      "chunk_id": 186,
+      "text": "red type is the type set through setTypeEquals(). If this method is not called, the declared type is BaseType.UNKNOWN. The resolved type is the type of this port. Both types are represented by the names of the corresponding tokens. This method"
+    },
+    {
+      "chunk_id": 187,
+      "text": "the names of the corresponding tokens. This method is read-synchronized on the workspace. Overrides: _description in class IOPort Parameters: detail - The level of detail. indent - The amount of indenting. bracket - The number of surrounding brackets"
+    },
+    {
+      "chunk_id": 188,
+      "text": "ting. bracket - The number of surrounding brackets (0, 1, or 2). Returns: A description of the object. Throws: IllegalActionException - If thrown while getting the description of subcomponents. Skip navigation links Overview Package Class Tree Depr"
+    },
+    {
+      "chunk_id": 189,
+      "text": "navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

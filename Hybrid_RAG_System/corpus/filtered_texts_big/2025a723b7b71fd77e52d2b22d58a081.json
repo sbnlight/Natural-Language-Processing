@@ -1,0 +1,381 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/ptexternal/Main/HTMLExport?action=print",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Ptolemy Group External | Main / HTMLExport From Ptolemy Group External Main: HTMLExport Notes about how to Export Ptolemy Models to HTML Overview The Ptolemy II development tree contains facilities to export models to the web. There are two separate"
+    },
+    {
+      "chunk_id": 2,
+      "text": "export models to the web. There are two separate facilities: HTML export of static models that allows the user to browse parameters and plotter output, but not actually execute the model. This facility uses image files, image maps and Javascript,"
+    },
+    {
+      "chunk_id": 3,
+      "text": "lity uses image files, image maps and Javascript, so it should work on most browsers. Java is not required. WebStart export that allows the user to change parameters and run the model. This facility requires that the user have Java installed locall"
+    },
+    {
+      "chunk_id": 4,
+      "text": "requires that the user have Java installed locally on their machine. By using these two facilities together, it is possible to export models that will be viewable for many years in the future. Requirements To build the complete set of signed jars an"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ements To build the complete set of signed jars and install them on the Ptolemy website, you will need: An ssh account on moog and be a member of the ptolemy Unix group. Access to our key, which is in /users/ptII/adm/certs/ptkeystore on moog. Access"
+    },
+    {
+      "chunk_id": 6,
+      "text": "/users/ptII/adm/certs/ptkeystore on moog. Access to the password, which is in /users/ptII/adm/certs/.pw on moog. Building Ptolemy II Download and configure Ptolemy II. See http://chess.eecs.berkeley.edu/ptexternal . For Mac/Linux, if you have read/"
+    },
+    {
+      "chunk_id": 7,
+      "text": ".edu/ptexternal . For Mac/Linux, if you have read/write Subversion access: svn co https://repo.eecs.berkeley.edu/svn/projects/eal/ptII/trunk ptII [$[Get Code]] If you don't ' have read/write access: svn co https://repo.eecs.berkeley.edu/svn-anon/proj"
+    },
+    {
+      "chunk_id": 8,
+      "text": "vn co https://repo.eecs.berkeley.edu/svn-anon/projects/eal/ptII/trunk ptII [$[Get Code]] Then: cd ptII export PTII=`pwd` ./configure [$[Get Code]] For Windows: Download the tree using SVN Install Ant copy ptII/build.default.xml to ptII/build.xml Buil"
+    },
+    {
+      "chunk_id": 9,
+      "text": "copy ptII/build.default.xml to ptII/build.xml Build and then build jar files ant ant javadoc ant -f jars.xml jars [$[Get Code]] Also, create the lbnl jars: (cd $PTII/lbnl; make install) [$[Get Code]] If you don't have access to the Ptolemy web server"
+    },
+    {
+      "chunk_id": 10,
+      "text": "If you don't have access to the Ptolemy web server, after downloading and building Ptolemy II, you can create your own key by running cd $PTII make ptKeystore [$[Get Code]] Placing and cleaning the models It is easiest if all of the models to be expo"
+    },
+    {
+      "chunk_id": 11,
+      "text": "dels It is easiest if all of the models to be exported are in one directory. If necessary, create a directory in ptII/doc/books/ or ptII/doc/papers . Papers usually get put into a subdirectory with the year, for example ptII/doc/papers/y14/ . The"
+    },
+    {
+      "chunk_id": 12,
+      "text": "the year, for example ptII/doc/papers/y14/ . The y is necessary because the path to the model needs to be a legitimate Java package name so that JUnit will work for the tests. Legitimate package names must start with an letter (or maybe an undersco"
+    },
+    {
+      "chunk_id": 13,
+      "text": "es must start with an letter (or maybe an underscore). For example mkdir $PTII/doc/papers/y14/constructive [$[Get Code]] Copy the models into the directory that was created. Examples should follow the Ptolemy II style guide at http://ptolemy.eecs.be"
+    },
+    {
+      "chunk_id": 14,
+      "text": "e Ptolemy II style guide at http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/coding/style.htm . In particular: .xml file names should be well formed Java identifiers Reset the zoom and center each model Add a makefile . Try copying fr"
+    },
+    {
+      "chunk_id": 15,
+      "text": "center each model Add a makefile . Try copying from an adjacent directory. See the style guide for more about makefiles. http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/coding/style.htm If you have read/write Subversion access, add t"
+    },
+    {
+      "chunk_id": 16,
+      "text": "tm If you have read/write Subversion access, add the directory, models and makefile to subversion. svn add modularSemantics svn commit -m \"Added models for ealpapers/y14/constructiveSemantics [$[Get Code]] The makefile in the director that contains t"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ode]] The makefile in the director that contains the models should have a echo_models rule. For books, this rule is in chapter.mk . # $PTII/mk/jnlp.mk calls \"make echo_models\" echo_models: @echo \"$(EXAMPLE_MODELS) $(EXAMPLE_SUBMODELS)\" | awk '{for(i"
+    },
+    {
+      "chunk_id": 18,
+      "text": "XAMPLE_MODELS) $(EXAMPLE_SUBMODELS)\" | awk '{for(i=1;i<=NF;i++) {print $$i}}' | sort [$[Get Code]] Create index.html and toc.htm Create index.html and toc.htm files. It is easiest to work from prexisting sources, below is a sample index.html <!DOCTY"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ting sources, below is a sample index.html <!DOCTYPE html> <html> <head> <meta charset=utf-8> <!-- doc/books/systems/continuous/index.html.in $Id: index.html.in 68395 2014-02-11 02:59:34Z cxh $ This gets copied to the website. scp index.html.in moog:"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ets copied to the website. scp index.html.in moog:/export/home/pt0/ptweb/books/Systems/models/doc/books/systems/continuous/index.html --> <title></title> </head> <!--#include virtual=\"/ssi/toppremenu.htm\" --> <!--#include virtual=\"toc.htm\" --> <!--#i"
+    },
+    {
+      "chunk_id": 21,
+      "text": "htm\" --> <!--#include virtual=\"toc.htm\" --> <!--#include virtual=\"/ssi/toppostmenu.htm\" --> <!-- Do not include a body open tag here, the ssi does it --> <h1>Models for Constructive Models of Descrete and Continuous Physical Phenomena</h1> <p>This pa"
+    },
+    {
+      "chunk_id": 22,
+      "text": "and Continuous Physical Phenomena</h1> <p>This page contains links to the models described in <p>Edward A. Lee, \"<a href=\"http://www.eecs.berkeley.edu/Pubs/TechRpts/2014/EECS-2014-15.pdf\">Constructive Models of Discr\\ ete and Continuous Physical Phe"
+    },
+    {
+      "chunk_id": 23,
+      "text": "e Models of Discr\\ ete and Continuous Physical Phenomena,</a>\" EECS Department, University of California, Berkeley, Technical Report No. UCB/\\ EECS-2014-15, February 8, 2014.</p> <p>The models are in HTML and Java Web Start format.</p> <!-- See the t"
+    },
+    {
+      "chunk_id": 24,
+      "text": "HTML and Java Web Start format.</p> <!-- See the toc.htm file for how to update these --> <ul> <li> <a href=\"BilliardsOneDimensional/index.html\">BilliardsOneDimensional</a></li> <li> <a href=\"BouncingBallModal2/index.html\">BouncingBallModal2</a></li>"
+    },
+    {
+      "chunk_id": 25,
+      "text": "BallModal2/index.html\">BouncingBallModal2</a></li> <li> <a href=\"BouncingBallModal/index.html\">BouncingBallModal</a></li> <li> <a href=\"BouncingBall/index.html\">BouncingBall</a></li> <li> <a href=\"Collision3/index.html\">Collision3</a></li> <li> <a hr"
+    },
+    {
+      "chunk_id": 26,
+      "text": "lision3/index.html\">Collision3</a></li> <li> <a href=\"Collision4/index.html\">Collision4</a></li> <li> <a href=\"Collision5/index.html\">Collision5</a></li> <li> <a href=\"Collision6Modal/index.html\">Collision6Modal</a></li> <li> <a href=\"CollisionSimult"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ision6Modal</a></li> <li> <a href=\"CollisionSimultaneousDifferentMasses2/index.html\">CollisionSimultaneousDifferentMasses2</a></li> <li> <a href=\"CollisionSimultaneousDifferentMasses/index.html\">CollisionSimultaneousDifferentMasses</a></li> <li> <a h"
+    },
+    {
+      "chunk_id": 28,
+      "text": "sionSimultaneousDifferentMasses</a></li> <li> <a href=\"CollisionSimultaneousLoss/index.html\">CollisionSimultaneousLoss</a></li> <li> <a href=\"CollisionSimultaneous/index.html\">CollisionSimultaneous</a></li> <li> <a href=\"Collision/index.html\">Collisi"
+    },
+    {
+      "chunk_id": 29,
+      "text": "></li> <li> <a href=\"Collision/index.html\">Collision</a></li> <li> <a href=\"DiodeInductorModel/index.html\">DiodeInductorModel</a></li> <li> <a href=\"Friction/index.html\">Friction</a></li> <li> <a href=\"IntegratorLoopPlot/index.html\">IntegratorLoopPlo"
+    },
+    {
+      "chunk_id": 30,
+      "text": "=\"IntegratorLoopPlot/index.html\">IntegratorLoopPlot</a></li> <li> <a href=\"LCDModal/index.html\">LCDModal</a></li> <li> <a href=\"TwoCapacitorsModelWithDelays/index.html\">TwoCapacitorsModelWithDelays</a></li> </ul> <!--#include virtual=\"/ssi/bottom.htm"
+    },
+    {
+      "chunk_id": 31,
+      "text": "></li> </ul> <!--#include virtual=\"/ssi/bottom.htm\" --> <!-- Do not include a body or html close tag here, the ssi does it --> [$[Get Code]] Below is a sample toc.htm <!-- doc/books/systems/toc.htm $Id: toc.htm 68136 2014-01-16 17:52:33Z cxh $"
+    },
+    {
+      "chunk_id": 32,
+      "text": "d: toc.htm 68136 2014-01-16 17:52:33Z cxh $ \\ This gets copied to the website. scp toc.htm moog:/export/home/pt0/ptweb/books/Systems/models/doc/books/systems/toc.htm --> <div id=\"menu\"> <ul> <li><a href=\"/"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ms/toc.htm --> <div id=\"menu\"> <ul> <li><a href=\"/index.htm\">Ptolemy Home</a></li> <li><a href=\"index.html\">Models</a></li> <h2>Models</h2> <!-- Update with: cd $PTII/doc/papers/y14/constructive/models make echo_models| sed 's/.xml//' | awk '{print \""
+    },
+    {
+      "chunk_id": 34,
+      "text": "s make echo_models| sed 's/.xml//' | awk '{print \"<li> <a href=\\\"\" $1 \"/index.html\\\">\" substr($1, 0, length($1)) \"</a></li>\"\\ }' --> <li> <a href=\"BilliardsOneDimensional/index.html\">BilliardsOneDimensional</a></li> <li> <a href=\"BouncingBallModal2/i"
+    },
+    {
+      "chunk_id": 35,
+      "text": "sional</a></li> <li> <a href=\"BouncingBallModal2/index.html\">BouncingBallModal2</a></li> <li> <a href=\"BouncingBallModal/index.html\">BouncingBallModal</a></li> <li> <a href=\"BouncingBall/index.html\">BouncingBall</a></li> <li> <a href=\"Collision3/inde"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ouncingBall</a></li> <li> <a href=\"Collision3/index.html\">Collision3</a></li> <li> <a href=\"Collision4/index.html\">Collision4</a></li> <li> <a href=\"Collision5/index.html\">Collision5</a></li> <li> <a href=\"Collision6Modal/index.html\">Collision6Modal<"
+    },
+    {
+      "chunk_id": 37,
+      "text": "href=\"Collision6Modal/index.html\">Collision6Modal</a></li> <li> <a href=\"CollisionSimultaneousDifferentMasses2/index.html\">CollisionSimultaneousDifferentMasses2</a></li> <li> <a href=\"CollisionSimultaneousDifferentMasses/index.html\">CollisionSimultan"
+    },
+    {
+      "chunk_id": 38,
+      "text": "neousDifferentMasses/index.html\">CollisionSimultaneousDifferentMasses</a></li> <li> <a href=\"CollisionSimultaneousLoss/index.html\">CollisionSimultaneousLoss</a></li> <li> <a href=\"CollisionSimultaneous/index.html\">CollisionSimultaneous</a></li> <li>"
+    },
+    {
+      "chunk_id": 39,
+      "text": "s/index.html\">CollisionSimultaneous</a></li> <li> <a href=\"Collision/index.html\">Collision</a></li> <li> <a href=\"DiodeInductorModel/index.html\">DiodeInductorModel</a></li> <li> <a href=\"Friction/index.html\">Friction</a></li> <li> <a href=\"Integrator"
+    },
+    {
+      "chunk_id": 40,
+      "text": "x.html\">Friction</a></li> <li> <a href=\"IntegratorLoopPlot/index.html\">IntegratorLoopPlot</a></li> <li> <a href=\"LCDModal/index.html\">LCDModal</a></li> <li> <a href=\"TwoCapacitorsModelWithDelays/index.html\">TwoCapacitorsModelWithDelays</a></li> </div"
+    },
+    {
+      "chunk_id": 41,
+      "text": ".html\">TwoCapacitorsModelWithDelays</a></li> </div><!-- /#menu --> [$[Get Code]] Don't forget to make index.html and toc.htm executable ssh moog chmod a+x /export/home/pt0/ptweb/ptolemyII/ptII10.0/jnlp-constructive/doc/papers/y14/constructive/index.h"
+    },
+    {
+      "chunk_id": 42,
+      "text": "p-constructive/doc/papers/y14/constructive/index.html ssh moog chmod a+x /export/home/pt0/ptweb/ptolemyII/ptII10.0/jnlp-constructive/doc/papers/y14/constructive/toc.htm [$[Get Code]] Signing the jar files Create the directory on moog. You must have"
+    },
+    {
+      "chunk_id": 43,
+      "text": "iles Create the directory on moog. You must have an ssh account on moog and be in the cvs unix group ssh moog \"mkdir /home/www/ptweb/ptolemyII/ptII10.0/jnlp-constructive\" [$[Get Code]] On moog, check that you are in the cvs and the ealgroup Unix gro"
+    },
+    {
+      "chunk_id": 44,
+      "text": "that you are in the cvs and the ealgroup Unix groups. moog.EECS.Berkeley.EDU:root: %C2> groups cxh cxh : cxh webmastr www cvs ptolemy ealgroup moog.EECS.Berkeley.EDU:root: %C2> [$[Get Code]] This is necessary because the /users/ptII/adm/certs/ptkeys"
+    },
+    {
+      "chunk_id": 45,
+      "text": "necessary because the /users/ptII/adm/certs/ptkeystore file in the next step is only readable by the root user and by people in the ealgroup unix group Copy the keystore to your local machine as /users/ptII/adm/certs/ptkeystore . If you cannot creat"
+    },
+    {
+      "chunk_id": 46,
+      "text": "s/ptII/adm/certs/ptkeystore . If you cannot create that directory, then use a different directory and substitute accordingly in the make commands below sudo mkdir /users/ptII/adm/certs sudo chown yourlocalusername /user/ptII/adm/certs scp yourAccoun"
+    },
+    {
+      "chunk_id": 47,
+      "text": "rlocalusername /user/ptII/adm/certs scp yourAccountOnMoog@moog:/users/ptII/adm/certs/ptkeystore /user/ptII/adm/certs [$[Get Code]] Get the key to the certificate. Local users, email Christopher for the password. If you have root on moog, see /users"
+    },
+    {
+      "chunk_id": 48,
+      "text": "he password. If you have root on moog, see /users/ptII/adm/certs/.certpw . Other users, for details, see http://chess.eecs.berkeley.edu/ptolemy/sysadmin/certificates.htm Place the password in a file called ~/.certpw that is readable only by you. Ve"
+    },
+    {
+      "chunk_id": 49,
+      "text": "called ~/.certpw that is readable only by you. Verify that you can read the password: The make command should all be on one line cd $PTII make key_list STOREPASSWORD=\"-storepass `cat ~/.certpw`\" KEYSTORE=/users/ptII/adm/certs/ptkeystore [$[Get Code]"
+    },
+    {
+      "chunk_id": 50,
+      "text": "TORE=/users/ptII/adm/certs/ptkeystore [$[Get Code]] You should see something like: Keystore type: JKS Keystore provider: SUN Your keystore contains 1 entry Alias name: ptolemy Creation date: Jan 13, 2012 Entry type: PrivateKeyEntry Certificate chain"
+    },
+    {
+      "chunk_id": 51,
+      "text": "012 Entry type: PrivateKeyEntry Certificate chain length: 4 Certificate[1]: Owner: CN=University of California at Berkeley, OU=IST-CalNetIdM, O=University of California at Berkeley, STREET=\"200 California Hall #1500\", L=Berkeley, ST=Calif\\ ornia, OID"
+    },
+    {
+      "chunk_id": 52,
+      "text": "rnia Hall #1500\", L=Berkeley, ST=Calif\\ ornia, OID.2.5.4.17=947201500, C=US Issuer: CN=InCommon Code Signing CA, OU=InCommon, O=Internet2, C=US [$[Get Code]] followed by a bunch of other information. Run these commands: cd $PTII rm -rf signed make KE"
+    },
+    {
+      "chunk_id": 53,
+      "text": "Run these commands: cd $PTII rm -rf signed make KEYSTORE=/users/ptII/adm/certs/ptkeystore KEYALIAS=ptolemy STOREPASSWORD=\"-storepass `cat $HOME/.certpw`\" KEYPASSWORD=\"-storepass `cat $HOME/.certpw`\" DIST_BASE=ptolemyII/ptII10.0/jnlp-constructive jnlp"
+    },
+    {
+      "chunk_id": 54,
+      "text": "IST_BASE=ptolemyII/ptII10.0/jnlp-constructive jnlp_dist [$[Get Code]] This will populate /export/home/pt0/ptweb/ptolemyII/ptII10.0/jnlp-constructive . On the local machine, do cp $PTII/ptKeystore.properties $HOME/ptKeystore.properties [$[Get Code]] a"
+    },
+    {
+      "chunk_id": 55,
+      "text": "erties $HOME/ptKeystore.properties [$[Get Code]] and edit $HOME/ptKeystore.properties to contain the path to the keystore, the passwords and the alias. This file is used by copernicus to create signed jars. We don't use $PTII/ptKeystore.properties b"
+    },
+    {
+      "chunk_id": 56,
+      "text": "d jars. We don't use $PTII/ptKeystore.properties because we don't want the password to appear in the installer as part of the nightly build. For example: # $Id: ptKeystore.properties 57286 2010-02-22 17:36:17Z bldmastr $ # Java properties file used b"
+    },
+    {
+      "chunk_id": 57,
+      "text": "17:36:17Z bldmastr $ # Java properties file used by ptolemy/copernicus/applet/AppletWriter.java keystoreFileName = /users/ptII/adm/certs/ptkeystore storePassword = xxxxxx keyPassword = xxxxxx alias = ptolemy [$[Get Code]] If you are using Server Side"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ptolemy [$[Get Code]] If you are using Server Side Includes (SSI) on the server, copy the *-ssi.htm.in files: cd $PTII/ptolemy/copernicus/applet cp modelJnlp-ssi.htm.in modelJnlp.htm.in cp modelVergil-ssi.htm.in modelVergil.htm.in cd $PTII [$[Get Cod"
+    },
+    {
+      "chunk_id": 59,
+      "text": "-ssi.htm.in modelVergil.htm.in cd $PTII [$[Get Code]] Exporting one model If you are logged in remotely, start up an X Server. On Sisyphus, try running Xvfb Xvfb :2 & export DISPLAY=localhost:2.0 [$[Get Code]] It is easiest to work on one model and"
+    },
+    {
+      "chunk_id": 60,
+      "text": "Get Code]] It is easiest to work on one model and get that working and then try all the models. So, clean up any previous work for a model: make book_real_clean JNLP_MODEL_DIRECTORY=doc/papers/y14/constructive/models JNLP_MODEL=Friction [$[Get Code]]"
+    },
+    {
+      "chunk_id": 61,
+      "text": "structive/models JNLP_MODEL=Friction [$[Get Code]] To create a JNLP file for one model and upload it: The make command should all be on one line make JNLP_MODEL_DIRECTORY=doc/papers/y14/constructive/models JNLP_MODEL=Friction KEYSTORE=/users/ptII/adm"
+    },
+    {
+      "chunk_id": 62,
+      "text": "odels JNLP_MODEL=Friction KEYSTORE=/users/ptII/adm/certs/ptkeystore KEYALIAS=ptolemy STOREPASSWORD=\"-storepass `cat $HOME/.certpw`\" KEYPASSWORD=\"-storepass `cat $HOME/.certpw`\" DIST_BASE=ptolemyII/ptII10.0/jnlp-constructive book_dist_update [$[Get Co"
+    },
+    {
+      "chunk_id": 63,
+      "text": "I10.0/jnlp-constructive book_dist_update [$[Get Code]] If you get Caused by: java.security.UnrecoverableKeyException: Password verification failed , then the problem is that $PTII/ptKeystore.properties is incorrect, see above. If you get sed: doc/pap"
+    },
+    {
+      "chunk_id": 64,
+      "text": "s is incorrect, see above. If you get sed: doc/papers/y14/constructive/models/Friction.jnlp: No such file or directory , then check that the name of the file and the name of the model in the file are the same. To update a jar file on the website, use"
+    },
+    {
+      "chunk_id": 65,
+      "text": "the same. To update a jar file on the website, use (cd ptolemy/vergil; make install) cp ptolemy/vergil/vergil.jar signed/ptolemy/vergil/vergil.jar make sign_jar JARFILE=signed/ptolemy/vergil/vergil.jar STOREPASSWORD=\"-storepass `cat $(HOME)/.certpw`\""
+    },
+    {
+      "chunk_id": 66,
+      "text": "r STOREPASSWORD=\"-storepass `cat $(HOME)/.certpw`\" KEYPASSWORD=\"-storepass `cat $(HOME)/.certpw`\" scp signed/ptolemy/vergil/vergil.jar moog:/export/home/pt0/ptweb/ptolemyII/ptII10.0/jnlp-constructive/signed/ptolemy/vergil/ [$[Get Code]] Check the jnl"
+    },
+    {
+      "chunk_id": 67,
+      "text": "signed/ptolemy/vergil/ [$[Get Code]] Check the jnlp file, which will appear as http://ptolemy.org/ptolemyII/ptII10.0/jnlp-constructive/doc/papers/y14/constructive/models/Friction . Ignore any messages in the table of contents navigation panel on the"
+    },
+    {
+      "chunk_id": 68,
+      "text": "s in the table of contents navigation panel on the left, we are checking that the JNLP, HTML and applet work. To test the JNLP from the command line, use javaws http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII8.1/jnlp-modularSemantics/doc/papers/y15/m"
+    },
+    {
+      "chunk_id": 69,
+      "text": "yII/ptII8.1/jnlp-modularSemantics/doc/papers/y15/modularSemantics/CTLorenz.jnlp [$[Get Code]] Repeat the above two make commands until you are satisfied. Debugging It may be easier to work with files on our local machine to debug problems. Certificat"
+    },
+    {
+      "chunk_id": 70,
+      "text": "on our local machine to debug problems. Certificate Problems For certificate problems, be sure that the certificate password works . JNLP loads, but exits The JNLP files typically invoked ptolemy.copernicus.applet.JNLPApplication. If the JNLP file d"
+    },
+    {
+      "chunk_id": 71,
+      "text": "rnicus.applet.JNLPApplication. If the JNLP file downloads and then exits, the problem could be with JNLPApplication. A good test command to try is to run java -classpath $PTII ptolemy.copernicus.applet.JNLPApplication -ptinyViewer doc/papers/y12/de"
+    },
+    {
+      "chunk_id": 72,
+      "text": "let.JNLPApplication -ptinyViewer doc/papers/y12/designContracts/DCMotorTol.xml [$[Get Code]] To update the jar files: cd $PTII ant jars cp ptolemy/vergil/vergilApplet.jar signed/ptolemy/vergil/vergilApplet.jar make sign_jar JARFILE=signed/ptolemy/ver"
+    },
+    {
+      "chunk_id": 73,
+      "text": "pplet.jar make sign_jar JARFILE=signed/ptolemy/vergil/vergilApplet.jar STOREPASSWORD=\"-storepass `cat ~/.certpw`\" KEYSTORE=/users/ptII/adm/certs/ptkeystore KEYPASSWORD=\"-keypass `cat ~/.certpw`\" javaws -wait doc/papers/y12/designContracts/DCMotorTol."
+    },
+    {
+      "chunk_id": 74,
+      "text": "s -wait doc/papers/y12/designContracts/DCMotorTol.jnlp [$[Get Code]] Building jnlp files These instructions are weak, but might help In general, for file problems, the signed jar files in $PTII/signed are portable, but the .jnlp file has to be regene"
+    },
+    {
+      "chunk_id": 75,
+      "text": "are portable, but the .jnlp file has to be regenerated and signed to include the location of the signed jar files and the .jnlp file itself. The make ... jnlp_dist file will create the $PTII/signed directory and populate it, or do cd $PTII rm -rf *."
+    },
+    {
+      "chunk_id": 76,
+      "text": "irectory and populate it, or do cd $PTII rm -rf *.jnlp signed make jnlp_all STOREPASSWORD=\"-storepass `cat ~/.certpw`\" KEYSTORE=/users/ptII/adm/certs/ptkeystore KEYPASSWORD=\"-keypass `cat ~/.certpw`\" [$[Get Code]] One good test is to try running the"
+    },
+    {
+      "chunk_id": 77,
+      "text": "[$[Get Code]] One good test is to try running the ptiny version of vergil via a JNLP file. The $PTII directory contains .jnlp files, to run one, try make jnlp_run PTJNLP=vergilPtiny.jnlp [$[Get Code]] To create a local .jnlp file: FIXME [$[Get Code]"
+    },
+    {
+      "chunk_id": 78,
+      "text": "] To create a local .jnlp file: FIXME [$[Get Code]] To update a .jar : cd $PTII/ptolemy rm ptsupport.jar; make ptsupport.jar cd $PTII cp ptolemy/ptsupport.jar signed/ptolemy make sign_jar JARFILE=signed/ptolemy/ptsupport.jar STOREPASSWORD=\"-storepass"
+    },
+    {
+      "chunk_id": 79,
+      "text": "ed/ptolemy/ptsupport.jar STOREPASSWORD=\"-storepass `cat ~/.certpw`\" KEYSTORE=/users/ptII/adm/certs/ptkeystore KEYPASSWORD=\"-keypass `cat ~/.certpw`\" [$[Get Code]] I was working on instructions on building a local .jnlp, but it got complex. Basically"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ding a local .jnlp, but it got complex. Basically ptolemy/copernicus/applet/model.jnlp.in needs to be changed from <jnlp codebase=\"@ptIILocalURL@\" href=\"@ptIILocalURL@@targetPath@@sanitizedModelName@.jnlp\"> <!--jnlp codebase=\"file:./@codeBase@\" href"
+    },
+    {
+      "chunk_id": 81,
+      "text": ".jnlp\"> <!--jnlp codebase=\"file:./@codeBase@\" href=\"@targetPath@@sanitizedModelName@.jnlp\"--!> [$[Get Code]] to <!-- jnlp codebase=\"@ptIILocalURL@\" href=\"@ptIILocalURL@@targetPath@@sanitizedModelName@.jnlp\"--> <jnlp codebase=\"file:./@codeBase@\" href="
+    },
+    {
+      "chunk_id": 82,
+      "text": ".jnlp\"--> <jnlp codebase=\"file:./@codeBase@\" href=\"@targetPath@@sanitizedModelName@.jnlp\"> [$[Get Code]] and then run make JNLP_MODEL_DIRECTORY=doc/papers/y14/constructive/models JNLP_MODEL=Friction KEYSTORE=/users/ptII/adm/certs/ptkeystore KEYALIAS="
+    },
+    {
+      "chunk_id": 83,
+      "text": "EYSTORE=/users/ptII/adm/certs/ptkeystore KEYALIAS=ptolemy STOREPASSWORD=\"-storepass `cat $HOME/.certpw`\" KEYPASSWORD=\"-storepass `cat $HOME/.certpw`\" DIST_BASE=ptolemyII/ptII10.0/jnlp-constructive jnlp_file javaws -wait doc/papers/y14/constructive/mo"
+    },
+    {
+      "chunk_id": 84,
+      "text": "p_file javaws -wait doc/papers/y14/constructive/models/Friction.jnlp [$[Get Code]] Cleaning all the models To clean all the models: (:source) cd doc/papers/y14/constructive/models ma"
+    },
+    {
+      "chunk_id": 85,
+      "text": "make jnlps_real_clean (:end:) Exporting all the models Once you are satisfied with the first model, create JNLP files for all the models listed in the $(EXAMPLE_MODELS) makefile variable: cd $PTII/doc/"
+    },
+    {
+      "chunk_id": 86,
+      "text": "$(EXAMPLE_MODELS) makefile variable: cd $PTII/doc/papers/y14/constructive/models make KEYSTORE=/users/ptII/adm/certs/ptkeystore KEYALIAS=ptolemy STOREPASSWORD=\"-storepass `cat $HOME/.certpw`\" KEYPASSWORD=\"-storepass `cat $HOME/.certpw`\" DIST_BASE=pto"
+    },
+    {
+      "chunk_id": 87,
+      "text": "ORD=\"-storepass `cat $HOME/.certpw`\" DIST_BASE=ptolemyII/ptII10.0/jnlp-constructive jnlps [$[Get Code]] Using a shortened URL Optional: To use a shortened URL like http://ptolemy.org/modularSemantics Become root on moog Edit /usr/local/apache/conf/ex"
+    },
+    {
+      "chunk_id": 88,
+      "text": "Become root on moog Edit /usr/local/apache/conf/extra/httpd-vhosts.conf and find the ptolemy section that starts with <VirtualHost 128.32.48.150:80> ServerName ptolemy.eecs.berkeley.edu DocumentRoot \"/home/www/ptweb\" (:source:) Search for @@jnlp@@ an"
+    },
+    {
+      "chunk_id": 89,
+      "text": "/home/www/ptweb\" (:source:) Search for @@jnlp@@ and add a Redirect '''to the ptolemy section''': (:source:) Redirect /constructive http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII10.0/jnlp-constructive/doc/papers/y14/constructive Redirect /constructiv"
+    },
+    {
+      "chunk_id": 90,
+      "text": "/doc/papers/y14/constructive Redirect /constructive/ http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII10.0/jnlp-constructive/doc/papers/y14/constructive/ [$[Get Code]] As root on moog, run /etc/init.d/apachectl graceful [$[Get Code]] Removing unused ja"
+    },
+    {
+      "chunk_id": 91,
+      "text": "pachectl graceful [$[Get Code]] Removing unused jar files To reduce space, it might be worth removing unused jar files. To find out what jar files are used: grep -h jar *.jnlp | sort | uniq | sed 's/ *<jar href=\"//' | sed 's/\"//' > /tmp/keep [$[Get C"
+    },
+    {
+      "chunk_id": 92,
+      "text": "*<jar href=\"//' | sed 's/\"//' > /tmp/keep [$[Get Code]] Updating the index.htm file If you want to change http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII10.0/jnlp-constructive/doc/papers/y14/constructive/models/index.html , then the source code at $P"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ive/models/index.html , then the source code at $PTII/doc/papers/y14/constructive/models/index.html.in. That file gets copied to /home/www/ptweb/ptolemyII/ptII10.0/jnlp-constructive/doc/papers/y14/constructive/models on moog. To update, you could Ed"
+    },
+    {
+      "chunk_id": 94,
+      "text": "nstructive/models on moog. To update, you could Edit $PTII/doc/papers/y14/constructive/models/index.html.in scp index.html.in moog:/tmp Log on to moog as eal Become root: sudo -i cd /home/www/ptweb/ptolemyII/ptII10.0/jnlp-constructive/doc/papers/y14/"
+    }
+  ]
+}

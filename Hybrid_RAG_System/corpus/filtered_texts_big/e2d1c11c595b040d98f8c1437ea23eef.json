@@ -1,0 +1,105 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII7.0/ptII7.0.1/ptolemy/codegen/README.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Code Generation Code Generation This code generator is patterned after the Ptolemy Classic code generator where actors have template files consisting of code blocks. The code blocks are stitched together to create the resulting file. Simple Demo Li"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ether to create the resulting file. Simple Demo Limitations FAQ Ptolemy II Design Doc Codegen Chapter Simple Demo Open $PTII/ptolemy/codegen/demo/Ramp/Ramp.xml Click on the StaticSchedulingCodeGeneratorIcon. A dialog box will appear, click on \"Genera"
+    },
+    {
+      "chunk_id": 3,
+      "text": "orIcon. A dialog box will appear, click on \"Generate\" The code will be generated, compiled, run and the results displayed. Other Codegen Demonstrations Limitations This is a highly preliminary code generator facility, with many limitations. It is b"
+    },
+    {
+      "chunk_id": 4,
+      "text": "nerator facility, with many limitations. It is best viewed as a concept demonstration. Only SDF, FSM and HDF domains are supported Only IntToken, DoubleToken, StringToken and ArrayToken are supported. Other tokens are not supported at this time. A"
+    },
+    {
+      "chunk_id": 5,
+      "text": "d. Other tokens are not supported at this time. A limited number of actors have supporting helper code. The easiest way to build models that only the actors that have code generation support is to run $PTII/bin/vergil -codegen The macro facility does"
+    },
+    {
+      "chunk_id": 6,
+      "text": "$PTII/bin/vergil -codegen The macro facility does not ignore comments in C files. Thus if a comment in a C files has $channel , then it will be expanded. This can cause problems if the macro is ill-formed. To top expansion, use \\$channel FAQ Prob"
+    },
+    {
+      "chunk_id": 7,
+      "text": "l-formed. To top expansion, use \\$channel FAQ Problems Generating Code Generating code results in IOException: java.io.IOException: CreateProcess: make -f Model .mk error=2 This will happen if make is not in your path. Under Windows, you may need to"
+    },
+    {
+      "chunk_id": 8,
+      "text": "not in your path. Under Windows, you may need to install Cygwin, see the Ptolemy II Cygwin installer . Under Windows, if Cygwin is installed, then be sure that C:\\cygwin\\bin is in your Windows path. To edit your path, do Start Menu -> Settings -> C"
+    },
+    {
+      "chunk_id": 9,
+      "text": "To edit your path, do Start Menu -> Settings -> Control Panels -> System -> Advanced -> Environment Variables . Models that use a plotter fail to compile. Models that use the plotter use the Java Native Interface (JNI) to invoke the plotter from wit"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ive Interface (JNI) to invoke the plotter from within the C process. This is done so that the plotter is interactive while the model is running as opposed to plotting the data after the model completes. The JNI facility requires that a Java Developme"
+    },
+    {
+      "chunk_id": 11,
+      "text": "s. The JNI facility requires that a Java Development Kit (JDK) be installed instead of a Java Runtime Environment (JRE). The Ptolemy II Windows installer includes a JRE which is optionally installed. If the Windows installer is installed with the bu"
+    },
+    {
+      "chunk_id": 12,
+      "text": "If the Windows installer is installed with the bunded JRE, then models that use the plotter will probably fail to compile with message like: make: *** [Ramp] Error 1 Problems Running Models that use the plotter require setup To properly run a model"
+    },
+    {
+      "chunk_id": 13,
+      "text": "the plotter require setup To properly run a model that has a plotter, you must have jvm.dll in your path. If you do not, then when you run the executable, it will immediately exit with no message! For example, place C:\\Progra~1\\Java\\jdk1.5.0_11\\jre\\b"
+    },
+    {
+      "chunk_id": 14,
+      "text": "example, place C:\\Progra~1\\Java\\jdk1.5.0_11\\jre\\bin\\client in your path. If you are running Vergil from the command line as $PTII/bin/ptinvoke, then this has been handled for you. If you are running via Eclipse, then you must update your path by h"
+    },
+    {
+      "chunk_id": 15,
+      "text": "g via Eclipse, then you must update your path by hand. When in Windows, clicking on a .exe produced by the code generator fails to start up. The message is: The procedure entry point _impure_ptr could not be located in the dynamic link library cy"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ld not be located in the dynamic link library cygwin1.dll The solution is to add C:\\cygwin\\bin to the Windows path by doing: Start Menu -> Settings -> Control Panels -> System -> Advanced -> Environment Variables and adding C:\\cygwin\\bin to the pat"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ment Variables and adding C:\\cygwin\\bin to the path. To get rid of the console, compile with the exe with -mwindows: make -f Model .mk CC_FLAGS=-mwindows Extending the Code Generator Why are some of my ports being generated as Tokens in the C output?"
+    },
+    {
+      "chunk_id": 18,
+      "text": "y ports being generated as Tokens in the C output? The simple rule for the the type resolution in codegen is that any resolved Ptolemy types the codegen kernel defines to be non-primitive will be Token type in the generated code. User code (helper cl"
+    },
+    {
+      "chunk_id": 19,
+      "text": "n type in the generated code. User code (helper classes) is responsible for making the distinction between different data types, which mean the helper code may have different code blocks for handling different resolved type in the generated code. Th"
+    },
+    {
+      "chunk_id": 20,
+      "text": "different resolved type in the generated code. The CodeGeneratorHelper.isPrimitive() method is what is used to determine if a type is primitive. Also, a good example to look at is the codegen/c/actor/lib/ArrayElement helper. How do I get timing dat"
+    },
+    {
+      "chunk_id": 21,
+      "text": "r/lib/ArrayElement helper. How do I get timing data from the C output At the top of the generated C file, insert #include At the beginning of main() method, insert: struct timespec start, end; double dT = 0.0; clock_gettime(CLOCK_REALTIME, &start); T"
+    },
+    {
+      "chunk_id": 22,
+      "text": "dT = 0.0; clock_gettime(CLOCK_REALTIME, &start); Toward the end of main() method, insert: clock_gettime(CLOCK_REALTIME, &end); dT = end.tv_sec - start.tv_sec + (end.tv_nsec - start.tv_nsec) * 1.0e-9; printf(\"execution time: %g seconds\\n\", dT); You ca"
+    },
+    {
+      "chunk_id": 23,
+      "text": "printf(\"execution time: %g seconds\\n\", dT); You can also get the time resolution of your system by inserting the following code: struct timespec res; clock_getres(CLOCK_REALTIME, &res); printf(\" time resolution: %ld ns\\n\", res.tv_nsec); Compiling Lar"
+    },
+    {
+      "chunk_id": 24,
+      "text": "resolution: %ld ns\\n\", res.tv_nsec); Compiling Large C Files make -f ModelName .mk WARNING_CC_FLAGS= USER_CC_FLAGS=\"-pipe -O0 --verbose -Q\" Each of the options above: No -Wall avoid any optimization -pipe avoid temporary files -O0 avoid optimization"
+    },
+    {
+      "chunk_id": 25,
+      "text": "pipe avoid temporary files -O0 avoid optimization --verbose print out steps -Q print out summary information."
+    }
+  ]
+}

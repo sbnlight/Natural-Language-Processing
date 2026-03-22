@@ -1,0 +1,73 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/GDPTestGenerator",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Obsolete / GDPTestGenerator Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Obsolete / GDPTestGenerator (redirected from Notes.GDPTestGe"
+    },
+    {
+      "chunk_id": 2,
+      "text": "GDPTestGenerator (redirected from Notes.GDPTestGenerator ) The GDP is no longer supported by the Accessors Framework. This page exists as a historical reference. $PTII/ptolemy/actor/lib/jjs/modules/gdp/demo/GDPTestGenerator/GDPTestGenerator.xml is"
+    },
+    {
+      "chunk_id": 3,
+      "text": "gdp/demo/GDPTestGenerator/GDPTestGenerator.xml is a Ptolemy model that is deployed as a Swarmlet on terra.eecs.berkeley.edu that generates periodic test data. The swarmlet appends to a GDP log named \"edu.berkeley.eecs.testlog\" a sequence of JSON data"
+    },
+    {
+      "chunk_id": 4,
+      "text": "edu.berkeley.eecs.testlog\" a sequence of JSON data. A new output is produced once per second and the values cycle through a specified range. This is intended to be a test log that can be relied to be always producing data. The JSON produced has the f"
+    },
+    {
+      "chunk_id": 5,
+      "text": "always producing data. The JSON produced has the following properties: pressure_pascals: ranges from 70,100 Pa (pressure at about 3000 m elevation) to 101,000 Pa (at sea level). huminity_precent: ranges from 0 to 100. temperature_celcius: ranges from"
+    },
+    {
+      "chunk_id": 6,
+      "text": "es from 0 to 100. temperature_celcius: ranges from 100 down to -10. light_lux: ranges from 0 (no light) to 1000 (overcast day, very bright office). battery_percent: ranges from 100 to 0. sequence_number: starting from 0, the count of outputs from an"
+    },
+    {
+      "chunk_id": 7,
+      "text": "er: starting from 0, the count of outputs from an execution of this test. time: the time at which this output is produced. Deploying on TerraSwarm The $PTII/ptolemy/actor/lib/jjs/modules/gdp/demo/GDPTestGenerator/GDPTestGenerator.xml model has an Acc"
+    },
+    {
+      "chunk_id": 8,
+      "text": "estGenerator/GDPTestGenerator.xml model has an AccessorSSHCodeGenerator that deploys the swarmlet to terra.eecs.berkeley.edu using the sbuser account. To update the version running on terra, edit the AccessorSSHCodeGenerator attribute and change the"
+    },
+    {
+      "chunk_id": 9,
+      "text": "AccessorSSHCodeGenerator attribute and change the remote host to sbuser@terra.eecs.berkeley.edu . You will also need ssh access to sbuser on terra, see Access Control And Key Distribution . The password for the sbuser@terraswarm.org account on https:"
+    },
+    {
+      "chunk_id": 10,
+      "text": "rd for the sbuser@terraswarm.org account on https://repo.eecs.berkeley.edu may be found on Terra in ~sbuser/.repopass. Then run the model, the code should be redeployed to terra. You may need to do pm2 reload 0 to reload the swarmlet. The swarmlet i"
+    },
+    {
+      "chunk_id": 11,
+      "text": "m2 reload 0 to reload the swarmlet. The swarmlet is restarted at boot time and periodically using pm2. Attach:gdpSbuserPm2.png Δ In addition, there is cronjob that restarts every 5 minutes. /home/sbuser/sbuser.cron says: PATH = / usr / local / python"
+    },
+    {
+      "chunk_id": 12,
+      "text": "er/sbuser.cron says: PATH = / usr / local / python / bin: / usr / local / sbin: / sbin: / bin: / usr / sbin: / usr / bin # # /home/sbuser/sbuser.cron # */ 5 * * * * csh -c '/home/sbuser/cg/node_modules/.bin/pm2 restart GDPTestGenerator.js' >& / home"
+    },
+    {
+      "chunk_id": 13,
+      "text": "s/.bin/pm2 restart GDPTestGenerator.js' >& / home / sbuser / sbuser.cron.log [$[Get Code]] Log Rotation We are using https://github.com/pm2-hive/pm2-logrotate pm2-logrotation : pm2 install pm2-logrotate pm2 set pm2-logrotate:rotateInterval '* * * /1"
+    },
+    {
+      "chunk_id": 14,
+      "text": "te pm2 set pm2-logrotate:rotateInterval '* * * /1 * *' [$[Get Code]] Testing Subscription There is a model at $PTII/ptolemy/actor/lib/jjs/modules/gdp/test/auto/GDPTerraLog.xml that tests out subscription. gdp-reader Here's how to test whether the edu"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ion. gdp-reader Here's how to test whether the edu.berkeley.eecs.testlog is active using gdp-reader bash-3.2$ $PTII / vendors / gdp / gdp / apps / gdp-reader -s edu.berkeley.eecs.testlog Reading GCL T2bu1EV7VRFDM3Ao5ybbtWS8uxPrCOyJngCv0JMcils >>> rec"
+    },
+    {
+      "chunk_id": 28,
+      "text": ". 3 3 2 Z 000000b0 22 7d \" } [$[Get Code]] WebSockets Terra is also running GDPToWebSocket.js, which should set up a WebSocket on terra that publishes the data. To run the model locally: $ PTII / bin / capecode $PTII / ptolemy / actor / lib / j"
+    },
+    {
+      "chunk_id": 29,
+      "text": "/ bin / capecode $PTII / ptolemy / actor / lib / jjs / modules / gdp / demo / GDPToWebSocket /* .xml [$[Get Code]] Run GDPToWebSocket.xml first, then TestGDPToWebSocket.xml TestGDPToWebSocket.xml should connect to the WebSocket created by GDPToWebSoc"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/Cross-OriginRequestBlocked",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Cross-OriginRequestBlocked Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Cross-OriginRequestBlocked \"Cross-origin reso"
+    },
+    {
+      "chunk_id": 2,
+      "text": "es / Cross-OriginRequestBlocked \"Cross-origin resource sharing (CORS) is a mechanism that allows restricted resources (e.g. fonts) on a web page to be requested from another domain outside the domain from which the resource originated.\" (Wikipedia) R"
+    },
+    {
+      "chunk_id": 3,
+      "text": "from which the resource originated.\" (Wikipedia) Resources https://en.wikipedia.org/wiki/Cross-origin_resource_sharing Test Case For a CORS Test Case Run the host web server in the accessors repo, instructions at: accessors/web/hosts/browser/test/REA"
+    },
+    {
+      "chunk_id": 4,
+      "text": "tructions at: accessors/web/hosts/browser/test/README.txt or https://ptolemy.berkeley.edu/accessors/hosts/browser/test/README.txt : cd ~ / src svn co https: // repo.eecs.berkeley.edu / svn-anon / projects / terraswarm / accessors / trunk / accessors"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ects / terraswarm / accessors / trunk / accessors cd accessors / web / hosts / browser / test / node testServer.js [$[Get Code]] Open a browser and point to: http://localhost:8088/hosts/browser/test/testCORS.html Enter http://enable-cors.org/server.h"
+    },
+    {
+      "chunk_id": 6,
+      "text": "estCORS.html Enter http://enable-cors.org/server.html for the URL input, click \"react to inputs\". A bunch of text should show up for the \"response\" value. Then open a debugger pane in your browser and enter for the URL input: http://www.terraswarm.o"
+    },
+    {
+      "chunk_id": 7,
+      "text": "d enter for the URL input: http://www.terraswarm.org , click \"react to inputs\". The response value should be \"error\" and you should see an error message in the browser debugger console similar to (Firefox): Cross-Origin Request Blocked: The Same Ori"
+    },
+    {
+      "chunk_id": 8,
+      "text": "refox): Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://www.terraswarm.org/. (Reason: CORS header 'Access-Control-Allow-Origin' missing). [$[Get Code]] Below is the output: .htaccess File http://en"
+    },
+    {
+      "chunk_id": 9,
+      "text": "de]] Below is the output: .htaccess File http://enable-cors.org/server_apache.html says that to create a .htaccess that contains: Header set Access-Control-Allow-Origin \"*\" When I go to http://localhost:8088/hosts/browser/test/testCORS.html , enter h"
+    },
+    {
+      "chunk_id": 10,
+      "text": "st:8088/hosts/browser/test/testCORS.html , enter http://www.terraswarm.org , click \"react to inputs\", I'm getting a 404 for .htaccess. /usr/local/apache/logs/access_log_terraswarm says: 50.174.113.205 - - [11/Jan/2016:08:35:35 -0800] \"GET /.htaccess"
+    },
+    {
+      "chunk_id": 11,
+      "text": "- - [11/Jan/2016:08:35:35 -0800] \"GET /.htaccess HTTP/1.1\" 404 6440 And /usr/local/apache/logs/error_log says: [Mon Jan 11 08:50:34 2016] [error] [client 50.174.113.205] client denied by server configuration: /home/www/terraswarmwww/.htaccess Also,"
+    },
+    {
+      "chunk_id": 12,
+      "text": "guration: /home/www/terraswarmwww/.htaccess Also, going to http://www.terraswarm.org/.htaccess from a browser fails. It could be that downloading the .htaccess file is not permitted, so let's try a different route: Apache Configuration /usr/local/apa"
+    },
+    {
+      "chunk_id": 13,
+      "text": "fferent route: Apache Configuration /usr/local/apache/conf/extra/httpd-vhosts.conf was updated with: <VirtualHost 128.32.48.150:80> ServerName www.TerraSwarm.org DocumentRoot /home/www/terraswarmwww ... # See {$ACCESSORS_HOME}/wiki/Main/Cross-OriginR"
+    },
+    {
+      "chunk_id": 14,
+      "text": ".. # See {$ACCESSORS_HOME}/wiki/Main/Cross-OriginRequestBlocked Header set Access-Control-Allow-Origin \"*\" </VirtualHost> Then, as root: (:source lang=\"bash\":) [root@moog terraswarmwww]# apachectl -t Syntax OK [root@moog terraswarmwww]# /etc/init.d/a"
+    },
+    {
+      "chunk_id": 15,
+      "text": "Syntax OK [root@moog terraswarmwww]# /etc/init.d/apachectl graceful [root@moog terraswarmwww]# [$[Get Code]] In Firefox, enable Tools->Web Developer -> Toggle Tools Go to http://localhost:8088/hosts/browser/test/testCORS.html , enter http://www.terra"
+    },
+    {
+      "chunk_id": 16,
+      "text": "rowser/test/testCORS.html , enter http://www.terraswarm.org , click \"react to inputs\". In the Outputs section, the contents of the website will appear and access-control-allow-origin: \"*\" will appear in the Headers <Directory> Using <Directory /> # S"
+    },
+    {
+      "chunk_id": 17,
+      "text": "in the Headers <Directory> Using <Directory /> # See {$ACCESSORS_HOME}/wiki/Main/Cross-OriginRequestBlocked Header set Access-Control-Allow-Origin \"*\" </Directory> [$[Get Code]] and restarting Apache works in that when I go to https://ptolemy.berkele"
+    },
+    {
+      "chunk_id": 18,
+      "text": "works in that when I go to https://ptolemy.berkeley.edu/accessors/ , in the Firefox debugger, I can see access-control-allow-origin:\"*\" To set this just for https://ptolemy.berkeley.edu/accessors , the section for TerraSwarm in /usr/local/apache/conf"
+    },
+    {
+      "chunk_id": 19,
+      "text": "e section for TerraSwarm in /usr/local/apache/conf/extra/httpd-vhosts.conf contains: <Location /accessors > # See {$ACCESSORS_HOME}/wiki/Main/Cross-OriginRequestBlocked Header set Access-Control-Allow-Origin \"*\" </Location> [$[Get Code]] See Also Sec"
+    }
+  ]
+}

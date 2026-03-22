@@ -1,0 +1,121 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/run-tests",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"afr\", 1); req"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"afr\", 1); require \"GradingCommon.pl\"; require \"TestingCommon.pl\"; $assgn = shift; if (! AssignmentExists ($assgn)) { Fatal (\"Assignment $assgn does not exist.\"); } if (! TestsExist ($assgn)) { Fatal (\"No"
+    },
+    {
+      "chunk_id": 3,
+      "text": ".\"); } if (! TestsExist ($assgn)) { Fatal (\"No tests for assignments $assgn.\"); } # TimeOrder SUBM0 SUBM1 # Compare submission names SUBM0 and SUBM1 by time stamp. Return <0 if # SUBM0 is earlier, >0 if SUBM0 is later. If same timestamp, r"
+    },
+    {
+      "chunk_id": 4,
+      "text": "rlier, >0 if SUBM0 is later. If same timestamp, return <0 # if login of SUBM0 comes before that of SUBM1 in alphabetical order, # >0 if later, 0 if the same.o sub TimeOrder { my ($login0, $stamp0) = ($a =~ m{ ([^/]*)\\.([^/].*)$ }x); my ("
+    },
+    {
+      "chunk_id": 5,
+      "text": "amp0) = ($a =~ m{ ([^/]*)\\.([^/].*)$ }x); my ($login1, $stamp1) = ($b =~ m{ ([^/]*)\\.([^/].*)$ }x); return $stamp0 cmp $stamp1 || uc($login0) cmp uc($login1); } # SubmitLock ASSGN, SUBM # Create a lock on submission SUBM for assignment ASS"
+    },
+    {
+      "chunk_id": 6,
+      "text": "reate a lock on submission SUBM for assignment ASSIGN (SUBM is the # name of a submission file, without directory name). Return false (0) # if a lock already exists and is not forced, and otherwise a handle for # the lock, meaningful to Submit"
+    },
+    {
+      "chunk_id": 7,
+      "text": "se a handle for # the lock, meaningful to SubmitUnlock. If a lock exists and has expired, # and $opt_f is in force, attempts to remove the old lock. sub SubmitLock { my ($assgn, $subm) = @_; my $lock = \"$LOCK_DIR/$assgn.$subm\"; while"
+    },
+    {
+      "chunk_id": 8,
+      "text": "my $lock = \"$LOCK_DIR/$assgn.$subm\"; while (1) { if (mkdir ($lock, 0770)) { AddClean ($lock); return $lock; } else { my @stats = stat $lock; if ($#stats > 0 and $stats[10] - time () > $MAX_GRADING_TIME) { Warn (\"Lock h"
+    },
+    {
+      "chunk_id": 9,
+      "text": "] - time () > $MAX_GRADING_TIME) { Warn (\"Lock has expired for assignment $assgn, \" . \"submission $subm;\\n possible grading problem.\"); if ($opt_f) { Note (\"Trying to force the lock.\"); if (not rmdir ($lock)) { Warn (\"Cou"
+    },
+    {
+      "chunk_id": 10,
+      "text": "k.\"); if (not rmdir ($lock)) { Warn (\"Could not remove $lock.\"); } else { next; } } } return 0; } } } # SubmitUnlock LOCKNAME # Unlock LOCKNAME, which is a value returned by SubmitLock. sub SubmitUnlock"
+    },
+    {
+      "chunk_id": 11,
+      "text": "value returned by SubmitLock. sub SubmitUnlock { my ($lockname) = shift; if ($lockname and not rmdir ($lockname)) { Warn (\"Failed to remove lock $lockname.\"); } DeleteClean ($lockname); } # ReverseCommitOrder SUBM1 SUBM2 # Sa"
+    },
+    {
+      "chunk_id": 12,
+      "text": "name); } # ReverseCommitOrder SUBM1 SUBM2 # Same as CommitOrder SUBM2 SUBM1 sub ReverseCommitOrder($$) { my ($subm1, $subm2) = @_; return CommitOrder($subm2, $subm1); } @subms = (); if (@ARGV) { foreach $patn (@ARGV) { if ($patn =~"
+    },
+    {
+      "chunk_id": 13,
+      "text": "@ARGV) { foreach $patn (@ARGV) { if ($patn =~ /\\./) { if (! -e \"$SUBMISSION_DIR/$assgn/$patn\") { Warn (\"Cannot find submission $patn for assignment $assgn.\"); } push (@subms, \"$SUBMISSION_DIR/$assgn/$patn\"); } else { @subm"
+    },
+    {
+      "chunk_id": 14,
+      "text": "UBMISSION_DIR/$assgn/$patn\"); } else { @subms0 = GLOB (\"$SUBMISSION_DIR/$assgn/$patn.*\"); if (@subms0) { push (@subms, @subms0); } else { Warn (\"No entries for $patn\"); } } } } else { @subms = GLOB (\"$SUBMISSION_DIR/"
+    },
+    {
+      "chunk_id": 15,
+      "text": "} } else { @subms = GLOB (\"$SUBMISSION_DIR/$assgn/*.*\"); } if ($opt_r) { @subms = sort ReverseCommitOrder @subms; } else { @subms = sort CommitOrder @subms; } if (! @subms) { Warn (\"No submissions found.\"); exit 0; } $dir ="
+    },
+    {
+      "chunk_id": 16,
+      "text": "(\"No submissions found.\"); exit 0; } $dir = \"/tmp/grdtst$$\"; AddClean ($dir); $tmplog = \"/tmp/grdtstb$$\"; AddClean ($tmplog); %latest = (); foreach $subm (sort SubmissionOrder @subms) { ($login,$stamp) = ($subm =~ m{ ([^/]*)\\.([^/].*)$ }x)"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ogin,$stamp) = ($subm =~ m{ ([^/]*)\\.([^/].*)$ }x); $latest{$login} = $stamp; } if ($ASSGN_PARTNERS{$assgn}) { $partnerMap = SubmissionMap ($assgn); } else { $partnerMap = { }; } SUBM: foreach $subm (@subms) { next if (! -e $subm);"
+    },
+    {
+      "chunk_id": 18,
+      "text": "oreach $subm (@subms) { next if (! -e $subm); ($base) = ($subm =~ m{ /([^/]+)$ }x); # Note: testing for the log files first usually avoids creating a lock # directory when the submission has already been graded. We test again #"
+    },
+    {
+      "chunk_id": 19,
+      "text": "sion has already been graded. We test again # after locking to prevent a race condition. next if (-e \"$LOG_DIR/$assgn/ok/$base\" || -e \"$LOG_DIR/$assgn/failed/$base\"); $lock = SubmitLock ($assgn, $base); next if (not $lock);"
+    },
+    {
+      "chunk_id": 20,
+      "text": "tLock ($assgn, $base); next if (not $lock); if (-e \"$LOG_DIR/$assgn/ok/$base\" || -e \"$LOG_DIR/$assgn/failed/$base\") { SubmitUnlock ($lock); next; } if (-e \"$LOG_DIR/$assgn/mailed/$base\") { Warn (\"Result for $subm already mailed,"
+    },
+    {
+      "chunk_id": 21,
+      "text": "$base\") { Warn (\"Result for $subm already mailed, but the logs are gone.\\n\" . \" Removing the 'mailed' flag.\"); unlink (\"$LOG_DIR/$assgn/mailed/$base\"); } if (IsPartnerSubmission ($subm)) { $realSubm = RealSubmission ($subm); fore"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ubm)) { $realSubm = RealSubmission ($subm); foreach $existingLogDir (\"$LOG_DIR/$assgn/ok\", \"$LOG_DIR/$assgn/failed\") { $existingLog = \"$existingLogDir/$realSubm\"; if (-e $existingLog) { Note (\"Supplying missing link from partner s"
+    },
+    {
+      "chunk_id": 23,
+      "text": ") { Note (\"Supplying missing link from partner submission $base \" . \"to $realSubm.\"); symlink ($realSubm, \"$existingLogDir/$base\"); next SUBM; } } Note (\"Skipping partner submission $base (see $realSubm).\"); next; } if"
+    },
+    {
+      "chunk_id": 24,
+      "text": "on $base (see $realSubm).\"); next; } if ($$partnerMap{$base}) { @partners = @{$$partnerMap{$base}}; } else { @partners = ( ); } ($login,$stamp) = ($subm =~ m{ ([^/]*)\\.([^/].*)$ }x); if ($opt_a || $latest{$login} eq $sta"
+    },
+    {
+      "chunk_id": 25,
+      "text": ")$ }x); if ($opt_a || $latest{$login} eq $stamp) { System (\"/bin/rm -rf $dir\"); mkdir ($dir, 0700) || Fatal (\"Could not create temporary directory for testing.\"); TestSubmission ($subm, $assgn, $dir, @partners);"
+    },
+    {
+      "chunk_id": 26,
+      "text": "stSubmission ($subm, $assgn, $dir, @partners); } else { $latestSubm = $latest{$login}; Note (\"Skipping submission $subm: superseded by .../$login.$latestSubm.\"); unlink \"$tmplog\"; $ltime = localtime (TimeStampToTime ($latestSubm));"
+    },
+    {
+      "chunk_id": 27,
+      "text": "e = localtime (TimeStampToTime ($latestSubm)); open(TMPLOG, \">$tmplog\") || Fatal (\"Can't open $tmplog\\n\"); print TMPLOG \"This submission was not graded, because it was superseded by your\\n\"; print TMPLOG \"later submission, $login.$latestSubm, wh"
+    },
+    {
+      "chunk_id": 28,
+      "text": "t TMPLOG \"later submission, $login.$latestSubm, which you submitted\\n\"; print TMPLOG \"on $ltime. You should receive results for this\\n\"; print TMPLOG \"later submission soon.\\n\"; close(TMPLOG); MoveLog($assgn, $tmplog, $subm, 1, @partners); }"
+    },
+    {
+      "chunk_id": 29,
+      "text": "veLog($assgn, $tmplog, $subm, 1, @partners); } SubmitUnlock ($lock); } # (Can't clean up directory if it's in my path, so just in case...) chdir; &CleanUp exit 0;"
+    }
+  ]
+}

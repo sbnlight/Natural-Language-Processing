@@ -1,0 +1,97 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/Eventbus",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / eventbus Module Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / eventbus Module This module provides an interface"
+    },
+    {
+      "chunk_id": 2,
+      "text": "eventbus Module This module provides an interface to the Vert.x event bus, which supports a peer-to-peer publish-and-subscribe network on a local area network. Upon in invoking the VertxBus constructor in this module, the host running this module par"
+    },
+    {
+      "chunk_id": 3,
+      "text": "r in this module, the host running this module participates in the pub-sub network. The pub-sub network extends as far as multicast packets extend in the local-area network, and other participants will be automatically discovered. Hence, you can publ"
+    },
+    {
+      "chunk_id": 4,
+      "text": "l be automatically discovered. Hence, you can publish events on the local network or subscribe to events on the local network using this module. Events are published with an address , which is an arbitrary string that identifies the event or stream o"
+    },
+    {
+      "chunk_id": 5,
+      "text": "trary string that identifies the event or stream of events. This address could indicate the topic of message. A network or service using this pub-sub mechanism should develop a convention for these addresses to minimize accidental name collisions. F"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ddresses to minimize accidental name collisions. For example, a sensor might publish sensor data using an address like 'org.terraswarm.sensor.accelerometer.onShoe'. The published data can be any JavaScript object that has a string JSON representation"
+    },
+    {
+      "chunk_id": 7,
+      "text": "cript object that has a string JSON representation (using JSON.stringify()). If the host has more than one network interface (e.g. WiFi and wired), then the one to use can be specified by name as an optional argument to the constructor. You can also"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ptional argument to the constructor. You can also specify the port to use, though if you do, then you are responsible for avoiding port collisions. The default network interface used is whichever one is represented by 'localhost'. The default port is"
+    },
+    {
+      "chunk_id": 9,
+      "text": "is represented by 'localhost'. The default port is an arbitrary unused port. See also the auto-generated doc file for the current version of the Ptolemy II/Nashorn host implementation of this module. Functions The following functions are implemented"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Functions The following functions are implemented by this module: VertxBus ( options ): Constructor for an event bus interface. The optional argument is a JSON object with two optional fields, a 'port' and 'host', as explained above. The returned obj"
+    },
+    {
+      "chunk_id": 11,
+      "text": "' and 'host', as explained above. The returned object has the following member functions: on ( address , handler ): Invoke the specified handler when a message arrives with the specified address. once ( address , handler ): Invoke the specified handl"
+    },
+    {
+      "chunk_id": 12,
+      "text": "( address , handler ): Invoke the specified handler once when a message arrives with the specified address. publish ( address , data ): Broadcast data on the event bus to all subscribers to the address. send ( address , data , handler ): Send data t"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ss. send ( address , data , handler ): Send data to one subscriber to the address, and (optionally) provide a handler for the reply. setReply ( reply ): Set a reply to send when receiving a point-to-point message using send . subscribe ( address ): S"
+    },
+    {
+      "chunk_id": 14,
+      "text": "oint message using send . subscribe ( address ): Subscribe to the address. This will cause handlers specified by on to be invoked when a message arrives. unsubscribe ( address ): Unsubscribe to the specified address. If no address is given, unsubscri"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ecified address. If no address is given, unsubscribe to all addresses. Usage Use this as follows: var eventbus = require('eventbus'); var bus = new eventbus.VertxBus(); bus.subscribe('topic'); bus.on('topic', function(msg) { print"
+    },
+    {
+      "chunk_id": 16,
+      "text": "bus.on('topic', function(msg) { print(msg); } ); bus.publish('topic', {'hello':'world'}); This creates an interface to the event bus, subscribes to events with address 'topic', provides a handler for such events, and publishes"
+    },
+    {
+      "chunk_id": 17,
+      "text": "provides a handler for such events, and publishes a single event to that same address. The result should be to print: {'hello':'world'} on the standard output. This implementation uses the event emitter pattern common in JavaScript. Once you have sub"
+    },
+    {
+      "chunk_id": 18,
+      "text": "er pattern common in JavaScript. Once you have subscribed to an address, you can specify any number of handlers as follows: bus.on(address, function); To give a handler that reacts only to exactly one event with this address, use bus.once(address, fu"
+    },
+    {
+      "chunk_id": 19,
+      "text": "event with this address, use bus.once(address, function); To unsubscribe to an address, use bus.unsubscribe(address); To unsubscribe to all addresses, use bus.unsubscribe(); In addition, this module supports point-to-point communication, which sends"
+    },
+    {
+      "chunk_id": 20,
+      "text": "supports point-to-point communication, which sends an event to exactly one subscriber, chosen in a approximately round-robin fashion. To send to exactly one subscriber, instead of publish use send , as follows: bus.send('topic', {'hello':'world'}); W"
+    },
+    {
+      "chunk_id": 21,
+      "text": "s follows: bus.send('topic', {'hello':'world'}); When sending a point-to-point message, it is possible to get a reply from the recipient. The recipient (which also uses this module) should set the reply message as follows: bus.setReply('confirmed');"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ply message as follows: bus.setReply('confirmed'); where 'confirmed' can be replaced with any string. The sender can then specify a handler to receive the reply as follows: bus.send('topic', {'hello':'world'}, handler ); where handler is a function t"
+    },
+    {
+      "chunk_id": 23,
+      "text": "'world'}, handler ); where handler is a function that takes one argument, the reply string. Resources Code documentation for the eventbus module. Source code for the eventbus module. Discussion about Vert.x . Back to Optional JavaScript Modules Edit"
+    }
+  ]
+}

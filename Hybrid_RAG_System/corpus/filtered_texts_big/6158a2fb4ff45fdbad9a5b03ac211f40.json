@@ -1,0 +1,185 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII7.0/ptII7.0.1/doc/codeDoc/ptolemy/domains/sdf/lib/MatrixJoin.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "MatrixJoin Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.domains.sdf.lib Class MatrixJoin java.lang.Object ptolem"
+    },
+    {
+      "chunk_id": 2,
+      "text": "s.sdf.lib Class MatrixJoin java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.actor.AtomicActor ptolemy.actor.TypedAtomicActor ptolemy.domains.sdf.lib.SDFTran"
+    },
+    {
+      "chunk_id": 3,
+      "text": "r.TypedAtomicActor ptolemy.domains.sdf.lib.SDFTransformer ptolemy.domains.sdf.lib.MatrixJoin All Implemented Interfaces: java.io.Serializable, java.lang.Cloneable, Actor , Executable , FiringsRecordable , Initializable , SequenceActor , TypedActor ,"
+    },
+    {
+      "chunk_id": 4,
+      "text": "le , Initializable , SequenceActor , TypedActor , Changeable , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable public class MatrixJoin extends SDFTransformer This actor joins matrices i"
+    },
+    {
+      "chunk_id": 5,
+      "text": "extends SDFTransformer This actor joins matrices into a single matrix by tiling. It reads N*M input matrices from the input port, where N is the value of the rows parameter, and M is the value of the columns parameter. The matrices read are arran"
+    },
+    {
+      "chunk_id": 6,
+      "text": "he columns parameter. The matrices read are arranged left-to-right, top-to-bottom, in a raster scan pattern. For example, if rows = columns = 2, then on each firing, four matrices, A, B, C, D, will be read from the input channel. Assuming A is"
+    },
+    {
+      "chunk_id": 7,
+      "text": "l be read from the input channel. Assuming A is the first one read, then the output matrix will be a matrix arranged as follows: A B C D The size of the output depends on the matrices in the top row and left column. That is, in the above examp"
+    },
+    {
+      "chunk_id": 8,
+      "text": "row and left column. That is, in the above examples, the number of columns in the output will equal the sum of the number of columns in A and B. The number of rows will equal the sum of the number of rows in A and C. The matrices are tiled in"
+    },
+    {
+      "chunk_id": 9,
+      "text": "r of rows in A and C. The matrices are tiled in raster-scan order, first A, then B, then C, and then D. Gaps are zero filled, and overlaps are overwritten, where later matrices in the raster-scan order overwrite earlier matrices. For example,"
+    },
+    {
+      "chunk_id": 10,
+      "text": "order overwrite earlier matrices. For example, if B has more rows than A, then the bottom rows of B will be overwritten by rows of D. Since: Ptolemy II 6.1 Version: $Id: MatrixJoin.java,v 1.8 2007/12/06 21:56:11 cxh Exp $ Author: Edward Lee See A"
+    },
+    {
+      "chunk_id": 11,
+      "text": "/12/06 21:56:11 cxh Exp $ Author: Edward Lee See Also: Serialized Form Accepted Rating: Red (neuendor) Proposed Rating: Yellow (eal) Nested Class Summary Nested classes/interfaces inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIte"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary Parameter columns The number of matrices to arrange left to right on the output. Parameter rows The number of matrices to arrange top to bottom on the output. Fields inherited from"
+    },
+    {
+      "chunk_id": 13,
+      "text": "top to bottom on the output. Fields inherited from class ptolemy.domains.sdf.lib. SDFTransformer input , input_tokenConsumptionRate , output , output_tokenInitProduction , output_tokenProductionRate Fields inherited from class ptolemy.actor. AtomicAc"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ields inherited from class ptolemy.actor. AtomicActor _actorFiringListeners , _initializables , _notifyingActorFiring , _stopRequested Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debug"
+    },
+    {
+      "chunk_id": 15,
+      "text": "Listeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Ex"
+    },
+    {
+      "chunk_id": 16,
+      "text": "Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary MatrixJoin ( CompositeEntity container, java.lang.String name) Construct an actor with the given container and name. Met"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ct an actor with the given container and name. Method Summary void attributeChanged ( Attribute attribute) Ensure that the rows and columns parameters are both positive. void fire () Consume the inputs and produce the output matrix. boolean prefire ("
+    },
+    {
+      "chunk_id": 18,
+      "text": "s and produce the output matrix. boolean prefire () Return true if each input channel has enough tokens for this actor to fire. Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChanged , clone , newPort , typeCon"
+    },
+    {
+      "chunk_id": 19,
+      "text": ", attributeTypeChanged , clone , newPort , typeConstraintList Methods inherited from class ptolemy.actor. AtomicActor _actorFiring , _actorFiring , _createReceivers , addActorFiringListener , addInitializable , clone , connectionsChanged , getDirecto"
+    },
+    {
+      "chunk_id": 20,
+      "text": "alizable , clone , connectionsChanged , getDirector , getExecutiveDirector , getFunctionDependency , getManager , initialize , inputPortList , isFireFunctional , isStrict , iterate , newReceiver , outputPortList , postfire , preinitialize , pruneDepe"
+    },
+    {
+      "chunk_id": 21,
+      "text": "putPortList , postfire , preinitialize , pruneDependencies , recordFiring , removeActorFiringListener , removeDependency , removeInitializable , setContainer , stop , stopFire , terminate , wrapup Methods inherited from class ptolemy.kernel. Componen"
+    },
+    {
+      "chunk_id": 22,
+      "text": "hods inherited from class ptolemy.kernel. ComponentEntity _adjustDeferrals , _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , isAtomic , isOpaque , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp ,"
+    },
+    {
+      "chunk_id": 23,
+      "text": "moveToFirst , moveToIndex , moveToLast , moveUp , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _description , _exportMoMLContents , _removePort , _validateSettables , connectedPortList , connectedPorts , contained"
+    },
+    {
+      "chunk_id": 24,
+      "text": "s , connectedPortList , connectedPorts , containedObjectsIterator , getAttribute , getPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition , uniqueName Methods inherited from class ptolemy.kernel. In"
+    },
+    {
+      "chunk_id": 25,
+      "text": "me Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util."
+    },
+    {
+      "chunk_id": 26,
+      "text": "Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propaga"
+    },
+    {
+      "chunk_id": 27,
+      "text": "isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeList , attributeList , deepContains , depthInHierarchy , description , description , eve"
+    },
+    {
+      "chunk_id": 28,
+      "text": "depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList ,"
+    },
+    {
+      "chunk_id": 29,
+      "text": "getClassName , getDerivedLevel , getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateValue , propagate"
+    },
+    {
+      "chunk_id": 30,
+      "text": "sPersistent , message , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource ,"
+    },
+    {
+      "chunk_id": 31,
+      "text": "etModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Metho"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor getDirector , getExecutiveDirector , getFunctionDependency , getManager , inputPortList , newReceiver , outputPortList Methods inherited from interface"
+    },
+    {
+      "chunk_id": 33,
+      "text": ", outputPortList Methods inherited from interface ptolemy.actor. Executable isFireFunctional , isStrict , iterate , postfire , stop , stopFire , terminate Methods inherited from interface ptolemy.actor. Initializable addInitializable , initialize ,"
+    },
+    {
+      "chunk_id": 34,
+      "text": "or. Initializable addInitializable , initialize , preinitialize , removeInitializable , wrapup Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Meth"
+    },
+    {
+      "chunk_id": 35,
+      "text": "e , getFullName , getName , getName , setName Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Field Detail columns public Parameter columns The number of matrices to arrange left to ri"
+    },
+    {
+      "chunk_id": 36,
+      "text": "lumns The number of matrices to arrange left to right on the output. This is an integer that defaults to 1. rows public Parameter rows The number of matrices to arrange top to bottom on the output. This is an integer that defaults to 1. Construct"
+    },
+    {
+      "chunk_id": 37,
+      "text": "This is an integer that defaults to 1. Constructor Detail MatrixJoin public MatrixJoin ( CompositeEntity container, java.lang.String name) throws NameDuplicationException , IllegalActionException Construct an actor wi"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ion , IllegalActionException Construct an actor with the given container and name. Parameters: container - The container. name - The name of this actor. Throws: IllegalActionException - If the actor cannot be contained by the proposed container. N"
+    },
+    {
+      "chunk_id": 39,
+      "text": "annot be contained by the proposed container. NameDuplicationException - If the container already has an actor with this name. Method Detail attributeChanged public void attributeChanged ( Attribute attribute) throws Ille"
+    },
+    {
+      "chunk_id": 40,
+      "text": "bute attribute) throws IllegalActionException Ensure that the rows and columns parameters are both positive. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that has changed. Throws: IllegalA"
+    },
+    {
+      "chunk_id": 41,
+      "text": "- The attribute that has changed. Throws: IllegalActionException - If the parameters are out of range. fire public void fire () throws IllegalActionException Consume the inputs and produce the output matrix. Specified by: fire in interface"
+    },
+    {
+      "chunk_id": 42,
+      "text": "the output matrix. Specified by: fire in interface Executable Overrides: fire in class AtomicActor Throws: IllegalActionException - If not enough tokens are available. prefire public boolean prefire () throws IllegalActionException R"
+    },
+    {
+      "chunk_id": 43,
+      "text": ") throws IllegalActionException Return true if each input channel has enough tokens for this actor to fire. The number of tokens required is the value of the columns parameter. Specified by: prefire in interface Executable Override"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ified by: prefire in interface Executable Overrides: prefire in class SDFTransformer Returns: boolean True if there are enough tokens at the input port for this actor to fire. Throws: IllegalActionException - If the hasToken() query to the inpu"
+    },
+    {
+      "chunk_id": 45,
+      "text": "Exception - If the hasToken() query to the input port throws it. See Also: IOPort.hasToken(int, int) Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DET"
+    }
+  ]
+}

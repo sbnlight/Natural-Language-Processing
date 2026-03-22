@@ -1,0 +1,1917 @@
+{
+  "url": "https://people.eecs.berkeley.edu/%7Eronf/jat/probes/Probes.java",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "import java.awt.event.*; import java.awt.*; import java.applet.*; import java.io.*; import java.awt.Toolkit; import java.util.Vector; import javax.vecmath.*; import java.util.Enumeration; // for Timer interface MyComparator { public int c"
+    },
+    {
+      "chunk_id": 2,
+      "text": "r Timer interface MyComparator { public int compare (Object o1, Object o2); } class MyArrays { public static Object[] toArray (Vector v) { Object[] result = new Object[v.size()]; for (int i = 0; i < v.size(); ++i) result[i] ="
+    },
+    {
+      "chunk_id": 3,
+      "text": "(int i = 0; i < v.size(); ++i) result[i] = v.elementAt(i); return result; } public static void sort (Object[] array, MyComparator comparator) { for (int i = 0; i < (array.length - 1); ++i) { for (int j = i+1; j < array.len"
+    },
+    {
+      "chunk_id": 4,
+      "text": "h - 1); ++i) { for (int j = i+1; j < array.length; ++j) { if (comparator.compare (array[i], array[j]) > 0) { // swap to put the smaller in front Object temp = array[i]; array[i] = array[j]; array[j] = temp; }"
+    },
+    {
+      "chunk_id": 5,
+      "text": "y[i] = array[j]; array[j] = temp; } } } } } class Surface { // _points is a Vector of Point3d objects. Vector _points = new Vector(); public Vector points() {return _points;} public Point3d point(int index) {return ("
+    },
+    {
+      "chunk_id": 6,
+      "text": "ints;} public Point3d point(int index) {return (Point3d)_points.elementAt (index);} double _maxDiameter; public double maxDiameter() {return _maxDiameter;} double _minX, _maxX, _minY, _maxY, _minZ, _maxZ; boolean _gotFirstPoint = false;"
+    },
+    {
+      "chunk_id": 7,
+      "text": "_minZ, _maxZ; boolean _gotFirstPoint = false; // This is a cache to be used by the Scene rendering routine. // It is the rotated (not translated) version of _points. Vector _scenePoints = new Vector(); public Vector scenePoints() {"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ts = new Vector(); public Vector scenePoints() {return _scenePoints;} public Point3d scenePoint(int index) {return (Point3d)_scenePoints.elementAt (index);} // scene origin is used by the Scene rendering engine. // It is the surface o"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Scene rendering engine. // It is the surface origin rotated and translated to scene coordinates Point3d _sceneOrigin = new Point3d(); public Point3d sceneOrigin() {return _sceneOrigin;} // This is the origin in world coordinates independ"
+    },
+    {
+      "chunk_id": 10,
+      "text": "/ This is the origin in world coordinates independent of the camera. Point3d _origin = new Point3d(); public Point3d origin() {return _origin;} // This is the rotation in world coordinates, independent of the camera Matrix3d _rotation = new"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ependent of the camera Matrix3d _rotation = new Matrix3d (1., 0., 0., 0., 1., 0., 0., 0., 1.); Matrix3d rotation() {return _rotation;} // default color to gray public double _red = .8, _green = .8, _blue = .8; double _frictionAngle = Mat"
+    },
+    {
+      "chunk_id": 12,
+      "text": "= .8, _blue = .8; double _frictionAngle = Math.PI/9; public double frictionAngle() {return _frictionAngle;} // _triangles is a Vector of int[3] where the integers index into _points. // The cross product of the vector pointing from the f"
+    },
+    {
+      "chunk_id": 13,
+      "text": "he cross product of the vector pointing from the first to second point, // and the vector pointing from the second to third point, points // outward from the surface. Vector _triangles = new Vector(); public Vector triangles() {return _t"
+    },
+    {
+      "chunk_id": 14,
+      "text": "w Vector(); public Vector triangles() {return _triangles;} public int[] triangle(int index) {return (int [])_triangles.elementAt (index);} // Return the rotated point of the specified triangle index. // pointIndex is 0, 1 or 2. publi"
+    },
+    {
+      "chunk_id": 15,
+      "text": "angle index. // pointIndex is 0, 1 or 2. public Point3d rotatedTrianglePoint (int triangleIndex, int pointIndex) { return (Point3d)_scenePoints.elementAt (((int [])_triangles.elementAt (triangleIndex))[pointIndex]); } // Set th"
+    },
+    {
+      "chunk_id": 16,
+      "text": "(triangleIndex))[pointIndex]); } // Set the rotation to first to r, then a rotation of pitch around Y then // yaw around Z. void setRotation (Matrix3d r, double pitch, double yaw) { Matrix3d ry = new Matrix3d(); Matrix3d rz = new"
+    },
+    {
+      "chunk_id": 17,
+      "text": "atrix3d ry = new Matrix3d(); Matrix3d rz = new Matrix3d(); Matrix3d temp = new Matrix3d(); ry.rotY (pitch); rz.rotZ (yaw); temp.mul (ry, r); _rotation.mul (rz, temp); } // Adds copies of point to _points and _scenePoi"
+    },
+    {
+      "chunk_id": 18,
+      "text": "// Adds copies of point to _points and _scenePoints. // Also updates maxDiameter. void addPoint (Point3d point) { _points.addElement (new Point3d (point)); _scenePoints.addElement (new Point3d (point)); if (_gotFirstPoint) { _mi"
+    },
+    {
+      "chunk_id": 19,
+      "text": "int3d (point)); if (_gotFirstPoint) { _minX = point.x; _maxX = point.x; _minY = point.y; _maxY = point.y; _minZ = point.z; _maxZ = point.z; _gotFirstPoint = true; } else { _minX = Math.min (point.x, _minX);"
+    },
+    {
+      "chunk_id": 20,
+      "text": "else { _minX = Math.min (point.x, _minX); _maxX = Math.max (point.x, _maxX); _minY = Math.min (point.y, _minY); _maxY = Math.max (point.y, _maxY); _minZ = Math.min (point.z, _minZ); _maxZ = Math.max (point.z, _maxZ); }"
+    },
+    {
+      "chunk_id": 21,
+      "text": "inZ); _maxZ = Math.max (point.z, _maxZ); } double temp1 = Math.max (Math.abs(_maxX - _minX), Math.abs(_maxY - _minY)); double temp2 = Math.max (Math.abs(_maxZ - _minZ), temp1); _maxDiameter = Math.max (_maxDiameter, temp2); }"
+    },
+    {
+      "chunk_id": 22,
+      "text": "iameter = Math.max (_maxDiameter, temp2); } // Adds the triangle given by points a, b, c to the surface. // The normal points out from the surface as defined by (b-a) cross (c-b) // This adds a copy of each point to _points and _scenePoi"
+    },
+    {
+      "chunk_id": 23,
+      "text": "adds a copy of each point to _points and _scenePoints if it is not // already there // Also updates maxDiameter. public void addTriangle (Point3d a, Point3d b, Point3d c) { int aIndex = _points.indexOf (a); if (aIndex == -1) { addP"
+    },
+    {
+      "chunk_id": 24,
+      "text": "oints.indexOf (a); if (aIndex == -1) { addPoint (a); aIndex = _points.size() - 1; } int bIndex = _points.indexOf (b); if (bIndex == -1) { addPoint (b); bIndex = _points.size() - 1; } int cIndex = _points.indexOf"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ize() - 1; } int cIndex = _points.indexOf (c); if (cIndex == -1) { addPoint (c); cIndex = _points.size() - 1; } int triangle[] = {aIndex, bIndex, cIndex}; _triangles.addElement (triangle); } } class CubeSurface ext"
+    },
+    {
+      "chunk_id": 26,
+      "text": "lement (triangle); } } class CubeSurface extends Surface { CubeSurface () { // define the 8 vertices Point3d v1 = new Point3d (-.050, -.050, .050); Point3d v2 = new Point3d (-.050, .050, .050); Point3d v3 = new Point3d ( .0"
+    },
+    {
+      "chunk_id": 28,
+      "text": "3d (-.050, .050, -.050); Point3d v7 = new Point3d ( .050, .050, -.050); Point3d v8 = new Point3d ( .050, -.050, -.050); // add the six surfaces, two triangles per surface // front addTriangle (v1, v4, v3); addTriangle (v"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ont addTriangle (v1, v4, v3); addTriangle (v1, v3, v2); // back addTriangle (v5, v6, v7); addTriangle (v5, v7, v8); // left addTriangle (v5, v1, v2); addTriangle (v5, v2, v6); // right addTriangle (v4,"
+    },
+    {
+      "chunk_id": 30,
+      "text": "5, v2, v6); // right addTriangle (v4, v8, v7); addTriangle (v4, v7, v3); // top addTriangle (v2, v3, v7); addTriangle (v2, v7, v6); // bottom addTriangle (v1, v5, v8); addTriangle (v1, v8, v4);"
+    },
+    {
+      "chunk_id": 31,
+      "text": "v5, v8); addTriangle (v1, v8, v4); _red = 0.; _green = 1.; _blue = 0.; } // override for debug public void addTriangle (Point3d a, Point3d b, Point3d c) { super.addTriangle (a, b, c); { Point3d aa = new P"
+    },
+    {
+      "chunk_id": 32,
+      "text": "dTriangle (a, b, c); { Point3d aa = new Point3d (a); Point3d bb = new Point3d (b); Point3d cc = new Point3d (c); Point3d offset = new Point3d (.071, -0.048, 0.); aa.scale (.2); aa.add (offset); bb.scale (.2); bb.a"
+    },
+    {
+      "chunk_id": 33,
+      "text": "; aa.add (offset); bb.scale (.2); bb.add (offset); cc.scale (.2); cc.add (offset); // super.addTriangle (aa, bb, cc); } { Point3d aa = new Point3d (a); Point3d bb = new Point3d (b); Point3d cc = new Point3d"
+    },
+    {
+      "chunk_id": 34,
+      "text": "b = new Point3d (b); Point3d cc = new Point3d (c); Point3d offset = new Point3d (.12, -0.008, 0.); aa.scale (.2); aa.add (offset); bb.scale (.2); bb.add (offset); cc.scale (.2); cc.add (offset); // super.addTriang"
+    },
+    {
+      "chunk_id": 35,
+      "text": "(.2); cc.add (offset); // super.addTriangle (aa, bb, cc); } { Point3d aa = new Point3d (a); Point3d bb = new Point3d (b); Point3d cc = new Point3d (c); Point3d offset = new Point3d (-.15, 0.01, 0.05); aa.scale (.6);"
+    },
+    {
+      "chunk_id": 36,
+      "text": "new Point3d (-.15, 0.01, 0.05); aa.scale (.6); aa.add (offset); bb.scale (.6); bb.add (offset); cc.scale (.6); cc.add (offset); // super.addTriangle (aa, bb, cc); } } } class STLSurface extends Surface { // If"
+    },
+    {
+      "chunk_id": 37,
+      "text": "} class STLSurface extends Surface { // If inlineFile is true, the file is actually a String with the data, // otherwise it is the name of a file to read. // If can't file filename, print an error and leave points().size() as zero. S"
+    },
+    {
+      "chunk_id": 38,
+      "text": "nt an error and leave points().size() as zero. STLSurface (String file, boolean inlineFile) { try { BufferedReader reader; if (inlineFile) reader = new BufferedReader (new StringReader (file)); else reader ="
+    },
+    {
+      "chunk_id": 39,
+      "text": "tringReader (file)); else reader = new BufferedReader (new FileReader (new File (file))); StreamTokenizer tokenizer = new StreamTokenizer (reader); tokenizer.resetSyntax(); tokenizer.whitespaceChars (0, 0x20); tokeni"
+    },
+    {
+      "chunk_id": 40,
+      "text": "tokenizer.whitespaceChars (0, 0x20); tokenizer.wordChars (0x21, 0xff); read (tokenizer); reader.close (); // Find x, y and z range and recenter double minX, maxX, minY, maxY, minZ, maxZ; minX = point (0).x; minY"
+    },
+    {
+      "chunk_id": 41,
+      "text": "axY, minZ, maxZ; minX = point (0).x; minY = point (0).y; minZ = point (0).z; maxX = minX; maxY = minY; maxZ = minZ; for (int i = 1; i < _points.size(); ++i) { Point3d point = point (i); if (point.x < minX"
+    },
+    {
+      "chunk_id": 42,
+      "text": "d point = point (i); if (point.x < minX) minX = point.x; if (point.x > maxX) maxX = point.x; if (point.y < minY) minY = point.y; if (point.y > maxY) maxY = point.y; if (point.z < minZ) minZ"
+    },
+    {
+      "chunk_id": 43,
+      "text": "axY = point.y; if (point.z < minZ) minZ = point.z; if (point.z > maxZ) maxZ = point.z; } // Find the average of the supplied surface Point3d average = new Point3d ((maxX - minX) / 2., (maxY - minY) / 2."
+    },
+    {
+      "chunk_id": 44,
+      "text": "d ((maxX - minX) / 2., (maxY - minY) / 2., (maxZ - minZ) / 2.); // Adjust all points around center for (int i = 0; i < _points.size(); ++i) { point (i).sub (average); } _red = 0.; _green = 1.; _blue = 0"
+    },
+    {
+      "chunk_id": 45,
+      "text": "_red = 0.; _green = 1.; _blue = 0.; } catch (FileNotFoundException e) { System.out.println (\"ERROR: Can't find file \" + file); return; } catch (IOException e) { return; } } void read (StreamToke"
+    },
+    {
+      "chunk_id": 46,
+      "text": "return; } } void read (StreamTokenizer tokenizer) throws IOException { try { Point3d vertex1, vertex2, vertex3, temp; Vector3d normal, side1 = new Vector3d(), side2 = new Vector3d(), surfaceNormal = new Vector3d"
+    },
+    {
+      "chunk_id": 47,
+      "text": "Vector3d(), surfaceNormal = new Vector3d(); while (true) { if ((temp = readPoint (tokenizer, \"normal\")) == null) return; // We actually wanted a vector normal = new Vector3d (temp); if ((vertex1 = readPoi"
+    },
+    {
+      "chunk_id": 48,
+      "text": "new Vector3d (temp); if ((vertex1 = readPoint (tokenizer, \"vertex\")) == null) return; if ((vertex2 = readPoint (tokenizer, \"vertex\")) == null) return; if ((vertex3 = readPoint (tokenizer, \"vertex\")) == null) return;"
+    },
+    {
+      "chunk_id": 49,
+      "text": "oint (tokenizer, \"vertex\")) == null) return; // Check that the normal is in the correct direction side1.set (vertex2); side1.sub (vertex1); side2.set (vertex3); side2.sub (vertex2); surfaceNormal.cross (side1, si"
+    },
+    {
+      "chunk_id": 50,
+      "text": "sub (vertex2); surfaceNormal.cross (side1, side2); if (normal.dot (surfaceNormal) < 0.) { // vertices were specified in the wrong order, so reverse two of them temp = vertex2; vertex2 = vertex3; vertex3 = temp;"
+    },
+    {
+      "chunk_id": 51,
+      "text": "vertex2 = vertex3; vertex3 = temp; } addTriangle (vertex1, vertex2, vertex3); } } catch (IOException e) { throw e; } } // Find the given label in the tokenizer stream and then return the next // t"
+    },
+    {
+      "chunk_id": 52,
+      "text": "tokenizer stream and then return the next // three numbers as a point. // Return null if end of stream Point3d readPoint (StreamTokenizer tokenizer, String label) throws IOException { while (true) { if (tokenizer.nextToken() ="
+    },
+    {
+      "chunk_id": 53,
+      "text": "while (true) { if (tokenizer.nextToken() == StreamTokenizer.TT_EOF) return null; if (tokenizer.sval.equals (label)) break; } if (tokenizer.nextToken() == StreamTokenizer.TT_EOF) return null; double"
+    },
+    {
+      "chunk_id": 54,
+      "text": "mTokenizer.TT_EOF) return null; double x = Double.valueOf (tokenizer.sval).doubleValue(); if (tokenizer.nextToken() == StreamTokenizer.TT_EOF) return null; double y = Double.valueOf (tokenizer.sval).doubleValue(); if (to"
+    },
+    {
+      "chunk_id": 55,
+      "text": ".valueOf (tokenizer.sval).doubleValue(); if (tokenizer.nextToken() == StreamTokenizer.TT_EOF) return null; double z = Double.valueOf (tokenizer.sval).doubleValue(); return new Point3d (x, y, z); } } class ProbeSurface extend"
+    },
+    {
+      "chunk_id": 56,
+      "text": "t3d (x, y, z); } } class ProbeSurface extends Surface { ProbeSurface () { // define the 8 vertices Point3d v1 = new Point3d (0., -.002, .002); Point3d v2 = new Point3d (0., .002, .002); Point3d v3 = new Point3d (1., .003,"
+    },
+    {
+      "chunk_id": 58,
+      "text": "002); Point3d v7 = new Point3d (1., .003, -.003); Point3d v8 = new Point3d (1., -.003, -.003); // add the six surfaces, two triangles per surface // front addTriangle (v1, v4, v3); addTriangle (v1, v3, v2); // ba"
+    },
+    {
+      "chunk_id": 59,
+      "text": ", v3); addTriangle (v1, v3, v2); // back addTriangle (v5, v6, v7); addTriangle (v5, v7, v8); // left addTriangle (v5, v1, v2); addTriangle (v5, v2, v6); // right addTriangle (v4, v8, v7); addTriangle (v"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ght addTriangle (v4, v8, v7); addTriangle (v4, v7, v3); // top addTriangle (v2, v3, v7); addTriangle (v2, v7, v6); // bottom addTriangle (v1, v5, v8); addTriangle (v1, v8, v4); _red = 0.; _green = 0"
+    },
+    {
+      "chunk_id": 61,
+      "text": "v1, v8, v4); _red = 0.; _green = 0.; _blue = 1.; } } class SurfaceZComparator implements MyComparator { public int compare (Object o1, Object o2) { double z1 = ((Surface)o1).sceneOrigin().z; double z2 = ((Surface)o2"
+    },
+    {
+      "chunk_id": 62,
+      "text": "e)o1).sceneOrigin().z; double z2 = ((Surface)o2).sceneOrigin().z; if (z1 < z2) return -1; else if (z1 > z2) return 1; else return 0; } } class TriangleMaxZComparator implements MyComparator { Surface _surface; T"
+    },
+    {
+      "chunk_id": 63,
+      "text": "plements MyComparator { Surface _surface; TriangleMaxZComparator (Surface surface) { _surface = surface; } double maxTriangleZ (int[] triangle) { double result = _surface.scenePoint(triangle[0]).z; if (_surface.scenePoint(tr"
+    },
+    {
+      "chunk_id": 64,
+      "text": "nt(triangle[0]).z; if (_surface.scenePoint(triangle[1]).z > result) result = _surface.scenePoint(triangle[1]).z; if (_surface.scenePoint(triangle[2]).z > result) result = _surface.scenePoint(triangle[2]).z; return result; }"
+    },
+    {
+      "chunk_id": 65,
+      "text": "enePoint(triangle[2]).z; return result; } public int compare (Object o1, Object o2) { double z1 = maxTriangleZ ((int[])o1); double z2 = maxTriangleZ ((int[])o2); if (z1 < z2) return -1; else if (z1 > z2) return 1;"
+    },
+    {
+      "chunk_id": 66,
+      "text": "return -1; else if (z1 > z2) return 1; else return 0; } } // View the world coordinates have Z toward the camera, X right, Y up // You can set cameraRotation to something else to get Z pointing up. class Scene { Vector3d _li"
+    },
+    {
+      "chunk_id": 67,
+      "text": "o get Z pointing up. class Scene { Vector3d _lightDirection = new Vector3d (0., 0., 1.); Matrix3d _cameraRotation = new Matrix3d (1., 0., 0., 0., 1., 0., 0., 0., 1.); public Matrix3d cameraRotation() {return _cameraRotation;} double _ambie"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ation() {return _cameraRotation;} double _ambient = .1; double _zoom = 1000.; Vector _surfaces = new Vector(); public Vector surfaces() {return _surfaces;}; public Surface surface (int index) { return ((Surface)_surfaces.elementAt ("
+    },
+    {
+      "chunk_id": 69,
+      "text": "index) { return ((Surface)_surfaces.elementAt (index)); } // Set x = r * y public static void rotateTuple3d (Tuple3d x, Matrix3d r, Tuple3d y) { x.set (r.m00 * y.x + r.m01 * y.y + r.m02 * y.z, r.m10 * y.x + r.m11 * y.y + r"
+    },
+    {
+      "chunk_id": 70,
+      "text": "2 * y.z, r.m10 * y.x + r.m11 * y.y + r.m12 * y.z, r.m20 * y.x + r.m21 * y.y + r.m22 * y.z); } // Set all _scenePoints in surface to its _points rotated by its rotation as // well as _cameraRotation. // Set _sceneO"
+    },
+    {
+      "chunk_id": 71,
+      "text": "s // well as _cameraRotation. // Set _sceneOrigin to surface's origin rotated by _cameraRotation void rotateSurface (Surface surface) { Matrix3d r = new Matrix3d(); r.mul (_cameraRotation, surface.rotation()); for (int i = 0; i <"
+    },
+    {
+      "chunk_id": 72,
+      "text": "n, surface.rotation()); for (int i = 0; i < surface.points().size(); ++i) { rotateTuple3d (surface.scenePoint(i), r, surface.point (i)); } rotateTuple3d (surface.sceneOrigin(), _cameraRotation, surface.origin()); } //"
+    },
+    {
+      "chunk_id": 73,
+      "text": "), _cameraRotation, surface.origin()); } // Set screen x and y int[3] vectors to the x and y coordinates of the // triangle using _scenePoints of the surface. // This inverts the screen y values and multiplies x and y by _zoom void get"
+    },
+    {
+      "chunk_id": 74,
+      "text": "values and multiplies x and y by _zoom void getPolygon (Surface surface, int[] triangle, int[] x, int[] y) { for (int i = 0; i < 3; ++i) { Point3d point = surface.scenePoint (triangle[i]); x[i] = (int)(_zoom * (point.x + surface.sceneOr"
+    },
+    {
+      "chunk_id": 75,
+      "text": "x[i] = (int)(_zoom * (point.x + surface.sceneOrigin().x)); y[i] = -(int)(_zoom * (point.y + surface.sceneOrigin().y)); } } // Return the surface normal (normalized) of the surface triangle at // index, using the surface _scenePoi"
+    },
+    {
+      "chunk_id": 76,
+      "text": "angle at // index, using the surface _scenePoints. Vector3d surfaceNormal (int[] triangle, Surface surface) { Vector3d side1 = new Vector3d (surface.scenePoint (triangle[1])); Vector3d side2 = new Vector3d (surface.scenePoint (triangl"
+    },
+    {
+      "chunk_id": 77,
+      "text": "side2 = new Vector3d (surface.scenePoint (triangle[2])); // Use side1 which we haven't finished computing but still holds point 1 side2.sub (side1); side1.sub (surface.scenePoint (triangle[0])); Vector3d normal = new Vector3d();"
+    },
+    {
+      "chunk_id": 78,
+      "text": "[0])); Vector3d normal = new Vector3d(); normal.cross (side1, side2); normal.normalize(); return normal; } // The calling program has already called g.translate() to put the axis in // the center of the window, and cleared"
+    },
+    {
+      "chunk_id": 79,
+      "text": "s in // the center of the window, and cleared the buffer if necessary. // This does not first clear the buffer. void drawSurfaces (Graphics g) { int[] polyX = new int[3]; int[] polyY = new int[3]; // First rotate the points and"
+    },
+    {
+      "chunk_id": 80,
+      "text": "new int[3]; // First rotate the points and origins for (int s = 0; s < _surfaces.size(); ++s) { rotateSurface (surface (s)); } // Sort the objects from back to front, where positive Z is // closer to the camera O"
+    },
+    {
+      "chunk_id": 81,
+      "text": "re positive Z is // closer to the camera Object[] surfaceArray = MyArrays.toArray (_surfaces); MyArrays.sort (surfaceArray, new SurfaceZComparator()); for (int s = 0; s < _surfaces.size(); ++s) { Surface surface = (Surface)su"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ize(); ++s) { Surface surface = (Surface)surfaceArray[s]; // Sort triangles from front to back Object[] triangleArray = MyArrays.toArray (surface.triangles()); MyArrays.sort (triangleArray, new TriangleMaxZComparator(surface)"
+    },
+    {
+      "chunk_id": 83,
+      "text": "triangleArray, new TriangleMaxZComparator(surface)); for (int i = 0; i < triangleArray.length; ++i) { Vector3d normal = surfaceNormal ((int[])triangleArray[i], surface); // Only bother if the normal points toward the camera if"
+    },
+    {
+      "chunk_id": 84,
+      "text": "er if the normal points toward the camera if (normal.z > 0.) { double cosLightingAngle = normal.dot (_lightDirection); double intensity = ((1. - _ambient) * cosLightingAngle) + _ambient; // make it blue g.setColor (new"
+    },
+    {
+      "chunk_id": 85,
+      "text": "nt; // make it blue g.setColor (new Color ((float)(intensity * surface._red), (float)(intensity * surface._green), (float)(intensity * surface._blue))); getPolygo"
+    },
+    {
+      "chunk_id": 86,
+      "text": "oat)(intensity * surface._blue))); getPolygon (surface, (int[])triangleArray[i], polyX, polyY); g.fillPolygon (polyX, polyY, 3); } } } } void drawLine (Graphics g, Point2d a, Point2d b) { g.drawLine ((int)(a.x * _zoo"
+    },
+    {
+      "chunk_id": 87,
+      "text": "2d a, Point2d b) { g.drawLine ((int)(a.x * _zoom), -(int)(a.y * _zoom), (int)(b.x * _zoom), -(int)(b.y * _zoom)); } // // The calling program has already called g.translate() to put the axis in // // the center of the window, and"
+    },
+    {
+      "chunk_id": 88,
+      "text": "the axis in // // the center of the window, and cleared the buffer if necessary. // // This does not first clear the buffer. // void drawEdges (Graphics g, Slice slice, Surface surface) { // Point3d rotatedA = new Point3d(); // Point3d"
+    },
+    {
+      "chunk_id": 89,
+      "text": "Point3d rotatedA = new Point3d(); // Point3d rotatedB = new Point3d(); // Matrix3d r = new Matrix3d (); //// r.rotZ (-slice.theta()); //// r.mul (surface.rotation()); // r.mul (_cameraRotation, surface.rotation()); // // // main ed"
+    },
+    {
+      "chunk_id": 90,
+      "text": "tation, surface.rotation()); // // // main edges // g.setColor (Color.black); // for (int e = 0; e < slice.edges().size(); ++e) { // Edge edge = slice.edge (e); // Point2d a = edge.endA(), b = edge.endB(); // rotatedA.set (a.x,"
+    },
+    {
+      "chunk_id": 91,
+      "text": ".endA(), b = edge.endB(); // rotatedA.set (a.x, a.y, slice.z()); // rotatedB.set (b.x, b.y, slice.z()); // Slice.rotateTuple3d (rotatedA, r, rotatedA); // Slice.rotateTuple3d (rotatedB, r, rotatedB); // // drawLine (g, a, b); // ///"
+    },
+    {
+      "chunk_id": 92,
+      "text": "rotatedB); // // drawLine (g, a, b); // //// g.drawLine ((int)((rotatedA.x + surface.sceneOrigin().x) * _zoom), //// -(int)((rotatedA.y + surface.sceneOrigin().y) * _zoom), //// (int)((rotatedB.x + surface.sceneOrigin().x)"
+    },
+    {
+      "chunk_id": 93,
+      "text": "(int)((rotatedB.x + surface.sceneOrigin().x) * _zoom), //// -(int)((rotatedB.y + surface.sceneOrigin().y) * _zoom)); // } // // // Do probeX then probeY // for (int probe = 0; probe <= 1; ++probe) { // Vector edgeSegmen"
+    },
+    {
+      "chunk_id": 94,
+      "text": "probe <= 1; ++probe) { // Vector edgeSegments; // if (probe == 0) // edgeSegments = slice.probeXEdgeSegments(); // else // edgeSegments = slice.probeYEdgeSegments(); // // for (int e = 0; e < edgeSegments.size(); ++e) { //"
+    },
+    {
+      "chunk_id": 95,
+      "text": "(int e = 0; e < edgeSegments.size(); ++e) { // EdgeSegment edgeSegment = (EdgeSegment)edgeSegments.elementAt (e); // // g.setColor (probe == 0 ? Color.red : Color.green); // drawLine (g, edgeSegment.pointA(), edgeSegment.pointB("
+    },
+    {
+      "chunk_id": 96,
+      "text": "Line (g, edgeSegment.pointA(), edgeSegment.pointB()); //// Point2d temp2d = new Point2d(); //// if (probe == Slice.PROBE_X) { //// temp2d.set (0., .1); //// temp2d.add (edgeSegment.pointA()); //// drawLine (g, edgeSegm"
+    },
+    {
+      "chunk_id": 97,
+      "text": "nt.pointA()); //// drawLine (g, edgeSegment.pointA(), temp2d); //// } //// else { //// temp2d.set (.1, 0.); //// temp2d.add (edgeSegment.pointA()); //// drawLine (g, edgeSegment.pointA(), temp2d); //// } //"
+    },
+    {
+      "chunk_id": 98,
+      "text": "(g, edgeSegment.pointA(), temp2d); //// } // // if (0 == 0) continue; // debug // // for (int direction = 0; direction <= 1; ++direction) { // Point2d otherContact = new Point2d(); //// if (probe == Slice.PROBE"
+    },
+    {
+      "chunk_id": 99,
+      "text": "new Point2d(); //// if (probe == Slice.PROBE_X) { //// otherContact.set (.1, 0.03); //// otherContact.add (edgeSegment.pointA()); //// } //// else { //// otherContact.set (-.03, .1); //// otherContact.add (edge"
+    },
+    {
+      "chunk_id": 100,
+      "text": ".set (-.03, .1); //// otherContact.add (edgeSegment.pointA()); //// } // otherContact.set (0.034408597126073165, -0.03449369224355482); // double theta = edgeSegment.maxVertexDeltaTheta // (probe, direction, othe"
+    },
+    {
+      "chunk_id": 101,
+      "text": "xDeltaTheta // (probe, direction, otherContact, surface.frictionAngle()); // theta = -theta; // We will draw the rotated probe, not workpiece // // if (probe == Slice.PROBE_X) // theta += Math.PI/2; // Point2d temp"
+    },
+    {
+      "chunk_id": 102,
+      "text": "// theta += Math.PI/2; // Point2d temp = new Point2d (.2*Math.cos (theta), .2*Math.sin(theta)); // temp.add (edgeSegment.pointA()); // // g.setColor ((direction == Slice.DECREASING) ? Color.magenta : Color.blue); // drawLin"
+    },
+    {
+      "chunk_id": 103,
+      "text": "NG) ? Color.magenta : Color.blue); // drawLine (g, edgeSegment.pointA(), temp); // } // } // } // } } class EdgeEnd extends Point2d { Edge _edge1, _edge2; public Edge edge1() {return _edge1;} public Edge edge2() {return"
+    },
+    {
+      "chunk_id": 104,
+      "text": "() {return _edge1;} public Edge edge2() {return _edge2;} public Edge otherEdge (Edge edge){return (edge == _edge1) ? _edge2 : _edge1;} // Surface edge always points in positive Z Vector3d _surfaceEdge; public Vector3d surfaceEdge () {ret"
+    },
+    {
+      "chunk_id": 105,
+      "text": "surfaceEdge; public Vector3d surfaceEdge () {return _surfaceEdge;} // Use trianglePoint1 and trianglePoint2 to compute the surfaceEdge vector. // This is a vector along the original surface edge from which the // slice edge end came. E"
+    },
+    {
+      "chunk_id": 106,
+      "text": "dge from which the // slice edge end came. EdgeEnd (Tuple2d point, Point3d trianglePoint1, Point3d trianglePoint2) { super (point); _surfaceEdge = new Vector3d (trianglePoint1); _surfaceEdge.sub (trianglePoint2); if (_surfaceEdge."
+    },
+    {
+      "chunk_id": 107,
+      "text": "aceEdge.sub (trianglePoint2); if (_surfaceEdge.z < 0.) _surfaceEdge.scale (-1.); } void setEdge (Edge edge) { if (_edge1 == null) _edge1 = edge; else if (_edge2 == null) _edge2 = edge; else System.out.println (\"ERROR"
+    },
+    {
+      "chunk_id": 108,
+      "text": "ge2 = edge; else System.out.println (\"ERROR: setEdge: more that one edge for this edgeEnd\"); } void replaceEdge (Edge edgeToReplace, Edge edge) { if (_edge1 == edgeToReplace) _edge1 = edge; else if (_edge2 == edgeToReplace)"
+    },
+    {
+      "chunk_id": 109,
+      "text": "1 = edge; else if (_edge2 == edgeToReplace) _edge2 = edge; } } class Edge { EdgeEnd _endA, _endB; public EdgeEnd endA () {return _endA;} public EdgeEnd endB () {return _endB;} // NOTE: lowerX() and higherX() are always different"
+    },
+    {
+      "chunk_id": 110,
+      "text": "NOTE: lowerX() and higherX() are always different, even if same X public EdgeEnd lowerX() {return ((_endA.x < _endB.x) ? _endA : _endB);} public EdgeEnd higherX() {return ((_endA.x < _endB.x) ? _endB : _endA);} public EdgeEnd lowerY("
+    },
+    {
+      "chunk_id": 111,
+      "text": "ndB.x) ? _endB : _endA);} public EdgeEnd lowerY() {return ((_endA.y < _endB.y) ? _endA : _endB);} public EdgeEnd higherY() {return ((_endA.y < _endB.y) ? _endB : _endA);} public EdgeEnd otherEnd (EdgeEnd edgeEnd) {return (edgeEnd"
+    },
+    {
+      "chunk_id": 112,
+      "text": "d otherEnd (EdgeEnd edgeEnd) {return (edgeEnd == _endA) ? _endB : _endA;} Vector3d _surfaceNormal; public Vector3d surfaceNormal() {return _surfaceNormal;} // These is computed in the constructor // The normal to the edge in the slic"
+    },
+    {
+      "chunk_id": 113,
+      "text": "onstructor // The normal to the edge in the slice plane Vector2d _edgeNormal; public Vector2d edgeNormal() {return _edgeNormal;} // Do not bother making a copy of any of these arguments Edge (EdgeEnd endA, EdgeEnd endB, Vector3d surfaceN"
+    },
+    {
+      "chunk_id": 114,
+      "text": "dge (EdgeEnd endA, EdgeEnd endB, Vector3d surfaceNormal) { _endA = endA; _endB = endB; _surfaceNormal = surfaceNormal; _edgeNormal = new Vector2d (_surfaceNormal.x, _surfaceNormal.y); _edgeNormal.normalize(); } // return the Y"
+    },
+    {
+      "chunk_id": 115,
+      "text": "_edgeNormal.normalize(); } // return the Y value on the edge that has value x. // If both endpoints have the same x, return the y of _endA. public double yAtX (double x) { if (_endA.x == _endB.x) return _endA.y; double factor"
+    },
+    {
+      "chunk_id": 116,
+      "text": "== _endB.x) return _endA.y; double factor = (x - lowerX().x) / (higherX().x - lowerX().x); return (lowerX().y + (higherX().y - lowerX().y) * factor); } // return the X value on the edge that has value y. // If both endpoints have"
+    },
+    {
+      "chunk_id": 117,
+      "text": "edge that has value y. // If both endpoints have the same y, return the X of _endA. public double xAtY (double y) { if (_endA.y == _endB.y) return _endA.x; double factor = (y - lowerY().y) / (higherY().y - lowerY().y); return (low"
+    },
+    {
+      "chunk_id": 118,
+      "text": "().y) / (higherY().y - lowerY().y); return (lowerY().x + (higherY().x - lowerY().x) * factor); } public String toString() { return (\"[\" + _endA + _endB + \"]\"); } } class EdgeSegment { // An EdgeSegment can either be a segment alo"
+    },
+    {
+      "chunk_id": 119,
+      "text": "{ // An EdgeSegment can either be a segment along an edge or a vertex. boolean _isVertex; public boolean isVertex() {return _isVertex;} // pointA to pointB moves around the peremiter in increasing theta // Probe contact at pointA is be"
+    },
+    {
+      "chunk_id": 120,
+      "text": "ncreasing theta // Probe contact at pointA is best for DECREASING theta // Probe contact at pointB is best for INCREASING theta Point2d _pointA, _pointB; public Point2d pointA() {return _pointA;} public Point2d pointB() {return _pointB;}"
+    },
+    {
+      "chunk_id": 121,
+      "text": "A;} public Point2d pointB() {return _pointB;} // only set if not vertex. Edge _parentEdge; // only set if vertex; EdgeEnd _parentEdgeEnd; // probe is Slice.PROBE_X or Slice.PROBE_Y, the intended contacting probe int _probe; publi"
+    },
+    {
+      "chunk_id": 122,
+      "text": "he intended contacting probe int _probe; public int probe() {return _probe;} Vector3d _surfaceNormal; public Vector3d surfaceNormal() {return _surfaceNormal;} Vector2d _edgeNormal; public Vector2d edgeNormal() {return _edgeNormal;}"
+    },
+    {
+      "chunk_id": 123,
+      "text": "lic Vector2d edgeNormal() {return _edgeNormal;} // Normalized vector pointing along edge in increasing theta // (from pointA to pointB) Vector2d _edgeTangent; public Vector2d edgeTangent() {return _edgeTangent;} // This constructor i"
+    },
+    {
+      "chunk_id": 124,
+      "text": "{return _edgeTangent;} // This constructor is used when it is a real segment of an edge EdgeSegment (Point2d pointA, Point2d pointB, Edge parentEdge, int probe) { _pointA = pointA; _pointB = pointB; _parentEdge = parentEdge; _prob"
+    },
+    {
+      "chunk_id": 125,
+      "text": "tB = pointB; _parentEdge = parentEdge; _probe = probe; // Just point to parent's, assuming it won't change _surfaceNormal = _parentEdge.surfaceNormal(); _edgeNormal = _parentEdge.edgeNormal(); _edgeTangent = new Vector2d (_p"
+    },
+    {
+      "chunk_id": 126,
+      "text": "Normal(); _edgeTangent = new Vector2d (_pointB); _edgeTangent.sub (_pointA); _edgeTangent.normalize(); } // This constructor is used when it is a vertex. // probe is Slice.PROBE_X or Slice.PROBE_Y and is used to compute the /"
+    },
+    {
+      "chunk_id": 127,
+      "text": "_X or Slice.PROBE_Y and is used to compute the // effective surface normal. // Assume the vertex is convex. EdgeSegment (EdgeEnd parentEdgeEnd, int probe) { // Make both points the same. _pointA = new Point2d (parentEdgeEnd); _poin"
+    },
+    {
+      "chunk_id": 128,
+      "text": "_pointA = new Point2d (parentEdgeEnd); _pointB = _pointA; _parentEdgeEnd = parentEdgeEnd; _probe = probe; _isVertex = true; _surfaceNormal = effectiveSurfaceNormal (_parentEdgeEnd.surfaceEdge(), probe); _edgeNormal ="
+    },
+    {
+      "chunk_id": 129,
+      "text": "tEdgeEnd.surfaceEdge(), probe); _edgeNormal = new Vector2d (_surfaceNormal.x, _surfaceNormal.y); _edgeNormal.normalize(); // For an edgeTangent, just rotate the edgeNormal. Since pointA and // pointB are the same, it really doesn't"
+    },
+    {
+      "chunk_id": 130,
+      "text": "and // pointB are the same, it really doesn't matter. _edgeTangent = new Vector2d (-_edgeNormal.y, _edgeNormal.x); } // probe is Slice.PROBE_X or Slice.PROBE_Y and is used to compute the // effective surface normal. // surfacEdge"
+    },
+    {
+      "chunk_id": 131,
+      "text": "// effective surface normal. // surfacEdge always points in positive Z public static Vector3d effectiveSurfaceNormal (Vector3d surfaceEdge, int probe) { Vector3d probeV; if (probe == Slice.PROBE_X) probeV = new Vector3d (0"
+    },
+    {
+      "chunk_id": 132,
+      "text": "== Slice.PROBE_X) probeV = new Vector3d (0., -1., 0.); else // PROBE_Y probeV = new Vector3d (1., 0., 0.); Vector3d surfaceNormal = new Vector3d(); surfaceNormal.cross (probeV, surfaceEdge); surfaceNormal.normalize("
+    },
+    {
+      "chunk_id": 133,
+      "text": "(probeV, surfaceEdge); surfaceNormal.normalize(); return (surfaceNormal); } // direction is Slice.INCREASING or Slice.DECREASING. // based on the position of the otherProbeContact, compute the // best position along this edge segme"
+    },
+    {
+      "chunk_id": 134,
+      "text": "ute the // best position along this edge segment of this probe based on // the parent edge's surface normal and the given frictionAngle. // If this edge is a vertex, return null. (Shouldn't happen). // First check if the preferred positio"
+    },
+    {
+      "chunk_id": 135,
+      "text": "happen). // First check if the preferred position is within the friction // cone of the grip and if not try moving along the edge segment. // If there is no satisfactory contact, return null. Point2d bestContact (int direction, Ed"
+    },
+    {
+      "chunk_id": 136,
+      "text": "Point2d bestContact (int direction, EdgeSegment otherEdge, Point2d otherProbeContact, double frictionAngle) { if (_isVertex) return null; if (otherEdge.isVertex()) direction = (direction == Slice.INCREAS"
+    },
+    {
+      "chunk_id": 137,
+      "text": "direction = (direction == Slice.INCREASING) ? Slice.DECREASING : Slice.INCREASING; // First check if the preferred contact is within the // friction cone. Point2d result; if (direction == Slice.INCREASING) result = ne"
+    },
+    {
+      "chunk_id": 138,
+      "text": "if (direction == Slice.INCREASING) result = new Point2d (_pointB); else result = new Point2d (_pointA); boolean myFrictionOK = frictionOK (result, otherProbeContact, frictionAngle); if (myFrictionOK && otherEdge.f"
+    },
+    {
+      "chunk_id": 139,
+      "text": "nAngle); if (myFrictionOK && otherEdge.frictionOK (otherProbeContact, result, frictionAngle)) // The preferred contact is within the friction cone of this edge and // the other contact is also within its friction cone, so retu"
+    },
+    {
+      "chunk_id": 140,
+      "text": "contact is also within its friction cone, so return. return (result); double gripN, gripT; Vector2d grip; if (!myFrictionOK) { // Try to move the contact point where the friction is OK for this edge. // To find g"
+    },
+    {
+      "chunk_id": 141,
+      "text": "riction is OK for this edge. // To find grip as a normalized vector in the possible grip axis, // solve: grip dot surfaceNormal = cos (frictionAngle). // If we represent these relative to the edge normal in the plane: // grip"
+    },
+    {
+      "chunk_id": 142,
+      "text": "ive to the edge normal in the plane: // gripN*surfaceN + gripT*surfaceT = cos (frictionAngle) // Where gripT is the grip tangent to the edge, etc. // We know surfaceT is zero, so: // gripN = cos (frictionAngle) / surfaceN. g"
+    },
+    {
+      "chunk_id": 143,
+      "text": "// gripN = cos (frictionAngle) / surfaceN. gripN = Math.cos (frictionAngle) / Slice.xyDot (_edgeNormal, _surfaceNormal); // We want to solve sqrt (gripN^2 + gripT^2) = 1 if (gripN > 1.) // The surface normal points away from"
+    },
+    {
+      "chunk_id": 144,
+      "text": "> 1.) // The surface normal points away from the plane too much return null; gripT = Math.sqrt (1. - gripN * gripN); // Now we can define the normalized grip axis depending on which way // we are moving the contact along"
+    },
+    {
+      "chunk_id": 145,
+      "text": "hich way // we are moving the contact along the edge. // The grip points from the otherProbeContact to this edge segment. grip = new Vector2d (edgeNormal()); grip.scale (gripN); if (direction == Slice.INCREASING) grip.sca"
+    },
+    {
+      "chunk_id": 146,
+      "text": "if (direction == Slice.INCREASING) grip.scaleAdd (gripT, _edgeTangent, grip); else // DECREASING grip.scaleAdd (-gripT, _edgeTangent, grip); // grip should already be normalized but just make sure grip.normalize();"
+    },
+    {
+      "chunk_id": 147,
+      "text": "ed but just make sure grip.normalize(); // Now find where the grip vector going from otherProbeContact to the // edge would intersect the edge. result = Slice.rayLineIntersection2d (otherProbeContact, grip, _pointA, _edgeTang"
+    },
+    {
+      "chunk_id": 148,
+      "text": "(otherProbeContact, grip, _pointA, _edgeTangent); // If we still aren't within the edge, then moving the point // further isn't going to help if (result == null || !containsPoint (result, _pointA, _pointB)) return null;"
+    },
+    {
+      "chunk_id": 149,
+      "text": "result, _pointA, _pointB)) return null; // If we are within the other contact's friction cone the we are done if (otherEdge.frictionOK (otherProbeContact, result, frictionAngle)) return result; } // Either the prefe"
+    },
+    {
+      "chunk_id": 150,
+      "text": "return result; } // Either the preferred contact for this edge or a modified // contact to bring a grip just within the friction cone for // this edge is not a valid grip for the other contact. // Try to move farther alon"
+    },
+    {
+      "chunk_id": 151,
+      "text": "he other contact. // Try to move farther along the edge to bring the grip // within the friction cone of the other contact. // As above, get gripN and gripT for the other edge. gripN = Math.cos (frictionAngle) / Slice.xyDot (other"
+    },
+    {
+      "chunk_id": 152,
+      "text": "Math.cos (frictionAngle) / Slice.xyDot (otherEdge.edgeNormal(), otherEdge.surfaceNormal()); if (gripN > 1.) // The surface normal points away from the plane too much return null; gripT = Math.sqrt (1. - gripN * gripN); // Now we"
+    },
+    {
+      "chunk_id": 153,
+      "text": "ipT = Math.sqrt (1. - gripN * gripN); // Now we can define the normalized grip axis depending on which way // we are moving the contact along the edge. // The grip points from the otherProbeContact to this edge segment. grip = new Vec"
+    },
+    {
+      "chunk_id": 154,
+      "text": "obeContact to this edge segment. grip = new Vector2d (otherEdge.edgeNormal()); // Use negative to point it from the other edge toward this edge grip.scale (-gripN); // Remember that because the edgeTangent is defined going around the"
+    },
+    {
+      "chunk_id": 155,
+      "text": "use the edgeTangent is defined going around the // perimeter, it will point in the opposite direction on the opposite // edge if (direction == Slice.INCREASING) grip.scaleAdd (-gripT, otherEdge.edgeTangent(), grip); else // DE"
+    },
+    {
+      "chunk_id": 156,
+      "text": "otherEdge.edgeTangent(), grip); else // DECREASING grip.scaleAdd (gripT, otherEdge.edgeTangent(), grip); // grip should already be normalized but just make sure grip.normalize(); // Now find where this grip vector going from ot"
+    },
+    {
+      "chunk_id": 157,
+      "text": "// Now find where this grip vector going from otherProbeContact to the // edge would intersect the edge. result = Slice.rayLineIntersection2d (otherProbeContact, grip, _pointA, _edgeTangent); // This point must be on the edge segment"
+    },
+    {
+      "chunk_id": 158,
+      "text": "ent); // This point must be on the edge segment and also in its friction cone. if (result == null || !containsPoint (result, _pointA, _pointB)) return null; if (frictionOK (result, otherProbeContact, frictionAngle)) // We are still"
+    },
+    {
+      "chunk_id": 159,
+      "text": "rProbeContact, frictionAngle)) // We are still within the friction cone for the contact on this edge. return result; return null; } // Return true if the point is between pointA and pointB by making // sure the point point"
+    },
+    {
+      "chunk_id": 160,
+      "text": "and pointB by making // sure the point points to pointA and pointB in different directions. static boolean containsPoint (Point2d point, Point2d pointA, Point2d pointB){ Vector2d toA = new Vector2d (pointA); toA.sub (point); Vector2d"
+    },
+    {
+      "chunk_id": 161,
+      "text": "Vector2d (pointA); toA.sub (point); Vector2d toB = new Vector2d (pointB); toB.sub (point); if (toA.dot(toB) > 0.) return false; else return true; } // Just check myContact against a grip with otherProbeContact boo"
+    },
+    {
+      "chunk_id": 162,
+      "text": "ontact against a grip with otherProbeContact boolean frictionOK (Point2d myContact, Point2d otherProbeContact, double frictionAngle) { if (Math.abs (myContact.x - otherProbeContact.x) < 1e-6 && Math.abs (myContact.y - otherProbeConta"
+    },
+    {
+      "chunk_id": 163,
+      "text": "-6 && Math.abs (myContact.y - otherProbeContact.y) < 1e-6) // These are the same points return false; Vector2d grip = new Vector2d (myContact); grip.sub (otherProbeContact); grip.normalize(); double k = Slice.xyDot ("
+    },
+    {
+      "chunk_id": 164,
+      "text": "grip.normalize(); double k = Slice.xyDot (grip, _surfaceNormal); // Make sure the other contact is on the correct side of the edge. if (k <= 0.) return false; if (k > (Math.cos (frictionAngle) - 1e-6)) return true;"
+    },
+    {
+      "chunk_id": 165,
+      "text": "s (frictionAngle) - 1e-6)) return true; else return false; } // probe must be PROBE_X or PROBE_Y // direction must be DECREASING or INCREASING. // return how much theta can change in the given direction for // a probe"
+    },
+    {
+      "chunk_id": 166,
+      "text": "change in the given direction for // a probe (PROBE_X or PROBE_Y) touching the vertex, based only // on the maximum rotation to keep the grip with otherProbeContact // within the friction cone. Also prevent the tip of the // probe f"
+    },
+    {
+      "chunk_id": 167,
+      "text": "cone. Also prevent the tip of the // probe from passing parallel to the further edge coming off the vertex, // but don't concern with other parts hitting the probe. // The result will be positive if direction is INCREASING, // or nega"
+    },
+    {
+      "chunk_id": 168,
+      "text": "ositive if direction is INCREASING, // or negative if DECREASING (or zero). double maxVertexDeltaTheta (int probe, int direction, Point2d otherProbeContact, double frictionAngle) { if (!_isVertex) // Shouldn't really happen"
+    },
+    {
+      "chunk_id": 169,
+      "text": "f (!_isVertex) // Shouldn't really happen return 0.; // Find the angles of the grip and the two edges coming off the vertex // relative to the probe normal. Vector2d gripV = new Vector2d (otherProbeContact); // _pointA and"
+    },
+    {
+      "chunk_id": 170,
+      "text": "Vector2d (otherProbeContact); // _pointA and _pointB are the same gripV.sub (_pointA); Vector2d edge1V = new Vector2d (_parentEdgeEnd.edge1().otherEnd (_parentEdgeEnd)); edge1V.sub (_pointA); Vector2d edge2V = new Vecto"
+    },
+    {
+      "chunk_id": 171,
+      "text": "1V.sub (_pointA); Vector2d edge2V = new Vector2d (_parentEdgeEnd.edge2().otherEnd (_parentEdgeEnd)); edge2V.sub (_pointA); double gripAngle, edge1Angle, edge2Angle; if (probe == Slice.PROBE_X) { // Probe comes down from pos"
+    },
+    {
+      "chunk_id": 172,
+      "text": "Slice.PROBE_X) { // Probe comes down from positive Y gripAngle = Math.atan2 (gripV.y, gripV.x); edge1Angle = Math.atan2 (edge1V.y, edge1V.x); edge2Angle = Math.atan2 (edge2V.y, edge2V.x); } else { // PROBE_Y // Probe co"
+    },
+    {
+      "chunk_id": 173,
+      "text": ".x); } else { // PROBE_Y // Probe comes in from positive X gripAngle = Math.atan2 (-gripV.x, gripV.y); edge1Angle = Math.atan2 (-edge1V.x, edge1V.y); edge2Angle = Math.atan2 (-edge2V.x, edge2V.y); } if (! (gripAngle >"
+    },
+    {
+      "chunk_id": 174,
+      "text": "(-edge2V.x, edge2V.y); } if (! (gripAngle > -Math.PI/2 && gripAngle < Math.PI/2 && edge1Angle > -Math.PI/2 && edge1Angle < Math.PI/2 && edge2Angle > -Math.PI/2 && edge2Angle < Math.PI/2)) // grip or edges don't point away from"
+    },
+    {
+      "chunk_id": 175,
+      "text": ".PI/2)) // grip or edges don't point away from the probe contact in // a valid direction. return 0.; // Find the maximum we can rotate due to limiting the probe tip // from hitting an edge double maxDeltaThetaTip; if ("
+    },
+    {
+      "chunk_id": 176,
+      "text": "itting an edge double maxDeltaThetaTip; if (probe == Slice.PROBE_X) { if (direction == Slice.INCREASING) // We are rotating away from the probe tip, so set to max maxDeltaThetaTip = 2*Math.PI; else { double closestEdgeAng"
+    },
+    {
+      "chunk_id": 177,
+      "text": "= 2*Math.PI; else { double closestEdgeAngle = (edge1Angle < edge2Angle) ? edge1Angle : edge2Angle; maxDeltaThetaTip = (-Math.PI/2) - closestEdgeAngle; } } else { // PROBE_Y if (direction == Slice.DECREASING)"
+    },
+    {
+      "chunk_id": 178,
+      "text": "// PROBE_Y if (direction == Slice.DECREASING) // We are rotating away from the probe tip, so set to max maxDeltaThetaTip = -2*Math.PI; else { double closestEdgeAngle = (edge1Angle > edge2Angle) ? edge1Angle : edge2A"
+    },
+    {
+      "chunk_id": 179,
+      "text": "gle > edge2Angle) ? edge1Angle : edge2Angle; maxDeltaThetaTip = Math.PI/2 - closestEdgeAngle; } } // Now compute the angle allowed by the friction cone // To find grip as a normalized vector in the possible grip axis,"
+    },
+    {
+      "chunk_id": 180,
+      "text": "s a normalized vector in the possible grip axis, // solve: grip dot surfaceNormal = cos (frictionAngle). // If we represent these relative to the edge normal in the plane: // gripN*surfaceN + gripT*surfaceT = cos (frictionAngle) // Wh"
+    },
+    {
+      "chunk_id": 181,
+      "text": "eN + gripT*surfaceT = cos (frictionAngle) // Where gripT is the grip tangent to the edge, etc. // We know surfaceT is zero, so: // gripN = cos (frictionAngle) / surfaceN. double gripN = Math.cos (frictionAngle) / Slice.xyDot (_"
+    },
+    {
+      "chunk_id": 182,
+      "text": "= Math.cos (frictionAngle) / Slice.xyDot (_edgeNormal, _surfaceNormal); if (gripN > 1.) // The surface normal points away from the plane too much return 0.; // So, sliceFrictionAngle is the friction angle in this slice do"
+    },
+    {
+      "chunk_id": 183,
+      "text": "ionAngle is the friction angle in this slice double sliceFrictionAngle = Math.acos (gripN); double maxDeltaThetaFriction; if (direction == Slice.INCREASING) { maxDeltaThetaFriction = sliceFrictionAngle - gripAngle; if (maxDeltaTh"
+    },
+    {
+      "chunk_id": 184,
+      "text": "sliceFrictionAngle - gripAngle; if (maxDeltaThetaFriction < 0.) maxDeltaThetaFriction = 0.; // Now return the worse of this and maxDeltaThetaTip if (maxDeltaThetaFriction < maxDeltaThetaTip) return maxDeltaThetaFriction; e"
+    },
+    {
+      "chunk_id": 185,
+      "text": "ThetaTip) return maxDeltaThetaFriction; else return maxDeltaThetaTip; } else { // DECREASING maxDeltaThetaFriction = (-sliceFrictionAngle) - gripAngle; if (maxDeltaThetaFriction > 0.) maxDeltaThetaFriction = 0.;"
+    },
+    {
+      "chunk_id": 186,
+      "text": "aFriction > 0.) maxDeltaThetaFriction = 0.; // Now return the worse of this and maxDeltaThetaTip if (maxDeltaThetaFriction > maxDeltaThetaTip) return maxDeltaThetaFriction; else return maxDeltaThetaTip; } } publi"
+    },
+    {
+      "chunk_id": 187,
+      "text": "e return maxDeltaThetaTip; } } public String toString() { return (\"[\" + _pointA + _pointB + \"]\"); } } class EdgePair { EdgeSegment _probeXEdgeSegment; public EdgeSegment probeXEdgeSegment() {return _probeXEdgeSegment;}"
+    },
+    {
+      "chunk_id": 188,
+      "text": "robeXEdgeSegment() {return _probeXEdgeSegment;} EdgeSegment _probeYEdgeSegment; public EdgeSegment probeYEdgeSegment() {return _probeYEdgeSegment;} Point2d _probeXContact; public Point2d probeXContact() {return _probeXContact;} Point2d _p"
+    },
+    {
+      "chunk_id": 189,
+      "text": "beXContact() {return _probeXContact;} Point2d _probeYContact; public Point2d probeYContact() {return _probeYContact;} // This is > 0 for INCREASING theta double _deltaTheta; double deltaTheta() {return _deltaTheta;} // Do not bother m"
+    },
+    {
+      "chunk_id": 190,
+      "text": "ta() {return _deltaTheta;} // Do not bother making a copy of the edges. Do copy the contact points // The contact points and edges are within the frame of the owner slice.theta EdgePair (EdgeSegment probeXEdgeSegment, EdgeSegment probeYEdge"
+    },
+    {
+      "chunk_id": 191,
+      "text": "eSegment probeXEdgeSegment, EdgeSegment probeYEdgeSegment, Point2d probeXContact, Point2d probeYContact, double deltaTheta) { _probeXEdgeSegment = probeXEdgeSegment; _probeYEdgeSegment = probeYEdgeSegment; _probeXContact = new Poi"
+    },
+    {
+      "chunk_id": 192,
+      "text": "t = probeYEdgeSegment; _probeXContact = new Point2d (probeXContact); _probeYContact = new Point2d (probeYContact); _deltaTheta = deltaTheta; } } class Slice { // deltaTheta will be > 0 if direction is Slice.INCREASING // otherwi"
+    },
+    {
+      "chunk_id": 193,
+      "text": "0 if direction is Slice.INCREASING // otherwise < 0. This is the value from bestEdgePair. // If deltaTheta is 0., bestEdgePair may be null. double _deltaTheta; public double deltaTheta() {return _deltaTheta;} // This can be null if th"
+    },
+    {
+      "chunk_id": 194,
+      "text": "return _deltaTheta;} // This can be null if there is no valid grip or deltaTheta would be 0. EdgePair _bestEdgePair; public EdgePair bestEdgePair() {return _bestEdgePair;} Surface _surface; public Surface surface() {return _surface;}"
+    },
+    {
+      "chunk_id": 195,
+      "text": "; public Surface surface() {return _surface;} // remember rotation Matrix3d _rotation; public Matrix3d rotation() {return _rotation;} // Initial theta double _theta; public double theta() {return _theta;} double _z; public double"
+    },
+    {
+      "chunk_id": 196,
+      "text": "ta() {return _theta;} double _z; public double z() {return _z;} // Vector of EdgeEnd. These are from the original slice boundary Vector _edgeEnds = new Vector(); public Vector edgeEnds() {return _edgeEnds;} public EdgeEnd edgeEnd(int i"
+    },
+    {
+      "chunk_id": 197,
+      "text": "{return _edgeEnds;} public EdgeEnd edgeEnd(int index) {return (EdgeEnd)_edgeEnds.elementAt (index);} // Vector of Edge Vector _edges = new Vector(); public Vector edges() {return _edges;} public Edge edge(int index) {return (Edge)_e"
+    },
+    {
+      "chunk_id": 198,
+      "text": "s;} public Edge edge(int index) {return (Edge)_edges.elementAt(index);} // Vector of EdgeSegment for edges used by probe that moves in X Vector _probeXEdgeSegments = new Vector(); public Vector probeXEdgeSegments() {return _probeXEdgeSegme"
+    },
+    {
+      "chunk_id": 199,
+      "text": "ctor probeXEdgeSegments() {return _probeXEdgeSegments;} public EdgeSegment probeXEdgeSegment(int index) {return (EdgeSegment)_probeXEdgeSegments.elementAt(index);} // Vector of EdgeSegment for edges used by probe that moves in Y Vector _p"
+    },
+    {
+      "chunk_id": 200,
+      "text": "or edges used by probe that moves in Y Vector _probeYEdgeSegments = new Vector(); public Vector probeYEdgeSegments() {return _probeYEdgeSegments;} public EdgeSegment probeYEdgeSegment(int index) {return (EdgeSegment)_probeYEdgeSegments.ele"
+    },
+    {
+      "chunk_id": 201,
+      "text": "{return (EdgeSegment)_probeYEdgeSegments.elementAt(index);} // amount around edge points where the probe can't contact double _epsilon; public static final int PROBE_X = 0; public static final int PROBE_Y = 1; public static fi"
+    },
+    {
+      "chunk_id": 202,
+      "text": "static final int PROBE_Y = 1; public static final int DECREASING = 0; public static final int INCREASING = 1; // rotate surface first by rotation then by theta around the Z axis. // direction is INCREASING or DECREASING. Set the best"
+    },
+    {
+      "chunk_id": 203,
+      "text": "ection is INCREASING or DECREASING. Set the best deltaTheta. // If deltaTheta zero, bestEdgePair may be null, otherwise it is // the edge pair for deltaTheta. Slice (Surface surface, Matrix3d rotation, double theta, double z, int dire"
+    },
+    {
+      "chunk_id": 204,
+      "text": "d rotation, double theta, double z, int direction) { _surface = surface; // Keep a copy of rotation _rotation = new Matrix3d (rotation); _theta = theta; _z = z; // Choose an epsilon based on the size of the part _ep"
+    },
+    {
+      "chunk_id": 205,
+      "text": "se an epsilon based on the size of the part _epsilon = .05 * surface.maxDiameter(); setEdges (); _probeXEdgeSegments.removeAllElements(); _probeYEdgeSegments.removeAllElements(); addEdgeSegments(PROBE_X); addEdgeSegments(PRO"
+    },
+    {
+      "chunk_id": 206,
+      "text": "addEdgeSegments(PROBE_X); addEdgeSegments(PROBE_Y); addEdgeSegmentsVertex(PROBE_X); addEdgeSegmentsVertex(PROBE_Y); setBestEdgePair(direction); if (_bestEdgePair != null) _deltaTheta = _bestEdgePair.deltaTheta(); } // Re"
+    },
+    {
+      "chunk_id": 207,
+      "text": "Theta = _bestEdgePair.deltaTheta(); } // Return dot product of (a.x, a.y, 0) with b static double xyDot (Tuple2d a, Tuple3d b) { return (a.x * b.x + a.y * b.y); } // a and b are points along two edges of a surface triangle. // com"
+    },
+    {
+      "chunk_id": 208,
+      "text": "ts along two edges of a surface triangle. // commonTrianglePoint is the common point of the two triangle edges // and trianglePointA is the other along the edge that a came from. // (Same for trianglePointB.) These are send to EdgeEnd cons"
+    },
+    {
+      "chunk_id": 209,
+      "text": "r trianglePointB.) These are send to EdgeEnd constructor // to compute the surfaceEdge vector. // If a and b are the same or if the edge is already added, do not add. void addEdge (Point2d a, Point2d b, Vector3d surfaceNormal,"
+    },
+    {
+      "chunk_id": 210,
+      "text": "a, Point2d b, Vector3d surfaceNormal, Point3d commonTrianglePoint, Point3d trianglePointA, Point3d trianglePointB) { if (a.equals (b)) { // shouldn't happen System.out.println (\"ERROR: Slice.addEdge(): b"
+    },
+    {
+      "chunk_id": 211,
+      "text": "System.out.println (\"ERROR: Slice.addEdge(): both edge ends are the same\"); return; } // Check if already added (should not really happen) for (int i = 0; i < _edges.size(); ++i) { Edge edge = edge (i); if ((a.equals (e"
+    },
+    {
+      "chunk_id": 212,
+      "text": "{ Edge edge = edge (i); if ((a.equals (edge.endA()) && b.equals (edge.endB())) || (a.equals (edge.endB()) && b.equals (edge.endA()))) { System.out.println (\"ERROR: Slice.addEdge(): found equal edge\"); return; } }"
+    },
+    {
+      "chunk_id": 213,
+      "text": ": found equal edge\"); return; } } int aIndex = _edgeEnds.indexOf (a); if (aIndex == -1) { _edgeEnds.addElement (new EdgeEnd (a, commonTrianglePoint, trianglePointA)); aIndex = _edgeEnds.size() - 1; } int bIndex"
+    },
+    {
+      "chunk_id": 214,
+      "text": "ndex = _edgeEnds.size() - 1; } int bIndex = _edgeEnds.indexOf (b); if (bIndex == -1) { _edgeEnds.addElement (new EdgeEnd (b, commonTrianglePoint, trianglePointB)); bIndex = _edgeEnds.size() - 1; } EdgeEnd endA = edgeEnd (aI"
+    },
+    {
+      "chunk_id": 215,
+      "text": "s.size() - 1; } EdgeEnd endA = edgeEnd (aIndex); EdgeEnd endB = edgeEnd (bIndex); Edge edge = new Edge (endA, endB, new Vector3d (surfaceNormal)); _edges.addElement (edge); endA.setEdge (edge); endB.setEdge (edge); }"
+    },
+    {
+      "chunk_id": 216,
+      "text": "A.setEdge (edge); endB.setEdge (edge); } // If the 3d line between points a and b intersects the plane at _z, // return the 2d point on the xy plane, otherwise null. Point2d sliceIntersection (Point3d a, Point3d b) { if ((a.z =="
+    },
+    {
+      "chunk_id": 217,
+      "text": "rsection (Point3d a, Point3d b) { if ((a.z == _z) && (a.z == b.z)) // Should have already checked for this return null; // Make a.z lower than b.z if (a.z > b.z) { Point3d temp = a; a = b; b = temp; } if"
+    },
+    {
+      "chunk_id": 218,
+      "text": "d temp = a; a = b; b = temp; } if (! (_z >= a.z && _z <= b.z)) // not in range return null; double factor = (_z - a.z) / (b.z - a.z); return new Point2d (a.x + (b.x - a.x) * factor, a.y + (b.y"
+    },
+    {
+      "chunk_id": 219,
+      "text": ".x) * factor, a.y + (b.y - a.y) * factor); } // Set x = r * y public static void rotateTuple3d (Tuple3d x, Matrix3d r, Tuple3d y) { x.set (r.m00 * y.x + r.m01 * y.y + r.m02 * y.z, r.m10 * y.x + r.m11"
+    },
+    {
+      "chunk_id": 220,
+      "text": "y.y + r.m02 * y.z, r.m10 * y.x + r.m11 * y.y + r.m12 * y.z, r.m20 * y.x + r.m21 * y.y + r.m22 * y.z); } // set _edges to the slice at level _z // rotate first by _rotation then by _theta around the Z axis. void set"
+    },
+    {
+      "chunk_id": 221,
+      "text": "ation then by _theta around the Z axis. void setEdges () { Matrix3d rz = new Matrix3d (); rz.rotZ (_theta); Matrix3d r = new Matrix3d (); r.mul (rz, _rotation); Point3d[] rotatedPoints = new Point3d[_surface.points().size()];"
+    },
+    {
+      "chunk_id": 222,
+      "text": "nts = new Point3d[_surface.points().size()]; for (int i = 0; i < rotatedPoints.length; ++i) { rotatedPoints[i] = new Point3d(); rotateTuple3d (rotatedPoints[i], r, _surface.point (i)); } Vector3d side1 = new Vector3d(), side"
+    },
+    {
+      "chunk_id": 223,
+      "text": "); } Vector3d side1 = new Vector3d(), side2 = new Vector3d(), surfaceNormal = new Vector3d(); _edges.removeAllElements(); for (int i = 0; i < _surface.triangles().size(); ++i) { int[] triangle = _surface.triangle (i);"
+    },
+    {
+      "chunk_id": 224,
+      "text": "i) { int[] triangle = _surface.triangle (i); Point3d point0 = rotatedPoints[triangle[0]]; Point3d point1 = rotatedPoints[triangle[1]]; Point3d point2 = rotatedPoints[triangle[2]]; // First check for equal z. This sho"
+    },
+    {
+      "chunk_id": 225,
+      "text": "e[2]]; // First check for equal z. This should not happen because we // are supposed to pick z values between vertices. if (point0.z == _z || point1.z == _z || point2.z == _z) { System.out.println (\"ERROR: Slice.setEdges():"
+    },
+    {
+      "chunk_id": 226,
+      "text": "System.out.println (\"ERROR: Slice.setEdges(): z value same as vertex \" + _z); continue; } // Now check for intersections Point2d intersection1 = sliceIntersection (point0, point1); Point2d intersection2 = slice"
+    },
+    {
+      "chunk_id": 227,
+      "text": "nt0, point1); Point2d intersection2 = sliceIntersection (point1, point2); Point2d intersection3 = sliceIntersection (point0, point2); // Compute the normal side1.set (point1); side1.sub (point0); side2.set (point2);"
+    },
+    {
+      "chunk_id": 228,
+      "text": "); side1.sub (point0); side2.set (point2); side2.sub (point1); surfaceNormal.cross (side1, side2); surfaceNormal.normalize(); if (intersection1 != null && intersection2 != null) addEdge (intersection1, intersecti"
+    },
+    {
+      "chunk_id": 229,
+      "text": "null) addEdge (intersection1, intersection2, surfaceNormal, point1, point0, point2); else if (intersection2 != null && intersection3 != null) addEdge (intersection2, intersection3, surfaceNormal,"
+    },
+    {
+      "chunk_id": 230,
+      "text": "section2, intersection3, surfaceNormal, point2, point1, point0); else if (intersection1 != null && intersection3 != null) addEdge (intersection1, intersection3, surfaceNormal, point0, point1, point2"
+    },
+    {
+      "chunk_id": 231,
+      "text": "ceNormal, point0, point1, point2); } // Integrity test: make sure each _edgeEnds connects two edges for (int e = 0; e < _edgeEnds.size(); ++e) { // if edge2 is not null then neither is edge1 if (edgeEnd (e).edg"
+    },
+    {
+      "chunk_id": 232,
+      "text": "null then neither is edge1 if (edgeEnd (e).edge2() == null) System.out.println (\"ERROR: setEdges: edge end does not connect two edges.\"); } // Now, if an both edges connected to an edgeEnd have the same surface // normal then th"
+    },
+    {
+      "chunk_id": 233,
+      "text": "geEnd have the same surface // normal then the lines are continuous, so merge them. // Make i go backwards so when we remove it the indexing is still good boolean didMerge; do { didMerge = false; for (int i = _edgeEnds.size()"
+    },
+    {
+      "chunk_id": 234,
+      "text": "dMerge = false; for (int i = _edgeEnds.size() - 1; i >= 0; --i) { EdgeEnd edgeEnd = edgeEnd (i); if (edgeEnd.edge1().surfaceNormal().equals (edgeEnd.edge2().surfaceNormal())) { didMerge = true; EdgeEnd merged"
+    },
+    {
+      "chunk_id": 235,
+      "text": "didMerge = true; EdgeEnd mergedEndA = edgeEnd.edge1().otherEnd (edgeEnd); EdgeEnd mergedEndB = edgeEnd.edge2().otherEnd (edgeEnd); Edge mergedEdge = new Edge (mergedEndA, mergedEndB,edgeEnd.edge1().surfaceNorma"
+    },
+    {
+      "chunk_id": 236,
+      "text": "ergedEndA, mergedEndB,edgeEnd.edge1().surfaceNormal()); _edges.addElement (mergedEdge); mergedEndA.replaceEdge (edgeEnd.edge1(), mergedEdge); mergedEndB.replaceEdge (edgeEnd.edge2(), mergedEdge); // All fixed. N"
+    },
+    {
+      "chunk_id": 237,
+      "text": "End.edge2(), mergedEdge); // All fixed. Now we can delete the edge end and two small edges _edges.removeElement (edgeEnd.edge1()); _edges.removeElement (edgeEnd.edge2()); _edgeEnds.removeElement (edgeEnd); } } }"
+    },
+    {
+      "chunk_id": 238,
+      "text": "dgeEnds.removeElement (edgeEnd); } } } while (didMerge); } // rayV is a normalized vector for a ray starting from point rayP // lineV is a normalized vector along a line starting from lineP // Return the point on the line where"
+    },
+    {
+      "chunk_id": 239,
+      "text": "from lineP // Return the point on the line where the ray intersects the line // or null if no intersection in the direction of the ray. public static Point2d rayLineIntersection2d (Point2d rayP, Vector2d rayV, Point2d lineP, Vector2d li"
+    },
+    {
+      "chunk_id": 240,
+      "text": "2d rayP, Vector2d rayV, Point2d lineP, Vector2d lineV) { // We want to solve rayP + rayT*rayV = lineP + lineT*lineV, or // rayV*rayT - lineV*lineT = lineP - rayP. We split into two // equations for x and y and identify elements with the"
+    },
+    {
+      "chunk_id": 241,
+      "text": "uations for x and y and identify elements with the system: // ax - by = c // dx - ey = f where x is rayT and y is lineT. // This gives x = (ec - bf)/(ae - bd) and y = (cd - fa)/(ae - bd) double a = rayV.x, b = lineV.x, c = li"
+    },
+    {
+      "chunk_id": 242,
+      "text": "- bd) double a = rayV.x, b = lineV.x, c = lineP.x - rayP.x; double d = rayV.y, e = lineV.y, f = lineP.y - rayP.y; double divisor = (a*e - b*d); if (divisor == 0.) // lines are parallel return null; double rayT = (e*c"
+    },
+    {
+      "chunk_id": 243,
+      "text": "allel return null; double rayT = (e*c - b*f) / divisor; double lineT = (c*d - f*a) / divisor; if (rayT < -1e-6) // intersection not in direction of ray return null; Point2d result = new Point2d(); result.scale"
+    },
+    {
+      "chunk_id": 244,
+      "text": "Point2d result = new Point2d(); result.scaleAdd (lineT, lineV, lineP); return result; } // probe is PROBE_X or PROBE_Y // This adds non vertex EdgeSegments void addEdgeSegments (int probe) { Object[] edgeEndsArray = MyArrays.toA"
+    },
+    {
+      "chunk_id": 245,
+      "text": "probe) { Object[] edgeEndsArray = MyArrays.toArray (_edgeEnds); if (probe == PROBE_X) // Sort _vertices by X MyArrays.sort (edgeEndsArray, new Tuple2dXComparator()); else // Sort _vertices by Y MyArrays.sort (edg"
+    },
+    {
+      "chunk_id": 246,
+      "text": "// Sort _vertices by Y MyArrays.sort (edgeEndsArray, new Tuple2dYComparator()); for (int e = 0; e < _edges.size(); ++e) { Edge edge = edge (e); // Before anything else, make sure that the surface normal is // within the"
+    },
+    {
+      "chunk_id": 247,
+      "text": "re that the surface normal is // within the friction cone // Get the normal in the slice plane Vector2d edgeNormal = new Vector2d (edge.surfaceNormal().x, edge.surfaceNormal().y); edgeNormal.normalize(); double cosFri"
+    },
+    {
+      "chunk_id": 248,
+      "text": "); edgeNormal.normalize(); double cosFrictionAngle = Math.cos (_surface.frictionAngle()); if (Slice.xyDot (edgeNormal, edge.surfaceNormal()) < (cosFrictionAngle - 1e-6)) // Even our best grip is not within the friction cone"
+    },
+    {
+      "chunk_id": 249,
+      "text": "en our best grip is not within the friction cone continue; Point2d lower, higher; if (probe == PROBE_X) { if (edge.surfaceNormal().y < -1e-6) // edge faces away from the probe continue;"
+    },
+    {
+      "chunk_id": 250,
+      "text": "way from the probe continue; lower = new Point2d (edge.lowerX()); higher = new Point2d (edge.higherX()); } else { if (edge.surfaceNormal().x < -1e-6) // edge faces away from the probe continue;"
+    },
+    {
+      "chunk_id": 251,
+      "text": "// edge faces away from the probe continue; lower = new Point2d (edge.lowerY()); higher = new Point2d (edge.higherY()); } // Compute a vector of epsilon length along edge Vector2d edgeEpsilon = new Vector2d (hi"
+    },
+    {
+      "chunk_id": 252,
+      "text": "g edge Vector2d edgeEpsilon = new Vector2d (higher); edgeEpsilon.sub (lower); edgeEpsilon.normalize(); edgeEpsilon.scale (_epsilon); // Move lower and higher in by _epsilon lower.add (edgeEpsilon); higher.sub (edgeEpsil"
+    },
+    {
+      "chunk_id": 253,
+      "text": "lower.add (edgeEpsilon); higher.sub (edgeEpsilon); Vector2d edgeCheck = new Vector2d (higher); edgeCheck.sub (lower); if (edgeCheck.dot (edgeEpsilon) < 0.) // the new lower and higher crossed over each other so the edge //"
+    },
+    {
+      "chunk_id": 254,
+      "text": "higher crossed over each other so the edge // is too small. continue; if (((probe == PROBE_X) && (Math.abs (lower.x - higher.x) < 1e-6)) || ((probe == PROBE_Y) && (Math.abs (lower.y - higher.y) < 1e-6))) { // Spec"
+    },
+    {
+      "chunk_id": 255,
+      "text": ".abs (lower.y - higher.y) < 1e-6))) { // Special case. Just check for accessibility and add boolean collision = false; for (int j = 0; j < _edges.size(); ++j) { if (j == e) // Do not check this edge continue;"
+    },
+    {
+      "chunk_id": 256,
+      "text": "// Do not check this edge continue; Edge edgeToCheck = edge (j); if (probe == PROBE_X) { if ((lower.x > edgeToCheck.lowerX().x) && (lower.x < edgeToCheck.higherX().x)) { if (edgeToCheck.yAtX (lower.x)"
+    },
+    {
+      "chunk_id": 257,
+      "text": "rX().x)) { if (edgeToCheck.yAtX (lower.x) > edge.higherY().y) { collision = true; break; } } } else { if ((lower.y > edgeToCheck.lowerY().y) && (lower.y < edgeToCheck.higherY().y) &"
+    },
+    {
+      "chunk_id": 258,
+      "text": "&& (lower.y < edgeToCheck.higherY().y) && edgeToCheck.xAtY (lower.y) > edge.higherX().x) { collision = true; break; } } } if (!collision) { // Add the edge points in order consitent wi"
+    },
+    {
+      "chunk_id": 259,
+      "text": "// Add the edge points in order consitent with usual case if (probe == PROBE_X) { if (edge.surfaceNormal().x < 0) _probeXEdgeSegments.addElement (new EdgeSegment (new Point2d (lower.x, edge.higherY()"
+    },
+    {
+      "chunk_id": 260,
+      "text": "nt (new Point2d (lower.x, edge.higherY().y - _epsilon), new Point2d (lower.x, edge.lowerY().y + _epsilon), edge, probe)); else _probeXEdgeSegments.addElement (new EdgeSegment (new Point2"
+    },
+    {
+      "chunk_id": 261,
+      "text": "nt (new EdgeSegment (new Point2d (lower.x, edge.lowerY().y + _epsilon), new Point2d (lower.x, edge.higherY().y - _epsilon), edge, probe)); } else { // PROBE_Y if (edge.surfaceNormal().y"
+    },
+    {
+      "chunk_id": 262,
+      "text": "// PROBE_Y if (edge.surfaceNormal().y < 0) _probeYEdgeSegments.addElement (new EdgeSegment (new Point2d (edge.lowerX().x + _epsilon, lower.y), new Point2d (edge.higherX().x -"
+    },
+    {
+      "chunk_id": 263,
+      "text": "new Point2d (edge.higherX().x - _epsilon, lower.y), edge, probe)); else _probeYEdgeSegments.addElement (new EdgeSegment (new Point2d (edge.higherX().x - _epsilon, lower.y),"
+    },
+    {
+      "chunk_id": 264,
+      "text": "ew Point2d (edge.higherX().x - _epsilon, lower.y), new Point2d (edge.lowerX().x + _epsilon, lower.y), edge, probe)); } } continue; } // These are for inserting lower and higher into the sort"
+    },
+    {
+      "chunk_id": 265,
+      "text": "e are for inserting lower and higher into the sorted search boolean didLower = false, didHigher = false; // Go through sorted edgeEndsArray, starting at 1 so we // can look at the previous // Because of epsilon, we know the ver"
+    },
+    {
+      "chunk_id": 266,
+      "text": "revious // Because of epsilon, we know the very first cannot be used. // This chops up the edge into visible segments. Point2d previousVertex = (Point2d)edgeEndsArray[0]; int i = 1; while (i < edgeEndsArray.length) { P"
+    },
+    {
+      "chunk_id": 267,
+      "text": "while (i < edgeEndsArray.length) { Point2d vertex = (Point2d)edgeEndsArray[i]; // Insert lower or higher into the process Point2d substituteVertex = null; if (!didLower) { if (((probe == PROBE_X) &&"
+    },
+    {
+      "chunk_id": 268,
+      "text": "wer) { if (((probe == PROBE_X) && (lower.x >= previousVertex.x && lower.x <= vertex.x)) || ((probe == PROBE_Y) && (lower.y >= previousVertex.y && lower.y <= vertex.y))) { substituteVerte"
+    },
+    {
+      "chunk_id": 269,
+      "text": "er.y <= vertex.y))) { substituteVertex = lower; didLower = true; } } else if (!didHigher) { if (((probe == PROBE_X) && (higher.x >= previousVertex.x && higher.x <= vertex.x)) ||"
+    },
+    {
+      "chunk_id": 270,
+      "text": "previousVertex.x && higher.x <= vertex.x)) || ((probe == PROBE_Y) && (higher.y >= previousVertex.y && higher.y <= vertex.y))) { substituteVertex = higher; didHigher = true; } }"
+    },
+    {
+      "chunk_id": 271,
+      "text": "didHigher = true; } } // If we substituted, keep i the same so we look at the real vertex if (substituteVertex != null) vertex = substituteVertex; else // OK to increment i here because we don't use i"
+    },
+    {
+      "chunk_id": 272,
+      "text": "// OK to increment i here because we don't use it again. ++i; // only interested in vertices on the accessible side if (probe == PROBE_X) { if (! (vertex.y >= (edge.yAtX (vertex.x) - 1e-6) || verte"
+    },
+    {
+      "chunk_id": 273,
+      "text": "yAtX (vertex.x) - 1e-6) || vertex.equals(lower) || vertex.equals(higher))) continue; } else { if (! (vertex.x >= (edge.xAtY (vertex.y) - 1e-6) || vertex.equals(lower) || vertex.equals(lower)))"
+    },
+    {
+      "chunk_id": 274,
+      "text": "vertex.equals(lower) || vertex.equals(lower))) continue; } if (probe == PROBE_X) { if (vertex.x == previousVertex.x) // skip duplicate X values continue; } else { if (vert"
+    },
+    {
+      "chunk_id": 275,
+      "text": "continue; } else { if (vertex.y == previousVertex.y) // skip duplicate Y values continue; } if (((probe == PROBE_X) && (previousVertex.x >= lower.x && vertex.x <= higher.x)) || ((p"
+    },
+    {
+      "chunk_id": 276,
+      "text": "er.x && vertex.x <= higher.x)) || ((probe == PROBE_Y) && (previousVertex.y >= lower.y && vertex.y <= higher.y))) { // we are in the edge so check for open along positive axis double midpointX = 0, midpointY = 0;"
+    },
+    {
+      "chunk_id": 277,
+      "text": "ve axis double midpointX = 0, midpointY = 0; double yAtMidpoint = 0, xAtMidpoint = 0; if (probe == PROBE_X) { midpointX = (previousVertex.x + vertex.x) / 2.; yAtMidpoint = edge.yAtX (midpointX);"
+    },
+    {
+      "chunk_id": 278,
+      "text": "yAtMidpoint = edge.yAtX (midpointX); } else { midpointY = (previousVertex.y + vertex.y) / 2.; xAtMidpoint = edge.xAtY (midpointY); } boolean collision = false; for (int j = 0; j < _edges.size();"
+    },
+    {
+      "chunk_id": 279,
+      "text": "= false; for (int j = 0; j < _edges.size(); ++j) { if (j == e) // Do not check this edge continue; Edge edgeToCheck = edge (j); if (probe == PROBE_X) { if ((midpointX > edgeToCheck.lowerX()"
+    },
+    {
+      "chunk_id": 280,
+      "text": "X) { if ((midpointX > edgeToCheck.lowerX().x) && (midpointX < edgeToCheck.higherX().x) && edgeToCheck.yAtX (midpointX) > yAtMidpoint) { collision = true; break; } } else { if"
+    },
+    {
+      "chunk_id": 281,
+      "text": "break; } } else { if ((midpointY > edgeToCheck.lowerY().y) && (midpointY < edgeToCheck.higherY().y) && edgeToCheck.xAtY (midpointY) > xAtMidpoint) { collision = true; break;"
+    },
+    {
+      "chunk_id": 282,
+      "text": "collision = true; break; } } } if (!collision) { // We create the segment so pointA to pointB moves around // the peremiter in increasing theta. previousVertex // has the l"
+    },
+    {
+      "chunk_id": 283,
+      "text": "asing theta. previousVertex // has the lower value. if (probe == PROBE_X) _probeXEdgeSegments.addElement (new EdgeSegment (new Point2d (vertex.x, edge.yAtX (vertex.x)), new Point2d (previousV"
+    },
+    {
+      "chunk_id": 284,
+      "text": "yAtX (vertex.x)), new Point2d (previousVertex.x, edge.yAtX (previousVertex.x)), edge, probe)); else _probeYEdgeSegments.addElement (new EdgeSegment (new Point2d (edge.xAtY (previousVertex.y), previousVertex"
+    },
+    {
+      "chunk_id": 285,
+      "text": "nt2d (edge.xAtY (previousVertex.y), previousVertex.y), new Point2d (edge.xAtY (vertex.y), vertex.y), edge, probe)); } } previousVertex = vertex; } } } // probe is PROBE_X or PROBE_Y // This adds vertex Ed"
+    },
+    {
+      "chunk_id": 286,
+      "text": "obe is PROBE_X or PROBE_Y // This adds vertex EdgeSegments void addEdgeSegmentsVertex (int probe) { for (int v = 0; v < _edgeEnds.size(); ++v) { EdgeEnd edgeEnd = edgeEnd (v); Vector2d edge1V = new Vector2d (edgeEnd.edge1().otherEnd"
+    },
+    {
+      "chunk_id": 287,
+      "text": "d edge1V = new Vector2d (edgeEnd.edge1().otherEnd (edgeEnd)); edge1V.sub (edgeEnd); Vector2d edge2V = new Vector2d (edgeEnd.edge2().otherEnd (edgeEnd)); edge2V.sub (edgeEnd); // Make sure both edges face away from the probe"
+    },
+    {
+      "chunk_id": 288,
+      "text": "Make sure both edges face away from the probe if (probe == PROBE_X) { if (edge1V.x < -1e-6 || edge2V.x < -1e-6) continue; } else { // PROBE_Y if (edge1V.y < -1e-6 || edge2V.y < -1e-6) continue; } /"
+    },
+    {
+      "chunk_id": 289,
+      "text": "|| edge2V.y < -1e-6) continue; } // Before anything else, make sure that the surface normal is // within the friction cone // Get the normal in the slice plane Vector3d surfaceNormal = EdgeSegment.effectiveSurfaceNormal"
+    },
+    {
+      "chunk_id": 290,
+      "text": "urfaceNormal = EdgeSegment.effectiveSurfaceNormal (edgeEnd.surfaceEdge(), probe); Vector2d edgeNormal = new Vector2d (surfaceNormal.x, surfaceNormal.y); edgeNormal.normalize(); double cosFrictionAngle = Math.cos (_surface.frict"
+    },
+    {
+      "chunk_id": 291,
+      "text": "double cosFrictionAngle = Math.cos (_surface.frictionAngle()); if (Slice.xyDot (edgeNormal, surfaceNormal) < (cosFrictionAngle - 1e-6)) // Even our best grip is not within the friction cone continue; // Check for accessib"
+    },
+    {
+      "chunk_id": 292,
+      "text": "cone continue; // Check for accessibility boolean collision = false; for (int j = 0; j < _edges.size(); ++j) { Edge edgeToCheck = edge (j); if (edgeToCheck.endA() == edgeEnd || edgeToCheck.endB() == edge"
+    },
+    {
+      "chunk_id": 293,
+      "text": "edgeEnd || edgeToCheck.endB() == edgeEnd) // Do not check this edge with this edgeEnd continue; if (probe == PROBE_X) { if ((edgeEnd.x > edgeToCheck.lowerX().x) && (edgeEnd.x < edgeToCheck.higherX().x)) {"
+    },
+    {
+      "chunk_id": 294,
+      "text": "& (edgeEnd.x < edgeToCheck.higherX().x)) { if (edgeToCheck.yAtX (edgeEnd.x) > edgeEnd.y) { collision = true; break; } } } else { if ((edgeEnd.y > edgeToCheck.lowerY().y) && (edgeEnd."
+    },
+    {
+      "chunk_id": 295,
+      "text": "d.y > edgeToCheck.lowerY().y) && (edgeEnd.y < edgeToCheck.higherY().y) && edgeToCheck.xAtY (edgeEnd.y) > edgeEnd.x) { collision = true; break; } } } if (!collision) { // Add vertex as an edgeSeg"
+    },
+    {
+      "chunk_id": 296,
+      "text": "if (!collision) { // Add vertex as an edgeSegment if (probe == PROBE_X) _probeXEdgeSegments.addElement (new EdgeSegment (edgeEnd, probe)); else _probeYEdgeSegments.addElement (new EdgeSegment (edgeEnd, probe)); }"
+    },
+    {
+      "chunk_id": 297,
+      "text": "ement (new EdgeSegment (edgeEnd, probe)); } } } // probe must be PROBE_X or PROBE_Y // direction must be DECREASING or INCREASING. // return how much theta can change in the given direction for // a probe (PROBE_X or PROBE_Y) to"
+    },
+    {
+      "chunk_id": 298,
+      "text": "rection for // a probe (PROBE_X or PROBE_Y) touching the contact point on the // edgeSegment. // If edgeSegment.isVertex, then use otherProbeContact to make sure // the grip doesn't go outside the frictionAngle. // The result will be"
+    },
+    {
+      "chunk_id": 299,
+      "text": "utside the frictionAngle. // The result will be positive if direction is INCREASING, // or negative if DECREASING (or zero). double maxProbeDeltaTheta (int probe, int direction, Point2d contact, EdgeSegment edgeSegment, Point2d o"
+    },
+    {
+      "chunk_id": 300,
+      "text": "ontact, EdgeSegment edgeSegment, Point2d otherProbeContact) { double angle, bestAngle; if (edgeSegment.isVertex()) { bestAngle = edgeSegment.maxVertexDeltaTheta (probe, direction, otherProbeContact, _surface.frictionAng"
+    },
+    {
+      "chunk_id": 301,
+      "text": "direction, otherProbeContact, _surface.frictionAngle()); if (Math.abs (bestAngle) < 1e-6) return 0.; } else { // The best angle is actually the least rotation, so start with the // maximum possible value if (direction =="
+    },
+    {
+      "chunk_id": 302,
+      "text": "// maximum possible value if (direction == INCREASING) bestAngle = 2*Math.PI; else bestAngle = -2*Math.PI; } for (int e = 0; e < _edgeEnds.size(); ++e) { EdgeEnd edgeEnd = edgeEnd (e); if (Math.abs (edgeEnd.x -"
+    },
+    {
+      "chunk_id": 303,
+      "text": "eEnd = edgeEnd (e); if (Math.abs (edgeEnd.x - contact.x) < 1e-6 && Math.abs (edgeEnd.y - contact.y) < 1e-6) // don't check against itself continue; // Measure the angle relative to the probe if (probe == PROBE_X"
+    },
+    {
+      "chunk_id": 304,
+      "text": "le relative to the probe if (probe == PROBE_X) // Positive rotation moves x in the negative direction angle = Math.atan2 (-(edgeEnd.x - contact.x), edgeEnd.y - contact.y); else // PROBE_Y // Positive rotation move"
+    },
+    {
+      "chunk_id": 305,
+      "text": "// PROBE_Y // Positive rotation moves y in the positive direction angle = Math.atan2 (edgeEnd.y - contact.y, edgeEnd.x - contact.x); // That actually measured the probe moving to the workpiece but // we want the workpie"
+    },
+    {
+      "chunk_id": 306,
+      "text": "to the workpiece but // we want the workpiece moving to the probe. angle = -angle; if (Math.abs (angle) < 1e-6) { // If the angle is not zero then assume the probe is moving // within the accessibility range alread"
+    },
+    {
+      "chunk_id": 307,
+      "text": "ng // within the accessibility range already calculated for the // edge segment. // If it is zero, the probe may be resting against an edge end // which would not block the probe. Check that both edges // of the edge"
+    },
+    {
+      "chunk_id": 308,
+      "text": "robe. Check that both edges // of the edgeEnd are pointing away from the direction that // the probe needs to move. If so, don't restrict bestAngle. if (probe == PROBE_X) { // Since angle is zero, contact.x == edgeEnd."
+    },
+    {
+      "chunk_id": 309,
+      "text": "// Since angle is zero, contact.x == edgeEnd.x double deltaX1 = edgeEnd.edge1().otherEnd(edgeEnd).x - edgeEnd.x; double deltaX2 = edgeEnd.edge2().otherEnd(edgeEnd).x - edgeEnd.x; if (direction == INCREASING) { if (delt"
+    },
+    {
+      "chunk_id": 310,
+      "text": "if (direction == INCREASING) { if (deltaX1 <= 1e-6 && deltaX2 <= 1e-6) continue; } if (direction == DECREASING) { if (deltaX1 >= -1e-6 && deltaX2 >= -1e-6) continue; } } else { // PR"
+    },
+    {
+      "chunk_id": 311,
+      "text": "continue; } } else { // PROBE_Y // Since angle is zero, contact.y == edgeEnd.y double deltaY1 = edgeEnd.edge1().otherEnd(edgeEnd).y - edgeEnd.y; double deltaY2 = edgeEnd.edge2().otherEnd(edgeEnd).y - edg"
+    },
+    {
+      "chunk_id": 312,
+      "text": "eltaY2 = edgeEnd.edge2().otherEnd(edgeEnd).y - edgeEnd.y; if (direction == INCREASING) { if (deltaY1 >= -1e-6 && deltaY2 >= -1e-6) continue; } if (direction == DECREASING) { if (deltaY1 <= 1e-6 && deltaY2 <="
+    },
+    {
+      "chunk_id": 313,
+      "text": "ASING) { if (deltaY1 <= 1e-6 && deltaY2 <= 1e-6) continue; } } } // Angle is not zero, so it is the value between -PI and PI returned // by atan2. We want to allow a full rotation to (almost) 2*PI // s"
+    },
+    {
+      "chunk_id": 314,
+      "text": "allow a full rotation to (almost) 2*PI // so readjust the angle value in the range 0 to positive or // negative 2*PI depending on the direction. // The max angle is actually the least rotation if (direction == INCREASING) {"
+    },
+    {
+      "chunk_id": 315,
+      "text": "least rotation if (direction == INCREASING) { if (angle < 0.) angle += 2*Math.PI; if (angle < bestAngle) bestAngle = angle; } else { // DECREASING if (angle > 0.) angle -= 2*Math.PI; if (angl"
+    },
+    {
+      "chunk_id": 316,
+      "text": "le > 0.) angle -= 2*Math.PI; if (angle > bestAngle) bestAngle = angle; } } return (bestAngle); } // direction is INCREASING or DECREASING void setBestEdgePair (int direction) { _bestEdgePair = null; f"
+    },
+    {
+      "chunk_id": 317,
+      "text": "int direction) { _bestEdgePair = null; for (int ix = 0; ix < _probeXEdgeSegments.size(); ++ix) { EdgeSegment edgeSegmentX = probeXEdgeSegment (ix); for (int iy = 0; iy < _probeYEdgeSegments.size(); ++iy) { EdgeSegment"
+    },
+    {
+      "chunk_id": 318,
+      "text": "EdgeSegments.size(); ++iy) { EdgeSegment edgeSegmentY = probeYEdgeSegment (iy); if (edgeSegmentX.isVertex() && edgeSegmentY.isVertex()) // To simplify analysis, don't do vertex-vertex contacts continue; // First try"
+    },
+    {
+      "chunk_id": 319,
+      "text": "ertex contacts continue; // First try the best contact for probe X Point2d probeXContactFavorX = new Point2d(), probeYContactFavorX = new Point2d(); double deltaThetaFavorX = maxDeltaThetaFavorProbe (edgeS"
+    },
+    {
+      "chunk_id": 320,
+      "text": "FavorX = maxDeltaThetaFavorProbe (edgeSegmentX, edgeSegmentY, probeXContactFavorX, probeYContactFavorX, PROBE_X, direction); // Now try the best contact for probe Y Point2d probeXContactFavorY = new Point2d(),"
+    },
+    {
+      "chunk_id": 321,
+      "text": "Point2d probeXContactFavorY = new Point2d(), probeYContactFavorY = new Point2d(); double deltaThetaFavorY = maxDeltaThetaFavorProbe (edgeSegmentX, edgeSegmentY, probeXContactFavorY, probeYContactFavorY, PROB"
+    },
+    {
+      "chunk_id": 322,
+      "text": "beXContactFavorY, probeYContactFavorY, PROBE_Y, direction); if (deltaThetaFavorX == 0. && deltaThetaFavorY == 0.) // don't add an edge pair if can't turn continue; // Add the edge pair with the better deltaThe"
+    },
+    {
+      "chunk_id": 323,
+      "text": "// Add the edge pair with the better deltaTheta based // on the direction we want to turn. EdgePair edgePair; if (direction == INCREASING) { if (deltaThetaFavorX > deltaThetaFavorY) edgePair = new EdgePair"
+    },
+    {
+      "chunk_id": 324,
+      "text": "taFavorY) edgePair = new EdgePair (edgeSegmentX, edgeSegmentY, probeXContactFavorX, probeYContactFavorX, deltaThetaFavorX); else edgePair = new EdgePair (edgeSegmentX, edgeSegmentY,"
+    },
+    {
+      "chunk_id": 325,
+      "text": "(edgeSegmentX, edgeSegmentY, probeXContactFavorY, probeYContactFavorY, deltaThetaFavorY); if (_bestEdgePair == null || edgePair.deltaTheta() > _bestEdgePair.deltaTheta()) _bestEdgePair = edgePair;"
+    },
+    {
+      "chunk_id": 326,
+      "text": "deltaTheta()) _bestEdgePair = edgePair; } else { // DECREASING if (deltaThetaFavorX < deltaThetaFavorY) edgePair = new EdgePair (edgeSegmentX, edgeSegmentY, probeXContactFavorX, pro"
+    },
+    {
+      "chunk_id": 327,
+      "text": "geSegmentY, probeXContactFavorX, probeYContactFavorX, deltaThetaFavorX); else edgePair = new EdgePair (edgeSegmentX, edgeSegmentY, probeXContactFavorY, probeYContactFavorY, deltaThetaFavorY)"
+    },
+    {
+      "chunk_id": 328,
+      "text": "tactFavorY, probeYContactFavorY, deltaThetaFavorY); if (_bestEdgePair == null || edgePair.deltaTheta() < _bestEdgePair.deltaTheta()) _bestEdgePair = edgePair; } } } } // favorProbe is PROBE_X or PROBE_Y. //"
+    },
+    {
+      "chunk_id": 329,
+      "text": "} // favorProbe is PROBE_X or PROBE_Y. // direction is INCREASING or DECREASING // For the two edge segments, choose which probe to // place in the preferred position based on favorProbe. // If there is no valid positioning, return 0"
+    },
+    {
+      "chunk_id": 330,
+      "text": "e. // If there is no valid positioning, return 0. Otherwise, // return the deltaTheta possible and set probeXContact // and probeYContact to the contact positions. double maxDeltaThetaFavorProbe (EdgeSegment edgeSegmentX, EdgeSegmen"
+    },
+    {
+      "chunk_id": 331,
+      "text": "vorProbe (EdgeSegment edgeSegmentX, EdgeSegment edgeSegmentY, Point2d probeXContact, Point2d probeYContact, int favorProbe, int direction) { if (favorProbe == PROBE_X) { if (direction == INCREASING) probeXContact.set (edgeSe"
+    },
+    {
+      "chunk_id": 332,
+      "text": "tion == INCREASING) probeXContact.set (edgeSegmentX.pointB()); else probeXContact.set (edgeSegmentX.pointA()); Point2d tempY = edgeSegmentY.bestContact (direction, edgeSegmentX, probeXContact, _surface.frictionAngle("
+    },
+    {
+      "chunk_id": 333,
+      "text": "geSegmentX, probeXContact, _surface.frictionAngle()); if (tempY == null) // no contact at all so can't add a pair return (0.); probeYContact.set (tempY); } else { // PROBE_Y if (direction == INCREASING) pr"
+    },
+    {
+      "chunk_id": 334,
+      "text": "/ PROBE_Y if (direction == INCREASING) probeYContact.set (edgeSegmentY.pointB()); else probeYContact.set (edgeSegmentY.pointA()); Point2d tempX = edgeSegmentX.bestContact (direction, edgeSegmentY, probeYContact,"
+    },
+    {
+      "chunk_id": 335,
+      "text": "(direction, edgeSegmentY, probeYContact, _surface.frictionAngle()); if (tempX == null) // no contact at all so can't add a pair return (0.); probeXContact.set (tempX); } // We have positions for probeX and"
+    },
+    {
+      "chunk_id": 336,
+      "text": "); } // We have positions for probeX and probeY based on // favoring one or the other. Now determine which probe // can rotate the most double deltaThetaProbeX = maxProbeDeltaTheta (PROBE_X, direction, probeXContact, edge"
+    },
+    {
+      "chunk_id": 337,
+      "text": "eltaTheta (PROBE_X, direction, probeXContact, edgeSegmentX, probeYContact); double deltaThetaProbeY = maxProbeDeltaTheta (PROBE_Y, direction, probeYContact, edgeSegmentY, probeXContact);"
+    },
+    {
+      "chunk_id": 338,
+      "text": "mentY, probeXContact); // The maximum turn is the worst of these if (direction == INCREASING) return ((deltaThetaProbeX < deltaThetaProbeY) ? deltaThetaProbeX : deltaThetaProbeY); else"
+    },
+    {
+      "chunk_id": 339,
+      "text": "ltaThetaProbeX : deltaThetaProbeY); else return ((deltaThetaProbeX > deltaThetaProbeY) ? deltaThetaProbeX : deltaThetaProbeY); } } class GripSequence { Surface _surface; public Surface surface() {return _surface;}"
+    },
+    {
+      "chunk_id": 340,
+      "text": "; public Surface surface() {return _surface;} // remember rotation Matrix3d _rotation; public Matrix3d rotation() {return _rotation;} // direction is Slice.INCREASING or Slice.DECREASING int _direction; public int direction() {retu"
+    },
+    {
+      "chunk_id": 341,
+      "text": "int _direction; public int direction() {return _direction;} Vector _slices = new Vector(); public Vector slices() {return _slices;} public Slice slice (int i) {return (Slice)_slices.elementAt (i);} // maxDeltaTheta will be > 0 if d"
+    },
+    {
+      "chunk_id": 342,
+      "text": "entAt (i);} // maxDeltaTheta will be > 0 if direction is Slice.INCREASING // otherwise < 0 double _maxDeltaTheta; public double maxDeltaTheta() {return _maxDeltaTheta;} // array with the Z for each slice level double[] _sliceZ;"
+    },
+    {
+      "chunk_id": 343,
+      "text": "the Z for each slice level double[] _sliceZ; // minimum difference between vertex Z's to consider it a slice double _minZDifference; // Start with surface in its present rotation // Compute the grips in the given direction which is Sli"
+    },
+    {
+      "chunk_id": 344,
+      "text": "pute the grips in the given direction which is Slice.INCREASING // or Slice.DECREASING, adding them in order to slices. // Slices are added until a maximum rotation is found or > 2*PI GripSequence (Surface surface, int direction) { _surfac"
+    },
+    {
+      "chunk_id": 345,
+      "text": "ence (Surface surface, int direction) { _surface = surface; // Save the rotation of the workpiece _rotation = new Matrix3d (surface.rotation()); _direction = direction; // Choose an epsilon based on the size of the part _minZD"
+    },
+    {
+      "chunk_id": 346,
+      "text": "an epsilon based on the size of the part _minZDifference = .05 * surface.maxDiameter(); ///////////////////// // First rotate the workpiece and find the ordered list of Z values Vector rotatedPoints = new Vector(); for (int i ="
+    },
+    {
+      "chunk_id": 347,
+      "text": "ctor rotatedPoints = new Vector(); for (int i = 0; i < _surface.points().size(); ++i) { Point3d rotatedPoint = new Point3d(); Slice.rotateTuple3d (rotatedPoint, _rotation, _surface.point (i)); rotatedPoints.addElement (rotatedPoint);"
+    },
+    {
+      "chunk_id": 348,
+      "text": ")); rotatedPoints.addElement (rotatedPoint); } Object[] pointsArray = MyArrays.toArray (rotatedPoints); MyArrays.sort (pointsArray, new Tuple3dZComparator ()); // First count how many slices there will be so we can // decl"
+    },
+    {
+      "chunk_id": 349,
+      "text": "w many slices there will be so we can // declare an array int sliceZCount = 0; double startZ = ((Point3d)pointsArray[0]).z; for (int i = 1; i < pointsArray.length; ++i) { double endZ = ((Point3d)pointsArray[i]).z; if ((endZ - st"
+    },
+    {
+      "chunk_id": 350,
+      "text": "= ((Point3d)pointsArray[i]).z; if ((endZ - startZ) > _minZDifference) { ++sliceZCount; } // get ready for next segment startZ = endZ; } // Now actually compute the slice Z's _sliceZ = new double[sliceZCount];"
+    },
+    {
+      "chunk_id": 351,
+      "text": "slice Z's _sliceZ = new double[sliceZCount]; int zIndex = 0; startZ = ((Point3d)pointsArray[0]).z; for (int i = 1; i < pointsArray.length; ++i) { double endZ = ((Point3d)pointsArray[i]).z; if ((endZ - startZ) > _minZDifference)"
+    },
+    {
+      "chunk_id": 352,
+      "text": "]).z; if ((endZ - startZ) > _minZDifference) { // add a slice at the midpoint between Z levels _sliceZ[zIndex++] = (startZ + endZ) / 2.; } // get ready for next segment startZ = endZ; } /////////////////"
+    },
+    {
+      "chunk_id": 353,
+      "text": "ent startZ = endZ; } ////////////////// // Now we know the Z levels. Go around in the _direction // adding the Slice which has the best delta theta. double theta = 0.; while (true) { Slice bestSlice = bestSlice (theta"
+    },
+    {
+      "chunk_id": 354,
+      "text": "le (true) { Slice bestSlice = bestSlice (theta); if (bestSlice == null) // We know if the deltaTheta would be zero, this is null break; _slices.addElement (bestSlice); theta += bestSlice.deltaTheta(); if (_direction =="
+    },
+    {
+      "chunk_id": 355,
+      "text": "a += bestSlice.deltaTheta(); if (_direction == Slice.INCREASING) { if (theta >= 2*Math.PI) break; } else { if (theta <= -2.*Math.PI) break; } } _maxDeltaTheta = theta; } // Return the best slice"
+    },
+    {
+      "chunk_id": 356,
+      "text": "taTheta = theta; } // Return the best slice given the starting theta // or null if there is none. Slice bestSlice (double theta) { Slice bestSlice = null; for (int zIndex = 0; zIndex < _sliceZ.length; ++zIndex) { Slice slic"
+    },
+    {
+      "chunk_id": 357,
+      "text": "Index < _sliceZ.length; ++zIndex) { Slice slice = new Slice (_surface, _rotation, theta, _sliceZ[zIndex], _direction); if (Math.abs (slice.deltaTheta()) < 1e-6) // too small to consider continue; if (_direction"
+    },
+    {
+      "chunk_id": 358,
+      "text": "to consider continue; if (_direction == Slice.INCREASING) { if (bestSlice == null || slice.deltaTheta() > bestSlice.deltaTheta()) bestSlice = slice; } else { //DECREASING if (bestSlice == null ||"
+    },
+    {
+      "chunk_id": 359,
+      "text": "//DECREASING if (bestSlice == null || slice.deltaTheta() < bestSlice.deltaTheta()) bestSlice = slice; } } return bestSlice; } } class Tuple2dXComparator implements MyComparator { public int compare (Object o"
+    },
+    {
+      "chunk_id": 360,
+      "text": "ents MyComparator { public int compare (Object o1, Object o2) { double x1 = ((Tuple2d)o1).x; double x2 = ((Tuple2d)o2).x; if (x1 < x2) return -1; else if (x1 > x2) return 1; else return 0; } } class Tuple2dYCompar"
+    },
+    {
+      "chunk_id": 361,
+      "text": "else return 0; } } class Tuple2dYComparator implements MyComparator { public int compare (Object o1, Object o2) { double y1 = ((Tuple2d)o1).y; double y2 = ((Tuple2d)o2).y; if (y1 < y2) return -1; else if (y1 > y2) r"
+    },
+    {
+      "chunk_id": 362,
+      "text": "y1 < y2) return -1; else if (y1 > y2) return 1; else return 0; } } class Tuple3dZComparator implements MyComparator { public int compare (Object o1, Object o2) { double z1 = ((Tuple3d)o1).z; double z2 = ((Tuple3d)o2).z"
+    },
+    {
+      "chunk_id": 363,
+      "text": "= ((Tuple3d)o1).z; double z2 = ((Tuple3d)o2).z; if (z1 < z2) return -1; else if (z1 > z2) return 1; else return 0; } } class Script { Surface _workpiece, _probeX, _probeY; GripSequence _gripSequence; int _ste"
+    },
+    {
+      "chunk_id": 364,
+      "text": "probeY; GripSequence _gripSequence; int _step = 0; double _pitch; double _maxPitch = Math.PI; double _thetaIncrement = .2; double _pitchIncrement = .2; double _linearIncrement; Point3d _home; int _sliceIndex; Slice _slice;"
+    },
+    {
+      "chunk_id": 365,
+      "text": "t3d _home; int _sliceIndex; Slice _slice; EdgePair _edgePair; Point3d _workpieceOrigin = new Point3d(); Point3d _workpieceGoal = new Point3d(); Vector3d _workpieceGoalV = new Vector3d(); // probesOrigin is a virtual point contain"
+    },
+    {
+      "chunk_id": 366,
+      "text": "(); // probesOrigin is a virtual point containing the X of probeX // and the Y of probeY. Point3d _probesOrigin = new Point3d(); Point3d _probesGoal = new Point3d(); Point3d _probesSubgoal = new Point3d(); Vector3d _probesGoalV = new V"
+    },
+    {
+      "chunk_id": 367,
+      "text": "l = new Point3d(); Vector3d _probesGoalV = new Vector3d(); // Used for when the probe is touching a vertex Point3d _probeXVertexOffset; Point3d _probeYVertexOffset; double _theta, _thetaGoal, _thetaV; int _endWaitCount; Script (Su"
+    },
+    {
+      "chunk_id": 368,
+      "text": "Goal, _thetaV; int _endWaitCount; Script (Surface workpiece, Surface probeX, Surface probeY, GripSequence gripSequence) { _workpiece = workpiece; _probeX = probeX; _probeY = probeY; _gripSequence = gripSequence; _lin"
+    },
+    {
+      "chunk_id": 369,
+      "text": "probeY; _gripSequence = gripSequence; _linearIncrement = _workpiece.maxDiameter() / 5.; _home = new Point3d (-_workpiece.maxDiameter(), -_workpiece.maxDiameter(), 0.); _probeXVertexOffset = new Point3d (0., -.05 * _wor"
+    },
+    {
+      "chunk_id": 370,
+      "text": "VertexOffset = new Point3d (0., -.05 * _workpiece.maxDiameter(), 0.); _probeYVertexOffset = new Point3d (-.05 * _workpiece.maxDiameter(), 0., 0.); } // Same as Vector.normalize but if v is zero, sets it // arbitrarily to"
+    },
+    {
+      "chunk_id": 371,
+      "text": "ze but if v is zero, sets it // arbitrarily to (1, 0, 0) static void normalize (Vector3d v) { if (v.length() == 0.) v.set (1., 0., 0.); else v.normalize(); } void update () { while (true) { switch (_step) { cas"
+    },
+    {
+      "chunk_id": 372,
+      "text": "while (true) { switch (_step) { case 0: { // initialize _probesOrigin.set (_home); _probeX.origin().set (_probesOrigin.x, 0., 0.); _probeY.origin().set (0., _probesOrigin.y, 0.); _workpieceOrigin.set (_ho"
+    },
+    {
+      "chunk_id": 373,
+      "text": "besOrigin.y, 0.); _workpieceOrigin.set (_home); _workpiece.origin().set (_workpieceOrigin); _theta = 0.; _workpiece.setRotation (_gripSequence.rotation(), 0., 0.); if (_gripSequence.slices().size() == 0) // No g"
+    },
+    {
+      "chunk_id": 374,
+      "text": "(_gripSequence.slices().size() == 0) // No grips were found return; _sliceIndex = 0; ++_step; break; } case 1: { // We check the bounds on _sliceIndex at the end of the loop // Prepare obj"
+    },
+    {
+      "chunk_id": 375,
+      "text": "Index at the end of the loop // Prepare objects used in all cases for this sliceIndex // probesGoal is a virtual point. It has the x of probeX // and the Y of probeY. _slice = _gripSequence.slice(_sliceIndex); _edgeP"
+    },
+    {
+      "chunk_id": 376,
+      "text": "ce = _gripSequence.slice(_sliceIndex); _edgePair = _slice.bestEdgePair(); _probesGoal.set (_edgePair.probeXContact().x - _edgePair.probeYContact().x, _edgePair.probeYContact().y - _edgePair.probeXContact().y, 0.); //"
+    },
+    {
+      "chunk_id": 377,
+      "text": "- _edgePair.probeXContact().y, 0.); // Each probe is going to start out at _home, so preposition // the workpiece where it will catch the probes. _workpieceGoal.set (_probesGoal.x, 0., 0.); // Include the location"
+    },
+    {
+      "chunk_id": 378,
+      "text": "sGoal.x, 0., 0.); // Include the location in z of the probe contact Point3d temp3d = new Point3d (_edgePair.probeXContact().x, _edgePair.probeXContact().y, _slice.z()); _workpieceGoal.sub (temp3d); // _wo"
+    },
+    {
+      "chunk_id": 379,
+      "text": "()); _workpieceGoal.sub (temp3d); // _workpieceGoal is now where it will be when finally positioned. // We want it to be _workpieceGoal - (_probesGoal - _home) _workpieceGoal.sub (_probesGoal); _workpieceGoal.add (_home);"
+    },
+    {
+      "chunk_id": 380,
+      "text": "_probesGoal); _workpieceGoal.add (_home); // Get a normalized vector in the direction we want to go _workpieceGoalV.set (_workpieceGoal); _workpieceGoalV.sub (_workpieceOrigin); normalize (_workpieceGoalV); +"
+    },
+    {
+      "chunk_id": 381,
+      "text": "n); normalize (_workpieceGoalV); ++_step; break; } case 2: { // Positioning workpiece origin Vector3d originDifference = new Vector3d (_workpieceGoal); originDifference.sub (_workpieceOrigin);"
+    },
+    {
+      "chunk_id": 382,
+      "text": "l); originDifference.sub (_workpieceOrigin); if (originDifference.dot (_workpieceGoalV) > 0.) { // We have not passed the goal yet _workpiece.origin().set (_workpieceOrigin); _workpieceOrigin.scaleAdd (_"
+    },
+    {
+      "chunk_id": 383,
+      "text": "_workpieceOrigin.scaleAdd (_linearIncrement, _workpieceGoalV, _workpieceOrigin); return; } // We have passed the goal point so set to the goal point _workpieceOrigin.set (_workpieceGoal); _workpiece.o"
+    },
+    {
+      "chunk_id": 384,
+      "text": "ieceOrigin.set (_workpieceGoal); _workpiece.origin().set (_workpieceOrigin); // We next move the probes in two steps, first X then Y. _probesSubgoal.set (_probesGoal.x, _probesOrigin.y, 0.); _probesGoalV.set (_probesSubgoal)"
+    },
+    {
+      "chunk_id": 385,
+      "text": "gin.y, 0.); _probesGoalV.set (_probesSubgoal); _probesGoalV.sub (_probesOrigin); normalize (_probesGoalV); // We will be incrementally moving the workpiece, so find out // where it should eventually be double delta"
+    },
+    {
+      "chunk_id": 386,
+      "text": "where it should eventually be double deltaX = _probesSubgoal.x - _probesOrigin.x; _workpieceGoal.set (_workpieceOrigin.x + deltaX, _workpieceOrigin.y, _workpieceOrigin.z); ++_step; break; } case 3: {"
+    },
+    {
+      "chunk_id": 387,
+      "text": "++_step; break; } case 3: { // Positioning probes origin X if (!prepositionHelper ()) // not done; return; _probesSubgoal.set (_probesGoal); _probesGoalV.set (_probesSubgoal); _probesGoa"
+    },
+    {
+      "chunk_id": 388,
+      "text": "_probesGoalV.set (_probesSubgoal); _probesGoalV.sub (_probesOrigin); normalize (_probesGoalV); // We will be incrementally moving the workpiece, so find out // where it should eventually be double deltaY = _probesSubgoa"
+    },
+    {
+      "chunk_id": 389,
+      "text": "d eventually be double deltaY = _probesSubgoal.y - _probesOrigin.y; _workpieceGoal.set (_workpieceOrigin.x, _workpieceOrigin.y + deltaY, _workpieceOrigin.z); ++ _step; break; } case 4: { // Positioni"
+    },
+    {
+      "chunk_id": 390,
+      "text": "break; } case 4: { // Positioning probes origin Y if (!prepositionHelper ()) // not done; return; // We have passed the goal point so set to the goal point _probesOrigin.set (_probesGoal);"
+    },
+    {
+      "chunk_id": 391,
+      "text": "nt _probesOrigin.set (_probesGoal); _probeX.origin().set (_probesOrigin.x, 0., 0.); _probeY.origin().set (0., _probesOrigin.y, 0.); _thetaGoal = _slice.theta() + _slice.deltaTheta(); // This is a normalized value in"
+    },
+    {
+      "chunk_id": 392,
+      "text": "eltaTheta(); // This is a normalized value in the direction we want to go _thetaV = (_gripSequence.direction() == Slice.INCREASING) ? 1. : -1.; ++ _step; break; } case 5: { // Rotating theta double thetaDif"
+    },
+    {
+      "chunk_id": 393,
+      "text": "{ // Rotating theta double thetaDifference = _thetaGoal - _theta; if (thetaDifference * _thetaV > 0.) { // We have not passed the goal yet positionProbes (_theta, _slice); _theta += (_thetaIncrement * _thetaV);"
+    },
+    {
+      "chunk_id": 394,
+      "text": "e); _theta += (_thetaIncrement * _thetaV); return; } // We have passed the goal point so set to the goal point positionProbes (_thetaGoal, _slice); // We next release the probes in two steps, first X then Y."
+    },
+    {
+      "chunk_id": 395,
+      "text": "elease the probes in two steps, first X then Y. _probesGoal.set (_home); _probesSubgoal.set (_probesGoal.x, _probesOrigin.y, 0.); _probesGoalV.set (_probesSubgoal); _probesGoalV.sub (_probesOrigin); normalize (_probesGoalV);"
+    },
+    {
+      "chunk_id": 396,
+      "text": "b (_probesOrigin); normalize (_probesGoalV); // We will be incrementally moving the workpiece, so find out // where it should eventually be double deltaX = _probesSubgoal.x - _probesOrigin.x; _workpieceGoal.set"
+    },
+    {
+      "chunk_id": 397,
+      "text": "_probesOrigin.x; _workpieceGoal.set (_workpieceOrigin.x + deltaX, _workpieceOrigin.y, _workpieceOrigin.z); ++ _step; break; } case 6: { // Releasing probes origin X if (!prepositionHelper ())"
+    },
+    {
+      "chunk_id": 398,
+      "text": "es origin X if (!prepositionHelper ()) // not done; return; _probesSubgoal.set (_probesGoal); _probesGoalV.set (_probesSubgoal); _probesGoalV.sub (_probesOrigin); normalize (_probesGoalV); // We wil"
+    },
+    {
+      "chunk_id": 399,
+      "text": "normalize (_probesGoalV); // We will be incrementally moving the workpiece, so find out // where it should eventually be double deltaY = _probesSubgoal.y - _probesOrigin.y; _workpieceGoal.set (_workpieceOrigi"
+    },
+    {
+      "chunk_id": 400,
+      "text": "_workpieceGoal.set (_workpieceOrigin.x, _workpieceOrigin.y + deltaY, _workpieceOrigin.z); ++ _step; break; } case 7: { // Releasing probes origin Y if (!prepositionHelper ()) // not done;"
+    },
+    {
+      "chunk_id": 401,
+      "text": "if (!prepositionHelper ()) // not done; return; // We have passed the goal point so set to the goal point _probesOrigin.set (_probesGoal); _probeX.origin().set (_probesOrigin.x, 0., 0.); _probeY.origin().s"
+    },
+    {
+      "chunk_id": 402,
+      "text": "obesOrigin.x, 0., 0.); _probeY.origin().set (0., _probesOrigin.y, 0.); // Go to the next slice ++ _sliceIndex; if (_sliceIndex < _gripSequence.slices().size()) { // loop back _step = 1; break;"
+    },
+    {
+      "chunk_id": 403,
+      "text": "// loop back _step = 1; break; } // Did all slices, so go to waiting ++_step; _endWaitCount = 0; break; } case 8: // waiting at the end ++_endWaitCount; // assume about"
+    },
+    {
+      "chunk_id": 404,
+      "text": "end ++_endWaitCount; // assume about 1/10 second for each update if (_endWaitCount <= 10) // keep waiting return; _step = 0; break; case 9: { // // Rotating pitch // if (_pitch <= _maxP"
+    },
+    {
+      "chunk_id": 405,
+      "text": "// // Rotating pitch // if (_pitch <= _maxPitch) { // _workpiece.setRotation (_pitch, _maxYaw); // _pitch += _pitchIncrement; // break; // } // _yaw = _minYaw; // _step = 0; // break; } default: _s"
+    },
+    {
+      "chunk_id": 406,
+      "text": "ep = 0; // break; } default: _step = 0; return; } } } // Return true if we are done and should move on to next step // Help moving the probes and the workpiece along with it boolean prepositionHelper () {"
+    },
+    {
+      "chunk_id": 407,
+      "text": "along with it boolean prepositionHelper () { Vector3d originDifference = new Vector3d (_probesSubgoal); originDifference.sub (_probesOrigin); if (originDifference.dot (_probesGoalV) > 0.) { // We have not passed the goal yet _pro"
+    },
+    {
+      "chunk_id": 408,
+      "text": "{ // We have not passed the goal yet _probeX.origin().set (_probesOrigin.x, 0., 0.); _probeY.origin().set (0., _probesOrigin.y, 0.); if (_edgePair.probeXEdgeSegment().isVertex()) _probeX.origin().add (_probeXVertexOffset)"
+    },
+    {
+      "chunk_id": 409,
+      "text": "_probeX.origin().add (_probeXVertexOffset); if (_edgePair.probeYEdgeSegment().isVertex()) _probeY.origin().add (_probeYVertexOffset); _workpiece.origin().set (_workpieceOrigin); _probesOrigin.scaleAdd (_linearIn"
+    },
+    {
+      "chunk_id": 410,
+      "text": "gin); _probesOrigin.scaleAdd (_linearIncrement, _probesGoalV, _probesOrigin); _workpieceOrigin.scaleAdd (_linearIncrement, _probesGoalV, _workpieceOrigin); return false; } // We have passed the goal point so set to the"
+    },
+    {
+      "chunk_id": 411,
+      "text": "// We have passed the goal point so set to the goal point _probeX.origin().set (_probesSubgoal.x, 0., 0.); _probeY.origin().set (0., _probesSubgoal.y, 0.); if (_edgePair.probeXEdgeSegment().isVertex()) _probeX.origin().add (_pro"
+    },
+    {
+      "chunk_id": 412,
+      "text": "nt().isVertex()) _probeX.origin().add (_probeXVertexOffset); if (_edgePair.probeYEdgeSegment().isVertex()) _probeY.origin().add (_probeYVertexOffset); // _workpieceOrigin.set (_workpieceGoal); // _workpiece.origin().set (_wor"
+    },
+    {
+      "chunk_id": 413,
+      "text": "workpieceGoal); // _workpiece.origin().set (_workpieceOrigin); return true; } // This rotates _workpiece by the gripSequence.rotation, then // by theta, then looks at the slice and positions the probes // and the workpiece. //"
+    },
+    {
+      "chunk_id": 414,
+      "text": "itions the probes // and the workpiece. // This first sets _workpieceOrigin, then _workpiece.origin(). // This first sets _probesOrigin, then the origins of the probes. void positionProbes (double theta, Slice slice) { _workpiece.set"
+    },
+    {
+      "chunk_id": 415,
+      "text": "(double theta, Slice slice) { _workpiece.setRotation (_gripSequence.rotation(), 0., theta); // Get modified probe contacts based in the difference theta has // moved from where the contacts were originally defined. EdgePair edgePai"
+    },
+    {
+      "chunk_id": 416,
+      "text": "tacts were originally defined. EdgePair edgePair = slice.bestEdgePair(); // Make the contacts include the correct Z value Point3d probeXContact = new Point3d (edgePair.probeXContact().x, edgePair.probeXContact().y,"
+    },
+    {
+      "chunk_id": 417,
+      "text": ").x, edgePair.probeXContact().y, slice.z()); Point3d probeYContact = new Point3d (edgePair.probeYContact().x, edgePair.probeYContact().y, slice.z()); Matrix3d rDelta = new Matrix3d(); rDelta.r"
+    },
+    {
+      "chunk_id": 418,
+      "text": "; Matrix3d rDelta = new Matrix3d(); rDelta.rotZ (_theta - slice.theta()); Slice.rotateTuple3d (probeXContact, rDelta, probeXContact); Slice.rotateTuple3d (probeYContact, rDelta, probeYContact); _probesOrigin.set (probeXContact.x - pr"
+    },
+    {
+      "chunk_id": 419,
+      "text": "act); _probesOrigin.set (probeXContact.x - probeYContact.x, probeYContact.y - probeXContact.y, 0.); _probeX.origin().set (_probesOrigin.x, 0., 0.); _probeY.origin().set (0., _probesOrigin.y, 0.); _workpiec"
+    },
+    {
+      "chunk_id": 420,
+      "text": "in().set (0., _probesOrigin.y, 0.); _workpieceOrigin.set (_probeX.origin()); _workpieceOrigin.sub (probeXContact); _workpiece.origin().set (_workpieceOrigin); if (_edgePair.probeXEdgeSegment().isVertex()) _probeX.origin().a"
+    },
+    {
+      "chunk_id": 421,
+      "text": "dgeSegment().isVertex()) _probeX.origin().add (_probeXVertexOffset); if (_edgePair.probeYEdgeSegment().isVertex()) _probeY.origin().add (_probeYVertexOffset); } } class ProbesDrawPanel extends Panel implements MouseListe"
+    },
+    {
+      "chunk_id": 422,
+      "text": "DrawPanel extends Panel implements MouseListener, MouseMotionListener { Scene _scene = new Scene(); Surface _workpiece; // These are the point contacts in the workpiece coordinates Point3d _workpieceContactX = new Point3d(); Point3d _"
+    },
+    {
+      "chunk_id": 423,
+      "text": "3d _workpieceContactX = new Point3d(); Point3d _workpieceContactY = new Point3d(); // Move in the X direction ProbeSurface _probeX = new ProbeSurface (); // Move in the Y direction ProbeSurface _probeY = new ProbeSurface (); Timer _"
+    },
+    {
+      "chunk_id": 424,
+      "text": "beSurface _probeY = new ProbeSurface (); Timer _timer; // Initially, _imageSize is zero so we have to allocate Dimension _imageSize = new Dimension (0, 0); Image _bufferImage; Graphics _bufferGraphics; static int _mouseX, _mouseY;"
+    },
+    {
+      "chunk_id": 425,
+      "text": "fferGraphics; static int _mouseX, _mouseY; GripSequence _gripSequence; Script _script; // If stlFilename is null, default workpiece is used. public ProbesDrawPanel (String stlFilename) { setBackground(Color.white); addMous"
+    },
+    {
+      "chunk_id": 426,
+      "text": "e) { setBackground(Color.white); addMouseMotionListener(this); addMouseListener(this); // Set initial camera rotation Matrix3d rx = new Matrix3d(); Matrix3d rz = new Matrix3d(); rx.rotX (-.11); rz.rotZ (-.02);"
+    },
+    {
+      "chunk_id": 427,
+      "text": "trix3d(); rx.rotX (-.11); rz.rotZ (-.02); _scene.cameraRotation().mul (rx, rz); // For now, ignore stlFilename setWorkpiece (STLFiles.cube, Slice.INCREASING); _timer = new Timer (); _timer.setDelay (150L); // This crea"
+    },
+    {
+      "chunk_id": 428,
+      "text": "mer (); _timer.setDelay (150L); // This creates an anonymous inner class which extends TimerListener _timer.addTimerListener (new TimerListener () { public void onTime (java.awt.event.ActionEvent evt) { timerOn"
+    },
+    {
+      "chunk_id": 429,
+      "text": "a.awt.event.ActionEvent evt) { timerOnTime (evt); } } ); } // direction is Slice.INCREASING or Slice.DECREASING public void setWorkpiece (String file, int direction) { _scene.surfaces().removeAllEleme"
+    },
+    {
+      "chunk_id": 430,
+      "text": "t direction) { _scene.surfaces().removeAllElements(); _workpiece = new STLSurface (file, true); _scene.surfaces().addElement (_workpiece); _scene._zoom = 350. / (_workpiece.maxDiameter() * 3.); // _probeY already extends in"
+    },
+    {
+      "chunk_id": 431,
+      "text": "eter() * 3.); // _probeY already extends in the positive X direction _probeY.origin().set (-_workpiece.maxDiameter(), 0., 0.); _scene.surfaces().addElement (_probeY); // Make _probeX extend in the positive Y direction _prob"
+    },
+    {
+      "chunk_id": 432,
+      "text": "probeX extend in the positive Y direction _probeX.rotation().rotZ (Math.PI/2.); _probeX.origin().set (0, -_workpiece.maxDiameter(), 0.); _scene.surfaces().addElement (_probeX); _gripSequence = new GripSequence (_workpiece, direction);"
+    },
+    {
+      "chunk_id": 433,
+      "text": "quence = new GripSequence (_workpiece, direction); _script = new Script (_workpiece, _probeX, _probeY, _gripSequence); _script.update(); repaint(); } void timerOnTime (ActionEvent event) { if (_script != null) { _script.u"
+    },
+    {
+      "chunk_id": 434,
+      "text": "nt) { if (_script != null) { _script.update(); repaint(); } } public void mouseDragged(MouseEvent event) { event.consume(); _mouseX = event.getX(); _mouseY = event.getY(); // getWidth() / 2 is the cen"
+    },
+    {
+      "chunk_id": 435,
+      "text": "= event.getY(); // getWidth() / 2 is the center of the window // Limit the range of X rotation to no look from underneath Matrix3d rx = new Matrix3d(); // Use getSize instead of getHeight and getWidth because they are since 1.2"
+    },
+    {
+      "chunk_id": 436,
+      "text": "Height and getWidth because they are since 1.2 Dimension size = getSize(); rx.rotX (event.getY() * (Math.PI/2) / size.height - Math.PI/2); Matrix3d rz = new Matrix3d(); rz.rotZ ((event.getX() - (size.width / 2)) / 100.); _scene.cam"
+    },
+    {
+      "chunk_id": 437,
+      "text": "etX() - (size.width / 2)) / 100.); _scene.cameraRotation().mul (rx, rz); repaint(); } public void mouseMoved(MouseEvent event) { } public void mousePressed(MouseEvent event) { } public void mouseReleased(MouseEve"
+    },
+    {
+      "chunk_id": 438,
+      "text": "nt) { } public void mouseReleased(MouseEvent event) { } public void mouseEntered(MouseEvent event) { } public void mouseExited(MouseEvent event) { } public void mouseClicked(MouseEvent event) { } // This is cal"
+    },
+    {
+      "chunk_id": 439,
+      "text": "icked(MouseEvent event) { } // This is called by repaint public void update (Graphics g) { paint (g); } public void paint(Graphics g) { Dimension size = getSize(); // Initially, _imageSize is zero so this will be c"
+    },
+    {
+      "chunk_id": 440,
+      "text": "// Initially, _imageSize is zero so this will be called the first time if (!size.equals(_imageSize)) { // Replace the old image with a new one of the new size. _bufferImage = createImage (size.width, size.height); _bufferGraphi"
+    },
+    {
+      "chunk_id": 441,
+      "text": "ge (size.width, size.height); _bufferGraphics = _bufferImage.getGraphics(); // keep a copy _imageSize = new Dimension (size); } _bufferGraphics.setColor (this.getBackground()); _bufferGraphics.fillRect (0, 0, size.wid"
+    },
+    {
+      "chunk_id": 442,
+      "text": "()); _bufferGraphics.fillRect (0, 0, size.width, size.height); int originX = size.width / 2; int originY = size.height / 2; // translate to the origin _bufferGraphics.translate (originX, originY); _scene.drawSurfaces (_buffe"
+    },
+    {
+      "chunk_id": 443,
+      "text": "(originX, originY); _scene.drawSurfaces (_bufferGraphics); // double theta = _mouseX / 100.; // Slice slice = new Slice // (_workpiece, _workpiece.rotation(), 0., 0., Slice.INCREASING); // _scene.drawEdges (_bufferGraphics, slice"
+    },
+    {
+      "chunk_id": 444,
+      "text": "NG); // _scene.drawEdges (_bufferGraphics, slice, _workpiece); // translate back _bufferGraphics.translate (-originX, -originY); // Copy the buffer to window g.drawImage (_bufferImage, 0, 0, this); } } class ProbesControl"
+    },
+    {
+      "chunk_id": 445,
+      "text": "Image, 0, 0, this); } } class ProbesControls extends Panel implements ItemListener { ProbesDrawPanel _target; Choice _files; Choice _directions; public ProbesControls(ProbesDrawPanel target) { _target = target; setLayout(new"
+    },
+    {
+      "chunk_id": 446,
+      "text": "target) { _target = target; setLayout(new FlowLayout()); setBackground(Color.lightGray); _files = new Choice(); _files.addItemListener(this); _files.addItem(\"cube\"); _files.addItem(\"hexagon\"); _files.addItem(\"trapezoid\");"
+    },
+    {
+      "chunk_id": 447,
+      "text": "ddItem(\"hexagon\"); _files.addItem(\"trapezoid\"); _files.setBackground(Color.lightGray); add(_files); _directions = new Choice(); _directions.addItemListener(this); _directions.addItem(\"increasing\"); _directions.addItem(\"decreasi"
+    },
+    {
+      "chunk_id": 448,
+      "text": "em(\"increasing\"); _directions.addItem(\"decreasing\"); _directions.setBackground(Color.lightGray); add(_directions); } public void itemStateChanged(ItemEvent e) { if (e.getSource() == _files || e.getSource() == _directions) { S"
+    },
+    {
+      "chunk_id": 449,
+      "text": "== _files || e.getSource() == _directions) { String surface = _files.getSelectedItem(); String file; if (surface.equals (\"hexagon\")) file = STLFiles.hexagon; else if (surface.equals (\"trapezoid\")) file = STLFiles.trapezoid;"
+    },
+    {
+      "chunk_id": 450,
+      "text": "ls (\"trapezoid\")) file = STLFiles.trapezoid; else file = STLFiles.cube; String directionString = _directions.getSelectedItem(); int direction = (directionString.equals(\"increasing\")) ? Slice.INCREASING : Slice.DECR"
+    },
+    {
+      "chunk_id": 451,
+      "text": "easing\")) ? Slice.INCREASING : Slice.DECREASING; _target.setWorkpiece (file, direction); } } } class ProbesApplication extends Frame implements WindowListener{ public ProbesApplication () { super (\"Probes\"); add"
+    },
+    {
+      "chunk_id": 452,
+      "text": "ProbesApplication () { super (\"Probes\"); addWindowListener (this); } public void windowClosing (WindowEvent event) { System.exit(0); } // other WindowListener methods public void windowActivated (WindowEvent event) {} p"
+    },
+    {
+      "chunk_id": 453,
+      "text": "c void windowActivated (WindowEvent event) {} public void windowClosed (WindowEvent event) {} public void windowDeactivated (WindowEvent event) {} public void windowDeiconified (WindowEvent event) {} public void windowIconified (WindowEve"
+    },
+    {
+      "chunk_id": 454,
+      "text": "vent) {} public void windowIconified (WindowEvent event) {} public void windowOpened (WindowEvent event) {} } public class Probes extends Applet{ ProbesDrawPanel _panel; ProbesControls _controls; public String _stlFilename; /* Thi"
+    },
+    {
+      "chunk_id": 455,
+      "text": "controls; public String _stlFilename; /* This is called if invoked from the command line */ public static void main(String args[]) { ProbesApplication f = new ProbesApplication(); Probes probes = new Probes(); if (args.length >="
+    },
+    {
+      "chunk_id": 456,
+      "text": "robes probes = new Probes(); if (args.length >= 1) probes._stlFilename = args[0]; probes.init(); probes.start(); f.add(\"Center\", probes); f.setSize(400, 400); f.show(); } /* This is called if invoked from an applet */"
+    },
+    {
+      "chunk_id": 457,
+      "text": "/* This is called if invoked from an applet */ public void init() { setLayout(new BorderLayout()); _panel = new ProbesDrawPanel(_stlFilename); _controls = new ProbesControls (_panel); add(\"Center\", _panel); add(\"South\", _con"
+    },
+    {
+      "chunk_id": 458,
+      "text": "; add(\"Center\", _panel); add(\"South\", _controls); } public void destroy() { remove(_panel); remove(_controls); } public String getAppletInfo() { return \"Probes.\"; } } class STLFiles { public static final Strin"
+    },
+    {
+      "chunk_id": 459,
+      "text": "} class STLFiles { public static final String cube = \"solid Part1 \" + \" facet normal -1.000000e+000 0.000000e+000 0.000000e+000 \" + \" outer loop \" + \" vertex 5.000002e-004 1.005000e-001 3.000005e-004 \" + \" vertex 5."
+    },
+    {
+      "chunk_id": 478,
+      "text": "tex 5.000002e-004 1.005000e-001 3.000005e-004 \" + \" endloop \" + \" endfacet \" + \"endsolid \"; public static final String hexagon = \"solid hourglass \" + \" facet normal -5.144957e-001 -8.574929e-001 0.000000e+000 \" + \" ou"
+    },
+    {
+      "chunk_id": 548,
+      "text": "+ \" vertex 1.005000e-001 3.060000e-002 1.030000e-002 \" + \" vertex 9.050000e-002 3.626190e-002 3.000005e-004 \" + \" endloop \" + \" endfacet \" + \"endsolid \"; public static final String trapezoid = \"solid trapezoid \" +"
+    },
+    {
+      "chunk_id": 568,
+      "text": "02 0.000000e+000 \" + \" endloop \" + \" endfacet \" + \"endsolid \"; } /** The Timer JavaBean is a nonvisual component that sends an ActionEvent * to the registered TimerListeners every \"delay\" property milliseconds. * It can either send th"
+    },
+    {
+      "chunk_id": 569,
+      "text": "y\" property milliseconds. * It can either send that event only once, or it can cycle (according to * the \"onceOnly\" property). * * @version 1.01, Sep 02, 1998 */ class Timer extends Object { public static final String PROP_ONCE_ONLY = \""
+    },
+    {
+      "chunk_id": 570,
+      "text": "public static final String PROP_ONCE_ONLY = \"onceOnly\"; public static final String PROP_DELAY = \"delay\"; public static final long DEFAULT_DELAY = 1000; public static final boolean DEFAULT_ONLY_ONCE = false; /** Creates a"
+    },
+    {
+      "chunk_id": 571,
+      "text": "n DEFAULT_ONLY_ONCE = false; /** Creates a new Timer */ public Timer () { delay = DEFAULT_DELAY; onceOnly = DEFAULT_ONLY_ONCE; start (); } public synchronized void start () { if (running) re"
+    },
+    {
+      "chunk_id": 572,
+      "text": "chronized void start () { if (running) return; timerThread = new TimerThread (); running = true; timerThread.start (); } /** Getter method for the delay property. * @return Current delay value"
+    },
+    {
+      "chunk_id": 573,
+      "text": "property. * @return Current delay value */ public long getDelay () { return delay; } /** Setter method for the delay property. * @param value New delay value */ public void setDelay (long value) {"
+    },
+    {
+      "chunk_id": 574,
+      "text": "*/ public void setDelay (long value) { if (delay == value) return; long oldValue = delay; delay = value; } /** Getter method for the onceOnly property. * @return Current onceOnly value */"
+    },
+    {
+      "chunk_id": 575,
+      "text": "* @return Current onceOnly value */ public boolean getOnceOnly () { return onceOnly; } /** Setter method for the onceOnly property. * @param value New onceOnly value */ public void setOnceOnly (bool"
+    },
+    {
+      "chunk_id": 576,
+      "text": "y value */ public void setOnceOnly (boolean value) { if (onceOnly == value) return; onceOnly = value; } public void addTimerListener (TimerListener l) { if (listeners == null) listeners ="
+    },
+    {
+      "chunk_id": 577,
+      "text": "if (listeners == null) listeners = new Vector(); listeners.addElement (l); } public void removeTimerListener (TimerListener l) { if (listeners == null) return; listeners.removeEleme"
+    },
+    {
+      "chunk_id": 578,
+      "text": "return; listeners.removeElement (l); } private void fireTimerEvent () { if (listeners == null) return; Vector l; synchronized (this) { l = (Vector)listeners.clone (); }"
+    },
+    {
+      "chunk_id": 579,
+      "text": "l = (Vector)listeners.clone (); } for (Enumeration e = l.elements (); e.hasMoreElements ();) { TimerListener tl = (TimerListener) e.nextElement (); tl.onTime (new ActionEvent (this, ActionEvent.AC"
+    },
+    {
+      "chunk_id": 580,
+      "text": "tl.onTime (new ActionEvent (this, ActionEvent.ACTION_PERFORMED, \"onTime\")); } } class TimerThread extends Thread { public void run() { while (true) { try { sleep(del"
+    },
+    {
+      "chunk_id": 581,
+      "text": "try { sleep(delay); } catch (InterruptedException e) {} fireTimerEvent(); if (onceOnly) break; } running = false; } }"
+    },
+    {
+      "chunk_id": 582,
+      "text": "running = false; } } transient private TimerThread timerThread; /** The timer listeners */ transient private Vector listeners; /** The flag indicating whether the timer is running */ private boole"
+    },
+    {
+      "chunk_id": 583,
+      "text": "whether the timer is running */ private boolean running; /** If true, the timer stops after firing the first onTime, if false * it keeps ticking until stopped */ private boolean onceOnly; /** Delay in milliseconds */"
+    },
+    {
+      "chunk_id": 584,
+      "text": "onceOnly; /** Delay in milliseconds */ private long delay; } /** The TimerListener interface must be implemented by * a class that wants to be notified about time events. * * @version 1.00, Jul 20, 1998 */ interface TimerListene"
+    },
+    {
+      "chunk_id": 585,
+      "text": "on 1.00, Jul 20, 1998 */ interface TimerListener extends java.util.EventListener { /** Called when a new timer event occurs */ public void onTime (java.awt.event.ActionEvent event); }"
+    },
+    {
+      "chunk_id": 586,
+      "text": "}"
+    }
+  ]
+}

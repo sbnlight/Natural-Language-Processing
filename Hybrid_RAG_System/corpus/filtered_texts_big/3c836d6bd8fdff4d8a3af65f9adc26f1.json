@@ -1,0 +1,25 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/mail-results",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"\", 1); requir"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"\", 1); require \"GradingCommon.pl\"; require \"TestingCommon.pl\"; $assgn = shift; if (! AssignmentExists ($assgn)) { Fatal (\"Assignment $assgn does not exist.\"); } @subms = (); if (@ARGV) { foreach $patn ("
+    },
+    {
+      "chunk_id": 3,
+      "text": "; } @subms = (); if (@ARGV) { foreach $patn (@ARGV) { if ($patn =~ /\\./) { $subm = \"$SUBMISSION_DIR/$assgn/$patn\"; if (! -e $subm) { Warn (\"Cannot find submission $patn for assignment $assgn.\"); } else { push (@subms, $subm);"
+    },
+    {
+      "chunk_id": 4,
+      "text": "t $assgn.\"); } else { push (@subms, $subm); } } else { @subms0 = GLOB (\"$SUBMISSION_DIR/$assgn/$patn.*\"); if (@subms0) { push (@subms, @subms0); } else { Warn (\"No entries for $patn\"); } } } } else { @sub"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ies for $patn\"); } } } } else { @subms = GLOB (\"$SUBMISSION_DIR/$assgn/*.*\"); } if (! @subms) { Warn (\"No submissions found.\"); exit 0; } MailResult (@subms); exit 0;"
+    }
+  ]
+}

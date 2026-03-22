@@ -1,0 +1,129 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/kernel/util/Changeable.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Changeable Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.kernel.util Interface Changeable All Known Implementing"
+    },
+    {
+      "chunk_id": 2,
+      "text": ".util Interface Changeable All Known Implementing Classes: NamedObj public interface Changeable This is an interface for objects that support change requests that can be deferred. A change request is any modification to a model that might be perfo"
+    },
+    {
+      "chunk_id": 3,
+      "text": "s any modification to a model that might be performed during execution of the model, but where there might only be certain phases of execution during which it is safe to make the modification. Such changes are also called mutations . A change req"
+    },
+    {
+      "chunk_id": 4,
+      "text": "h changes are also called mutations . A change request is typically made by instantiating a subclass of ChangeRequest (possibly using an anonymous inner class) and then passing it to the requestChange() method of an object implementing this interfa"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ge() method of an object implementing this interface. That object may delegate the request (for example, it might consolidate all such requests at the top level of the hierarchy by passing the request to its container). If it does delegate, then"
+    },
+    {
+      "chunk_id": 6,
+      "text": "est to its container). If it does delegate, then it is expected to consistently delegate all commands to the same object. When a change request is made, if it is safe to do so, then an implementor of this interface is free to immediately execute"
+    },
+    {
+      "chunk_id": 7,
+      "text": "of this interface is free to immediately execute the request, unless setDeferringChangeRequests(true) has been called. It is never safe to execute a change request if the implementor is already in the middle of executing a change request (that ex"
+    },
+    {
+      "chunk_id": 8,
+      "text": "the middle of executing a change request (that execution may have triggered the request). Since: Ptolemy II 4.0 Version: $Id: Changeable.java,v 1.13 2005/07/08 19:59:15 cxh Exp $ Author: Edward A. Lee See Also: ChangeRequest Accepted Rating: Green ("
+    },
+    {
+      "chunk_id": 9,
+      "text": "e See Also: ChangeRequest Accepted Rating: Green (neuendor) Proposed Rating: Green (eal) Method Summary void addChangeListener ( ChangeListener listener) Add a change listener. void executeChangeRequests () Execute requested changes. boolean isDeferr"
+    },
+    {
+      "chunk_id": 10,
+      "text": "sts () Execute requested changes. boolean isDeferringChangeRequests () Return true if setDeferringChangeRequests(true) has been called to specify that change requests should be deferred. void removeChangeListener ( ChangeListener listener) Remove a"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ChangeListener ( ChangeListener listener) Remove a change listener, if it is present, and otherwise do nothing. void requestChange ( ChangeRequest change) Request that the given change be executed. boolean setDeferringChangeRequests (boolean isDefe"
+    },
+    {
+      "chunk_id": 12,
+      "text": "boolean setDeferringChangeRequests (boolean isDeferring) Specify whether change requests made by calls to requestChange() should be executed immediately. Method Detail addChangeListener public void addChangeListener ( ChangeListener listener) Add a"
+    },
+    {
+      "chunk_id": 13,
+      "text": "addChangeListener ( ChangeListener listener) Add a change listener. Each listener will be notified of the execution (or failure) of each change request that is executed via the requestChange() method. Implementors are free to delegate both the"
+    },
+    {
+      "chunk_id": 14,
+      "text": "hod. Implementors are free to delegate both the request and the listener to other objects (e.g. the container), so the listener may be notified of more changes than those requested through the requestChange() method of this object. Implemento"
+    },
+    {
+      "chunk_id": 15,
+      "text": "requestChange() method of this object. Implementors are required to not add a listener that is already on the list of listeners (i.e., objects should not appear more than once on the list). Parameters: listener - The listener to add. See Also:"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ameters: listener - The listener to add. See Also: removeChangeListener(ChangeListener) , requestChange(ChangeRequest) executeChangeRequests public void executeChangeRequests () Execute requested changes. An implementor is free to delegate this to"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ges. An implementor is free to delegate this to another implementor of Changeable. An implementor is expected to execute all pending change requests (even if setDeferringChangeRequests() has been called with a true argument). Listeners will"
+    },
+    {
+      "chunk_id": 18,
+      "text": "n called with a true argument). Listeners will be notified of success or failure. See Also: addChangeListener(ChangeListener) , requestChange(ChangeRequest) , setDeferringChangeRequests(boolean) isDeferringChangeRequests public boolean isDeferri"
+    },
+    {
+      "chunk_id": 19,
+      "text": "isDeferringChangeRequests public boolean isDeferringChangeRequests () Return true if setDeferringChangeRequests(true) has been called to specify that change requests should be deferred. Returns: True if change requests are being deferred. See Also:"
+    },
+    {
+      "chunk_id": 20,
+      "text": "e if change requests are being deferred. See Also: setDeferringChangeRequests(boolean) removeChangeListener public void removeChangeListener ( ChangeListener listener) Remove a change listener, if it is present, and otherwise do nothing. Parameters"
+    },
+    {
+      "chunk_id": 21,
+      "text": "is present, and otherwise do nothing. Parameters: listener - The listener to remove. See Also: addChangeListener(ChangeListener) requestChange public void requestChange ( ChangeRequest change) Request that the given change be executed. An implement"
+    },
+    {
+      "chunk_id": 22,
+      "text": "st that the given change be executed. An implementor is free to delegate this request to another object (e.g. the container). It may also execute the request immediately, unless this object is deferring change requests. If setDeferChangeReque"
+    },
+    {
+      "chunk_id": 23,
+      "text": "eferring change requests. If setDeferChangeRequests() has been called with a true argument, then an implementor is expected to queue the request until either setDeferChangeRequests() is called with a false argument or executeChangeRequests()"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ith a false argument or executeChangeRequests() is called. If an implementor is already in the middle of executing a change request, then the implementor is expected to finish that execution before executing this one. Change listeners will"
+    },
+    {
+      "chunk_id": 25,
+      "text": "efore executing this one. Change listeners will be notified of success (or failure) of the request when it is executed. Parameters: change - The requested change. See Also: executeChangeRequests() , setDeferringChangeRequests(boolean) setDeferrin"
+    },
+    {
+      "chunk_id": 26,
+      "text": ", setDeferringChangeRequests(boolean) setDeferringChangeRequests public boolean setDeferringChangeRequests (boolean isDeferring) Specify whether change requests made by calls to requestChange() should be executed immediately. An implementor is fre"
+    },
+    {
+      "chunk_id": 27,
+      "text": "uld be executed immediately. An implementor is free to delegate this to another object implementing Changeable (e.g. the container). If the argument is true, then an implementor is expected to queue requests until either this method is called a"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ueue requests until either this method is called again with argument false, or until executeChangeRequests() is called. If the argument is false, then execute any pending change requests and set a flag requesting that future requests be execute"
+    },
+    {
+      "chunk_id": 29,
+      "text": "a flag requesting that future requests be executed immediately. Parameters: isDeferring - If true, defer change requests. Returns: True if this object was previously deferring change requests. See Also: addChangeListener(ChangeListener) , execu"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ee Also: addChangeListener(ChangeListener) , executeChangeRequests() , isDeferringChangeRequests() , requestChange(ChangeRequest) Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | F"
+    },
+    {
+      "chunk_id": 31,
+      "text": "S FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

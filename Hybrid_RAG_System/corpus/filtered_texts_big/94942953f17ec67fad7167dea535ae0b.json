@@ -1,0 +1,213 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/enter-grades",
+  "chunks": [
+    {
+      "chunk_id": 3,
+      "text": "clears the rest of the environment, # including environment variables affecting Perl. @ARGV0 = @ARGV; unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"bcFf:PL\", 0, 1); require \"GradingCommon.pl\"; G"
+    },
+    {
+      "chunk_id": 4,
+      "text": "(\"bcFf:PL\", 0, 1); require \"GradingCommon.pl\"; GetPermissions ($0, @ARGV0); $ENV{\"PATH\"}='/usr/bin:/home/ff/cs61b/grading-software/share/bin'; $GIT_PROG = 'git'; $assgn = shift; if ($opt_b) { $opt_F = 1; } if ($#ARGV >= 0 || (! defined ($a"
+    },
+    {
+      "chunk_id": 5,
+      "text": "$opt_F = 1; } if ($#ARGV >= 0 || (! defined ($assgn) && ! defined ($opt_f)) || (defined ($opt_c) && ! defined ($opt_f)) || (defined ($opt_c) && defined ($opt_F)) || (defined ($opt_b) && not defined($opt_f))) { &Usage } if (! defi"
+    },
+    {
+      "chunk_id": 6,
+      "text": "& not defined($opt_f))) { &Usage } if (! defined ($assgn)) { $assgn = $opt_f; $assgn =~ s,^.*/,,; $assgn =~ s/\\..*$//; } if (! AssignmentExists ($assgn)) { Fatal (\"Error: assignment $assgn not found.\"); } if (defined ($opt_f))"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ent $assgn not found.\"); } if (defined ($opt_f)) { ($<, $>) = ($>, $<); open (GRADES, \"<$opt_f\") || Fatal (\"Could not open $opt_f\"); @grades = ; close (GRADES); ($<, $>) = ($>, $<); } $me = MyLogin (); if (! ReaderExists ($"
+    },
+    {
+      "chunk_id": 8,
+      "text": "); } $me = MyLogin (); if (! ReaderExists ($me)) { Fatal (\"You are not registered as a reader.\"); } if (! $ASSGN_USE_READERS{$assgn} && ! $READER_IS_INSTRUCTOR{$me}) { Fatal (\"You are not supposed to be grading this assignment.\"); } u"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ot supposed to be grading this assignment.\"); } unless ($opt_c) { if (! -d $ALL_GRADE_DIR || ! -w $ALL_GRADE_DIR) { Fatal (\"Roster directory $ALL_GRADE_DIR does not exist or can't be written.\"); } Note (\"Entering grades for assignment"
+    },
+    {
+      "chunk_id": 10,
+      "text": "} Note (\"Entering grades for assignment $assgn\" . (defined ($opt_f) ? \" from file $opt_f\" : \"\") . \".\") unless $opt_b; } $max = $ASSGN_ABSMAX{$assgn}; undef %scores; Note (\"Reading previous scores for $assgn...\") if (!$opt_f && !"
+    },
+    {
+      "chunk_id": 11,
+      "text": "g previous scores for $assgn...\") if (!$opt_f && !$opt_b); if (open (SCORES, $ALL_GRADES)) { while ( ) { if (($tmpReader, $tmpAssgn) = /^==\\s*(\\S+)\\s+(\\S+)/) { $oldReader = $tmpReader; $oldAssgn = $tmpAssgn; next; } if (/^\\s*(\\#.*)$"
+    },
+    {
+      "chunk_id": 12,
+      "text": "Assgn = $tmpAssgn; next; } if (/^\\s*(\\#.*)$/) { next; } if ($oldAssgn eq $assgn && (($login, $oldScore, $oldComments) = /^\\s*(\\S+)\\s+\\S+\\s+(\\S+)\\s*(.*?)\\s*$/)) { $scores{$login} = \"$oldScore $oldReader\"; $notes{$l"
+    },
+    {
+      "chunk_id": 13,
+      "text": "n} = \"$oldScore $oldReader\"; $notes{$login} = $oldComments; } } close (SCORES); } Note (\"Done.\") if (!$opt_f && !$opt_b); undef %names; if (open (ROSTER, $MAIN_ROSTER)) { while ( ) { if (($login, $lastName, $firstName) = s"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ile ( ) { if (($login, $lastName, $firstName) = split (/ /, $_)) { $names{$login} = \"${firstName}_$lastName\"; } } close (ROSTER); } if ($ASSGN_PARTNERS{$assgn} and not $opt_P) { $partnerMap = SubmissionMap ($assgn); } else { $"
+    },
+    {
+      "chunk_id": 15,
+      "text": "artnerMap = SubmissionMap ($assgn); } else { $partnerMap = { }; } sub EnterPartners { my ($entries, $login, $score, $comments) = @_; my @partnerships = Partnerships ($partnerMap, $login); if ($#partnerships < 0) { if (TeamEx"
+    },
+    {
+      "chunk_id": 16,
+      "text": "; if ($#partnerships < 0) { if (TeamExists ($login)) { Note (\"No recorded partnerships on submission for $login; \" . \"using team membership.\") unless $opt_b; @partnerships = (TeamMembers ($login)); } el"
+    },
+    {
+      "chunk_id": 17,
+      "text": "@partnerships = (TeamMembers ($login)); } else { return 0; } } if ($#partnerships > 0) { Warn (\"Conflicting partnerships for $login:\\n \" . join ('\\n ', @partnerships) . \"\\nYou must enter grades for all partner"
+    },
+    {
+      "chunk_id": 18,
+      "text": ". \"\\nYou must enter grades for all partners explicitly.\"); return 1; } else { my $errors; $errors = 0; foreach my $partner (split (/\\s+/, $partnerships[0])) { next if $partner eq $login; if (! StudentExists ($partner)) {"
+    },
+    {
+      "chunk_id": 19,
+      "text": "$login; if (! StudentExists ($partner)) { if (! TeamExists ($partner)) { Warn (\"Partner $partner does not exist. Entry ignored.\"); $errors += 1; } next; } my $l"
+    },
+    {
+      "chunk_id": 20,
+      "text": "+= 1; } next; } my $line = \"$partner - $score [from $login] $comments\"; push @$entries, $line; Note (\"Added partner entry: $line\") unless $opt_b; } return $errors; } } $errors = 0; @entries = (); i"
+    },
+    {
+      "chunk_id": 21,
+      "text": "rn $errors; } } $errors = 0; @entries = (); if ($opt_f) { foreach $line (@grades) { next if ($line =~ /^\\s*(\\#.*)?$/); $line =~ s/\\s*$//; $dontCheck = ($line =~ s/^\\+//); if (($login, $name, $score, $comments) = ($line =~ /^\\s*(\\S+)"
+    },
+    {
+      "chunk_id": 22,
+      "text": "me, $score, $comments) = ($line =~ /^\\s*(\\S+)\\s+(\\S+)\\s+(\\S+)\\s*(.*)$/)) { $isTeam = TeamExists ($login); if (! $isTeam && ! StudentExists ($login)) { Warn (\"There is no student $login. Entry ignored.\"); $errors += 1; next;"
+    },
+    {
+      "chunk_id": 23,
+      "text": "n. Entry ignored.\"); $errors += 1; next; } if (! $dontCheck && $ASSGN_ASSIGNED_READERS{$assgn} && \"${assgn}::$login\" !~ /$READER_ASSIGNMENTS{$me}/o) { Warn (\"You are not supposed to be grading assignment $assgn \" . \"for"
+    },
+    {
+      "chunk_id": 24,
+      "text": "d to be grading assignment $assgn \" . \"for $login. Entry ignored:\\n\" . \"\\t$line\\n\" ); $errors += 1; next; } if ($score !~ /^(---|-?[0-9]+(\\.[0-9]*)?)$/) { Warn (\"Score has invalid format. Entry ignored:\\n\" ."
+    },
+    {
+      "chunk_id": 25,
+      "text": "has invalid format. Entry ignored:\\n\" . \"\\t$line\\n\"); $errors += 1; next; } if ($score > $max) { Warn (\"Score $score is out of range. Entry ignored:\\n\" . \"\\t$line\\n\"); $errors += 1; next; } if (! $don"
+    },
+    {
+      "chunk_id": 26,
+      "text": "\"); $errors += 1; next; } if (! $dontCheck && $ASSGN_SUBMIT{$assgn}) { if (! SubmissionExists ($login, $assgn) && ! $opt_b) { Warn (\"Score $score given to $login, who has no submission.\"); if (! Yorn (\"Enter score anyway?\""
+    },
+    {
+      "chunk_id": 27,
+      "text": "ission.\"); if (! Yorn (\"Enter score anyway?\")) { Note (\"Entry ignored:\\n\\t$line\\n\"); next; } } } if (! $isTeam) { push (@entries, $line); } $errors += EnterPartners (\\@entries, $login, $score, $"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ors += EnterPartners (\\@entries, $login, $score, $comments); } } if (! $opt_c && $errors > 0) { Warn (\"Errors found in file $opt_f.\"); if (!$opt_b && ! Yorn (\"Continue?\")) { Fatal (\"Processing aborted. No grades submitted.\"); } }"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ocessing aborted. No grades submitted.\"); } } } else { Note (\"Enter grades one at a time. End with a login of '.'\"); while (1) { $login = Fetch (\"Login: \"); $dontCheck = ($login =~ s/^\\+//); last if ($login eq \".\"); $isTeam = T"
+    },
+    {
+      "chunk_id": 30,
+      "text": "~ s/^\\+//); last if ($login eq \".\"); $isTeam = TeamExists ($login); if (! $isTeam && ! StudentExists ($login)) { if (StudentExists (\"${CLASSPREFIX}$login\")) { $login = \"${CLASSPREFIX}$login\"; } else { Note (\"There is no student $logi"
+    },
+    {
+      "chunk_id": 31,
+      "text": "; } else { Note (\"There is no student $login.\"); next; } } if (! $dontCheck && $ASSGN_ASSIGNED_READERS{$assgn} && \"${assgn}::$login\" !~ /$READER_ASSIGNMENTS{$me}/o) { Note (\"You are not supposed to be grading assignme"
+    },
+    {
+      "chunk_id": 32,
+      "text": "Note (\"You are not supposed to be grading assignment $assgn \" . \"for $login.\"); next; } if (! $dontCheck && $ASSGN_SUBMIT{$assgn} && ! SubmissionExists ($login, $assgn)) { Warn (\"Score given to $login, who has no submission.\");"
+    },
+    {
+      "chunk_id": 33,
+      "text": "(\"Score given to $login, who has no submission.\"); if (! Yorn (\"Enter score anyway?\")) { Note (\"Entry for $login ignored\"); next; } } $name = $names{$login}; if ($name) { $scoreAndComments = Fetch (\"Grade and comments for $logi"
+    },
+    {
+      "chunk_id": 34,
+      "text": "AndComments = Fetch (\"Grade and comments for $login ($name): \"); } else { $name = \"-\"; $scoreAndComments = Fetch (\"Grade and comments for $login: \"); } ($score, $comments) = ($scoreAndComments =~ /(\\S+)\\s*(.*)/); if ($score !~ /^(---|-"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ments =~ /(\\S+)\\s*(.*)/); if ($score !~ /^(---|-?[0-9]+(\\.[0-9]*)?)$/) { Note (\"Score has invalid format.\"); next; } if ($score > $max) { Note (\"Score $score is out of range.\"); next; } if (!$isTeam) { push (@entries,"
+    },
+    {
+      "chunk_id": 36,
+      "text": "next; } if (!$isTeam) { push (@entries, \"$login $name $score $comments\"); } EnterPartners (\\@entries, $login, $score, $comments); } } # Check for overriding, unless -F present my $mayOverride = ($READER_IS_INSTRUCTOR{$"
+    },
+    {
+      "chunk_id": 37,
+      "text": "t my $mayOverride = ($READER_IS_INSTRUCTOR{$me} or $ONLY_INSTRUCTORS_OVERRIDE ne 1); $i = 0; while ($i <= $#entries) { ($login, $name, $score, $comments) = $entries[$i] =~ /\\s*(\\S+)\\s+(\\S+)\\s+(\\S+)\\s*(.*?)\\s*$/; if (exists ($s"
+    },
+    {
+      "chunk_id": 38,
+      "text": ")\\s+(\\S+)\\s+(\\S+)\\s*(.*?)\\s*$/; if (exists ($scores{$login})) { ($oldScore, $oldReader) = split (/ /, $scores{$login}); $oldNotes = $notes{$login}; my $newReader = $oldReader ne $me; if ($oldScore == $score and $ol"
+    },
+    {
+      "chunk_id": 39,
+      "text": "er ne $me; if ($oldScore == $score and $oldNotes eq $comments) { if ($newReader) { Note(\"Entry for $login unchanged.\") unless ($opt_b); } splice (@entries, $i, 1); next;"
+    },
+    {
+      "chunk_id": 40,
+      "text": "plice (@entries, $i, 1); next; } else { if ($opt_F and not $opt_b) { Note(\"Score of $score for $login overrides previous score\" . \" of $oldScore\"); } if ($ne"
+    },
+    {
+      "chunk_id": 41,
+      "text": "of $oldScore\"); } if ($newReader) { Warn (\"Your score of $score for $login would override\\n\\t\" . \"previous score of $oldScore from $oldReader.\") unless ($opt_F or $opt"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ader.\") unless ($opt_F or $opt_b or $mayOverride); } elsif ($opt_L and $score < $oldScore) { Warn (\"Ignoring lowered score of $score for $login (was \" . \"$oldScore).\") unless ($opt"
+    },
+    {
+      "chunk_id": 43,
+      "text": ". \"$oldScore).\") unless ($opt_F or $opt_b); splice (@entries, $i, 1); next; } else { Warn (\"Your score of $score for $login would override \" . \"you"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ogin would override \" . \"your previous score of $oldScore.\") unless ($opt_F or $opt_b); } if (not $opt_c and not $opt_F and not $opt_b and (($newReader and not $mayOver"
+    },
+    {
+      "chunk_id": 45,
+      "text": "and (($newReader and not $mayOverride) or not Yorn (\"Is this OK?\"))) { Note (\"Your entry for $login is ignored.\\n\"); splice (@entries, $i, 1); next; }"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ries, $i, 1); next; } } } $i += 1; } if ($opt_c) { Note (\"You have entered \" . ($#entries+1) . \" grades for assignment $assgn.\"); Warn (\"Errors found in file $opt_f.\") if ($errors > 0); exit"
+    },
+    {
+      "chunk_id": 47,
+      "text": "found in file $opt_f.\") if ($errors > 0); exit ($errors > 0); } if (@entries && !$opt_b) { Note (\"You have entered \" . ($#entries+1) . \" grades for assignment $assgn.\"); if (Yorn (\"Review them?\")) { foreach (@entries) { print \""
+    },
+    {
+      "chunk_id": 48,
+      "text": "view them?\")) { foreach (@entries) { print \"$_\\n\"; } } if (!Yorn (\"Submit grades?\")) { Fatal (\"Submission aborted. No grades submitted for assignment $assgn.\"); } } elsif (not @entries) { Warn (\"No grades were submitted for $"
+    },
+    {
+      "chunk_id": 49,
+      "text": "tries) { Warn (\"No grades were submitted for $assgn.\") unless ($opt_b); exit 0; } Note (\"Submitting grades for assignment $assgn...\") unless $opt_b; Protect (sub { Lock (); umask (0027); open (NEW_GRADES, \">>$ALL_GRADES\") ||"
+    },
+    {
+      "chunk_id": 50,
+      "text": "0027); open (NEW_GRADES, \">>$ALL_GRADES\") || Fatal (\"Cannot append grades to $ALL_GRADES: $!\"); print NEW_GRADES \"\\n== $me $assgn \" . scalar (localtime (time)) . \"\\n\"; foreach (@entries) { print NEW_GRADES \"$_\\n\"; } close (NE"
+    },
+    {
+      "chunk_id": 51,
+      "text": "s) { print NEW_GRADES \"$_\\n\"; } close (NEW_GRADES); Unlock(); }); umask (0007); $< = $>; if (System (\"cd $ALL_GRADE_DIR; \" . \"{ [ -d .git ] || $GIT_PROG init . >/dev/null 2>&1; } && \" . \"$GIT_PROG add grade-log"
+    },
+    {
+      "chunk_id": 52,
+      "text": "&1; } && \" . \"$GIT_PROG add grade-log && \" . \"$GIT_PROG commit -m 'Archive' >/dev/null 2>&1\")) { Note (\"Grades submitted and archived.\") unless $opt_b; } else { Note (\"Grades submitted.\") unless $opt_b; Warn (\"Coul"
+    },
+    {
+      "chunk_id": 53,
+      "text": "Grades submitted.\") unless $opt_b; Warn (\"Could not archive $ALL_GRADE_DIR/grade-log.\"); } Note (\"Making new grade book....\") unless $opt_b; if (System (\"make-grade-book\")) { Note (\"Done.\") unless $opt_b; } else { Warn (\"Failed to make n"
+    },
+    {
+      "chunk_id": 54,
+      "text": "nless $opt_b; } else { Warn (\"Failed to make new grade book.\"); } exit 0;"
+    }
+  ]
+}

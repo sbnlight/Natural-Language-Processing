@@ -1,0 +1,133 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/emacs.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/emacs.help Sep 5 2008 CONTENTS Summary Emacs on UN"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Sep 5 2008 CONTENTS Summary Emacs on UNIX Emacs for UCB Scheme Sample .emacs file Emacs on Windows Emacs at Home Summary ------- Emacs is a powerful editor and shell environment from GNU. It is public- domain and available on I"
+    },
+    {
+      "chunk_id": 3,
+      "text": "m GNU. It is public- domain and available on Instructional UNIX and Windows NT systems. Emacs is a somewhat complicated editor with many sophisticated features. Emacs on UNIX ------------- The default current version for UNIX is installed i"
+    },
+    {
+      "chunk_id": 4,
+      "text": "he default current version for UNIX is installed in /usr/sww/bin/emacs. Other versions are typically available, also, and can be listed with the UNIX command \"ls -la usr/sww/bin/emacs*\". 'emacs' and `xemacs' expect you to have an XWindows ser"
+    },
+    {
+      "chunk_id": 5,
+      "text": "s' and `xemacs' expect you to have an XWindows server running on your desktop (UNIX has it by default, Microsoft Windows uses 'XMing', MacOS 10 uses 'XDarwin'). To run emacs on a non-graphical screen, use 'emacs -nw'. See https://iris.eecs.be"
+    },
+    {
+      "chunk_id": 6,
+      "text": "reen, use 'emacs -nw'. See https://iris.eecs.berkeley.edu/idsg/sww/software/emacs for additional notes about the current versions. You can load additional features (functions, screen appearance, keyboard behavior, etc) into emacs as you st"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ce, keyboard behavior, etc) into emacs as you start it by defining the location of input files and loading them. The input files are Lisp source files and compiled files. The commands to load them are written in emacs-lisp code and placed"
+    },
+    {
+      "chunk_id": 8,
+      "text": "them are written in emacs-lisp code and placed in a .emacs file in your home directory. (You can also use the -l command- line option.) Setting the load path: Emacs has a default system search path for emacs-lisp input files. The f"
+    },
+    {
+      "chunk_id": 9,
+      "text": "search path for emacs-lisp input files. The following emacs-lisp code will add additional directories to the search path without modifying the default system path: (setq load-path (append (list (expand-file-na"
+    },
+    {
+      "chunk_id": 10,
+      "text": "(append (list (expand-file-name \"~jdoe/.elisp/gnu\") ;; additional directories go here ) load-path) ) (load-library \"init-common\") The final statement above (the \"load-library\" call) means \""
+    },
+    {
+      "chunk_id": 11,
+      "text": "statement above (the \"load-library\" call) means \"find a file named init-common (with .elc or .el for a file extension, in that order) within my load-path\". This is the preferred way of accessing user- or site-specific lisp libraries. You"
+    },
+    {
+      "chunk_id": 12,
+      "text": "g user- or site-specific lisp libraries. You can see what your default system load path is after you have started emacs by typing the command M-: eval-expression load-path It will display the elements of the load path in the minibuffer (and"
+    },
+    {
+      "chunk_id": 13,
+      "text": "e elements of the load path in the minibuffer (and also in the *Messages* buffer). Emacs for UCB Scheme -------------------- Several EECS classes use emacs to program in the UCB Scheme ('stk') language. The .emacs file for those classes incl"
+    },
+    {
+      "chunk_id": 14,
+      "text": "language. The .emacs file for those classes includes these features: To load Scheme into emacs, hit the \"Esc\" key and then hit the letter \"s\". To jump between windows in emacs hit Ctrl-x and then the letter 'o'. To insert code from your buf"
+    },
+    {
+      "chunk_id": 15,
+      "text": "hen the letter 'o'. To insert code from your buffer window into STk hit the 'Esc' key and then the letter 'p'. Sample .emacs file ------------------ If you have a .emacs file in your home directory, emacs will run it and initialize some se"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ectory, emacs will run it and initialize some settings, such as the load path (see above). Here is a sample UNIX .emacs file for the EECS Instructional systems: ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;"
+    },
+    {
+      "chunk_id": 18,
+      "text": ";;;;;;;;;;;;;;;;;;;;;;;;;;; (load \"time\") (display-time) (setq default-major-mode 'text-mode) (setq default-enable-recursive-minibuffers t) (setq auto-save-interval 300) (setq c-argdecl-indent"
+    },
+    {
+      "chunk_id": 19,
+      "text": "300) (setq c-argdecl-indent 4) (setq c-brace-offset 0) (setq auto-mode-alist '((\"\\\\.text$\" . text-mode) (\"\\\\.c$\" . c-mode) (\"\\\\.h$\" . c-mode) (\"\\\\.tex$\" . TeX-mode) (\"\\"
+    },
+    {
+      "chunk_id": 20,
+      "text": "h$\" . c-mode) (\"\\\\.tex$\" . TeX-mode) (\"\\\\.el$\" . emacs-lisp-mode) (\"\\\\.scm$\" . scheme-mode) (\"\\\\.l$\" . lisp-mode) (\"\\\\.lisp$\" . lisp-mode) (\"\\\\.f$\" . fortran-mode) (\"\\\\.mss$\" . scribe-mode) (\"\\\\.TeX$\" . TeX-mod"
+    },
+    {
+      "chunk_id": 21,
+      "text": "\"\\\\.mss$\" . scribe-mode) (\"\\\\.TeX$\" . TeX-mode) (\"\\\\.sty$\" . LaTeX-mode) (\"\\\\.bbl$\" . LaTeX-mode) (\"\\\\.bib$\" . text-mode) (\"\\\\.article$\" . text-mode) (\"\\\\.letter$\" . text-mode) (\"\\\\.texinfo$\" . texinfo-mode) (\""
+    },
+    {
+      "chunk_id": 22,
+      "text": "-mode) (\"\\\\.texinfo$\" . texinfo-mode) (\"\\\\.lsp$\" . lisp-mode) (\"^/tmp/Re\" . text-mode) (\"^/tmp/fol/\" . text-mode) (\"/Message[0-9]*$\" . text-mode) (\"\\\\.y$\" . c-mode) (\"\\\\.scm.[0-9]*$\" . scheme-mode) (\"/\\\\..*emac"
+    },
+    {
+      "chunk_id": 23,
+      "text": "(\"\\\\.scm.[0-9]*$\" . scheme-mode) (\"/\\\\..*emacs\" . emacs-lisp-mode) (\"\\\\.ml$\" . lisp-mode) (\"\\\\.cxx$\" . c-mode) (\"\\\\.hxx$\" . c-mode))) (put 'eval-expression 'disabled nil) (global-set-key \"\\eo\" 'delete-char) (global-set-key \""
+    },
+    {
+      "chunk_id": 24,
+      "text": "al-set-key \"\\eo\" 'delete-char) (global-set-key \"\\C-h\" 'delete-backward-char) (global-set-key \"\\C-N\" 'goto-line) (global-set-key \"\\C-f\" 'isearch-forward) ;;(setq load-path (cons \"/usr/sww/pkg/acl-5.01/home/emacs/fi\" load-path)) ;;(load \"fi-s"
+    },
+    {
+      "chunk_id": 25,
+      "text": "cl-5.01/home/emacs/fi\" load-path)) ;;(load \"fi-site-init\") ;; Font-lock -- Create new faces for comments and others. ;; #000 is black, #FFF is (almost) white. For more precision, use #RRGGBB. (require 'font-lock) (copy-face 'default 'font-"
+    },
+    {
+      "chunk_id": 26,
+      "text": "(require 'font-lock) (copy-face 'default 'font-lock-comment-face) (set-face-foreground 'font-lock-comment-face \"FireBrick\") (set-face-foreground 'font-lock-string-face \"DimGray\") (set-face-foreground 'font-lock-keyword-face \"MediumSlateBlue\""
+    },
+    {
+      "chunk_id": 27,
+      "text": "reground 'font-lock-keyword-face \"MediumSlateBlue\") (set-face-foreground 'font-lock-builtin-face \"Black\") (set-face-foreground 'font-lock-function-name-face \"Black\") (copy-face 'bold 'font-lock-function-name-face) (set-face-foreground 'font-l"
+    },
+    {
+      "chunk_id": 28,
+      "text": "function-name-face) (set-face-foreground 'font-lock-variable-name-face \"Black\") (set-face-foreground 'font-lock-type-face \"Black\") (set-face-foreground 'font-lock-constant-face \"Black\") ;;(copy-face 'bold 'font-lock-function-name-face) ;;(c"
+    },
+    {
+      "chunk_id": 29,
+      "text": "y-face 'bold 'font-lock-function-name-face) ;;(copy-face 'bold 'font-lock-keyword-face) ;;(set-face-foreground 'font-lock-keyword-face \"CadetBlue\") ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Emacs on Windows -"
+    },
+    {
+      "chunk_id": 30,
+      "text": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;; Emacs on Windows ---------------- Emacs is installed on some Instructional Microsoft Windows systems. Look for it in the \"Start\" menu or with in the C:/Program Files/ directory. Emacs at Home ------------- Th"
+    },
+    {
+      "chunk_id": 31,
+      "text": "les/ directory. Emacs at Home ------------- There are several places to get Emacs for installation on your own computer: http://www.xemacs.org/ (for emacs on Microsoft Windows) http://www.cygwin.com/ (a UNIX environment for Microsoft Window"
+    },
+    {
+      "chunk_id": 32,
+      "text": "win.com/ (a UNIX environment for Microsoft Windows) http://www.gnu.org/software/emacs/windows/ntemacs.html http://getgnuwin32.sourceforge.net/ EECS Instructional Support Group 378 & 386 Cory, 333 Sod"
+    },
+    {
+      "chunk_id": 33,
+      "text": "nal Support Group 378 & 386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

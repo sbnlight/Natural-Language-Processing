@@ -1,0 +1,405 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/~cxh/synopsys.html",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "96, CS250 hopes to use Synopsys on the instructional cluster. It would be nice if we could get Synopsys on sww, but there is some question as to whether there is disk space. The mho cluster has Synopsys installed, but for security and performan"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ynopsys installed, but for security and performance reasons, the partition is not available for export Places to go Synopsys Mho Cluster synopsys licensing info (Available to Mho sysadmins only) Setup On the mho cluster, the Synopsys3.1a installatio"
+    },
+    {
+      "chunk_id": 4,
+      "text": "p On the mho cluster, the Synopsys3.1a installation is at /opt/synopsis set your SYNOPSYS environment variable: setenv SYNOPSYS /opt/synopsys Release 3.3b is at /usr/tools/synopsys , so you should do: setenv SYNOPSYS /usr/tools/synopsys Most of the b"
+    },
+    {
+      "chunk_id": 5,
+      "text": "setenv SYNOPSYS /usr/tools/synopsys Most of the binaries are in $SYNOPSYS/sparcOS5/syn/bin If you are on the mho cluster and you source /usr/cluster/bin/setpath , then SYNOPSYS will be set for you, and the binary directory will be in your path. You"
+    },
+    {
+      "chunk_id": 6,
+      "text": "and the binary directory will be in your path. You should also copy the synopsys dot file: cp $SYNOPSYS/doc/syn/examples/dotfiles/synopsys ~/.synopsys_dc.setup Support and contacts We have the following packages in /opt/synopsys Simulation Version3."
+    },
+    {
+      "chunk_id": 7,
+      "text": "ng packages in /opt/synopsys Simulation Version3.1a PN 2US02-21220 Designware Version3.1a PN 2US01-20310 Synthesis Version3.1a PN 2US01-20320 Synopsys Online Documentation Version3.1a PN 2US00-66030 We also have the following in /usr/tools/synops"
+    },
+    {
+      "chunk_id": 8,
+      "text": "30 We also have the following in /usr/tools/synopsys Simulation Version3.3b PN 2US02-21250 Designware Version3.3b PN 2US01-20370 Synthesis Version3.3b PN 2US01-20375 Synopsys Online Documentation Version3.3b PN 2US00-20045 Note that if you have t"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Version3.3b PN 2US00-20045 Note that if you have to rehost your license, it could take several days for synopsys to get around to it. Note that if you update your licenses, the old licenses will have to be removed or the upgraded software won't wor"
+    },
+    {
+      "chunk_id": 10,
+      "text": "e to be removed or the upgraded software won't work. You need not type in the license keys. To get the license via email. send mail to solvit@synopsis.com with the message: id: solvit_id getkey: v3.2a site_id Replace solvit_id and site_id with you"
+    },
+    {
+      "chunk_id": 11,
+      "text": ".2a site_id Replace solvit_id and site_id with your information. The support information: US support center (415)694-4013 or 800 245-8005; support_center@synopsys.com SOLV-IT!: solvit@synopsys.com You will need a site id to get support. I believe"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ou will need a site id to get support. I believe Mike Williamson is the campus contact for Synopsys. Online docs To use the 3.3.b online documentation system, type: $SYNOPSYS/iview2/bin/iview If you get: Xlib: connection to \":0.0\" refused by serve"
+    },
+    {
+      "chunk_id": 13,
+      "text": "get: Xlib: connection to \":0.0\" refused by server then you may need to do: xhost myhost where myhost is the name of the host you are logged into. This problem occurs because interleaf does not understand XDM-AUTHORIZATION-1 style xauth authenticat"
+    },
+    {
+      "chunk_id": 14,
+      "text": "rstand XDM-AUTHORIZATION-1 style xauth authentication. Interleaf does understand MIT-MAGIC-COOKIE-1 style xauth authentication. design_analyzer design_analyzer has it's own set of X defaults in $SYNOPSYS/admin/setup/Design_analyzer It should be pos"
+    },
+    {
+      "chunk_id": 15,
+      "text": "OPSYS/admin/setup/Design_analyzer It should be possible to use the XUSERFILESEARCHPATH environment variable to find these defaults, but I could not get it to work. See the X man page for more information. You may want to merge in these defaults"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ation. You may want to merge in these defaults first: xrdb -merge $SYNOPSYS/admin/setup/Design_analyzer This command will start up a program that uses the licenses.: $SYNOPSYS/sparcOS5/syn/bin/design_analyzer vss To use VSS, add the following to"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ign_analyzer vss To use VSS, add the following to your .cshrc: source $SYNOPSYS/admin/install/sim/bin/environ.csh VSS uses the following default files in $SYNOPSYS/admin/setup/: Gvan HBrowser PadWindow ScrolledWindow Vhdldbx The command below will me"
+    },
+    {
+      "chunk_id": 18,
+      "text": "w ScrolledWindow Vhdldbx The command below will merge in all the vss defaults: xrdb -merge $SYNOPSYS/admin/setup/{Gvan,HBrowser,PadWindow,ScrolledWindow,Vhdldbx} To test vss, do: cd $SYNOPSYS/admin/install/sim/tests build clean build tests XKeysymD"
+    },
+    {
+      "chunk_id": 19,
+      "text": "stall/sim/tests build clean build tests XKeysymDB The solvit database at http://www.synopsys.com says: ---start--- N v3.0a:current Backspace/Delete key problems on Sun platform IN v3.0a:current Backspace/Delete key problems on Sun platform KD-535"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ckspace/Delete key problems on Sun platform KD-535 1993:01:14 2K Sys_Admin A:0342 R:0342 PROBLEM: I am experiencing problems with the Backspace and Delete keys when running Synopsys tools on my Sun. EXPLANATION: The file which has the keyboard b"
+    },
+    {
+      "chunk_id": 21,
+      "text": ". EXPLANATION: The file which has the keyboard bindings is called XKeysymDB. However, it is not enough that the XKeysymDB file exists on the machine which is running our application software. The pathname to this file must be exactly: /usr/lib"
+    },
+    {
+      "chunk_id": 22,
+      "text": "thname to this file must be exactly: /usr/lib/X11/XKeysymDB because it is hardcoded into the Motif libraries, and therefore into the Synopsys executable code itself. [Note: for sites which have a file server running the software, the XKeysymDB"
+    },
+    {
+      "chunk_id": 23,
+      "text": "a file server running the software, the XKeysymDB file must be accessible from the machine which is running the Synopsys software.] We see this problem in Suns because Openwindows has its own version of the XKeysymDB file which is located in $OPEN"
+    },
+    {
+      "chunk_id": 24,
+      "text": "on of the XKeysymDB file which is located in $OPENWINHOME/lib. However, the format of the Sun version of XKeysymDB file does not correspond exactly to the the format of the MIT X11 XKeysymDB file. Example: Sun XKeysymDB has: osfXK_BackSpace:"
+    },
+    {
+      "chunk_id": 25,
+      "text": "mple: Sun XKeysymDB has: osfXK_BackSpace: 1004FF08 MIT X11 XKeysymDB has: osfBackSpace :1004FF08 The Motif libraries are looking for /usr/lib/X11/XKeysymDB, but Suns which only have OpenWindows installe"
+    },
+    {
+      "chunk_id": 26,
+      "text": "mDB, but Suns which only have OpenWindows installed don't even have the directory \"/usr/lib/X11\". The problem can also result if you are using the $OPENWINHOME/lib/XKeysymDB. SOLUTION: A directory with a copy of the file or a link to that file with"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ith a copy of the file or a link to that file with the name /usr/lib/X11/XKeysymDB *must* be created in order for the backspace key to work. An easy way to check that this path exists is to do a \"more\" on the above filename. Copying (or link"
+    },
+    {
+      "chunk_id": 28,
+      "text": "a \"more\" on the above filename. Copying (or linking) the XKeysymDB file that is provided with OpenWindows will NOT solve the problem because of the difference explained in the example above. Instead, copy the MIT XKeysymDB file accessible by the pa"
+    },
+    {
+      "chunk_id": 29,
+      "text": ", copy the MIT XKeysymDB file accessible by the path /usr/lib/X11/XKeysymDB. A copy of the MIT XKeysymDB file can be found in $SYNOPSYS/admin/setup. SGE How to test SGE Run the following on your sol2 machine: setenv SYNOPSYS /opt/synopsys # Or if y"
+    },
+    {
+      "chunk_id": 30,
+      "text": "machine: setenv SYNOPSYS /opt/synopsys # Or if you want to run 3.3b: setenv SYNOPSYS /usr/tools/synopsys setenv SGE_ROOT $SYNOPSYS/sparcOS5/sge set path = ($SGE_ROOT/bin $SGE_ROOT/../sim/bin $path) setenv ARCH sparcOS5 setenv SIM_ARCH $ARCH"
+    },
+    {
+      "chunk_id": 31,
+      "text": "th) setenv ARCH sparcOS5 setenv SIM_ARCH $ARCH sge If you are displaying X under SunOS4.1 run the following on your SunOS4.1.3 machine xset +fp /usr/tools/synopsys.old/sparc/sge/xfonts/xfontXC Mike Williamson wrote: > About launching the Symbol E"
+    },
+    {
+      "chunk_id": 32,
+      "text": "e Williamson wrote: > About launching the Symbol Editor (or Schematic Editor): you > click the radio button for these items in the initial SGE > startup window, then press the \"New\" button and watch failure > in action. sge needs fonts installed i"
+    },
+    {
+      "chunk_id": 33,
+      "text": "failure > in action. sge needs fonts installed in $SYNOPSYS/sparcOS5/sge/xfonts see the instructions in README. The idea is that you copy one of the INSTALL_* files, adjust it and csh it. sed 's/MIT/SMI/g' < INSTALL_MIT >INSTALL_SMI csh INSTALL"
+    },
+    {
+      "chunk_id": 34,
+      "text": "IT/SMI/g' < INSTALL_MIT >INSTALL_SMI csh INSTALL_SMI To install fonts for a sun4, you should run the script from a sun4. You will need to mount /opt on a sun4, and then do set path =(/usr/sww/openwin_3.0/sun4_sunos4.1/bin $path) csh -f ./INSTALL"
+    },
+    {
+      "chunk_id": 35,
+      "text": "win_3.0/sun4_sunos4.1/bin $path) csh -f ./INSTALL_XC > I poked around with sge, and if I fix the font problem: > > cxh@wang 26% sge > Font directory 'xfontXC' does not exist for Server Vendor 'X Consortium' > > Then sge exits: > cxh@wang 14% sge >"
+    },
+    {
+      "chunk_id": 36,
+      "text": "sortium' > > Then sge exits: > cxh@wang 14% sge > X Error of failed request: BadValue (integer parameter out of range for operation) > Major opcode of failed request: 51 (X_SetFontPath) > Minor opcode of failed request: 0 > Resource id in fail"
+    },
+    {
+      "chunk_id": 37,
+      "text": "pcode of failed request: 0 > Resource id in failed request: 0x340002d > Serial number of failed request: 450 > Current serial number in output stream: 458 > cxh@wang 15% > One solution is to copy the SunOS4.1 fonts cp -r /usr/tools/synopsys.ol"
+    },
+    {
+      "chunk_id": 38,
+      "text": "py the SunOS4.1 fonts cp -r /usr/tools/synopsys.old/sparc/sge/xfonts/xfontMIT xfontXC That seems to work. Also, running: xset +fp /usr/tools/synopsys.old/sparc/sge/xfonts/xfontXC on the SunOS4.1 machine you are sitting at might help Installing 3.3b"
+    },
+    {
+      "chunk_id": 39,
+      "text": "hine you are sitting at might help Installing 3.3b As root, mount the cd with: mount -F hsfs -o ro /dev/dsk/c0t6d0s2 /cdrom If you are a non-root user who has write permission to /usr/tools/synopsys, then you can do the install as yourself. Otherwi"
+    },
+    {
+      "chunk_id": 40,
+      "text": "then you can do the install as yourself. Otherwise, you will have to share the partition as root writable. In anycase, do setenv SYNOPSYS /usr/tools/synopsys cd /cdrom Then for solaris, do ./install.cd The online docs system is at /vol/godel/go"
+    },
+    {
+      "chunk_id": 41,
+      "text": "tall.cd The online docs system is at /vol/godel/godel2/synopsys, but there are links from the distribution in /usr/tools/synopsys. Note that if you move the online docs, you need to update /vol/godel/godel2/synopsys/iview2/Iview.template and run /vol"
+    },
+    {
+      "chunk_id": 42,
+      "text": "godel2/synopsys/iview2/Iview.template and run /vol/godel/godel2/synopsys/admin/install/syn/bin/install_help Licensing The Synopsys tools use Highland Digital lmgrd , which is what products like matlab and Sun CC use. It is best if all the lmgrd lice"
+    },
+    {
+      "chunk_id": 43,
+      "text": "and Sun CC use. It is best if all the lmgrd licensed products share one file. The basic idea is that there is a file containing keys somewhere and a process running on a machine that answers license requests. To get the license strings via email, s"
+    },
+    {
+      "chunk_id": 44,
+      "text": "requests. To get the license strings via email, send mail to with the message: id: solvit_id getkey: v3.3a site_id Where solvit_id and site_id are on the license document Why installing synopsys is a pain I have not reported these bugs, so take them"
+    },
+    {
+      "chunk_id": 45,
+      "text": "pain I have not reported these bugs, so take them with a grain of salt :-) Synopsys 3.1a requires one to update /usr/lib/X11/XKeysymDB Solaris2.4 and 2.5 does not _have_ a /usr/lib/X11 directory, so it must be created to fix XKeySymDB . In my mind,"
+    },
+    {
+      "chunk_id": 46,
+      "text": "it must be created to fix XKeySymDB . In my mind, tools should be installable by someone other than root, and should _never_ need to modify /usr. Synopsys 3.1a sge has font problems You must modify your font path to get sge to work There is no $SYNO"
+    },
+    {
+      "chunk_id": 47,
+      "text": "our font path to get sge to work There is no $SYNOPSYS/sparcOS5/sge/xfonts/xfontSMI file It is hard to map package names to what we have licenses for When doing the install, it is hard to tell what software should be installed. We have four cds, with"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ftware should be installed. We have four cds, with the following packages: Synthesis cd: VERSION: v3.3b PRODUCTS: syn sf3 sf4 PLATFORMS: sparc hp700 sparcOS5 decalpha rs6000 PART NUMBER: 2US01-20376 I did not install the sf"
+    },
+    {
+      "chunk_id": 49,
+      "text": "PART NUMBER: 2US01-20376 I did not install the sf3 and sf4 products: syn - Core Synthesis Tools sf3 - Synopsys Integrator for Falcon Framework 8.2_5 sf4 - Synopsys Integrator for Falcon Framework 8.4 Design Source CD VERSION: v3."
+    },
+    {
+      "chunk_id": 50,
+      "text": "on Framework 8.4 Design Source CD VERSION: v3.3b PRODUCTS: sim ds PLATFORMS: sparc decalpha hp700 rs6000 sparcOS5 PART NUMBER: 2US02-21251 I installed both: sim - Core Simulation Tools ds - Core Design Source Tools D"
+    },
+    {
+      "chunk_id": 51,
+      "text": "tion Tools ds - Core Design Source Tools Documentation VERSION: v3.3b PRODUCTS: dwc PLATFORMS: sparc decalpha hp700 rs6000 sparcOS5 PART NUMBER: 2US01-20371 How do we tell what we have licenses for? We have a"
+    },
+    {
+      "chunk_id": 52,
+      "text": "w do we tell what we have licenses for? We have about 40 different licenses. Synopsys 3.3b: Sizes of installations The table in the book 'System Installation and Configuration Guide, Version 3.3b' are wrong about sizes of installation. The proper"
+    },
+    {
+      "chunk_id": 53,
+      "text": "re wrong about sizes of installation. The proper table is in the release notes. The book says nothing about the release notes. The 3.3b book incorrectly says the sizes should be: Synthesis tools 40Mb + ~120Mb per architecture Simulation tools 3"
+    },
+    {
+      "chunk_id": 54,
+      "text": "40Mb + ~120Mb per architecture Simulation tools 30Mb + ~120Mb per architecture Synopsys Online Documentation 75 + ~5 per architecture The release notes say: Synthesis tools 150Mb + 200Mb per architecture Simulation tools 120Mb + ~150Mb per archit"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ecture Simulation tools 120Mb + ~150Mb per architecture DesignSource 50Mb + 25Mb per architectutre Synopsys Online Documentation 430Mb + 25Mb per architecture Designware 50Mb + 10Mb Each cd has a file named readme.pkg, where pkg is the na"
+    },
+    {
+      "chunk_id": 56,
+      "text": "d has a file named readme.pkg, where pkg is the name of the pkg That file contains sizes. The contents of those files are below. Below is a table of packages, what the release notes say for two architectures, what the real total is, and how big each"
+    },
+    {
+      "chunk_id": 57,
+      "text": "tectures, what the real total is, and how big each package is for hp700 and sparcOS5 release notes really hp only sparc only (2 archs) 2 archs Synthesis tools (syn) 550 507 349 366 Simulation tools 520 569 406 399 simulation tools"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ation tools 520 569 406 399 simulation tools (sim) 420 399 276 265 design tools(ds) 100 181 130 134 Synopsys Online Documentation 480 209 196 196 designware (dwc) 70 60 58 55 Here are the readme s for each cd Synthesis readme.syn say"
+    },
+    {
+      "chunk_id": 59,
+      "text": "the readme s for each cd Synthesis readme.syn says: # $Id: README.syn,v 1.10 1995/08/05 14:27:00 skhsrc Exp $ # PRODUCT: Core Synthesis Tools DO_INSTALL: admin/install/syn/bin/install_syn Platform-specific version for this product: decalph"
+    },
+    {
+      "chunk_id": 60,
+      "text": "specific version for this product: decalpha : v3.3b hp700 : v3.3b rs6000 : v3.3b sparc : v3.3b sparcOS5 : v3.3b Disk-space requirements: Base size : 208 MBytes sparc : 130 MBytes"
+    },
+    {
+      "chunk_id": 61,
+      "text": "size : 208 MBytes sparc : 130 MBytes hp700 : 141 MBytes sparcOS5 : 158 MBytes decalpha : 193 MBytes rs6000 : 152 MBytes Simulation readme.ds says: # $Id: README.ds,v 1.2 1995/06/05 15:43:24 randyk Exp $ # PRODU"
+    },
+    {
+      "chunk_id": 62,
+      "text": ".ds,v 1.2 1995/06/05 15:43:24 randyk Exp $ # PRODUCT: Core Design Source Tools DO_INSTALL: admin/install/ds/bin/install_ds Platform-specific version for this product: hp700 : v3.3b rs6000 : v3.3b sparc : v3.3b spar"
+    },
+    {
+      "chunk_id": 63,
+      "text": "00 : v3.3b sparc : v3.3b sparcOS5 : v3.3b Disk-space requirements: Base size : 83 MBytes sparc : 44 MBytes hp700 : 47 MBytes sparcOS5 : 51 MBytes rs6000 : 52 MBytes readme.sim says: # $Id"
+    },
+    {
+      "chunk_id": 64,
+      "text": "rs6000 : 52 MBytes readme.sim says: # $Id: README.sim,v 1.9 1995/08/05 14:26:12 skhsrc Exp $ # PRODUCT: Core Simulation Tools DO_INSTALL: admin/install/sim/bin/install_sim Platform-specific version for this product: decalpha : v3.3"
+    },
+    {
+      "chunk_id": 65,
+      "text": "version for this product: decalpha : v3.3b hp700 : v3.3b rs6000 : v3.3b sparc : v3.3b sparcOS5 : v3.3b Disk-space requirements: Base size : 153 MBytes sparc : 123 MBytes hp700"
+    },
+    {
+      "chunk_id": 66,
+      "text": "53 MBytes sparc : 123 MBytes hp700 : 123 MBytes sparcOS5 : 112 MBytes decalpha : 159 MBytes rs6000 : 126 MBytes Designware # $Id: README.dwc,v 1.7 1995/08/05 14:28:52 skhsrc Exp $ # PRODUCT: DesignWare Componen"
+    },
+    {
+      "chunk_id": 67,
+      "text": ":28:52 skhsrc Exp $ # PRODUCT: DesignWare Components Platform-specific version for this product: decalpha : v3.3b hp700 : v3.3b rs6000 : v3.3b sparc : v3.3b sparcOS5 : v3.3b Disk-space requirements:"
+    },
+    {
+      "chunk_id": 68,
+      "text": "sparcOS5 : v3.3b Disk-space requirements: Base size : 47 MBytes sparc : 10 MBytes decalpha : 20 MBytes hp700 : 11 MBytes rs6000 : 11 MBytes sparcOS5 : 8 MBytes cxh@brahe 78% Online documentation read"
+    },
+    {
+      "chunk_id": 69,
+      "text": ": 8 MBytes cxh@brahe 78% Online documentation readme.onl # $Id: README.onl,v 1.7 1995/08/05 14:34:54 skhsrc xEp $ # PRODUCT: Synopsys Online Documentation This product consists of Synopsys documentation for Synthesis, Simulation, Test and DesignWare"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ion for Synthesis, Simulation, Test and DesignWare tools. To view the Synopsys documentation online, you must perform the following steps: 1. Run /cdrom/INSTALL.CD to install the Interleaf WorldView product if it is not already installed. 2."
+    },
+    {
+      "chunk_id": 71,
+      "text": "ew product if it is not already installed. 2. If you wish to access Synopsys Online Documentation directly from CDROM, then you do not have to install this product. However, installing this product onto the disk will significantly impr"
+    },
+    {
+      "chunk_id": 72,
+      "text": "this product onto the disk will significantly improve the document access and search time. 4. To invoke the viewer, type $SYNOPSYS/worldview/bin/iview Normally, the $SYNOPSYS/worldview/bin directory should be added to the user's e"
+    },
+    {
+      "chunk_id": 73,
+      "text": "/bin directory should be added to the user's environment path variable. NOTE: You must re-run $SYNOPSYS/admin/install/syn/bin/install_help when ever the directory path to Synopsys Online Documentation is changed. Platform-specifi"
+    },
+    {
+      "chunk_id": 74,
+      "text": "Documentation is changed. Platform-specific version for this product: decalpha : v3.3b hp700 : v3.3b rs6000 : v3.3b sparc : v3.3b sparcOS5 : v3.3b Disk-space requirements: Base size : 154 MB"
+    },
+    {
+      "chunk_id": 75,
+      "text": "sk-space requirements: Base size : 154 MBytes readme.sos # $Id: README.sos,v 1.5 1995/08/05 14:30:30 skhsrc Exp $ # PRODUCT: SOLV-IT! OnSite (SOS) SOLV-IT! OnSite (SOS) is a GUI tool to search and retrieve Synopsys Online Information, whic"
+    },
+    {
+      "chunk_id": 76,
+      "text": "rch and retrieve Synopsys Online Information, which currently includes Synopsys Online Documentation and SOLV-IT! To invoke SOS, type $SYNOPSYS/sos/bin/sos Normally, the $SYNOPSYS/sos/bin directory is added to the PATH environment variable. P"
+    },
+    {
+      "chunk_id": 77,
+      "text": "tory is added to the PATH environment variable. Platform-specific versions for this product: decalpha : v3.3b hp700 : v3.3b rs6000 : v3.3b sparc : v3.3b sparcOS5 : v3.3b Disk-space requirements:"
+    },
+    {
+      "chunk_id": 78,
+      "text": "sparcOS5 : v3.3b Disk-space requirements: Base size : 14 MBytes sparc : 6 MBytes decalpha : 10 MBytes hp700 : 7 MBytes rs6000 : 8 MBytes sparcOS5 : 7 MBytes readme.vie # $Id: README.vie,v 1.10 1995/0"
+    },
+    {
+      "chunk_id": 79,
+      "text": "MBytes readme.vie # $Id: README.vie,v 1.10 1995/08/05 14:31:16 skhsrc Exp $ # PRODUCT: The Interleaf WorldView The Interleaf WorldView is a GUI-based viewer to view, print, and search relevant information in the Synopsys Online Documentation. To in"
+    },
+    {
+      "chunk_id": 80,
+      "text": "mation in the Synopsys Online Documentation. To install and set up the viewer, perform the following steps: 1. Run /cdrom/INSTALL.CD to install the Interleaf WorldView and the Synopsys Online Documentation from CDROM to the $SYNOPSYS directory."
+    },
+    {
+      "chunk_id": 81,
+      "text": "cumentation from CDROM to the $SYNOPSYS directory. 2. You can customize the WorldView resources by editing the $SYNOPSYS/worldview/Iview.template file and running $SYNOPSYS/admin/install/syn/bin/install_help script. The template file co"
+    },
+    {
+      "chunk_id": 82,
+      "text": "/bin/install_help script. The template file contains options for viewing, printing, searching, icon and color preferences. For example, to setup printers, edit the Iview*printerConfig line in the Iview.template file: Iview*print"
+    },
+    {
+      "chunk_id": 83,
+      "text": "e in the Iview.template file: Iview*printerConfig: printer1, LaserWriter+;\\ printer2, LaserJet75 ; \\ printer3, LaserJet100; \\ printer4, LaserJet150; \\"
+    },
+    {
+      "chunk_id": 84,
+      "text": "printer4, LaserJet150; \\ printer5, LaserJet300; where, printer1, printer2, ... is the name assigned to the printer. 3. To envoke WorldView, type $SYNOPSYS/worldview/bin/iview Normally, the $SYNOPSYS/worl"
+    },
+    {
+      "chunk_id": 85,
+      "text": "ldview/bin/iview Normally, the $SYNOPSYS/worldview/bin directory is added to the PATH environment variable. NOTE: You must run $SYNOPSYS/admin/install/syn/bin/install_help every time you change the path to Synopsys Online Documentat"
+    },
+    {
+      "chunk_id": 86,
+      "text": "you change the path to Synopsys Online Documentation, or customize the Iview.template file. Platform-specific versions for this product: decalpha : v3.3b hp700 : v3.3b rs6000 : v3.3b sparc : v3.3b"
+    },
+    {
+      "chunk_id": 87,
+      "text": "rs6000 : v3.3b sparc : v3.3b sparcOS5 : v3.3b Disk-space requirements: Base size : 15 MBytes sparc : 6 MBytes decalpha : 14 MBytes hp700 : 6 MBytes rs6000 : 6 MBytes sparcOS5 : 6"
+    },
+    {
+      "chunk_id": 88,
+      "text": "tes rs6000 : 6 MBytes sparcOS5 : 6 MBytes Notes on Updating the Synopsys Licenses The following comes out of our experience updating the new licenses in May, 1997. The new licenses, obtained from the SOLV-IT part of the Synopsys web s"
+    },
+    {
+      "chunk_id": 89,
+      "text": "tained from the SOLV-IT part of the Synopsys web site, are good for one year, from May 1, 1997 through April 20, 1998. They enable all the features in the 1997.01 release of Synopsys. They also enable all the features in the previous release of the"
+    },
+    {
+      "chunk_id": 90,
+      "text": "e all the features in the previous release of the software. Without installing the 1997.01 release, we installed the new licenses and got the old software to continue to work. In the directory: $SYNOPSYS/admin/license you will find the file \"key\" whi"
+    },
+    {
+      "chunk_id": 91,
+      "text": "SYS/admin/license you will find the file \"key\" which is actually a link to /opt/lm/lmgrd.key. This is a file that contains the Synopsys licenses, and some other licenses, in one consolidated file. The Synopsys license mail said to run the install_ke"
+    },
+    {
+      "chunk_id": 92,
+      "text": "e Synopsys license mail said to run the install_key script (there is an install_site script in $SYNOPSYS/ admin/license, and I believe that install_key is the new replacement script in the new release) but it failed for me because I don't have permis"
+    },
+    {
+      "chunk_id": 93,
+      "text": ") but it failed for me because I don't have permission to modify the license files directly. Here is what worked for us: I created a new version of lmgrd.key, by editing the old one, removing the old license entries and adding the new ones. (You ca"
+    },
+    {
+      "chunk_id": 94,
+      "text": "license entries and adding the new ones. (You can leave the old ones in. They will be ignored because they have expired, but it makes the file cleaner to remove them.) Mary put the new version of lmgrd.key into the right location. After the file"
+    },
+    {
+      "chunk_id": 95,
+      "text": "lmgrd.key into the right location. After the file was ready, Mary executed the stopping and restarting of the license server so that the new licenses would take effect. Christopher summarized this in his mail: >You'll have to work with Mary on this."
+    },
+    {
+      "chunk_id": 96,
+      "text": "his mail: >You'll have to work with Mary on this. >Here's the basic idea. > >As root on brahe, Mary can chown /opt/lm/lmgrd.key to you. >You can then edit the file. >As root on dewitt, Mary will need to run > /etc/init.d/lm stop > /"
+    },
+    {
+      "chunk_id": 97,
+      "text": "d to run > /etc/init.d/lm stop > /etc/init.d/lm start >otherwise the new values will not be seen > >/usr/tools/doc/licenses.txt describes the license set up in general. > >To test synopsys, I usually run the following command as mys"
+    },
+    {
+      "chunk_id": 98,
+      "text": "nopsys, I usually run the following command as myself (not >as root) > >$SYNOPSYS/sparcOS5/syn/bin/dc_shell > >-Christopher This worked the first time. To summarize: Add the new licenses to the license file. Stop the license server. Restart the li"
+    },
+    {
+      "chunk_id": 99,
+      "text": "ense file. Stop the license server. Restart the license server. There is always a question as to whether future releases will work the same way, in terms of their licenses. Provided that no major changes are made to the licensing system, this way sh"
+    },
+    {
+      "chunk_id": 100,
+      "text": "nges are made to the licensing system, this way should work in succeeding years. Also remember that if the location of the license file or the location of our license server changes, you have to do the appropriate commands on the new machines. Curre"
+    },
+    {
+      "chunk_id": 101,
+      "text": "e appropriate commands on the new machines. Currently the license file is on brahe and the server process is on dewitt."
+    }
+  ]
+}

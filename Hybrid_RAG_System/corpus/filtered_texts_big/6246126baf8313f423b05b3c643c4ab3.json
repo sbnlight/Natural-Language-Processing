@@ -1,0 +1,105 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/Input",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / Input Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / Input Overview An accessor may define any number of inputs i"
+    },
+    {
+      "chunk_id": 2,
+      "text": "view An accessor may define any number of inputs in the body of its setup() function using input ( <string> name , [ options ]): Create an input with the specified name and options. For example: exports. setup = function ( ) { input ( 'bridgeIPAddres"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ts. setup = function ( ) { input ( 'bridgeIPAddress' , { 'type' : 'string' , 'value' : 'localhost' } ) ; } [$[Get Code]] The input () function takes one or two arguments, a name (a required string, recommended to be camelCase with a leading lower-cas"
+    },
+    {
+      "chunk_id": 4,
+      "text": "commended to be camelCase with a leading lower-case character) and an object giving any of the options: type The data type of the input. If this is not specified, then any valid JavaScript value may be provided as an input. If it is specified, it mus"
+    },
+    {
+      "chunk_id": 5,
+      "text": "e provided as an input. If it is specified, it must be one of the valid data types . value A default value for the input. Specifying a default value ensures that get () will not return null (see below). In the Ptolemy host, an input will be a Ptolemy"
+    },
+    {
+      "chunk_id": 6,
+      "text": "). In the Ptolemy host, an input will be a Ptolemy PortParameter if the input has a value option. options An array of possible values for this input. A user interface may list these possible values, and a host may restrict the values to be one of the"
+    },
+    {
+      "chunk_id": 7,
+      "text": "nd a host may restrict the values to be one of these values. visibility A hint to the host of whether this input should be made visible to casual users. This is a string that is one of \"full\", \"none\", \"expert\", or \"notEditable\", meaning \"full visibil"
+    },
+    {
+      "chunk_id": 8,
+      "text": "\"expert\", or \"notEditable\", meaning \"full visibility\", \"no visibility\", \"expert visibility\", or \"visible, but not editable\". This option is useful for accessors that extend other accessors but do not want to make the inputs of the base accessor visi"
+    },
+    {
+      "chunk_id": 9,
+      "text": "want to make the inputs of the base accessor visible in the derived accessor. The name is required to be distinct from other inputs, outputs, and parameters. It may match the name of an input in a base accessor (specified by either extend() or imple"
+    },
+    {
+      "chunk_id": 10,
+      "text": "se accessor (specified by either extend() or implement()), in which case the options will override those specified in the base. Getting Inputs The current value of an input may be retrieved in the accessor's JavaScript code using the get () function,"
+    },
+    {
+      "chunk_id": 11,
+      "text": "essor's JavaScript code using the get () function, as in the following example: var address = get ( 'bridgeIPAddress' ) ; [$[Get Code]] The get () function takes one argument, the input name (as a string). If the input definition includes a value opt"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ing). If the input definition includes a value option, then get () will not return null unless the accessor has specifically been sent a null. If you call get () before the accessor host has provided any input value, then the returned value will be t"
+    },
+    {
+      "chunk_id": 13,
+      "text": "any input value, then the returned value will be that given in the value option. Subsequently, the returned value will be the most recent value provided by the accessor host. If no value option is given, then get () will return null if called before"
+    },
+    {
+      "chunk_id": 14,
+      "text": "en, then get () will return null if called before the host has provided an input. In addition, get () may return null if there is no current input value provided by the host. This enables the host to fire the accessor while providing some and not all"
+    },
+    {
+      "chunk_id": 15,
+      "text": "fire the accessor while providing some and not all of the inputs. Thus, it is good programming practice to test the return value of get () for null if no value attribute is provided. Sending to Inputs An accessor may use the send () function to send"
+    },
+    {
+      "chunk_id": 16,
+      "text": "An accessor may use the send () function to send values to its own inputs. Typically, this would be done in a callback function that is triggered by some external event. It could also be done in accessor that extends another accessor and wishes to s"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ssor that extends another accessor and wishes to set the value of an input in the base accessor. A side effect of sending a value to its own input port is to trigger an input handler given using addInputHandler (). For example, suppose that the follo"
+    },
+    {
+      "chunk_id": 18,
+      "text": "putHandler (). For example, suppose that the following line is executed in a callback: send ( 'bridgeIPAddress' , '127.0.0.1' ) ; [$[Get Code]] This will send the string \"127.0.0.1\" to the bridgeIPAddress input. After the callback function has comple"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ress input. After the callback function has completed execution, the accessor host will call any input handler that has been registered for this port using addInputHandler (). In the body of the handler, the accessor can call get () to retrieve the v"
+    },
+    {
+      "chunk_id": 20,
+      "text": "er, the accessor can call get () to retrieve the value of the input. If an accessor sends a value to its own input in an input handler or in the fire() function, the updated value of that input will not be available until the next reaction. An input"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ot be available until the next reaction. An input value remains constant throughout a reaction. If you send a null value to an input, then get () on that input will return null on the next invocation, even if a value attribute is given for that input"
+    },
+    {
+      "chunk_id": 22,
+      "text": "even if a value attribute is given for that input. Setting the Default Value of an Input As shown above, if a 'value' option is given when defining an input, then the input will have a default value. You can change that default value (or add one to"
+    },
+    {
+      "chunk_id": 23,
+      "text": "You can change that default value (or add one to an input that did not previously have one) using the setDefault () function. For example: setDefault ( 'bridgeIPAddress' , '127.0.0.1' ) ; [$[Get Code]] Unlike using send (), however, this will not tr"
+    },
+    {
+      "chunk_id": 24,
+      "text": "]] Unlike using send (), however, this will not trigger execution of any input handler. Also unlike send (), the host may treat this new default value as a persistent value, to become a permanent default, even in future executions of the same swarmle"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ult, even in future executions of the same swarmlet. Setting the default in this way can be useful in an accessors that extends another, but wishes to change the default value provided by the base accessor. See Also Output Parameter Back to accessor"
+    }
+  ]
+}

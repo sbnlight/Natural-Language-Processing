@@ -1,0 +1,105 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/pgp.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/ggp.help /share/b/pub/pgp.help Jan 14 2019 CONTENTS: GPG and"
+    },
+    {
+      "chunk_id": 2,
+      "text": "gp.help Jan 14 2019 CONTENTS: GPG and PGP Public and Private Keys USING GPG on UNIX GPG and PGP ----------- GPG is the GNU Privacy Guard (http://www.gnupg.org). GGP can be used to encrypt, decrypt and \"sign\" files. It is most of"
+    },
+    {
+      "chunk_id": 3,
+      "text": "encrypt, decrypt and \"sign\" files. It is most often used to provide a digital \"signature\" for an email sender or to encrypt the entire email message. It is an alternative to 'pgp', which is no longer installed. GDP is available on all EECS"
+    },
+    {
+      "chunk_id": 4,
+      "text": "longer installed. GDP is available on all EECS Instructional Linux systems in /usr/bin/gpg Type \"/usr/bin/gpg -h\" and \"man gpg\" for help. PGP is the Pretty Good Privacy program, created by Phil Zimmerman. Development of the free version"
+    },
+    {
+      "chunk_id": 5,
+      "text": "hil Zimmerman. Development of the free version of PGP seems to have stopped, so we have replaced it with GPG. For more information: http://www.pgp.com http://web.mit.edu/network/pgp.html (Jan 2019) The Open Computing Facility is now hos"
+    },
+    {
+      "chunk_id": 6,
+      "text": "(Jan 2019) The Open Computing Facility is now hosting a PGP Keyserver for the campus. It is now at pgp.ocf.berkeley.edu (and eventually at pgp.berkeley.edu). It is faster and more available than pgp.mit.edu. Public and Private Keys ---------"
+    },
+    {
+      "chunk_id": 7,
+      "text": "an pgp.mit.edu. Public and Private Keys ----------------------- Each user creates a \"PUBLIC KEY\" and a \"PRIVATE KEY\" (also called a \"SECRET KEY\") with 'gpg --gen-key'. These keys are both stored in files. Each key unlocks the code that is"
+    },
+    {
+      "chunk_id": 8,
+      "text": "d in files. Each key unlocks the code that is made with the other key. 'gpg --gen-key' builds a \"KEY CERTIFICATE\" for each key by combining the key and some additional data. It stores the certificates in your KEY RING files (pubring.g"
+    },
+    {
+      "chunk_id": 9,
+      "text": "certificates in your KEY RING files (pubring.gpg, secring.gpg, trustdb.gpg). Your keys are stored there, and you can add other peoples' keys when you exchange email with them. The additional data that goes in a PRIVATE KEY CERTIFICATE is t"
+    },
+    {
+      "chunk_id": 10,
+      "text": "l data that goes in a PRIVATE KEY CERTIFICATE is the key owner' s \"Passphrase\". The Passphrase is a password that should be kept very secret. The additional data that goes in a PUBLIC KEY CERTIFICATE is the key owner's user ID (usually the pe"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ICATE is the key owner's user ID (usually the person's name and email address). The PUBLIC KEY can be placed whereever others can easily read it, such as within your email, on your own WEB page or and on a set of PGP \"key servers\" that are r"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ge or and on a set of PGP \"key servers\" that are running just for this purpose. You can sign or encrypt a message using your PRIVATE KEY and let the recipient verify or decrypt it with your PUBLIC KEY. You can also sign or encrypt a messa"
+    },
+    {
+      "chunk_id": 13,
+      "text": "UBLIC KEY. You can also sign or encrypt a message using the recipient's PUBLIC KEY and let recipient verify or decrypt it with his/her PRIVATE KEY. In email and newsgroup messages, you may see the phrases -----BEGIN PGP PUBLIC KEY BLOCK"
+    },
+    {
+      "chunk_id": 14,
+      "text": "e the phrases -----BEGIN PGP PUBLIC KEY BLOCK----- -----END PGP PUBLIC KEY BLOCK----- -----BEGIN PGP MESSAGE----- -----END PGP MESSAGE----- That means the sender has added his DIGITAL SIGNATURE to the message, which the sender h"
+    },
+    {
+      "chunk_id": 15,
+      "text": "TAL SIGNATURE to the message, which the sender has created using his/her PRIVATE KEY. If you want to verify that the message is really from that person (not a forgery), you retrieve the sender's PUBLIC KEY and use it with 'gpg' to unlock"
+    },
+    {
+      "chunk_id": 16,
+      "text": "r's PUBLIC KEY and use it with 'gpg' to unlock the sender's PGP signature. The SIGNATURE is built using the message and will not unlock if there are any changes in the message. USING GPG on UNIX: ----------------- If this is your first us"
+    },
+    {
+      "chunk_id": 17,
+      "text": "UNIX: ----------------- If this is your first use of PGP, make your keys. You may see the message \"WARNING: using insecure memory!\". This is not a big risk, and the message can be supressed with the \"--no-secmem-warning\" option; % mkdir"
+    },
+    {
+      "chunk_id": 18,
+      "text": "with the \"--no-secmem-warning\" option; % mkdir ~/.gnupg % gpg --gen-key --no-secmem-warning # accept the default options, # enter your USER-ID and Passphrase % gpg --gen-key --no-secmem-warning # you may be prompted to run it twice"
+    },
+    {
+      "chunk_id": 19,
+      "text": "-warning # you may be prompted to run it twice ########################################################################### ## REMEMBER the 'Passphrase' that you use when you create your GPG keys. ## ## You will need the pass phrase to unlock y"
+    },
+    {
+      "chunk_id": 20,
+      "text": "## ## You will need the pass phrase to unlock your secret key. ## ########################################################################### % chown 400 ~/.gnupg/*.gpg # be sure files are not world-readable % gpg --export -a"
+    },
+    {
+      "chunk_id": 21,
+      "text": "files are not world-readable % gpg --export -a -o mykey.gpg # write your PUBLIC key to a file % gpg --import yourkey.gpg # add a PUBLIC key to your keyring % gpg --list-keys # see contents of your PUBLIC keyring To send someone (\"recipie"
+    },
+    {
+      "chunk_id": 22,
+      "text": "f your PUBLIC keyring To send someone (\"recipient\") an encrypted file that they can unlock: 1) Recipient generates a PUBLIC KEY and sends it to you ('gpg --gen-key ...') 2) You add it to your keyring ('gpg --import ...') 3) You get the re"
+    },
+    {
+      "chunk_id": 23,
+      "text": "keyring ('gpg --import ...') 3) You get the recipient's ID (an email address): 'gpg --list-keys' 4) Let's say your clear-text content is in a file called \"myfile\". 5) You encrypt the file using the recipient's ID: 'gpg -a -r recipient"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ing the recipient's ID: 'gpg -a -r recipient@mail.edu -o myfile-encrypted --encrypt myfile' 6) You send the file \"myfile-encrypted\" to the recipient. 7) The receipient decrypts using his/her Passphrase with the command 'gpg -o myfile"
+    },
+    {
+      "chunk_id": 25,
+      "text": "er Passphrase with the command 'gpg -o myfile-new --decrypt myfile-encrypted' EECS Instructional Support 378 & 386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

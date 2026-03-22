@@ -1,0 +1,277 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII5.0/ptII5.0.1/doc/design/usingVergil/usingVergila11.htm",
+  "chunks": [
+    {
+      "chunk_id": 4,
+      "text": "he bouncing ball example, which can be found under \"Bouncing Ball\" in figure 2.3 (in the \"Hybrid Systems\" entry). The top-level contents of this model is shown in figure 2.54 . It contains a Ball Model , a TimedPlotter , and PeriodicSampler , and an"
+    },
+    {
+      "chunk_id": 7,
+      "text": ", and the discrete events correspond to the times when the ball hits the surface and bounces. If you look inside the Ball Model , you will see something like figure 2.55 . Figure 2.55 shows a state-machine editor, which has a slightly different toolb"
+    },
+    {
+      "chunk_id": 8,
+      "text": "chine editor, which has a slightly different toolbar and a significantly different library at the left. The circles in figure 2.55 are states, and the arcs between circles are transitions between states. A modal model is one that has modes , which re"
+    },
+    {
+      "chunk_id": 9,
+      "text": "es. A modal model is one that has modes , which represent regimes of operation. Each mode in a modal model is represented by a state in a finite-state machine. The state machine in figure 2.55 has three states, named init , free , and stop . The init"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ee states, named init , free , and stop . The init state is the initial state, which is set as shown in figure 2.56 . The free state represents the mode of operation where the ball is in free fall, and the stop state represents the mode where the bal"
+    },
+    {
+      "chunk_id": 11,
+      "text": "d the stop state represents the mode where the ball has stopped bouncing. At any time during the execution of the model, the modal model is in one of these three states. When the model begins executing, it is in the init state. During the time a moda"
+    },
+    {
+      "chunk_id": 12,
+      "text": "g, it is in the init state. During the time a modal model is in a state, the behavior of the modal model is specified by the refinement of the state. The refinement can be examined by looking inside the state. As shown in figure 2.57 , the init state"
+    },
+    {
+      "chunk_id": 13,
+      "text": "he state. As shown in figure 2.57 , the init state has no refinement. Consider the transition from init to free . It is labeled as follows: true free.initialPosition = initialPosition; free.initialVelocity = 0.0 The first line is a guard , which is a"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ocity = 0.0 The first line is a guard , which is a predicate that determines when the transition is enabled. In this case, the transition is always enabled, since the predicate has value true . Thus, the first thing this model will do is take this tr"
+    },
+    {
+      "chunk_id": 15,
+      "text": "the first thing this model will do is take this transition and change mode to free. The second line specifies a sequence of actions , which in this case set parameters of the destination mode free . If you look inside the free state, you will see the"
+    },
+    {
+      "chunk_id": 16,
+      "text": "f you look inside the free state, you will see the refinement shown in figure 2.58 . This model represents the laws of gravity, which state that an object of any mass will have an acceleration of roughly meters/second2. The acceleration is integrated"
+    },
+    {
+      "chunk_id": 17,
+      "text": "hly meters/second2. The acceleration is integrated to get the velocity, which is, in turn, integrated to get the vertical position. In figure 2.58 , a ZeroCrossingDetector actor is used to detect when the vertical position of the ball is zero. This r"
+    },
+    {
+      "chunk_id": 18,
+      "text": "the vertical position of the ball is zero. This results in production of an event on the (discrete) output bump . Examining figure 2.55 , you can see that this event triggers a state transition back to the same free state, but where the initialVeloc"
+    },
+    {
+      "chunk_id": 19,
+      "text": "to the same free state, but where the initialVelocity parameter is changed to reverse the sign and attenuate it by the elasticity . This results in the ball bouncing, and losing energy, as shown by the plot in figure 2.54 . As you can see from figure"
+    },
+    {
+      "chunk_id": 20,
+      "text": "e plot in figure 2.54 . As you can see from figure 2.55 , when the position and velocity of the ball drop below a specified threshold, the state machine transitions to the state stop , which has no refinement. This results in the model producing no f"
+    },
+    {
+      "chunk_id": 21,
+      "text": "finement. This results in the model producing no further output. 2.10.2 Numerical Precision and Zeno Conditions The bouncing ball model of figures 2.54 and 2.55 illustrates an interesting property of hybrid system modeling. The stop state, it turns"
+    },
+    {
+      "chunk_id": 22,
+      "text": "f hybrid system modeling. The stop state, it turns out, is essential. Without it, the time between bounces keeps decreasing, as does the magnitude of each bounce. At some point, these numbers get smaller than the representable precision, and large er"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ler than the representable precision, and large errors start to occur. If you remove the stop state from the FSM, and re-run the model, you get the result shown in figure 2.59 . The ball, in effect, falls through the surface on which it is bouncing a"
+    },
+    {
+      "chunk_id": 24,
+      "text": "alls through the surface on which it is bouncing and then goes into a free-fall in the space below. The error that occurs here illustrates some fundamental pitfalls with hybrid system modeling. The event detected by the ZeroCrossingDetector actor can"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ent detected by the ZeroCrossingDetector actor can be missed by the simulator. This actor works with the solver to attempt to identify the precise point in time when the event occurs. It ensures that the simulation includes a sample time at that time"
+    },
+    {
+      "chunk_id": 26,
+      "text": "the simulation includes a sample time at that time. However, when the numbers get small enough, numerical errors take over, and the event is missed. A related phenomenon is called the Zeno phenomenon. In the case of the bouncing ball, the time betwee"
+    },
+    {
+      "chunk_id": 27,
+      "text": "In the case of the bouncing ball, the time between bounces gets smaller as the simulation progresses. Since the simulator is attempting to capture every bounce event with a time step, we could encounter the problem where the number of time steps bec"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ter the problem where the number of time steps becomes infinite over a finite time interval. This makes it impossible for time to advance. In fact, in theory, the bouncing ball example exhibits this Zeno phenomenon. However, numerical precision error"
+    },
+    {
+      "chunk_id": 29,
+      "text": "eno phenomenon. However, numerical precision errors take over, since the simulator cannot possibly keep decreasing the magnitude of the time increments. The lesson is that some caution needs to be exercised when relying on the results of a simulation"
+    },
+    {
+      "chunk_id": 30,
+      "text": "rcised when relying on the results of a simulation of a hybrid system. Use your judgement. 2.10.3 Constructing Modal Models A modal model is a component in a larger continuous-time (or other kind of) model. You can create a modal model by dragging"
+    },
+    {
+      "chunk_id": 31,
+      "text": ") model. You can create a modal model by dragging one in from the HigherOrderActors library. By default, it has no ports. To make it useful, you will need to add ports. The mechanism for doing that is identical to adding ports to a composite model, a"
+    },
+    {
+      "chunk_id": 32,
+      "text": "identical to adding ports to a composite model, and is explained in section 2.4.2 . Figure 2.54 shows a top-level continuous-time model with a single modal model that has been renamed Ball Model . Three output ports have been added to that modal mod"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ree output ports have been added to that modal model, but only the top one is used. It gives the vertical distance of the ball from the surface on which it bounces. If you create a new modal model by dragging it in from the HigherOrderActors library,"
+    },
+    {
+      "chunk_id": 34,
+      "text": "dragging it in from the HigherOrderActors library, create an output port and name it output , and then look inside, you will get an FSM editor like that shown in figure 2.60 . Note that the output port is (regrettably) located at the upper left, and"
+    },
+    {
+      "chunk_id": 35,
+      "text": "t is (regrettably) located at the upper left, and is only partially visible. The annotation text suggests that you delete it once you no longer need it. You may want to move the port to a more reasonable location (where it is visible). The output por"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ble location (where it is visible). The output port that you created is in fact indicated in the state machine as being both an output and input port. The reason for this is that guards in the state machine can refer to output values that are produce"
+    },
+    {
+      "chunk_id": 37,
+      "text": "achine can refer to output values that are produced on this port by refinements. In addition, the output actions of a transition can assign an output value to this port. Hence, the port is, in fact, both an output and input for the state machine. To"
+    },
+    {
+      "chunk_id": 38,
+      "text": "oth an output and input for the state machine. To create a finite-state machine like that in figure 2.55 , drag in states (white circles), or click on the state icon in the toolbar. You can rename these states by right clicking on them and selecting"
+    },
+    {
+      "chunk_id": 39,
+      "text": "se states by right clicking on them and selecting \"Customize Name\". Choose names that are pertinent to your application. In figure 2.55 , there is an init state for initialization, a free state for when the ball is in the air, and a stop state for wh"
+    },
+    {
+      "chunk_id": 40,
+      "text": "en the ball is in the air, and a stop state for when the ball is no longer bouncing. You must specify the initial state of the FSM by right clicking on the background of the FSM Editor, selecting \"Edit Parameters\", and specifying an initial state nam"
+    },
+    {
+      "chunk_id": 41,
+      "text": "t Parameters\", and specifying an initial state name, as shown in figure 2.56 . In that figure, the initial state is named init . Creating Transitions To create transitions, you must hold the control button 1 on the keyboard while clicking and draggin"
+    },
+    {
+      "chunk_id": 42,
+      "text": "utton 1 on the keyboard while clicking and dragging from one state to the next (a transition can also go back to the same state). The handles on the transition can be used to customize its curvature and orientation. Double clicking on the transition"
+    },
+    {
+      "chunk_id": 43,
+      "text": "nd orientation. Double clicking on the transition (or right clicking and selecting \"Configure\") allows you to configure the transition. The dialog for the transition from init to free is shown in figure 2.61 . In that dialog, we see the following: Th"
+    },
+    {
+      "chunk_id": 44,
+      "text": "re 2.61 . In that dialog, we see the following: The guard expression is true , so this transition is always enabled. The transition will be taken as soon as the model begins executing. A guard expression can be any boolean-valued expression that depe"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ion can be any boolean-valued expression that depends on the inputs, parameters, or even the outputs of any refinement of the current state (see below). Thus, this transition is used to initialize the model. The output actions are empty, meaning that"
+    },
+    {
+      "chunk_id": 46,
+      "text": "model. The output actions are empty, meaning that when this transition is taken, no output is specified. This parameter can have a list of assignments of values to output ports, separated by semicolons. Those values will be assigned to output ports"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ns. Those values will be assigned to output ports when the transition is taken. The set actions field contains the following statements: free.initialPosition = initialPosition; free.initialVelocity = 0.0 The \"free\" in these expressions refers to the"
+    },
+    {
+      "chunk_id": 48,
+      "text": "0.0 The \"free\" in these expressions refers to the mode refinement in the free state. Thus, free.initialPosition is a parameter of that mode refinement. Here, its value is assigned to the value of the parameter initialPosition . The parameter free.ini"
+    },
+    {
+      "chunk_id": 49,
+      "text": "parameter initialPosition . The parameter free.initialVelocity is set to zero. The reset parameter is set to true , meaning that the destination mode refinement will be initialized when the transition is taken. The preemptive parameter is set to fals"
+    },
+    {
+      "chunk_id": 50,
+      "text": "is taken. The preemptive parameter is set to false . In this case, it makes no difference, since the init state has no refinement. Normally, if a transition out of a state is enabled and preemptive is true , then the transition will be taken without"
+    },
+    {
+      "chunk_id": 51,
+      "text": "s true , then the transition will be taken without first executing the refinement. Thus, the refinement will not affect the outputs of the modal model. A state may have several outgoing transitions. However, it is up to the model builder to ensure th"
+    },
+    {
+      "chunk_id": 52,
+      "text": "owever, it is up to the model builder to ensure that at no time does more than one guard on these transitions evaluate to true. In other words, Ptolemy II does not allow nondeterministic state machines, and will throw an exception if it encounters on"
+    },
+    {
+      "chunk_id": 53,
+      "text": "s, and will throw an exception if it encounters one. Creating Refinements Both states and transitions can have refinements. To create a refinement, right click 2 on the state or transition, and select \"Add Refinement.\" You will see a dialog like that"
+    },
+    {
+      "chunk_id": 54,
+      "text": "\"Add Refinement.\" You will see a dialog like that in figure 2.62 . As shown in the figure, you will be offered the alternatives of a \"Default Refinement\" or a \"State Machine Refinement.\" The first of these provides a block diagram model as the refin"
+    },
+    {
+      "chunk_id": 55,
+      "text": "these provides a block diagram model as the refinement. The second provides another finite state machine as the refinement. In the former case (the default), a blank refinement model will open, as shown in the figure. As before, the output port will"
+    },
+    {
+      "chunk_id": 56,
+      "text": "own in the figure. As before, the output port will appear in an inconvenient location. You will almost certainly want to move it to a more convenient location. You will have to create a director in the refinement. The modal model will not operate wit"
+    },
+    {
+      "chunk_id": 57,
+      "text": "e refinement. The modal model will not operate without a director in the refinement. You can also create refinements for transitions, but these have somewhat different behavior. They will execute exactly once when the transition is taken. For this re"
+    },
+    {
+      "chunk_id": 58,
+      "text": "tly once when the transition is taken. For this reason, only certain directors make sense in such refinements. The most commonly useful is the SDF director. Such refinements are typically used to perform arithmetic computations that are too elaborate"
+    },
+    {
+      "chunk_id": 59,
+      "text": "orm arithmetic computations that are too elaborate to be conveniently specified as an action on the transition. Once you have created a refinement, you can look inside a state or transition. For the bouncing ball example, the refinement of the free s"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ouncing ball example, the refinement of the free state is shown in figure 2.58 . This model exhibits certain key properties of refinements: Refinements must contain directors. In this case, the CTEmbeddedDirector is used. When a continuous-time model"
+    },
+    {
+      "chunk_id": 61,
+      "text": "ddedDirector is used. When a continuous-time model is used inside a mode, this director must be used instead of the default CTDirector (see the CT domain documentation for details). The refinement has the same ports as the modal model, and can read i"
+    },
+    {
+      "chunk_id": 62,
+      "text": "the same ports as the modal model, and can read input values and specify output values. When the state machine is in the state of which this is the refinement, this model will be executed to read the inputs and produce the outputs. 2.10.4 Executio"
+    },
+    {
+      "chunk_id": 63,
+      "text": "inputs and produce the outputs. 2.10.4 Execution Semantics The behavior of a refinement is simple. When the modal model is executed, the following sequence of events occurs: For any transitions out of the current state for which preemptive is true"
+    },
+    {
+      "chunk_id": 64,
+      "text": "of the current state for which preemptive is true , the guard is evaluated. If exactly one such guard evaluates to true , then that transition is chosen. The output actions of the transition are executed, and the refinements of the transition (if an"
+    },
+    {
+      "chunk_id": 65,
+      "text": "uted, and the refinements of the transition (if any) are executed, followed by the set actions . If no preemptive transition evaluated to true, then the refinement of the current state, if there is one, is evaluated at the current time step. Once the"
+    },
+    {
+      "chunk_id": 66,
+      "text": "e, is evaluated at the current time step. Once the refinement has been evaluated (and it has possibly updated its output values), the guard expressions on all the outgoing transitions of the current state are evaluated. If none is true, the execution"
+    },
+    {
+      "chunk_id": 67,
+      "text": "tate are evaluated. If none is true, the execution is complete. If one is true, then that transition is taken. If more than one is true, then an exception is thrown (the state machine is nondeterministic). What it means for the transition to be \"take"
+    },
+    {
+      "chunk_id": 68,
+      "text": "tic). What it means for the transition to be \"taken\" is that its output actions are executed, its refinements (if any) are executed, and its set actions are executed. If reset is true on a transition that is taken, then the refinement of the destinat"
+    },
+    {
+      "chunk_id": 69,
+      "text": "that is taken, then the refinement of the destination mode (if there is one) is initialized. There is a subtle distinction between the output actions and the set actions . The intent of these two fields on the transition is that output actions are us"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ds on the transition is that output actions are used to define the values of output ports, while set actions are used to define state variables in the refinements of the destination modes. The reason that these two actions are separated is that while"
+    },
+    {
+      "chunk_id": 71,
+      "text": "that these two actions are separated is that while solving a continuous-time system of equations, the solver may speculatively execute models at certain time steps before it is sure what the next time step will be. The output actions make no permanen"
+    },
+    {
+      "chunk_id": 72,
+      "text": "step will be. The output actions make no permanent changes to the state of the system, and hence can be executed during this speculative phase. The set actions , however, make permanent changes to the state variables of the destination refinements,"
+    },
+    {
+      "chunk_id": 73,
+      "text": "e state variables of the destination refinements, and hence are not executed during the speculative phase. 1 Or the command button on a Macintosh computer. 2 On a Macintosh, control-click."
+    }
+  ]
+}

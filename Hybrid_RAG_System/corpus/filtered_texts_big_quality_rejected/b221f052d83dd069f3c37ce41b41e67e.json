@@ -1,0 +1,117 @@
+{
+  "url": "https://people.eecs.berkeley.edu/~ronf/jat/orthotweezers/javadoc/orthotweezers/CancelThread.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": ": Class CancelThread Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES SUMMARY: INNER | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD orthotweezers Class CancelThread java.lang.Object | +--java.lang.Th"
+    },
+    {
+      "chunk_id": 2,
+      "text": "celThread java.lang.Object | +--java.lang.Thread | +-- orthotweezers.CancelThread All Implemented Interfaces: java.lang.Runnable public class CancelThread extends java.lang.Thread A CancelThread extends Thread and allows a mec"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ead A CancelThread extends Thread and allows a mechanism to cleanly pause or cancel the thread. When the thread is created its state is ENABLED (not to be confused with the interrupted or alive state). If the pause() or cancel() method is called,"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e). If the pause() or cancel() method is called, the state is set to PAUSED or CANCELLED, respectively. A thread may call CancelThread.check() and if pause() has been called (by another thread), check() will loop until the other thread calls"
+    },
+    {
+      "chunk_id": 5,
+      "text": "check() will loop until the other thread calls unpause() or cancel(). If cancelled, check() throws a CancelException. Field Summary static int CANCELLED static int ENABLED static int PAUSE_REQUEST static int PAUSED Fields inherited from class jav"
+    },
+    {
+      "chunk_id": 6,
+      "text": "static int PAUSED Fields inherited from class java.lang.Thread MAX_PRIORITY, MIN_PRIORITY, NORM_PRIORITY Constructor Summary CancelThread (java.lang.Runnable runnable) Creates a new CancelThread as in Thread(Runnable target) Method Summary void canc"
+    },
+    {
+      "chunk_id": 7,
+      "text": "n Thread(Runnable target) Method Summary void cancel () This sets the state to CANCELLED so that the next call to check() from the running thread will throw a CancelException, or if check() is looping in the PAUSED state then it will also throw a C"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ng in the PAUSED state then it will also throw a CancelException. static void check () If this thread state is still ENABLED, simply return. boolean isPaused () Return true if the state of this thread is PAUSED. void pause () This sets the state to P"
+    },
+    {
+      "chunk_id": 9,
+      "text": "is PAUSED. void pause () This sets the state to PAUSE_REQUEST so that the next call to check() from the running thread will convert the state to PAUSED and loop until unpause() or cancel() is called. void unpause () If the state is PAUSED, this se"
+    },
+    {
+      "chunk_id": 10,
+      "text": "d. void unpause () If the state is PAUSED, this sets the state back to ENABLED so that the check() method in which the other thread is looping can exit and allow the thread to resume. Methods inherited from class java.lang.Thread activeCount, check"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ted from class java.lang.Thread activeCount, checkAccess, countStackFrames, currentThread, destroy, dumpStack, enumerate, getContextClassLoader, getName, getPriority, getThreadGroup, interrupt, interrupted, isAlive, isDaemon, isInterrupted, join, joi"
+    },
+    {
+      "chunk_id": 12,
+      "text": "upted, isAlive, isDaemon, isInterrupted, join, join, join, resume, run, setContextClassLoader, setDaemon, setName, setPriority, sleep, sleep, start, stop, stop, suspend, toString, yield Methods inherited from class java.lang.Object clone, equals, fin"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ted from class java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail ENABLED public static int ENABLED PAUSE_REQUEST public static int PAUSE_REQUEST PAUSED public static int PAUSED CANCELLED pu"
+    },
+    {
+      "chunk_id": 14,
+      "text": "QUEST PAUSED public static int PAUSED CANCELLED public static int CANCELLED Constructor Detail CancelThread public CancelThread (java.lang.Runnable runnable) Creates a new CancelThread as in Thread(Runnable target) Method Detail cancel public void ca"
+    },
+    {
+      "chunk_id": 15,
+      "text": "nnable target) Method Detail cancel public void cancel () This sets the state to CANCELLED so that the next call to check() from the running thread will throw a CancelException, or if check() is looping in the PAUSED state then it will also throw a"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ping in the PAUSED state then it will also throw a CancelException. Once the CancelException is thrown, the run() method should exit causing the thread to stop running. This also uses isAlive() to wait until the cancelled thread is dead, so y"
+    },
+    {
+      "chunk_id": 17,
+      "text": "o wait until the cancelled thread is dead, so you know that when cancel() returns the cancelled thread is really dead. Note that if for some reason, the cancelled thread does not die, this method may not return. See Also: check() pause public v"
+    },
+    {
+      "chunk_id": 18,
+      "text": "may not return. See Also: check() pause public void pause () This sets the state to PAUSE_REQUEST so that the next call to check() from the running thread will convert the state to PAUSED and loop until unpause() or cancel() is called. However,"
+    },
+    {
+      "chunk_id": 19,
+      "text": "until unpause() or cancel() is called. However, if the state is already PAUSED or CANCELLED, this simply returns without doing anything. This waits until the check() method responds and converts the PAUSE_REQUEST to PAUSED, so you know that when"
+    },
+    {
+      "chunk_id": 20,
+      "text": "he PAUSE_REQUEST to PAUSED, so you know that when this returns, the paused thread is really pausing. Note that if for some reason, the other thread does not call check() in order to become paused, this method may not return. See Also: check() ,"
+    },
+    {
+      "chunk_id": 21,
+      "text": ", this method may not return. See Also: check() , unpause() , cancel() unpause public void unpause () If the state is PAUSED, this sets the state back to ENABLED so that the check() method in which the other thread is looping can exit and allow the"
+    },
+    {
+      "chunk_id": 22,
+      "text": "he other thread is looping can exit and allow the thread to resume. If the state is alreay ENABLED, this does nothing. Also, if the state is already CANCELLED, this also does nothing because you can't unpause a cancelled thread. See Also: check("
+    },
+    {
+      "chunk_id": 23,
+      "text": "can't unpause a cancelled thread. See Also: check() , pause() check public static void check () throws CancelException If this thread state is still ENABLED, simply return. If the state is CANCELLED (because another thread called"
+    },
+    {
+      "chunk_id": 24,
+      "text": "state is CANCELLED (because another thread called cancel()) then this throws a CancelException. If the state is PAUSED or PAUSE_REQUEST (because another thread called pause()) then this will loop until the state becomes ENABLED (because another"
+    },
+    {
+      "chunk_id": 25,
+      "text": "until the state becomes ENABLED (because another thread called unpause()) or CANCELLED. This is a static method and queries Thread.currentThread() to see if the current thread is an instanceof CancelThread. If not, it simply returns, but if it is"
+    },
+    {
+      "chunk_id": 26,
+      "text": "lThread. If not, it simply returns, but if it is, then it looks at the state as described. Throws: CancelException - if this object is no longer enabled See Also: cancel() , pause() , unpause() isPaused public boolean isPaused () Return true if the"
+    },
+    {
+      "chunk_id": 27,
+      "text": "used public boolean isPaused () Return true if the state of this thread is PAUSED. Note: to find out if the thread is cancelled, use the isAlive() method inherited from the Thread class. Package Class Tree Deprecated Index Help PREV CLASS NEXT CLAS"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ss Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES SUMMARY: INNER | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

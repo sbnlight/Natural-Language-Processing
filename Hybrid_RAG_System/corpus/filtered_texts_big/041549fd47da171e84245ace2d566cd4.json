@@ -1,0 +1,97 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII5.0/ptII5.0.1/doc/design/usingVergil/usingVergila9.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "2.8 Higher-Order Components 2.8 Higher-Order Components Ptolemy II includes a number of higher-order components , which are actors that operate on the structure of the model rather than on data. This notion of higher-order components appeared in Pt"
+    },
+    {
+      "chunk_id": 2,
+      "text": "s notion of higher-order components appeared in Ptolemy Classic and is described in [81], but the realization in Ptolemy II is more flexible than that in Ptolemy Classic. These higher-order components help significantly in building large designs wher"
+    },
+    {
+      "chunk_id": 3,
+      "text": "help significantly in building large designs where the model structure does not depend on the scale of the problem. In this section, we describe a few of these components, all of which are found in the HigherOrderActors library. The ModalModel actor"
+    },
+    {
+      "chunk_id": 4,
+      "text": "he HigherOrderActors library. The ModalModel actor is described below in section 2.10 , after explaining some of the domains that can make effective use of it. 2.8.1 MultiInstance Composite Consider the model in figure 2.37 , which has five instanc"
+    },
+    {
+      "chunk_id": 5,
+      "text": "the model in figure 2.37 , which has five instances of the Channel class wired in parallel. This model has the unfortunate feature that the number of instances is hardwired into the diagram. It is awkward, therefore, to change this number, and parti"
+    },
+    {
+      "chunk_id": 6,
+      "text": "kward, therefore, to change this number, and particularly awkward to create a larger number of instances. This problem is solved by the MultiInstanceComposite actor 1 . A model equivalent to that of figure 2.37 but using the MultiInstanceComposite ac"
+    },
+    {
+      "chunk_id": 7,
+      "text": "igure 2.37 but using the MultiInstanceComposite actor is shown in figure 2.45 . The MultiInstanceComposite is a composite actor into which we have inserted a single instance of the Channel (this is inserted by creating an instance of the of Channel,"
+    },
+    {
+      "chunk_id": 8,
+      "text": "serted by creating an instance of the of Channel, then copying and pasting it into the composite). The MultiInstanceComposite actor has two parameters, nInstances and instance , shown in figure 2.46 . The first of these specifies the number of instan"
+    },
+    {
+      "chunk_id": 9,
+      "text": "The first of these specifies the number of instances to create. At run time, this actor replicates itself this number of times, connecting the inputs and outputs to the same sources and destinations as the first (prototype) instance. In figure 2.45"
+    },
+    {
+      "chunk_id": 10,
+      "text": "as the first (prototype) instance. In figure 2.45 , notice that the input of the MultiInstanceComposite is connected to a relation (the black diamond), and the output is connected directly to a multiport input of the AddSubtract actor. As a consequen"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ort input of the AddSubtract actor. As a consequence, the multiple instances will be wired in a manner similar to figure 2.37 , where the same input value is broadcast to all instances, but distinct output values are supplied to the AddSubtract actor"
+    },
+    {
+      "chunk_id": 12,
+      "text": "utput values are supplied to the AddSubtract actor. The model of figure 2.45 is better than that of figure 2.37 because now we can change the number of instances by changing one parameter value. The instances can also be customized on a per-instance"
+    },
+    {
+      "chunk_id": 13,
+      "text": "nstances can also be customized on a per-instance basis by expressing their parameter values in terms of the instance parameter of the MultiInstanceComposite. Try, for example, making the noisePower parameter of the InstanceOfChannel actor in figure"
+    },
+    {
+      "chunk_id": 14,
+      "text": "arameter of the InstanceOfChannel actor in figure 2.45 depend on instance . E.g., set it to \"instance * 0.1\" and then set nInstances to 1. You will see a clean sine wave when you run the model. 2.8.2 Mobile Code A pair of (still experimental) actor"
+    },
+    {
+      "chunk_id": 15,
+      "text": "Mobile Code A pair of (still experimental) actors in Ptolemy II support mobile code in two forms. The MobileFunction actor accepts a function in the expression language (see the Expression Language chapter) at one input port and applies that functi"
+    },
+    {
+      "chunk_id": 16,
+      "text": "chapter) at one input port and applies that function to data that arrives at the other input port. The MobileModel actor accepts a MoML description of a Ptolemy II model at an input port and then executes that model, streaming data from the other inp"
+    },
+    {
+      "chunk_id": 17,
+      "text": "utes that model, streaming data from the other input port through it. A use of the MobileFunction actor is shown in figure 2.47 . In that model, two functions are provided to the MobileFunction in an alternating fashion, one that computes and the oth"
+    },
+    {
+      "chunk_id": 18,
+      "text": "alternating fashion, one that computes and the other that computes . These two functions are provided by two instances of the Const actor, found in Sources, GenericSources. The functions are interleaved by the Commutator actor, from FlowControl, Aggr"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ed by the Commutator actor, from FlowControl, Aggregators. 2.8.3 Lifecycle Management Actors A few actors in the HigherOrderActors library provide in a single firing the entire execution of another Ptolemy II model. The RunCompositeActor actor exec"
+    },
+    {
+      "chunk_id": 20,
+      "text": "Ptolemy II model. The RunCompositeActor actor executes the contained model. The ModelReference actor executes a model that is defined elsewhere in its own file or URL. The VisualModelReference actor opens a Vergil view of a referenced model when it e"
+    },
+    {
+      "chunk_id": 21,
+      "text": "pens a Vergil view of a referenced model when it executes a referenced model. These actors generally associate ports (that the user of the actor creates) with parameters of the referenced or contained model. They can be used, for example, to create m"
+    },
+    {
+      "chunk_id": 22,
+      "text": "model. They can be used, for example, to create models that repeatedly run other models with varying parameter values. See the documentation of the actors and the demonstrations in the quick tour for more details. 1 The MultiInstanceComposite actor"
+    },
+    {
+      "chunk_id": 23,
+      "text": "more details. 1 The MultiInstanceComposite actor was contributed to the Ptolemy II code base by Zoltan Kemenczy and Sean Simmons, of Research In Motion Limited."
+    }
+  ]
+}

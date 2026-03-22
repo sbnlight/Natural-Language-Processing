@@ -1,0 +1,169 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/samba.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/samba.help Apr 2"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Apr 29 2008 CONTENTS: Samba on the Instructional Systems How to Use Samba on the Windows Systems How to Map Your UNIX Home Directory as a Drive Letter How to use Samba on the UNIX Systems How to acc"
+    },
+    {
+      "chunk_id": 3,
+      "text": "How to use Samba on the UNIX Systems How to access your Windows home directory from UNIX using smbclient What you need to know to use smbclient An example session using smbclient Getting help with smbclient and the other UNIX Samba utilities"
+    },
+    {
+      "chunk_id": 4,
+      "text": "th smbclient and the other UNIX Samba utilities Samba on the Instructional Systems ---------------------------------- Samba is a utility that allows users on Microsoft operating systems to access their files and other services on UNIX systems"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ess their files and other services on UNIX systems, and vice versa. How to Use Samba on the Windows Systems --------------------------------------- After logging into your Windows account, choose \"Run...\" from the Start menu. In the \"Run\""
+    },
+    {
+      "chunk_id": 6,
+      "text": "se \"Run...\" from the Start menu. In the \"Run\" dialog box, you should enter the name of the Instructional UNIX home directory file server: \\\\mamba.CS.Berkeley.EDU A window will open that lists the home directory that corresponds to the W"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ts the home directory that corresponds to the Windows account you're logged in to. That is, you must have matching account names in the UNIX and Windows domains. The accounts in the 2 domains have distinct home directory servers. The UNIX"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ns have distinct home directory servers. The UNIX accounts have home directories on \"mamba\", and the Windows accounts have home directories on \"fileservice\". The home directories on \"fileservice\" appear as the U: drive for EECS Instructio"
+    },
+    {
+      "chunk_id": 9,
+      "text": "vice\" appear as the U: drive for EECS Instructional Windows accounts. How to Map Your UNIX Home Directory as a Drive Letter ----------------------------------------------------- To save files from Windows programs onto your UNIX filesystem, yo"
+    },
+    {
+      "chunk_id": 10,
+      "text": "rom Windows programs onto your UNIX filesystem, you will need to either save them on the desktop and copy them over, or map the UNIX directory as a drive letter. (This is no different from any other directory on a Windows server.) So the proc"
+    },
+    {
+      "chunk_id": 11,
+      "text": "her directory on a Windows server.) So the process is as follows: 1. Right-click on the \"Network Places\" icon on the desktop. This will give you a menu from which you should choose \"Map Network Drive...\" Select an unused drive let"
+    },
+    {
+      "chunk_id": 12,
+      "text": "Network Drive...\" Select an unused drive letter; such as \"K:\". Type in the Folder you want to connect. \"\\\\mamba\\jrn\" would be the path to get jrn's home directory from mamba. 2. An alternate method is to open the Start->Run win"
+    },
+    {
+      "chunk_id": 13,
+      "text": "An alternate method is to open the Start->Run window and type the DOS command: net use K: \\\\mamba\\%USERNAME% If you're logged in as a different user than the one you want to get, you can try putting the correct user name in the \"C"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ou can try putting the correct user name in the \"Connect As\" box in option 1 above. Note that Windows only allows one user per server, so in this example you cannot connect to \\\\mamba as a different user. But you could connect to a home direc"
+    },
+    {
+      "chunk_id": 15,
+      "text": "rent user. But you could connect to a home directory on \\\\coeus or some other EECS server as a different user. How to use Samba on the UNIX Systems ------------------------------------ Here are basic commands that you can run on a UNIX syste"
+    },
+    {
+      "chunk_id": 16,
+      "text": "re basic commands that you can run on a UNIX system to list and copy files from your Windows home directory (assume your login name is 'jdoe' or 'ee43-td'): smbclient //fileservice/named -U jdoe -c 'recurse; ls jdoe' smbclient //fileserv"
+    },
+    {
+      "chunk_id": 17,
+      "text": "doe -c 'recurse; ls jdoe' smbclient //fileservice/named -U jdoe -c 'tar c jdoe.tar jdoe' smbclient //fileservice/ee43 -U ee43-td -c 'recurse; ls su07/ee43-td' smbclient //fileservice/ee43 -U ee43-td -c 'tar c ee43-td.tar su07/ee43-td'"
+    },
+    {
+      "chunk_id": 18,
+      "text": "-U ee43-td -c 'tar c ee43-td.tar su07/ee43-td' The \"tar\" commands would create a file called \"jdoe.tar\" or \"ee43-td.tar\" in your current UNIX directory. Samba comes with the following utilities under UNIX:\" convert_smbpasswd - convert a S"
+    },
+    {
+      "chunk_id": 19,
+      "text": "es under UNIX:\" convert_smbpasswd - convert a Samba version 1 smbpasswd file format into a Samba version 2 smbpasswd file format. rpcclient - Samba NT RPC client (apparently undocumented) smbtar - shell script for backing up SMB shares dire"
+    },
+    {
+      "chunk_id": 20,
+      "text": "btar - shell script for backing up SMB shares directly to UNIX tape drive make_printerdef - converts between Microsoft Windows 95 printer .INF files and Samba-compatible descriptions (for more information, see samba/docs/textdocs/PRINTER_DRIV"
+    },
+    {
+      "chunk_id": 21,
+      "text": "formation, see samba/docs/textdocs/PRINTER_DRIVER.txt) smbclient - ftp-like Lan Manager client program swat - Samba Web Administration Tool make_smbcodepage - translate between binary codepage definition file and ascii codepage definition"
+    },
+    {
+      "chunk_id": 22,
+      "text": "e definition file and ascii codepage definition sources smbd - provide SMB (aka LanManager) services to clients (smbd is not available under ULTRIX) testparm - check an smbd configuration file for internal correctness nmbd - provide netbi"
+    },
+    {
+      "chunk_id": 23,
+      "text": "le for internal correctness nmbd - provide netbios nameserver support to clients smbpasswd - change a user's smb password in the smbpasswd file. testprns - check printer name(s) for validity with smbd addtosmbpass - program for adding new ent"
+    },
+    {
+      "chunk_id": 24,
+      "text": "h smbd addtosmbpass - program for adding new entries to smbpasswd files nmblookup - map NetBIOS names to IP addresses using NetBIOS over TCP queries smbstatus - report on current Samba connections Man pages are available if you add /share/b/"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ns Man pages are available if you add /share/b/man or /share/b/samba/man to your MANPATH: % setenv MANPATH \"${MANPATH}:/share/b/samba/man\" How to access your Windows home directory from UNIX using smbclient -------------------------------"
+    },
+    {
+      "chunk_id": 26,
+      "text": "IX using smbclient ------------------------------------------------------------------- Using Samba's UNIX client program, \"smbclient\", you can access your Windows server account(s) through an FTP-like interface. (We don't have any machines tha"
+    },
+    {
+      "chunk_id": 27,
+      "text": "-like interface. (We don't have any machines that support smbfs right now, but we may in the future.) Read on... What you need to know to use smbclient -------------------------------------- To connect to your Windows home directory from a"
+    },
+    {
+      "chunk_id": 28,
+      "text": "To connect to your Windows home directory from a UNIX account, you need to know: 1) The Windows domain your account is in. All Instructional Windows accounts are in the dimain \"EECS\". 2) Your Windows username and password. 3) The"
+    },
+    {
+      "chunk_id": 29,
+      "text": "2) Your Windows username and password. 3) The share you want to access. All Instructional Windows home directories are on the server Fileservice. You can list the available shares on the server with this UNIX command: % smbcli"
+    },
+    {
+      "chunk_id": 30,
+      "text": "the server with this UNIX command: % smbclient -L fileservice -U {your-login} -W EECS | more Usually, you will pick the one for your class. If you have trouble connecting, because you get some sort of error saying that it"
+    },
+    {
+      "chunk_id": 31,
+      "text": "e you get some sort of error saying that it can't find the host, try giving the Internet hostname of the server with the -I option: % smbclient -L fileservice -U {your-login} -W EECS -I fileservice.eecs.berkeley.edu An example ses"
+    },
+    {
+      "chunk_id": 32,
+      "text": "-I fileservice.eecs.berkeley.edu An example session using smbclient ---------------------------------- Here's an example session with smbclient, connecting from an Instructional UNIX account to the Windows EECS domain \"EECS\\ee120-kmm\" accoun"
+    },
+    {
+      "chunk_id": 33,
+      "text": "to the Windows EECS domain \"EECS\\ee120-kmm\" account, where the Windows home directory U: is \\\\fileservice\\ee120\\fa01\\ee120-kmm. As above, you need to know - the server, e.g., \"fileservice\", and the share, e.g., \"ee120\". - your username;"
+    },
+    {
+      "chunk_id": 34,
+      "text": "and the share, e.g., \"ee120\". - your username; use the -U option to specify it. - your password; smbclient will prompt you for it. - your domain (EECS); use the -W option to specify it. In this example, we connect to the Windows home shar"
+    },
+    {
+      "chunk_id": 35,
+      "text": "this example, we connect to the Windows home share, change into the home directory, transfer a file from UNIX to Windows with \"put\", and transfer one from Windows to UNIX with \"get\". ----------------------------------------------------------"
+    },
+    {
+      "chunk_id": 37,
+      "text": "5.255.0 added interface ip=128.32.138.172 bcast=128.32.138.255 nmask=255.255.255.0 Password: [...type EECS\\ee120-kmm password...] Domain=[EECS] OS=[Windows 5.0] Server=[Windows 2000 LAN Manager] smb> ls . D"
+    },
+    {
+      "chunk_id": 39,
+      "text": "0 Wed Aug 29 09:37:14 2001 fa01 D 0 Fri Sep 21 09:47:34 2001 60472 blocks of size 2097152. 52606 blocks available smb> cd fa01\\ee120-kmm smb> put hello.p [send files from loca"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ut hello.p [send files from local to remote] smb> get interruptq.doc [receive files to local from remote] smb> quit [when you're done, type quit] --------------------------------------------"
+    },
+    {
+      "chunk_id": 42,
+      "text": "---------- More help with the various options can be had by running any of the following (the examples mention smbclient, but the advice is applicable for all the Samba UNIX utilities): % man smbclient (but set your MANPATH, as above"
+    },
+    {
+      "chunk_id": 43,
+      "text": "an smbclient (but set your MANPATH, as above, first) % smbclient -h (to see a list of available options) Or, you can read the various online documentation in the directory \"/share/b/samba/src/samba-2.0.5a/docs\". The Instructi"
+    },
+    {
+      "chunk_id": 44,
+      "text": "e/b/samba/src/samba-2.0.5a/docs\". The Instructional staff can also help you if you have questions; mail us at \"inst@eecs.berkeley.edu\". EECS Instructional Support 378/384/386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

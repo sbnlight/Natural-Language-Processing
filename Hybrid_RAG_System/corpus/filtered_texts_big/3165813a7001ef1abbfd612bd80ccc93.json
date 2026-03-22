@@ -1,0 +1,41 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/note-submission",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"d:f:\", 1, 100"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"d:f:\", 1, 1000000); require \"GradingCommon.pl\"; $assgn = shift; if ($#ARGV > 0 && defined ($opt_f)) { &Usage } if (! AssignmentExists ($assgn)) { Fatal (\"Error: assignment $assgn not found.\"); } if (de"
+    },
+    {
+      "chunk_id": 3,
+      "text": "(\"Error: assignment $assgn not found.\"); } if (defined ($opt_f) && ! -r $opt_f) { Fatal (\"Error: could not read file $opt_f.\"); } if (defined ($opt_d) && ! defined (ToTime ($opt_d))) { Fatal (\"Error: bad date format: $opt_d.\"); } if (defi"
+    },
+    {
+      "chunk_id": 4,
+      "text": "(\"Error: bad date format: $opt_d.\"); } if (defined ($opt_d)) { $timestamp = TimeToTimeStamp (ToTime ($opt_d)); } else { $timestamp = TimeToTimeStamp (time ()); } # Usage: EnterSubmission LOGIN sub EnterSubmission { my $login = shift;"
+    },
+    {
+      "chunk_id": 5,
+      "text": "OGIN sub EnterSubmission { my $login = shift; if (!StudentExists ($login)) { Warn (\"Student $login not registered.\"); next; } if (SubmissionExists ($login, $assgn)) { Warn (\"Submission of $assgn for $login already exists.\"); next;"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ion of $assgn for $login already exists.\"); next; } open (DUMMY, \">$SUBMISSION_DIR/$assgn/$login.$timestamp\") || Fatal (\"Could not create $SUBMISSION_DIR/$assgn/$login.$timestamp: $!\"); close DUMMY; } Note (\"Noting submissions for assi"
+    },
+    {
+      "chunk_id": 7,
+      "text": "close DUMMY; } Note (\"Noting submissions for assignment $assgn, time stamp $timestamp.\"); if (! (-d \"$SUBMISSION_DIR/$assgn\" && -w \"$SUBMISSION_DIR/$assgn\")) { InitDir (\"$SUBMISSION_DIR/$assgn\", 02770, $STAFF_GROUP) || Fatal (\"Could not cr"
+    },
+    {
+      "chunk_id": 8,
+      "text": "02770, $STAFF_GROUP) || Fatal (\"Could not create $SUBMISSION_DIR/$assgn\"); } if (defined ($opt_f)) { open (SUBMISSIONS, \"<$opt_f\") || Fatal (\"Could not open $opt_f: $!\"); while ( ) { if (/^\\s*(\\S+)/) { EnterSubmission ($1); }"
+    },
+    {
+      "chunk_id": 9,
+      "text": "f (/^\\s*(\\S+)/) { EnterSubmission ($1); } } close SUBMISSIONS; } else { foreach $login (@ARGV) { EnterSubmission ($login); } } exit 0;"
+    }
+  ]
+}

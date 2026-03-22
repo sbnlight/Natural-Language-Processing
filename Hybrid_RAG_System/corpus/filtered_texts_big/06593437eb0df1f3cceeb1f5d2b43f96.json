@@ -1,0 +1,101 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/team-members",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl; -*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. # Important Assumptions: This script runs under the run-as-class-master # wrapper, which gives it the effecti"
+    },
+    {
+      "chunk_id": 2,
+      "text": "lass-master # wrapper, which gives it the effective UID of the class master account, # sets PATH to /usr/bin, MASTERDIR and GRADINGDIR to the correct values, # copies HOME and PWD from the user, and clears the rest of the environment, # including"
+    },
+    {
+      "chunk_id": 3,
+      "text": "clears the rest of the environment, # including environment variables affecting Perl. # Usage: # team-members [ -u LOGIN ] [ TEAM ] # Prints logins of members of TEAM (if I am one of them or otherwise # authorized), and otherwise finds"
+    },
+    {
+      "chunk_id": 4,
+      "text": "otherwise # authorized), and otherwise finds and prints all teams of which I am # a member. The -u switch (privileged) uses LOGIN as the requesting user. # team-members -r TEAM LOGIN ... # Remove the given LOGINs from TEAM, if curren"
+    },
+    {
+      "chunk_id": 5,
+      "text": "# Remove the given LOGINs from TEAM, if currently members. # Must be privileged to specify a LOGIN other than your own, or to use this # command at all if parameters file does not allow unprivileged team # modification. # team-memb"
+    },
+    {
+      "chunk_id": 6,
+      "text": "privileged team # modification. # team-members -a TEAM LOGIN ... # Add LOGINs to TEAM. If the user is not privileged, then the parameters # file must allow unprivileged team modification and the user must be # in TEAM previously."
+    },
+    {
+      "chunk_id": 7,
+      "text": "on and the user must be # in TEAM previously. # team-members -c TEAM LOGIN ... # Create TEAM, with initial members given by the listed LOGINs. If the # user is not privileged, then LOGIN must include the current user and # the p"
+    },
+    {
+      "chunk_id": 8,
+      "text": "GIN must include the current user and # the parameters file must allow unprivileged team modification. # team-members -d TEAM # Delete TEAM, which must be empty. The user must be privileged. use POSIX qw(strftime); use Net::Domain qw(h"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ged. use POSIX qw(strftime); use Net::Domain qw(hostname hostfqdn); unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); @ARGV0 = @ARGV; require \"GradingBase.pl\"; CmndLine (\"u:acrd\", 0, 20); require \"GradingCommon.pl\"; GetPermissions ($0,"
+    },
+    {
+      "chunk_id": 10,
+      "text": "; require \"GradingCommon.pl\"; GetPermissions ($0, @ARGV0); $ENV{\"PATH\"}='/usr/bin'; sub GetTeam { my ($team) = @_; my %team; open (TEAM, \"$TEAM_DIR/$team\") or return undef; while ( ) { chomp; if (/^\\s*#/) { nex"
+    },
+    {
+      "chunk_id": 11,
+      "text": ") { chomp; if (/^\\s*#/) { next; } $team{$_} = 1; } close TEAM; return %team; } sub Report { my ($team, %members) = @_; return if (not %members); my $line = join (\" \", sort (keys %members)); p"
+    },
+    {
+      "chunk_id": 12,
+      "text": "my $line = join (\" \", sort (keys %members)); print \"$team: $line\\n\"; } $me = MyLogin (); $authorized = $AUTHORIZED{$me}; if ($opt_u and $authorized) { $me = $opt_u; } else { if ($opt_u and $me ne $opt_u) { Fatal (\"You are not authorized"
+    },
+    {
+      "chunk_id": 13,
+      "text": "d $me ne $opt_u) { Fatal (\"You are not authorized to inquire for $opt_u.\"); } } if ( ($opt_u ? 1 : 0) + ($opt_a ? 1 : 0) + ($opt_c ? 1 : 0) + ($opt_d ? 1 : 0) + ($opt_r ? 1 : 0) > 1) { Usage (); } if ($opt_d and not $authorized) {"
+    },
+    {
+      "chunk_id": 14,
+      "text": "Usage (); } if ($opt_d and not $authorized) { Fatal (\"You are not authorized to delete a team.\"); } if (($opt_a or $opt_c or $opt_r) and not $authorized) { Fatal (\"You are not authorized to modify teams.\"); } if (@ARGV) { $team = shift"
+    },
+    {
+      "chunk_id": 15,
+      "text": "modify teams.\"); } if (@ARGV) { $team = shift @ARGV; } else { $team = undef; } if (($opt_a or $opt_c or $opt_d or $opt_r) and not $team) { Usage (); } if ($opt_c) { if (TeamExists ($team)) { Fatal (\"Team $team already exists.\");"
+    },
+    {
+      "chunk_id": 16,
+      "text": "$team)) { Fatal (\"Team $team already exists.\"); } if ($team !~ /^[A-Z][a-zA-Z0-9_-]*$/) { Fatal (\"Team name does not have the right form.\"); } } elsif (not TeamExists ($team)) { Fatal (\"No such team as $team.\"); } @logins = @ARGV;"
+    },
+    {
+      "chunk_id": 17,
+      "text": "l (\"No such team as $team.\"); } @logins = @ARGV; foreach (@logins) { $logins{$_} = 1; } if ($opt_a or $opt_r or $opt_c) { if (not @logins) { Usage (); } } elsif (@logins) { Usage (); } if ($team) { %members = GetTeam ($team);"
+    },
+    {
+      "chunk_id": 18,
+      "text": "; } if ($team) { %members = GetTeam ($team); } else { foreach (<$TEAM_DIR/*>) { ($team) = m{.*/(.*)}; %members = GetTeam ($team); if ($members{$me}) { Report ($team, %members); } } exit 0; } foreach $login (@logins) { i"
+    },
+    {
+      "chunk_id": 19,
+      "text": "} exit 0; } foreach $login (@logins) { if (not StudentExists ($login)) { Fatal (\"Login $login is not registered.\"); } } $changed = 0; if ($opt_c) { if (not $authorized and not grep (/^$me$/, @logins)) { Fatal (\"You must be a memb"
+    },
+    {
+      "chunk_id": 20,
+      "text": "(/^$me$/, @logins)) { Fatal (\"You must be a member of any team you create.\"); } %members = %logins; $changed = 1; } elsif ($opt_r) { foreach (@logins) { if ($authorized or $_ eq $me) { delete $members{$_}; $changed = 1;"
+    },
+    {
+      "chunk_id": 21,
+      "text": ") { delete $members{$_}; $changed = 1; } } } elsif ($opt_a) { if (not $authorized and not $members{$me}) { Fatal (\"You may not add members to team you're not on.\"); } %members = (%members, %logins); $changed = 1; } els"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ers = (%members, %logins); $changed = 1; } elsif ($opt_d) { unlink (\"$TEAM_DIR/$team\"); } else { if ($authorized or $members{$me}) { Report ($team, %members); } } if ($changed) { umask (0177); open(TEAM, \">\", \"$TEAM_DIR/$tea"
+    },
+    {
+      "chunk_id": 23,
+      "text": "umask (0177); open(TEAM, \">\", \"$TEAM_DIR/$team\") || Fatal (\"Could not write $TEAM_DIR/$team.\"); @members = sort (keys %members); foreach $member (@members) { print TEAM \"$member\\n\"; } close TEAM || Fatal (\"Problem writing $TE"
+    },
+    {
+      "chunk_id": 24,
+      "text": "} close TEAM || Fatal (\"Problem writing $TEAM_DIR/$team.\"); } exit 0;"
+    }
+  ]
+}

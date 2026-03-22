@@ -1,0 +1,213 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII3.0/ptII3.0.2/doc/codeDoc/ptolemy/matlab/Expression.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Expression Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.matlab Class Expression java.lang.Object | +-- ptole"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Class Expression java.lang.Object | +-- ptolemy.kernel.util.NamedObj | +-- ptolemy.kernel.Entity | +-- ptolemy.kernel.ComponentEntity | +-- ptolemy.actor.AtomicActor | +-- ptole"
+    },
+    {
+      "chunk_id": 3,
+      "text": ".AtomicActor | +-- ptolemy.actor.TypedAtomicActor | +-- ptolemy.matlab.Expression All Implemented Interfaces: Actor , java.lang.Cloneable, Debuggable , DebugListener , Executable , ModelErrorH"
+    },
+    {
+      "chunk_id": 4,
+      "text": "uggable , DebugListener , Executable , ModelErrorHandler , Nameable , java.io.Serializable, TypedActor public class Expression extends TypedAtomicActor On each firing send an expression for evaluation to a matlab Engine . The expression is any valid"
+    },
+    {
+      "chunk_id": 5,
+      "text": "to a matlab Engine . The expression is any valid matlab expression, e.g.: [out1, out2, ... ] = SomeMatlabFunctionOrExpression( in1, in2, ... );... The expression may include references to the input port names, current time ( time ), and a count of t"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ort names, current time ( time ), and a count of the firing ( iteration ). This is similar to Expression . The matlab engine is opened (started) during prefire() by the first matlab Expression actor. Subsequent open()s simply increment a use count. A"
+    },
+    {
+      "chunk_id": 7,
+      "text": "Subsequent open()s simply increment a use count. At the start of fire(), clear variables;clear globals commands are sent to matlab to clear its workspace. This helps detect errors where the matlab expression refers to a matlab variable not initialize"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ression refers to a matlab variable not initialized from the input ports of this actor instance. After the evaluation of the matlab expression is complete, the fire() method iterates through names of output ports and converts matlab variables with co"
+    },
+    {
+      "chunk_id": 9,
+      "text": "output ports and converts matlab variables with corresponding names to Tokens that are sent to the corresponding output ports. Incorrect expressions are usually first detected at this point by not finding the expected variables. If an output port var"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ding the expected variables. If an output port variable is not found in the matlab Engine , an exception is thrown. The exception description string contains the last stdout of the matlab engine that usually describes the error. The get1x1asScalars a"
+    },
+    {
+      "chunk_id": 11,
+      "text": "usually describes the error. The get1x1asScalars and getIntegerMatrices control data conversion (see Engine and Engine.ConversionParameters ). A Parameter named packageDirectories may be added to this actor to augment the search path of the matlab en"
+    },
+    {
+      "chunk_id": 12,
+      "text": "actor to augment the search path of the matlab engine during the firing of this actor. The value of this parameter should evaluate to a StringToken, e.g.: \"path1, path2, ...\" containing a comma-separated list of paths to be prepended to the matlab e"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ated list of paths to be prepended to the matlab engine search path before expression is evaluated. The list may contain paths relative to the directory in which ptolemy was started, or any directory listed in the current classpath (in that order, fi"
+    },
+    {
+      "chunk_id": 14,
+      "text": "listed in the current classpath (in that order, first match wins). See UtilityFunctions.findFile(String) . After evaluation, the previous search path is restored. A Parameter named _debugging may be used to turn on debug print statements to stdout fr"
+    },
+    {
+      "chunk_id": 15,
+      "text": "sed to turn on debug print statements to stdout from Engine and the ptmatlab JNI. An IntToken with a value of 1 turns on Engine debug statements, a value of 2 adds ptmatlab debug statements as well. A value of 0 or the absence of the _debugging para"
+    },
+    {
+      "chunk_id": 16,
+      "text": "A value of 0 or the absence of the _debugging parameter yields normal operation. Since: Ptolemy II 2.0 Version: $Id: Expression.java,v 1.30 2003/05/05 06:36:31 cxh Exp $ Author: Zoltan Kemenczy and Sean Simmons, Research in Motion Limited See Also: S"
+    },
+    {
+      "chunk_id": 17,
+      "text": "an Simmons, Research in Motion Limited See Also: Serialized Form Nested Class Summary Nested classes inherited from class ptolemy.kernel.util. NamedObj NamedObj.MoMLInfo Field Summary StringAttribute expression The parameter that is evaluated to prod"
+    },
+    {
+      "chunk_id": 18,
+      "text": "expression The parameter that is evaluated to produce the output. Parameter get1x1asScalars If true (checked), 1x1 matrix results are converted to ScalarTokens instead of a 1x1 MatrixToken, default is true . Parameter getIntegerMatrices If tr"
+    },
+    {
+      "chunk_id": 19,
+      "text": "fault is true . Parameter getIntegerMatrices If true, all double-valued matrix results are checked to see if all elements represent integers, and if so, an IntMatrixToken is returned, default is false for performance reasons. TypedIOP"
+    },
+    {
+      "chunk_id": 20,
+      "text": "default is false for performance reasons. TypedIOPort output The output port. Fields inherited from class ptolemy.actor. AtomicActor _stopRequested Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _debugging , _debugListen"
+    },
+    {
+      "chunk_id": 21,
+      "text": "edObj _changeListeners , _debugging , _debugListeners , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor S"
+    },
+    {
+      "chunk_id": 22,
+      "text": "MPLETED , NOT_READY , STOP_ITERATING Constructor Summary Expression ( CompositeEntity container, java.lang.String name) Construct an actor with the given container and name. Method Summary void fire () Evaluate the expression and send its"
+    },
+    {
+      "chunk_id": 23,
+      "text": "void fire () Evaluate the expression and send its result to the output. void initialize () Initialize the iteration count to 1. boolean postfire () Increment the iteration count. boolean prefire () Return true if all input ports have at least one tok"
+    },
+    {
+      "chunk_id": 24,
+      "text": "turn true if all input ports have at least one token. void preinitialize () Open a matlab engine java.util.List typeConstraintList () Must specify port types using moml (TypeAttribute) - the default TypedAtomicActor type constraints do not apply in"
+    },
+    {
+      "chunk_id": 25,
+      "text": "TypedAtomicActor type constraints do not apply in this case, since the input type may be totally unrelated to the output type and cannot be inferred; return an empty list. void wrapup () Close matlab engine if it was open Methods inherited from"
+    },
+    {
+      "chunk_id": 26,
+      "text": "tlab engine if it was open Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChanged , newPort Methods inherited from class ptolemy.actor. AtomicActor _createReceivers , clone , connectionsChanged , getDirector , ge"
+    },
+    {
+      "chunk_id": 27,
+      "text": "rs , clone , connectionsChanged , getDirector , getExecutiveDirector , getManager , inputPortList , iterate , newReceiver , outputPortList , setContainer , stop , stopFire , terminate Methods inherited from class ptolemy.kernel. ComponentEntity _chec"
+    },
+    {
+      "chunk_id": 28,
+      "text": "d from class ptolemy.kernel. ComponentEntity _checkContainer , getContainer , isAtomic , isOpaque , setName Methods inherited from class ptolemy.kernel. Entity _description , _exportMoMLContents , _removePort , connectedPortList , connectedPorts , ge"
+    },
+    {
+      "chunk_id": 29,
+      "text": "movePort , connectedPortList , connectedPorts , getAttribute , getPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , uniqueName , validateSettables Methods inherited from class ptolemy.kernel.util. NamedObj _addAttri"
+    },
+    {
+      "chunk_id": 30,
+      "text": "from class ptolemy.kernel.util. NamedObj _addAttribute , _attachText , _debug , _debug , _debug , _debug , _debug , _getIndentPrefix , _removeAttribute , _splitName , _stipNumericSuffix , addChangeListener , addDebugListener , attributeChanged , attr"
+    },
+    {
+      "chunk_id": 31,
+      "text": "tener , addDebugListener , attributeChanged , attributeList , attributeList , clone , deepContains , depthInHierarchy , description , description , event , exportMoML , exportMoML , exportMoML , exportMoML , exportMoML , getAttribute , getAttributes"
+    },
+    {
+      "chunk_id": 32,
+      "text": "tMoML , exportMoML , getAttribute , getAttributes , getFullName , getModelErrorHandler , getMoMLInfo , getName , getName , handleModelError , message , removeChangeListener , removeDebugListener , Methods inherited from class java.lang.Object equals,"
+    },
+    {
+      "chunk_id": 33,
+      "text": "hods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor getDirector , getExecutiveDirector , getManager , inputPortList , newReceiver ,"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ector , getManager , inputPortList , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable iterate , stop , stopFire , terminate Field Detail output public TypedIOPort output The output port. expression public String"
+    },
+    {
+      "chunk_id": 35,
+      "text": "t output The output port. expression public StringAttribute expression The parameter that is evaluated to produce the output. Typically, this parameter evaluates an expression involving the inputs. get1x1asScalars public Parameter get1x1asScalars"
+    },
+    {
+      "chunk_id": 36,
+      "text": ". get1x1asScalars public Parameter get1x1asScalars If true (checked), 1x1 matrix results are converted to ScalarTokens instead of a 1x1 MatrixToken, default is true . getIntegerMatrices public Parameter getIntegerMatrices If true, all double-"
+    },
+    {
+      "chunk_id": 37,
+      "text": "Parameter getIntegerMatrices If true, all double-valued matrix results are checked to see if all elements represent integers, and if so, an IntMatrixToken is returned, default is false for performance reasons. Constructor Detail Expr"
+    },
+    {
+      "chunk_id": 38,
+      "text": "e for performance reasons. Constructor Detail Expression public Expression ( CompositeEntity container, java.lang.String name) throws NameDuplicationException , IllegalActionException , java.lang.Excepti"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ionException , java.lang.Exception Construct an actor with the given container and name. Parameters: container - The container. name - The name of this actor. Throws: IllegalActionException - If the actor cannot be contained by t"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ception - If the actor cannot be contained by the proposed container. NameDuplicationException - If the container already has an actor with this name. java.lang.Exception Method Detail typeConstraintList public java.util.List typeConstraintList"
+    },
+    {
+      "chunk_id": 41,
+      "text": "raintList public java.util.List typeConstraintList () Must specify port types using moml (TypeAttribute) - the default TypedAtomicActor type constraints do not apply in this case, since the input type may be totally unrelated to the output type a"
+    },
+    {
+      "chunk_id": 42,
+      "text": "type may be totally unrelated to the output type and cannot be inferred; return an empty list. Specified by: typeConstraintList in interface TypedActor Overrides: typeConstraintList in class TypedAtomicActor Returns: A list of instances of Inequali"
+    },
+    {
+      "chunk_id": 43,
+      "text": "omicActor Returns: A list of instances of Inequality. See Also: Inequality preinitialize public void preinitialize () throws IllegalActionException Open a matlab engine Specified by: preinitialize in interface Executable Overrides:"
+    },
+    {
+      "chunk_id": 44,
+      "text": ": preinitialize in interface Executable Overrides: preinitialize in class AtomicActor Throws: IllegalActionException - If matlab engine not found. initialize public void initialize () throws IllegalActionException Initialize the itera"
+    },
+    {
+      "chunk_id": 45,
+      "text": "throws IllegalActionException Initialize the iteration count to 1. Specified by: initialize in interface Executable Overrides: initialize in class AtomicActor Throws: IllegalActionException - If the parent class throws it. prefire public boolean pref"
+    },
+    {
+      "chunk_id": 46,
+      "text": "arent class throws it. prefire public boolean prefire () throws IllegalActionException Return true if all input ports have at least one token. Specified by: prefire in interface Executable Overrides: prefire in class AtomicActor Retur"
+    },
+    {
+      "chunk_id": 47,
+      "text": "able Overrides: prefire in class AtomicActor Returns: True if this actor is ready for firing, false otherwise. Throws: IllegalActionException - Not thrown in this base class. fire public void fire () throws IllegalActionException Evaluate t"
+    },
+    {
+      "chunk_id": 48,
+      "text": "throws IllegalActionException Evaluate the expression and send its result to the output. Specified by: fire in interface Executable Overrides: fire in class AtomicActor Throws: IllegalActionException - If the evaluation of the expression"
+    },
+    {
+      "chunk_id": 49,
+      "text": "Exception - If the evaluation of the expression triggers it, or the evaluation yields a null result, or the evaluation yields an incompatible type, or if there is no director. postfire public boolean postfire () throws IllegalA"
+    },
+    {
+      "chunk_id": 50,
+      "text": "olean postfire () throws IllegalActionException Increment the iteration count. Specified by: postfire in interface Executable Overrides: postfire in class AtomicActor Returns: True if the execution can continue. Throws: IllegalAction"
+    },
+    {
+      "chunk_id": 51,
+      "text": "the execution can continue. Throws: IllegalActionException - If the superclass throws it. wrapup public void wrapup () throws IllegalActionException Close matlab engine if it was open Specified by: wrapup in interface Executable Override"
+    },
+    {
+      "chunk_id": 52,
+      "text": "cified by: wrapup in interface Executable Overrides: wrapup in class AtomicActor Throws: IllegalActionException - Not thrown in this base class. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMM"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/WhatToDoAboutOutOfOrderCallbacks",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / WhatToDoAboutOutOfOrderCallbacks Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / WhatToDoAboutOutOfOrderCallbacks An acc"
+    },
+    {
+      "chunk_id": 2,
+      "text": "nt Notes / WhatToDoAboutOutOfOrderCallbacks An accessor that responds to input stimulus and issues an asynchronous request for a service, like an HTTP service, may receive a stream of such stimuli and issue several concurrent requests. The responses"
+    },
+    {
+      "chunk_id": 3,
+      "text": "issue several concurrent requests. The responses to the requests may not come back in the same order they were requested, so any outputs produced by the accessor could be out of order w.r.t. to the inputs. The current implementation of the StockTi"
+    },
+    {
+      "chunk_id": 4,
+      "text": "inputs. The current implementation of the StockTick accessor exhibits this (unfortunate) behavior. Possible solutions: Block waiting for a response from the service before issuing a new request. This is probably not a good choice, as it loses most"
+    },
+    {
+      "chunk_id": 5,
+      "text": "s is probably not a good choice, as it loses most of the available concurrency. Tag the requests with a sequence number and block when a response comes in that is out of order. This is also not a good choice, since the service could fail to respond"
+    },
+    {
+      "chunk_id": 6,
+      "text": "d choice, since the service could fail to respond to a request, blocking all future requests. Modify 1b with a timeout, produce an output indicator at the timeout, and discard any responses that come in after the timeout. This seems like the only rea"
+    },
+    {
+      "chunk_id": 7,
+      "text": "in after the timeout. This seems like the only reasonable choice to me. Perhaps this could be codified in a reusable design pattern? For a DE host (like Ptolemy II), this still leaves open the question of what the timestamps of the outputs should b"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ion of what the timestamps of the outputs should be. This paper could be helpful in figuring out what they should be: http://www.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-151.html The accessor tags the requests, tracks corresponding responses an"
+    },
+    {
+      "chunk_id": 9,
+      "text": "gs the requests, tracks corresponding responses and tags the output tokens with sequence numbers. It does not block, however. Instead, a downstream actor (say \"OrderedFilter\") queues the incoming tokens and outputs these tokens in sequence number o"
+    },
+    {
+      "chunk_id": 10,
+      "text": "kens and outputs these tokens in sequence number order. OrderedFilter does not produce any output until the correct sequence numbered token is received. It could optionally have a timeout as in 1c, to wait a max amount of time for a missing sequenc"
+    },
+    {
+      "chunk_id": 11,
+      "text": "to wait a max amount of time for a missing sequence numbered token. Also, there's a choice of what to do when the queue is full (discard, produce output anyway, throw exception...) The fourth option has the advantage of codifying the pattern (put ou"
+    },
+    {
+      "chunk_id": 12,
+      "text": "has the advantage of codifying the pattern (put out of order responses in order) in a separate accessor that could be reused for any stream that includes a sequence number. It does make a data type assumption: the sequence number needs to be included"
+    },
+    {
+      "chunk_id": 13,
+      "text": "sumption: the sequence number needs to be included in the output in some standardized way. Message delivery semantics Marjan Sirjani pointed out that the ordering problem bears a strong relationship to message delivery semantics in actor models. See"
+    },
+    {
+      "chunk_id": 14,
+      "text": "o message delivery semantics in actor models. See Akka framework: http://doc.akka.io/docs/akka/snapshot/general/message-delivery-reliability.html Erlang messages (see below): http://www.erlang.org/doc/getting_started/conc_prog.html Long Le has also"
+    },
+    {
+      "chunk_id": 15,
+      "text": "c/getting_started/conc_prog.html Long Le has also pointed of this Node package: https://www.npmjs.com/package/async It offers multiple design patterns for asynchronous operations, and the main idea is using a dummy 'finish' callback that must be call"
+    },
+    {
+      "chunk_id": 16,
+      "text": "using a dummy 'finish' callback that must be called after each iterator. More on Erlang messages: Messages between Erlang processes are simply valid Erlang terms. I.e. they can be lists, tuples, integers, atoms, pids etc. Each process has its own in"
+    },
+    {
+      "chunk_id": 17,
+      "text": "gers, atoms, pids etc. Each process has its own input queue for messages it receives. New messages received are put at the end of the queue. When a process executes a receive, the first message in the queue is matched against the first pattern in the"
+    },
+    {
+      "chunk_id": 18,
+      "text": "queue is matched against the first pattern in the receive, if this matches, the message is removed from the queue and the actions corresponding to the pattern are executed. However, if the first pattern does not match, the second pattern is tested,"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ern does not match, the second pattern is tested, if this matches the message is removed from the queue and the actions corresponding to the second pattern are executed. If the second pattern does not match the third is tried and so on until there ar"
+    },
+    {
+      "chunk_id": 20,
+      "text": "match the third is tried and so on until there are no more pattern to test. If there are no more patterns to test, the first message is kept in the queue and we try the second message instead. If this matches any pattern, the appropriate actions are"
+    },
+    {
+      "chunk_id": 21,
+      "text": "s matches any pattern, the appropriate actions are executed and the second message is removed from the queue (keeping the first message and any other messages in the queue). If the second message does not match we try the third message and so on unti"
+    },
+    {
+      "chunk_id": 22,
+      "text": "not match we try the third message and so on until we reach the end of the queue. If we reach the end of the queue, the process blocks (stops execution) and waits until a new message is received and this procedure is repeated. Of course the Erlang i"
+    },
+    {
+      "chunk_id": 23,
+      "text": "this procedure is repeated. Of course the Erlang implementation is \"clever\" and minimizes the number of times each message is tested against the patterns in each receive. Back to main accessors wiki Edit - History - Print - Recent Changes - Search Pa"
+    }
+  ]
+}

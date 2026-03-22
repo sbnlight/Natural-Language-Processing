@@ -1,0 +1,417 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/domains/sdf/kernel/SDFScheduler.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "SDFScheduler Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.domains.sdf.kernel Class SDFScheduler java.lang.Object"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ins.sdf.kernel Class SDFScheduler java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.util.Attribute ptolemy.actor.sched.Scheduler ptolemy.domains.sdf.kernel.BaseSDFScheduler ptolemy.domains.sdf.kernel.SDFScheduler All Implemented Interfaces"
+    },
+    {
+      "chunk_id": 3,
+      "text": "sdf.kernel.SDFScheduler All Implemented Interfaces: Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , java.io.Serializable, ValueListener Direct Known Subclasses: Cac"
+    },
+    {
+      "chunk_id": 4,
+      "text": "izable, ValueListener Direct Known Subclasses: CachedSDFScheduler , DistributedSDFScheduler public class SDFScheduler extends BaseSDFScheduler implements ValueListener A scheduler that implements basic scheduling of SDF graphs. This class calculate"
+    },
+    {
+      "chunk_id": 5,
+      "text": "c scheduling of SDF graphs. This class calculates the SDF schedule in two phases. First, the balance equations for the rates between actors are solved to determine the firing vector (also known as the repetitions vector). The firing vector is t"
+    },
+    {
+      "chunk_id": 6,
+      "text": "the repetitions vector). The firing vector is the least integer solution such that the number of tokens created on each channel of each relation is equal to the number of tokens consumed. In some cases, no solution exists. Such graphs are not"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e cases, no solution exists. Such graphs are not executable under SDF. Then the actors are ordered such that each actor only fires when the scheduler has determined that enough tokens will be present on its input ports to allow it to fire. In ca"
+    },
+    {
+      "chunk_id": 8,
+      "text": "nt on its input ports to allow it to fire. In cases where the dataflow graph is cyclic, a valid firing vector exists, but no actor can fire, since they all depend on the output of another actor. This situation is known as deadlock . Deadlock m"
+    },
+    {
+      "chunk_id": 9,
+      "text": "This situation is known as deadlock . Deadlock must be prevented in SDF by manually inserting delay actors, which represent initial tokens on each relation. Such delay actors are responsible for creating tokens during initialization that will p"
+    },
+    {
+      "chunk_id": 10,
+      "text": "creating tokens during initialization that will prevent deadlock. These actors set the tokenInitProduction parameter of their output ports to represent the number of tokens they will create during initialization. The SDFScheduler uses this par"
+    },
+    {
+      "chunk_id": 11,
+      "text": "g initialization. The SDFScheduler uses this parameter to break the dependency in a cyclic graph. Note that this scheduler only ensures that the number of firings is minimal. Most notably, it does not attempt to minimize the size of the buffers"
+    },
+    {
+      "chunk_id": 12,
+      "text": "s not attempt to minimize the size of the buffers that are associated with each relation. The resulting schedule is a linear schedule (as opposed to a looped schedule) and is not suitable for multiprocessing environments. Any actors may be sched"
+    },
+    {
+      "chunk_id": 13,
+      "text": "iprocessing environments. Any actors may be scheduled by this scheduler, which will, by default, assume homogeneous behavior for each actor. (i.e. each output port produces one token for each firing, and each input port consumes one token on eac"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ng, and each input port consumes one token on each firing, and no tokens are created during initialization.) If this is not the case then parameters named tokenConsumptionRate , tokenProductionRate , and tokenInitProduction must be set. The SDFIO"
+    },
+    {
+      "chunk_id": 15,
+      "text": ", and tokenInitProduction must be set. The SDFIOPort class provides easier access to these parameters. Note that reconstructing the schedule is expensive, so the schedule is locally cached for as long as possible, and mutations under SDF should b"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ong as possible, and mutations under SDF should be avoided. Note that this scheduler supports actors with 0-rate ports as long as the graph is not equivalent to a disconnected graph. This scheduler is somewhat conservative in this respect. Disconn"
+    },
+    {
+      "chunk_id": 17,
+      "text": "is somewhat conservative in this respect. Disconnected graphs are supported if the SDF Director parameter allowDisconnectedGraphs is true. Since: Ptolemy II 0.2 Version: $Id: SDFScheduler.java,v 1.220.2.1 2006/12/30 22:20:33 cxh Exp $ Author: Stephe"
+    },
+    {
+      "chunk_id": 18,
+      "text": "0.2.1 2006/12/30 22:20:33 cxh Exp $ Author: Stephen Neuendorffer and Brian Vogel See Also: Scheduler , SampleDelay , Serialized Form Accepted Rating: Green (neuendor) Proposed Rating: Green (neuendor) Nested Class Summary Nested classes inherited fro"
+    },
+    {
+      "chunk_id": 19,
+      "text": "Nested Class Summary Nested classes inherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary protected java.util.Map _externalRates Mmaps from external ports to the number of tokens that that port will pr"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ts to the number of tokens that that port will produce or consume in each firing. protected java.util.Map _firingVector A map from actors to an integer representing the number of times the actor will fire. protected java.util.List _rateVariables"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ill fire. protected java.util.List _rateVariables The list of rate variables that this scheduler is listening to for rate changes. Parameter constrainBufferSizes If true, then buffer sizes are fixed according to the schedule, and attempts to writ"
+    },
+    {
+      "chunk_id": 22,
+      "text": "according to the schedule, and attempts to write to the buffer that cause the buffer to exceed the schedule size result in an exception. Fields inherited from class ptolemy.domains.sdf.kernel. BaseSDFScheduler VERBOSE Fields inherited from class"
+    },
+    {
+      "chunk_id": 23,
+      "text": "seSDFScheduler VERBOSE Fields inherited from class ptolemy.actor.sched. Scheduler _DEFAULT_SCHEDULER_NAME Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _ele"
+    },
+    {
+      "chunk_id": 24,
+      "text": "angeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary SDFScheduler () Construct a scheduler with no container(di"
+    },
+    {
+      "chunk_id": 25,
+      "text": "uler () Construct a scheduler with no container(director) in the default workspace, the name of the scheduler is \"Scheduler\". SDFScheduler ( Director container, java.lang.String name) Construct a scheduler in the given container with"
+    },
+    {
+      "chunk_id": 26,
+      "text": "Construct a scheduler in the given container with the given name. SDFScheduler ( Workspace workspace) Construct a scheduler in the given workspace with the name \"Scheduler\". Method Summary protected void _checkDynamicRateVariables ( CompositeActo"
+    },
+    {
+      "chunk_id": 27,
+      "text": "d void _checkDynamicRateVariables ( CompositeActor model, java.util.List rateVariables) Populate the given set with the dynamic rate variables in the model. protected int _computeMaximumFirings ( Actor currentActor) Deter"
+    },
+    {
+      "chunk_id": 28,
+      "text": "_computeMaximumFirings ( Actor currentActor) Determine the number of times the given actor can fire, based on the number of tokens that are present on its inputs. protected int _countUnfulfilledInputs ( Actor actor, java.ut"
+    },
+    {
+      "chunk_id": 29,
+      "text": "uts ( Actor actor, java.util.List actorList, boolean resetCapacity) Count the number of input ports in the given actor that must be fulfilled before the actor can fire. protected int _getFiringCount"
+    },
+    {
+      "chunk_id": 30,
+      "text": "he actor can fire. protected int _getFiringCount ( Entity entity) Return the number of firings associated with the given entity. protected Schedule _getSchedule () Return the scheduling sequence. protected void _simulateExternalInputs ( IOPort port"
+    },
+    {
+      "chunk_id": 31,
+      "text": "tected void _simulateExternalInputs ( IOPort port, int count, java.util.List actorList, java.util.LinkedList readyToScheduleActorList) Simulate the consumption of tokens from th"
+    },
+    {
+      "chunk_id": 32,
+      "text": "orList) Simulate the consumption of tokens from the given external input port. protected boolean _simulateInputConsumption ( Actor currentActor, int firingCount) Simulate the consumption of tokens by the actor during exec"
+    },
+    {
+      "chunk_id": 33,
+      "text": "the consumption of tokens by the actor during execution of the given number of firings. protected java.util.Map _solveBalanceEquations ( CompositeActor container, java.util.List actorList, java.util.Ma"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ist actorList, java.util.Map externalRates) Solve the balance equations for the list of connected Actors. protected void _vectorizeFirings (int vectorizationFactor, java.util.Map entityToFiringsPerIteration,"
+    },
+    {
+      "chunk_id": 35,
+      "text": "java.util.Map entityToFiringsPerIteration, java.util.Map externalRates) Multiply all of the repetition rates by the given vectorizationFactor. java.lang.Object clone ( Workspace workspace) Clone the scheduler into the speci"
+    },
+    {
+      "chunk_id": 36,
+      "text": "pace workspace) Clone the scheduler into the specified workspace. void declareRateDependency () Declare the rate dependency on any external ports of the model. java.util.Map getExternalRates () Get the external port rates. int getFiringCount ( Entity"
+    },
+    {
+      "chunk_id": 37,
+      "text": "e external port rates. int getFiringCount ( Entity entity) Create the schedule. void valueChanged ( Settable settable) React to the fact that the specified Settable has changed by invalidating the schedule. Methods inherited from class ptolemy.doma"
+    },
+    {
+      "chunk_id": 38,
+      "text": "chedule. Methods inherited from class ptolemy.domains.sdf.kernel. BaseSDFScheduler _declareDependency , _saveBufferSizes , _saveContainerRates , _saveFiringCounts Methods inherited from class ptolemy.actor.sched. Scheduler getSchedule , isValid , set"
+    },
+    {
+      "chunk_id": 39,
+      "text": "actor.sched. Scheduler getSchedule , isValid , setContainer , setValid Methods inherited from class ptolemy.kernel.util. Attribute _getContainedObject , _propagateExistence , getContainer , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp ,"
+    },
+    {
+      "chunk_id": 40,
+      "text": "moveToFirst , moveToIndex , moveToLast , moveUp , setName , updateContent Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debu"
+    },
+    {
+      "chunk_id": 41,
+      "text": "Fields , _debug , _debug , _debug , _debug , _debug , _description , _exportMoMLContents , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , _validateSettables , addC"
+    },
+    {
+      "chunk_id": 42,
+      "text": ", _stripNumericSuffix , _validateSettables , addChangeListener , addDebugListener , attributeChanged , attributeList , attributeList , attributeTypeChanged , clone , containedObjectsIterator , deepContains , depthInHierarchy , description , descript"
+    },
+    {
+      "chunk_id": 44,
+      "text": "getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getDisplayName , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequ"
+    },
+    {
+      "chunk_id": 45,
+      "text": "tSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateExistence , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringChangeReq"
+    },
+    {
+      "chunk_id": 46,
+      "text": "questChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , uniqueName , validateSettables , workspace Methods inherited"
+    },
+    {
+      "chunk_id": 47,
+      "text": ", validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail constrainBufferSizes public Parameter constrainBufferSizes If true, then buffer sizes"
+    },
+    {
+      "chunk_id": 48,
+      "text": "er constrainBufferSizes If true, then buffer sizes are fixed according to the schedule, and attempts to write to the buffer that cause the buffer to exceed the schedule size result in an exception. This method works by setting the capacity of t"
+    },
+    {
+      "chunk_id": 49,
+      "text": ". This method works by setting the capacity of the receivers if the value is true. This parameter is a boolean that defaults to true. _firingVector protected java.util.Map _firingVector A map from actors to an integer representing the number of"
+    },
+    {
+      "chunk_id": 50,
+      "text": "actors to an integer representing the number of times the actor will fire. _externalRates protected java.util.Map _externalRates Mmaps from external ports to the number of tokens that that port will produce or consume in each firing. It gets po"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ill produce or consume in each firing. It gets populated with the fractional production ratios and is used in the end to set final rates on external ports. _rateVariables protected java.util.List _rateVariables The list of rate variables that this"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ateVariables The list of rate variables that this scheduler is listening to for rate changes. Constructor Detail SDFScheduler public SDFScheduler () Construct a scheduler with no container(director) in the default workspace, the name of the schedu"
+    },
+    {
+      "chunk_id": 53,
+      "text": "in the default workspace, the name of the scheduler is \"Scheduler\". SDFScheduler public SDFScheduler ( Workspace workspace) Construct a scheduler in the given workspace with the name \"Scheduler\". If the workspace argument is null, use the def"
+    },
+    {
+      "chunk_id": 54,
+      "text": ". If the workspace argument is null, use the default workspace. The scheduler is added to the list of objects in the workspace. Increment the version number of the workspace. Parameters: workspace - Object for synchronization and version tracki"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ce - Object for synchronization and version tracking. SDFScheduler public SDFScheduler ( Director container, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct a scheduler in the"
+    },
+    {
+      "chunk_id": 56,
+      "text": "eDuplicationException Construct a scheduler in the given container with the given name. The container argument must not be null, or a NullPointerException will be thrown. This attribute will use the workspace of the container for synchronizati"
+    },
+    {
+      "chunk_id": 57,
+      "text": "the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to the empty string. Increment the version of the workspace. Parameters: container - The container. name - The name of thi"
+    },
+    {
+      "chunk_id": 58,
+      "text": "container - The container. name - The name of this attribute. Throws: IllegalActionException - If the attribute is not of an acceptable class for the container, or if the name contains a period. NameDuplicationException - If the name coincides wi"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ameDuplicationException - If the name coincides with an attribute already in the container. Method Detail clone public java.lang.Object clone ( Workspace workspace) throws java.lang.CloneNotSupportedException Clone the sched"
+    },
+    {
+      "chunk_id": 60,
+      "text": "va.lang.CloneNotSupportedException Clone the scheduler into the specified workspace. The new object is not added to the directory of that workspace (you must do this yourself if you want it there). The result is a new scheduler with no container,"
+    },
+    {
+      "chunk_id": 61,
+      "text": "The result is a new scheduler with no container, and no valid schedule. Overrides: clone in class Scheduler Parameters: workspace - The workspace for the cloned object. Returns: The new Scheduler. Throws: java.lang.CloneNotSupportedException - If o"
+    },
+    {
+      "chunk_id": 62,
+      "text": "hrows: java.lang.CloneNotSupportedException - If one of the attributes cannot be cloned. declareRateDependency public void declareRateDependency () throws IllegalActionException Declare the rate dependency on any externa"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ception Declare the rate dependency on any external ports of the model. SDF directors should invoke this method once during preinitialize. Specified by: declareRateDependency in class BaseSDFScheduler Throws: IllegalActionException - If there is a"
+    },
+    {
+      "chunk_id": 64,
+      "text": "er Throws: IllegalActionException - If there is a problem setting the rate dependency on an external port. getExternalRates public java.util.Map getExternalRates () Get the external port rates. Returns: a Map from external ports to the number of to"
+    },
+    {
+      "chunk_id": 65,
+      "text": "rns: a Map from external ports to the number of tokens that that port will produce or consume in each firing. getFiringCount public int getFiringCount ( Entity entity) throws IllegalActionException Create the schedule. Return th"
+    },
+    {
+      "chunk_id": 66,
+      "text": "galActionException Create the schedule. Return the number of times that the given entity will fire in a single iteration of the system. Parameters: entity - The entity that is being fired. Returns: The number of times that the given entity will fi"
+    },
+    {
+      "chunk_id": 67,
+      "text": "The number of times that the given entity will fire Throws: IllegalActionException - If thrown by getSchedule(). valueChanged public void valueChanged ( Settable settable) React to the fact that the specified Settable has changed by invalidating t"
+    },
+    {
+      "chunk_id": 68,
+      "text": "specified Settable has changed by invalidating the schedule. Specified by: valueChanged in interface ValueListener Parameters: settable - The object that has changed value. _checkDynamicRateVariables protected void _checkDynamicRateVariables ( Comp"
+    },
+    {
+      "chunk_id": 69,
+      "text": "s protected void _checkDynamicRateVariables ( CompositeActor model, java.util.List rateVariables) throws IllegalActionException Populate the given set with the dynamic rate"
+    },
+    {
+      "chunk_id": 70,
+      "text": "tion Populate the given set with the dynamic rate variables in the model. Parameters: model - The model. rateVariables - A list of rate variables. Each element is a Variable. Throws: IllegalActionException - If throw while looking for dynamic ra"
+    },
+    {
+      "chunk_id": 71,
+      "text": "xception - If throw while looking for dynamic rate parameters. _computeMaximumFirings protected int _computeMaximumFirings ( Actor currentActor) throws IllegalActionException Determine the number of times the given act"
+    },
+    {
+      "chunk_id": 72,
+      "text": "eption Determine the number of times the given actor can fire, based on the number of tokens that are present on its inputs. Parameters: currentActor - The actor. Returns: The number of times the actor can fire. Throws: IllegalActionException - If"
+    },
+    {
+      "chunk_id": 73,
+      "text": "tor can fire. Throws: IllegalActionException - If the rate parameters are invalid. _countUnfulfilledInputs protected int _countUnfulfilledInputs ( Actor actor, java.util.List actorList,"
+    },
+    {
+      "chunk_id": 74,
+      "text": "va.util.List actorList, boolean resetCapacity) throws IllegalActionException Count the number of input ports in the given actor that must be fulfilled before the actor can fire."
+    },
+    {
+      "chunk_id": 75,
+      "text": "t must be fulfilled before the actor can fire. Ports that are connected to actors that we are not scheduling right now are assumed to be fulfilled. Ports that have more tokens waiting on each of their channels than their input consumption r"
+    },
+    {
+      "chunk_id": 76,
+      "text": "of their channels than their input consumption rate are also already fulfilled. All other ports are considered to be unfulfilled. Parameters: actor - The actor. actorList - The list of actors that we are scheduling. resetCapacity - If true, th"
+    },
+    {
+      "chunk_id": 77,
+      "text": "hat we are scheduling. resetCapacity - If true, then reset the capacity of each receiver to infinite capacity (do this during initialization). Returns: The number of unfulfilled input ports of the given actor. Throws: IllegalActionException - If a"
+    },
+    {
+      "chunk_id": 78,
+      "text": "given actor. Throws: IllegalActionException - If any called method throws it. _getFiringCount protected int _getFiringCount ( Entity entity) Return the number of firings associated with the given entity. The number of firings is stored in the _firi"
+    },
+    {
+      "chunk_id": 79,
+      "text": "ty. The number of firings is stored in the _firingVector map, indexed by the entity. Parameters: entity - One of the actors we are scheduling. Returns: The number of firings. _getSchedule protected Schedule _getSchedule ()"
+    },
+    {
+      "chunk_id": 80,
+      "text": "d Schedule _getSchedule () throws NotSchedulableException , IllegalActionException Return the scheduling sequence. An exception will be thrown if the graph is not schedulable. This occurs in the following circumstances: T"
+    },
+    {
+      "chunk_id": 81,
+      "text": "le. This occurs in the following circumstances: The graph is not a connected graph. No integer solution exists for the balance equations. The graph contains cycles without delays (deadlock). Multiple output ports are connected to the same broadcast"
+    },
+    {
+      "chunk_id": 82,
+      "text": "output ports are connected to the same broadcast relation. (equivalent to a non-deterministic merge) The vectorizationFactor parameter of the director does not contain a positive integer. Overrides: _getSchedule in class Scheduler Returns: A sch"
+    },
+    {
+      "chunk_id": 83,
+      "text": "es: _getSchedule in class Scheduler Returns: A schedule of the deeply contained opaque entities in the firing order. Throws: NotSchedulableException - If the rates specified for the model imply that the model is not statically schedulable. Illega"
+    },
+    {
+      "chunk_id": 84,
+      "text": "at the model is not statically schedulable. IllegalActionException - If the rate parameters of the model are not correct, or the computed rates for external ports are not correct. See Also: CompositeEntity.deepEntityList() _solveBalanceEquations"
+    },
+    {
+      "chunk_id": 85,
+      "text": "iteEntity.deepEntityList() _solveBalanceEquations protected java.util.Map _solveBalanceEquations ( CompositeActor container, java.util.List actorList, java."
+    },
+    {
+      "chunk_id": 86,
+      "text": "java.util.Map externalRates) throws NotSchedulableException , IllegalActionException Solve the balance equations for the list of connected Actors. For each actor,"
+    },
+    {
+      "chunk_id": 87,
+      "text": "r the list of connected Actors. For each actor, determine the ratio that determines the rate at which it should fire relative to the other actors for the graph to be live and operate within bounded memory. Normalize this ratio into integer, w"
+    },
+    {
+      "chunk_id": 88,
+      "text": "ded memory. Normalize this ratio into integer, which is the minimum number of firings of the actor to satisfy the balance equations. Parameters: container - The container that is being scheduled. actorList - The actors that we are interested in."
+    },
+    {
+      "chunk_id": 89,
+      "text": "actorList - The actors that we are interested in. externalRates - A map from external ports of container to the fractional rates of that port. This starts out initialized with Fraction.ZERO and will be populated during this method. Returns: A ma"
+    },
+    {
+      "chunk_id": 90,
+      "text": "ill be populated during this method. Returns: A map from each actor to its fractional firing. Throws: NotSchedulableException - If the graph is not consistent under the synchronous dataflow model, or if the graph is not connected. IllegalActionEx"
+    },
+    {
+      "chunk_id": 91,
+      "text": "or if the graph is not connected. IllegalActionException - If any called method throws it. _vectorizeFirings protected void _vectorizeFirings (int vectorizationFactor, java.util.Map entityToFiringsPerIteration,"
+    },
+    {
+      "chunk_id": 92,
+      "text": "java.util.Map entityToFiringsPerIteration, java.util.Map externalRates) Multiply all of the repetition rates by the given vectorizationFactor. This factor is normally the integer value of the vectorizationFacto"
+    },
+    {
+      "chunk_id": 93,
+      "text": "rmally the integer value of the vectorizationFactor parameter of the director. Also multiply the production and consumption rates of the external ports of the model by the same amount. Also, convert the two maps in the arguments to contain I"
+    },
+    {
+      "chunk_id": 94,
+      "text": "nvert the two maps in the arguments to contain Integers rather than Fractions. Parameters: vectorizationFactor - An integer scaling factor to multiply the firing vector by. entityToFiringsPerIteration - Map representing the firing vector. extern"
+    },
+    {
+      "chunk_id": 95,
+      "text": "ation - Map representing the firing vector. externalRates - Map representing production rates of external ports. _simulateExternalInputs protected void _simulateExternalInputs ( IOPort port, int count,"
+    },
+    {
+      "chunk_id": 96,
+      "text": "int count, java.util.List actorList, java.util.LinkedList readyToScheduleActorList) throws IllegalActionExce"
+    },
+    {
+      "chunk_id": 97,
+      "text": "throws IllegalActionException Simulate the consumption of tokens from the given external input port. This assumes the input ports have the number of tokens given by their rate. Parameters: port - The external input port"
+    },
+    {
+      "chunk_id": 98,
+      "text": "r rate. Parameters: port - The external input port. count - The number of tokens assumed to be on that port. actorList - The list of actors. readyToScheduleActorList - The list of actors that are ready to be scheduled. This will be updated if any"
+    },
+    {
+      "chunk_id": 99,
+      "text": "y to be scheduled. This will be updated if any actors that receive tokens from outputPort are now ready to fire. Throws: IllegalActionException - If thrown while reading a token, setting the capacity of a receiver or counting unfulfilled inp"
+    },
+    {
+      "chunk_id": 100,
+      "text": "capacity of a receiver or counting unfulfilled input.s _simulateInputConsumption protected boolean _simulateInputConsumption ( Actor currentActor, int firingCount) throw"
+    },
+    {
+      "chunk_id": 101,
+      "text": "gCount) throws IllegalActionException Simulate the consumption of tokens by the actor during execution of the given number of firings. Also determine whether enough tokens still remain at the inputs of the act"
+    },
+    {
+      "chunk_id": 102,
+      "text": "ugh tokens still remain at the inputs of the actor for it to fire again immediately. Parameters: currentActor - The actor to be fired. firingCount - The number of firings. Returns: true If the actor can fire again. Throws: IllegalActionException -"
+    },
+    {
+      "chunk_id": 103,
+      "text": "r can fire again. Throws: IllegalActionException - If the rate parameters are invalid. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONS"
+    },
+    {
+      "chunk_id": 104,
+      "text": "TED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

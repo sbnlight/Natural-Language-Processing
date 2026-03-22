@@ -1,0 +1,125 @@
+{
+  "url": "https://iris.eecs.berkeley.edu/15-faq/12-mac/EECSbackup-mac.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "EECSbackup | IRIS Skip to main content Skip to primary navigation Skip to primary sidebar EECSbackup EECSbackup scripts are currently being provided as a “public beta” release; feedback to help@eecs is welcome. The MacOS version of the EECSbackup scr"
+    },
+    {
+      "chunk_id": 2,
+      "text": "s welcome. The MacOS version of the EECSbackup script uses the rsync command. Access to your EECS home directory is via a restricted ssh connection to login.eecs. If you are off-campus, access to your EECS home directory from MacOS will require using"
+    },
+    {
+      "chunk_id": 3,
+      "text": "EECS home directory from MacOS will require using the Campus VPN service . You may need to contact help@eecs to request login access to login.eecs. What is EECSbackup? How do I install the EECS backup script? What if I can’t login to login.eecs? How"
+    },
+    {
+      "chunk_id": 4,
+      "text": "p script? What if I can’t login to login.eecs? How do I test it, once it’s installed? How do I remove the EECS backup script? What gets copied? What gets excluded? How do I change what gets backed up? How can I adjust the backup schedule? What about"
+    },
+    {
+      "chunk_id": 5,
+      "text": "How can I adjust the backup schedule? What about when my machine is offline/asleep/hibernating? What if I have problems with EECSbackup? How do I install the EECS backup script? Navigate into the EECSbackup folder on MacSWW , and double-click on ins"
+    },
+    {
+      "chunk_id": 6,
+      "text": "Sbackup folder on MacSWW , and double-click on install.command to install. This will copy the backup script EECSbackup.command and the EECSbackup.exclude.txt file to your local home directory, enable EECSbackup access to your EECS home directory over"
+    },
+    {
+      "chunk_id": 7,
+      "text": "EECSbackup access to your EECS home directory over SSH, and create a scheduled task to run EECSbackup daily. During the install, you will be prompted to confirm your EECS username, and to choose the hour and minute the daily backup job should run. Yo"
+    },
+    {
+      "chunk_id": 8,
+      "text": "our and minute the daily backup job should run. Your Mac’s Computer Name should not include an apostrophe, and we recommend avoiding names with punctuation or spaces; i.e., “FredsMac” is preferable to “Fred’s Mac”. EECS network policy requires that t"
+    },
+    {
+      "chunk_id": 9,
+      "text": "“Fred’s Mac”. EECS network policy requires that the system name for registered devices matches the registered name. You can adjust your local Computer Name in System Preferences, under Sharing. What if I can’t login to login.eecs? Everyone who has a"
+    },
+    {
+      "chunk_id": 10,
+      "text": "if I can’t login to login.eecs? Everyone who has a Standard Account can be granted login access to login.eecs; email help@eecs to request access, and we’ll add you to the appropriate LDAP group. If you cannot login using SSH, please visit the helpdes"
+    },
+    {
+      "chunk_id": 11,
+      "text": "u cannot login using SSH, please visit the helpdesk to reset your unix password. The MacOS EECSbackup scripts are designed for those with EECS Standard accounts, who have SSH access to login.eecs. Alumni and others who do not have access to login.eec"
+    },
+    {
+      "chunk_id": 12,
+      "text": "mni and others who do not have access to login.eecs are welcome to make use of the EECSbackup scripts, but would need to modify them so as to work with another remote system. This is left as an exercise. How do I test it, once it’s installed? We reco"
+    },
+    {
+      "chunk_id": 13,
+      "text": "se. How do I test it, once it’s installed? We recommend that you do your first run of EECSbackup.command manually, while on a fast EECS network (e.g. wired connection or EECS-secure wireless), rather than from off-campus or outside of EECS. You can n"
+    },
+    {
+      "chunk_id": 14,
+      "text": "than from off-campus or outside of EECS. You can navigate to your local user directory, and double-click on EECSbackup.command; a Terminal window should show the process in action, or display errors. You can also check your EECS home directory, under"
+    },
+    {
+      "chunk_id": 15,
+      "text": "You can also check your EECS home directory, under your EECSbackup folder, to see whether files are being copied to a subfolder named after your machine’s hostname. How do I remove the EECS backup script? You may delete the EECSbackup.commmand file f"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ipt? You may delete the EECSbackup.commmand file from your local user directory, and remove the scheduled backup job as follows: Remove the relevant launchd script with the commands: launchctl remove edu.berkeley.eecs.backup.plist rm -rf ~/Library/La"
+    },
+    {
+      "chunk_id": 17,
+      "text": "edu.berkeley.eecs.backup.plist rm -rf ~/Library/LaunchAgents/edu.berkeley.eecs.backup.plist What gets copied? What gets excluded? The default EECSbackup script will copy your local user directory (which includes your Desktop and your Documents folder"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ch includes your Desktop and your Documents folders) to the EECSbackup folder in your EECS home directory. EECSbackup is configured to “mirror” your profile. I.e., files deleted from your local user profile will be deleted from your EECSbackup folder"
+    },
+    {
+      "chunk_id": 19,
+      "text": "rofile will be deleted from your EECSbackup folder in your EECS home directory. Your EECS home directory is protected by nightly backups and routine snapshots, so unintentionally deleted files may be recoverable. Files will be excluded from backup if"
+    },
+    {
+      "chunk_id": 20,
+      "text": "recoverable. Files will be excluded from backup if they match patterns in EECSbackup.exclude.txt, which currently is comprised as follows: # Files/directories to exclude from backup, # one pattern per line. # # Blank lines, and lines starting w"
+    },
+    {
+      "chunk_id": 21,
+      "text": "er line. # # Blank lines, and lines starting with '#' are ignored. # Do not use quotes around individual exclude patterns. .Trash/ Cache/ Caches/ # Don't back up CD/DVD images *.iso *.cdr # Don't back up music and video"
+    },
+    {
+      "chunk_id": 22,
+      "text": "iso *.cdr # Don't back up music and video *.mp3 *.mp4 *.mpg *.avi *.mpeg *.wma *.wmv *.wav *.m4a *.m4p *.m4v How do I change what gets backed up? To change the backup source directory (e.g. to just backup your Documents f"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ce directory (e.g. to just backup your Documents folder), edit the file EECSbackup.command (e.g. with TextEdit), and change the value of sourcedir to the desired path, e.g. sourcedir=/User/larsrohr/Documents To change the exclusion patterns, edit EEC"
+    },
+    {
+      "chunk_id": 24,
+      "text": "cuments To change the exclusion patterns, edit EECSbackup.exclude.txt and modify them to your liking. How can I adjust the backup schedule? The easiest way is to reinstall EECSbackup from MacSWW — you’ll be prompted again for the hour/minute to run t"
+    },
+    {
+      "chunk_id": 25,
+      "text": "’ll be prompted again for the hour/minute to run the EECSbackup. And you can always run the backup manually by double-clicking EECSbackup.command in your local user directory. Alternatively, you can try manually changing the schedule. You may wish to"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ry manually changing the schedule. You may wish to use a launchd configuration editor such as Lingon . We recommend this approach only for users who are already comfortable working with MacOS “under the hood”. What about when my machine is offline/as"
+    },
+    {
+      "chunk_id": 27,
+      "text": "he hood”. What about when my machine is offline/asleep/hibernating? The backup can only run when the machine can successfully access your EECS home directory. Offline, powered-off, or sleeping machines will not perform backups. Recent MacOS machines"
+    },
+    {
+      "chunk_id": 28,
+      "text": "s will not perform backups. Recent MacOS machines will typically attempt to run a missed EECSbackup job upon waking from sleep (there is a delay built into EECSbackup to allow re-connection to the network). What if I have problems with EECSbackup? Pl"
+    },
+    {
+      "chunk_id": 29,
+      "text": "work). What if I have problems with EECSbackup? Please email help@eecs, detailing the problems you are having, as well as what OS version you are using, and what your local user name is. Primary Sidebar IRIS Service Status We have 0 Active Incidents,"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ar IRIS Service Status We have 0 Active Incidents, and 1 Scheduled Maintenance noted. IST Service Status Outages to campus services are listed at berkeley.statusdashboard.com ."
+    }
+  ]
+}

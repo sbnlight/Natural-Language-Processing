@@ -1,0 +1,189 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/DeploymentNotes",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Deployment Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Deployment (redirected from Main.DeploymentNotes ) This page"
+    },
+    {
+      "chunk_id": 2,
+      "text": "(redirected from Main.DeploymentNotes ) This page contains notes about how Composite Accessors could be deployed. Eventually, the Deployment page will have a how-to guide. Selection Critera Ease of use Accounts Does it require a new account? Is the a"
+    },
+    {
+      "chunk_id": 3,
+      "text": "e Accounts Does it require a new account? Is the account shared? Can the account be set up once? Does an application need to be told about the new account? How are passwords managed? Security Can anyone upload any script? Is the upload logged and tra"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ne upload any script? Is the upload logged and trackable to one person? Versioning How are different versions of the Swarmlet handled? Dependency Management How are requirements for other packages handled? Responsiveness When a new version of the Swa"
+    },
+    {
+      "chunk_id": 5,
+      "text": "dled? Responsiveness When a new version of the Swarmlet is made available, how quickly is the new version started? (push vs. poll) Swarmlet Life Cycle Management How are Swarmlets terminated? What about a runaway Swarmlet? How do I run multiple Swar"
+    },
+    {
+      "chunk_id": 6,
+      "text": "out a runaway Swarmlet? How do I run multiple Swarmlets on a host? How do I see what Swarmlets are running? How do I state that a Swarmlet is a daemon and should always be running? Swarmbox Discovery What if I want to run on just one Swarmbox that I"
+    },
+    {
+      "chunk_id": 7,
+      "text": "What if I want to run on just one Swarmbox that I know by name? How do I find out which Swarmbox(es) are local? What if I only want to run on Swarmboxes that are local? Parameters Below are some of the parameters needed by the different scenarios Dep"
+    },
+    {
+      "chunk_id": 8,
+      "text": "e parameters needed by the different scenarios Deploy on all SwarmBoxes or just one Swarmbox? Run forever? or Run for a limited time Run once or restart? User name Password (should probably not be stored as a parameter, use either ssh keys or another"
+    },
+    {
+      "chunk_id": 9,
+      "text": "red as a parameter, use either ssh keys or another keychain) SSH The idea here is that the Composite Accessor gets placed into a tar file that gets scp'd over to the SwarmBox, where a separate command untars it and executes node with the composite ac"
+    },
+    {
+      "chunk_id": 10,
+      "text": "untars it and executes node with the composite accessor as an command line argument SSH Account A first cut would use the swarmbox sbuser account. See sbuser SSH Access (testbeds wiki) Eventually, perhaps the user could upload their key to the Terra"
+    },
+    {
+      "chunk_id": 11,
+      "text": "rhaps the user could upload their key to the TerraSwarm website and the update could happen automatically. SSH Script See Cape Code Host -> SSH Deployment , which uses a script that installs the @terraswarm/accessors repo in a remote directory and in"
+    },
+    {
+      "chunk_id": 12,
+      "text": "aswarm/accessors repo in a remote directory and invokes the composite accessor. A first cut of a script would have a timeout so that the process would exit automatically. A second cut of the script would kill any node processes running nodeHost.js Wh"
+    },
+    {
+      "chunk_id": 13,
+      "text": "uld kill any node processes running nodeHost.js When we generate a composite accessor, the command to run it is typically something like (cd $PTII/org/terraswarm/accessor/accessors/web/test/auto; node ../../hosts/node/nodeHostInvoke.js -timeout 6000"
+    },
+    {
+      "chunk_id": 14,
+      "text": "../../hosts/node/nodeHostInvoke.js -timeout 6000 test/auto/RampJSTest) The nodeHostInvoke.js file is fairly simple: require ( './nodeHost.js' ) ; invoke ( process. argv ) ; [$[Get Code]] SSH Path Problem However, this file depends on ./nodeHost.js b"
+    },
+    {
+      "chunk_id": 15,
+      "text": "blem However, this file depends on ./nodeHost.js being in the same directory. If we do cd / tmp mkdir test cd test mkdir node_modules npm install @ terraswarm / accessors echo \"require('@terraswarm/accessors');invoke(process.argv);\" > invoke.js node"
+    },
+    {
+      "chunk_id": 16,
+      "text": "cessors');invoke(process.argv);\" > invoke.js node invoke.js $PTII / org / terraswarm / accessor / accessors / web / test / auto / RampJSTest.js [$[Get Code]] then we get an error because getAccessorCode() in nodeHost.js was failing to look for files"
+    },
+    {
+      "chunk_id": 17,
+      "text": "de() in nodeHost.js was failing to look for files outside of the accessorPath array. bash-3.2$ node invoke.js $PTII / org / terraswarm / accessor / accessors / web / test / auto / RampJSTest.js { Error: ENOENT: no such file or directory, open '/priva"
+    },
+    {
+      "chunk_id": 18,
+      "text": "r: ENOENT: no such file or directory, open '/private/tmp/test/node_modules/@terraswarm/accessors/Users/cxh/ptII/org/terraswarm/accessor/accessors/web/test/auto/RampJSTest.js' at Error ( native ) at Object.fs.openSync ( fs.js: 640 : 18 ) at Object.fs."
+    },
+    {
+      "chunk_id": 19,
+      "text": "ject.fs.openSync ( fs.js: 640 : 18 ) at Object.fs.readFileSync ( fs.js: 508 : 33 ) at getAccessorCode ( / private / tmp / test / node_modules /@ terraswarm / accessors / { $HOSTS_NODE } / nodeHost.js: 78 : 23 ) at new instantiateAccessor ( / private"
+    },
+    {
+      "chunk_id": 20,
+      "text": "78 : 23 ) at new instantiateAccessor ( / private / tmp / test / node_modules /@ terraswarm / accessors / { $HOSTS_COMMON } / commonHost.js: 1182 : 16 ) at instantiate ( / private / tmp / test / node_modules /@ terraswarm / accessors / { $HOSTS_NODE"
+    },
+    {
+      "chunk_id": 21,
+      "text": "modules /@ terraswarm / accessors / { $HOSTS_NODE } / nodeHost.js: 103 : 20 ) at instantiateAndInitialize ( / private / tmp / test / node_modules /@ terraswarm / accessors / { $HOSTS_NODE } / nodeHost.js: 153 : 24 ) at invoke ( / private / tmp / test"
+    },
+    {
+      "chunk_id": 22,
+      "text": ".js: 153 : 24 ) at invoke ( / private / tmp / test / node_modules /@ terraswarm / accessors / { $HOSTS_NODE } / nodeHost.js: 225 : 19 ) at Object. < anonymous > ( / private / tmp / test / invoke.js: 1 : 96 ) at Module._compile ( module.js: 541 : 32 )"
+    },
+    {
+      "chunk_id": 23,
+      "text": ": 96 ) at Module._compile ( module.js: 541 : 32 ) errno: - 2 , code: 'ENOENT' , syscall: 'open' , path: '/private/tmp/test/node_modules/@terraswarm/accessors/Users/cxh/ptII/org/terraswarm/accessor/accessors/web/test/auto/RampJSTest.js' } undefined b"
+    },
+    {
+      "chunk_id": 24,
+      "text": "cessors/web/test/auto/RampJSTest.js' } undefined bash-3.2$ [$[Get Code]] The fix was to modify getAccessorCode() . SSH Pros and Cons (+) Simple (-) Requires that the user know the name of the SwarmBox (-) Requires that the user has credentials to con"
+    },
+    {
+      "chunk_id": 25,
+      "text": "(-) Requires that the user has credentials to connect to the SwarmBox (-) Dangerous from a security standpoint Ansible The idea here is that we use Ansible to deploy Swarmlets to hosts. See Testbeds Ansible for how we use Ansible to control the Swar"
+    },
+    {
+      "chunk_id": 26,
+      "text": "Ansible for how we use Ansible to control the SwarmBoxes. Ansible Version Control Currently, the way Ansible is used with the SwarmBoxes is that there are two repositories swarmboxadmin Git Repo - Root-level Ansible scripts for the SwarmBox swarmbox"
+    },
+    {
+      "chunk_id": 27,
+      "text": "t-level Ansible scripts for the SwarmBox swarmbox Git Repo - User-level Ansible scripts for the SwarmBox The way this would work is that an Ansible script in the swarmboxadmin Git Repo would set up the infrastructure necessary: Install Node via Ansib"
+    },
+    {
+      "chunk_id": 28,
+      "text": "e infrastructure necessary: Install Node via Ansible Install the Node Accessor Host via npm Composite Accessors would then be checked in to the swarmbox Git Repo and invoked. Ansible Pros and Cons We use the version control accounts on https://repo.e"
+    },
+    {
+      "chunk_id": 29,
+      "text": "use the version control accounts on https://repo.eecs.berkeley.edu . To update a repo, a user would need to be added to the appropriate group on repo.eecs.berkeley.edu (-) Adding the Swarmlet to version control seems a bit heavy weight in that an ad"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ion control seems a bit heavy weight in that an additional step is required. (+) Version control provides us with logging of the different versions of the accessor and provides us with authentication (+) We could configure Supervisord to keep a job r"
+    },
+    {
+      "chunk_id": 31,
+      "text": "(+) We could configure Supervisord to keep a job running, or even better, use npm forever . npm forever npm forever Start a Node.js app with Forever and Ansible See swarmbox/ansible/forever.yml in the swarmboxadmin git repo The forever module is inst"
+    },
+    {
+      "chunk_id": 32,
+      "text": "swarmboxadmin git repo The forever module is installed locally for the sbuser account. One way this could work is that a .yml file could be created that would download the Swarmlet and then run it Either the .yml file could be checked in to the repo"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ther the .yml file could be checked in to the repo and the system kicked Perhaps the scripts could be checked in swarmbox/ansible/accessors/ Or, perhaps it could be run locally to connect to a machine or set of machines We need parameters to control"
+    },
+    {
+      "chunk_id": 34,
+      "text": "or set of machines We need parameters to control whether it runs forever or not We could optionally use supervisord to make it permanent. The Map could list forever processes. Node Package Manager (NPM) If we are deploying a Swarmlet to the Node Hos"
+    },
+    {
+      "chunk_id": 35,
+      "text": "PM) If we are deploying a Swarmlet to the Node Host , then using the Node Package Manager (npm) might be useful. Swarmlets could be uploaded to the npm site and then downloaded. We have a @terraswarm/ name space on the npm site. For example, npm ins"
+    },
+    {
+      "chunk_id": 36,
+      "text": "name space on the npm site. For example, npm install @terraswarm/accessor will install the latest version of the Node Host. NPM Accounts npm accounts are free. npm accounts may be created with npm adduser We have a terraswarm account, see NPM Uploa"
+    },
+    {
+      "chunk_id": 37,
+      "text": "dduser We have a terraswarm account, see NPM Upload . To give someone access to a package, their npm account would need to be added as a contributor. For example, someone who is already authenticated would need to log on to the site and add a new us"
+    },
+    {
+      "chunk_id": 38,
+      "text": "would need to log on to the site and add a new user. Maybe this can be done from the command line? Maybe we could use a shared account? (Shared accounts are a bad idea) See https://www.npmjs.com/package/@terraswarm/accessors for how to add contribut"
+    },
+    {
+      "chunk_id": 39,
+      "text": "age/@terraswarm/accessors for how to add contributors to a project. NPM Version Numbers The way npm works is that the version number of the package needs to be updated each time a new version is uploaded. This could result in conflicts: If two people"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ded. This could result in conflicts: If two people are working on same composite accessor, then they would need to get the version number from the npm repo. There could be a race condition here. NPM Pros and Cons (+/-) Users need accounts to upload"
+    },
+    {
+      "chunk_id": 41,
+      "text": "Pros and Cons (+/-) Users need accounts to upload (+/-) NPM has a strict form of versioning for reuploading (+) NPM has a version dependency system that is well documented. In theory, we could create separate npm modules for separate accessors and r"
+    },
+    {
+      "chunk_id": 42,
+      "text": "separate npm modules for separate accessors and require the appropriate version. Using npm to install our composite accessor could also install other packages. (+) NPM has a way to run install scripts and do set up. (-) It would be easier to use An"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ts and do set up. (-) It would be easier to use Ansible to configure Supervisord to keep a job running. Push or Pull via a Webserver Push If a Swarmbox started a webserver process, then we could push a file defining a CompositeAccessor to the server"
+    },
+    {
+      "chunk_id": 44,
+      "text": "a file defining a CompositeAccessor to the server and the server could execute it. (-) What about dependencies? They Swarmbox would have to already install those. (-) We would need a form of authentication because the composite accessor could do any"
+    },
+    {
+      "chunk_id": 45,
+      "text": "cation because the composite accessor could do anything (-) We might want to run in a sandbox. (+) Pull is much more efficient than polling Pull or polling (-) Polling is not very efficient. The Ansible set up uses Jenkins to poll the repo every 5 m"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ble set up uses Jenkins to poll the repo every 5 minutes. We would probably want faster turnaround, or a way to tell the server to poll See Also Composite Accessors Deployment Swarmlet Edit - History - Print - Recent Changes - Search Page last modif"
+    }
+  ]
+}

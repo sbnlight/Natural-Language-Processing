@@ -1,0 +1,93 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/Version0AccessorsSpecification",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / Version0AccessorsSpecification Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / Version0AccessorsSpecification Accessor spe"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Main / Version0AccessorsSpecification Accessor specifications are organized according to three levels described in the Accessors white paper (Interface, Component, and Composition). This page describes (or will describe) version 0 (the very first att"
+    },
+    {
+      "chunk_id": 3,
+      "text": "s (or will describe) version 0 (the very first attempt) at a design for accessors. This is not the current version, but rather a snapshot of the first prototype. The current version under design is: Version 0.1 Accessors Specification . Add your idea"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ersion 0.1 Accessors Specification . Add your ideas there. Interface The interface of an accessor is given in XML according to a schema that is formally defined in the Document Type Definition (DTD) file. In version 0, the interface defines a class a"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ile. In version 0, the interface defines a class at the top level (a class of accessors to be instantiated by a host) that has: A base class (which the host is required to be able to support to instantiate it). An author specification. A version iden"
+    },
+    {
+      "chunk_id": 6,
+      "text": "tiate it). An author specification. A version identifier. Documentation (text, which may include embedded HTML). Inputs, which have a name, a type, an optional default value, and an optional description. Outputs, which have a name, a type, an optiona"
+    },
+    {
+      "chunk_id": 7,
+      "text": "on. Outputs, which have a name, a type, an optional default value, and an optional description. A script, described below in the Component section. The data types for inputs and outputs at this time include at least includes JavaScript primitive type"
+    },
+    {
+      "chunk_id": 8,
+      "text": "nclude at least includes JavaScript primitive types. Port names for inputs and outputs are required to be valid JavaScript identifiers and not be JavaScript keywords. A discussion on naming conventions is needed. A discussion on data types is needed."
+    },
+    {
+      "chunk_id": 9,
+      "text": "s is needed. A discussion on data types is needed. A discussion on ontologies for inputs and outputs is needed. Component The script portion of an accessor specification gives the functionality of the accessor. In version 0 accessors, the script is a"
+    },
+    {
+      "chunk_id": 10,
+      "text": "accessor. In version 0 accessors, the script is a JavaScript that can include three function definitions that take no arguments: initialize: To be invoked once when the swarmlet begins using an accessor instance. fire: To be invoked whenever the swa"
+    },
+    {
+      "chunk_id": 11,
+      "text": "sor instance. fire: To be invoked whenever the swarmlet chooses to do (perhaps when new inputs are available, or at periodic time intervals). wrapup: To be invoked once when the swarmlet ends its use of the accessor instance. In addition, the script"
+    },
+    {
+      "chunk_id": 12,
+      "text": "of the accessor instance. In addition, the script may contain top-level JavaScript commands that will be executed when the accessor is instantiated. As with any JavaScript program, the script and the functions within it will be evaluated in a context"
+    },
+    {
+      "chunk_id": 13,
+      "text": "functions within it will be evaluated in a context that provides both core JavaScript functions and objects, but also a set of functions and objects that are specific to accessors. The main problem here is to agree on what these functions and objects"
+    },
+    {
+      "chunk_id": 14,
+      "text": "re is to agree on what these functions and objects should be. It took many years, for examples, for the makers of browsers to agree on the suite of capabilities provides to JavaScript in web pages (e.g., the Window object). At this time, the version"
+    },
+    {
+      "chunk_id": 15,
+      "text": "g., the Window object). At this time, the version 0 component context includes at least the following procedures: alert(string): pop up a dialog with the specified message. clearTimeout(int): clear a timeout with the specified handle. error(string):"
+    },
+    {
+      "chunk_id": 16,
+      "text": "timeout with the specified handle. error(string): throw an IllegalActionException with the specified message. get(port, n): get an input from a port on channel n (return null if there is no input). httpRequest(url, method, properties, body, timeout):"
+    },
+    {
+      "chunk_id": 17,
+      "text": "tpRequest(url, method, properties, body, timeout): HTTP request (GET, POST, PUT, etc.) print(string): print the specified string to the console (standard out). readURL(string): read the specified URL and return its contents as a string (HTTP GET). se"
+    },
+    {
+      "chunk_id": 18,
+      "text": "and return its contents as a string (HTTP GET). send(value, port, n): send a value to an output port on channel n setTimeout(function, int): set the function to execute after specified time and return handle. The get() and send() procedures take an o"
+    },
+    {
+      "chunk_id": 19,
+      "text": "handle. The get() and send() procedures take an option channel argument, which suggests that multiple streams of data may be provided at a single input port and and output port may produce multiple streams of data (this design is inspired by Ptolemy"
+    },
+    {
+      "chunk_id": 20,
+      "text": "treams of data (this design is inspired by Ptolemy II, but is certainly up for discussion). There is also a prototype authentication mechanism using oauth. This needs to be documented. The HTTP functions (httpRequest and readURL) are blocking calls."
+    },
+    {
+      "chunk_id": 21,
+      "text": "ons (httpRequest and readURL) are blocking calls. This is not a good idea. We need non-blocking mechanisms. Composition This is currently the most poorly defined part of the accessors version 0 specification. Composition of accessors has been demonst"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ication. Composition of accessors has been demonstrated in Ptolemy II using the discrete-event (DE) director and (for some simple swarmlets), the synchronous dataflow (SDF) director. In the Node.js host, ad hoc scripted invocation has been demonstrat"
+    }
+  ]
+}

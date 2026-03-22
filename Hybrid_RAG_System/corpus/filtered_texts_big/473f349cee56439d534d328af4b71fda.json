@@ -1,0 +1,101 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version0/Discovery",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version0 / Discovery Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version0 / Discovery The discovery module discovers IP addresses, p"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ery The discovery module discovers IP addresses, plus names and MAC addresses when possible, of devices available on the local area network. This page defines the API and documents usage. See the development guide for more information. The module doe"
+    },
+    {
+      "chunk_id": 3,
+      "text": "lopment guide for more information. The module does a ping sweep of all IP addresses on the same subnet as the given IP address. The arp command is called to determine MAC addresses and device names. Currently, the discovery module only supports IP"
+    },
+    {
+      "chunk_id": 4,
+      "text": "Currently, the discovery module only supports IPv4 networks. Discovery requires some functionality directly from the operating system, and therefore unfortunately will not run in a browser. Implementations for Node.js and Ptolemy are available. M"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ntations for Node.js and Ptolemy are available. Mac, Linux and Windows are all supported. Host code is available to auto-detect the host machine's IP address. The ping sweep used by discovery should discover all IP-connected devices regardless of w"
+    },
+    {
+      "chunk_id": 6,
+      "text": "discover all IP-connected devices regardless of which service discovery protocol (if any) they implement (e.g. upnp, bonjour, ...) For example, Hue bridges should be detected . Further discovery mechanisms will be needed for non-IP devices. Other"
+    },
+    {
+      "chunk_id": 7,
+      "text": "chanisms will be needed for non-IP devices. Other service discovery mechanisms are possible for future extensions. See Victor Nouvellet. The Discovery Project , presentation, April 5, 2017; Presented at the Ptolemy Group Lunch Affiliated Accessors"
+    },
+    {
+      "chunk_id": 8,
+      "text": "d at the Ptolemy Group Lunch Affiliated Accessors Discovery : This accessor discovers devices on the local area network. IPAddress : This accessor outputs the IP address of the local machine. Functions DiscoveryService() : Construct a new discovery"
+    },
+    {
+      "chunk_id": 9,
+      "text": "s DiscoveryService() : Construct a new discovery service. discover(IPaddress, callback) : Discover devices on the same subnet as the given IP address and call callback with results. discover(IPaddress, discoveryMethod, callback) : Discover devices"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ss, discoveryMethod, callback) : Discover devices using the specified discovery method. 'nmap' is the only additional method supported. Ping plus arp is default. Call callback with results. getHostAddress() : Return the host's IP address. Usage"
+    },
+    {
+      "chunk_id": 11,
+      "text": "tAddress() : Return the host's IP address. Usage Create a new discovery service: var discovery = require(\"discovery\"); var ds = new discovery.DiscoveryService(); Discover devices on the same local area network. Pass in the IP address of the host"
+    },
+    {
+      "chunk_id": 12,
+      "text": "area network. Pass in the IP address of the host machine: ds.discoverDevices(IPaddress, function(data) { console.log('These devices were found: ' + data); }); data is an object containing the IP addresses, names and MAC addresses of devi"
+    },
+    {
+      "chunk_id": 13,
+      "text": "the IP addresses, names and MAC addresses of devices, formatted as: { {\"IPAddress\":\"IPAddress1\", \"name\":\"Device1\", \"mac\":\"MAC1\"}, {\"IPAddress\":\"IPAddress2\", \"name\":\"Device2\", \"mac\":\"MAC2\"} } E.g. : { {\"IPAddress\":\"192.168.252.1\",\"name\":\"EPSON2FBF21\""
+    },
+    {
+      "chunk_id": 14,
+      "text": "{\"IPAddress\":\"192.168.252.1\",\"name\":\"EPSON2FBF21\",\"mac\":\"ad-19-27-2f-bf-21\"}, {\"IPAddress\":\"192.168.252.254\",\"name\":\"MyRouter.Home\",\"mac\":\"69-16-90-d7-4e-1b\"}} Discover devices using the specified discovery method. 'nmap' is the only additional met"
+    },
+    {
+      "chunk_id": 15,
+      "text": "scovery method. 'nmap' is the only additional method supported. Ping plus arp is default. In some cases nmap may provide better results than ping plus arp. Mac and Windows require nmap to be installed separately. See https://nmap.org/ . Linux incl"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ed separately. See https://nmap.org/ . Linux includes nmap by default. ds.discoverDevices(IPaddress, 'nmap', function(data) { console.log('nmap found these devices: ' + data); }); Return the host's IP address: ds.getHostAddress(); An empt"
+    },
+    {
+      "chunk_id": 17,
+      "text": "he host's IP address: ds.getHostAddress(); An empty array is returned if no devices are found. This is an error, since discovery should always find at least the host machine. If the host has multiple IP addresses, only one will be returned. Swarmbox"
+    },
+    {
+      "chunk_id": 18,
+      "text": "IP addresses, only one will be returned. Swarmbox Map A swarmbox can choose to post device information to the swarmbox map hosted on the terra server. https://terra.eecs.berkeley.edu:8088/swarmboxes.html Note this is a public web page. Any device i"
+    },
+    {
+      "chunk_id": 19,
+      "text": "html Note this is a public web page. Any device information posted will be public. Please see the Discovery developer's guide for setup and test info. Resources A Ptolemy demo is available in the Ptolemy repository at $PTII/ptolemy/actor/lib/jjs/mod"
+    },
+    {
+      "chunk_id": 20,
+      "text": "lemy repository at $PTII/ptolemy/actor/lib/jjs/modules/discovery/demo/Discovery/Discovery.xml . This demo uses the IPAddress actor to auto-detect the host's IP address. For the AccessorJS Node.js host, The Discovery accessor is located in the Access"
+    },
+    {
+      "chunk_id": 21,
+      "text": "t, The Discovery accessor is located in the AccessorJS repository under /accessors/lib/Discovery.xml A demo is available at /swarmlets/discoverySwarmletTest.js . Alternatively, /swarmlets/discoverySwarmlet.js can be run from the Node REPL command li"
+    },
+    {
+      "chunk_id": 22,
+      "text": "armlet.js can be run from the Node REPL command line. Please see the Discovery developer's guide for instructions. For Node.js, The Discovery accessor is located in the SwarmOS repository under /hosts/browser/public/accessor/Discovery.xml A demo is"
+    },
+    {
+      "chunk_id": 23,
+      "text": "s/browser/public/accessor/Discovery.xml A demo is available at /hosts/node/discoveryhost.js . This demo interfaces with the HttpPost accessor to post the list of devices to a server. An example server is available at /hosts/node/discoverylistener NO"
+    },
+    {
+      "chunk_id": 24,
+      "text": "r is available at /hosts/node/discoverylistener NOTE: All of this functionality will be migrated to the AccessorJS repository. The SwarmOS version will eventually be deprecated. Please see the Discovery developer's guide for information on setting u"
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/projects/summaries/97/michaelg97a.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Overcomplete Signal Representations for Analysis-Synthesis Overcomplete Signal Representations for Analysis-Synthesis Researchers: Michael Goodwin Prof. Martin Vetterli Advisor: Edward A. Lee Sponsor: In signal processing applications it is often use"
+    },
+    {
+      "chunk_id": 2,
+      "text": "In signal processing applications it is often useful to decompose a signal into elementary building blocks. Examples of such decompositions include the Fourier series and the wavelet transform, where the building blocks constitute a basis for the"
+    },
+    {
+      "chunk_id": 3,
+      "text": "re the building blocks constitute a basis for the signal space, and more flexible representations such as the sinusoidal model, where the basic building blocks are signal-dependent. Such decompositions in terms of a set of expansion functions are oft"
+    },
+    {
+      "chunk_id": 4,
+      "text": "s in terms of a set of expansion functions are often the backbone of signal analysis-transformation-synthesis systems; the general framework in such a system is that the analysis derives coefficients for the expansion functions, the transformation co"
+    },
+    {
+      "chunk_id": 5,
+      "text": "for the expansion functions, the transformation corresponds to compression, transmission loss, or perhaps a meaningful modification such as audio pitch-shifting, and the synthesis reconstructs a signal based on the transformed coefficients and the e"
+    },
+    {
+      "chunk_id": 6,
+      "text": "al based on the transformed coefficients and the expansion functions. When the expansion functions constitute a basis, the representation is inherently rigid. For instance, the Fourier transform is not well-suited for time-localized signals, i.e. th"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ot well-suited for time-localized signals, i.e. the coefficients do not provide a representation of the signal that allows compression or indicates the salient time-domain features. Similarly, the wavelet transform is ineffective for resolving high"
+    },
+    {
+      "chunk_id": 8,
+      "text": "avelet transform is ineffective for resolving high frequency sinusoids. For any particular basis, there are a wide variety of signals for which analysis in terms of that basis is of little value. One way to circumvent the rigidity of a basis functi"
+    },
+    {
+      "chunk_id": 9,
+      "text": "e way to circumvent the rigidity of a basis function expansion it to allow the basis to change in time. This is carried out by segmenting the signal and choosing an appropriate basis for each segment. This is the rationale of methods such as best"
+    },
+    {
+      "chunk_id": 10,
+      "text": "nt. This is the rationale of methods such as best basis or adaptive wavelet packets. However, if the segmentation is carried out blindly as in most block transform methods, the synthesis tends to exhibit blocking effects -- artifacts near the segm"
+    },
+    {
+      "chunk_id": 11,
+      "text": "hibit blocking effects -- artifacts near the segment boundaries. This research involves two loosely connected approaches for obtaining signal representations more flexible than a basis expansion while avoiding such distortions as blocking effects."
+    },
+    {
+      "chunk_id": 12,
+      "text": "le avoiding such distortions as blocking effects. The general concept is that a flexible signal representation can be achieved by considering a larger number of expansion functions than are present in a basis; if the expansion functions are chosen"
+    },
+    {
+      "chunk_id": 13,
+      "text": "in a basis; if the expansion functions are chosen from a highly redundant or overcomplete (and thus non-orthogonal) set, a wider range of time-frequency behaviors can be appropriately represented in the decomposition. The first method is an extensio"
+    },
+    {
+      "chunk_id": 14,
+      "text": "the decomposition. The first method is an extension of the sinusoidal model. In the general sinusoidal model, a signal is segmented into frames of a predetermined size; each frame is analyzed for sinusoidal components, which are coded in terms of a"
+    },
+    {
+      "chunk_id": 15,
+      "text": "nusoidal components, which are coded in terms of amplitude and frequency parameters; synthesis is carried out by generating sinusoids whose amplitude and frequency behaviors are derived by interpolating the frame-rate amplitude and frequency data pr"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ng the frame-rate amplitude and frequency data provided by the analysis. Because the expansion functions span an entire frame and because the interpolation process smooths the frame-to-frame data, dynamic signal behavior is not accurately represen"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ynamic signal behavior is not accurately represented in the synthesized signal; for instance, musical attacks tend be smeared across several frames by the sinusoidal modeling approach. Though the set of expansion functions is larger than that prov"
+    },
+    {
+      "chunk_id": 18,
+      "text": "t of expansion functions is larger than that provided by a basis, the signal segmentation results in distortion similar to a blocking effect. Such distortion can be alleviated by allowing the segment length to vary in time according to the signal"
+    },
+    {
+      "chunk_id": 19,
+      "text": "t length to vary in time according to the signal behavior. Short segments are appropriate for processing time-localized events such as attacks, while longer segments are suitable for regions where the signal is stationary. Given a set of allowe"
+    },
+    {
+      "chunk_id": 20,
+      "text": "the signal is stationary. Given a set of allowed segment lengths, the optimal segmentation for a given signal can be derived by applying dynamic programming; for accurate signal modeling, the dynamic algorithm can choose the segmentation that"
+    },
+    {
+      "chunk_id": 21,
+      "text": "amic algorithm can choose the segmentation that minimizes the mean-squared error of the reconstruction. Alternatively, other additive cost measures such as rate-distortion can be used; rate-distortion would be an appropriate metric for a commercia"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ion would be an appropriate metric for a commercial application such as the optimization of a sinusoidal speech coder. The second method approaches the issue more directly; the use of an overcomplete expansion set is more explicit than in the dynami"
+    },
+    {
+      "chunk_id": 23,
+      "text": "expansion set is more explicit than in the dynamic segmentation discussed above. Specifically, this approach involves matching pursuit, which is an iterative algorithm for deriving signal decompositions based on a large dictionary of expansion fun"
+    },
+    {
+      "chunk_id": 24,
+      "text": "tions based on a large dictionary of expansion functions. Typically the elements of the overcomplete dictionary, referred to as atoms, are modulated, scaled, and shifted versions of a specified symmetric window function. The matching pursuit algori"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ric window function. The matching pursuit algorithm is straightforward: the dictionary atom that correlates most strongly with the signal is chosen; then, the weighted contribution of this atom to the signal is subtracted, and the algorithm is it"
+    },
+    {
+      "chunk_id": 26,
+      "text": "the signal is subtracted, and the algorithm is iterated on the residual signal. The iteration proceeds until the energy of the residual is below a certain threshold. This algorithm is guaranteed to converge if the dictionary is overcomplete. Design"
+    },
+    {
+      "chunk_id": 27,
+      "text": "converge if the dictionary is overcomplete. Designing the dictionary is thus a fundamental issue; this has not been substantially explored in the literature. Rather than using time-symmetric window-like atoms, it is naturally sensible to consider"
+    },
+    {
+      "chunk_id": 28,
+      "text": "-like atoms, it is naturally sensible to consider one-sided damped sinusoids as prospective atoms given their prevalence in natural signals as well as in linear system theory. The complexity of the matching pursuit search can be substantially reduce"
+    },
+    {
+      "chunk_id": 29,
+      "text": "atching pursuit search can be substantially reduced based on the mathematical properties of such modulated exponential atoms. This sum-of-exponentials signal decomposition provides a framework for time-varying system identification as well as anal"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ime-varying system identification as well as analysis-transformation-synthesis. In addition to developing the algorithms to derive the overcomplete signal expansions discussed above, this research involves the implementation of a visualization tool"
+    },
+    {
+      "chunk_id": 31,
+      "text": "nvolves the implementation of a visualization tool that graphically displays the expansion results in an interactive environment. Each expansion function is localized in time and frequency, and can thus be represented on a time-frequency plane by an"
+    },
+    {
+      "chunk_id": 32,
+      "text": "hus be represented on a time-frequency plane by an appropriately localized graphical object; the expansion of a signal is displayed as a conglomeration of such objects. Each object has an associated data structure that mathematically describes the c"
+    },
+    {
+      "chunk_id": 33,
+      "text": "data structure that mathematically describes the corresponding expansion function and coefficient; while an attempt is made to capture such information graphically using the object shape to specify the expansion function and a gray scale to depict t"
+    },
+    {
+      "chunk_id": 34,
+      "text": "he expansion function and a gray scale to depict the coefficient magnitude, an underlying data structure is necessary for exactitude. Graphical manipulations of the visual objects, e.g. user-controlled signal editing or time-frequency filtering, are"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ed signal editing or time-frequency filtering, are then reflected in changes of the data values. This object-oriented tool is being developed as part of the Tycho project."
+    }
+  ]
+}

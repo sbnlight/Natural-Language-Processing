@@ -1,0 +1,113 @@
+{
+  "url": "https://iris.eecs.berkeley.edu/services/netapp-technical-details/",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "NetApp Technical Details | IRIS Skip to main content Skip to primary navigation Skip to primary sidebar NetApp Technical Details The Department’s file storage is based on Network Appliance (NetApp) Filers. These fileservers provide simultaneous acces"
+    },
+    {
+      "chunk_id": 2,
+      "text": "lers. These fileservers provide simultaneous access from both NFS and CIFS clients. Some features and technical details of the NetApp Filers are described below. Snapshots Restoring from Snapshots Multiprotocol Access and File Permissions/ACLs Filesy"
+    },
+    {
+      "chunk_id": 3,
+      "text": "tiprotocol Access and File Permissions/ACLs Filesystems Served Links to More Information SNAPSHOTS The NetApp filesystem provides a convenient way to recover files which have been accidentally deleted or otherwise damaged, within a short time frame –"
+    },
+    {
+      "chunk_id": 4,
+      "text": "or otherwise damaged, within a short time frame – a system referred to as “snapshots”. File recovery becomes a simple copy procedure on the current filesystem, avoiding the need to contact support personnel for tape recovery and the hassle of time d"
+    },
+    {
+      "chunk_id": 5,
+      "text": "rsonnel for tape recovery and the hassle of time delays caused by the relatively slow speed of tape drives and the necessity of Systems Administration hands-on interaction. Directories which provide the snapshot feature are easily recognized by the p"
+    },
+    {
+      "chunk_id": 6,
+      "text": "he snapshot feature are easily recognized by the presence of a .snapshot directory within (named as ~snapshot on Windows machines.) Currently, snapshots are enabled on all HOME and PROJECT filesystems. The number of snapshots that are available onlin"
+    },
+    {
+      "chunk_id": 7,
+      "text": ". The number of snapshots that are available online at any given time is dependent on the free disk space on the fileservers. When demand for space is high, snapshots are migrated to a off-line server and deleted from the primary server. At this time"
+    },
+    {
+      "chunk_id": 8,
+      "text": "and deleted from the primary server. At this time, snapshots generally span a 1 week period. 7 days of backup directories and 12 hourly directories provide a level of granularity sufficient for most restoration needs. Hourly backups are done at ever"
+    },
+    {
+      "chunk_id": 9,
+      "text": "restoration needs. Hourly backups are done at every hour except midnight, and the last 12 hours are usually retained. At midnight, the nightly snapshot is made and named sv.0, and all the other sv.* directories are incremented by one, and the oldest"
+    },
+    {
+      "chunk_id": 10,
+      "text": "irectories are incremented by one, and the oldest (sv.6) deleted. The hourly sub-directories created in the .snapshot directory are named so it is easy to tell when that snapshot was created. The format is hourly.YYYY-MM-DD_HHMM. If you have proper p"
+    },
+    {
+      "chunk_id": 11,
+      "text": "at is hourly.YYYY-MM-DD_HHMM. If you have proper permissions to browse the original directory, you can ‘cd’ into the matching snapshot directories and freely browse them. Restoring from snapshots As mentioned above, restoring a file is simply a copy"
+    },
+    {
+      "chunk_id": 12,
+      "text": "entioned above, restoring a file is simply a copy command. In the following example, we’ll assume that you are logged into the Department’s Unix login server, login.eecs.berkeley.edu. To restore /home/eecs/[username]/tmp/myfile.txt from a snapshot cr"
+    },
+    {
+      "chunk_id": 13,
+      "text": "/eecs/[username]/tmp/myfile.txt from a snapshot created at 10:00am on 4/16/2009, you would use: cp /home/eecs/[username]/.snapshot/hourly.2009-04-16_1000/tmp/myfile.txt /home/eecs/[username]/tmp/myfile.txt On Windows 7 or Server 2008 (or newer), you"
+    },
+    {
+      "chunk_id": 14,
+      "text": "e.txt On Windows 7 or Server 2008 (or newer), you may instead need to right-click on the share folder (e.g. your home directory or project share directory), and choose Properties; select the Previous Versions tab; now you can pick the time/date to ex"
+    },
+    {
+      "chunk_id": 15,
+      "text": "Versions tab; now you can pick the time/date to explore, and copy any file(s) you need from that snapshot. MULTIPROTOCOL ACCESS AND FILE PERMISSIONS/ACLS There are substantial differences in the way that Windows and Unix handle file permissions. Unix"
+    },
+    {
+      "chunk_id": 16,
+      "text": "hat Windows and Unix handle file permissions. Unix uses a simple “user, group, other” style of file permission settings, while Windows has multi-layered group and user Access Control Lists (ACLs). If you change permissions on a file using the Unix ‘c"
+    },
+    {
+      "chunk_id": 17,
+      "text": "you change permissions on a file using the Unix ‘chmod’ command, all other permissions of the Window’s ACL, other than attributes shared with the Unix permission set, will remain the same. If you change the ACL of a file from a Windows machine, the a"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ge the ACL of a file from a Windows machine, the attributes which match the Unix permission settings will change to what you have set the ACL to. This can lead to problems if the default ACL holds permission settings in contrast to what is desired an"
+    },
+    {
+      "chunk_id": 19,
+      "text": "mission settings in contrast to what is desired and are not carefully set by the user. The easiest solution is to change the Windows ACL to the desired settings and check the file from a Unix system, using the ‘chmod’ command to correct any problems."
+    },
+    {
+      "chunk_id": 20,
+      "text": "using the ‘chmod’ command to correct any problems. Going over all of the ramifications of this structure is beyond the scope of this document. For a detailed description of permissions issues in a shared Unix/Windows environment on the NetApp system,"
+    },
+    {
+      "chunk_id": 21,
+      "text": "red Unix/Windows environment on the NetApp system, please see the Links to More Information section below. FILESYSTEMS SERVED NFS Export Unix Mount Point Windows Share home10.eecs:/home10/[username a-h], home20.eecs:/home20/[username i-q], home30.eec"
+    },
+    {
+      "chunk_id": 22,
+      "text": "h], home20.eecs:/home20/[username i-q], home30.eecs:/home30/[username r-z] /home/eecs/[username], /home/cs/[username] \\\\home10\\[username], \\\\home20\\[username], \\\\home30\\[username] proj10.eecs:/proj10/[projectname a-c], proj20.eecs:/proj20/[projectnam"
+    },
+    {
+      "chunk_id": 23,
+      "text": "[projectname a-c], proj20.eecs:/proj20/[projectname d-q], proj30.eecs:/proj30/[projectname r-z] /project/eecs/[projectname] \\\\proj10\\[projectname], \\\\proj20\\[projectname], \\\\proj30\\[projectname] proj10.eecs:/efros, proj40.eecs:/nlp, proj40.eecs:/parl"
+    },
+    {
+      "chunk_id": 24,
+      "text": "0.eecs:/efros, proj40.eecs:/nlp, proj40.eecs:/parlab, proj40.eecs:/ptolemy /project/eecs/[projectname] \\\\proj10\\efros, \\\\proj40\\nlp, \\\\proj40\\parlab, \\\\proj40\\ptolemy proj40.eecs:/cproj/[projectname] /project/eecs/[projectname] \\\\proj40\\[projectname]"
+    },
+    {
+      "chunk_id": 25,
+      "text": "/project/eecs/[projectname] \\\\proj40\\[projectname] Windows/CIFS exports of project storage are done by request only. LINKS TO MORE INFORMATION The below links are to NetApp documentation hosted on external sites. Merging NT and UNIX Filesystem Permis"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ernal sites. Merging NT and UNIX Filesystem Permissions Portions of this page originally written by Scott Ostrander at The University of Utah. Used by permission. Primary Sidebar IRIS Service Status We have 0 Active Incidents, and 1 Scheduled Mainten"
+    },
+    {
+      "chunk_id": 27,
+      "text": "e have 0 Active Incidents, and 1 Scheduled Maintenance noted. IST Service Status Outages to campus services are listed at berkeley.statusdashboard.com ."
+    }
+  ]
+}

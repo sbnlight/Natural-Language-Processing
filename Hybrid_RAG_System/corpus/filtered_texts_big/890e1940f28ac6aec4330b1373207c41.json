@@ -1,0 +1,265 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII4.0/ptII4.0.1/doc/codeDoc/ptolemy/actor/lib/security/CipherActor.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "CipherActor Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.lib.security Class CipherActor java.lang.Object p"
+    },
+    {
+      "chunk_id": 2,
+      "text": ".lib.security Class CipherActor java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.actor.AtomicActor ptolemy.actor.TypedAtomicActor ptolemy.actor.lib.security"
+    },
+    {
+      "chunk_id": 3,
+      "text": ".actor.TypedAtomicActor ptolemy.actor.lib.security.CryptographyActor ptolemy.actor.lib.security.CipherActor All Implemented Interfaces: Actor , Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , Instantiable , Mod"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ener , Derivable , Executable , Instantiable , ModelErrorHandler , MoMLExportable , Nameable , java.io.Serializable, TypedActor Direct Known Subclasses: SymmetricDecryption , SymmetricEncryption public abstract class CipherActor extends CryptographyA"
+    },
+    {
+      "chunk_id": 5,
+      "text": "c abstract class CipherActor extends CryptographyActor A base class for actors that encrypt and decrypt data. Cipher actors are any actors which perform encryption or decryption based on the Java Cryptography Extension (JCE). See the Cryptograp"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ryptography Extension (JCE). See the CryptographyActor documentation for resources about JCA and JCE. Actors extending this class take in an unsigned byte array at the input , process the data based on the algorithm parameter and send a unsi"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ased on the algorithm parameter and send a unsigned byte array to the output . The algorithms that may be implemented are limited to those that are implemented by \"providers\" following the JCE specifications and installed in the machine"
+    },
+    {
+      "chunk_id": 8,
+      "text": "CE specifications and installed in the machine being run. The mode and padding of the algorithm can also be specified in the mode and padding parameters. In case a provider specific instance of an algorithm is needed, the provider may als"
+    },
+    {
+      "chunk_id": 9,
+      "text": "of an algorithm is needed, the provider may also be specified in the provider parameter. The keySize parameter allows implementations of algorithms using various key sizes. Concrete actors derived from this base class must implement the Cryp"
+    },
+    {
+      "chunk_id": 10,
+      "text": "rived from this base class must implement the CryptographyActor._process(byte[]) method. The initialize() method of this actor sets _cipher to the value of javax.crypt.Cipher.getInstance() with an argument that is created from the values of"
+    },
+    {
+      "chunk_id": 11,
+      "text": "an argument that is created from the values of the algorithm , padding and keySize parameters. Derived classes should call _cipher.init() with the value of the key in their fire() method. The_process() method in a derived class usually call"
+    },
+    {
+      "chunk_id": 12,
+      "text": "rocess() method in a derived class usually calls _cipher.doFinal(). Since: Ptolemy II 4.0 Version: $Id: CipherActor.java,v 1.42 2004/04/13 05:12:38 cxh Exp $ Author: Christopher Hylands Brooks, Contributor: Rakesh Reddy See Also: Serialized Form A"
+    },
+    {
+      "chunk_id": 13,
+      "text": "tributor: Rakesh Reddy See Also: Serialized Form Accepted Rating: Yellow (cxh) Proposed Rating: Green (cxh) Nested Class Summary Nested classes inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary protected javax"
+    },
+    {
+      "chunk_id": 14,
+      "text": "inedObjectsIterator Field Summary protected javax.crypto.Cipher _cipher The cipher that will be used to process the data. protected java.lang.String _mode The mode to be used to process the data. protected java.lang.String _padding The padding sch"
+    },
+    {
+      "chunk_id": 15,
+      "text": "otected java.lang.String _padding The padding scheme to be used process the data. protected boolean _updateCipherNeeded Set to true if one of the parameters changed and we need to call _updateCipher(). StringParameter mode The mode component whe"
+    },
+    {
+      "chunk_id": 16,
+      "text": "her(). StringParameter mode The mode component when the Cipher is instantiated. StringParameter padding The padding scheme used by the cipher during encryption. Fields inherited from class ptolemy.actor.lib.security. CryptographyActor _algorithm , _k"
+    },
+    {
+      "chunk_id": 17,
+      "text": "or.lib.security. CryptographyActor _algorithm , _keySize , _provider , algorithm , input , keySize , output , provider Fields inherited from class ptolemy.actor. AtomicActor _stopRequested Fields inherited from class ptolemy.kernel.util. NamedObj _ch"
+    },
+    {
+      "chunk_id": 18,
+      "text": "rited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields"
+    },
+    {
+      "chunk_id": 19,
+      "text": "MPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary CipherActor ( CompositeEntity container, java.lang.String name) Construct an"
+    },
+    {
+      "chunk_id": 20,
+      "text": ", java.lang.String name) Construct an actor with the given container and name. Method Summary protected void _updateCipher () The value of _cipher is updated by calling javax.crypt.Cipher.getInstance() with an argument that is created"
+    },
+    {
+      "chunk_id": 21,
+      "text": "r.getInstance() with an argument that is created from the values of the _algorithm, _mode and _padding. void attributeChanged ( Attribute attribute) Override the base class to reinitialize the state if the the mode , or padding parameter is change"
+    },
+    {
+      "chunk_id": 22,
+      "text": "if the the mode , or padding parameter is changed. void fire () Update _cipher if an attribute has changed and then invoke super.fire() to transform the input data. void initialize () Retrieve the values of the parameters and set up javax.crypt"
+    },
+    {
+      "chunk_id": 23,
+      "text": "values of the parameters and set up javax.crypto.Cipher. Methods inherited from class ptolemy.actor.lib.security. CryptographyActor _process Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChanged , clone , new"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ctor _addPort , attributeTypeChanged , clone , newPort , typeConstraintList Methods inherited from class ptolemy.actor. AtomicActor _createReceivers , clone , connectionsChanged , getDirector , getExecutiveDirector , getFunctionDependency , getManage"
+    },
+    {
+      "chunk_id": 25,
+      "text": "cutiveDirector , getFunctionDependency , getManager , inputPortList , iterate , newReceiver , outputPortList , postfire , prefire , preinitialize , pruneDependencies , removeDependency , setContainer , stop , stopFire , terminate , wrapup Methods inh"
+    },
+    {
+      "chunk_id": 26,
+      "text": ", stop , stopFire , terminate , wrapup Methods inherited from class ptolemy.kernel. ComponentEntity _adjustDeferrals , _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , isAtomic , isOpaque , propagateExistence"
+    },
+    {
+      "chunk_id": 27,
+      "text": "antiate , isAtomic , isOpaque , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _description , _exportMoMLContents , _removePort , connectedPortList , connectedPorts , containedObjectsIterator , getAttribute , getPort"
+    },
+    {
+      "chunk_id": 28,
+      "text": "containedObjectsIterator , getAttribute , getPort , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts , setClassDefinition , uniqueName , validateSettables Methods inherited from class ptolemy.kernel. InstantiableNamedObj _"
+    },
+    {
+      "chunk_id": 29,
+      "text": "from class ptolemy.kernel. InstantiableNamedObj _setParent , exportMoML , getChildren , getElementName , getParent , getPrototypeList , isClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _attachText , _clone"
+    },
+    {
+      "chunk_id": 30,
+      "text": "til. NamedObj _addAttribute , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix ,"
+    },
+    {
+      "chunk_id": 31,
+      "text": "oveAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeList , attributeList , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoM"
+    },
+    {
+      "chunk_id": 32,
+      "text": "angeRequests , exportMoML , exportMoML , exportMoML , exportMoML , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelE"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringCh"
+    },
+    {
+      "chunk_id": 34,
+      "text": "er , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setModelErrorHandler , setPersistent , setSource , toplevel , toString , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode,"
+    },
+    {
+      "chunk_id": 35,
+      "text": "lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor getDirector , getExecutiveDirector , getFunctionDependency , getManager , inputPortList , newReceiver , output"
+    },
+    {
+      "chunk_id": 36,
+      "text": "getManager , inputPortList , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable iterate , postfire , prefire , preinitialize , stop , stopFire , terminate , wrapup Methods inherited from interface ptolemy.kernel."
+    },
+    {
+      "chunk_id": 37,
+      "text": "p Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getFullName , getName , getName Field Detail mode public"
+    },
+    {
+      "chunk_id": 38,
+      "text": "Name , getName , getName Field Detail mode public StringParameter mode The mode component when the Cipher is instantiated. Algorithms can be run in several different modes. The mode is specified as a string. Names for modes and modes implemente"
+    },
+    {
+      "chunk_id": 39,
+      "text": "s a string. Names for modes and modes implemented vary based on the provider. Possible values include ( The empty string ) Use the default setting for the algorithm. NONE No mode, meaning that the algorithm does not use a mode. CBC Cipher Block C"
+    },
+    {
+      "chunk_id": 40,
+      "text": "algorithm does not use a mode. CBC Cipher Block Chaining Mode, as defined in FIPS PUB 81. CBC is usually the mode that is used. CFB Cipher Feedback Mode, as defined in FIPS PUB 81. ECB Electronic Codebook Mode, as defined in: The National Institut"
+    },
+    {
+      "chunk_id": 41,
+      "text": "debook Mode, as defined in: The National Institute of Standards and Technology (NIST) Federal Information Processing Standard (FIPS) PUB 81, \"DES Modes of Operation,\" U.S. Department of Commerce, Dec 1980. ECM is best for encrypting small pieces"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ec 1980. ECM is best for encrypting small pieces of data. If possible, use CBC instead. OFB Output Feedback Mode, as defined in FIPS PUB 81. PCBC Propagating Cipher Block Chaining, as defined by Kerberos V4. The initial default is the empty string"
+    },
+    {
+      "chunk_id": 43,
+      "text": "rberos V4. The initial default is the empty string, which indicates that the default setting for the algorithm should be used. See the Java Cryptography Extension (JCE) Reference Guide for details. padding public StringParameter padding The padding"
+    },
+    {
+      "chunk_id": 44,
+      "text": "padding public StringParameter padding The padding scheme used by the cipher during encryption. In cryptography, padding is used to handle situations where the input data must be an exact multiple of the block size for the algorithm http://www.di"
+    },
+    {
+      "chunk_id": 45,
+      "text": "of the block size for the algorithm http://www.di-mgt.com.au/cryptopad.html#whennopadding says: Block cipher algorithms like DES and Blowfish in Electronic Code Book (ECB) and Cipher Block Chaining (CBC) mode require their input to be an exact m"
+    },
+    {
+      "chunk_id": 46,
+      "text": "(CBC) mode require their input to be an exact multiple of the block size. If the plaintext to be encrypted is not an exact multiple, you need to pad before encrypting by adding a padding string. When decrypting, the receiving party needs to kn"
+    },
+    {
+      "chunk_id": 47,
+      "text": ". When decrypting, the receiving party needs to know how to remove the padding, if any. The padding is specified as a string. Names for parameter and parameters implemented vary based on the provider. Possible values include ( The empty strin"
+    },
+    {
+      "chunk_id": 48,
+      "text": "vider. Possible values include ( The empty string ) Use the default setting for the algorithm. NoPadding No padding (do not use padding). OAEPWith digest And mgf Padding Optimal Asymmetric Encryption Padding scheme defined in PKCS #1, where digest"
+    },
+    {
+      "chunk_id": 49,
+      "text": "n Padding scheme defined in PKCS #1, where digest should be replaced by the message digest and mgf by the mask generation function. Example: OAEPWithMD5AndMGF1Padding. PKCS5Padding The padding scheme described in: RSA Laboratories, \"PKCS #5: Pass"
+    },
+    {
+      "chunk_id": 50,
+      "text": "me described in: RSA Laboratories, \"PKCS #5: Password-Based Encryption Standard,\" version 1.5, November 1993. SSL3Padding The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher): The initia"
+    },
+    {
+      "chunk_id": 51,
+      "text": "96, section 5.2.3.2 (CBC block cipher): The initial default is the empty string, which indicates that the default setting for the algorithm should be used. See the Java Cryptography Extension (JCE) Reference Guide for details. _cipher protected jav"
+    },
+    {
+      "chunk_id": 52,
+      "text": "Reference Guide for details. _cipher protected javax.crypto.Cipher _cipher The cipher that will be used to process the data. _mode protected java.lang.String _mode The mode to be used to process the data. _padding protected java.lang.String _padding"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ata. _padding protected java.lang.String _padding The padding scheme to be used process the data. _updateCipherNeeded protected boolean _updateCipherNeeded Set to true if one of the parameters changed and we need to call _updateCipher(). Construct"
+    },
+    {
+      "chunk_id": 54,
+      "text": "and we need to call _updateCipher(). Constructor Detail CipherActor public CipherActor ( CompositeEntity container, java.lang.String name) throws NameDuplicationException , IllegalActionException Construct an actor"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ption , IllegalActionException Construct an actor with the given container and name. Parameters: container - The container. name - The name of this actor. Throws: IllegalActionException - If the actor cannot be contained by the proposed container."
+    },
+    {
+      "chunk_id": 56,
+      "text": "cannot be contained by the proposed container. NameDuplicationException - If the container already has an actor with this name. Method Detail attributeChanged public void attributeChanged ( Attribute attribute) throws Ill"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ribute attribute) throws IllegalActionException Override the base class to reinitialize the state if the the mode , or padding parameter is changed. Overrides: attributeChanged in class CryptographyActor Parameters: attribute"
+    },
+    {
+      "chunk_id": 58,
+      "text": "in class CryptographyActor Parameters: attribute - The attribute that changed. Throws: IllegalActionException - Not thrown in this base class. fire public void fire () throws IllegalActionException Update _cipher if an attribute has change"
+    },
+    {
+      "chunk_id": 59,
+      "text": "xception Update _cipher if an attribute has changed and then invoke super.fire() to transform the input data. Specified by: fire in interface Executable Overrides: fire in class CryptographyActor Throws: IllegalActionException - If thrown by the ba"
+    },
+    {
+      "chunk_id": 60,
+      "text": "rows: IllegalActionException - If thrown by the base class or if there is a problem processing the data. initialize public void initialize () throws IllegalActionException Retrieve the values of the parameters and set up javax.cry"
+    },
+    {
+      "chunk_id": 61,
+      "text": "he values of the parameters and set up javax.crypto.Cipher. Specified by: initialize in interface Executable Overrides: initialize in class AtomicActor Throws: IllegalActionException - If the algorithm cannot be found, the padding scheme is illega"
+    },
+    {
+      "chunk_id": 62,
+      "text": "thm cannot be found, the padding scheme is illegal for the the given algorithm or if the specified provider does not exist. _updateCipher protected void _updateCipher () throws IllegalActionException The value of _cipher is up"
+    },
+    {
+      "chunk_id": 63,
+      "text": "IllegalActionException The value of _cipher is updated by calling javax.crypt.Cipher.getInstance() with an argument that is created from the values of the _algorithm, _mode and _padding. Throws: IllegalActionException - if the _cipher cannot be i"
+    },
+    {
+      "chunk_id": 64,
+      "text": "legalActionException - if the _cipher cannot be initialized. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    },
+    {
+      "chunk_id": 65,
+      "text": "THOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

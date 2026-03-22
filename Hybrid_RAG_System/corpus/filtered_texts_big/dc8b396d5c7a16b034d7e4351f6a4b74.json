@@ -1,0 +1,125 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/VersionCurrent/RegressionTesting",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "story Print Version0 / Regression Testing in the Browser Host (redirected from VersionCurrent.RegressionTesting ) Overview The browser host offers automated regression testing. The process is as follows: A node.js test server is started to serve acce"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ws: A node.js test server is started to serve accessors. A node.js script invokes selenium-webdriver. selenium-webdriver opens a browser window. For each composite test accessor in accessors/web/test/auto and accessors/web/net/test/auto , a test page"
+    },
+    {
+      "chunk_id": 4,
+      "text": "auto and accessors/web/net/test/auto , a test page is generated. selenium-webdriver simulates a click on the 'react' button if present. The test is observed for a timeout period. If no error occurs, the test passes. For each Mocha test file in hosts"
+    },
+    {
+      "chunk_id": 5,
+      "text": "the test passes. For each Mocha test file in hosts/browser/test/auto/mocha , a test page is loaded. selenium-webdriver simulates a click on the 'react' button. The Test accessor loads and executes a Mocha test file, which may instantiate other access"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ocha test file, which may instantiate other accessors. All results are saved to the file /accessors/web/reports/junit/browserTestResults.xml Setup These instructions assume that node.js is already installed. Install the selenium-webdriver package for"
+    },
+    {
+      "chunk_id": 7,
+      "text": "talled. Install the selenium-webdriver package for node: npm install -g selenium-webdriver Firefox is supported by default. Firefox versions 47+ are NOT supported. Additional drivers are required for other browsers; please see the selenium-webdrive"
+    },
+    {
+      "chunk_id": 8,
+      "text": "r other browsers; please see the selenium-webdriver page. Execution Run using Node Open a command prompt, navigate to /accessors/web/hosts/browser/test , and enter: node regressionTestScript.js Test results are written to /accessors/web/reports/junit"
+    },
+    {
+      "chunk_id": 9,
+      "text": "esults are written to /accessors/web/reports/junit/browserTestResults.xml . Output is also echoed to the console window: <?xml version=\"1.0\" encoding=\"UTF-8\"?> <testsuites> <testsuite name=\"BrowserHost\" tests=\"7\" failed=\"3\"> <testsuite name="
+    },
+    {
+      "chunk_id": 10,
+      "text": "serHost\" tests=\"7\" failed=\"3\"> <testsuite name=\"Composite Accessor Tests\"> <testcase name=\"test/auto/RampJSDisplay.js> </testcase> <testcase name=\"test/auto/RampJSTest.js> </testcase> <testcase name=\"test/auto/RampJSTestDisplay.js>"
+    },
+    {
+      "chunk_id": 11,
+      "text": "<testcase name=\"test/auto/RampJSTestDisplay.js> </testcase> <testcase name=\"test/auto/TestComposite.js> </testcase> <testcase name=\"net/test/auto/WebSocketClient2JS.js> <failure message=\"Error from accessor at net/test/auto/WebSocket"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ge=\"Error from accessor at net/test/auto/WebSocketClient2JS.js: TypeError: WebSocket.supportedReceiveTypes is not a function\"/> </testcase> <testcase name=\"net/test/auto/WebSocketClient3JS.js> <failure message=\"Error from accessor at net/tes"
+    },
+    {
+      "chunk_id": 13,
+      "text": "<failure message=\"Error from accessor at net/test/auto/WebSocketClient3JS.js: TypeError: WebSocket.supportedReceiveTypes is not a function\"/> </testcase> <testcase name=\"net/test/auto/WebSocketClientJS.js> <failure message=\"Error from acce"
+    },
+    {
+      "chunk_id": 14,
+      "text": "tClientJS.js> <failure message=\"Error from accessor at net/test/auto/WebSocketClientJS.js: TypeError: WebSocket.supportedReceiveTypes is not a function\"/> </testcase> </testsuite> </testsuite> </testsuites> The script will automaticall"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ite> </testsuites> The script will automatically search for an open port, starting at 8089 and incrementing. If a port is occupied, you will see an error message echoed to the console, then the script will try the next port. For example, if port"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ript will try the next port. For example, if ports 8089 and 8090 are occupied: Starting server on port 8089. { [Error: listen EADDRINUSE :::8089] code: 'EADDRINUSE', errno: 'EADDRINUSE', syscall: 'listen', address: '::',"
+    },
+    {
+      "chunk_id": 17,
+      "text": "syscall: 'listen', address: '::', port: 8089 } Starting server on port 8090. { [Error: listen EADDRINUSE :::8090] code: 'EADDRINUSE', errno: 'EADDRINUSE', syscall: 'listen', address: '::', port: 8090 }"
+    },
+    {
+      "chunk_id": 18,
+      "text": "'listen', address: '::', port: 8090 } Starting server on port 8091. Server listening. Run using ant To run using ant If necessary, start up X11 Run: cd accesors / web ant tests.browser [$[Get Code]] Creating tests The browser regress"
+    },
+    {
+      "chunk_id": 19,
+      "text": "r [$[Get Code]] Creating tests The browser regression tester supports two kinds of tests: Composite accessor tests and Mocha tests. Composite accessor tests can be created using the CapeCode code generator . Place your file in accessors/web/test/au"
+    },
+    {
+      "chunk_id": 20,
+      "text": "erator . Place your file in accessors/web/test/auto . For Mocha test files, please see the Mocha instructions . Place your file in accessors/web/hosts/browser/test/auto/mocha . Integration with the nightly build Manually running script as Jenkins T"
+    },
+    {
+      "chunk_id": 21,
+      "text": "nightly build Manually running script as Jenkins This requires permissions to run scripts as the Jenkins user on terra.eecs.berkeley.edu . Log in to terra.eecs.berkeley.edu Log in as jenkins. sudo -i -u jenkins [$[Get Code]] Start up an X server to i"
+    },
+    {
+      "chunk_id": 22,
+      "text": "-u jenkins [$[Get Code]] Start up an X server to intercept screen output. Xvfb : 4 -screen 0 1024x768x24 & export DISPLAY =localhost: 4.0 [$[Get Code]] You may see this message. However, the X server appears to start successfully. _XSERVTransmkdir:"
+    },
+    {
+      "chunk_id": 23,
+      "text": "appears to start successfully. _XSERVTransmkdir: Owner of / tmp / .X11-unix should be set to root [$[Get Code]] Change to the browser test directory cd workspace / accessors / web / hosts / browser / test [$[Get Code]] Run the script. Note that the"
+    },
+    {
+      "chunk_id": 24,
+      "text": "test [$[Get Code]] Run the script. Note that there are two installations of node, /usr/bin/node (v0.10.42) and /usr/local/bin/node (v5.9.0). v0.10.42 will throw a strict mode error due to the const keyword in the selenium libraries. Therefore, us"
+    },
+    {
+      "chunk_id": 25,
+      "text": "keyword in the selenium libraries. Therefore, use v5.9.0. / usr / local / bin / node regressionTestScript.js [$[Get Code]] The script will find an open port for the web server, start the web server, run the tests, and echo the results to the screen"
+    },
+    {
+      "chunk_id": 26,
+      "text": "run the tests, and echo the results to the screen. The results are saved to a file. / home / jenkins / workspace / accessors / web / reports / junit / browserTestResults.xml [$[Get Code]] Note that if the script terminates improperly, the web serve"
+    },
+    {
+      "chunk_id": 27,
+      "text": "if the script terminates improperly, the web server may remain running. To kill it, run pkill node [$[Get Code]] The pkill command will kill all instances of the node process owned by the current user ( jenkins ) Note that the Jenkins nightly build"
+    },
+    {
+      "chunk_id": 28,
+      "text": "r ( jenkins ) Note that the Jenkins nightly build runs ant tests.browser , see http://terra.eecs.berkeley.edu:8080/job/accessors/configure (accessible only to people with admin access on the accessors build). Firefox 47.0 Firefox under Mac OS X crash"
+    },
+    {
+      "chunk_id": 29,
+      "text": "build). Firefox 47.0 Firefox under Mac OS X crashes when running the tests. Yes, it turns out Firefox 47 is incompatible with the latest version of Selenium. This drove me nuts! My FF also auto-updated and I had no idea why the script quit working"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ated and I had no idea why the script quit working. Turns out Selenium is migrating to a new driver for Firefox, which some people are still having problems with, but unfortunately FF47 doesn't work with the old driver. I have a workaround script u"
+    },
+    {
+      "chunk_id": 31,
+      "text": "with the old driver. I have a workaround script using the new driver if we need it and can post instructions. https://github.com/SeleniumHQ/selenium/issues/2110 terra is running: bash-4.1$ / usr / bin / firefox --version Mozilla Firefox 45.2.0 [$[Ge"
+    }
+  ]
+}

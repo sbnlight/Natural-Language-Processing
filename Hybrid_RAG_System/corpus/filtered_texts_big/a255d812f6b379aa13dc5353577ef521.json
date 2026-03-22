@@ -1,0 +1,441 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/domains/rendezvous/kernel/RendezvousReceiver.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "RendezvousReceiver Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.domains.rendezvous.kernel Class RendezvousReceiv"
+    },
+    {
+      "chunk_id": 2,
+      "text": "y.domains.rendezvous.kernel Class RendezvousReceiver java.lang.Object ptolemy.actor.AbstractReceiver ptolemy.domains.rendezvous.kernel.RendezvousReceiver All Implemented Interfaces: ProcessReceiver , Receiver public class RendezvousReceiver extends A"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Receiver public class RendezvousReceiver extends AbstractReceiver implements ProcessReceiver Receiver for rendezvous style communication. In the rendezvous domain, all communication is via synchronous message passing, so both the the sending and re"
+    },
+    {
+      "chunk_id": 4,
+      "text": "s message passing, so both the the sending and receiving processes need to rendezvous at the receiver. For rendezvous, the receiver is the key synchronization point. It is assumed each receiver has at most one thread trying to send to it and at m"
+    },
+    {
+      "chunk_id": 5,
+      "text": "at most one thread trying to send to it and at most one thread trying to receive from it at any one time. The receiver performs the synchronization necessary for simple rendezvous (get() and put() operations). This receiver is based on the CSPRe"
+    },
+    {
+      "chunk_id": 6,
+      "text": "operations). This receiver is based on the CSPReceiver class by John S. Davis II, Thomas Feng, Edward A. Lee, Neil Smyth, and Yang Zhao. Since: Ptolemy II 5.1 Version: $Id: RendezvousReceiver.java,v 1.43 2006/08/20 19:55:58 cxh Exp $ Author: Thom"
+    },
+    {
+      "chunk_id": 7,
+      "text": ",v 1.43 2006/08/20 19:55:58 cxh Exp $ Author: Thomas Feng Accepted Rating: Green (tfeng) Proposed Rating: Green (tfeng) Constructor Summary RendezvousReceiver () Construct a RendezvousReceiver with no container. RendezvousReceiver ( IOPort container)"
+    },
+    {
+      "chunk_id": 8,
+      "text": "container. RendezvousReceiver ( IOPort container) Construct a RendezvousReceiver with the specified container. Method Summary protected static void _commitRendezvous (java.util.Set receivers, RendezvousDirector director) Commit the rendezvous formed"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ousDirector director) Commit the rendezvous formed by the set of receivers that agree to send and receive at the same time. protected RendezvousDirector _getDirector () Return the director that is controlling the execution of this model. protected"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ntrolling the execution of this model. protected static java.util.Set _receiversReadyToCommit ( Receiver [][] receivers, boolean isPut) Get the receivers that are ready to form a rendezvous according to the rendezvous semant"
+    },
+    {
+      "chunk_id": 11,
+      "text": "m a rendezvous according to the rendezvous semantics. void clear () Reset local flags. Token get () Get a token from this receiver. static Token [][] getFromAll ( Receiver [][] receivers, RendezvousDirector director) Get from all receivers in the sp"
+    },
+    {
+      "chunk_id": 12,
+      "text": "irector director) Get from all receivers in the specified array. static Token getFromAny ( Receiver [][] receivers, RendezvousDirector director) Get from any receiver in the specified array. static void getFromAnyPutToAll ( Receiver [][] getReceivers"
+    },
+    {
+      "chunk_id": 13,
+      "text": "id getFromAnyPutToAll ( Receiver [][] getReceivers, Receiver [][] putReceivers, RendezvousDirector director) Get from any receiver in the getReceivers array, and put the token received to all receivers in putReceivers array. boolean hasRoom () Retur"
+    },
+    {
+      "chunk_id": 14,
+      "text": "rs in putReceivers array. boolean hasRoom () Return true. boolean hasRoom (int tokens) Return true. boolean hasToken () Return true. boolean hasToken (int tokens) Return true. boolean isConnectedToBoundary () Return true if this receiver is connected"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ndary () Return true if this receiver is connected to the inside of a boundary port. boolean isConnectedToBoundaryInside () Return true if this receiver is connected to the inside of a boundary port. boolean isConnectedToBoundaryOutside () Return t"
+    },
+    {
+      "chunk_id": 16,
+      "text": ". boolean isConnectedToBoundaryOutside () Return true if this receiver is connected to the outside of a boundary port. boolean isConsumerReceiver () This class serves as an example of a ConsumerReceiver and hence this method returns true if this po"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ver and hence this method returns true if this port is connected to a boundary. boolean isInsideBoundary () Return true if this receiver is contained on the inside of a boundary port. boolean isOutsideBoundary () Return true if this receiver is con"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ideBoundary () Return true if this receiver is contained on the outside of a boundary port. boolean isProducerReceiver () Return true if this receiver is on an outside or an inside boundary. boolean isReadBlocked () Return true if there is a get or"
+    },
+    {
+      "chunk_id": 19,
+      "text": "isReadBlocked () Return true if there is a get or a conditional receive waiting on this receiver. boolean isWriteBlocked () Return true if there is either a put or a conditional send waiting on this receiver. void put ( Token token) Put a token int"
+    },
+    {
+      "chunk_id": 20,
+      "text": "receiver. void put ( Token token) Put a token into the mailbox receiver. void putArrayToAll ( Token [] tokens, int numberOfTokens, Receiver [] receivers) Put a sequence of tokens to all receivers in the specified array. static void pu"
+    },
+    {
+      "chunk_id": 21,
+      "text": "receivers in the specified array. static void putToAll ( Token [][] tokens, Receiver [][] receivers, RendezvousDirector director) Put to all receivers in the specified array. void putToAll ( Token token, Receiver [] receivers) Put to all receivers"
+    },
+    {
+      "chunk_id": 22,
+      "text": "oken, Receiver [] receivers) Put to all receivers in the specified array. void putToAll ( Token token, Receiver [] receivers, RendezvousDirector director) Put to all receivers in the specified array. static void putToAny ( Token token, Receiver [][]"
+    },
+    {
+      "chunk_id": 23,
+      "text": "static void putToAny ( Token token, Receiver [][] receivers, RendezvousDirector director) Put the specified token to any receiver in the specified array. void requestFinish () The model has finished executing, so set a flag so that the next time an"
+    },
+    {
+      "chunk_id": 24,
+      "text": "xecuting, so set a flag so that the next time an actor tries to get or put it gets a TerminateProcessException which will cause it to finish. void reset () Reset local flags. static void waitForChange ( RendezvousDirector director) Wait on the spec"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ge ( RendezvousDirector director) Wait on the specified director. Methods inherited from class ptolemy.actor. AbstractReceiver getArray , getContainer , getCurrentTime , getModelTime , isKnown , putArray , setContainer , toString Methods inherited fr"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ray , setContainer , toString Methods inherited from class java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Receiver getArray , getContainer , isKnown ,"
+    },
+    {
+      "chunk_id": 27,
+      "text": "tor. Receiver getArray , getContainer , isKnown , putArray , setContainer Constructor Detail RendezvousReceiver public RendezvousReceiver () Construct a RendezvousReceiver with no container. RendezvousReceiver public RendezvousReceiver ( IOPort conta"
+    },
+    {
+      "chunk_id": 28,
+      "text": "sReceiver public RendezvousReceiver ( IOPort container) throws IllegalActionException Construct a RendezvousReceiver with the specified container. Parameters: container - The port containing this receiver. Throws: IllegalActionExce"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ontaining this receiver. Throws: IllegalActionException - If this receiver cannot be contained by the proposed container. Method Detail clear public void clear () Reset local flags. Specified by: clear in interface Receiver Overrides: clear in class"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ar in interface Receiver Overrides: clear in class AbstractReceiver get public Token get () throws TerminateProcessException Get a token from this receiver. This method does not return until the rendezvous has been completed. This method i"
+    },
+    {
+      "chunk_id": 31,
+      "text": "the rendezvous has been completed. This method is internally synchronized on the director. Specified by: get in interface Receiver Specified by: get in class AbstractReceiver Returns: The token contained by this receiver. Throws: TerminateProcessE"
+    },
+    {
+      "chunk_id": 32,
+      "text": "tained by this receiver. Throws: TerminateProcessException - If the actor to which this receiver belongs has been terminated while still running i.e it was not allowed to run to completion. getFromAll public static Token [][] getFromAll ( Receiver"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ll public static Token [][] getFromAll ( Receiver [][] receivers, RendezvousDirector director) throws TerminateProcessException Get from all receivers in the specified array. This method does not return until all the gets"
+    },
+    {
+      "chunk_id": 34,
+      "text": "y. This method does not return until all the gets are complete. Parameters: receivers - The receivers, which are assumed to all be instances of RendezvousReceiver. director - The director, on which this method synchronizes. Returns: An array of to"
+    },
+    {
+      "chunk_id": 35,
+      "text": "this method synchronizes. Returns: An array of token arrays, where the structure of the array is the same as the structure of the specified array of receivers. Note that if the receivers argument has any null values in the array of arrays, then s"
+    },
+    {
+      "chunk_id": 36,
+      "text": "as any null values in the array of arrays, then so will the returned array or arrays. Throws: TerminateProcessException - If the actor to which this receiver belongs is to be terminated. getFromAny public static Token getFromAny ( Receiver [][] re"
+    },
+    {
+      "chunk_id": 37,
+      "text": "public static Token getFromAny ( Receiver [][] receivers, RendezvousDirector director) throws TerminateProcessException Get from any receiver in the specified array. This method does not return until one of the gets is compl"
+    },
+    {
+      "chunk_id": 38,
+      "text": "od does not return until one of the gets is complete. Parameters: receivers - The receivers, which are assumed to all be instances of RendezvousReceiver. director - The director, on which this method synchronizes. Returns: A token from one of the"
+    },
+    {
+      "chunk_id": 39,
+      "text": "d synchronizes. Returns: A token from one of the receivers. Throws: TerminateProcessException - If the actor to which this receiver belongs is to be terminated. getFromAnyPutToAll public static void getFromAnyPutToAll ( Receiver [][] getReceivers,"
+    },
+    {
+      "chunk_id": 40,
+      "text": "getFromAnyPutToAll ( Receiver [][] getReceivers, Receiver [][] putReceivers, RendezvousDirector director) throws IllegalActionException , TerminateProcessException Get from any receiver in the getReceivers array, and p"
+    },
+    {
+      "chunk_id": 41,
+      "text": "from any receiver in the getReceivers array, and put the token received to all receivers in putReceivers array. The put and get are to be accomplished simultaneously in a rendezvous. This method does not return until both the get and put are compl"
+    },
+    {
+      "chunk_id": 42,
+      "text": "s not return until both the get and put are complete. Parameters: getReceivers - The receivers, which are assumed to all be instances of RendezvousReceiver, to get tokens from. putReceivers - The receivers, which are assumed to all be instances of"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ceivers, which are assumed to all be instances of RendezvousReceiver, to put tokens to. director - The director, on which this method synchronizes. Throws: IllegalActionException - If the token is not acceptable to one of the ports (e.g., wrong ty"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ot acceptable to one of the ports (e.g., wrong type). TerminateProcessException - If the actor to which this receiver belongs is to be terminated. hasRoom public boolean hasRoom () Return true. This method returns true in all cases to indicate tha"
+    },
+    {
+      "chunk_id": 45,
+      "text": "method returns true in all cases to indicate that the next call to put() will succeed without throwing a NoRoomException, as indeed it will, even if not right away. Note that if this were to return true only if a rendezvous was pending, then pol"
+    },
+    {
+      "chunk_id": 46,
+      "text": "n true only if a rendezvous was pending, then polymorphic actors would busy wait. Specified by: hasRoom in interface Receiver Specified by: hasRoom in class AbstractReceiver Returns: True. hasRoom public boolean hasRoom (int tokens) Return true. Th"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ublic boolean hasRoom (int tokens) Return true. This method returns true in all cases to indicate that any number of calls to put() will succeed without throwing a NoRoomException, as indeed they will, even if not right away. Note that if this were"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ll, even if not right away. Note that if this were to return true only if a rendezvous was pending, then polymorphic actors would busy wait. Specified by: hasRoom in interface Receiver Specified by: hasRoom in class AbstractReceiver Parameters: tok"
+    },
+    {
+      "chunk_id": 49,
+      "text": "hasRoom in class AbstractReceiver Parameters: tokens - Ignored by this method. Returns: True. hasToken public boolean hasToken () Return true. This method returns true in all cases to indicate that the next call to get() will succeed without throwi"
+    },
+    {
+      "chunk_id": 50,
+      "text": "the next call to get() will succeed without throwing a NoTokenException, as indeed it will, even if not right away. Note that if this were to return true only if a rendezvous was pending, then polymorphic actors would busy wait. Specified by: has"
+    },
+    {
+      "chunk_id": 51,
+      "text": "morphic actors would busy wait. Specified by: hasToken in interface Receiver Specified by: hasToken in class AbstractReceiver Returns: True. hasToken public boolean hasToken (int tokens) Return true. This method returns true in all cases to indicate"
+    },
+    {
+      "chunk_id": 52,
+      "text": "This method returns true in all cases to indicate that any number of calls to get() will succeed without throwing a NoTokenException, as indeed they will, even if not right away. Note that if this were to return true only if a rendezvous was pen"
+    },
+    {
+      "chunk_id": 53,
+      "text": "were to return true only if a rendezvous was pending, then polymorphic actors would busy wait. Specified by: hasToken in interface Receiver Specified by: hasToken in class AbstractReceiver Parameters: tokens - Ignored by this method. Returns: True"
+    },
+    {
+      "chunk_id": 54,
+      "text": "rs: tokens - Ignored by this method. Returns: True. isConnectedToBoundary public boolean isConnectedToBoundary () Return true if this receiver is connected to the inside of a boundary port. A boundary port is an opaque port that is contained by a co"
+    },
+    {
+      "chunk_id": 55,
+      "text": "y port is an opaque port that is contained by a composite actor. If this receiver is connected to the inside of a boundary port, then return true; otherwise return false. Specified by: isConnectedToBoundary in interface ProcessReceiver Returns: Tru"
+    },
+    {
+      "chunk_id": 56,
+      "text": "Boundary in interface ProcessReceiver Returns: True if this receiver is connected to the inside of a boundary port; return false otherwise. See Also: BoundaryDetector isConnectedToBoundaryInside public boolean isConnectedToBoundaryInside () Return t"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ic boolean isConnectedToBoundaryInside () Return true if this receiver is connected to the inside of a boundary port. A boundary port is an opaque port that is contained by a composite actor. If this receiver is connected to the inside of a boundar"
+    },
+    {
+      "chunk_id": 58,
+      "text": "s receiver is connected to the inside of a boundary port, then return true; otherwise return false. Specified by: isConnectedToBoundaryInside in interface ProcessReceiver Returns: True if this receiver is connected to the inside of a boundary port;"
+    },
+    {
+      "chunk_id": 59,
+      "text": "er is connected to the inside of a boundary port; return false otherwise. See Also: BoundaryDetector isConnectedToBoundaryOutside public boolean isConnectedToBoundaryOutside () Return true if this receiver is connected to the outside of a boundary"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ceiver is connected to the outside of a boundary port. A boundary port is an opaque port that is contained by a composite actor. If this receiver is connected to the outside of a boundary port, then return true; otherwise return false. Specified b"
+    },
+    {
+      "chunk_id": 61,
+      "text": "n return true; otherwise return false. Specified by: isConnectedToBoundaryOutside in interface ProcessReceiver Returns: True if this receiver is connected to the outside of a boundary port; return false otherwise. See Also: BoundaryDetector isConsum"
+    },
+    {
+      "chunk_id": 62,
+      "text": "lse otherwise. See Also: BoundaryDetector isConsumerReceiver public boolean isConsumerReceiver () This class serves as an example of a ConsumerReceiver and hence this method returns true if this port is connected to a boundary. Specified by: isConsu"
+    },
+    {
+      "chunk_id": 63,
+      "text": "is connected to a boundary. Specified by: isConsumerReceiver in interface ProcessReceiver Returns: True if this is a consumer receiver; return false otherwise. See Also: isConnectedToBoundary() isInsideBoundary public boolean isInsideBoundary ()"
+    },
+    {
+      "chunk_id": 64,
+      "text": "InsideBoundary public boolean isInsideBoundary () Return true if this receiver is contained on the inside of a boundary port. A boundary port is an opaque port that is contained by a composite actor. If this receiver is contained on the inside of"
+    },
+    {
+      "chunk_id": 65,
+      "text": ". If this receiver is contained on the inside of a boundary port then return true; otherwise return false. Specified by: isInsideBoundary in interface ProcessReceiver Returns: True if this receiver is contained on the inside of a boundary port; re"
+    },
+    {
+      "chunk_id": 66,
+      "text": "is contained on the inside of a boundary port; return false otherwise. See Also: BoundaryDetector isOutsideBoundary public boolean isOutsideBoundary () Return true if this receiver is contained on the outside of a boundary port. A boundary port is"
+    },
+    {
+      "chunk_id": 67,
+      "text": "e outside of a boundary port. A boundary port is an opaque port that is contained by a composite actor. If this receiver is contained on the outside of a boundary port then return true; otherwise return false. Specified by: isOutsideBoundary in i"
+    },
+    {
+      "chunk_id": 68,
+      "text": "return false. Specified by: isOutsideBoundary in interface ProcessReceiver Returns: True if this receiver is contained on the outside of a boundary port; return false otherwise. See Also: BoundaryDetector isProducerReceiver public boolean isProducer"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ector isProducerReceiver public boolean isProducerReceiver () Return true if this receiver is on an outside or an inside boundary. Specified by: isProducerReceiver in interface ProcessReceiver Returns: True if this is a producer receiver; return fals"
+    },
+    {
+      "chunk_id": 70,
+      "text": ": True if this is a producer receiver; return false otherwise. isReadBlocked public boolean isReadBlocked () Return true if there is a get or a conditional receive waiting on this receiver. Specified by: isReadBlocked in interface ProcessReceiver"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ied by: isReadBlocked in interface ProcessReceiver Returns: True if a read is pending on this receiver. isWriteBlocked public boolean isWriteBlocked () Return true if there is either a put or a conditional send waiting on this receiver. Specified by"
+    },
+    {
+      "chunk_id": 72,
+      "text": "ional send waiting on this receiver. Specified by: isWriteBlocked in interface ProcessReceiver Returns: A boolean indicating whether a write is pending on this receiver. put public void put ( Token token) throws IllegalActionException , Te"
+    },
+    {
+      "chunk_id": 73,
+      "text": "token) throws IllegalActionException , TerminateProcessException Put a token into the mailbox receiver. This method does not return until the rendezvous is complete. This method is internally synchronized on the director. Specified by: put"
+    },
+    {
+      "chunk_id": 74,
+      "text": "ly synchronized on the director. Specified by: put in interface Receiver Specified by: put in class AbstractReceiver Parameters: token - The token. Throws: IllegalActionException - If the token is not acceptable to the port (e.g., wrong type). Termi"
+    },
+    {
+      "chunk_id": 75,
+      "text": "acceptable to the port (e.g., wrong type). TerminateProcessException - If the actor to which this receiver belongs has been terminated while still running i.e it was not allowed to run to completion. putArrayToAll public void putArrayToAll ( Toke"
+    },
+    {
+      "chunk_id": 76,
+      "text": "on. putArrayToAll public void putArrayToAll ( Token [] tokens, int numberOfTokens, Receiver [] receivers) throws NoRoomException , IllegalActionException , TerminateProcessException Put a sequence of token"
+    },
+    {
+      "chunk_id": 77,
+      "text": "TerminateProcessException Put a sequence of tokens to all receivers in the specified array. This method sequentially calls putToAll() for each token in the tokens array. Specified by: putArrayToAll in interface Receiver Overrides: putArrayToAll in"
+    },
+    {
+      "chunk_id": 78,
+      "text": "in interface Receiver Overrides: putArrayToAll in class AbstractReceiver Parameters: tokens - The sequence of token to put. numberOfTokens - The number of tokens to put (the array might be longer). receivers - The receivers. Throws: NoRoomException"
+    },
+    {
+      "chunk_id": 79,
+      "text": "receivers - The receivers. Throws: NoRoomException - If there is no room for the token. IllegalActionException - If the token is not acceptable to one of the ports (e.g., wrong type), or if the tokens array does not have at least the specified numb"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ns array does not have at least the specified number of tokens. TerminateProcessException - If the actor to which this receiver belongs has been terminated while still running i.e it was not allowed to run to completion. putToAll public void putTo"
+    },
+    {
+      "chunk_id": 81,
+      "text": "d to run to completion. putToAll public void putToAll ( Token token, Receiver [] receivers) throws NoRoomException , IllegalActionException Put to all receivers in the specified array. Implementers will assume that all such receivers a"
+    },
+    {
+      "chunk_id": 82,
+      "text": "mplementers will assume that all such receivers are of the same class. Specified by: putToAll in interface Receiver Overrides: putToAll in class AbstractReceiver Parameters: token - The token to put. receivers - The receivers. Throws: NoRoomExceptio"
+    },
+    {
+      "chunk_id": 83,
+      "text": "receivers - The receivers. Throws: NoRoomException - If there is no room for the token. IllegalActionException - If the token is not acceptable to one of the ports (e.g., wrong type). putToAll public void putToAll ( Token token, Receiver [] receive"
+    },
+    {
+      "chunk_id": 84,
+      "text": "c void putToAll ( Token token, Receiver [] receivers, RendezvousDirector director) throws IllegalActionException , TerminateProcessException Put to all receivers in the specified array. This method does not return until all the puts ar"
+    },
+    {
+      "chunk_id": 85,
+      "text": "This method does not return until all the puts are complete. This method differs from its counterpart in the superclass in that it puts the token to all receivers in an atomic step. The method in the superclass puts the token to one receiver in t"
+    },
+    {
+      "chunk_id": 86,
+      "text": "he superclass puts the token to one receiver in the receiver array at a time. Parameters: token - The token to put. receivers - The receivers, which are assumed to all be instances of RendezvousReceiver. director - The director, on which this meth"
+    },
+    {
+      "chunk_id": 87,
+      "text": "eiver. director - The director, on which this method synchronizes. Throws: IllegalActionException - If the token is not acceptable to one of the ports (e.g., wrong type). TerminateProcessException - If the actor to which this receiver belongs is t"
+    },
+    {
+      "chunk_id": 88,
+      "text": "If the actor to which this receiver belongs is to be terminated. putToAll public static void putToAll ( Token [][] tokens, Receiver [][] receivers, RendezvousDirector director) throws IllegalActionException , TerminateProcessEx"
+    },
+    {
+      "chunk_id": 89,
+      "text": "throws IllegalActionException , TerminateProcessException Put to all receivers in the specified array. This method does not return until all the puts are complete. The tokens argument can have fewer tokens than receivers argument has receivers. If"
+    },
+    {
+      "chunk_id": 90,
+      "text": "tokens than receivers argument has receivers. If only one token is given (the argument has dimension [1][1]), then that one token is copied to all destination receivers (with possible type changes). If only one token in each dimension is given,"
+    },
+    {
+      "chunk_id": 91,
+      "text": "). If only one token in each dimension is given, then that one token is copied to all destination receivers in the corresponding dimension of the receivers array. Parameters: tokens - The tokens to put. receivers - * The receivers, which are assume"
+    },
+    {
+      "chunk_id": 92,
+      "text": "put. receivers - * The receivers, which are assumed to all be instances of RendezvousReceiver. director - The director, on which this method synchronizes. Throws: IllegalActionException - If the token is not acceptable to one of the ports (e.g., w"
+    },
+    {
+      "chunk_id": 93,
+      "text": "en is not acceptable to one of the ports (e.g., wrong type). TerminateProcessException - If the actor to which this receiver belongs is to be terminated. putToAny public static void putToAny ( Token token, Receiver [][] receivers, RendezvousDirecto"
+    },
+    {
+      "chunk_id": 94,
+      "text": "token, Receiver [][] receivers, RendezvousDirector director) throws IllegalActionException , TerminateProcessException Put the specified token to any receiver in the specified array. This method does not return until one of the"
+    },
+    {
+      "chunk_id": 95,
+      "text": "ray. This method does not return until one of the puts is complete. Parameters: token - The token to put. receivers - The receivers, which are assumed to all be instances of RendezvousReceiver. director - The director, on which this method synchro"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ctor - The director, on which this method synchronizes. Throws: IllegalActionException - If the token is not acceptable to one of the ports (e.g., wrong type). TerminateProcessException - If the actor to which this receiver belongs is to be termin"
+    },
+    {
+      "chunk_id": 97,
+      "text": "or to which this receiver belongs is to be terminated. requestFinish public void requestFinish () The model has finished executing, so set a flag so that the next time an actor tries to get or put it gets a TerminateProcessException which will cau"
+    },
+    {
+      "chunk_id": 98,
+      "text": "t gets a TerminateProcessException which will cause it to finish. Specified by: requestFinish in interface ProcessReceiver reset public void reset () Reset local flags. Specified by: reset in interface ProcessReceiver Overrides: reset in class Abstr"
+    },
+    {
+      "chunk_id": 99,
+      "text": "ce ProcessReceiver Overrides: reset in class AbstractReceiver waitForChange public static void waitForChange ( RendezvousDirector director) throws TerminateProcessException Wait on the specified director. This is not synchro"
+    },
+    {
+      "chunk_id": 100,
+      "text": "ait on the specified director. This is not synchronized on the specified director, so the called should be. Parameters: director - The director on which to wait. Throws: TerminateProcessException - If a finish has been requested of the specified di"
+    },
+    {
+      "chunk_id": 101,
+      "text": "f a finish has been requested of the specified director, or if the calling thread is interrupted while waiting. _commitRendezvous protected static void _commitRendezvous (java.util.Set receivers, RendezvousDirector director) Commit the rendezvous f"
+    },
+    {
+      "chunk_id": 102,
+      "text": "ndezvousDirector director) Commit the rendezvous formed by the set of receivers that agree to send and receive at the same time. Parameters: receivers - The receivers that participate in the rendezvous. director - The director. See Also: _receiversR"
+    },
+    {
+      "chunk_id": 103,
+      "text": "us. director - The director. See Also: _receiversReadyToCommit(Receiver[][], boolean) _getDirector protected RendezvousDirector _getDirector () Return the director that is controlling the execution of this model. If this receiver is an inside receiv"
+    },
+    {
+      "chunk_id": 104,
+      "text": "this model. If this receiver is an inside receiver, then it is the director of the container (actor) of the container (port). Otherwise, it is the executive director of the container (actor) of the container (port). Returns: The RendezvousDirect"
+    },
+    {
+      "chunk_id": 105,
+      "text": "he container (port). Returns: The RendezvousDirector controlling this model. _receiversReadyToCommit protected static java.util.Set _receiversReadyToCommit ( Receiver [][] receivers, boolean isPu"
+    },
+    {
+      "chunk_id": 106,
+      "text": "boolean isPut) Get the receivers that are ready to form a rendezvous according to the rendezvous semantics. If no rendezvous can be formed starting for the given array of receivers, null is returned. Parameters"
+    },
+    {
+      "chunk_id": 107,
+      "text": "n array of receivers, null is returned. Parameters: receivers - The array of receivers to be put to or get from. isPut - If true, the rendezvous is to put tokens to the receivers; if false, the rendezvous is to get tokens from the receivers. Retur"
+    },
+    {
+      "chunk_id": 108,
+      "text": "ezvous is to get tokens from the receivers. Returns: A set of receivers that participate in the rendezvous if it can be formed, or null if no rendezvous can be formed. See Also: _commitRendezvous(Set, RendezvousDirector) Overview Package Class Tree"
+    },
+    {
+      "chunk_id": 109,
+      "text": "t, RendezvousDirector) Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

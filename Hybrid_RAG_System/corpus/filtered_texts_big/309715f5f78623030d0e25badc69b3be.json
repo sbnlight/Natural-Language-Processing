@@ -1,0 +1,81 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/TockOS/Duktape2Simple",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | TockOS / Duktape2Simple Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print TockOS / Duktape2Simple See Duktape2 for how to check out the Re"
+    },
+    {
+      "chunk_id": 2,
+      "text": "pe2Simple See Duktape2 for how to check out the Repo and get started. Simple The first step is to get a simple Duktape program running. SimpleBuild bash-3.2$ cd userland / examples / duktape / cd userland / examples / duktape / bash-3.2$ make clean;"
+    },
+    {
+      "chunk_id": 3,
+      "text": "land / examples / duktape / bash-3.2$ make clean; make -f Makefile-simple.mk TOCK_BOARD =hail program [$[Get Code]] Simple Run ealmac23:~ cxh$ tockloader listen No serial port specified. Discovering attached serial devices... Using \"/dev/cu.usbserial"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ttached serial devices... Using \"/dev/cu.usbserial-00001014 - Hail IoT Module - TockOS - Hail IoT Module - TockOS\" duktape / main-simple.c: start duktape / main-simple.c: after heap create duktape / main-simple.c: before pushing native_print 2 duktap"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ain-simple.c: before pushing native_print 2 duktape / main-simple.c: after pushing native_print duktape / main-simple.c: after put_global print Hello world ! duktape / main-simple.c: after eval print1 duktape / main-simple.c: after pushing native_add"
+    },
+    {
+      "chunk_id": 6,
+      "text": "duktape / main-simple.c: after pushing native_adder duktape / main-simple.c: after put_global print 2 + 3 =5duktape / main-simple.c: after eval print2 duktape / main-simple.duktape / main-simple.c: start duktape / main-simple.c: after heap create du"
+    },
+    {
+      "chunk_id": 7,
+      "text": "tart duktape / main-simple.c: after heap create duktape / main-simple.c: before pushing native_print 2 duktape / main-simple.c: after pushing native_print duktape / main-simple.c: after put_global print Hello world ! duktape / main-simple.c: after ev"
+    },
+    {
+      "chunk_id": 8,
+      "text": "nt Hello world ! duktape / main-simple.c: after eval print1 duktape / main-simple.c: after pushing native_adder duktape / main-simple.c: after put_global print 2 + 3 =5duktape / main-simple.c: after eval print2 duktape / main-simple.c: done [$[Get Co"
+    },
+    {
+      "chunk_id": 9,
+      "text": "val print2 duktape / main-simple.c: done [$[Get Code]] userland/examples/duktape/main-simple.c : /* * Very simple example program */ #include \"duktape.h\" #ifdef __ARM_EABI__ #include \"console.h\" int _gettimeofday ( struct timeval * tp , void * tzp )"
+    },
+    {
+      "chunk_id": 10,
+      "text": "_gettimeofday ( struct timeval * tp , void * tzp ) { return 0 ; } #else #define putstr(x) fprintf(stderr, \"%s\", x); #endif static duk_ret_t native_print ( duk_context * ctx ) { duk_push_string ( ctx , \" \" ) ; duk_insert ( ctx , 0 ) ; duk_join ( ctx ,"
+    },
+    {
+      "chunk_id": 11,
+      "text": "\" \" ) ; duk_insert ( ctx , 0 ) ; duk_join ( ctx , duk_get_top ( ctx ) - 1 ) ; #ifdef __ARM_EABI__ putstr ( duk_safe_to_string ( ctx , - 1 ) ) ; #else printf ( \"%s \\n \" , duk_safe_to_string ( ctx , - 1 ) ) ; #endif return 0 ; } static duk_ret_t nativ"
+    },
+    {
+      "chunk_id": 12,
+      "text": "1 ) ) ; #endif return 0 ; } static duk_ret_t native_adder ( duk_context * ctx ) { int i ; int n = duk_get_top ( ctx ) ; /* #args */ double res = 0.0 ; for ( i = 0 ; i < n ; i ++ ) { res += duk_to_number ( ctx , i ) ; } duk_push_number ( ctx , res ) ;"
+    },
+    {
+      "chunk_id": 13,
+      "text": "er ( ctx , i ) ; } duk_push_number ( ctx , res ) ; return 1 ; /* one return value */ } int main ( int argc , char * argv [ ] ) { putstr ( \"duktape/main-simple.c: start \\n \" ) ; duk_context * ctx = duk_create_heap_default ( ) ; putstr ( \"duktape/main-"
+    },
+    {
+      "chunk_id": 14,
+      "text": "_create_heap_default ( ) ; putstr ( \"duktape/main-simple.c: after heap create \\n \" ) ; ( void ) argc ; ( void ) argv ; /* suppress warning */ putstr ( \"duktape/main-simple.c: before pushing native_print 2 \\n \" ) ; duk_push_c_function ( ctx , native_p"
+    },
+    {
+      "chunk_id": 15,
+      "text": "nt 2 \\n \" ) ; duk_push_c_function ( ctx , native_print , DUK_VARARGS ) ; putstr ( \"duktape/main-simple.c: after pushing native_print \\n \" ) ; duk_put_global_string ( ctx , \"print\" ) ; putstr ( \"duktape/main-simple.c: after put_global print \\n \" ) ; d"
+    },
+    {
+      "chunk_id": 16,
+      "text": "e/main-simple.c: after put_global print \\n \" ) ; duk_eval_string ( ctx , \"print('Hello world!');\" ) ; putstr ( \"duktape/main-simple.c: after eval print1 \\n \" ) ; duk_push_c_function ( ctx , native_adder , DUK_VARARGS ) ; putstr ( \"duktape/main-simple"
+    },
+    {
+      "chunk_id": 17,
+      "text": "er , DUK_VARARGS ) ; putstr ( \"duktape/main-simple.c: after pushing native_adder \\n \" ) ; duk_put_global_string ( ctx , \"adder\" ) ; putstr ( \"duktape/main-simple.c: after put_global print \\n \" ) ; duk_eval_string ( ctx , \"print('2+3=' + adder(2, 3));"
+    },
+    {
+      "chunk_id": 18,
+      "text": "_eval_string ( ctx , \"print('2+3=' + adder(2, 3));\" ) ; putstr ( \"duktape/main-simple.c: after eval print2 \\n \" ) ; duk_pop ( ctx ) ; /* pop eval result */ duk_destroy_heap ( ctx ) ; putstr ( \"duktape/main-simple.c: done \\n \" ) ; return 0 ; } [$[Get"
+    },
+    {
+      "chunk_id": 19,
+      "text": "/main-simple.c: done \\n \" ) ; return 0 ; } [$[Get Code]] See Duktape 2 Initial Compilation for details about mods to process.rc and sizes. After the Simple build, the next step is to Duktape2 Toggle LED . Edit - History - Print - Recent Changes - Sea"
+    }
+  ]
+}

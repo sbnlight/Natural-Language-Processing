@@ -1,0 +1,133 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/java/old/ptplot1.1/ptplot/PlotLive.java",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "/* A live signal plotter. @Copyright (c) 1997 The Regents of the University of California. All rights reserved. Permission is hereby granted, without written agreement and without license or royalty fees, to use, copy, modify, and distribute this s"
+    },
+    {
+      "chunk_id": 6,
+      "text": "AINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS. PT_COPYRIGHT_VERSION_2 COPYRIGHTENDKEY */ package ptplot; import java.awt.*; import java.u"
+    },
+    {
+      "chunk_id": 7,
+      "text": "package ptplot; import java.awt.*; import java.util.*; ////////////////////////////////////////////////////////////////////////// //// PlotLive /** * Plot signals dynamically, where points can be added at any time * and the the display will be u"
+    },
+    {
+      "chunk_id": 8,
+      "text": "added at any time * and the the display will be updated. This should be normally used * with some finite persistence so that old points are erased as new * points are added. Unfortunately, the most efficient way to erase * old points is to draw"
+    },
+    {
+      "chunk_id": 9,
+      "text": "st efficient way to erase * old points is to draw graphics using the \"exclusive or\" mode, which * introduces quite a number of artifacts. When lines are drawn * between points, where they overlap the points the line becomes * white. Moreover, if"
+    },
+    {
+      "chunk_id": 10,
+      "text": "the points the line becomes * white. Moreover, if two lines or points overlap completely, they * disappear. * * This class is abstract, so it must be used by creating a derived * class. To use it, create a derived class with init() * and addPoin"
+    },
+    {
+      "chunk_id": 11,
+      "text": ", create a derived class with init() * and addPoints() methods. The init() * method can call methods in the Plot or * PlotBox classes (both of which are base classes) to * set the static properties of the graph, such as the title, axis * ranges, a"
+    },
+    {
+      "chunk_id": 12,
+      "text": "of the graph, such as the title, axis * ranges, and axis labels. The addPoints() method * should call addPoint() of the Plot base * class to dynamically add points to the plot. This method is called * within a thread separate from the applet th"
+    },
+    {
+      "chunk_id": 13,
+      "text": "led * within a thread separate from the applet thread. * * The init() method must call * super.init() somewhere in its body; along with general * initialization, this reads a file given by a URL if the dataurl * applet parameter is specified. T"
+    },
+    {
+      "chunk_id": 14,
+      "text": "f the dataurl * applet parameter is specified. Thus, the initial configuration can * be specified in a separate file rather than in Java code. * * @author Edward A. Lee, Christopher Hylands * @version @(#)PlotLive.java 1.28 10/25/97 */ public"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ersion @(#)PlotLive.java 1.28 10/25/97 */ public abstract class PlotLive extends Plot implements Runnable { ////////////////////////////////////////////////////////////////////////// //// public methods"
+    },
+    {
+      "chunk_id": 16,
+      "text": "public methods //// /** * Handle button presses to enable or disable plotting. * @deprecated As of JDK1.1 in java.awt.component * but we need to compile under 1.0.2 for netscape3"
+    },
+    {
+      "chunk_id": 17,
+      "text": "* but we need to compile under 1.0.2 for netscape3.x compatibility. */ public boolean action (Event evt, Object arg) { if (evt.target == _startButton) { _plotting = true; return true; } else if (evt.ta"
+    },
+    {
+      "chunk_id": 18,
+      "text": "return true; } else if (evt.target == _stopButton) { _plotting = false; return true; } else { return super.action (evt, arg); // action() is deprecated in 1.1 // but we need"
+    },
+    {
+      "chunk_id": 19,
+      "text": ") is deprecated in 1.1 // but we need to compile under // jdk1.0.2 for netscape3.x } } /** * Redefine in derived classes to add points to the plot. * Adding many points at once will make the plot so"
+    },
+    {
+      "chunk_id": 20,
+      "text": "* Adding many points at once will make the plot somewhat faster * because the thread yields between calls to this method. * However, the plot will also be somewhat less responsive to user * inputs such as zooming, filling, or stopping."
+    },
+    {
+      "chunk_id": 21,
+      "text": "* inputs such as zooming, filling, or stopping. */ public synchronized abstract void addPoints(); /** * Create a start and stop buttons, by which the user can invoke * enable() and disable . Alternatively, * a derived"
+    },
+    {
+      "chunk_id": 22,
+      "text": "e() and disable . Alternatively, * a derived class might invoke these directly and dispense with * the buttons. This should be called within the * init() method in derived classes. */ public void makeButtons () { if"
+    },
+    {
+      "chunk_id": 23,
+      "text": "*/ public void makeButtons () { if (_debug >8 ) System.out.println(\"PlotLive: makeButtons\"); // So that the buttons appear at the upper right... // Note that this infringes on the title space... maybe not good."
+    },
+    {
+      "chunk_id": 24,
+      "text": "ges on the title space... maybe not good. _startButton = new Button(\"start\"); add(_startButton); _stopButton = new Button(\"stop\"); add(_stopButton); } /** * This is the body of a thread that monitors"
+    },
+    {
+      "chunk_id": 25,
+      "text": "* This is the body of a thread that monitors which of the start * or stop buttons have been pushed most recently, or which of the * enable() or disable() methods has * been called most recently, to determine whether to patiently"
+    },
+    {
+      "chunk_id": 26,
+      "text": "most recently, to determine whether to patiently * wait or to call the addPoints() method. Between * calls to addPoints() , it calls * Thread.yield() so that the thread does not hog all * the resources. This somewhat slows down"
+    },
+    {
+      "chunk_id": 27,
+      "text": "l * the resources. This somewhat slows down execution, so derived * classes may wish to plot quite a few points in their * addPoints() method, if possible. However, * plotting more points at once may also decrease the * res"
+    },
+    {
+      "chunk_id": 28,
+      "text": "re points at once may also decrease the * responsiveness of the user interface. */ public void run() { if (_debug >8 ) System.out.println(\"PlotLive: run\"); while (Thread.currentThread() == _plotLiveThread) {"
+    },
+    {
+      "chunk_id": 29,
+      "text": "currentThread() == _plotLiveThread) { if (_plotting) { addPoints(); Thread.yield(); } else { try { // NOTE: Using wait here with notifyAll in the action"
+    },
+    {
+      "chunk_id": 30,
+      "text": "Using wait here with notifyAll in the action // method leads to inexplicable deadlocks. // So we just sleep. Thread.sleep(100); } catch (InterruptedException e) {}"
+    },
+    {
+      "chunk_id": 31,
+      "text": "} catch (InterruptedException e) {} } } } /** * If plotting is set to true, then we plot. */ public void setPlotting( boolean plotting) { _plotting = plotting; } /** * Start the"
+    },
+    {
+      "chunk_id": 32,
+      "text": "tting = plotting; } /** * Start the widget. It creates a thread to plot live data, if * this has not been already done. However, we don't actually * start plotting until either the start button is called, or * setPlotti"
+    },
+    {
+      "chunk_id": 33,
+      "text": "er the start button is called, or * setPlotting(true) is called. */ public void start() { if (_debug >8 ) System.out.println(\"PlotLive: start\"); if (_plotLiveThread == null) { _plotLiveThread = new Thread(thi"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ll) { _plotLiveThread = new Thread(this, \"PlotLive Thread\"); _plotLiveThread.start(); } } /** * Stop the widget. */ public void stop() { if (_debug >8 ) System.out.println(\"PlotLive: stop"
+    },
+    {
+      "chunk_id": 35,
+      "text": "if (_debug >8 ) System.out.println(\"PlotLive: stop\"); if (_plotLiveThread != null) { // Don't stop the thread, just set it to null. //_plotLiveThread.stop(); _plotLiveThread = null; } } /"
+    },
+    {
+      "chunk_id": 37,
+      "text": "// private Thread _plotLiveThread; // True if we are actually plotting private boolean _plotting = false; private Button _startButton, _stopButton; }"
+    }
+  ]
+}

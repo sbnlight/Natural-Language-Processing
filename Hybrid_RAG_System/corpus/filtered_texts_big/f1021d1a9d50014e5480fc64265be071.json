@@ -1,0 +1,141 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/kernel/util/Derivable.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Derivable Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.kernel.util Interface Derivable All Superinterfaces: Name"
+    },
+    {
+      "chunk_id": 2,
+      "text": "util Interface Derivable All Superinterfaces: Nameable All Known Subinterfaces: Instantiable All Known Implementing Classes: InstantiableNamedObj , NamedObj public interface Derivable extends Nameable This interface is for objects that can be derived"
+    },
+    {
+      "chunk_id": 3,
+      "text": "This interface is for objects that can be derived. A derived object is \"inherited\" via the class mechanism in Ptolemy II and tracks the object from which it is derived. That object is its \"prototype.\" The derived object is usually created in its"
+    },
+    {
+      "chunk_id": 4,
+      "text": "pe.\" The derived object is usually created in its container as a side effect of the creation of the prototype. The method propagateExistence() is the mechanism by which derived objects are created. The prototype and its derived objects are instan"
+    },
+    {
+      "chunk_id": 5,
+      "text": ". The prototype and its derived objects are instances of the same Java class, and by default, if they have a \"value,\" then they have the same value. The derived object may, however, \"override\" its value. Propagation of changes in the value from th"
+    },
+    {
+      "chunk_id": 6,
+      "text": "alue. Propagation of changes in the value from the prototype to the derived objects that do not override the value is handled by the propagateValue() method. It is up to that method to properly handle shadowing that might occur if a derived obje"
+    },
+    {
+      "chunk_id": 7,
+      "text": "andle shadowing that might occur if a derived object that is overridden is also a prototype for other derived objects. A derived object arises from a parent-child relationship, which is supported by the subinterface Instantiable. Every object that"
+    },
+    {
+      "chunk_id": 8,
+      "text": "the subinterface Instantiable. Every object that is (deeply) contained by a parent has a corresponding derived object that is (deeply) contained by the child. Thus, the existence of the derived object is \"implied\" by the parent-child relationship"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ject is \"implied\" by the parent-child relationship. The depth of a derived object relative to this parent-child relationship is returned by the getDerivedLevel() method. For example, if the container of a derived object is the child of the contai"
+    },
+    {
+      "chunk_id": 10,
+      "text": "er of a derived object is the child of the container of its prototype, then getDerivedLevel() will return 1. The derived level returned by getDerivedLevel() affects whether a derived object is explicitly mentioned when a model is exported to MoML"
+    },
+    {
+      "chunk_id": 11,
+      "text": "icitly mentioned when a model is exported to MoML. Normally, a derived object is not mentioned in the MoML since its existence is \"implied\" by the existence of the prototype and the parent-child relationship. However, since it is possible to expo"
+    },
+    {
+      "chunk_id": 12,
+      "text": "lationship. However, since it is possible to export MoML for any object in a hierarchical model, the exported MoML may not include the parent-child relationship, since it might be below it in the hierarchy. In this case, the derived object will"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ierarchy. In this case, the derived object will be described in the exported MoML, since it is not implied in the exported MoML. The getDerivedList() method returns a list of all the objects that are derived from a prototype. The getPrototypeList"
+    },
+    {
+      "chunk_id": 14,
+      "text": "are derived from a prototype. The getPrototypeList() method returns a list of all prototypes from which this object is derived. Since: Ptolemy II 4.0 Version: $Id: Derivable.java,v 1.23 2005/07/08 19:59:16 cxh Exp $ Author: Edward A. Lee See Also: I"
+    },
+    {
+      "chunk_id": 15,
+      "text": ":59:16 cxh Exp $ Author: Edward A. Lee See Also: Instantiable , NamedObj Accepted Rating: Green (neuendor) Proposed Rating: Green (eal) Method Summary int getDerivedLevel () Get the minimum level above this object in the hierarchy where a parent-ch"
+    },
+    {
+      "chunk_id": 16,
+      "text": "e this object in the hierarchy where a parent-child relationship implies the existence of this object. java.util.List getDerivedList () Return a list of objects derived from this one. java.util.List getPrototypeList () Return a list of prototypes f"
+    },
+    {
+      "chunk_id": 17,
+      "text": "getPrototypeList () Return a list of prototypes for this object. java.util.List propagateExistence () Propagate the existence of this object. java.util.List propagateValue () Propagate the value (if any) held by this object to derived objects that"
+    },
+    {
+      "chunk_id": 18,
+      "text": "any) held by this object to derived objects that have not been overridden. Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getDisplayName , getFullName , getName , getName , setName Method Detail getDeriv"
+    },
+    {
+      "chunk_id": 19,
+      "text": "getName , getName , setName Method Detail getDerivedLevel public int getDerivedLevel () Get the minimum level above this object in the hierarchy where a parent-child relationship implies the existence of this object. A value Integer.MAX_VALUE is"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ce of this object. A value Integer.MAX_VALUE is used to indicate that this object is not a derived object. A value of 1 indicates that the container of the object is a child, and that the this object is derived from a prototype in the parent"
+    },
+    {
+      "chunk_id": 21,
+      "text": "bject is derived from a prototype in the parent of the container. Etc. Returns: The level above this object in the containment hierarchy where a parent-child relationship implies this object. getDerivedList public java.util.List getDerivedList ("
+    },
+    {
+      "chunk_id": 22,
+      "text": "DerivedList public java.util.List getDerivedList () Return a list of objects derived from this one. This is the list of objects that are \"inherited\" by their containers from a container of this object. The existence of these derived objects is"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ject. The existence of these derived objects is \"implied\" by a parent-child relationship somewhere above this object in the containment hierarchy. Implementors of this method may return an empty list, but should not return null. This method sho"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ist, but should not return null. This method should return a complete list, including objects that have been overridden. All objects in the returned list are required to be of the same class as the object on which this method is called (they"
+    },
+    {
+      "chunk_id": 25,
+      "text": "s the object on which this method is called (they should be clones constructed directly or indirectly, via another clone). Returns: A list of objects of the same class as the object on which this is called. getPrototypeList public java.util.List"
+    },
+    {
+      "chunk_id": 26,
+      "text": "is called. getPrototypeList public java.util.List getPrototypeList () throws IllegalActionException Return a list of prototypes for this object. The list is ordered so that more local prototypes are listed before mo"
+    },
+    {
+      "chunk_id": 27,
+      "text": "so that more local prototypes are listed before more remote prototypes. A prototype is more local if the parent-child relationship is deeper in the containment hierarchy. Returns: A list of prototypes for this object, each of which is assured"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ypes for this object, each of which is assured of being an instance of the same (Java) class as this object, or an empty list if there are no prototypes. Throws: IllegalActionException - If a prototype with the right name but the wrong class"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ototype with the right name but the wrong class is found. propagateExistence public java.util.List propagateExistence () throws IllegalActionException Propagate the existence of this object. If this object has a"
+    },
+    {
+      "chunk_id": 30,
+      "text": "e existence of this object. If this object has a container, then ensure that all objects derived from the container contain an object with the same class and name as this object. Create that object when needed. Return the list of objects that"
+    },
+    {
+      "chunk_id": 31,
+      "text": "bject when needed. Return the list of objects that are created. Returns: A list of derived objects of the same class as this implementor that are created, or an empty list if none are created. Throws: IllegalActionException - If the object cann"
+    },
+    {
+      "chunk_id": 32,
+      "text": "hrows: IllegalActionException - If the object cannot be created. propagateValue public java.util.List propagateValue () throws IllegalActionException Propagate the value (if any) held by this object to derived objects"
+    },
+    {
+      "chunk_id": 33,
+      "text": "(if any) held by this object to derived objects that have not been overridden. Implementors are required to leave all derived objects unchanged if any single derived object throws an exception when attempting to propagate the value to it. Ret"
+    },
+    {
+      "chunk_id": 34,
+      "text": "when attempting to propagate the value to it. Returns: The list of objects to which propagation occurred. Throws: IllegalActionException - If propagation is not possible. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES"
+    }
+  ]
+}

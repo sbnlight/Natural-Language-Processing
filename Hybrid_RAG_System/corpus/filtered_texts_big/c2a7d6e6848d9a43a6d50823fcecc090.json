@@ -1,0 +1,25 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/make-roster",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"o:\", 0, 1); r"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"o:\", 0, 1); require \"GradingCommon.pl\"; $me = MyLogin (); ReaderExists ($me) || Fatal (\"You are not registered as a reader for $COURSE.\"); open (ROSTER, $MAIN_ROSTER) || Fatal (\"Could not read main ros"
+    },
+    {
+      "chunk_id": 3,
+      "text": "IN_ROSTER) || Fatal (\"Could not read main roster file: ($!)\\n\" . \"The class master probably has to run make-main-roster.\"); if ($opt_o) { if (-e $opt_o && ! Yorn (\"Overwrite $opt_o? \")) { Fatal (\"Command terminated.\"); } ope"
+    },
+    {
+      "chunk_id": 4,
+      "text": ")) { Fatal (\"Command terminated.\"); } open (STDOUT, \">$opt_o\") || Fatal (\"Could not open $opt_o: $!\"); } $assgn = shift; $mine = $READER_ASSIGNMENTS{$me}; while ( ) { if ((($login, $last, $first, $SID) = /^\\s*(\\S+)\\s+(\\S+)\\s+(\\S+)\\s"
+    },
+    {
+      "chunk_id": 5,
+      "text": "last, $first, $SID) = /^\\s*(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)/) && (! $assgn || (\"${assgn}::$login\" =~ /$mine/o))) { print \"$login ${first}_$last \\n\"; } } exit 0;"
+    }
+  ]
+}

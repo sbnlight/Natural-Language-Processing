@@ -1,0 +1,789 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/Users_Guide/original/textutil.tex",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "\\chapter{Text Manipulation Utilities} \\section{ {\\bf sort}} \\index{sort@{\\bf sort} command} The sort utility sorts together the lines of all specified files and writes the result to the standard output. The name `{\\tt-}'\\index{ f@{\\tt-}} means the"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ut. The name `{\\tt-}'\\index{ f@{\\tt-}} means the standard input. If no input files are specified, the standard input is sorted. The {\\bf sort} command has the form: \\begin{quote} {\\bf sort} {\\tt[}{\\it options\\/}\\verb&] [+&{\\it pos1\\/}\\verb+[-+{\\it"
+    },
+    {
+      "chunk_id": 3,
+      "text": "\\it options\\/}\\verb&] [+&{\\it pos1\\/}\\verb+[-+{\\it pos2\\/}\\verb+]] [+{\\it file}\\verb+...]+ \\end{quote} The default sort key is an entire line. Default ordering is done according to the ASCII machine collating sequence. ASCII is short for American S"
+    },
+    {
+      "chunk_id": 4,
+      "text": "collating sequence. ASCII is short for American Standard Code for Information Exchange. The notation {\\tt+}{\\it pos1\\/}{\\tt -}{\\it pos2\\/} restricts a sort key\\index{sort key}\\index{sort@{\\bf sort} command!key} to a field beginning at {\\it pos1} an"
+    },
+    {
+      "chunk_id": 5,
+      "text": "command!key} to a field beginning at {\\it pos1} and ending just before {\\it pos2}. {\\it Pos1\\/} and {\\it pos2\\/} each have the form {\\it m.n}, optionally followed by one or more of the options discussed below. {\\it m} indicates the number of fields"
+    },
+    {
+      "chunk_id": 6,
+      "text": "sed below. {\\it m} indicates the number of fields to skip from the beginning of the line and {\\it n} indicates the number of characters to skip further. If any options are present they override all the global ordering options for this key. If the {"
+    },
+    {
+      "chunk_id": 7,
+      "text": "he global ordering options for this key. If the {\\bf b} option is in effect {\\it n} is counted from the first nonblank in the field; {\\bf b} is attached independently to {\\it pos2}. A missing {\\tt.}{\\it n} means {\\tt.0}; a missing {\\tt-}{\\it pos2}"
+    },
+    {
+      "chunk_id": 8,
+      "text": "{\\it n} means {\\tt.0}; a missing {\\tt-}{\\it pos2} means the end of the line. Under the {\\tt-}{\\bf t}{\\it x} option, fields are strings separated by {\\it x}; otherwise fields are non-empty nonblank strings separated by blanks. When there are multipl"
+    },
+    {
+      "chunk_id": 9,
+      "text": "rings separated by blanks. When there are multiple sort keys,\\index{sort key!multiple} \\index{sort@{\\bf sort} command!multiple keys} later keys are compared only after all earlier keys compare equal. Lines that otherwise compare equal are ordered w"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Lines that otherwise compare equal are ordered with all bytes significant. \\subsection{Options} One or more of the following options may be used to globally affect the ordering. \\begin{center} \\begin{tabular}{lp{4.25in}} \\bf Symbol & \\bf Descript"
+    },
+    {
+      "chunk_id": 11,
+      "text": "gin{tabular}{lp{4.25in}} \\bf Symbol & \\bf Description of Option \\\\[8pt] {\\tt-}{\\bf b} & Ignores leading blanks (spaces and tabs) in field comparisons.\\\\ {\\tt-}{\\bf c} & Checks sorting order and displays output only if out of order.\\\\ {\\tt-}{\\bf d} &"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ys output only if out of order.\\\\ {\\tt-}{\\bf d} & Sorts data according to dictionary ordering: letters, digits and blanks only.\\\\ {\\tt-}{\\bf f} & Folds uppercase to lowercase while sorting, i.e., ignore case when sorting.\\\\ {\\tt-}{\\bf i} & Ignore cha"
+    },
+    {
+      "chunk_id": 13,
+      "text": "re case when sorting.\\\\ {\\tt-}{\\bf i} & Ignore characters outside the ASCII range 040--0176 in non-numeric comparisons.\\\\ {\\tt-}{\\bf m} & Merges previously sorted data.\\\\ {\\tt-}{\\bf n} & Sorts fields with numbers numerically. An initial numeric stri"
+    },
+    {
+      "chunk_id": 14,
+      "text": "with numbers numerically. An initial numeric string, consisting of optional blanks, optional minus sign, and zero or more digits with optional decimal point is sorted by arithmetic value. (Note that {\\tt-0} is taken to be equal to {\\tt0}.) Option {"
+    },
+    {
+      "chunk_id": 15,
+      "text": "{\\tt-0} is taken to be equal to {\\tt0}.) Option {\\bf n} implies option {\\bf b}.\\\\ {\\tt-}{\\bf o}{\\it name} & Uses specified file as output file. This file may be the same as one of the input files.\\\\ {\\tt-}{\\bf r} & Reverses the sense of comparisons"
+    },
+    {
+      "chunk_id": 16,
+      "text": "{\\tt-}{\\bf r} & Reverses the sense of comparisons.\\\\ {\\tt-}{\\bf T}{\\it dir} & Uses specified directory to build temporary files.\\\\ {\\tt-}{\\bf t}{\\it x} & Uses specified character as field separator.\\\\ {\\tt-}{\\bf u} & Suppresses all duplicate entries"
+    },
+    {
+      "chunk_id": 17,
+      "text": "\\ {\\tt-}{\\bf u} & Suppresses all duplicate entries. Ignored bytes and bytes outside keys do not participate in this comparison. \\end{tabular} \\end{center} \\subsection{Examples} The first set of examples is based on files the files {\\tt hot} and {\\"
+    },
+    {
+      "chunk_id": 18,
+      "text": "mples is based on files the files {\\tt hot} and {\\tt cool} which follow. \\noindent File {\\tt hot}: \\begin{verbatim} orange yellow scarlet magenta fuchsia \\end{verbatim} \\noindent File {\\tt cool}: \\begin{verbatim} turqu"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ndent File {\\tt cool}: \\begin{verbatim} turquoise aqua violet teal chartreuse \\end{verbatim} \\subsubsection {Simple Sorting} \\setcounter{example}{0} \\example{A basic sort of {\\tt hot} and {\\tt cool}.} \\begin{quote} \\tt \\% {"
+    },
+    {
+      "chunk_id": 20,
+      "text": "{\\tt hot} and {\\tt cool}.} \\begin{quote} \\tt \\% {\\bf sort hot cool}\\\\ aqua\\\\ chartreuse\\\\ fuchsia\\\\ magenta\\\\ orange\\\\ scarlet\\\\ teal\\\\ turquoise\\\\ violet\\\\ yellow \\end{quote} The sort command reorders text based upon the ASCII values of the charac"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ers text based upon the ASCII values of the characters. Numbers and special symbols precede letters; all uppercase letters precede all lowercase letters. Every character is associated with a standard numeric code and ordering is based upon these cod"
+    },
+    {
+      "chunk_id": 22,
+      "text": "numeric code and ordering is based upon these codes. \\subsubsection{Sorting Mixed-case Items} \\example{Sort uppercase and lowercase letters (assume that {\\tt hot} is composed entirely of capital letters).} \\begin{quote} \\tt \\% {\\bf sort hot cool}\\"
+    },
+    {
+      "chunk_id": 23,
+      "text": "tters).} \\begin{quote} \\tt \\% {\\bf sort hot cool}\\\\ FUCHSIA\\\\ MAGENTA \\\\ ORANGE\\\\ SCARLET\\\\ YELLOW\\\\ aqua\\\\ chartreuse\\\\ teal\\\\ turquoise\\\\ violet \\end{quote} \\example{Sort upper and lowercase letters without regard for case with the {\\tt-}{\\bf f} ("
+    },
+    {
+      "chunk_id": 24,
+      "text": "s without regard for case with the {\\tt-}{\\bf f} (fold) option (assume {\\tt hot} is composed entirely of capital letters).} \\begin{quote} \\tt \\% {\\bf sort {\\tt-}f hot cool}\\\\ aqua\\\\ chartreuse\\\\ FUCHSIA\\\\ MAGENTA\\\\ ORANGE\\\\ SCARLET\\\\ teal\\\\ turquoise"
+    },
+    {
+      "chunk_id": 25,
+      "text": "IA\\\\ MAGENTA\\\\ ORANGE\\\\ SCARLET\\\\ teal\\\\ turquoise\\\\ violet\\\\ YELLOW \\end{quote} \\subsubsection{Reversing the Sorting Order} \\example{Sort in reverse order with the {\\tt-}{\\bf r} (reverse) option.} \\begin{quote} \\tt \\% {\\bf sort {\\tt-}r} cool\\\\ vio"
+    },
+    {
+      "chunk_id": 26,
+      "text": "\\begin{quote} \\tt \\% {\\bf sort {\\tt-}r} cool\\\\ violet\\\\ turquoise\\\\ teal\\\\ chartreuse\\\\ aqua \\end{quote} \\example{You can use multiple options on a single sort command. The following sorts in reverse order without regard for case by including both t"
+    },
+    {
+      "chunk_id": 27,
+      "text": "order without regard for case by including both the {\\tt-}{\\bf r} and {\\tt-}{\\bf f} options.} \\begin{quote} \\tt \\% {\\bf sort {\\tt-}r {\\tt-}f hot cool}\\\\ YELLOW\\\\ violet\\\\ turquoise\\\\ teal\\\\ SCARLET\\\\ ORANGE\\\\ MAGENTA\\\\ FUCHSIA\\\\ chartreuse\\\\ aqua \\e"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ORANGE\\\\ MAGENTA\\\\ FUCHSIA\\\\ chartreuse\\\\ aqua \\end{quote} \\subsubsection{Eliminating Duplicate Items} When you are working with several files, you may find they contain duplicate items. Use the {\\tt-}{\\bf u} option to insure that each item in the"
+    },
+    {
+      "chunk_id": 29,
+      "text": "tt-}{\\bf u} option to insure that each item in the output is unique. \\subsubsection{Merging Sorted Files} The {\\bf sort} command can also be used with the {\\tt-}{\\bf m} option to merge sorted files. If you are combining large files that are alread"
+    },
+    {
+      "chunk_id": 30,
+      "text": "If you are combining large files that are already in order, using the {\\tt-}{\\bf m} option is much faster than issuing an ordinary sort command. Remember that the {\\tt-}{\\bf m} option only works on sorted files. \\subsubsection{Sorting a File Into"
+    },
+    {
+      "chunk_id": 31,
+      "text": "sorted files. \\subsubsection{Sorting a File Into Itself} You can redirect the output of sort into a file. For example: \\\\ \\example{Output redirection} \\begin{quote} {\\tt \\%} sort hot {\\tt >} cool \\end{quote} However, you need to be careful when"
+    },
+    {
+      "chunk_id": 32,
+      "text": "\\end{quote} However, you need to be careful when doing this. The following command will not do what you might expect: \\begin{quote} \\example{Incorrect use of output redirection with sort} \\\\ {\\tt \\%} sort hot {\\tt >} hot \\end{quote} Instead, you"
+    },
+    {
+      "chunk_id": 33,
+      "text": "%} sort hot {\\tt >} hot \\end{quote} Instead, you should do the following: \\example{Sorting back into the input file with the {\\tt-}{\\bf o} (output) option.} \\begin{quote} {\\tt \\%} {\\bf sort -o hot hot}\\\\ {\\tt \\%} {\\bf sort -o cool cool} \\end{quote}"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ot}\\\\ {\\tt \\%} {\\bf sort -o cool cool} \\end{quote} Now the sorted files can be merged using the {\\tt-}{\\bf m} option to the sort command: \\example{Using the {\\tt-}{\\bf m} {\\tt-}{\\bf u} options to merge the sorted Files from Example 7 and remove dup"
+    },
+    {
+      "chunk_id": 35,
+      "text": "rge the sorted Files from Example 7 and remove duplicate items.} \\begin{quote} \\tt \\% \\bf sort {\\tt-}m {\\tt-}u hot cool \\end{quote} \\subsection{More Examples} The next set of examples uses the {\\tt family} file shown following. \\noindent File {\\tt"
+    },
+    {
+      "chunk_id": 36,
+      "text": "family} file shown following. \\noindent File {\\tt family}: \\begin{verbatim} Mary Miller 555-1011 Tom Miller 555-3110 Rick Miller 555-0107 Emily Miller 555-7200 Sher"
+    },
+    {
+      "chunk_id": 37,
+      "text": "Emily Miller 555-7200 Sherry Miller 555-0912 Peter Parker 201-4019 Barbara Parker 101-2040 Scott Brown 555-3131 Christi Brown 702-0625 \\end"
+    },
+    {
+      "chunk_id": 38,
+      "text": "3131 Christi Brown 702-0625 \\end{verbatim} \\subsubsection{Sorting by Different Fields} Each line in a file is called a record. Each record can contain any number of fields. A field is a group of nonblank characters. The end of"
+    },
+    {
+      "chunk_id": 39,
+      "text": "eld is a group of nonblank characters. The end of a field is usually indicated by a blank character (\\key{SPACE}, \\key{TAB} or \\key{RETURN}). The fields in a record are numbered from left to right, beginning at zero---the first field is field numbe"
+    },
+    {
+      "chunk_id": 40,
+      "text": "beginning at zero---the first field is field number 0, the second is field number 1 and so on. The term {\\it sort key} is used to refer to the portion of a record that is compared to other records when the file is sorted. The standard sort command"
+    },
+    {
+      "chunk_id": 41,
+      "text": "en the file is sorted. The standard sort command treats the entire record as a sort key. Often, however, you want to sort a file according to a specific field. \\example{Using the entire record as the sort key.} \\begin{quote} \\tt \\% \\bf sort family"
+    },
+    {
+      "chunk_id": 42,
+      "text": "he sort key.} \\begin{quote} \\tt \\% \\bf sort family \\end{quote} \\begin{verbatim} Barbara Parker 101-2040 Christi Brown 702-0625 Emily Miller 555-7200 Mary Miller 555-1011 Peter Parker 201-4019 Rick"
+    },
+    {
+      "chunk_id": 43,
+      "text": "555-1011 Peter Parker 201-4019 Rick Miller 555-0107 Scott Brown 555-3131 Sherry Miller 555-0912 Tom Miller 555-3110 \\end{verbatim} \\pagebreak \\example{Sorting by Field 2 (last name) in the"
+    },
+    {
+      "chunk_id": 44,
+      "text": "eak \\example{Sorting by Field 2 (last name) in the {\\tt family} file.} \\begin{quote} \\tt \\% \\bf sort {\\tt+}1 family \\end{quote} \\begin{verbatim} Scott Brown 555-3131 Christi Brown 702-0625 Rick Miller 555-0107 Sherry Mi"
+    },
+    {
+      "chunk_id": 45,
+      "text": "702-0625 Rick Miller 555-0107 Sherry Miller 555-0912 Mary Miller 555-1011 Tom Miller 555-3110 Emily Miller 555-7200 Barbara Parker 101-2040 Peter Parker 201-4019 \\end{verbatim} \\"
+    },
+    {
+      "chunk_id": 46,
+      "text": "Peter Parker 201-4019 \\end{verbatim} \\example{Two-level sort by both first and last name. When multiple sort keys are specified, later keys are compared only after all earlier keys have compared equally. This example shows sorting by firs"
+    },
+    {
+      "chunk_id": 47,
+      "text": "mpared equally. This example shows sorting by first name within last name.} \\begin{quote} \\tt \\% \\bf sort {\\tt+}1 {\\tt-}2 family \\end{quote} \\begin{verbatim} Christi Brown 702-0625 Scott Brown 555-3131 Emily Miller 555-7"
+    },
+    {
+      "chunk_id": 48,
+      "text": "n 555-3131 Emily Miller 555-7200 Mary Miller 555-1011 Rick Miller 555-0107 Sherry Miller 555-0912 Tom Miller 555-3110 Barbara Parker 101-2040 Peter Parker 201-4019 \\end"
+    },
+    {
+      "chunk_id": 49,
+      "text": "101-2040 Peter Parker 201-4019 \\end{verbatim} \\subsection{Yet One More Example} The last example uses the following {\\tt baseball} file. \\noindent File {\\tt baseball}: \\begin{verbatim} Babe Ruth .342"
+    },
+    {
+      "chunk_id": 50,
+      "text": "m} Babe Ruth .342 714 Reggie Jackson .268 490 Hank Aaron .305 755 Mickey Mantle .298 536 Lou Gehrig .340"
+    },
+    {
+      "chunk_id": 51,
+      "text": "536 Lou Gehrig .340 493 Ty Cobb .367 118 Rod Carew .331 87 Willie Mays .302 660 Joe DiMaggio"
+    },
+    {
+      "chunk_id": 52,
+      "text": "302 660 Joe DiMaggio .325 361 Roberto Clemente .317 240 Jackie Robinson .311 137 Carl Yastremski .285 452 Pete Rose"
+    },
+    {
+      "chunk_id": 53,
+      "text": ".285 452 Pete Rose .306 158 Willie Stargell .282 475 Ted Williams .344 521 Hank Greenberg .313 331 \\end{verbatim}"
+    },
+    {
+      "chunk_id": 54,
+      "text": "rg .313 331 \\end{verbatim} \\subsubsection{Sorting Numerically} Unless the {\\tt-}{\\bf n} option is applied to the desired sort key, the sort is made according to ASCII codes. Thus, to get the desired order for the number of h"
+    },
+    {
+      "chunk_id": 55,
+      "text": "Thus, to get the desired order for the number of home runs from the file {\\bf baseball}: \\example{Sorting numerically on a numeric field with the {\\tt-}{\\bf n} (numeric) option.} \\begin{quote} \\tt \\% \\bf sort {\\tt+}2n baseball \\end{quote} \\begin{ver"
+    },
+    {
+      "chunk_id": 56,
+      "text": "\\bf sort {\\tt+}2n baseball \\end{quote} \\begin{verbatim} Rod Carew .331 87 Ty Cobb .367 118 Jackie Robinson .311 137 Pete Rose .306 158 Roberto Clemente .317 240"
+    },
+    {
+      "chunk_id": 57,
+      "text": "158 Roberto Clemente .317 240 Hank Greenberg .313 331 Joe DiMaggio .325 361 Carl Yastremski .285 452 Willie Stargell .282 475 Reggie Jackson .268 490 Lou"
+    },
+    {
+      "chunk_id": 58,
+      "text": "475 Reggie Jackson .268 490 Lou Gehrig .340 493 Ted Williams .344 521 Mickey Mantle .298 536 Willie Mays .302 660 Babe Ruth .342 714 Hank Aaro"
+    },
+    {
+      "chunk_id": 59,
+      "text": "0 Babe Ruth .342 714 Hank Aaron .305 755 \\end{verbatim} If this is not done, Rod Carew appears as the last item in the sort, whereas numerically, by ascending order, he should be the first item as shown. \\sect"
+    },
+    {
+      "chunk_id": 60,
+      "text": "rder, he should be the first item as shown. \\section{{\\bf grep}} \\index{grep@{\\bf grep} command} Grep (global regular expression printer) is a UNIX\\TM\\ utility used to search for an occurrence of a string in a file or a list of files. It also has"
+    },
+    {
+      "chunk_id": 61,
+      "text": "string in a file or a list of files. It also has the ability to search for records that contain strings that match a pattern of characters rather than an explicit character sequence. For example, grep can be used to find lines that contain numeric"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ep can be used to find lines that contain numeric information or lines that are non-blank. The expressions used to define these patterns of characters are called {\\it regular expressions}.\\index{regular expression} There are three forms of the {\\bf"
+    },
+    {
+      "chunk_id": 63,
+      "text": "lar expression} There are three forms of the {\\bf grep} command: \\begin{description} \\item[grep] The standard or normal form of the command. Patterns are limited regular expressions which use a compact pattern of characters. \\item[egrep] Command\\i"
+    },
+    {
+      "chunk_id": 64,
+      "text": "act pattern of characters. \\item[egrep] Command\\index{egrep@{\\bf egrep} command} patterns are full regular expressions. It is able to decode more complex regular expressions than grep using a fast deterministic algorithm that sometimes needs lots o"
+    },
+    {
+      "chunk_id": 65,
+      "text": "eterministic algorithm that sometimes needs lots of memory. \\item[fgrep] Command\\index{fgrep@{\\bf fgrep} command} patterns are fixed strings; i.e., it is not able to decode regular expressions. This form is fast and compact. \\end{description} \\subs"
+    },
+    {
+      "chunk_id": 66,
+      "text": "form is fast and compact. \\end{description} \\subsection{Syntax} The {\\bf grep} command has the syntax: \\begin{quote} {\\bf grep}\\verb+ [+{\\it option}\\verb+...] +{\\it expression}\\verb+ [+{\\it file}\\verb+...]+\\\\[6pt] {\\bf egrep}\\verb+ [+{\\it option}\\"
+    },
+    {
+      "chunk_id": 67,
+      "text": "erb+...]+\\\\[6pt] {\\bf egrep}\\verb+ [+{\\it option}\\verb+...] [+{\\it expression\\/} \\verb+] [+{\\it file}\\verb+...]+\\\\[6pt] {\\bf fgrep}\\verb+ [+{\\it option}\\verb+...] [+{\\it strings\\/}\\verb+] [+{\\it file\\/}\\verb+]+ \\end{quote} \\subsection{Options} Tabl"
+    },
+    {
+      "chunk_id": 68,
+      "text": "/}\\verb+]+ \\end{quote} \\subsection{Options} Table~\\ref{grepopt} describes the options available with the {\\bf grep} commands: \\begin{table}[htb]\\centering \\setlength{\\captionwidth}{8.5cm} \\isucaption{Options available with the {\\bf grep} Command}"
+    },
+    {
+      "chunk_id": 69,
+      "text": "on{Options available with the {\\bf grep} Command} \\label{grepopt} \\begin{tabular}{lp{4in}} \\bf Option & \\bf Description\\\\ \\\\ \\bf -b & Precedes each output line with its block number. This is sometimes useful in locating disk block numbers by co"
+    },
+    {
+      "chunk_id": 70,
+      "text": "etimes useful in locating disk block numbers by context.\\\\ \\bf -c & Produces count of matching lines only.\\\\ \\bf -e \\it expression & Uses next argument as expression that begins with a minus ({\\tt-}).\\\\ \\bf -f \\it file & Takes regular expression ({\\b"
+    },
+    {
+      "chunk_id": 71,
+      "text": "\\\\ \\bf -f \\it file & Takes regular expression ({\\bf egrep}) or string list ({\\bf fgrep}) from file.\\\\ \\bf -i & Considers uppercase and lowercase letters identical in making comparisons ({\\bf grep} and {\\bf fgrep} only).\\\\ \\bf -l & Lists files with ma"
+    },
+    {
+      "chunk_id": 72,
+      "text": "{\\bf fgrep} only).\\\\ \\bf -l & Lists files with matching lines only once, separated by a new line.\\\\ \\bf -n & Precedes each matching line with its line number.\\\\ \\bf -s & Silent mode and nothing is printed (except error messages). This is useful for"
+    },
+    {
+      "chunk_id": 73,
+      "text": "inted (except error messages). This is useful for checking the error status.\\\\ \\bf -v & Displays all lines that do not match specified expression.\\\\ \\bf -w & Searches for an expression as for a word (as if surrounded by `\\verb+\\<+' and `\\verb+\\>+').\\"
+    },
+    {
+      "chunk_id": 74,
+      "text": "as if surrounded by `\\verb+\\<+' and `\\verb+\\>+').\\\\ \\bf -x & Prints exact lines matched in their entirety ({\\bf fgrep} only). \\end{tabular} \\end{table} \\subsection{Basic Rules} A \\verb+\\+\\index{ t@\\verb+\\+} followed by a single character other than"
+    },
+    {
+      "chunk_id": 75,
+      "text": "verb+\\+} followed by a single character other than a new line character matches that character. The character \\verb+^+\\index{ h@{\\tt\\^{}}} matches the beginning of a line. The character \\verb+$+ \\index{ g@{\\verb+$+}} matches the end of a line. A \\"
+    },
+    {
+      "chunk_id": 76,
+      "text": "dex{ g@{\\verb+$+}} matches the end of a line. A \\verb+.+\\index{ v@{\\tt.}} (dot) matches any character. A single character not otherwise endowed with special meaning matches that character. A string enclosed in brackets \\verb+[...]+\\index{ r@{\\tt[}"
+    },
+    {
+      "chunk_id": 77,
+      "text": "enclosed in brackets \\verb+[...]+\\index{ r@{\\tt[}} \\index{ s@{\\tt]}} matches any single character from the string. Ranges of ASCII character codes may be abbreviated as in `\\verb+a-z0-9+'. The \\verb+]+ character may occur only as the first charact"
+    },
+    {
+      "chunk_id": 78,
+      "text": "b+]+ character may occur only as the first character of the string. A literal \\verb+-+ must be placed where it can't be mistaken as a range indicator. The \\verb+^+\\index{ h@{\\tt\\^{}}!in bracketed string} character may be used as a not operator with"
+    },
+    {
+      "chunk_id": 79,
+      "text": "ing} character may be used as a not operator with a string enclosed in brackets. A regular expression followed by an \\verb+*+\\index{ e@{\\tt*}} (asterisk) matches a sequence of 0 or more matches of the regular expression. A regular expression follow"
+    },
+    {
+      "chunk_id": 80,
+      "text": "e regular expression. A regular expression followed by a \\verb@+@\\index{ j@{\\tt+}} (plus) matches a sequence of 1 or more matches of the regular expression. A regular expression followed by a \\verb+?+\\index{ c@{\\tt?}} (question mark) matches a sequ"
+    },
+    {
+      "chunk_id": 81,
+      "text": "?+\\index{ c@{\\tt?}} (question mark) matches a sequence of 0 or 1 matches of the regular expression. Two regular expressions concatenated match a match of the first followed by a match of the second. Two regular expressions separated by \\verb+|+\\ind"
+    },
+    {
+      "chunk_id": 82,
+      "text": "Two regular expressions separated by \\verb+|+\\index{ l@\\verb+\"|+} or a new line character match either a match for the first or a match for the second. A regular expression enclosed in parentheses matches a match for the regular expression. The or"
+    },
+    {
+      "chunk_id": 83,
+      "text": "atches a match for the regular expression. The order of precedence of operators at the same parenthesis level is as follows: \\verb+[ ]+, then \\verb+*+ \\verb#+# \\verb+?+, then concatenation, then \\verb+|+ and new line. \\index{ r@{\\tt[}}\\index{ s@{\\t"
+    },
+    {
+      "chunk_id": 84,
+      "text": "rb+|+ and new line. \\index{ r@{\\tt[}}\\index{ s@{\\tt]}}\\index{ e@{\\tt*}}\\index{ j@{\\tt+}} \\index{ l@\\verb+\"|+}\\index{ c@{\\tt?}} \\subsection{Examples} The examples which follow are based on the {\\tt price.fruit} file which is listed below. \\subsubse"
+    },
+    {
+      "chunk_id": 85,
+      "text": "rice.fruit} file which is listed below. \\subsubsection{The {\\tt price.fruit} File} \\begin{verbatim} apples .49 oranges .59 grapefruit 0.59 lemons"
+    },
+    {
+      "chunk_id": 86,
+      "text": "0.59 lemons .25 limes 0.33 cantaloupe 1.19 watermelon 0.25 kiwi 3.89 bananas"
+    },
+    {
+      "chunk_id": 87,
+      "text": "3.89 bananas .87 pineapples 1.49 grapes 2.19 raspberries 3.39 strawberries 2.38 blueberries"
+    },
+    {
+      "chunk_id": 88,
+      "text": "es 2.38 blueberries 1.89 cranberries 1.59 peaches 0.79 nectarines .79 plums .69 \\end{verbatim}"
+    },
+    {
+      "chunk_id": 89,
+      "text": ".69 \\end{verbatim} \\subsubsection{Finding Patterns in Specific Positions} \\setcounter{example}{0} \\example{Find the expression in any position.} \\begin{quote} \\tt \\% {\\bf grep 'apples' price.fruit} \\end{quote} \\begin{v"
+    },
+    {
+      "chunk_id": 90,
+      "text": "bf grep 'apples' price.fruit} \\end{quote} \\begin{verbatim} apples .49 pineapples 1.49 \\end{verbatim} \\example{Anchor a pattern to the beginning of a line.} \\begin{quote} \\tt \\% {\\bf grep '\\^{ }apples' price.fruit} \\end{quote} \\begin{ve"
+    },
+    {
+      "chunk_id": 91,
+      "text": "p '\\^{ }apples' price.fruit} \\end{quote} \\begin{verbatim} apples .49 \\end{verbatim} \\example{Anchor a pattern to the end of a line.} \\begin{quote} \\tt \\% {\\bf grep '79\\$' price.fruit} \\end{quote} \\begin{verbatim} peaches 0.79 nectarines"
+    },
+    {
+      "chunk_id": 92,
+      "text": "egin{verbatim} peaches 0.79 nectarines .79 \\end{verbatim} \\subsubsection{Find Nonfixed Patterns} \\example{Specify a choice of characters.} \\begin{quote} \\tt \\% {\\bf grep '\\^{}[kls]' price.fruit} \\end{quote} \\begin{verbatim} lemons"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ce.fruit} \\end{quote} \\begin{verbatim} lemons .25 (Every line in file beginning limes 0.33 with k, l, or s) kiwi 3.89 strawberries 2.38 \\end{verbatim} \\example{Select a range of characters.} \\"
+    },
+    {
+      "chunk_id": 94,
+      "text": "rbatim} \\example{Select a range of characters.} \\begin{quote} \\tt \\% {\\bf grep '\\^{}[a-g]' price.fruit} \\end{quote} \\begin{verbatim} apples .49 (Every line in file beginning grapefruit 0.59 with letters a"
+    },
+    {
+      "chunk_id": 95,
+      "text": "rapefruit 0.59 with letters a through g) cantaloupe 1.19 bananas .87 grapes 2.19 blueberries 1.89 cranberries 1.59 \\end{verbatim} \\subsubsection{Using Negation} \\example{Negate using either {\\tt -v} or ({\\caret})."
+    },
+    {
+      "chunk_id": 96,
+      "text": "xample{Negate using either {\\tt -v} or ({\\caret}).} \\begin{quote} \\tt \\% {\\bf grep -v '9\\$' price.fruit} {\\rm or} \\\\ \\tt \\% {\\bf grep '[\\^{}9]\\$' price.fruit} \\end{quote} \\begin{verbatim} lemons .25 (Every line that limes"
+    },
+    {
+      "chunk_id": 97,
+      "text": ".25 (Every line that limes 0.33 does not end in a 9) watermelon 0.25 bananas .87 strawberries 2.38 \\end{verbatim} Note: a caret ({\\caret}) inside the `[ ]' means negation; a caret ou"
+    },
+    {
+      "chunk_id": 98,
+      "text": "aret}) inside the `[ ]' means negation; a caret outside refers to the beginning of the line. \\example{Negate using the {\\tt -v} option.} \\begin{quote} \\tt \\% {\\bf grep -v 'es' price.fruit} \\end{quote} \\begin{verbatim} grapefruit 0.59"
+    },
+    {
+      "chunk_id": 99,
+      "text": "} \\begin{verbatim} grapefruit 0.59 (Every line that does not lemons .25 contain the pattern \"es\") cantaloupe 1.19 watermelon 0.25 kiwi 3.89 bananas .87 plums .69 \\end{verbatim} \\subs"
+    },
+    {
+      "chunk_id": 100,
+      "text": "as .87 plums .69 \\end{verbatim} \\subsubsection{Specifying Arbitrary Characters} \\example{Find all lines of file at least ten characters long.} \\begin{quote} \\tt Expression is '..........\\$' \\end{quote} \\example{Find all lines of file s"
+    },
+    {
+      "chunk_id": 101,
+      "text": "\\$' \\end{quote} \\example{Find all lines of file starting with four-letter words beginning with the letter 'R'.} \\begin{quote} \\tt Expression is '\\^{}R... ' \\end{quote} \\example{Find all lines of file ending with six-letter words.} \\begin{quote} \\tt"
+    },
+    {
+      "chunk_id": 102,
+      "text": "e ending with six-letter words.} \\begin{quote} \\tt Expression is ' ......\\$' \\end{quote} \\example{Match five characters from the {\\tt price.fruit} file.} \\begin{quote} \\tt \\% {\\bf grep '{\\tt\\^{ }.....}\\key{TAB}' price.fruit} \\end{quote} \\begin{verba"
+    },
+    {
+      "chunk_id": 103,
+      "text": ".}\\key{TAB}' price.fruit} \\end{quote} \\begin{verbatim} limes 0.33 (Every line beginning with plums .69 a five character word) \\end{verbatim} \\subsubsection{Finding Special Characters} \\begin{center} \\"
+    },
+    {
+      "chunk_id": 104,
+      "text": "tion{Finding Special Characters} \\begin{center} \\begin{tabular}{cc} \\bf To Find: & \\bf Enter:\\\\[8pt] \\verb+[+ & \\verb+\\[+ \\\\ \\verb+]+ & \\verb+\\]+ \\\\ \\verb+.+ & \\verb+\\.+ \\\\ \\verb+*+ & \\verb+\\*+ \\\\ \\verb+$+ & \\verb+\\$+ \\\\ \\verb+?+ & \\verb+\\?+ \\\\ \\ver"
+    },
+    {
+      "chunk_id": 105,
+      "text": "erb+$+ & \\verb+\\$+ \\\\ \\verb+?+ & \\verb+\\?+ \\\\ \\verb+|+ & \\verb+\\|+ \\\\ \\verb+^+ & \\verb+\\^+ \\\\ \\verb+\\+ & \\verb+\\\\+ \\\\ \\end{tabular} \\end{center} \\example{Use the '{\\tt .}' character within a character set.} \\begin{quote} \\tt \\% {\\bf grep '\\verb+\\.+5"
+    },
+    {
+      "chunk_id": 106,
+      "text": "r set.} \\begin{quote} \\tt \\% {\\bf grep '\\verb+\\.+59' price.fruit} \\end{quote} \\begin{verbatim} oranges .59 (Every line that contains grapefruit 0.59 .59 in it) cranberries 1.59 \\end{verbatim}"
+    },
+    {
+      "chunk_id": 107,
+      "text": "t) cranberries 1.59 \\end{verbatim} \\example{Use the '{\\tt .}' character and metacharacter.} \\begin{quote} \\tt \\% {\\bf grep '[0\\key{TAB}] \\verb+\\...+' price.fruit} \\end{quote} \\begin{verbatim} apples .49 ("
+    },
+    {
+      "chunk_id": 108,
+      "text": "rbatim} apples .49 (Every line where price oranges .59 is under one dollar) grapefruit 0.59 lemons .25 limes 0.33 watermelon"
+    },
+    {
+      "chunk_id": 109,
+      "text": "s 0.33 watermelon 0.25 bananas .87 peaches 0.79 nectarines .79 plums .69 \\end{verbatim} \\subsubsection{Specifying Repeats} \\example{Use an {\\t"
+    },
+    {
+      "chunk_id": 110,
+      "text": "ubsection{Specifying Repeats} \\example{Use an {\\tt *} to specify repeating characters.} \\begin{quote} \\tt \\% {\\bf grep '\\^{ }[a-g].*[0\\key{TAB}]\\verb+\\...+' price.fruit} \\end{quote} \\begin{verbatim} apples .49 (Every line wh"
+    },
+    {
+      "chunk_id": 111,
+      "text": "apples .49 (Every line which grapefruit 0.59 starts with a through g and bananas .87 the price is under one dollar) \\end{verbatim} \\section{{\\bf awk}} \\index{awk@{\\bf awk} command}"
+    },
+    {
+      "chunk_id": 112,
+      "text": "\\section{{\\bf awk}} \\index{awk@{\\bf awk} command} The {\\bf awk} utility is a report generator that processes ASCII text and generates reports involving selective retrieval and string manipulation. It was developed at Bell Laboratories and named fo"
+    },
+    {
+      "chunk_id": 113,
+      "text": "It was developed at Bell Laboratories and named for its inventors: Alfred V. Aho, Peter J. Weinberger, and Brian W. Kernighan. It is one of the most flexible methods of manipulating text and retrieving specific information from files. Once the infor"
+    },
+    {
+      "chunk_id": 114,
+      "text": "g specific information from files. Once the information is retrieved, awk can print it, alter it, reformat it, or ignore it. One of the most frequent uses of awk is in generating tables and reports from files of raw data. To use awk effectively, y"
+    },
+    {
+      "chunk_id": 115,
+      "text": "from files of raw data. To use awk effectively, you should be able to select records by field, string function, pattern comparison, arithmetic comparison, or by using variables and special operators. \\subsection{Terminology} With awk, as in most o"
+    },
+    {
+      "chunk_id": 116,
+      "text": "\\subsection{Terminology} With awk, as in most of the UNIX\\TM\\ filters, the term {\\it record} refers to a line of input. The different parts of a record are known as {\\it fields}. The fields are separated by a field separator which, by default, is"
+    },
+    {
+      "chunk_id": 117,
+      "text": "parated by a field separator which, by default, is a blank or a tab. The way fields are numbered with awk is different than the way they are numbered in the sort filter. Numbering of awk fields begins with 1 for the first field in the record, 2 for"
+    },
+    {
+      "chunk_id": 118,
+      "text": "s with 1 for the first field in the record, 2 for the second field, 3 for the third field, up to {\\it n} for the {\\it n}th field. Field 0 refers to the entire record. To reference the {\\it n\\/}th field in a record, the notation is \\verb+$+{\\it n}."
+    },
+    {
+      "chunk_id": 119,
+      "text": "eld in a record, the notation is \\verb+$+{\\it n}. \\subsection{The {\\bf awk} Program Structure} An awk program is defined in terms of {\\it patterns} and {\\it actions}. The format of an awk program is: \\begin{quote} {\\it pattern\\_1}\\verb+ { +{\\it act"
+    },
+    {
+      "chunk_id": 120,
+      "text": ": \\begin{quote} {\\it pattern\\_1}\\verb+ { +{\\it action\\_1}\\verb+ }+\\\\ {\\it pattern\\_2}\\verb+ { +{\\it action\\_2}\\verb+ }+\\\\ \\hbox{}\\verb+ .+\\\\ \\hbox{}\\verb+ .+\\\\ \\hbox{}\\verb+ .+\\\\ {\\it pattern\\_n}\\verb+ { +"
+    },
+    {
+      "chunk_id": 121,
+      "text": "rb+ .+\\\\ {\\it pattern\\_n}\\verb+ { +{\\it action\\_n}\\verb+ }+ \\end{quote} Awk uses patterns to select the specified records. The input file is processed one line at a time, and as each record is read, it is compared to {\\it pattern\\_1}"
+    },
+    {
+      "chunk_id": 122,
+      "text": "record is read, it is compared to {\\it pattern\\_1}. If {\\it pattern\\_1} matches the record, {\\it action\\_1} is executed. This select and execute process is repeated for every pattern/action pair in the awk program. Then the next record is read and"
+    },
+    {
+      "chunk_id": 123,
+      "text": "the awk program. Then the next record is read and processed, beginning with the first pattern/action pair. This procedure continues until all of the records in the input file(s) have been processed. If any pattern is missing, the associated action"
+    },
+    {
+      "chunk_id": 124,
+      "text": "If any pattern is missing, the associated action is performed for all of the records in the input file(s). If any action is missing, awk prints every record that matches the associated pattern. The awk utility does not automatically print every l"
+    },
+    {
+      "chunk_id": 125,
+      "text": "e awk utility does not automatically print every line in the original file. If no action is given, the default action is to print the record. If an action is supplied, however, the record is not printed unless a print statement is included in the a"
+    },
+    {
+      "chunk_id": 126,
+      "text": "nted unless a print statement is included in the action. Actions may consist of a single command or several commands. The left brace \\verb+{+\\index{ w@{\\tt\\ttlb}} of an action must appear on the same line as the associated pattern. \\subsection{Syn"
+    },
+    {
+      "chunk_id": 127,
+      "text": "e line as the associated pattern. \\subsection{Syntax} There are two ways to invoke awk. One way is to include the awk program on the {\\bf awk} command line:\\index{awk@{\\bf awk} command} \\begin{quote} \\verb+% +{\\bf awk}\\verb+ '+{\\it program}\\verb+'"
+    },
+    {
+      "chunk_id": 128,
+      "text": "} \\verb+% +{\\bf awk}\\verb+ '+{\\it program}\\verb+' + {\\it filename\\_1} {\\it filename\\_2} \\verb+ ... +{\\it filename\\_n} \\end{quote} where: {\\it program} is an awk program enclosed in single quotes and {\\it filename\\_1}, {\\it filename\\_2} \\ldots {\\it f"
+    },
+    {
+      "chunk_id": 129,
+      "text": "{\\it filename\\_1}, {\\it filename\\_2} \\ldots {\\it filename\\_n} are input files. The other way to invoke awk is to put the program in a file and use the {\\bf -f} option on the {\\bf awk} command. This method is preferred for awk programs that are comp"
+    },
+    {
+      "chunk_id": 130,
+      "text": "method is preferred for awk programs that are complex or longer than a few commands. The format of the {\\bf awk} command using the {\\bf -f} option is: \\begin{quote} \\verb+% +{\\bf awk} {\\it -f} {\\it program\\_file} {\\it filename\\_1} {\\it filename\\_2}\\"
+    },
+    {
+      "chunk_id": 131,
+      "text": "rogram\\_file} {\\it filename\\_1} {\\it filename\\_2}\\verb+ ... +{\\it filename\\_n} \\end{quote} where {\\it program\\_file} is the file containing the awk program and {\\it filename\\_1}, {\\it filename\\_2} \\ldots {\\it filename\\_n} are input files. Since awk"
+    },
+    {
+      "chunk_id": 132,
+      "text": "ots {\\it filename\\_n} are input files. Since awk is a filter, standard input is used if no input file is named when you invoke it. Like all filters, awk also writes to standard output unless you use the output redirection pointer \\verb+>+\\index{red"
+    },
+    {
+      "chunk_id": 133,
+      "text": "the output redirection pointer \\verb+>+\\index{redirection!of output}\\index{ b@{\\tt>}} to send the output to a file. \\subsection{Special Symbols, Functions, and Expressions} Table~\\ref{awkopt} provides a summary of some of the special symbols, func"
+    },
+    {
+      "chunk_id": 134,
+      "text": "des a summary of some of the special symbols, functions, and expressions used by awk. Those elements predefined by the system are noted by $\\rightarrow$. \\begin{table}[tb]\\centering \\setlength{\\captionwidth}{8.5cm} \\isucaption{Special Symbols, Func"
+    },
+    {
+      "chunk_id": 135,
+      "text": "ionwidth}{8.5cm} \\isucaption{Special Symbols, Functions, and Expressions with {\\bf awk}} \\label{awkopt} \\begin{tabular}{llp{3in}} & \\bf Expression & \\bf Significance \\\\ \\\\ & \\verb+$0+ & Refers to the entire record.\\\\ & \\verb+$+{\\it n} & Refers to fie"
+    },
+    {
+      "chunk_id": 136,
+      "text": "entire record.\\\\ & \\verb+$+{\\it n} & Refers to field {\\it n}.\\\\ & \\verb+BEGIN+ & Pattern that matches the beginning of the file.\\\\ & \\verb+END+ & Pattern that matches the end of the file.\\\\ $\\rightarrow$ & \\verb+NR+ & The number of records that have"
+    },
+    {
+      "chunk_id": 137,
+      "text": "ow$ & \\verb+NR+ & The number of records that have been read at the time of evaluation.\\\\ $\\rightarrow$ & \\verb+NF+ & The number of fields in the current record.\\\\ $\\rightarrow$ & \\verb+FS+ & The field separator in the input.\\\\ $\\rightarrow$ & \\verb+O"
+    },
+    {
+      "chunk_id": 138,
+      "text": "separator in the input.\\\\ $\\rightarrow$ & \\verb+OFS+ & The field separator in the output.\\\\ & \\tt length & Returns the length of the current record.\\\\ & \\tt length ({\\it argument\\/}) & Returns the length of the {\\it argument}.\\\\ & \\tt substr ({\\it s"
+    },
+    {
+      "chunk_id": 139,
+      "text": "ngth of the {\\it argument}.\\\\ & \\tt substr ({\\it string}, {\\it start}, {\\it num\\/}) & Returns the portion of {\\it string} that starts at position {\\it start} and extends for {\\it num} positions.\\\\ & \\tt index ({\\it string 1}, {\\it string 2}) & Return"
+    },
+    {
+      "chunk_id": 140,
+      "text": "tt index ({\\it string 1}, {\\it string 2}) & Returns the position of the first occurrence of {\\it string 2} in {\\it string 1}; returns 0 if {\\it string 2} is not found.\\\\ & {\\it string\\_1}{\\it string\\_2} & Concatenates {\\it string\\_1} with {\\it string"
+    },
+    {
+      "chunk_id": 141,
+      "text": "2} & Concatenates {\\it string\\_1} with {\\it string\\_2}.\\\\ & {\\it expression\\_1} \\verb+&&+ {\\it expression\\_2} & Evaluates to true only if both {\\it expression\\_1} and {\\it expression\\_2} evaluate to true.\\\\ &{\\it expression\\_1} \\verb+||+ {\\it express"
+    },
+    {
+      "chunk_id": 142,
+      "text": "rue.\\\\ &{\\it expression\\_1} \\verb+||+ {\\it expression\\_2} & Evaluates to true if {\\it expression\\_1} or {\\it expression\\_2} or both evaluate to true. \\end{tabular} \\end{table} \\subsection{Statements in {\\bf awk} Actions} The following table provide"
+    },
+    {
+      "chunk_id": 143,
+      "text": "in {\\bf awk} Actions} The following table provides a summary of the statements used in awk actions: \\begin{center} \\begin{tabular}{lp{3in}} \\bf Statement & \\bf Effect \\\\ \\\\ {\\it variable}\\verb+ = +{\\it expression} & Assigns the value of the {\\it exp"
+    },
+    {
+      "chunk_id": 144,
+      "text": "it expression} & Assigns the value of the {\\it expression} to the {\\it variable}. The {\\it expression} can be numeric or string; the {\\it variable} can be an ordinary awk variable or a field variable.\\\\ {\\it variable}\\verb# += #{\\it expression} & In"
+    },
+    {
+      "chunk_id": 145,
+      "text": ".\\\\ {\\it variable}\\verb# += #{\\it expression} & Increases the value of the {\\it variable} by the (numeric) value of the {\\it expression}.\\\\ {\\it variable}\\verb# ++# & Increases the value of the {\\it variable} by 1.\\\\ {\\it variable}\\verb+ -= +{\\it exp"
+    },
+    {
+      "chunk_id": 146,
+      "text": "ariable} by 1.\\\\ {\\it variable}\\verb+ -= +{\\it expression} & Decreases the value of the {\\it variable} by the (numeric) value of the {\\it expression}.\\\\ {\\it variable}\\verb# --# & Decreases the value of the {\\it variable} by 1.\\\\ \\tt print & Prints t"
+    },
+    {
+      "chunk_id": 147,
+      "text": "of the {\\it variable} by 1.\\\\ \\tt print & Prints the entire current input record.\\\\ \\tt print {\\it parameters} & Prints the values of all evaluated parameters. If the parameters are separated by commas in the print statement, they will be separated b"
+    },
+    {
+      "chunk_id": 148,
+      "text": "s in the print statement, they will be separated by the {\\tt OFS} in the output.\\\\ \\verb+#+ {\\it comment} & Text between \\verb+#+ and end-of-line is ignored. Used for commenting programs. \\end{tabular} \\end{center} %\\subsection{More on {\\bf awk} Str"
+    },
+    {
+      "chunk_id": 149,
+      "text": "} \\end{center} %\\subsection{More on {\\bf awk} String Functions} % %One of the most useful features of awk is a special set of %functions that %perform operations on strings. These are defined as follows: %\\begin{center} %\\begin{tabular}{lp{4in}} %\\"
+    },
+    {
+      "chunk_id": 150,
+      "text": "lows: %\\begin{center} %\\begin{tabular}{lp{4in}} %\\tt concatenation & A new string formed by joining the argument %strings together.\\\\ %\\tt length & The length of the argument string.\\\\ %\\tt substr & A specific substring of the argument string.\\\\ %\\tt"
+    },
+    {
+      "chunk_id": 151,
+      "text": "specific substring of the argument string.\\\\ %\\tt index & The location of the second argument string within the %first argument. %\\end{tabular} %\\end{center} \\subsection{Using Patterns to Select Records} \\subsubsection{Special Patterns} The speci"
+    },
+    {
+      "chunk_id": 152,
+      "text": "ords} \\subsubsection{Special Patterns} The special patterns {\\tt BEGIN} and {\\tt END} match the beginning and end of the input, respectively. \\subsubsection{Regular Expressions in Patterns} Regular expressions are used to define patterns of chara"
+    },
+    {
+      "chunk_id": 153,
+      "text": "r expressions are used to define patterns of characters. When regular expressions are used in a pattern, the notation is the same as the regular expression notation used by grep. The expressions are enclosed in slashes ({\\tt /}),\\index{ u@{\\tt/}} a"
+    },
+    {
+      "chunk_id": 154,
+      "text": "enclosed in slashes ({\\tt /}),\\index{ u@{\\tt/}} and the associated action is executed for any record in the input file that matches the expression. \\subsubsection{Using Comparisons in Patterns} The awk utility allows you to select records by means"
+    },
+    {
+      "chunk_id": 155,
+      "text": "awk utility allows you to select records by means of comparisons using comparison patterns. A comparison pattern is a logical condition that evaluates to true or false. Comparison patterns have the format: \\begin{quote} {\\it expression\\_1} {\\it op"
+    },
+    {
+      "chunk_id": 156,
+      "text": "format: \\begin{quote} {\\it expression\\_1} {\\it operator} {\\it expression\\_2} \\end{quote} where {\\it expression\\_1} and {\\it expression\\_2} are both arithmetic expressions or string expressions, and {\\it operator} is one of the comparison operators"
+    },
+    {
+      "chunk_id": 157,
+      "text": "{\\it operator} is one of the comparison operators listed below. \\begin{center} \\begin{tabular}{cl} \\bf Operator & \\bf Definition\\\\ \\\\ \\verb+==+ & Is equal to \\\\ \\verb+!=+ & Is not equal to\\\\ \\verb+>+ & Is greater than\\\\ \\verb+<+ & Is less than\\\\ \\ver"
+    },
+    {
+      "chunk_id": 158,
+      "text": "& Is greater than\\\\ \\verb+<+ & Is less than\\\\ \\verb+>=+ & Is greater than or equal to \\\\ \\verb+<=+ & Is less than or equal to\\\\ \\end{tabular} \\end{center} \\index{ da@{\\tt==}}\\index{ na@{\\tt\"!=}}\\index{ a@{\\tt<}} \\index{ aa@{\\tt<=}}\\index{ b@{\\tt>}}\\i"
+    },
+    {
+      "chunk_id": 159,
+      "text": "{ a@{\\tt<}} \\index{ aa@{\\tt<=}}\\index{ b@{\\tt>}}\\index{ bb@{\\tt>=}} \\subsubsection{Arithmetic Expressions in awk} Arithmetic expressions are expressions that evaluate to a number. These include numeric constants; field variables that contain numb"
+    },
+    {
+      "chunk_id": 160,
+      "text": "meric constants; field variables that contain numbers; predefined numeric references (such as {\\tt NF} and {\\tt NR}); functions that return numbers; and any operation that uses the symbols shown below: \\begin{center} \\begin{tabular}{cl} \\bf Symbol &"
+    },
+    {
+      "chunk_id": 161,
+      "text": ": \\begin{center} \\begin{tabular}{cl} \\bf Symbol & \\bf Definition\\\\[8pt] \\verb#+# & Addition\\\\ \\verb+-+ & Subtraction\\\\ \\verb+*+ & Multiplication\\\\ \\verb+/+ & Division\\\\ \\verb+%+ & Modulus (integer remainder of a division) \\end{tabular} \\end{center} \\"
+    },
+    {
+      "chunk_id": 162,
+      "text": "ainder of a division) \\end{tabular} \\end{center} \\index{ j@{\\tt+}}\\index{ f@{\\tt-}}\\index{ e@{\\tt*}}\\index{ u@{\\tt/}} \\subsubsection{Combining Comparison of Patterns} The syntax for combined comparisons is: \\begin{quote} {\\it comparison\\_1} {\\it l"
+    },
+    {
+      "chunk_id": 163,
+      "text": "isons is: \\begin{quote} {\\it comparison\\_1} {\\it logical\\_operator} {\\it comparison\\_2} \\end{quote} where: {\\it comparison\\_1} and {\\it comparison\\_2} are any comparisons that evaluate to true or false, and {\\it logical operator} is either the AND s"
+    },
+    {
+      "chunk_id": 164,
+      "text": "se, and {\\it logical operator} is either the AND symbol (\\verb+&&+)\\index{ q@{\\verb+&&+}} or the OR symbol (\\verb+||+).\\index{ m@{\\tt \"|\"|}} \\subsubsection{Using Ranges in awk Patterns} You can select a set of records from the input by referring to"
+    },
+    {
+      "chunk_id": 165,
+      "text": "ct a set of records from the input by referring to ranges of patterns in the {\\it pattern} section. The format for this is: \\begin{quote} {\\it pattern\\_1}, {\\it pattern\\_2} \\verb+{+{\\it action}\\verb+}+ \\end{quote} \\subsection{Variables in {\\bf awk}"
+    },
+    {
+      "chunk_id": 166,
+      "text": "}+ \\end{quote} \\subsection{Variables in {\\bf awk} } Variables in {\\bf awk} do not require declarations. They may contain either numeric or string values; awk interprets the type of information a variable is supposed to contain from the context of"
+    },
+    {
+      "chunk_id": 167,
+      "text": "riable is supposed to contain from the context of the reference. If a variable is given as an argument to a string function, it is assumed to be a string. If a variable is given as an operand in an arithmetic statement, it is assumed to be numeric."
+    },
+    {
+      "chunk_id": 168,
+      "text": "arithmetic statement, it is assumed to be numeric. \\subsection{Examples} The following examples use the {\\tt cities} file that is listed below. \\subsubsection{The {\\tt cities} File} \\begin{verbatim} Forestville, CA 95436"
+    },
+    {
+      "chunk_id": 169,
+      "text": "} Forestville, CA 95436 Amawalk, NY 10501 Boston, MA 02210 Westchester, PA 19380 Troy, MI 48099 Agoura, CA 91301"
+    },
+    {
+      "chunk_id": 170,
+      "text": "Agoura, CA 91301 Westport, CT 06880 Minneapolis, MN 55421 Lowell, MA 01853 Deerfield, IL 60015 Mankato, MN 56002"
+    },
+    {
+      "chunk_id": 171,
+      "text": "Mankato, MN 56002 Brooklyn, NY 11223 Huntington, NY 11743 Austin, TX 78744 Dallas, TX 75240-6728 Dallas, TX 75240-3145"
+    },
+    {
+      "chunk_id": 172,
+      "text": "28 Dallas, TX 75240-3145 Lexington, MA 02173 Medford, MA 02156 Minneapolis, MN 55415 Minneapolis, MN 55414 Braintree, MA 021"
+    },
+    {
+      "chunk_id": 173,
+      "text": ", MN 55414 Braintree, MA 02184 Boston, MA 02107 Berkeley, CA 94704 Dallas, TX 75230 Cambridge, MA 02142 Cambridge, MA 02138"
+    },
+    {
+      "chunk_id": 174,
+      "text": "MA 02142 Cambridge, MA 02138-0043 Providence, RI 02912 Cambridge, MA 02138-0057 Chicago, IL 60606 Inglewood, CA 90301 Glenvi"
+    },
+    {
+      "chunk_id": 175,
+      "text": "Inglewood, CA 90301 Glenview, IL 60025 \\end{verbatim} \\subsubsection{Using awk to Output by Field} \\setcounter{example}{0} \\example{Print the state and zip code of every record in the {\\tt cities} file. Put a dash between"
+    },
+    {
+      "chunk_id": 176,
+      "text": "ord in the {\\tt cities} file. Put a dash between the two fields.} \\begin{center} {\\tt \\%} {\\bf awk} {\\bf {\\tt '}\\verb+{+print \\$2, {\\tt \"--\"}, \\$3\\verb+}+' cities} \\end{center} \\example{Print the records in the {\\tt cities} file with the zip co"
+    },
+    {
+      "chunk_id": 177,
+      "text": "e records in the {\\tt cities} file with the zip code first, followed by a \\key{TAB}, followed by the city, a comma, and the state.} \\begin{center} {\\tt \\%} {\\bf awk} {\\bf {\\tt '}\\verb+{+print \\$3 {\\tt\"}\\key{TAB}{\\tt\"} \\$1, \\$2\\verb+}+{\\tt '} cities"
+    },
+    {
+      "chunk_id": 178,
+      "text": "tt\"}\\key{TAB}{\\tt\"} \\$1, \\$2\\verb+}+{\\tt '} cities} \\end{center} The output records should look like: \\begin{verbatim} 95436 Forestville, CA 56002 Mankato, MN 75240-6728 Dallas, TX"
+    },
+    {
+      "chunk_id": 179,
+      "text": "75240-6728 Dallas, TX 02912 Providence, RI \\end{verbatim} \\subsubsection{Using awk to Output by String Function} \\example{Print the sentence: ``The length of the record is {\\it n}'' for all records in {\\tt citi"
+    },
+    {
+      "chunk_id": 180,
+      "text": "e record is {\\it n}'' for all records in {\\tt cities} file.} \\begin{center} {\\tt \\%} {\\bf awk} {\\bf '\\verb+{+print \"The length of the record is \"} \\\\ {\\bf length\\verb+}+' cities} \\end{center} \\example{Print out the sen"
+    },
+    {
+      "chunk_id": 181,
+      "text": "' cities} \\end{center} \\example{Print out the sentence: ``The comma is character number {\\it n}'' for all records in the {\\tt cities} file.} \\begin{center} {\\tt \\%} {\\bf awk} {\\bf '\\verb+{+print \"The comma is character number\"}\\\\"
+    },
+    {
+      "chunk_id": 182,
+      "text": "e comma is character number\"}\\\\ {\\bf index(\\$0, \",\")\\verb+}+' cities} \\end{center} \\example{Print city and zip code for every record in {\\tt cities} file without commas.} \\begin{center} {\\tt \\%} {\\bf awk} {\\bf '\\verb+{+print subs"
+    },
+    {
+      "chunk_id": 183,
+      "text": "enter} {\\tt \\%} {\\bf awk} {\\bf '\\verb+{+print substr(\\$1, 1, length(\\$1) - 1), \\$3\\verb+}+' cities} \\end{center} All the remaining examples represent awk programs developed to do the defined tasks, and executed as \\verb+%+ {\\bf awk -f program.awk ci"
+    },
+    {
+      "chunk_id": 184,
+      "text": "nd executed as \\verb+%+ {\\bf awk -f program.awk cities}. \\subsubsection{Using awk to Output by Patterns} \\example{Print underlined heading that says: ``Nine-Digit Zip Codes'' followed by all records in {\\tt cities} file with nine-digit zip codes.}"
+    },
+    {
+      "chunk_id": 185,
+      "text": "s in {\\tt cities} file with nine-digit zip codes.} \\begin{verbatim} BEGIN { print \"Nine-Digit Zip Codes\" print \"--------------------\" } length($3) == 10"
+    },
+    {
+      "chunk_id": 186,
+      "text": "} length($3) == 10 {print} \\end{verbatim} \\example{Print all records from {\\tt cities} file where the zip code ends with a zero (0). Use a regular expression to select the records.} \\begin{verbatim}"
+    },
+    {
+      "chunk_id": 187,
+      "text": "t the records.} \\begin{verbatim} /0$/ {print} \\end{verbatim} \\example{Print all records where the zip code starts with a zero. Use a string function for this program.} \\begin{verbatim} substr($3, 1, 1) == \"0\" {prin"
+    },
+    {
+      "chunk_id": 188,
+      "text": "im} substr($3, 1, 1) == \"0\" {print} or index ($3, \"0\") == 1 {print} \\end{verbatim} \\example{Print all records where the zip code contains a zero. Use a string function for this program.} \\begin{verbatim}"
+    },
+    {
+      "chunk_id": 189,
+      "text": "tion for this program.} \\begin{verbatim} index ($3, \"0\") != 0 {print} \\end{verbatim} \\example{Print all records where the state is either Texas (TX) or Michigan (MI).} \\begin{verbatim} ($2 == \"TX\") || ($2 == \"MI\")"
+    },
+    {
+      "chunk_id": 190,
+      "text": "m} ($2 == \"TX\") || ($2 == \"MI\") {print} \\end{verbatim} \\example{Print all records where the state is Massachusetts (MA) and the zip code ends with the digit `3'.} \\begin{verbatim} ($2 == \"MA\") && (substr($3, 5) =="
+    },
+    {
+      "chunk_id": 191,
+      "text": "($2 == \"MA\") && (substr($3, 5) == \"3\") {print} \\end{verbatim} \\example{Print the 15th through the 25th record in the list.} \\begin{verbatim} NR == 15, NR == 25 {print} \\end{verbatim} \\subsubsection{Using awk t"
+    },
+    {
+      "chunk_id": 192,
+      "text": "{print} \\end{verbatim} \\subsubsection{Using awk to Output by Assigning Values to Field Variables} \\example{Write an {\\bf awk} program to count and print the number of times the states of California (CA), Massachusetts (MA), and Texas (TX) appear in"
+    },
+    {
+      "chunk_id": 193,
+      "text": "(CA), Massachusetts (MA), and Texas (TX) appear in the {\\tt cities} file. Your output should look like: ``There are 4 cities from California.''.} \\begin{verbatim} # count.awk -- Count and print the number of cities from #"
+    },
+    {
+      "chunk_id": 194,
+      "text": "t the number of cities from # California, Massachusetts and Texas. BEGIN { # initialize counters cal = 0 mas = 0 tex = 0 } ($2 == \"CA\") {cal ++}"
+    },
+    {
+      "chunk_id": 195,
+      "text": "x = 0 } ($2 == \"CA\") {cal ++} # increment approp. counter ($2 == \"MA\") {mas ++} ($2 == \"TX\") {tex ++} END { # print the summary print \"There are\", cal, \"cities from Califor"
+    },
+    {
+      "chunk_id": 196,
+      "text": "print \"There are\", cal, \"cities from California.\" print \"There are\", mas, \"cities from Massachusetts.\" print \"There are\", tex, \"cities from Texas.\" } \\end{verbatim}"
+    }
+  ]
+}

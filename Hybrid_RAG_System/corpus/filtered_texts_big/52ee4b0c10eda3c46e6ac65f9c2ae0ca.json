@@ -1,0 +1,113 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version1/Top-LevelJavaScriptFunctions",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / Top-LevelJavaScriptFunctions Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / Top-LevelJavaScriptFunctions This pag"
+    },
+    {
+      "chunk_id": 2,
+      "text": "t Version1 / Top-LevelJavaScriptFunctions This page describes the top-level JavaScript functions required to be provided by a swarmlet host. These are available to be invoked in any context by an accessor. Their invocation is prepended with this . Mo"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ssor. Their invocation is prepended with this . Module Dependencies require ( <string> @accessors-modules/module-name ): Load the specified module by name (a string) and return a reference to the module. The reference can be used to invoke any functi"
+    },
+    {
+      "chunk_id": 4,
+      "text": "le. The reference can be used to invoke any functions, constructors, or variables exported by the module (see Module Specification and Require ). Delaying Execution <handle> setInterval ( function , milliseconds ): Set the specified function to execu"
+    },
+    {
+      "chunk_id": 5,
+      "text": "illiseconds ): Set the specified function to execute after specified time in milliseconds and again at multiples of that time, and return a handle. <handle> setTimeout ( function , milliseconds ): Set the specified function to execute after specified"
+    },
+    {
+      "chunk_id": 6,
+      "text": "the specified function to execute after specified time in milliseconds and return a handle. If the interval is zero, then the specified function will be invoked in the next reaction, which will occur immediately after the conclusion of the current r"
+    },
+    {
+      "chunk_id": 7,
+      "text": "immediately after the conclusion of the current reaction. If several setTimeout requests have an interval of zero, then they will be invoked in successive reactions in the order in which they have been requested. clearInterval ( handle ): Clear a ti"
+    },
+    {
+      "chunk_id": 8,
+      "text": "en requested. clearInterval ( handle ): Clear a timer interval action with the specified handle (see setInterval ()). clearTimeout ( handle ): Clear a timeout with the specified handle (see setTimeout ()). For both setInterval() and setTimeout(), if"
+    },
+    {
+      "chunk_id": 9,
+      "text": "()). For both setInterval() and setTimeout(), if additional arguments are provided beyond the first two, then those arguments are passed to the function when it is called. Also for both, if you wish for the specified function to send data to outputs"
+    },
+    {
+      "chunk_id": 10,
+      "text": "for the specified function to send data to outputs or inputs or to get data from inputs, then you will need to bind the function to the accessor instance. For example, var handle ; exports. initialize = function ( ) { handle = setInterval ( produce."
+    },
+    {
+      "chunk_id": 11,
+      "text": "e = function ( ) { handle = setInterval ( produce. bind ( this ) , 1000 ) ; } ; function produce ( ) { this . send ( 'hello' ) ; } ; [$[Get Code]] When initialize() is called, 'this' is the accessor instance. Binding the callback function to 'this' e"
+    },
+    {
+      "chunk_id": 12,
+      "text": "nstance. Binding the callback function to 'this' ensures that when it is called, 'this' will again be the accessor instance in this.send('hello') . You can alternatively use the following common JavaScript idiom: var handle ; exports. initialize = fu"
+    },
+    {
+      "chunk_id": 13,
+      "text": "cript idiom: var handle ; exports. initialize = function ( ) { var self = this ; handle = setInterval ( function ( ) { self. send ( 'hello' ) ; } , 1000 ) ; } ; [$[Get Code]] Here, the variable self captures the value of 'this' when initialize() call"
+    },
+    {
+      "chunk_id": 14,
+      "text": "aptures the value of 'this' when initialize() called, making it available within the anonymous callback function. After the specified function is called, the fire () function of the accessor will be called, if it exists. If the specified function is"
+    },
+    {
+      "chunk_id": 15,
+      "text": "alled, if it exists. If the specified function is null, then only the fire () function of the accessor will be called. Current Time <time> currentTime (): Return the current time (a number, in seconds) as understood by the host. Note that not all hos"
+    },
+    {
+      "chunk_id": 16,
+      "text": ") as understood by the host. Note that not all hosts maintain a notion of current time, in which case, invoking this function will trigger an error. At least the Nashorn and CapeCode hosts support this. Error Handling error(string) : Report an error"
+    },
+    {
+      "chunk_id": 17,
+      "text": "s. Error Handling error(string) : Report an error with the specified message. This should be used by an accessor to report non-fatal errors, where it is OK to continue executing. For fatal errors, throw an exception. Getting Resources getResource(uri"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ow an exception. Getting Resources getResource(uri, options, callback) : Get a resource, which may be a relative file name or a URL, and return the value of the resource as a string. Implementations of this function will likely restrict the locations"
+    },
+    {
+      "chunk_id": 19,
+      "text": "f this function will likely restrict the locations from which resources can be retrieved. A recommended policy for swarmlet hosts is to at least permit http and https accesses. Local files may be allowed, if for example they are given as relative fi"
+    },
+    {
+      "chunk_id": 20,
+      "text": "owed, if for example they are given as relative file names relative to be in the same directory where the swarmlet model is located or in a subdirectory. The options parameter may have the following values: If the type of the options parameter is a N"
+    },
+    {
+      "chunk_id": 21,
+      "text": "alues: If the type of the options parameter is a Number, then it is assumed to be the timeout in milliseconds. If the type of the options parameter is a String, then it is assumed to be the encoding, for example \"UTF-8\". If the value is \"Raw\" or \"ra"
+    },
+    {
+      "chunk_id": 22,
+      "text": "for example \"UTF-8\". If the value is \"Raw\" or \"raw\" then the data is returned as an unsigned array of bytes. The default encoding is the default encoding of the system. In CapeCode, the default encoding is returned by Charset.defaultCharset(). If"
+    },
+    {
+      "chunk_id": 23,
+      "text": "oding is returned by Charset.defaultCharset(). If the type of the options parameter is an Object, then it may have the following fields: encoding {string} The encoding of the file, see above for values. returnURI {string} If true, then return the URI"
+    },
+    {
+      "chunk_id": 24,
+      "text": "s. returnURI {string} If true, then return the URI of the resource instead of the contents. The default is false. timeout {number} The timeout in milliseconds If the callback parameter is not present, then getResource() will be synchronous read like"
+    },
+    {
+      "chunk_id": 25,
+      "text": ", then getResource() will be synchronous read like Node.js's fs.readFileSync() . If the callback argument is present, then getResource() will be asynchronous like fs.readFile() . Deprecated Functions The following functions may be provided by an acce"
+    },
+    {
+      "chunk_id": 26,
+      "text": "The following functions may be provided by an accessor host in order to support version 0.0 accessors (of which there are very few): httpRequest(url, method, properties, body, timeout) : Blocking HTTP request (GET, POST, PUT, etc.). Use the http modu"
+    },
+    {
+      "chunk_id": 27,
+      "text": "request (GET, POST, PUT, etc.). Use the http module instead. readURL(string) : Read the specified URL and return its contents as a string (HTTP GET). Use the http module instead. Back to Accessor Specification Edit - History - Print - Recent Changes"
+    }
+  ]
+}

@@ -1,0 +1,501 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/GDPWithAccessorsNotes",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / GDPWithAccessorsNotes Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / GDPWithAccessorsNotes The GDP is no longer support"
+    },
+    {
+      "chunk_id": 2,
+      "text": "GDPWithAccessorsNotes The GDP is no longer supported by the Accessors Framework. This page exists as a historical reference. This page contains notes about the GDP Accessor See GDP With Accessors for more polished usage information. GDP Browser Here"
+    },
+    {
+      "chunk_id": 3,
+      "text": "more polished usage information. GDP Browser Here, the idea is that we use a GDPLogReader accessor combined with a Browser Accessor to create a web page to plot the data. To display the plot, use: $PTII/bin/vergil -capecode /Users/cxh/ptII/ptolemy/a"
+    },
+    {
+      "chunk_id": 4,
+      "text": "TII/bin/vergil -capecode /Users/cxh/ptII/ptolemy/actor/lib/jjs/modules/gdp/demo/GDPBrowser/GDPBrowser.xml The output is GDPBrowser Issues The model plots N records starting at record M and displays a static plot. Subscription is not supported Beth i"
+    },
+    {
+      "chunk_id": 5,
+      "text": "static plot. Subscription is not supported Beth is working on a dynamic plot To get non-polling subscription working would require some engineering time. The model is not likely to work because of library issues with the GDP unless the user has inst"
+    },
+    {
+      "chunk_id": 6,
+      "text": "brary issues with the GDP unless the user has install the packages using macports. Done : accessors/web/gdp/adm/gdp-setup.sh was copied from the gdp git repo. This script will install the packages. The model says to run the script. Building a gdp"
+    },
+    {
+      "chunk_id": 7,
+      "text": "The model says to run the script. Building a gdp shared library that includes the dependent shared libraries is not possible under RHEL because libevent was not compiled with -fPIC The Y axis has incorrect values. This would be a problem with the V"
+    },
+    {
+      "chunk_id": 8,
+      "text": "orrect values. This would be a problem with the Vis library. I can look into this. Done : We need to specify dataAxis.left.format : var options = { start : 'Fri Sep 09 2016 11:55:26 GMT-0700 (PDT)' , end : 'Fri Sep 09 2016 11:55:35 GMT-0700 (PDT)'"
+    },
+    {
+      "chunk_id": 9,
+      "text": ", end : 'Fri Sep 09 2016 11:55:35 GMT-0700 (PDT)' , dataAxis : { left : { format : function ( value ) { return '' + value. toPrecision ( 7 ) ; } } } } ; [$[Get Code]] If I change the number of points to be plotted and rerun the model, then the Browse"
+    },
+    {
+      "chunk_id": 10,
+      "text": "to be plotted and rerun the model, then the Browser Accessor plots the old data. Hitting reload in the browser does nothing, but if I view source and hit reload, eventually I see the new data. This seems to be a bug in the BrowserAccessor Done ptol"
+    },
+    {
+      "chunk_id": 11,
+      "text": "seems to be a bug in the BrowserAccessor Done ptolemy/actor/lib/jjs/modules/browser/VertxBrowserHelper.java was updated: // Need to close the server after writing to it // otherwise subsequent firings of the accessor // will not write new material se"
+    },
+    {
+      "chunk_id": 12,
+      "text": "of the accessor // will not write new material server. close ( ) ; [$[Get Code]] The GDPLogReader accessor is making one call per data point to the log server. It should be modified to get multiple points To fix this would require adding a port par"
+    },
+    {
+      "chunk_id": 13,
+      "text": "points To fix this would require adding a port parameter to GDPLogReader. Conceptually, this is not difficult The date values in the log data are not used, I'm using dummy dates. The Vis Graph2d Library requires that the x axis be a timeline To fix"
+    },
+    {
+      "chunk_id": 14,
+      "text": "rary requires that the x axis be a timeline To fix this would require a way to determine which value is the time stamp and then to use that value. We could have a port parameter that named the field to use as a time stamp. It would be nice if we had"
+    },
+    {
+      "chunk_id": 15,
+      "text": "to use as a time stamp. It would be nice if we had a way to view all the logs on a server or from a list and pick one. We should probably have a log of logs It would be nice if we had a more general purpose tool that would plot all the numeric data"
+    },
+    {
+      "chunk_id": 16,
+      "text": "purpose tool that would plot all the numeric data from a log. Maybe there would be a way to select the data to be plotted? When we read the first element from the log, we should look for data fields that are numeric The data fields should each be p"
+    },
+    {
+      "chunk_id": 17,
+      "text": "that are numeric The data fields should each be plotted as a Vis Graph2d group Hanging problem In early October, running the gdp tests using JUnit would fail: cd $PTII / ptolemy / actor / lib / jjs / modules / gdp / test / junit / make [$[Get Code]]"
+    },
+    {
+      "chunk_id": 18,
+      "text": "modules / gdp / test / junit / make [$[Get Code]] would fail while running $PTII/ptolemy/actor/lib/jjs/modules/gdp/test/auto/GDPLogCreateAppendReadJS.xml with _gdp_req_dispatch <<< NAK_R_NOROUTE [ gcl- > refcnt 4 ] ERROR: 600 no route available [ Be"
+    },
+    {
+      "chunk_id": 19,
+      "text": "l- > refcnt 4 ] ERROR: 600 no route available [ Berkeley:Swarm-GDP: 600 ] <<< _gdp_invoke ( 0x7f843af00840 rid = 2 ) CMD_CREATE: ERROR: 600 no route available [ Berkeley:Swarm-GDP: 600 ] Could not create GCL: ERROR: 600 no route available [ Berkeley:"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ate GCL: ERROR: 600 no route available [ Berkeley:Swarm-GDP: 600 ] <<< gdp_gcl_create: ERROR: 600 no route available [ Berkeley:Swarm-GDP: 600 ] [$[Get Code]] and then testing / Users / cxh / ptII / ptolemy / actor / lib / jjs / modules / gdp / test"
+    },
+    {
+      "chunk_id": 21,
+      "text": "tolemy / actor / lib / jjs / modules / gdp / test / auto / GDPLogSubscribe.xml Assertion failed at gdp_gcl_ops.c: 453 : require: ( gcl ) ! = NULL && EP_UT_BITSET ( GCLF_INUSE, ( gcl ) - > flags ) / bin / sh: line 1 : 21351 Abort trap: 6 [$[Get Code]]"
+    },
+    {
+      "chunk_id": 22,
+      "text": "n / sh: line 1 : 21351 Abort trap: 6 [$[Get Code]] What this test does is run the GDPManager.tcl test, which rebuilds the GDP library and then runs the models. This test used to work, but stopped. KVStore and KVStoreQuery KVStore and KVStoreQuery ar"
+    },
+    {
+      "chunk_id": 23,
+      "text": "Store and KVStoreQuery KVStore and KVStoreQuery are GDP accessors that were added in October, 2015. It looks like these accessors connect to a server specified via a URL parameter. It appears that these actors expect a RESTful interface to the GDP,"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ese actors expect a RESTful interface to the GDP, which is provided by gdp/apps/gdp-rest . It would be useful to have Key Value store and query accessors that use the GDP. See gdp/lang/python/apps/KVstore.py for a Python Key/Value store interface t"
+    },
+    {
+      "chunk_id": 25,
+      "text": "Vstore.py for a Python Key/Value store interface to the GDP. There is a KeyValue store model at $PTII/ptolemy/demo/Robot/KeyValueStoreServer.xml, but it expects things in a different format. It looks like gdp/apps/gdp-rest will start up a RESTful ser"
+    },
+    {
+      "chunk_id": 26,
+      "text": "like gdp/apps/gdp-rest will start up a RESTful server. gdp-rest.c includes some code that does Key Value work. gdp/doc/gdp-rest-interface.html includes some documentation about the URLs, but does not include an example of running gdp-rest . To get us"
+    },
+    {
+      "chunk_id": 27,
+      "text": "include an example of running gdp-rest . To get usage: bash-3.2$ / Users / cxh / ptII / vendors / gdp / gdp / apps / gdp-rest -h / Users / cxh / ptII / vendors / gdp / gdp / apps / gdp-rest: illegal option -- h Usage: gdp-rest [ -D dbgspec ] [ -G hos"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ption -- h Usage: gdp-rest [ -D dbgspec ] [ -G host:port ] [ -p port ] [ -u prefix ] bash-3.2$ [$[Get Code]] Below is the documentation for the gdp-rest command line arguments: -D dbgspec Enable debugging. Try -D gdp.rest=99 or -D *=20 -G host port"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ging. Try -D gdp.rest=99 or -D *=20 -G host port : This is the gdplogd daemon host and port. Try -G localhost -p port This is the port upon which we listen. Try -p 8077@@ -u prefix The prefix, which defaults to /gdp/v1@@ I started up the daemon wi"
+    },
+    {
+      "chunk_id": 30,
+      "text": "h defaults to /gdp/v1@@ I started up the daemon with: bash-3.2$ / Users / cxh / ptII / vendors / gdp / gdp / apps / gdp-rest -G localhost -p 8078 -D 'gdp.res\\ t=99' gdp-rest: listening for SCGI on port 8078 , scgi_debug 9 [$[Get Code]] and then went"
+    },
+    {
+      "chunk_id": 31,
+      "text": "t 8078 , scgi_debug 9 [$[Get Code]] and then went to http://localhost:8078/gdp/v1/gcl in a browser In the window where gdp-rest was started, the following appeared: scgi_answer_the_phone: accept on port 10 scgi_answer_the_phone: accept on port 10 scg"
+    },
+    {
+      "chunk_id": 32,
+      "text": "rt 10 scgi_answer_the_phone: accept on port 10 scgi_answer_the_phone: accept on port 10 scgi_answer_the_phone: accept on port 10 scgi_answer_the_phone: accept on port 10 scgi_answer_the_phone: accept on port 10 [$[Get Code]] In the browser, the follo"
+    },
+    {
+      "chunk_id": 33,
+      "text": "on port 10 [$[Get Code]] In the browser, the following appeared: The connection was reset The connection to the server was reset while the page was loading. The site could be temporarily unavailable or too busy. Try again in a few moments."
+    },
+    {
+      "chunk_id": 34,
+      "text": "ilable or too busy. Try again in a few moments. If you are unable to load any pages, check your computer's network connection. If your computer or network is protected by a firewall or proxy, make sure that Firefox is permitted to access the"
+    },
+    {
+      "chunk_id": 35,
+      "text": "make sure that Firefox is permitted to access the Web. Setting the Log Name in Cape Code The GDP uses logs to store data and the logs have names. A good regression test creates a new log and operates on it. For example, if we want to read the first 5"
+    },
+    {
+      "chunk_id": 36,
+      "text": "on it. For example, if we want to read the first 5 records from a log, the test should first write those 5 records to the log. Currently, there is no way in the GDP api to delete a log, so the workaround is to create a new log each time. In Cape Code"
+    },
+    {
+      "chunk_id": 37,
+      "text": "und is to create a new log each time. In Cape Code, we use the ptolemy/actor/lib/jjs/modules/gdp/GDPManager.java to download, compile and install the GDP. In addition, GDPManager can create the log. However, the name of the log is an attribute, whi"
+    },
+    {
+      "chunk_id": 38,
+      "text": "However, the name of the log is an attribute, which makes updating it a bit tricky. Parameter One idea is to set a top level parameter to \"myLog\" + random() However, because of how Ptolemy evaluates parameters, the call to Math.random() occurs only"
+    },
+    {
+      "chunk_id": 39,
+      "text": "parameters, the call to Math.random() occurs only once and the value is the same for each run. SetVariable The SetVariable actor can be used to set a Parameter. However, the problem here is that when the model is opened, the value of the parameter i"
+    },
+    {
+      "chunk_id": 40,
+      "text": "the model is opened, the value of the parameter is the same as it was when the model was last saved. Thus, if a model is opened and run, the name of the log will be the same as the last time it was run. This means that starting Cape Code twice and"
+    },
+    {
+      "chunk_id": 41,
+      "text": "run. This means that starting Cape Code twice and running the model will us the same log. Solution The solution is to combine the two techniques and set the parameter to \"GDPLogAppendRead\" + random() + \".\" + logSuffix and then use SetVariable to set"
+    },
+    {
+      "chunk_id": 42,
+      "text": "+ \".\" + logSuffix and then use SetVariable to set logSuffix logNames.xml (Ptolemy Model) Subscriber Cape Code now has a working Append and Reader accessor, but the Subscriber actor is problematic. Summary When I add a GDPLogSubscribe accessor, the o"
+    },
+    {
+      "chunk_id": 43,
+      "text": "mmary When I add a GDPLogSubscribe accessor, the output of the GDPLogRead actor changes from data was null? 0 1 2 3 [$[Get Code]] to datum was null? 0 datum was null? datum was null? datum was null? [$[Get Code]] The GDPLogSubscribe accessor has the"
+    },
+    {
+      "chunk_id": 44,
+      "text": "$[Get Code]] The GDPLogSubscribe accessor has the same bogus output as GDPLogRead: Main/GDPLogSubscribe2.xml Using Python to Subscribe Interesting, if I delete the GDPLogSubscribe accessor from the model and change the logName to a fixed name like lo"
+    },
+    {
+      "chunk_id": 45,
+      "text": "del and change the logName to a fixed name like logx , then running the GDP/Python Subscription test works: bash-3.2$ ( cd $PTII / vendors / gdp / gdp / lang / python / apps / ; python reader_test_subscribe.py logxx3 ) { 'sig' : '' , 'recno' : 21 , '"
+    },
+    {
+      "chunk_id": 49,
+      "text": ", 'recno' : 25 , 'data' : '4' , 'ts' : { 'tv_sec' : 1466103406 , 'tv_accuracy' : 0.0 , 'tv_nsec' : 767953000L } , 'sigalg' : 0 } [$[Get Code]] However, if I add GDPLogSubscribe back in, then Python subscriber does not return anything? Also, with GDPL"
+    },
+    {
+      "chunk_id": 50,
+      "text": "bscriber does not return anything? Also, with GDPLogSubscribe present, it looks like only one record is written: bash-3.2$ $PTII / vendors / gdp / gdp / apps / gdp-reader -t log20_6 gdp_api.c: gdp_init ( ) called Reading GCL BxXVAwDtp_bm0JN031EFDxidz"
+    },
+    {
+      "chunk_id": 51,
+      "text": "t ( ) called Reading GCL BxXVAwDtp_bm0JN031EFDxidzftQZ60r9gy0ToiHDs4 >>> recno 1 , len 1 , ts 2016 -06-20T15: 42 :27.092635000Z 0 exiting after 1 records with status WARNING: end of file [ EPLIB:generic: 3 ] bash-3.2$ [$[Get Code]] gdp/lang/python/ap"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ic: 3 ] bash-3.2$ [$[Get Code]] gdp/lang/python/apps/reader_test_subscribe.py is pretty simple: \"\"\" A simple program to demonstrate subscriptions \"\"\" import sys sys . path . append ( \"../\" ) import gdp def main ( name_str ) : # create a python object"
+    },
+    {
+      "chunk_id": 53,
+      "text": "p def main ( name_str ) : # create a python object gcl_name = gdp. GDP_NAME ( name_str ) # Assume that the GCL already exists gcl_handle = gdp. GDP_GCL ( gcl_name , gdp. GDP_MODE_RO ) # this is the actual subscribe call gcl_handle. subscribe ( 0 , 0"
+    },
+    {
+      "chunk_id": 54,
+      "text": "tual subscribe call gcl_handle. subscribe ( 0 , 0 , None ) while True : # This blocks, until there is a new event event = gdp. GDP_GCL . get_next_event ( None ) datum = event [ \"datum\" ] handle = event [ \"gcl_handle\" ] print datum if __name__ == \"__m"
+    },
+    {
+      "chunk_id": 55,
+      "text": "t [ \"gcl_handle\" ] print datum if __name__ == \"__main__\" : if len ( sys . argv ) < 2 : print \"Usage: %s <gcl-name>\" % sys . argv [ 0 ] sys . exit ( 1 ) # Change this to point to a gdp_router gdp. gdp_init ( ) main ( sys . argv [ 1 ] ) [$[Get Code]] I"
+    },
+    {
+      "chunk_id": 56,
+      "text": "init ( ) main ( sys . argv [ 1 ] ) [$[Get Code]] It loops and calls get_next_event(None) Debug Level GDPLogAppend was updated so that it has a debugLevel parameter, which was set to *=18 . GDPSubscribeFailure.txt Δ : Output of CapeCode when running w"
+    },
+    {
+      "chunk_id": 57,
+      "text": "eFailure.txt Δ : Output of CapeCode when running with the Subscriber, which fails. GDPSubscribeSucceeded.txt Δ : Output of CapeCode when running without the Subscriber, which works. Running diff between the two where the version that has the Subscrib"
+    },
+    {
+      "chunk_id": 58,
+      "text": "en the two where the version that has the Subscriber is on the < side, we see the Subscribe command: < *** _gdp_invoke(0x7fe7420767f0): CMD_SUBSCRIBE (72), gcl@0x7fe7420f7420: < datum @ 0x7fe7420768f0: recno 0, len 4, no timestamp < 00000000 00"
+    },
+    {
+      "chunk_id": 59,
+      "text": "0768f0: recno 0, len 4, no timestamp < 00000000 00 00 00 00 < ? ? ? ? < _gdp_pdu_out, fd = 142, basemd = 0x0: CMD_SUBSCRIBE < _gdp_pdu_in(ACK_SUCCESS) => OK < < *** Processing ack/nak 128=ACK_SUCCESS from socket 142 < _gdp_req_dispatch >>"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ACK_SUCCESS from socket 142 < _gdp_req_dispatch >>> ACK_SUCCESS (128) [gcl->refcnt 4] < _gdp_req_dispatch <<< ACK_SUCCESS [gcl->refcnt 4] < OK [67896520 = 0x40c04c8] < Starting subscription poker thread < GDPLogSubscribe: GDPLogSubscribe.initiali"
+    },
+    {
+      "chunk_id": 61,
+      "text": "thread < GDPLogSubscribe: GDPLogSubscribe.initialize() after subscribe() (Thread[GDPLogSubscribe2,1,main]\\ ) < GDPLogSubscribe: GDPLogSubscribe.getNextData() (Thread[GDPLogSubscribe2,1,main]) < GDPHelper.getNextData(100): {} < GDPLogSubscribe: GDPLog"
+    },
+    {
+      "chunk_id": 62,
+      "text": "per.getNextData(100): {} < GDPLogSubscribe: GDPLogSubscribe.getNextData() data: datum was null? (Thread[GDPLogSubscribe2,1,\\ main]) [$[Get Code]] Both logs show that the first record is appended. The version with the Subscribe has an event: < GDPLogS"
+    },
+    {
+      "chunk_id": 63,
+      "text": "version with the Subscribe has an event: < GDPLogSubscribe: GDPLogSubscribe.getNextData() (Thread[GDPLogSubscribe2,1,main]) < GDPHelper.getNextData(100): {datum={recno=1, data=[B@2fe521e4, ts=EP_TIME_SPEC(auto-allocated@0x\\ 7fe742346570 (16 bytes)) {"
+    },
+    {
+      "chunk_id": 64,
+      "text": "SPEC(auto-allocated@0x\\ 7fe742346570 (16 bytes)) { < long tv_sec@0=57681256 < int tv_nsec@8=3ae56868 < float tv_accuracy@c=0.0 < }}, stat=EP_STAT$ByValue(auto-allocated@0x7fe742341010 (4 bytes)) { < int code@0=40c04c8 < }, gcl_handle=null, ty"
+    },
+    {
+      "chunk_id": 65,
+      "text": "{ < int code@0=40c04c8 < }, gcl_handle=null, type=1} < GDPLogSubscribe: GDPLogSubscribe.getNextData() data: 0 (Thread[GDPLogSubscribe2,1,main]) [$[Get Code]] Hmm, this is strange, the version that is trying to subscribe is appending at recno 3 , w"
+    },
+    {
+      "chunk_id": 66,
+      "text": "is trying to subscribe is appending at recno 3 , whereas the version that does not subscribe is appending at recno 2 145,146c107,108 < *** _gdp_invoke(0x7fe745923830): CMD_APPEND (71), gcl@0x7fe7420f7420: < datum @ 0x7fe7421c4be0: recno 3, len"
+    },
+    {
+      "chunk_id": 67,
+      "text": "420: < datum @ 0x7fe7421c4be0: recno 3, len 1, no timestamp --- > *** _gdp_invoke(0x7f9af4c22da0): CMD_APPEND (71), gcl@0x7f9af4c87310: > datum @ 0x7f9af4b85690: recno 2, len 1, no timestamp 150c112,116 < _gdp_pdu_in(NAK_C_FORBIDDEN) => O"
+    },
+    {
+      "chunk_id": 68,
+      "text": "mp 150c112,116 < _gdp_pdu_in(NAK_C_FORBIDDEN) => OK --- > gcl_physappend datum @ 0x7fec82100380: recno 2, len 1, ts 2016-06-20T15:58:48.096849000Z > 00000000 31 > 1 > extent_open(ext 0, fp 0x7fff75dc9050) > _gdp_pdu_in(ACK_DATA_CREATED) => O"
+    },
+    {
+      "chunk_id": 69,
+      "text": "7fff75dc9050) > _gdp_pdu_in(ACK_DATA_CREATED) => OK 152,155c118,121 < *** Processing ack/nak 195=NAK_C_FORBIDDEN from socket 142 < _gdp_req_dispatch >>> NAK_C_FORBIDDEN (195) [gcl->refcnt 6] < _gdp_req_dispatch <<< NAK_C_FORBIDDEN [gcl->refcnt 6] <"
+    },
+    {
+      "chunk_id": 70,
+      "text": "q_dispatch <<< NAK_C_FORBIDDEN [gcl->refcnt 6] < ERROR: 403 forbidden [Berkeley:Swarm-GDP:403] --- > *** Processing ack/nak 129=ACK_DATA_CREATED from socket 142 > _gdp_req_dispatch >>> ACK_DATA_CREATED (129) [gcl->refcnt 3] > _gdp_req_dispatch <<"
+    },
+    {
+      "chunk_id": 71,
+      "text": "EATED (129) [gcl->refcnt 3] > _gdp_req_dispatch <<< ACK_DATA_CREATED [gcl->refcnt 3] > OK [67896521 = 0x40c04c9] [$[Get Code]] The solution here is that there were a couple of bugs in the GDP that were fixed. May 2015 During the Programming The S"
+    },
+    {
+      "chunk_id": 72,
+      "text": "were fixed. May 2015 During the Programming The Swarm Workshop , Nitesh and Christopher updated the GDP Java Interface . The idea is to use the GDP Java interface to insulate accessor development from changes to the GDP wire protocol. An alternativ"
+    },
+    {
+      "chunk_id": 73,
+      "text": "m changes to the GDP wire protocol. An alternative would be to write a GDP JavaScript Interface that uses the GDP wire protocol. Open Issues: We can read data, but printing it fails. The fix would be to add a print method to the GDP that does not t"
+    },
+    {
+      "chunk_id": 74,
+      "text": "e to add a print method to the GDP that does not take a stdio FILE * argument. gdp/gdp.h has: // print out data record extern void gdp_datum_print ( const gdp_datum_t * datum , // message to print FILE * fp , // file to print it to uint32_t flags ) ;"
+    },
+    {
+      "chunk_id": 75,
+      "text": "E * fp , // file to print it to uint32_t flags ) ; // formatting options #define GDP_DATUM_PRTEXT 0x00000001 // print data as text #define GDP_DATUM_PRDEBUG 0x00000002 // print debugging info [$[Get Code]] It wo"
+    },
+    {
+      "chunk_id": 76,
+      "text": "// print debugging info [$[Get Code]] It would be helpful to add extern void gdp_datum_print_stdout ( const gdp_datum_t * datum , // message to print uint32_t flags ) ; // formatting options [$[Get Code]] . The reason is that if we don't have"
+    },
+    {
+      "chunk_id": 77,
+      "text": "[Get Code]] . The reason is that if we don't have to handle C stdio FILE pointers, then life is much better. We need a more complete set of smoke tests. Ideally, the smoke tests would create a log, write to it and read from it. This means the log d"
+    },
+    {
+      "chunk_id": 78,
+      "text": "rite to it and read from it. This means the log daemon would be running locally. Right now, we connect to a hardwired log daemon at Berkeley with a hardwired log name. It would be good to move the GDP/Java interface over to the gdp repo. WebSockets"
+    },
+    {
+      "chunk_id": 79,
+      "text": "P/Java interface over to the gdp repo. WebSockets Edward developed $PTII/ptolemy/actor/lib/jjs/modules/gdp/demo/GDPToWebSocket/GDPToWebSocket.xml , which reads from a GDP log and creates a WebSocket Server. The idea is to use the AccessorSSHCodeGener"
+    },
+    {
+      "chunk_id": 80,
+      "text": "erver. The idea is to use the AccessorSSHCodeGenerator to deploy this on SwarmBoxes. $PTII/ptolemy/actor/lib/jjs/modules/gdp/demo/GDPToWebSocket/TestGDPToWebSocket.xml can be used to read from the WebSocket. This works in CapeCode and we can generate"
+    },
+    {
+      "chunk_id": 81,
+      "text": "Socket. This works in CapeCode and we can generate a composite accessor, deploy it using SSH, install the modules using npm and run the model using the Node Host . However, invoking the test model causes GDPWebSocket to crash. Using the AccessorCode"
+    },
+    {
+      "chunk_id": 82,
+      "text": "ses GDPWebSocket to crash. Using the AccessorCodeGenerator to debug this locally, we see that GDPWebSocket gets this error: Error : commonHost. js , react ( ) , invoking a specific handler for \"request\" : Exception occurred in input handler , which"
+    },
+    {
+      "chunk_id": 83,
+      "text": "st\" : Exception occurred in input handler , which has now has been removed. Exception was : AssertionError : expected a \"string\" as the third argument Stacktrace was : AssertionError : expected a \"string\" as the third argument at Object . writeCStrin"
+    },
+    {
+      "chunk_id": 84,
+      "text": "ing\" as the third argument at Object . writeCString ( / Users / cxh / src / ptII11.0. devel / org / terraswarm / accessor / accessors / node_modules / ref / lib / ref. js : 569 : 10 ) at Object . allocCString ( / Users / cxh / src / ptII11.0. devel /"
+    },
+    {
+      "chunk_id": 85,
+      "text": "cCString ( / Users / cxh / src / ptII11.0. devel / org / terraswarm / accessor / accessors / node_modules / ref / lib / ref. js : 549 : 11 ) at gdp_gcl_create_js ( / Users / cxh / src / ptII11.0. devel / org / terraswarm / accessor / accessors / node"
+    },
+    {
+      "chunk_id": 86,
+      "text": "l / org / terraswarm / accessor / accessors / node_modules /@ terraswarm / gdp / gdpjs / gdpjs. js : 1453 : 67 ) at Object . gdpGclOpen ( / Users / cxh / src / ptII11.0. devel / org / terraswarm / accessor / accessors / node_modules /@ terraswarm / g"
+    },
+    {
+      "chunk_id": 87,
+      "text": "essor / accessors / node_modules /@ terraswarm / gdp / gdpjs / gdpjs. js : 1532 : 7 ) at Object . exports . gdp_gcl_open ( / Users / cxh / src / ptII11.0. devel / org / terraswarm / accessor / accessors / node_modules /@ terraswarm / gdp / index. js"
+    },
+    {
+      "chunk_id": 88,
+      "text": "rs / node_modules /@ terraswarm / gdp / index. js : 79 : 27 ) at new exports. GDP ( / Users / cxh / src / ptII11.0. devel / org / terraswarm / accessor / accessors / web / hosts / node / node_modules /@ accessors - modules / gdp / gdp. js : 53 : 23 )"
+    },
+    {
+      "chunk_id": 89,
+      "text": "/@ accessors - modules / gdp / gdp. js : 53 : 23 ) at Accessor. exports . subscribe ( eval at Accessor ( / Users / cxh / src / ptII11.0. devel / org / terraswarm / accessor / accessors / web / hosts / common / commonHost. js : 555 : 19 ) , < anonymou"
+    },
+    {
+      "chunk_id": 90,
+      "text": "common / commonHost. js : 555 : 19 ) , < anonymous >: 80 [$[Get Code]] What it looks like is happening is that we are passing something other than a string. Line 1453 of $PTII/vendors/gdp/gdp/gdpjs/gdpjs.js is marked: /* { error_code: EP_STAT, gclH:"
+    },
+    {
+      "chunk_id": 91,
+      "text": "dpjs.js is marked: /* { error_code: EP_STAT, gclH: gclHandle_t }; */ function gdp_gcl_create_js ( /* gcl_name_t */ gclxname , logdxname ) { var gcl_Ptr ; // gclHandle_t var gclPtrPtr = ref. alloc ( gdp_gcl_tPtrPtr ) ; // gclHandle_t * var gcliname ="
+    },
+    {
+      "chunk_id": 92,
+      "text": "p_gcl_tPtrPtr ) ; // gclHandle_t * var gcliname = new gcl_name_t ( 32 ) ; //var gcliname = ref.alloc(gcl_name_t); var logdiname = new gcl_name_t ( 32 ) ; //var logdiname = ref.alloc(gcl_name_t); if ( debug ) { console. log ( \"gdpjs.js: gdp_gcl_create"
+    },
+    {
+      "chunk_id": 93,
+      "text": "debug ) { console. log ( \"gdpjs.js: gdp_gcl_create_js(): gclxname: \" + gclxname + \", logdxname: \" + logdxname ) ; } gdp_parse_name_js ( gclxname , gcliname ) ; gdp_parse_name_js ( logdxname , logdiname ) ; var gmd = libgdp. gdp_gclmd_new ( 0 ) ; --->"
+    },
+    {
+      "chunk_id": 94,
+      "text": "e ) ; var gmd = libgdp. gdp_gclmd_new ( 0 ) ; ---> libgdp. gdp_gclmd_add ( gmd , GDP_GCLMD_XID , gclxname. length , ref. allocCString ( gclxname ) ) ; [$[Get Code]] Lines 549 and 569 of refs.js are marked below: exports. allocCString = function alloc"
+    },
+    {
+      "chunk_id": 95,
+      "text": "rked below: exports. allocCString = function allocCString ( string , encoding ) { if ( null == string || ( Buffer. isBuffer ( string ) && exports. isNull ( string ) ) ) { return exports. NULL } var size = Buffer. byteLength ( string , encoding ) + 1"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ze = Buffer. byteLength ( string , encoding ) + 1 var buffer = new Buffer ( size ) --> exports. writeCString ( buffer , 0 , string , encoding ) buffer. type = charPtrType return buffer } /** * Writes the given string as a C String (NULL terminated) t"
+    },
+    {
+      "chunk_id": 97,
+      "text": "the given string as a C String (NULL terminated) to the given buffer * at the given offset. \"encoding\" is optional and defaults to __'utf8'__. * * Unlike `readCString()`, this function requires the buffer to actually have the * proper length. * * @pa"
+    },
+    {
+      "chunk_id": 98,
+      "text": "ffer to actually have the * proper length. * * @param {Buffer} buffer The Buffer instance to write to. * @param {Number} offset The offset of the buffer to begin writing at. * @param {String} string The JavaScript String to write that will be written"
+    },
+    {
+      "chunk_id": 99,
+      "text": "he JavaScript String to write that will be written to the buffer. * @param {String} encoding (optional) The encoding to read the C string as. Defaults to __'utf8'__. */ exports. writeCString = function writeCString ( buffer , offset , string , encodi"
+    },
+    {
+      "chunk_id": 100,
+      "text": "n writeCString ( buffer , offset , string , encoding ) { assert ( Buffer. isBuffer ( buffer ) , 'expected a Buffer as the first argument' ) --> assert. equal ( 'string' , typeof string , 'expected a \"string\" as the third argument' ) if ( ! offset ) {"
+    },
+    {
+      "chunk_id": 101,
+      "text": "string\" as the third argument' ) if ( ! offset ) { offset = 0 } if ( ! encoding ) { encoding = 'utf8' } var size = buffer. length - offset var len = buffer. write ( string , offset , size , encoding ) buffer. writeUInt8 ( 0 , offset + len ) // NUL te"
+    },
+    {
+      "chunk_id": 102,
+      "text": "buffer. writeUInt8 ( 0 , offset + len ) // NUL terminate } [$[Get Code]] Modifying the assert: assert. equal ( 'string' , typeof string , 'expected a \"string\" as the third argument: ' + string + \", typeof: \" + typeof string ) [$[Get Code]] and rerun"
+    },
+    {
+      "chunk_id": 103,
+      "text": "ypeof: \" + typeof string ) [$[Get Code]] and rerunning GDPToWebSocket and the test model yields: Error : commonHost. js , react ( ) , invoking a specific handler for \"request\" : Exception occurred in input handler , which has now has been removed. Ex"
+    },
+    {
+      "chunk_id": 104,
+      "text": "input handler , which has now has been removed. Exception was : AssertionError : expected a \"string\" as the third argument : \"edu.berkeley.eecs.testlog\" , typeof : object Stacktrace was : AssertionError : expected a \"string\" as the third argument : \""
+    },
+    {
+      "chunk_id": 105,
+      "text": "or : expected a \"string\" as the third argument : \"edu.berkeley.eecs.testlog\" , typeof : object [$[Get Code]] So, it looks like we are passing in an object for the logname under the Node host and the Node GDP JS interface cannot handle that. Looking a"
+    },
+    {
+      "chunk_id": 106,
+      "text": "ode GDP JS interface cannot handle that. Looking at the model, the JavaScript actor has /** If a non-empty logname is given, subscribe to the log. */ exports.subscribe = function ( id , logname ) { var self = this; var logdname = this.get ( 'logdname"
+    },
+    {
+      "chunk_id": 107,
+      "text": "r self = this; var logdname = this.get ( 'logdname' ) ; if ( logname === '' ) { // Nothing more to do. // ptolemy / actor / lib / jjs / modules / gdp / test / auto / GDPLogSubscribe.xml and // ptolemy / actor / lib / jjs / modules / gdp / test / auto"
+    },
+    {
+      "chunk_id": 108,
+      "text": "/ actor / lib / jjs / modules / gdp / test / auto / GDPLogSubscribeJS.xml // both end up calling subscribe ( ) with an empty log name // during start up. return ; } // Create or connect to a log. // The second argument specifies to open the log \"rea"
+    },
+    {
+      "chunk_id": 109,
+      "text": "The second argument specifies to open the log \"read only.\" var log = new GDP.GDP ( logname , 1 , logdname ) ; [$[Get Code]] So, this is probably where we are getting the logname as an object and passing it to new GDP.GDP() . Under the Node Host, we g"
+    },
+    {
+      "chunk_id": 110,
+      "text": "ng it to new GDP.GDP() . Under the Node Host, we get: GDPToWebSocket.JavaScript. subscribe(): id: 0 logname: \"edu.berkeley.eecs.testlog\" typeof logname: object Under the CapeCode Host, we get: GDPToWebSocket.JavaScript. subscribe(): id: 0 logname: ed"
+    },
+    {
+      "chunk_id": 111,
+      "text": "bSocket.JavaScript. subscribe(): id: 0 logname: edu.berkeley.eecs.testlog typeof logname: string So, the problem is under CapeCode, the log name is a string, under Node, it is an object. Modifying the inputHandler of the JavaScript actor: // Set an i"
+    },
+    {
+      "chunk_id": 112,
+      "text": "inputHandler of the JavaScript actor: // Set an input handler to unsubscribe if there is any previous // subscription with the specified socketID and to subscribe if // a log name is given as a message. this . addInputHandler ( 'request' , function"
+    },
+    {
+      "chunk_id": 113,
+      "text": "ge. this . addInputHandler ( 'request' , function ( ) { var request = this . get ( 'request' ) ; var id = request [ 'socketID' ] ; if ( logs [ id ] ) { // This client was previously subscribed to a log. self. exports . unsubscribe . call ( self , id"
+    },
+    {
+      "chunk_id": 114,
+      "text": "g. self. exports . unsubscribe . call ( self , id ) ; } // Open the new subscription. lognames [ id ] = request [ 'message' ] ; console. log ( \"GDPToWebSocket.JavaScript request inputHandler: lognames[id]: \" + lognames [ id ] + \", typeof lognames[i]:"
+    },
+    {
+      "chunk_id": 115,
+      "text": "[id]: \" + lognames [ id ] + \", typeof lognames[i]: \" + typeof lognames [ id ] ) ; logs [ id ] = self. exports . subscribe . call ( self , id , lognames [ id ] ) ; [$[Get Code]] Node shows: GDPToWebSocket.JavaScript request inputHandler: lognames[id]:"
+    },
+    {
+      "chunk_id": 116,
+      "text": "ket.JavaScript request inputHandler: lognames[id]: \"edu.berkeley.eecs.testlog\", typeof lognames[i]: object CapeCode shows: GDPToWebSocket.JavaScript request inputHandler: lognames[id]: edu.berkeley.eecs.testlog, typeof lognames[i]: string So, the pro"
+    },
+    {
+      "chunk_id": 117,
+      "text": "cs.testlog, typeof lognames[i]: string So, the problem is that under NodeHost, the WebSocketServer is sending on its received port an object. Modifying accessors/web/net/WebSocketServer.js so that it prints out: /** Executes when a connection has bee"
+    },
+    {
+      "chunk_id": 118,
+      "text": "prints out: /** Executes when a connection has been establised.<br> * Triggers an output on <code>'connection'</code>. * Adds an event listener to the socket. */ exports. onConnection = function ( socket ) { // socketID is the index of the socket i"
+    },
+    {
+      "chunk_id": 119,
+      "text": "ocket ) { // socketID is the index of the socket in the sockets array. var self = this , socketID = self. sockets . length ; if ( debug ) { console. log ( this . accessorName + 'WebSocketServer.js: new socket established with ID: ' + soc\\ ketID ) ; }"
+    },
+    {
+      "chunk_id": 120,
+      "text": "w socket established with ID: ' + soc\\ ketID ) ; } this . send ( 'connection' , { 'socketID' : socketID , 'status' : 'open' } ) ; self. sockets . push ( socket ) ; self. sockets [ socketID ] . on ( 'message' , function ( message ) { console. log ( 'W"
+    },
+    {
+      "chunk_id": 121,
+      "text": "essage' , function ( message ) { console. log ( 'WebSocketServer message(): ' + message + ', typeof message: ' + typeof message ) \\ ; // If message is a string, strip leading and trailing \" if ( typeof message === 'string' ) { message = message. repl"
+    },
+    {
+      "chunk_id": 122,
+      "text": "f message === 'string' ) { message = message. replace ( /^\"(.*)\"$/ , '$1' ) ; } self. send ( 'received' , { 'message' : message , 'socketID' : socketID } ) ; } ) ; [$[Get Code]] Under Node, we have WebSocketServer message(): \"edu.berkeley.eecs.testlo"
+    },
+    {
+      "chunk_id": 123,
+      "text": "bSocketServer message(): \"edu.berkeley.eecs.testlog\", typeof message: object Under CapeCode, we have WebSocketServer message(): edu.berkeley.eecs.testlog, typeof message: string The workaround is to modify /accessors/web/net/WebSocketServer.js : self"
+    },
+    {
+      "chunk_id": 124,
+      "text": "odify /accessors/web/net/WebSocketServer.js : self. sockets [ socketID ] . on ( 'message' , function ( message ) { console. log ( 'WebSocketServer message(): ' + message + ', typeof message: ' + typeof message ) ; // For some reason, under the Node H"
+    },
+    {
+      "chunk_id": 125,
+      "text": "f message ) ; // For some reason, under the Node Host, the message is an // object. Under CapeCode, it is a string? var isObjectWithQuotes = ( typeof message === 'object' && message. toString ( ) . startsWith ( '\"' ) && message. toString ( ) . endsW"
+    },
+    {
+      "chunk_id": 126,
+      "text": "tartsWith ( '\"' ) && message. toString ( ) . endsWith ( '\"' ) ) ; // If message is a string, strip leading and trailing \" if ( typeof message === 'string' || isObjectWithQuotes ) { if ( isObjectWithQuotes ) { message = message. toString ( ) ; } messa"
+    },
+    {
+      "chunk_id": 127,
+      "text": "otes ) { message = message. toString ( ) ; } message = message. replace ( /^\"(.*)\"$/ , '$1' ) ; } self. send ( 'received' , { 'message' : message , 'socketID' : socketID } ) ; } ) ; [$[Get Code]] Edit - History - Print - Recent Changes - Search Page"
+    }
+  ]
+}

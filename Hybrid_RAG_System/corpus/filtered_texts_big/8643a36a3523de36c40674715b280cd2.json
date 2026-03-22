@@ -1,0 +1,25 @@
+{
+  "url": "https://people.eecs.berkeley.edu/~ronf/MFI/evolution/99alpha/pivdata/cyldata/vecintrp.m",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "function [intu,intv]=vecintrp(tmpu,tmpv,tmpf,n) % handle ends w/ extrapolation if necessary if tmpf(1)==0 vectmp=find(tmpf); ind1=vectmp(1); ind2=vectmp(2); tmpu(1)=tmpu(ind1)+(tmpu(ind1)-tmpu(ind2))*(ind1-1)/(ind2-ind1); tmpv(1)=tmpv(ind1"
+    },
+    {
+      "chunk_id": 2,
+      "text": "u(ind2))*(ind1-1)/(ind2-ind1); tmpv(1)=tmpv(ind1)+(tmpv(ind1)-tmpv(ind2))*(ind1-1)/(ind2-ind1); tmpf(1)=1; end if tmpf(n)==0 vectmp=find(tmpf); ind1=vectmp(end); ind2=vectmp(end-1); tmpu(n)=tmpu(ind1)+(tmpu(ind1)-tmpu(ind2))*(ind1-n)/("
+    },
+    {
+      "chunk_id": 3,
+      "text": "u(n)=tmpu(ind1)+(tmpu(ind1)-tmpu(ind2))*(ind1-n)/(ind2-ind1); tmpv(n)=tmpv(ind1)+(tmpv(ind1)-tmpv(ind2))*(ind1-n)/(ind2-ind1); tmpf(n)=1; end goodind=find(tmpf); % indices valid for calcs badind=find(~tmpf); % indices w/ problems for i=1:leng"
+    },
+    {
+      "chunk_id": 4,
+      "text": "d=find(~tmpf); % indices w/ problems for i=1:length(badind), ind=badind(i); ind1=ind-1; % prev value is orig valid or prev corrected vectmp=find(goodind>ind); ind2=goodind(vectmp(1)); tmpu(ind)=tmpu(ind1)+(tmpu(ind1)-tmpu(ind2))*(ind1-ind"
+    },
+    {
+      "chunk_id": 5,
+      "text": "(ind)=tmpu(ind1)+(tmpu(ind1)-tmpu(ind2))*(ind1-ind)/(ind2-ind1); tmpv(ind)=tmpv(ind1)+(tmpv(ind1)-tmpv(ind2))*(ind1-ind)/(ind2-ind1); end intu=tmpu; intv=tmpv;"
+    }
+  ]
+}

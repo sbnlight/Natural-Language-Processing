@@ -1,0 +1,97 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/TestAPtolemyAccessorImport",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / TestAPtolemyAccessorImport Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / TestAPtolemyAccessorImport Problem Definition E"
+    },
+    {
+      "chunk_id": 2,
+      "text": "/ TestAPtolemyAccessorImport Problem Definition Edward wrote: \"How do I test an accessor import? I can test that an accessor that was imported once works correctly, but the import mechanism itself will be changing, so the test needs to re-import th"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ill be changing, so the test needs to re-import the accessor. There are tests that need this here: $PTII/org/terraswarm/accessor/jjs/test/auto \" \"There is a subdirectory there called \"accessors\" that contains the accessors that should be ideally be"
+    },
+    {
+      "chunk_id": 4,
+      "text": "contains the accessors that should be ideally be reimported each time the corresponding test runs.\" \"The way that I would do this is to build in to the JavaScript actor a mechanism to update itself. This could then be enabled in preinitialize. How"
+    },
+    {
+      "chunk_id": 5,
+      "text": "This could then be enabled in preinitialize. However, this is pretty tricky to implement. Need to create a new actor and splice it in where the old actor was, all the while preserving parameter overrides and port connections. Here, having a type c"
+    },
+    {
+      "chunk_id": 6,
+      "text": "rides and port connections. Here, having a type check at the actor level would be useful... Is the new version of the accessor a substitution instance for the old?\" Status 5/5/15 The code that loads the accessor file was refactored from vergil/basi"
+    },
+    {
+      "chunk_id": 7,
+      "text": "the accessor file was refactored from vergil/basic/imprt/accessor to org/terraswarm/kernel/AccessorOne.java. AccessorOne.java was chosen because that is where the .xslt file is located that is used to transform the accessor .xml file to moml. There"
+    },
+    {
+      "chunk_id": 8,
+      "text": "o transform the accessor .xml file to moml. There are two methods, one that creates the MoML for the change request, the other that actually does the MoMLChangeRequest. The split was done to make testing easier org/terraswarm/kernel/test/AccessorImpo"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ing easier org/terraswarm/kernel/test/AccessorImport.tcl tests the importing of accessors. Accessors in org/terraswarm/kernel/test/auto/accessors and $PTII/org/terraswarm/accessor/jjs/test/auto/accessors are imported into empty models, but they are n"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ors are imported into empty models, but they are not run org/terraswarm/accessor/jjs/JSAccessor.java now has a reloadAccessor parameter and a preinitialize() Next Steps The next step is to modify JSAccessor.preinitialize() to do the checks. The devi"
+    },
+    {
+      "chunk_id": 11,
+      "text": "cessor.preinitialize() to do the checks. The devil is in the details. See the Discussion below for various ideas We could instantiate the accessor in a different container or workspace and then iterate through the ports and parameters of the new in"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ate through the ports and parameters of the new instance If the old and the new match, then no problem If the old port or parameter can be losslessly converted to the new, then probably no problem If there is no lossless conversion, then we have a pr"
+    },
+    {
+      "chunk_id": 13,
+      "text": "there is no lossless conversion, then we have a problem. What do we do if the new is missing a port or parameter that was present in the old How do we go about instantiating the new actor? We are working in the preinitialize() of the actor. We can'"
+    },
+    {
+      "chunk_id": 14,
+      "text": "king in the preinitialize() of the actor. We can't just set the container of the current actor to null? This is sort of a higher order component... Discussion This is a similar problem to importing a FMU. If the Accessor or FMU is completely unchan"
+    },
+    {
+      "chunk_id": 15,
+      "text": "a FMU. If the Accessor or FMU is completely unchanged, then there are few problems We need to preserve any parameter changes and any port changes One way to detect changes is to take a checksum of the accessor and if it is the same as the previous ch"
+    },
+    {
+      "chunk_id": 16,
+      "text": "accessor and if it is the same as the previous checksum, then we don't have much to worry about. Another way to detect changes is to compare the mod times of the model and the accessor This is a little bit similar to the copy and paste problem in Ve"
+    },
+    {
+      "chunk_id": 17,
+      "text": "le bit similar to the copy and paste problem in Vergil, where when we paste in a new set of attributes and actors, we have to rename them to avoid collisions. However, in this case, we want collisions, if we are reimporting an actor and a port or pa"
+    },
+    {
+      "chunk_id": 18,
+      "text": "s, if we are reimporting an actor and a port or parameter does not already exist, then we know that the port or parameters is new. We need to detect when ports and parameters are deleted in the new accessor. This reminds me of the Corona/Core solutio"
+    },
+    {
+      "chunk_id": 19,
+      "text": "cessor. This reminds me of the Corona/Core solution in Ptolemy Classic or the more general Interface/Implementation problem If old code can use the new code, then the minor version number changes. If old code cannot use the new code, then the major v"
+    },
+    {
+      "chunk_id": 20,
+      "text": "old code cannot use the new code, then the major version number changes. This is also similar to the create hierarchy facility, where we select a group of actors, create a composite and then make connections. See BasicGraphFrame.createHierarch(). Co"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ections. See BasicGraphFrame.createHierarch(). Could use Thomas' GT to replace the actor? Could we use a MoMLFilter to replace the actor? A brute force method is to just import each accessor and not bother running the code. We are currently doing t"
+    },
+    {
+      "chunk_id": 22,
+      "text": "bother running the code. We are currently doing this for FMUs in $PTII/ptolemy/actor/lib/fmi/test/FMUImport.tcl and we now do it in org/terraswarm/kernel/test/AccessorImport.tcl . Detecting Changes Import the FMU and create the MoML that would be ex"
+    },
+    {
+      "chunk_id": 23,
+      "text": "mport the FMU and create the MoML that would be executed Done: Refactor ptolemy/vergil/basic/imprt/accessor/ImportAccessorAction.java so that we have a method that does the import and generates MoML. Get the MoML for the actor to be replaced Todo : W"
+    }
+  ]
+}

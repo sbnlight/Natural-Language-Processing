@@ -1,0 +1,77 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/copy-submission",
+  "chunks": [
+    {
+      "chunk_id": 3,
+      "text": "clears the rest of the environment, # including environment variables affecting Perl. # Usage: copy-submission -s SUBJECT [ -u SUBMITTER_LOGIN ] [ PARTNER ... ] # The SUBJECT indicates the type of submission, either # \"Submission for assignment"
+    },
+    {
+      "chunk_id": 4,
+      "text": "f submission, either # \"Submission for assignment ASSIGN\" or # \"Error report for assignment ASSIGN\". # Each PARTNER is the login of a partner. If SUBMITTER_LOGIN is among # them, it is ignored. # SUBMITTER_LOGIN indicates the student from w"
+    },
+    {
+      "chunk_id": 5,
+      "text": "# SUBMITTER_LOGIN indicates the student from whom this is submitted. It # is intended for use by the master account; unauthorized logins may # not specify a SUBMITTER_LOGIN other than their own, which is the # default. use"
+    },
+    {
+      "chunk_id": 6,
+      "text": "an their own, which is the # default. use POSIX qw(strftime); use Net::Domain qw(hostname hostfqdn); unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); @ARGV0 = @ARGV; require \"GradingBase.pl\"; CmndLine (\"s:u:\", 0, 20); require \"G"
+    },
+    {
+      "chunk_id": 7,
+      "text": "dingBase.pl\"; CmndLine (\"s:u:\", 0, 20); require \"GradingCommon.pl\"; GetPermissions ($0, @ARGV0); $ENV{\"PATH\"}='/usr/bin'; $me = MyLogin (); if ($opt_u and $AUTHORIZED{$me}) { $me = $opt_u; } else { if ($opt_u and $me ne $opt_u) { Fatal (\""
+    },
+    {
+      "chunk_id": 8,
+      "text": "se { if ($opt_u and $me ne $opt_u) { Fatal (\"You are not authorized to submit assignments for $opt_u.\"); } } foreach $partner (@ARGV) { if ($partner ne $me) { $partners{$partner} = 1; } } # Double-check validity of entry. if (!"
+    },
+    {
+      "chunk_id": 9,
+      "text": "} } # Double-check validity of entry. if (! StudentExists ($me)) { Fatal (\"$me is not registered as a student in $COURSE.\"); } if ($opt_s =~ /Submission for assignment (\\S+)/) { $isBug = 0; $targetDir = $SUBMISSION_DIR; } elsif ($o"
+    },
+    {
+      "chunk_id": 10,
+      "text": "= 0; $targetDir = $SUBMISSION_DIR; } elsif ($opt_s =~ /Error report for assignment (\\S+)/) { $isBug = 1; $targetDir = $BUG_SUBMISSION_DIR; } else { Fatal (\"Improper subject on submission.\"); } $assgn = $1; if ($assgn !~ /^[-a-zA-Z0-"
+    },
+    {
+      "chunk_id": 11,
+      "text": "on.\"); } $assgn = $1; if ($assgn !~ /^[-a-zA-Z0-9_.]+$/) { Fatal (\"Invalid format for assignment name: $assgn.\"); } if (! AssignmentExists ($assgn)) { Fatal (\"There is no assignment $assgn. The valid\\n\" . \"assignment names currently a"
+    },
+    {
+      "chunk_id": 12,
+      "text": "The valid\\n\" . \"assignment names currently are\\n\\t\" . join (\", \", @ASSIGNMENT_LIST) . \".\"); } elsif (not ($isBug or $ASSGN_SUBMIT{$assgn})) { Fatal (\"At the moment, assignment $assgn does not allow for electronic \" . \"submission.\");"
+    },
+    {
+      "chunk_id": 13,
+      "text": "es not allow for electronic \" . \"submission.\"); } if (! (-d \"$targetDir/$assgn\" && -w \"$targetDir/$assgn\")) { InitDir (\"$targetDir/$assgn\", 0777, undef) || Fatal (\"Could not create $targetDir/$assgn\"); } $host = hostfqdn (); $tmpName"
+    },
+    {
+      "chunk_id": 14,
+      "text": "getDir/$assgn\"); } $host = hostfqdn (); $tmpName = \"$targetDir/$assgn/$me.$host.$$\"; if (-e $tmpName && unlink ($tmpName) != 1) { Fatal (\"File $tmpName is in the way and cannot be removed\"); } AddClean ($tmpName); open (SUBMIT, \">$tmpName\") || F"
+    },
+    {
+      "chunk_id": 15,
+      "text": "dClean ($tmpName); open (SUBMIT, \">$tmpName\") || Fatal(\"Could not create submitted file\"); print SUBMIT \"From $me@$host\\n\"; print SUBMIT \"Date: \" . strftime (\"%a %b %e %H:%M:%S %Y\\n\", localtime ()); print SUBMIT \"From: $me@$host\\n\"; print SUBMIT \"To"
+    },
+    {
+      "chunk_id": 16,
+      "text": "print SUBMIT \"From: $me@$host\\n\"; print SUBMIT \"To: Grader\\n\"; print SUBMIT \"Subject: $opt_s\\n\"; print SUBMIT \"\\n\"; while ( ) { print SUBMIT $_; } $timeStamp = TimeToTimeStamp ((stat (SUBMIT))[9]); close SUBMIT; chmod (0644, $tmpName); $targetFi"
+    },
+    {
+      "chunk_id": 17,
+      "text": "; close SUBMIT; chmod (0644, $tmpName); $targetFile = \"$me.$timeStamp\"; $fullTargetFile = \"$targetDir/$assgn/$targetFile\"; if (-e $fullTargetFile) { Fatal (\"There already seems to be a submission for this time\"); } # Problem: FIXME. If the sam"
+    },
+    {
+      "chunk_id": 18,
+      "text": "for this time\"); } # Problem: FIXME. If the same student submits twice simultaneously # there could conceivably be a race. It seems rather unlikely, but it # IS possible. rename ($tmpName, $fullTargetFile) || Fatal (\"Failed to rename temporary"
+    },
+    {
+      "chunk_id": 19,
+      "text": "argetFile) || Fatal (\"Failed to rename temporary file.\"); foreach $partner (keys %partners) { if (symlink ($targetFile, \"$targetDir/$assgn/$partner.$timeStamp\")) { Note (\"Submitted entry for partner $partner.\"); } else { Warn (\"Failed to"
+    },
+    {
+      "chunk_id": 20,
+      "text": "artner $partner.\"); } else { Warn (\"Failed to create entry for partner $partner.\"); } } exit 0;"
+    }
+  ]
+}

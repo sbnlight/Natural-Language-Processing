@@ -1,0 +1,49 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/check-missing",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. @ARGV0 = @ARGV; unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLin"
+    },
+    {
+      "chunk_id": 2,
+      "text": "are/share/lib'); require \"GradingBase.pl\"; CmndLine (\"\", 0, 1); require \"GradingCommon.pl\"; GetPermissions ($0, @ARGV0); $ENV{\"PATH\"}='/usr/bin'; $me = MyLogin (); if (! ReaderExists ($me)) { Fatal (\"Reader $me is unknown.\"); } if ($#ARGV =="
+    },
+    {
+      "chunk_id": 3,
+      "text": "Fatal (\"Reader $me is unknown.\"); } if ($#ARGV == -1) { foreach $assgn (@ASSIGNMENT_LIST) { if ($ASSGN_ASSIGNED_READERS{$assgn}) { push (@assgns, $assgn); $assgns{$assgn} = 1; } } } else { foreach $assgn (@ARGV) {"
+    },
+    {
+      "chunk_id": 4,
+      "text": "} } } else { foreach $assgn (@ARGV) { if (! AssignmentExists ($assgn)) { Warn (\"Assignment $assgn does not exist.\"); } elsif (! $ASSGN_ASSIGNED_READERS{$assgn}) { Note (\"There are no specific reader ass"
+    },
+    {
+      "chunk_id": 5,
+      "text": "Note (\"There are no specific reader assignments for $assgn.\"); } else { push (@assgns, $assgn); $assgns{$assgn} = 1; } } } # Record all scores for the listed assignments %scored. if (open (ALL_GRADES, \"$ALL_GRADES\")"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ents %scored. if (open (ALL_GRADES, \"$ALL_GRADES\")) { $assgn = \"\"; while ( ) { if (/^==/) { ($assgn) = /^==\\s*\\S+\\s+(\\S+)/; } elsif (/^\\#/) { next; } elsif (not $assgns{$assgn}) { next; } elsif (($login) = /^\\s*(\\S+)\\s+\\S+\\"
+    },
+    {
+      "chunk_id": 7,
+      "text": "next; } elsif (($login) = /^\\s*(\\S+)\\s+\\S+\\s+\\S+/) { $scored{\"${assgn}::${login}\"} = 1; } } close (ALL_GRADES); } $ok = 1; foreach $assgn (@assgns) { # Find all submissions, and record missing grades in @missing. opendi"
+    },
+    {
+      "chunk_id": 8,
+      "text": "and record missing grades in @missing. opendir (SUBMITS, \"$SUBMISSION_DIR/$assgn\") || next; %missing = (); while (defined ($_ = readdir (SUBMITS))) { next if (/^\\./); if (($login) = /^([^.]+)\\./) { $key = \"${assgn}::${login}\";"
+    },
+    {
+      "chunk_id": 9,
+      "text": "^([^.]+)\\./) { $key = \"${assgn}::${login}\"; if (! exists $scored{$key} && $key =~ /$READER_ASSIGNMENTS{$me}/o) { $missing{$login} = 1; } } } closedir (SUBMITS); if (%missing) { $ok = 0; Note (\"The following logins"
+    },
+    {
+      "chunk_id": 10,
+      "text": "missing) { $ok = 0; Note (\"The following logins have submissions for assignment $assgn, but\\n\" . \"no score from $me:\"); @logins = sort (keys %missing); while (@logins) { printf \"\\t%s %s %s %s %s %s\\n\", @logins[0 .. 5]; splice (@l"
+    },
+    {
+      "chunk_id": 11,
+      "text": "s %s %s %s %s\\n\", @logins[0 .. 5]; splice (@logins, 0, 6); } } } if ($ok) { Note (\"No missing scores found.\"); } exit $ok;"
+    }
+  ]
+}

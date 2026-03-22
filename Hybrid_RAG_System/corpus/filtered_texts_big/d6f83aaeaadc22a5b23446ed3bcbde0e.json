@@ -1,0 +1,33 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/list-partners",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"\", 1, 2); require \"GradingCommon.pl\"; $assgn = $ARGV[0]; if (! AssignmentExists ($assgn)) { Fatal (\"Error: assignment $assgn not found.\"); } if ($#ARGV >= 1) { $login = $ARGV[1]; if (! StudentExists"
+    },
+    {
+      "chunk_id": 3,
+      "text": "{ $login = $ARGV[1]; if (! StudentExists ($login)) { Fatal (\"Student $login not registered.\"); } } else { $login = \"\"; } $partnerMap = SubmissionMap ($assgn); $errors = 0; if ($login) { @partnerships = Partnerships ($partnerMa"
+    },
+    {
+      "chunk_id": 4,
+      "text": "in) { @partnerships = Partnerships ($partnerMap, $login); if ($#partnerships < 0) { print \"No partnerships for $login.\\n\"; } if ($#partnerships > 0) { Warn (\"Conflicting partnerships for $login:\\n \" . join ('\\n ', @partners"
+    },
+    {
+      "chunk_id": 5,
+      "text": "$login:\\n \" . join ('\\n ', @partnerships)); $errors = 1; } else { $partnerlist = ' ' . $partnerships[0] . ' '; $partnerlist =~ s/ $login / /; if ($partnerlist =~ /^\\s*$/) { print \"No partnerships for $login.\\n\"; } else {"
+    },
+    {
+      "chunk_id": 6,
+      "text": "print \"No partnerships for $login.\\n\"; } else { print \"$login:$partnerlist\"; } } } else { foreach $login (sort (keys %$partnerMap)) { next if $login =~ /\\.\\d+$/; @partnerships = Partnerships ($partnerMap, $login); if ($#partnershi"
+    },
+    {
+      "chunk_id": 7,
+      "text": "tnerships ($partnerMap, $login); if ($#partnerships > 0) { Warn (\"Conflicting partnerships for $login:\\n \" . join ('\\n ', @partnerships)); $errors = 1; } elsif (@partnerships) { $partnerlist = ' ' . $partnerships[0] . ' ';"
+    },
+    {
+      "chunk_id": 8,
+      "text": "$partnerlist = ' ' . $partnerships[0] . ' '; $partnerlist =~ s/ $login / /; if ($partnerlist !~ /^\\s*$/) { print \"$login:$partnerlist\"; } } } } exit $errors;"
+    }
+  ]
+}

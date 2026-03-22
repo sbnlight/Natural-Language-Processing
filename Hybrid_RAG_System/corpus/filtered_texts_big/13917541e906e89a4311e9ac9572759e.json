@@ -1,0 +1,245 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/domains/rendezvous/kernel/RendezvousDirector.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "RendezvousDirector Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.domains.rendezvous.kernel Class RendezvousDirect"
+    },
+    {
+      "chunk_id": 2,
+      "text": "y.domains.rendezvous.kernel Class RendezvousDirector java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.util.Attribute ptolemy.actor.Director ptolemy.actor.process.ProcessDirector ptolemy.actor.process.CompositeProcessDirector ptolemy.domai"
+    },
+    {
+      "chunk_id": 3,
+      "text": "tor.process.CompositeProcessDirector ptolemy.domains.rendezvous.kernel.RendezvousDirector All Implemented Interfaces: Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , ModelErrorHandler , MoMLExportable , Moveabl"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ble , ModelErrorHandler , MoMLExportable , Moveable , Nameable , java.io.Serializable public class RendezvousDirector extends CompositeProcessDirector This director executes actors in their own threads and provides a receiver that implements rendezv"
+    },
+    {
+      "chunk_id": 5,
+      "text": "s and provides a receiver that implements rendezvous communication. The threads are created in the initialize() method and started in the prefire() method. After the thread for an actor is started it is active until the thread finishes. While th"
+    },
+    {
+      "chunk_id": 6,
+      "text": "d it is active until the thread finishes. While the thread is active, it can also be blocked . A thread is blocked if it is trying to communicate but the thread with which it is trying to communicate is not ready to do so yet. A deadlock occurs w"
+    },
+    {
+      "chunk_id": 7,
+      "text": "te is not ready to do so yet. A deadlock occurs when all threads are blocked. If this director is used at the top level, the model stops executing when a deadlock occurs. This director is based on the CSPDirector by Neil Smyth, Mudit Goel, and J"
+    },
+    {
+      "chunk_id": 8,
+      "text": "the CSPDirector by Neil Smyth, Mudit Goel, and John S. Davis II. Since: Ptolemy II 5.1 Version: $Id: RendezvousDirector.java,v 1.15 2006/08/20 19:55:58 cxh Exp $ Author: Thomas Feng, Edward A. Lee, Yang Zhao See Also: Serialized Form Accepted Ratin"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Yang Zhao See Also: Serialized Form Accepted Rating: green (acataldo) Proposed Rating: green (acataldo) Nested Class Summary Nested classes inherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary protected"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ContainedObjectsIterator Field Summary protected boolean _inWrapup Set to true when the director enters the wrapup() method. Fields inherited from class ptolemy.actor.process. ProcessDirector _notDone , _stopFireRequested Fields inherited from class"
+    },
+    {
+      "chunk_id": 11,
+      "text": "e , _stopFireRequested Fields inherited from class ptolemy.actor. Director _actorsFinishedExecution , _currentTime , _stopRequested , timeResolution Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeReq"
+    },
+    {
+      "chunk_id": 13,
+      "text": "LLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary RendezvousDirector () Construct a director in the default workspace with an empty string as its name. RendezvousDire"
+    },
+    {
+      "chunk_id": 14,
+      "text": "with an empty string as its name. RendezvousDirector ( CompositeEntity container, java.lang.String name) Construct a director in the given container with the given name. RendezvousDirector ( Workspace workspace) Construct a direc"
+    },
+    {
+      "chunk_id": 15,
+      "text": "sDirector ( Workspace workspace) Construct a director in the workspace with an empty name. Method Summary protected boolean _areAllThreadsStopped () Return true if the count of active threads equals the number of stopped (paused) or blocked threa"
+    },
+    {
+      "chunk_id": 16,
+      "text": "the number of stopped (paused) or blocked threads. protected boolean _areThreadsDeadlocked () Return true if all active threads are blocked. protected java.util.Map _getResultMap (java.lang.Thread thread) Return the map of results for the given"
+    },
+    {
+      "chunk_id": 17,
+      "text": "d thread) Return the map of results for the given thread. protected boolean _resolveInternalDeadlock () If the model is deadlocked, report the deadlock if parameter \"SuppressDeadlockReporting\" is not set to boolean true, and return false. protec"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ot set to boolean true, and return false. protected java.util.Map _setResultMap (java.lang.Thread thread, java.util.Map map) Set the map of results for the given thread. Receiver newReceiver () Return a new instance of RendezvousRece"
+    },
+    {
+      "chunk_id": 19,
+      "text": "eceiver () Return a new instance of RendezvousReceiver compatible with this director. boolean postfire () Return false if the model should not continue to execute. java.lang.String[] suggestedModalModelDirectors () Return an array of suggested dire"
+    },
+    {
+      "chunk_id": 20,
+      "text": "odelDirectors () Return an array of suggested directors to be used with ModalModel. void wrapup () Override the base class to set a flag indicating we are in the wrapup phase. Methods inherited from class ptolemy.actor.process. CompositeProcessDire"
+    },
+    {
+      "chunk_id": 21,
+      "text": "class ptolemy.actor.process. CompositeProcessDirector _areActorsExternallyBlocked , _controllerBlocked , _controllerUnBlocked , _isInputControllerBlocked , _isOutputControllerBlocked , _resolveDeadlock , clone , createBranchController , getInputCont"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ck , clone , createBranchController , getInputController , getOutputController , initialize , prefire , setModelTime , stopInputBranchController , stopOutputBranchController , threadBlocked , threadUnblocked Methods inherited from class ptolemy.actor"
+    },
+    {
+      "chunk_id": 23,
+      "text": "blocked Methods inherited from class ptolemy.actor.process. ProcessDirector _getActiveThreadsCount , _getBlockedThreadsCount , _getStoppedThreadsCount , _newProcessThread , addThread , fire , initialize , isStopFireRequested , isStopRequested , isThr"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ze , isStopFireRequested , isStopRequested , isThreadActive , preinitialize , removeThread , stop , stopFire , terminate , threadHasPaused , threadHasResumed , transferInputs , transferOutputs Methods inherited from class ptolemy.actor. Director _des"
+    },
+    {
+      "chunk_id": 25,
+      "text": "inherited from class ptolemy.actor. Director _description , _isEmbedded , _isTopLevel , _transferInputs , _transferOutputs , attributeChanged , fireAt , fireAt , fireAtCurrentTime , getCurrentTime , getErrorTolerance , getModelNextIterationTime , ge"
+    },
+    {
+      "chunk_id": 26,
+      "text": "getErrorTolerance , getModelNextIterationTime , getModelStartTime , getModelStopTime , getModelTime , getNextIterationTime , getStartTime , getStopTime , getTimeResolution , invalidateResolvedTypes , invalidateSchedule , isFireFunctional , isStrict ,"
+    },
+    {
+      "chunk_id": 27,
+      "text": "invalidateSchedule , isFireFunctional , isStrict , iterate , requestInitialization , setContainer , setCurrentTime , supportMultirateFiring Methods inherited from class ptolemy.kernel.util. Attribute _getContainedObject , _propagateExistence , getCon"
+    },
+    {
+      "chunk_id": 28,
+      "text": "_getContainedObject , _propagateExistence , getContainer , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , setName , updateContent Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText ,"
+    },
+    {
+      "chunk_id": 29,
+      "text": "bj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _exportMoMLContents , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _split"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , _validateSettables , addChangeListener , addDebugListener , attributeList , attributeList , attributeTypeChanged , clone , containedObjectsIterator , deepContains , depthI"
+    },
+    {
+      "chunk_id": 31,
+      "text": ", containedObjectsIterator , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttribute , getAttributes"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ain , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getDisplayName , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource , handl"
+    },
+    {
+      "chunk_id": 33,
+      "text": "e , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateExistence , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , s"
+    },
+    {
+      "chunk_id": 34,
+      "text": "Listener , removeDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , uniqueName , validateSetta"
+    },
+    {
+      "chunk_id": 35,
+      "text": ", toplevel , toString , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Field Detail _inWrapup protected boolean _inWrapup Set to true"
+    },
+    {
+      "chunk_id": 36,
+      "text": "_inWrapup protected boolean _inWrapup Set to true when the director enters the wrapup() method. The purpose is to avoid the deadlock that happens when an actor is delayed after the director calls super.wrapup() in which it waits for all actors"
+    },
+    {
+      "chunk_id": 37,
+      "text": "super.wrapup() in which it waits for all actors to stop. Constructor Detail RendezvousDirector public RendezvousDirector () Construct a director in the default workspace with an empty string as its name. The director is added to the list of objec"
+    },
+    {
+      "chunk_id": 38,
+      "text": "s name. The director is added to the list of objects in the workspace. Increment the version number of the workspace. RendezvousDirector public RendezvousDirector ( Workspace workspace) Construct a director in the workspace with an empty name. T"
+    },
+    {
+      "chunk_id": 39,
+      "text": "director in the workspace with an empty name. The director is added to the list of objects in the workspace. Increment the version number of the workspace. Parameters: workspace - The workspace of this object. RendezvousDirector public Rendezvou"
+    },
+    {
+      "chunk_id": 40,
+      "text": "f this object. RendezvousDirector public RendezvousDirector ( CompositeEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct a director in the given co"
+    },
+    {
+      "chunk_id": 41,
+      "text": "tionException Construct a director in the given container with the given name. The container argument must not be null, or a NullPointerException will be thrown. If the name argument is null, then the name is set to the empty string. Incremen"
+    },
+    {
+      "chunk_id": 42,
+      "text": "en the name is set to the empty string. Increment the version number of the workspace. Parameters: container - Container of the director. name - Name of this director. Throws: IllegalActionException - If the director is not compatible with the s"
+    },
+    {
+      "chunk_id": 43,
+      "text": "- If the director is not compatible with the specified container. NameDuplicationException - If the container not a CompositeActor and the name collides with an entity in the container. Method Detail newReceiver public Receiver newReceiver ()"
+    },
+    {
+      "chunk_id": 44,
+      "text": "Detail newReceiver public Receiver newReceiver () Return a new instance of RendezvousReceiver compatible with this director. Overrides: newReceiver in class CompositeProcessDirector Returns: A new instance of RendezvousReceiver. postfire public boo"
+    },
+    {
+      "chunk_id": 45,
+      "text": "nstance of RendezvousReceiver. postfire public boolean postfire () throws IllegalActionException Return false if the model should not continue to execute. Specified by: postfire in interface Executable Overrides: postfire in class Pr"
+    },
+    {
+      "chunk_id": 46,
+      "text": "terface Executable Overrides: postfire in class ProcessDirector Returns: False if no more execution is possible, and true otherwise. Throws: IllegalActionException - If thrown by the parent class. suggestedModalModelDirectors public java.lang.String["
+    },
+    {
+      "chunk_id": 47,
+      "text": "gestedModalModelDirectors public java.lang.String[] suggestedModalModelDirectors () Return an array of suggested directors to be used with ModalModel. This is the FSMDirector followed by the NonStrictFSMDirector. Overrides: suggestedModalModelDirec"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ctFSMDirector. Overrides: suggestedModalModelDirectors in class Director Returns: An array of suggested directors to be used with ModalModel. See Also: Director.suggestedModalModelDirectors() wrapup public void wrapup () throws IllegalAct"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ublic void wrapup () throws IllegalActionException Override the base class to set a flag indicating we are in the wrapup phase. Specified by: wrapup in interface Executable Overrides: wrapup in class CompositeProcessDirector Throws: Ill"
+    },
+    {
+      "chunk_id": 50,
+      "text": "apup in class CompositeProcessDirector Throws: IllegalActionException - If the parent class throws it. _areAllThreadsStopped protected boolean _areAllThreadsStopped () Return true if the count of active threads equals the number of stopped (paused)"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ve threads equals the number of stopped (paused) or blocked threads. Otherwise return false. Overrides: _areAllThreadsStopped in class ProcessDirector Returns: True if all threads are stopped or blocked. _areThreadsDeadlocked protected boolean _ar"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ocked. _areThreadsDeadlocked protected boolean _areThreadsDeadlocked () Return true if all active threads are blocked. Overrides: _areThreadsDeadlocked in class CompositeProcessDirector Returns: True if all active threads are blocked. _getResultMap p"
+    },
+    {
+      "chunk_id": 53,
+      "text": "if all active threads are blocked. _getResultMap protected java.util.Map _getResultMap (java.lang.Thread thread) Return the map of results for the given thread. This result is returned from a committed rendezvous. The thread that commits the rendez"
+    },
+    {
+      "chunk_id": 54,
+      "text": "ted rendezvous. The thread that commits the rendezvous is responsible for setting the maps for other threads in the rendezvous. In the map, the keys are receivers, and the values are the tokens on those receivers, if any. Parameters: thread"
+    },
+    {
+      "chunk_id": 55,
+      "text": "on those receivers, if any. Parameters: thread - The thread. Returns: The result map associated with that thread. See Also: _setResultMap(Thread, Map) _resolveInternalDeadlock protected boolean _resolveInternalDeadlock ()"
+    },
+    {
+      "chunk_id": 56,
+      "text": "solveInternalDeadlock () throws IllegalActionException If the model is deadlocked, report the deadlock if parameter \"SuppressDeadlockReporting\" is not set to boolean true, and return false. Otherwise, return t"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ean true, and return false. Otherwise, return true. Deadlock occurs if the number of blocked threads equals the number of active threads. Overrides: _resolveInternalDeadlock in class CompositeProcessDirector Returns: False if deadlock occurred,"
+    },
+    {
+      "chunk_id": 58,
+      "text": "cessDirector Returns: False if deadlock occurred, true otherwise. Throws: IllegalActionException - If thrown while getting the \"SuppressDeadlockReporting\" token. _setResultMap protected java.util.Map _setResultMap (java.lang.Thread thread,"
+    },
+    {
+      "chunk_id": 59,
+      "text": "p _setResultMap (java.lang.Thread thread, java.util.Map map) Set the map of results for the given thread. In the map, the keys are receivers, and the values are the tokens on those receivers, if any. Param"
+    },
+    {
+      "chunk_id": 60,
+      "text": "are the tokens on those receivers, if any. Parameters: thread - The thread. map - The result map to be associated with that thread. Returns: The map previously associated with that thread, or null. See Also: _getResultMap(Thread) Overview Package C"
+    },
+    {
+      "chunk_id": 61,
+      "text": "See Also: _getResultMap(Thread) Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

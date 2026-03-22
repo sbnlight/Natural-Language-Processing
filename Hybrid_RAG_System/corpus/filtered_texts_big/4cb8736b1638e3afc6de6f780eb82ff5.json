@@ -1,0 +1,177 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/ComparisonBetweenAAndB",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / ComparisonBetweenAAndB Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / ComparisonBetweenAAndB (redirected from Main.Comp"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ComparisonBetweenAAndB (redirected from Main.ComparisonBetweenAAndB ) From May, 2015 Two versions of accessor implementations have emerged, one led by Berkeley and the other by Michigan. Some of the differences are relatively unimportant, and are si"
+    },
+    {
+      "chunk_id": 3,
+      "text": "differences are relatively unimportant, and are simply accidents of separate software developments. Some are more substantive. This page attempts to analyze these differences, with the goal of developing a unified version. May 29, 2105, the team met"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ing a unified version. May 29, 2105, the team met at the Programming the Swarm Workshop to discuss a number of discrepancies between designs A and B. A number of decisions were made, and some issues remain open. See Accessor Design Discussion notes b"
+    },
+    {
+      "chunk_id": 5,
+      "text": "emain open. See Accessor Design Discussion notes by Beth Latronico. Summary of Decisions Accessor source will be a JavaScript file (and maybe later, other languages) with a setup() function specifying interface information. Documentation will use jsd"
+    },
+    {
+      "chunk_id": 6,
+      "text": "interface information. Documentation will use jsdoc format for structure, and Markdown for text. For an example, see StockTick . Inputs, outputs, and {parameters will be referenced by name, and function argument order will put callback functions las"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ion argument order will put callback functions last by convention. Berkeley will flip arguments to addInputHandler() to have callback last. Berkeley will flip arguments to send() to be send(message, portName). Don't require a port name as an argument"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ortName). Don't require a port name as an argument to removeInputHandler(). Unnecessary since you have the handler. Use camelCase. Resolved Issues Michigan: No base class for accessors is specified. Berkeley: Base class JSAccessor allows for future"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Berkeley: Base class JSAccessor allows for future growth into PythonAccessor, GoAccessor, etc. Resolution: Filename extension will specify the base class. Michigan: Description is in Markdown format. Berkeley: Description format is not specified. Res"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Berkeley: Description format is not specified. Resolution: We will use Markdown. Michigan: Accessors have parameters, distinct from inputs. Berkeley: No distinction between parameters and inputs, except that inputs may have default values. Resolution"
+    },
+    {
+      "chunk_id": 11,
+      "text": "pt that inputs may have default values. Resolution: We will have parameters and two kinds of inputs, one without a default value and one with. Michigan: In get() and send(), ports arguments are the string name. Berkeley: In get() and send(), ports ar"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ring name. Berkeley: In get() and send(), ports are JS objects defined in the accessor context. Resolution: We will use string names. Michigan: Uses a script to generate an interface (generator style). E.g., create_port(). Berkeley: Uses different sy"
+    },
+    {
+      "chunk_id": 13,
+      "text": ". E.g., create_port(). Berkeley: Uses different syntax for specifying interfaces and functionality (XML and JavaScript) Resolution: We will retire the XML syntax and use JavaScript with interface given in a setup() function. Michigan: Uses underscore"
+    },
+    {
+      "chunk_id": 14,
+      "text": "n in a setup() function. Michigan: Uses underscore separated names. Berkeley: Uses CamelCase. Resolution: We will use CamelCase, as this standard in the JavaScript world. Michigan: Has built-in functions in a \"rt\" (runtime) object. Berkeley: Emulates"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ons in a \"rt\" (runtime) object. Berkeley: Emulates built-in functions commonly available in browsers and node.js, such as alert(), and requires a small set of built-in modules, like console and util. Resolution: Use CommonJS modules for all but a sma"
+    },
+    {
+      "chunk_id": 16,
+      "text": "Resolution: Use CommonJS modules for all but a small set of built-in functions. Michigan: Builds in many networking capabilities (http, coap, ...). Berkeley: Puts networking capabilities in optional modules. Resolution? The Michigan version didn't ac"
+    },
+    {
+      "chunk_id": 17,
+      "text": "odules. Resolution? The Michigan version didn't actually build them in, rather using rt. was some syntactic sugar around an implicit call to require performed by the accessor host before init ran. Either way, the point is moot since Michigan's moved"
+    },
+    {
+      "chunk_id": 18,
+      "text": "her way, the point is moot since Michigan's moved over to CommonJS. Unresolved Issues Michigan: An e-mail field is required. Berkeley: No e-mail is required. Unresolved We require an e-mail for similar reasons that the Linux kernel requires a 'mainta"
+    },
+    {
+      "chunk_id": 19,
+      "text": "r reasons that the Linux kernel requires a 'maintainer' field or HomeBrew/Port require owners for projects. It gives a pointer if there are issues and someone to act as a code reviewer for future changes. I don't think it's a big burden to require an"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ges. I don't think it's a big burden to require an e-mail tag and it adds good benefits to the accessor ecosystem. -Pat I've looked into this a bit more, JSDoc does not have an email tag, but it does have an optionally structured author tag; see http"
+    },
+    {
+      "chunk_id": 21,
+      "text": "have an optionally structured author tag; see http://usejsdoc.org/tags-author.html -- our implementation will currently reject @author blocks that don't include an email (specifically those that fail m = re.search('.+ \\<.+@.+\\>', jsdoc['author']) ) -"
+    },
+    {
+      "chunk_id": 22,
+      "text": "m = re.search('.+ \\<.+@.+\\>', jsdoc['author']) ) -Pat A long time ago, Ptolemy had email addresses in author tags and authors were getting spam. However, anti-spam defenses are better these days. One issue is that email addresses change. I have a"
+    },
+    {
+      "chunk_id": 23,
+      "text": "e issue is that email addresses change. I have a slight preference to not have email addresses in @author tags -Christopher Michigan: Defines interfaces as bundles of ports that can be implemented by an accessor. Berkeley: Doesn't have any such inte"
+    },
+    {
+      "chunk_id": 24,
+      "text": "an accessor. Berkeley: Doesn't have any such interface inheritance Unresolved: Syntax needs to be worked out. Where are interfaces stored? Michigan stores accessors and interfaces in one shared repository, see https://github.com/lab11/accessor-files"
+    },
+    {
+      "chunk_id": 25,
+      "text": "itory, see https://github.com/lab11/accessor-files Michigan: Swarmlet design scripts invocation of accessors. Berkeley: Host invokes composition of accessors using a host-provided MoC. Unresolved Michigan: Provides 'observed' ports, which pull data f"
+    },
+    {
+      "chunk_id": 26,
+      "text": "igan: Provides 'observed' ports, which pull data from an accessor. Berkeley: Accessors actively send outputs. Unresolved: Compare with Click MoC. Michigan: Statically bound input handlers following a naming convention. Berkeley: Dynamically bound inp"
+    },
+    {
+      "chunk_id": 27,
+      "text": "naming convention. Berkeley: Dynamically bound input handlers added by calling addInputHandler() Unresolved? Proposal: We originally had an addInputHandler equivalent but we removed it because it became very annoying/redundant to write Power = functi"
+    },
+    {
+      "chunk_id": 28,
+      "text": "me very annoying/redundant to write Power = function () {...}; ... init() { addInputHandler('Power', Power); } . For the basic case, I think dynamic input handlers are an anti-feature, adding code overhead with no benefit. Can we support both? If a f"
+    },
+    {
+      "chunk_id": 29,
+      "text": "rhead with no benefit. Can we support both? If a function that follows the naming convention is defined it's automatically added as an input handler but the addInputHandler function is also available for use? -Pat Michigan: A port can be both an inp"
+    },
+    {
+      "chunk_id": 30,
+      "text": "for use? -Pat Michigan: A port can be both an input and output. Berkeley: Ports are either inputs or outputs. Unresolved: What does this mean? semantics? Michigan: Gives two names, one of which is safe This allows accessor names to match device name"
+    },
+    {
+      "chunk_id": 31,
+      "text": "fe This allows accessor names to match device names (useful for humans / authors). The safe name is automatically generated and only used as an internal handle. Users operate only on the primary name. This was motivated when we wrote an accessor for"
+    },
+    {
+      "chunk_id": 32,
+      "text": "This was motivated when we wrote an accessor for an \"ACme++\" device. I think this is actually an important usability decision. If a user is searching for a device, they shouldn't need to know how to encode a device's name to a \"safe\" name. -Pat Berk"
+    },
+    {
+      "chunk_id": 33,
+      "text": "encode a device's name to a \"safe\" name. -Pat Berkeley: Gives one name only, required to be safe. Unresolved: What syntax? Should this in JSdoc code or JavaScript? Michigan names previously came from a name field in the comment block at the top (whic"
+    },
+    {
+      "chunk_id": 34,
+      "text": "a name field in the comment block at the top (which is becoming JSdoc). If no name field was specified, we fell back to the filename (the string between the final '/' and the '.js'). I think this is reasonable? -Pat Michigan new jsdoc-based implement"
+    },
+    {
+      "chunk_id": 35,
+      "text": "easonable? -Pat Michigan new jsdoc-based implementation will use the custom jsdoc key @display-name if available, otherwise it will fall back to the file name. -Pat Michigan: Accessor requirements are inferred automatically by scanning the accessor c"
+    },
+    {
+      "chunk_id": 36,
+      "text": "inferred automatically by scanning the accessor code. (made much easier by namespacing everything under rt., but not a requirement) Berkeley: Interface includes explicit statement of which optional modules are required by an accessor. Unresolved? Fo"
+    },
+    {
+      "chunk_id": 37,
+      "text": "odules are required by an accessor. Unresolved? For the basic case, scanning is very easy (e.g. http = require('httpClient'); ). If authors copy the function (e.g. var fn = require; var http = fn('httpClient'); ), this is also reasonably easy to trac"
+    },
+    {
+      "chunk_id": 38,
+      "text": "pClient'); ), this is also reasonably easy to track. This gets tricky when there is dynamism in the loaded library (e.g. require(getRequiredLibName()); ), though I cannot imagine that last case is very common. Scanning does not permit optional librar"
+    },
+    {
+      "chunk_id": 39,
+      "text": "y common. Scanning does not permit optional libraries. (e.g. try { http = require('httpClient'); } catch (err) { http = null; } ). At the same time, adding a function such as requireIfAvailable('httpClient') fixes this and may be a nice convenience t"
+    },
+    {
+      "chunk_id": 40,
+      "text": "lient') fixes this and may be a nice convenience that eliminates try/catch boilerplate code. Listing required modules violates DRY (Don't repeat yourself) and invites some confusion if an author forgets to add it to the manifest. Scanning, however, c"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ts to add it to the manifest. Scanning, however, could detect this and warn authors up front either way. Michigan: The setup function takes an argument, which is an object that provides all of the setup-specific methods Berkeley: Setup takes no argum"
+    },
+    {
+      "chunk_id": 42,
+      "text": "up-specific methods Berkeley: Setup takes no argument and calls methods on a global accessor object. Unresolved? By attaching setup methods to an argument passed only to the setup function, it helps enforce that these methods should only be called in"
+    },
+    {
+      "chunk_id": 43,
+      "text": "nforce that these methods should only be called in setup. I'm not convinced that dynamic port creation makes a lot of sense, and it can be tricky for runtimes to support. I think if an accessor needs that kind of dynamism, it should require('accessor"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/domains/csp/kernel/AbstractBranchController.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "AbstractBranchController Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.domains.csp.kernel Class AbstractBranchCon"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ptolemy.domains.csp.kernel Class AbstractBranchController java.lang.Object ptolemy.domains.csp.kernel.AbstractBranchController All Implemented Interfaces: Debuggable Direct Known Subclasses: ConditionalBranchController , MultiwayBranchController publ"
+    },
+    {
+      "chunk_id": 3,
+      "text": "alBranchController , MultiwayBranchController public abstract class AbstractBranchController extends java.lang.Object implements Debuggable This is a base class containing the common code for controllers that manage branches for performing condition"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ers that manage branches for performing conditional or multiway rendezvous within the CSP (Communication Sequential Processes) domain. Any CSP actors (either atomic or composite) that multiway rendezvous should contain an instance of this class."
+    },
+    {
+      "chunk_id": 5,
+      "text": "dezvous should contain an instance of this class. In addition, they also needs to implement the BranchActor interface. Since: Ptolemy II 5.2 Version: $Id: AbstractBranchController.java,v 1.16 2006/03/30 16:35:46 cxh Exp $ Author: Edward A. Lee See"
+    },
+    {
+      "chunk_id": 6,
+      "text": "3/30 16:35:46 cxh Exp $ Author: Edward A. Lee See Also: ConditionalBranch , BranchActor , ConditionalReceive , ConditionalSend Accepted Rating: Red (bilung) Proposed Rating: Yellow (eal) Field Summary protected ConditionalBranch [] _branches The set"
+    },
+    {
+      "chunk_id": 7,
+      "text": "protected ConditionalBranch [] _branches The set of branches currently being chosen from in chooseBranch(). protected int _branchesActive The number of conditional branches that are still active, meaning that they are capable of succeeding. pro"
+    },
+    {
+      "chunk_id": 8,
+      "text": "meaning that they are capable of succeeding. protected boolean _debugging Flag that is true if there are debug listeners. protected java.util.LinkedList _threadList List of threads created by this actor to perform a conditional rendezvous. Constr"
+    },
+    {
+      "chunk_id": 9,
+      "text": "actor to perform a conditional rendezvous. Constructor Summary AbstractBranchController ( Actor container) Construct a controller in the specified container, which should be an actor that implements BranchActor. Method Summary protected void _bra"
+    },
+    {
+      "chunk_id": 10,
+      "text": "s BranchActor. Method Summary protected void _branchBlocked ( CSPReceiver receiver) Notify the director that the current thread is blocked. protected void _branchFailed (int branchNumber) Register the calling branch as failed. protected abstract v"
+    },
+    {
+      "chunk_id": 11,
+      "text": "he calling branch as failed. protected abstract void _branchNotReady (int branchNumber) Indicate that the branch is not ready to rendezvous. protected void _branchSucceeded (int branchID) Register the calling branch as a successful branch. protecte"
+    },
+    {
+      "chunk_id": 12,
+      "text": "he calling branch as a successful branch. protected void _branchUnblocked ( CSPReceiver receiver) Notify the director that the current thread is unblocked. protected void _debug (java.lang.String message) Send a debug message to all debug listeners"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ssage) Send a debug message to all debug listeners that have registered. protected CSPDirector _getDirector () Get the director that controls the execution of its parent actor. protected abstract boolean _isBranchReady (int branchNumber) Called by C"
+    },
+    {
+      "chunk_id": 14,
+      "text": "lean _isBranchReady (int branchNumber) Called by ConditionalSend and ConditionalReceive to check whether the calling branch is ready to rendezvous. void addDebugListener ( DebugListener listener) Add a debug listener. Actor getParent () Return the"
+    },
+    {
+      "chunk_id": 15,
+      "text": "d a debug listener. Actor getParent () Return the Actor that creates the branch and owns this controller when performing a CIF or CDO. void removeDebugListener ( DebugListener listener) Unregister a debug listener. void terminate () Terminate abrup"
+    },
+    {
+      "chunk_id": 16,
+      "text": "debug listener. void terminate () Terminate abruptly any threads created by this actor. Methods inherited from class java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait Field Detail _branches p"
+    },
+    {
+      "chunk_id": 17,
+      "text": "oString, wait, wait, wait Field Detail _branches protected ConditionalBranch [] _branches The set of branches currently being chosen from in chooseBranch(). _branchesActive protected int _branchesActive The number of conditional branches that are s"
+    },
+    {
+      "chunk_id": 18,
+      "text": "tive The number of conditional branches that are still active, meaning that they are capable of succeeding. _debugging protected boolean _debugging Flag that is true if there are debug listeners. _threadList protected java.util.LinkedList _threadLi"
+    },
+    {
+      "chunk_id": 19,
+      "text": "hreadList protected java.util.LinkedList _threadList List of threads created by this actor to perform a conditional rendezvous. Need to keep a list of them in case the execution of the model is terminated abruptly. Constructor Detail AbstractBran"
+    },
+    {
+      "chunk_id": 20,
+      "text": "rminated abruptly. Constructor Detail AbstractBranchController public AbstractBranchController ( Actor container) Construct a controller in the specified container, which should be an actor that implements BranchActor. Parameters: container - The p"
+    },
+    {
+      "chunk_id": 21,
+      "text": "lements BranchActor. Parameters: container - The parent actor that contains this object. Method Detail addDebugListener public void addDebugListener ( DebugListener listener) Add a debug listener. If the listener is already in the list, do not add"
+    },
+    {
+      "chunk_id": 22,
+      "text": "f the listener is already in the list, do not add it again. Specified by: addDebugListener in interface Debuggable Parameters: listener - The listener to which to send debug messages. See Also: removeDebugListener(DebugListener) getParent public Acto"
+    },
+    {
+      "chunk_id": 23,
+      "text": "DebugListener(DebugListener) getParent public Actor getParent () Return the Actor that creates the branch and owns this controller when performing a CIF or CDO. Returns: The CSPActor that created this branch. removeDebugListener public void removeD"
+    },
+    {
+      "chunk_id": 24,
+      "text": "is branch. removeDebugListener public void removeDebugListener ( DebugListener listener) Unregister a debug listener. If the specified listener has not been previously registered, then do nothing. Specified by: removeDebugListener in interface Deb"
+    },
+    {
+      "chunk_id": 25,
+      "text": "Specified by: removeDebugListener in interface Debuggable Parameters: listener - The listener to remove from the list of listeners to which debug messages are sent. See Also: addDebugListener(DebugListener) terminate public void terminate () Termi"
+    },
+    {
+      "chunk_id": 26,
+      "text": "Listener) terminate public void terminate () Terminate abruptly any threads created by this actor. Note that this method does not allow the threads to terminate gracefully. _branchBlocked protected void _branchBlocked ( CSPReceiver receiver) Notify"
+    },
+    {
+      "chunk_id": 27,
+      "text": "void _branchBlocked ( CSPReceiver receiver) Notify the director that the current thread is blocked. Parameters: receiver - The receiver handling the I/O operation, or null if it is not a specific receiver. _branchFailed protected void _branchFaile"
+    },
+    {
+      "chunk_id": 28,
+      "text": "eceiver. _branchFailed protected void _branchFailed (int branchNumber) Register the calling branch as failed. This reduces the count of active branches, and if all the active branches have finished, it notifies the internal lock so any threads"
+    },
+    {
+      "chunk_id": 29,
+      "text": "d, it notifies the internal lock so any threads that are blocked on it can continue. This is called by a conditional branch just before it dies. Parameters: branchNumber - The ID assigned to the calling branch upon creation. _branchNotReady pr"
+    },
+    {
+      "chunk_id": 30,
+      "text": "alling branch upon creation. _branchNotReady protected abstract void _branchNotReady (int branchNumber) Indicate that the branch is not ready to rendezvous. Parameters: branchNumber - The ID assigned to the branch upon creation. _branchSucceeded p"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ed to the branch upon creation. _branchSucceeded protected void _branchSucceeded (int branchID) Register the calling branch as a successful branch. This reduces the count of active branches, and notifies the internal lock so that any threads bloc"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ifies the internal lock so that any threads blocked on it can continue. Parameters: branchID - The ID assigned to the calling branch upon creation. _branchUnblocked protected void _branchUnblocked ( CSPReceiver receiver) Notify the director that th"
+    },
+    {
+      "chunk_id": 33,
+      "text": "CSPReceiver receiver) Notify the director that the current thread is unblocked. Parameters: receiver - The receiver handling the I/O operation, or null if it is not a specific receiver. _debug protected final void _debug (java.lang.String message"
+    },
+    {
+      "chunk_id": 34,
+      "text": "tected final void _debug (java.lang.String message) Send a debug message to all debug listeners that have registered. By convention, messages should not include a newline at the end. The newline will be added by the listener, if appropriate. Para"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ill be added by the listener, if appropriate. Parameters: message - The message. _getDirector protected CSPDirector _getDirector () Get the director that controls the execution of its parent actor. Returns: The executive director if the actor is comp"
+    },
+    {
+      "chunk_id": 36,
+      "text": "turns: The executive director if the actor is composite, and otherwise, the director. _isBranchReady protected abstract boolean _isBranchReady (int branchNumber) Called by ConditionalSend and ConditionalReceive to check whether the calling branc"
+    },
+    {
+      "chunk_id": 37,
+      "text": "tionalReceive to check whether the calling branch is ready to rendezvous. Parameters: branchNumber - The ID assigned to the calling branch upon creation. Returns: True if the calling branch is ready to rendezvous, otherwise false. Overview Pa"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ady to rendezvous, otherwise false. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

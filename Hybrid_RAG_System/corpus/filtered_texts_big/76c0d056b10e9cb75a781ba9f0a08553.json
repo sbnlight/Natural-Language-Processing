@@ -1,0 +1,85 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/VersionCurrent/ActionFunctions",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / ActionFunctions Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / ActionFunctions (redirected from VersionCurrent.Ac"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ActionFunctions (redirected from VersionCurrent.ActionFunctions ) An accessor may define some number of action functions that are invoked by the host as described below. The only required function is the setup() function. An accessor may implement an"
+    },
+    {
+      "chunk_id": 3,
+      "text": "the setup() function. An accessor may implement any subset of the rest. These functions are made available to the host by setting them as fields of the exports object in the accessor script with the corresponding name. For instance, the initialize()"
+    },
+    {
+      "chunk_id": 4,
+      "text": "orresponding name. For instance, the initialize() function is exposed in the accessor source code by setting the exports.initialize field equal to the desired function in the script. For example, exports. initialize = function ( ) { console. log ( 'H"
+    },
+    {
+      "chunk_id": 5,
+      "text": "rts. initialize = function ( ) { console. log ( 'Hello World!' ) ; } [$[Get Code]] An execution of an accessor consists of: Loading the accessor script, executing any top-level statements, and invoking the setup() function. Invoking the initialize()"
+    },
+    {
+      "chunk_id": 6,
+      "text": "g the setup() function. Invoking the initialize() function, if it is defined. Executing the accessor, which performs the following actions repeatedly: Invoke any timeout callbacks whose timeout matches current time of the host; Invoke any input handl"
+    },
+    {
+      "chunk_id": 7,
+      "text": "s current time of the host; Invoke any input handlers that have been added to inputs that have new data; If any input has new data, invoke any generic input handlers that have been added; Invoke the fire() function, if it has been defined. Invoking t"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ire() function, if it has been defined. Invoking the wrapup() function of the accessor. fire() If provided, the host will invoke this function when any new input is provided, or if there are no inputs at all, then whenever the host chooses to invoke"
+    },
+    {
+      "chunk_id": 9,
+      "text": "at all, then whenever the host chooses to invoke it. initialize() This function, if provided, will be invoked once by the host when the application using the accessor starts up, and possibly again each time the swarmlet is re-initialized. The access"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ch time the swarmlet is re-initialized. The accessor may get any inputs that have default values, read parameters, and initialize state variables. It may also send outputs, but note that downstream accessors will not see this data in their initialize"
+    },
+    {
+      "chunk_id": 11,
+      "text": "cessors will not see this data in their initialize function. They will see it in an input handler, if they have registered one. Input handlers An input handler is a function that is invoked when a new input arrives. See Input Handlers . latestOutput("
+    },
+    {
+      "chunk_id": 12,
+      "text": "input arrives. See Input Handlers . latestOutput( name ) Return the most recent output sent via the named output. provideInput( name , value ) Provide the specified input with the specified value. react() React to any provided inputs by invoking any"
+    },
+    {
+      "chunk_id": 13,
+      "text": "act() React to any provided inputs by invoking any associated input handlers and also invoking the fire() function, if there is one. setParameter( name , value ) Set the specified parameter to have the specified value. setup() Set up the actor interf"
+    },
+    {
+      "chunk_id": 14,
+      "text": "e specified value. setup() Set up the actor interface, defining inputs, outputs, and parameters. wrapup() If provided, the host will invoke this function once when the application shuts down. This function should not send outputs. Discussion With the"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ction should not send outputs. Discussion With these action functions, there is a variety of patterns of accessor behavior: Event reactor: An accessor provides input handlers for one or more inputs. In these handlers, it may read inputs using get(),"
+    },
+    {
+      "chunk_id": 16,
+      "text": "n these handlers, it may read inputs using get(), update state variables, and/or send outputs. Spontaneous accessor: The accessor sends outputs at times of its choosing, not in reaction to inputs. For example, it may send an output in a function invo"
+    },
+    {
+      "chunk_id": 17,
+      "text": "example, it may send an output in a function invoked after a timeout. The accessor can do this by calling setTimeout(function, time) in initialize() , for example. It may also send outputs in any callback function, for example one that handles a res"
+    },
+    {
+      "chunk_id": 18,
+      "text": "lback function, for example one that handles a response to an asynchronous HTTP request or to a timeout. See Output . Note that it is an error to send outputs before the host has invoked initialize or after it has invoked wrapup() (before the next in"
+    },
+    {
+      "chunk_id": 19,
+      "text": "after it has invoked wrapup() (before the next initialize() ). Therefore, an accessor should use its wrapup() function to, for example, cancel any pending timeouts or event handlers. Note also that action functions are called \"functions\" even though"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ction functions are called \"functions\" even though they are not mathematical functions, because JavaScript calls them functions. They may have side effects. Back to Accessor Specification Edit - History - Print - Recent Changes - Search Page last mod"
+    }
+  ]
+}

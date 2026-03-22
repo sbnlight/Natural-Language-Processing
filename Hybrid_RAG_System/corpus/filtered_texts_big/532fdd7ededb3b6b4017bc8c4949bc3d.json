@@ -1,0 +1,209 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII7.0/ptII7.0.1/doc/design/usingVergil/usingVergila10.htm",
+  "chunks": [
+    {
+      "chunk_id": 13,
+      "text": "re they can be fired, and produce several tokens when they are fired. One such actor is a spectral estimation actor. Figure 2.50 shows a system that computes the spectrum of the same noisy sine wave that we constructed in figure 2.25 . The Spectrum a"
+    },
+    {
+      "chunk_id": 14,
+      "text": "hat we constructed in figure 2.25 . The Spectrum actor has a single parameter, which gives the order of the FFT used to calculate the spectrum. Figure 2.51 shows the output of the model with order set to 8 and the number of iterations set to 1. Note"
+    },
+    {
+      "chunk_id": 18,
+      "text": "each actor occur per iteration of the model. See the SDF chapter in volume 3 for details. A second subtlety with SDF models is that if there is a feedback loop, as in figure 2.52 , then the loop must have at least one instance of the SampleDelay act"
+    },
+    {
+      "chunk_id": 21,
+      "text": "nstream actors and break the circular dependencies that would result otherwise from a feedback loop. A few actors in the actor library are particularly useful for building SDF models that manipulate token streams in nontrivial ways. These are: ArrayT"
+    },
+    {
+      "chunk_id": 22,
+      "text": "oken streams in nontrivial ways. These are: ArrayToElements, ArrayToSequence, ElementsToArray, and SequenceToArray, found in Array. Commutator and Distributor , found under FlowControl-> Aggregators, Chop and Repeat , found under FlowControl->Sequenc"
+    },
+    {
+      "chunk_id": 23,
+      "text": "Chop and Repeat , found under FlowControl->Sequencers, Downsample , UpSample , and FIR , found under SignalProcessing->Filtering, and Case and ModalModel , found in HigherOrderActors ( ModalModel , which is a very expressive actor, is also explained"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ich is a very expressive actor, is also explained further below). The reader is encouraged to explore the documentation for these actors (right click on the actor select Get Documentation). A final issue to consider with the SDF domain is time. Notic"
+    },
+    {
+      "chunk_id": 25,
+      "text": "sue to consider with the SDF domain is time. Notice that in all the examples above we have suggested using the SequencePlotter actor, not the TimedPlotter actor, which is in Sinks library, TimedSinks sublibrary. This is because the SDF domain does no"
+    },
+    {
+      "chunk_id": 26,
+      "text": "sublibrary. This is because the SDF domain does not include in its semantics a notion of time. By default, time does not advance as an SDF model executes, so the TimedPlotter actor would produce very uninteresting results, where the horizontal axis v"
+    },
+    {
+      "chunk_id": 27,
+      "text": "uninteresting results, where the horizontal axis value would always be zero. The SequencePlotter actor uses the index in the sequence for the horizontal axis. The first token received is plotted at horizontal position 0, the second at 1, the third at"
+    },
+    {
+      "chunk_id": 28,
+      "text": "rizontal position 0, the second at 1, the third at 2, etc. However, the SDFDirector does contain a parameter called period that can be used to advance time by a fixed amount on each iteration of the model. The next domain we consider, DE, includes mu"
+    },
+    {
+      "chunk_id": 29,
+      "text": "odel. The next domain we consider, DE, includes much stronger notion of time, and it is almost always more appropriate in the DE domain to use the TimedPlotter actor. 2.9.2 Data-Dependent Rates Several domains generalize SDF to support data-depende"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ral domains generalize SDF to support data-dependent rates. The most mature of these are the process networks domain (PN), which associates with each actor its own thread of control, and the dynamic dataflow domain (DDF), which dynamically schedules"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ataflow domain (DDF), which dynamically schedules actor firings. PSDF (parameterized SDF) and HDF (heterochronous dataflow) are more experimental, but are possibly more efficient and formally analyzable than PN. See volume 3 for details about domains"
+    },
+    {
+      "chunk_id": 32,
+      "text": "le than PN. See volume 3 for details about domains. 2.9.3 Discrete-Event Systems In discrete-event (DE) systems, the connections between actors carry signals that consist of events placed on a time line. Each event has both a value and a time stamp"
+    },
+    {
+      "chunk_id": 33,
+      "text": "line. Each event has both a value and a time stamp, where its time stamp is a double-precision floating-point number. This is different from dataflow, where a signal consists of a sequence of tokens, and there is no time significance in the signal. A"
+    },
+    {
+      "chunk_id": 34,
+      "text": "and there is no time significance in the signal. A DE model executes chronologically, processing the oldest events first. Time advances as events are processed. There is potential confusion, however, between model time , the time that evolves in the"
+    },
+    {
+      "chunk_id": 35,
+      "text": "between model time , the time that evolves in the model, and real time , the time that elapses in the real world while the model executes (also called wall-clock time ). Model time may advance more rapidly than real time or more slowly. The DE direct"
+    },
+    {
+      "chunk_id": 36,
+      "text": "pidly than real time or more slowly. The DE director has a parameter, synchronizeToRealTime , that, when set to true, attempts to synchronize the two notions of time. It does this by delaying execution of the model, if necessary, allowing real time t"
+    },
+    {
+      "chunk_id": 37,
+      "text": "n of the model, if necessary, allowing real time to catch up with model time. Consider the DE model shown in figure 2.53 . This model includes a PoissonClock actor, a CurrentTime actor, a WallClockTime actor, all found in the TimedSources sublibrary"
+    },
+    {
+      "chunk_id": 38,
+      "text": "e actor, all found in the TimedSources sublibrary and RealTime sublibrary of the Sources library. The PoissonClock actor generates a sequence of events with random times, where the time between events is exponentially distributed. Such an event seque"
+    },
+    {
+      "chunk_id": 39,
+      "text": "is exponentially distributed. Such an event sequence is known as a Poisson process. The value of the events produced by the PoissonClock actor is a constant, but the value of that constant is ignored in this model. Instead, these events trigger the"
+    },
+    {
+      "chunk_id": 40,
+      "text": "in this model. Instead, these events trigger the CurrentTime and WallClockTime actors. The CurrentTime actor outputs an event with the same time stamp as the input, but whose value is the current model time (equal to the time stamp of the input). Th"
+    },
+    {
+      "chunk_id": 41,
+      "text": "el time (equal to the time stamp of the input). The WallClockTime actor produces an event with the same time stamp as the input, but whose value is the current real time, in seconds since initialization of the model. The plot in figure 2.53 shows an"
+    },
+    {
+      "chunk_id": 42,
+      "text": "on of the model. The plot in figure 2.53 shows an execution. Note that model time has advanced approximately 10 seconds, but real time has advanced almost not at all. In this model, model time advances much more rapidly than real time. If you build t"
+    },
+    {
+      "chunk_id": 43,
+      "text": "s much more rapidly than real time. If you build this model, and set the synchronizeToRealTime parameter of the director to true, then you will find that the two plots coincide almost perfectly. A significant subtlety in using the DE domain is in how"
+    },
+    {
+      "chunk_id": 44,
+      "text": "nificant subtlety in using the DE domain is in how simultaneous events are handled. Simultaneous events are simply events with the same time stamp. We have stated that events are processed in chronological order, but if two events have the same time"
+    },
+    {
+      "chunk_id": 45,
+      "text": "gical order, but if two events have the same time stamp, then there is some ambiguity. Which one should be processed first? If the two events are on the same signal, then the answer is simple: process first the one that was produced first. However, i"
+    },
+    {
+      "chunk_id": 46,
+      "text": "first the one that was produced first. However, if the two events are on different signals, then the answer is not so clear. Consider the model shown in figure 2.54 , which produces a histogram of the interarrival times of events from the PoissonClo"
+    },
+    {
+      "chunk_id": 47,
+      "text": "e interarrival times of events from the PoissonClock actor. In this model, we calculate the difference between the current event time and the previous event time, resulting in the plot that is shown in the figure. The Previous actor is a zero-delay a"
+    },
+    {
+      "chunk_id": 48,
+      "text": "n the figure. The Previous actor is a zero-delay actor, meaning that it produces an output with the same time stamp as the input (except on the first firing, where in this case it produces no output). Thus, when the PoissonClock actor produces an out"
+    },
+    {
+      "chunk_id": 49,
+      "text": "Thus, when the PoissonClock actor produces an output, there will be two simultaneous events, one at the input to the plus port of the AddSubtract actor, and one at the input of the Previous actor. Should the director fire the AddSubtract actor or th"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ould the director fire the AddSubtract actor or the Previous actor? Either seems OK if it is to respect chronological order, but it seems intuitive that the Previous actor should be fired first. It is helpful to know how the AddSubtract actor works."
+    },
+    {
+      "chunk_id": 51,
+      "text": "helpful to know how the AddSubtract actor works. When it fires, it adds at most one token from each channel of the plus port, and subtracts at most one token from each channel of the minus port. If the AddSubtract actor fires before the Previous act"
+    },
+    {
+      "chunk_id": 52,
+      "text": "he AddSubtract actor fires before the Previous actor, then the only available token will be the one on the plus port, and the expected subtraction will not occur. Intuitively, we would expect the director to invoke the Previous actor before the AddSu"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ctor to invoke the Previous actor before the AddSubtract actor so that the subtraction occurs. How does the director deliver on the intuition that the Previous actor should be fired first? Before executing the model, the DE director constructs a topo"
+    },
+    {
+      "chunk_id": 54,
+      "text": "uting the model, the DE director constructs a topological sort of the model. A topological sort is simply a list of the actors in data-precedence order. For the model in figure 2.54 , there is only one allowable topological sort: PoissonClock , Curre"
+    },
+    {
+      "chunk_id": 55,
+      "text": "e allowable topological sort: PoissonClock , CurrentTime , Previous , AddSubtract , HistogramPlotter In this list, AddSubtract is after Previous . So the when they have simultaneous events, the DE director fires Previous first. Thus, the DE director,"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ector fires Previous first. Thus, the DE director, by analyzing the structure of the model, usually delivers the intuitive behavior, where actors that produce data are fired before actors that consume their results, even in the presence of simultaneo"
+    },
+    {
+      "chunk_id": 57,
+      "text": "their results, even in the presence of simultaneous events. There remains one key subtlety. If the model has a directed loop, then a topological sort is not possible. In the DE domain, every feedback loop is required to have at least one actor in it"
+    },
+    {
+      "chunk_id": 58,
+      "text": "loop is required to have at least one actor in it that introduces a time delay, such as the TimedDelay actor, which can be found in the DomainSpecific library under DiscreteEvent (this library is shown on the left in figure 2.55 ). Consider for exam"
+    },
+    {
+      "chunk_id": 59,
+      "text": "wn on the left in figure 2.55 ). Consider for example the model shown in figure 2.55 . That model has a Clock actor, which is set to produce events every 1.0 time units. Those events trigger the Ramp actor, which produces outputs that start at 0 and"
+    },
+    {
+      "chunk_id": 60,
+      "text": "actor, which produces outputs that start at 0 and increase by 1 on each firing. In this model, the output of the Ramp goes into an AddSubtract actor, which subtracts from the Ramp output its own prior output delayed by one time unit. The result is sh"
+    },
+    {
+      "chunk_id": 61,
+      "text": "output delayed by one time unit. The result is shown in the plot in the figure. Occasionally, you will need to put a TimedDelay actor in a feedback loop with a delay of 0.0. This is particularly true if you are building complex models that mix domai"
+    },
+    {
+      "chunk_id": 62,
+      "text": "if you are building complex models that mix domains, and there is a delay inside a composite actor that the DE director cannot recognize as a delay. The TimedDelay actor with a delay of 0.0 can be thought of as a way to let the director know that th"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ought of as a way to let the director know that there is a time delay in the preceding actor, without specifying the amount of the time delay. 2.9.4 Wireless and Sensor Network Systems The wireless domain builds on the discrete event domain to supp"
+    },
+    {
+      "chunk_id": 64,
+      "text": "domain builds on the discrete event domain to support modeling of wireless and sensor network systems. In the wireless domain, channel models mediate communication between actors, and the visual syntax does not require wiring between components. See"
+    },
+    {
+      "chunk_id": 65,
+      "text": "x does not require wiring between components. See [11] and [12] for details. 2.9.5 Continuous-Time Systems The continuous-time domain (CT) is another relatively mature domain with semantics considerably different from either DE or SDF. In CT, the s"
+    },
+    {
+      "chunk_id": 66,
+      "text": "ably different from either DE or SDF. In CT, the signals sent along connections between actors are usually continuous-time signals. A CT example is described above in section 2.2.3 . The CT domain can also handle discrete events. These events are usu"
+    },
+    {
+      "chunk_id": 67,
+      "text": "also handle discrete events. These events are usually related to a continuous-time signal, for example representing a zero-crossing of the continuous-time signal. The CT director is quite sophisticated in its handling of such mixed signal systems."
+    },
+    {
+      "chunk_id": 68,
+      "text": "ed in its handling of such mixed signal systems."
+    }
+  ]
+}

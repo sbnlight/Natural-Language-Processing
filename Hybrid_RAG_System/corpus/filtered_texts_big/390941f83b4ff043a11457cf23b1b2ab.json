@@ -1,0 +1,49 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/make-main-roster",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (); require \"Gr"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (); require \"GradingCommon.pl\"; opendir (REGISTRY, $REGISTER_DIR) || Fatal (\"No registration directory.\"); @names = (); %SIDs = (); while (defined ($login = readdir (REGISTRY))) { next if (! -f \"$REGISTER_DIR/"
+    },
+    {
+      "chunk_id": 3,
+      "text": "r (REGISTRY))) { next if (! -f \"$REGISTER_DIR/$login\"); next if (ReaderExists ($login)); open (ENTRY, \"$REGISTER_DIR/$login\") || Warn (\"Could not read registration for $login: $!\"); $last = $first = $SID = undef; while ( ) { c"
+    },
+    {
+      "chunk_id": 4,
+      "text": "$last = $first = $SID = undef; while ( ) { chomp; LINE: { /^Last name:\\s*(\\S.*)\\s*$/ && do { $last = $1; last LINE; }; /^First name\\(s\\):\\s*(\\S.*)\\s*$/ && do { $first = $1; last LINE; }; /^SID:\\s*(\\S.*)\\s*$/ && do { $SID"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ast LINE; }; /^SID:\\s*(\\S.*)\\s*$/ && do { $SID = $1; last LINE; }; /^Code:/ && do { last LINE; }; /^Email:/ && do { last LINE; }; Warn (\"Line ignored in entry for $login: '$_'.\"); }; } close (ENTRY); $last =~ s/ /_/g;"
+    },
+    {
+      "chunk_id": 6,
+      "text": "} close (ENTRY); $last =~ s/ /_/g; $first =~ s/ /_/g; $last = \"?\" unless ($last); $first = \"?\" unless ($first); if (defined ($SID) && $SID != 0 && defined ($SIDs{$SID})) { Warn (\"Duplicate SID: both logins $SIDs{$SID} an"
+    },
+    {
+      "chunk_id": 7,
+      "text": "Warn (\"Duplicate SID: both logins $SIDs{$SID} and $login have SID $SID.\"); } else { $SIDs{$SID} = $login; } push (@names, $login, $last, $first, $SID); } closedir (REGISTRY); $newRoster = \"$MAIN_ROSTER.tmp\"; Lock (); unlink ($newRo"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ter = \"$MAIN_ROSTER.tmp\"; Lock (); unlink ($newRoster); umask (0007); open (ROSTER, \">$newRoster\") || Fatal (\"Could not create new roster file: $!.\"); while (@names) { for (1 .. 4) { print ROSTER (shift (@names) . \" \"); } print ROSTER"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ROSTER (shift (@names) . \" \"); } print ROSTER \" \\n\"; } close (ROSTER); $code = 0; unlink ($MAIN_ROSTER); if (not rename ($newRoster, $MAIN_ROSTER)) { Warn (\"Could not rename roster file: $!.\"); $code = 1; } elsif (not System (\"chgrp $STA"
+    },
+    {
+      "chunk_id": 10,
+      "text": "); $code = 1; } elsif (not System (\"chgrp $STAFF_GROUP $MAIN_ROSTER\")) { Warn (\"Could not set group of $MAIN_ROSTER to $STAFF_GROUP.\"); $code = 1; } elsif (chmod (0660, $MAIN_ROSTER) != 1) { Warn (\"Could not set permissions of $MAIN_R"
+    },
+    {
+      "chunk_id": 11,
+      "text": "{ Warn (\"Could not set permissions of $MAIN_ROSTER.\"); $code = 1; } Unlock (); exit $code;"
+    }
+  ]
+}

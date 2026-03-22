@@ -1,0 +1,197 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII5.0/limitations.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Ptolemy II 5.0.1 Limitations Skip to main content UC Berkeley EECS Dept. Quick Links People Download Publications Home Objectives Ptolemy II Other software People Sponsors Publications Conferences Presentations FAQ Download Home Ptolemy II 5.0.1 Appl"
+    },
+    {
+      "chunk_id": 2,
+      "text": "sentations FAQ Download Home Ptolemy II 5.0.1 Applets Browse Release Web Start Windows Installer Source Download Cygwin Limitations FAQ Using Vergil Design Doc Style Guide Java Classes Ptolemy II Home Ptolemy Home Skip to sidebar Ptolemy II 5.0.1 Lim"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Ptolemy Home Skip to sidebar Ptolemy II 5.0.1 Limitations The Ptolemy II 5.0.1 Release notes list limitations. The Vergil welcome window has a link to a similar list. If you find bugs, check the limitations page inside Vergil, then check this page,"
+    },
+    {
+      "chunk_id": 4,
+      "text": "itations page inside Vergil, then check this page, and then send email to ptolemy at eecs berkeley edu. In your email, please be sure to list What operating system you are operating under (Windows XP sp1? Solaris 8?) What version of Java you are runn"
+    },
+    {
+      "chunk_id": 5,
+      "text": "sp1? Solaris 8?) What version of Java you are running. (Run java -version, or use our Java Version Applet ) Whether the problem occurs in Vergil The local version of the web pages The PtolemyII 5.0.1 website version of the web pages The Web Start ver"
+    },
+    {
+      "chunk_id": 6,
+      "text": "website version of the web pages The Web Start version Ptolemy II Bugzilla links Places to go Online Applet Demonstrations and Documentation Ptolemy II Design Document Bug Fixes Problem surrounding saving in the library This change is not present in"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ving in the library This change is not present in Ptolemy II 5.0, but is present in Ptolemy II 5.0.1 Stephen Neuendorffer writes: I think it's my fault... I've checked in a fix. Basically: The mechanism for has changed slightly in version 5.0: it no"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ism for has changed slightly in version 5.0: it now uses the class mechanism for keeping track of the user library. The user library is a class and when vergil loads it instantiates a single instance of the class. In this case, the actor was being s"
+    },
+    {
+      "chunk_id": 9,
+      "text": "of the class. In this case, the actor was being saved in the instance, but not in the class, meaning that it was not being saved back to the file. If you download the source, you can patch the code: Below is an updated patch, or you can download Ba"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Below is an updated patch, or you can download BasicGraphFrame.java and replace $PTII/ptolemy/vergil/basicl/BasicGraphFrame.java cxh@maury 162% diff ~ptII/ptweb/ptolemyII/ptII5.0/ptII/ptolemy/vergil/basic/BasicGraphFrame.java . 156c156 < @versi"
+    },
+    {
+      "chunk_id": 11,
+      "text": "l/basic/BasicGraphFrame.java . 156c156 < @version $Id$ --- > @version $Id$ 1205c1205,1206 < CompositeEntity library = (CompositeEntity) configuration.getEntity( --- > CompositeEntity libraryInstance = > ("
+    },
+    {
+      "chunk_id": 12,
+      "text": "positeEntity libraryInstance = > (CompositeEntity) configuration.getEntity( 1208c1209 < if (library == null) { --- > if (libraryInstance == null) { 1215c1216,1224 < configuration.openModel(library);"
+    },
+    {
+      "chunk_id": 13,
+      "text": "24 < configuration.openModel(library); --- > // Note that the library in the configuration is an > // instance of another model. We have to go get the > // original model to make sure that the change p"
+    },
+    {
+      "chunk_id": 14,
+      "text": "// original model to make sure that the change propagates > // back to the file from which the library is loaded from. > Tableau libraryTableau = configuration.openModel(libraryInstance); > PtolemyEffigy libraryE"
+    },
+    {
+      "chunk_id": 15,
+      "text": "aryInstance); > PtolemyEffigy libraryEffigy = > (PtolemyEffigy)libraryTableau.getContainer(); > CompositeEntity library = > (CompositeEntity)libraryEffigy.getModel(); Continuing with Steve's ana"
+    },
+    {
+      "chunk_id": 16,
+      "text": "raryEffigy.getModel(); Continuing with Steve's analysis: Alternatively, you can right click on the user library and \"open\" it... Then paste whatever you want in. On a related note, while trying this out, I ran across a nasty bug I haven't seen befor"
+    },
+    {
+      "chunk_id": 17,
+      "text": "out, I ran across a nasty bug I haven't seen before: If you have an unnamed composite actor it's name is the empty string. If you use the dotted notation to access something inside it (e.g., the _location attribute), then it's name is \"._location\" u"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ation attribute), then it's name is \"._location\" unfortunately, names that begin with a dot are 'special' and are interpreted relative to the toplevel. You can see this problem if you open a new model, do graph -> Save Model in Library to save to the"
+    },
+    {
+      "chunk_id": 19,
+      "text": ", do graph -> Save Model in Library to save to the library, and then try to drag it in the library. Vergil tries to reference it's _location attribute, but fails because of the above. Steve > -----Original Message----- > From: owner-ptolemy-hacker"
+    },
+    {
+      "chunk_id": 20,
+      "text": "Original Message----- > From: owner-ptolemy-hackers@doppler.eecs.berkeley.edu > [mailto:owner-ptolemy-hackers@doppler.eecs.berkeley.edu] On > Behalf Of Edward A. Lee > Sent: Monday, August 08, 2005 12:07 PM > To: Reilly, Timothy (MN17) > Cc: ptolem"
+    },
+    {
+      "chunk_id": 21,
+      "text": "12:07 PM > To: Reilly, Timothy (MN17) > Cc: ptolemy-hackers@eecs.berkeley.edu > Subject: Re: another question on libraries > > > Indeed there seems to be a bug here... > When I do \"Save Actor In Library\" on an actor, I get the library > file opened"
+    },
+    {
+      "chunk_id": 22,
+      "text": "rary\" on an actor, I get the library > file opened ( ~/.ptolemyII/UserLibrary.xml), but the actor is not in > it. Strangely, the actor is in the UserLibrary in the actor library > menu. But why aren't these two the same thing? > > I'll look into i"
+    },
+    {
+      "chunk_id": 23,
+      "text": "'t these two the same thing? > > I'll look into it, unless anyone else knows offhand what's up... > > Edward > > > At 01:30 PM 8/4/2005 -0700, Reilly, Timothy (MN17) wrote: > > >I have spent a lot of time with this library stuff the last two day"
+    },
+    {
+      "chunk_id": 24,
+      "text": "t of time with this library stuff the last two days > >and I am pretty confused. > > > > > > > >I use utilities composite actor on a sheet. I change the name of > >composite actor to radar_if. I then open a new sheet and open my > >model of radar_"
+    },
+    {
+      "chunk_id": 25,
+      "text": "en open a new sheet and open my > >model of radar_if, the guts of the radar_if composite model. I > >copy what is in this sheet, look inside the composite actor > >radar_if, and paste what was in the radar_if model into the inside > >of the composit"
+    },
+    {
+      "chunk_id": 26,
+      "text": "radar_if model into the inside > >of the composite actor radar_if. I then close the sheet with the > >model of radar_if , close the sheet of the composite actor > >radar_if. I now have a sheet with a compsite actor radar_if, all > >the right ports"
+    },
+    {
+      "chunk_id": 27,
+      "text": "a compsite actor radar_if, all > >the right ports and names, and additionally the composite actor is > >in the userlibrary. So far so good. For good measure I save the > >new composite actor as radar_ifcomposite. I then highlight the > >composite"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ar_ifcomposite. I then highlight the > >composite actor and click save actor to library, it says the actor > >is already in the library. The timestamp on userlibrary is usually > >within a minute of all of this. I shut down Ptolemy, restart and >"
+    },
+    {
+      "chunk_id": 29,
+      "text": "all of this. I shut down Ptolemy, restart and > >the library I just made is not visible, and if I load the library > >UserLibrary.xml in my directory (C:\\Documents and > >Settings\\E223049\\.ptolemyII) it is empty. > > > It looks like this: > > > > >"
+    },
+    {
+      "chunk_id": 30,
+      "text": ") it is empty. > > > It looks like this: > > > > > > > ><entity name=\"UserLibrary\" class=\"ptolemy.moml.EntityLibrary\"/ > > > > > > > >It is like the UserLibrary does not actually get written, although > >some write happens because the timestamps are"
+    },
+    {
+      "chunk_id": 31,
+      "text": "h > >some write happens because the timestamps are about right. What is > >going on? Please help me with this. I guess I can just load my > >composite actor separately. That is starting to look pretty good > >to me. > > > > > > > >Thanks, > > >"
+    },
+    {
+      "chunk_id": 32,
+      "text": "etty good > >to me. > > > > > > > >Thanks, > > > > > > > >Tim > > ------------ > Edward A. Lee Know Limitations Running a Matlab Demo twice will crash Ptolemy! Matlab interface has problems work with gcc-3.3 Under Windows, the Matlab interface has"
+    },
+    {
+      "chunk_id": 33,
+      "text": "h gcc-3.3 Under Windows, the Matlab interface has problems at runtime with gcc-3.3. Under Windows, we recommend using gcc-3.2. The quick tour in the applets needs to be updated. See the Ptolemy II 5.0.1 Release notes for known limitations. The Highe"
+    },
+    {
+      "chunk_id": 34,
+      "text": "0.1 Release notes for known limitations. The Higher Order Components ModelReference demo does not work under Web Start. The PSDF Blind Communication demo does not run under Web Start, the message is: ptolemy.kernel.util.IllegalActionException: The nu"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ptolemy.kernel.util.IllegalActionException: The number of elements in the input ArrayToken (2047) is not the same as the arrayLength parameter (2048). If an icon file is not present, then a Vergil applet might try to download the icon file multiple"
+    },
+    {
+      "chunk_id": 36,
+      "text": "let might try to download the icon file multiple times. Ptolemy II uses XML files to store icons. For example $PTII/ptolemy/actor/lib/BooleanSwitchIcon.xml is an icon for $PTII/ptolemy/actor/lib/BooleanSwitch.java The problem is that if an ac"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ib/BooleanSwitch.java The problem is that if an actor does not have an icon file, then the applet may go back to the server multiple times looking for the icon. The code generator GUI has been removed from the configuration, instead use $PTII/bin"
+    },
+    {
+      "chunk_id": 38,
+      "text": "oved from the configuration, instead use $PTII/bin/copernicus . Plot windows don't resize when control panel is resized If a model with plotters is executed using the run button on the toolbar, and then re-executed using the run control panel acces"
+    },
+    {
+      "chunk_id": 39,
+      "text": "then re-executed using the run control panel accessed through the View menu, then resizing the run control panel does not cause the plots to resize to fit. Workaround: Close the model and re-open it, and then run first using the run control panel"
+    },
+    {
+      "chunk_id": 40,
+      "text": "t, and then run first using the run control panel. Printing a model that contains transparent objects can result in problems when printing to Encapsulated Postscript (EPS). If a model has transparent objects, then when it is printed to EPS, the resu"
+    },
+    {
+      "chunk_id": 41,
+      "text": "objects, then when it is printed to EPS, the resulting file is a bitmap instead of a Postscript description of the graphics. You can tell by the file size (several Meg vs. several K) and by opening it in Illustrator, where in theory you should be a"
+    },
+    {
+      "chunk_id": 42,
+      "text": "it in Illustrator, where in theory you should be able to ungroup and select and edit individual components. The way Java prints EPS is that there is an implementation of Graphics2D that literally translates each graphics2D call into a Postscript snip"
+    },
+    {
+      "chunk_id": 43,
+      "text": "slates each graphics2D call into a Postscript snippet. If Java detects any transparent colors or images, then the literal translation of each element independently doesn't work, so the printing code reverts to writing everything to an image and then"
+    },
+    {
+      "chunk_id": 44,
+      "text": "reverts to writing everything to an image and then sending the image, encapsulated in Postscript to the printer. Solution1: Use one of these pdf writing programs to generate pdf-1.4 compliant pdf files, which have extensions to support transparency t"
+    },
+    {
+      "chunk_id": 45,
+      "text": "s, which have extensions to support transparency that Postscript lacks, and then print them to eps, which would use the distill implementation of the above algorithm. Or alternatively, we could switch to using pdftex instead of latex->dvips->distill"
+    },
+    {
+      "chunk_id": 46,
+      "text": "to using pdftex instead of latex->dvips->distill which should embed pdf for figures directly at the expense of less robust latex support. http://www.geocities.com/marcoschmidt.geo/java-libraries-pdf.html Solution 2: Use the undocumented flag -Dsun."
+    },
+    {
+      "chunk_id": 47,
+      "text": ".html Solution 2: Use the undocumented flag -Dsun.java2d.print.pipeline=pdl on the command line to force the printing to use the postscript path, ignoring transparency. Under Cygwin: export JAVAFLAGS=-Dsun.java2d.print.pipeline=pdl vergil Then edit t"
+    },
+    {
+      "chunk_id": 48,
+      "text": "-Dsun.java2d.print.pipeline=pdl vergil Then edit the file by hand in Illustrator to add the transparency back in. Contact Update Help Copyright © 1999 - UC Regents; all rights reserved."
+    }
+  ]
+}

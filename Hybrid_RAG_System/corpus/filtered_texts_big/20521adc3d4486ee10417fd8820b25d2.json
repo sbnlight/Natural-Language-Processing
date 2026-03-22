@@ -1,0 +1,209 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/projects/chess/escher/developers/buildroot/index.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Buildroot and the OCP Workspaces ---- 337staff act actionwebs actionwebslocal agv apesless apon automotive bcvtb bhc bipeds capecode certafcs cg chess chessadmin chesslocal chessworkshop clotho cosmoi cps cpslab croquet cyphysim dataflow ddosos denso"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ptpresenters pturing reactable reap researchers scos softdevel softwalls spfsos superb tbd thales triq vw Note: JavaScript is disabled , see the Site Map for navigation links home overview developers Topics of interest: Cross-compiling STLPort Gumsti"
+    },
+    {
+      "chunk_id": 5,
+      "text": "Topics of interest: Cross-compiling STLPort Gumstix/Waysmall Crosscompiling and the EOCP [ home ] [ overview ] [ developers ] [ about escher ] Overview For our project, we heavily leverage the buildroot project. Buildroot is a s"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ge the buildroot project. Buildroot is a set of installation and configuration scripts which builds a usable root image of a linux filesystem according to builder configuration preferences. Those preferences include, Processor"
+    },
+    {
+      "chunk_id": 7,
+      "text": "nces. Those preferences include, Processor architecture (i.e., ARCH) type (e.g., x86, PowerPC, ARM, sparc) Processor subarchitecture (i.e., SUBARCH) type (e.g., PentiumPro, Xeon, X-Scale) Kernel version uClibc version Binu"
+    },
+    {
+      "chunk_id": 8,
+      "text": "Xeon, X-Scale) Kernel version uClibc version Binutils version GCC contents (e.g., ada, java, c, c++) and version A GCC crosscompiler (i.e., development toolchain, or just toolchain) Crosscompiling In order to build this image, it necessarily builds"
+    },
+    {
+      "chunk_id": 9,
+      "text": "order to build this image, it necessarily builds a boostrap GCC version. Using this version, which is made to run on the host machine and compiles code to execute on the host machine, a new compiler which is made to run on th"
+    },
+    {
+      "chunk_id": 10,
+      "text": "a new compiler which is made to run on the host machine and compile code to execute on the target machine is built. This second compiler is the crosscompiler . Building a crosscompiler is usually tedious work, but buildroot has"
+    },
+    {
+      "chunk_id": 11,
+      "text": "r is usually tedious work, but buildroot has (mostly) solved these problems, and places them in a nice package. Using buildroot crosscompilers with the EOCP The first thing to do is to build the buildroot toolchain for your target arc"
+    },
+    {
+      "chunk_id": 12,
+      "text": "he buildroot toolchain for your target architecture, version, and other preferences. In the escher CVS tree there is a folder called crosscompile in which this should take place. Once this is done, you should take advantage of"
+    },
+    {
+      "chunk_id": 13,
+      "text": "Once this is done, you should take advantage of compiler setup scripts which are distributed throughout the installation (as appropriate) for individual builds. These scripts should have the proper setup variables, flags, a"
+    },
+    {
+      "chunk_id": 14,
+      "text": "have the proper setup variables, flags, and other information done so you can build and deploy th Building a generic crosscompiler toolchain for the xscale subarchitecture of arm Currently building and using the crosscompil"
+    },
+    {
+      "chunk_id": 15,
+      "text": "arm Currently building and using the crosscompiler toolchain is only supported using linux, unix, or cygwin interfaces. However, the code itself, if built in the Visual Studio environment, should also execute correctly. The"
+    },
+    {
+      "chunk_id": 16,
+      "text": "nment, should also execute correctly. The EOCP core developers generally do major development and testing with the Visual Studio builds, and deploy (with regression tests, of course) on linux/unix platforms. Enter the $ESCHER"
+    },
+    {
+      "chunk_id": 17,
+      "text": "on linux/unix platforms. Enter the $ESCHER CVS directory. In this example, that is /usr/local/escher [ sprinkle@ransom ~ ] $ cd /usr/local/escher/crosscompile [ sprinkle@ransom /usr/local/escher/crosscompile ] $ ./checkout xscale This will tak"
+    },
+    {
+      "chunk_id": 18,
+      "text": "r/crosscompile ] $ ./checkout xscale This will take a long, long, long time. If you are building for the first time on your machine, then a long time will be taken to download the source code and tarballs of the components which are c"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ce code and tarballs of the components which are chosen. To speed this up for future compiles, obtain a copy of the dl directory from another developer (or from a weblink, if we post it) to get the files from a dependa"
+    },
+    {
+      "chunk_id": 20,
+      "text": "t) to get the files from a dependably fast server at Berkeley. If you place this directory in the crosscompile directory, i.e., $ESCHER/crosscompile/dl , then the checkout script will copy those tarballs to the correct"
+    },
+    {
+      "chunk_id": 21,
+      "text": "pt will copy those tarballs to the correct directory. Building a crosscompiler toolchain gumstix If you are building for the gumstix boards we are using then xscale is the correct crosscompiler to build, but there are some mi"
+    },
+    {
+      "chunk_id": 22,
+      "text": "sscompiler to build, but there are some minor kernel differences for which it makes sense to checkout a particular revision of the buildroot chain. In fact, this revision is maintained by the gumstix folks. [ sprinkle@ransom ~"
+    },
+    {
+      "chunk_id": 23,
+      "text": "by the gumstix folks. [ sprinkle@ransom ~ ] $ cd /usr/local/escher/crosscompile [ sprinkle@ransom /usr/local/escher/crosscompile ] $ ./checkout gumstix You will now see a menu which will ask you to choose which revision of the gumsti"
+    },
+    {
+      "chunk_id": 24,
+      "text": "you to choose which revision of the gumstix kernel you would like to build for. Currently, 2.6.11gum is the best choice. Once you choose this, you should see some instructions which will ask you to run a particular make comman"
+    },
+    {
+      "chunk_id": 25,
+      "text": "which will ask you to run a particular make command, with command line parameters that will ensure that the C++ compiler is built. Run those commands, and go grab yourself a cup of coffee, play 18 holes of golf, or embark on a"
+    },
+    {
+      "chunk_id": 26,
+      "text": "fee, play 18 holes of golf, or embark on another PhD. It takes awhile. Building a crosscompiler for other architectures To build for deployment on a powerpc embedded machine you will need to specify different options than du"
+    },
+    {
+      "chunk_id": 27,
+      "text": "eed to specify different options than during the xscale build. We are currently not using anything like this. Rebuilding the crosscompiler toolchain It is possible to rebuild part of the crosscompiler toolchain, or restarting"
+    },
+    {
+      "chunk_id": 28,
+      "text": "of the crosscompiler toolchain, or restarting the build if it fails for some reason, simply by re-executing the checkout script. Selecting the crosscompiler once it is built A fat lot of good a crosscompiler does if you don't know how to use"
+    },
+    {
+      "chunk_id": 29,
+      "text": "a crosscompiler does if you don't know how to use it! This is one of the most frustrating problems of crosscompiling: making sure that the crosscompiler you built is invoked, and not the default version of C++ which you have o"
+    },
+    {
+      "chunk_id": 30,
+      "text": "he default version of C++ which you have on your machine. To streamline this process, we developed a script for escher checkouts which will allow you to select a crosscompiler in the $ESCHER/crosscompiler/ directory tr"
+    },
+    {
+      "chunk_id": 31,
+      "text": "in the $ESCHER/crosscompiler/ directory tree, and provide you with environment variables which streamline the usage of that compiler. [ sprinkle@ransom ~ ] $ cd /usr/local/escher/crosscompile [ sprinkle@ransom /usr/local/escher/crossc"
+    },
+    {
+      "chunk_id": 32,
+      "text": "compile [ sprinkle@ransom /usr/local/escher/crosscompile ] $ source select_crosscompiler You will be shown a set of choices named buildroot_<crosscompiler> , and be asked to select from one of them. Once you select, [ sprinkle@ransom /usr/l"
+    },
+    {
+      "chunk_id": 33,
+      "text": "of them. Once you select, [ sprinkle@ransom /usr/local/escher/crosscompile ] $ . setup_crosscompiler 1) buildroot_arm 4) buildroot_gumstix_old 2) buildroot_gumstix_2.6.10gum 5) buildroot_xscale 3) buildroot_gumstix_2.6.11gum #? 3 Going with buildroot"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ldroot_gumstix_2.6.11gum #? 3 Going with buildroot_gumstix_2.6.11gum (3) build_arm_nofpu You have now set up the following exported values: BASECROSS=/usr/local/escher/crosscompile/buildroot_gumstix_2.6.11gum/build_arm_nofpu/staging_dir CROSSTARGET=a"
+    },
+    {
+      "chunk_id": 35,
+      "text": ".6.11gum/build_arm_nofpu/staging_dir CROSSTARGET=arm-linux Now, use these values when running ./configure in your source tree: $ pwd /usr/local/srcdir $ mkdir arm-linux && cd arm-linux $ pwd /usr/local/srcdir/proc-os $ export PATH=${BASECROSS}/bin:$P"
+    },
+    {
+      "chunk_id": 36,
+      "text": "l/srcdir/proc-os $ export PATH=${BASECROSS}/bin:$PATH; ../configure --host=$CROSSTARGET $ make && make install Note that you MUST use the \" . setup_crosscompiler \" or \" source setup_crosscompiler \" in order to export t"
+    },
+    {
+      "chunk_id": 37,
+      "text": "tup_crosscompiler \" in order to export the environment variables to your current shell. If you fail to do this, then you will wonder why it was that you did not get the right compiler when you run configure. :) Note also"
+    },
+    {
+      "chunk_id": 38,
+      "text": "compiler when you run configure. :) Note also that this method only works with code that is configured using the GNU Autconf, Automake, and Libtool method. For this, we highly recommend the book of that name by Garvy Vaughan,"
+    },
+    {
+      "chunk_id": 39,
+      "text": "recommend the book of that name by Garvy Vaughan, et al. Testing the crosscompiler To test the crosscompiler, you can take advantage of the existing tests which live in the Escher CVS repository. [ sprinkle@ransom /usr/local/escher"
+    },
+    {
+      "chunk_id": 40,
+      "text": "VS repository. [ sprinkle@ransom /usr/local/escher/crosscompile ] $ cd test/HelloWorld [ sprinkle@ransom /usr/local/escher/crosscompile/test/HelloWorld ] $ mkdir build [ sprinkle@ransom /usr/local/escher/crosscompile/test/HelloWorld ] $ sh autogen.sh"
+    },
+    {
+      "chunk_id": 41,
+      "text": "her/crosscompile/test/HelloWorld ] $ sh autogen.sh This script will autogenerate the source files required to run configure [ sprinkle@ransom /usr/local/escher/crosscompile/test/HelloWorld ] $ cd build Now, we aim for the crosscompiler. You must firs"
+    },
+    {
+      "chunk_id": 42,
+      "text": "d Now, we aim for the crosscompiler. You must first setup your crosscompiler as described here . To test that this is done properly, try echo $BASECROSS && echo $CROSSTARGET from your friendly neighborhood bash prompt. [ sprin"
+    },
+    {
+      "chunk_id": 43,
+      "text": "friendly neighborhood bash prompt. [ sprinkle@ransom /usr/local/escher/crosscompile/test/HelloWorld/build ] $ export PATH=${BASECROSS}/bin:$PATH; ../configure --host=$CROSSTARGET You should now be confronted by a series of configuration state"
+    },
+    {
+      "chunk_id": 44,
+      "text": "w be confronted by a series of configuration statements, which you have had more than enough of while building previous GNU Autotools programs. Make sure that when looking for arm-linux-g++ it finds something. Once this is don"
+    },
+    {
+      "chunk_id": 45,
+      "text": "x-g++ it finds something. Once this is done, you should be able to type make in that directory. [ sprinkle@ransom /usr/local/escher/crosscompile/test/HelloWorld/build ] $ make After this step, you should have a working version of HelloWorld ."
+    },
+    {
+      "chunk_id": 46,
+      "text": "you should have a working version of HelloWorld . Working, that is, on another machine! If you try to run it here, you will be subjected to humiliations galore, because it is not compiled for this architecture!! [ sprinkle@ransom /us"
+    },
+    {
+      "chunk_id": 47,
+      "text": "iled for this architecture!! [ sprinkle@ransom /usr/local/escher/crosscompile/test/HelloWorld/build ] $ ls HelloWorld HelloWorld Well, there's nothing left to do, but check to make sure that this works on the target machine. Testing the cross"
+    },
+    {
+      "chunk_id": 48,
+      "text": "s on the target machine. Testing the crosscompiled code There is a testing machine hooked up to the ransom.eecs box. You can scp your executable to it by something like this: [ sprinkle@ransom /usr/local/escher/crosscompile/test/Hello"
+    },
+    {
+      "chunk_id": 49,
+      "text": "e@ransom /usr/local/escher/crosscompile/test/HelloWorld/build ] $ scp HelloWorld root@gumstix2:/tmp/sprinkle This will only work if the destination directory exists. Next, ssh to the gumstix2 machine (you can get the root password from sprink"
+    },
+    {
+      "chunk_id": 50,
+      "text": "machine (you can get the root password from sprinkle@EECS). [ sprinkle@ransom /usr/local/escher/crosscompile/test/HelloWorld/build ] $ ssh root@gumstix2 Now that you are on the gumstix board, you can run that executable # cd /tmp/sprinkle # ./HelloWo"
+    },
+    {
+      "chunk_id": 51,
+      "text": "run that executable # cd /tmp/sprinkle # ./HelloWorld HelloWorld! # You might get errors here. It either means that your crosscompiler is built wrong, it was configured wrong, the test code was configured wrong, the kernel was chosen"
+    },
+    {
+      "chunk_id": 52,
+      "text": "s configured wrong, the kernel was chosen wrong...anyway, that's what we're here for! Notes on building the crosscompilers with Cygwin Cygwin may fail in the entire build for the buildroot project, yet succeed in building the"
+    },
+    {
+      "chunk_id": 53,
+      "text": "root project, yet succeed in building the crosscompiler. While this may make you feel dirty inside, it is good enough for our purposes to have the crosscompiler that we want. The kernel which exists on the machine currently is"
+    }
+  ]
+}

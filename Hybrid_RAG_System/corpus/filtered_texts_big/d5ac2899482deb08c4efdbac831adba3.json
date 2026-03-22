@@ -1,0 +1,313 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyclassic/pt0.7.2/linux.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Installing Ptolemy 0.7.2 Under Linux Skip to main content UC Berkeley EECS Dept. Quick Links People Download Publications Home Objectives Ptolemy II Other software People Sponsors Publications Conferences Presentations FAQ Download Home Ptolemy 0.7.2"
+    },
+    {
+      "chunk_id": 2,
+      "text": "nces Presentations FAQ Download Home Ptolemy 0.7.2 0.7.2 Home Release Notes Download Linux ChangeLog Manual Installation NT Notes Skip to sidebar Installing Ptolemy 0.7.2 Under Linux Below are notes about installing under Red Hat 8 in July, 2003 [and"
+    },
+    {
+      "chunk_id": 3,
+      "text": "bout installing under Red Hat 8 in July, 2003 [and also Red Hat 9.0] from source files. You are probably better off using the subversion version and referring to the text below if you have problems. Note that Ptolemy 0.7.2 requires gcc-2"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e problems. Note that Ptolemy 0.7.2 requires gcc-2.95.3. You should download the pt0.7.2devel.gnu.tar.gz file and build gcc-2.95.3 from that tar file. Later versions of gcc will not work. Check out the sources svn co https://repo.eecs.b"
+    },
+    {
+      "chunk_id": 5,
+      "text": ". Check out the sources svn co https://repo.eecs.berkeley.edu/svn-anon/projects/chess/ptclassic/trunk/ptclassic This will create a directory called ptclassic . Download http://ptolemy.eecs.berkeley.edu/~cxh/ptdevel/pt0.7.2devel.gnu.tar.gz and pt0.7.2"
+    },
+    {
+      "chunk_id": 6,
+      "text": "u/~cxh/ptdevel/pt0.7.2devel.gnu.tar.gz and pt0.7.2devel.other.src.tar.gz user: ptdevel password: ptrules For example, to get it, use wget: wget --http-user=ptdevel --http-password=ptrules http://ptolemy.eecs.berkeley.edu/~cxh/ptdevel/pt0."
+    },
+    {
+      "chunk_id": 7,
+      "text": "http://ptolemy.eecs.berkeley.edu/~cxh/ptdevel/pt0.7.2devel.gnu.tar.gz wget --http-user=ptdevel --http-password=ptrules http://ptolemy.eecs.berkeley.edu/~cxh/ptdevel/pt0.7.2devel.other.src.tar.gz Then untar and move the gnu and tcltk sources"
+    },
+    {
+      "chunk_id": 8,
+      "text": "r.gz Then untar and move the gnu and tcltk sources into the ptclassic/ directory tar -zxf pt0.7.2devel.gnu.tar.gz mv ptolemy/src/gnu/* ptclassic/src/gnu/ tar -zxf pt0.7.2devel.other.src.tar.gz mv ptolemy/src/tcltk/itcl"
+    },
+    {
+      "chunk_id": 9,
+      "text": "er.src.tar.gz mv ptolemy/src/tcltk/itcl3.0.1pt ptclassic/src/tcltk/itcl3.0.1 mv ptolemy/src/tcltk/tcl8.0.5pt ptclassic/src/tcltk/tcl8.0.5 mv ptolemy/src/tcltk/tk8.0.5pt ptclassic/src/tcltk/tk8.0.5 [Red Hat 9.0]: I am lo"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ptclassic/src/tcltk/tk8.0.5 [Red Hat 9.0]: I am logged in as celaine. I have untarred the .tar.gz files in ~/ptclassic. Modify the instructions below accordingly. Edit $PTOLEMY/.bashrc and change the setting for PTOLEMY to point to your dir"
+    },
+    {
+      "chunk_id": 11,
+      "text": "e setting for PTOLEMY to point to your directory, which will be something like /root/ptclassic . [Debug version]: To compile the debug version, create $PTOLEMY/.bashrc and add the following instead: PTOLEMY=/root/ptolemy e"
+    },
+    {
+      "chunk_id": 12,
+      "text": "owing instead: PTOLEMY=/root/ptolemy export PTOLEMY PTARCH=linux.debug export PTARCH PT_DEBUG=ptgdb export PT_DEBUG PATH=$PTOLEMY/bin:$PTOLEMY/bin.$PTARCH:$PTOLEMY/vendors/bin"
+    },
+    {
+      "chunk_id": 13,
+      "text": "LEMY/bin:$PTOLEMY/bin.$PTARCH:$PTOLEMY/vendors/bin:$PATH # To use the X11 pxgraph, follow the instructions # in $PTOLEMY/src/pxgraph/README.txt and uncomment the next line. PT_USE_X11_PXGRAPH=yes expor"
+    },
+    {
+      "chunk_id": 14,
+      "text": "PT_USE_X11_PXGRAPH=yes export PT_USE_X11_PXGRAPH source /root/ptolemy/.bashrc Start the compile: cd $PTOLEMY make bootstrap >& boot.out & tail -f boot.out If you get messages like: mkdir /root/ptolemy/obj.lin"
+    },
+    {
+      "chunk_id": 15,
+      "text": "you get messages like: mkdir /root/ptolemy/obj.linux.debug/gnu/gcc (cd /root/ptolemy/obj.linux.debug/gnu/gcc; \\ /root/ptolemy/src/gnu/src/gcc/configure --srcdir=/root/ptolemy/src/gnu/src/gcc \\ --prefix=/root/ptolemy/gnu/"
+    },
+    {
+      "chunk_id": 16,
+      "text": "nu/src/gcc \\ --prefix=/root/ptolemy/gnu/common --exec-prefix=/root/ptolemy/gnu/linux.debug \\ --with-gxx-include-dir=/root/ptolemy/gnu/common/include/g++-3 \\ --enable-shared) Configuring for a x86_64-unknown-lin"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ed) Configuring for a x86_64-unknown-linux-gnu host. Invalid configuration `x86_64-unknown-linux-gnu': machine `x86_64-unknown' not recognized Invalid configuration `x86_64-unknown-linux-gnu': machine `x86_64-unknown' no"
+    },
+    {
+      "chunk_id": 18,
+      "text": "64-unknown-linux-gnu': machine `x86_64-unknown' not recognized then the problem is that config.guess could not determine your basic machine. One possible solution is to look in config.sub and find a machine close to your machine. Another solu"
+    },
+    {
+      "chunk_id": 19,
+      "text": "find a machine close to your machine. Another solution is to edit ptclassic/src/gnu/src/gcc/config.guess : echo \"i386-pc-linux-gnu\" exit If you get ` if [ -f /home/cxh/src/ptclassic/obj.linux/gnu/gcc/gcc/../binutils/ar ] ; then echo /home/c"
+    },
+    {
+      "chunk_id": 20,
+      "text": "x/gnu/gcc/gcc/../binutils/ar ] ; then echo /home/cxh/src/ptclassic/obj.linux/gnu/g\\ cc/gcc/../binutils/ar ; else if [ \"i386-pc-linux-gnu\" = \"i386-pc-linux-gnu\" ] ; then echo ar; else t='s,x,x,'; echo ar | sed -\\ e $t ; fi; fi` rc"
+    },
+    {
+      "chunk_id": 21,
+      "text": "x,'; echo ar | sed -\\ e $t ; fi; fi` rc tmplibgcc2.a ${name}.o; \\ rm -f ${name}.o; \\ done _muldi3 In file included from /usr/include/sys/types.h:271, from /usr/include/stdlib.h:320,"
+    },
+    {
+      "chunk_id": 22,
+      "text": "from /usr/include/stdlib.h:320, from /home/cxh/src/ptclassic/src/gnu/src/gcc/gcc/libgcc2.c:41: /usr/include/bits/pthreadtypes.h:99: warning: unnamed struct/union that defines no instances /tmp/ccSDZ1Kk.s: Assem"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ines no instances /tmp/ccSDZ1Kk.s: Assembler messages: /tmp/ccSDZ1Kk.s:299: Error: suffix or operands invalid for `push' /tmp/ccSDZ1Kk.s:302: Error: suffix or operands invalid for `push' /tmp/ccSDZ1Kk.s:303: Er"
+    },
+    {
+      "chunk_id": 24,
+      "text": "valid for `push' /tmp/ccSDZ1Kk.s:303: Error: suffix or operands invalid for `push' /tmp/ccSDZ1Kk.s:322: Error: suffix or operands invalid for `pop' /tmp/ccSDZ1Kk.s:323: Error: suffix or operands invalid for `pop'"
+    },
+    {
+      "chunk_id": 25,
+      "text": "rror: suffix or operands invalid for `pop' make[5]: *** [libgcc2.a] Error 1 make[5]: Leaving directory `/home/cxh/src/ptclassic/obj.linux/gnu/gcc/gcc' make[4]: *** [bootstrap] Error 2 make[4]: Leaving directory"
+    },
+    {
+      "chunk_id": 26,
+      "text": "trap] Error 2 make[4]: Leaving directory `/home/cxh/src/ptclassic/obj.linux/gnu/gcc/gcc' make[3]: *** [bootstrap] Error 2 http://stackoverflow.com/questions/8176798/installing-gcc-2-95-3-in-ubuntu-10-04-3 states that it probably i"
+    },
+    {
+      "chunk_id": 27,
+      "text": "2-95-3-in-ubuntu-10-04-3 states that it probably is not possible with a modern glibc http://www.trevorpounds.com/blog/?p=111 Building Older GCC Versions on x86-64 Debian/Ubuntu http://www.linuxquestions.org/questions/linux-software-2/inst"
+    },
+    {
+      "chunk_id": 28,
+      "text": "linuxquestions.org/questions/linux-software-2/install-gcc-2-95-3-in-ubuntu-10-04-a-879827/ http://www.linuxfromscratch.org/blfs/view/5.1/general/gcc2.html - some patches If you get messages like: mkdir /root/ptolemy/gnu/common/share/locale/de/LC_MESS"
+    },
+    {
+      "chunk_id": 29,
+      "text": "r /root/ptolemy/gnu/common/share/locale/de/LC_MESSAGES /usr/bin/install -c -m 644 de.mo /root/ptolemy/gnu/common/share/locale/de/LC_MESSAGES/make.mo /usr/bin/install: cannot stat `de.mo': No such file or directory Do cd $PTOLEMY/o"
+    },
+    {
+      "chunk_id": 30,
+      "text": "de.mo': No such file or directory Do cd $PTOLEMY/obj.linux/gnu/make/i18n ln -s ../../../../src/gnu/src/make/i18n/* . and restart: cd $PTOLEMY make bootstrap >& boot2.out & [Debug version]: The directory name should be obj.linux.d"
+    },
+    {
+      "chunk_id": 31,
+      "text": "version]: The directory name should be obj.linux.debug instead of gobj.linux g. While installing tcltk, I got: /root/ptolemy/src/tcltk/tcl8.0.5pt/unix/../generic/tclPosixStr.c: In function ` Tcl_ErrnoId': /root/ptolemy/src/tcltk/t"
+    },
+    {
+      "chunk_id": 32,
+      "text": "Tcl_ErrnoId': /root/ptolemy/src/tcltk/tcl8.0.5pt/unix/../generic/tclPosixStr.c:340: duplicate case value /root/ptolemy/src/tcltk/tcl8.0.5pt/unix/../generic/tclPosixStr.c:328: this is t he first entry for that"
+    },
+    {
+      "chunk_id": 33,
+      "text": ":328: this is t he first entry for that value The fix is to edit ~/ptolemy/src/tcltk/tcl8.0.5pt/generic/tclPosixStr.c and comment out the EOPNOTSUPP in two locations This change is in the Subversion tree, so it should not be necessary. /*#i"
+    },
+    {
+      "chunk_id": 34,
+      "text": "bversion tree, so it should not be necessary. /*#ifdef EOPNOTSUPP case EOPNOTSUPP: return \"EOPNOTSUPP\"; #endif */ and /*#ifdef EOPNOTSUPP case EOPNOTSUPP: return \"operation not supported on socket\"; #"
+    },
+    {
+      "chunk_id": 35,
+      "text": "n \"operation not supported on socket\"; #endif*/ I then restarted with make install_tcltk [Red Hat 9.0]: After making the above fix, I get: In file included from /home/celaine/ptclassic/ptolemy/src/tcltk/tk8.0.5pt/unix/tkAppIni"
+    },
+    {
+      "chunk_id": 36,
+      "text": "tclassic/ptolemy/src/tcltk/tk8.0.5pt/unix/tkAppInit.c:16: /home/celaine/ptclassic/ptolemy/src/tcltk/tk8.0.5pt/unix/../generic/tk.h:78: X11/Xlib.h: No such file or directory The fix is to install XFree86-devel-4.3.0-2.i386."
+    },
+    {
+      "chunk_id": 37,
+      "text": "The fix is to install XFree86-devel-4.3.0-2.i386.rpm from redhat.com , which will give you the necessary header files. You may also need to install other rpms in the dependency list, including gfontconfig-devel-2.1-9.i386.rpm g and gfreetype-devel-"
+    },
+    {
+      "chunk_id": 38,
+      "text": "config-devel-2.1-9.i386.rpm g and gfreetype-devel-2.1.3-6.i386.rpm g . To reconfigure the build to detect /usr/X11R6/lib/libX11.a , do: rm -rf obj.linux/tcltk/ [Debug version]: The directory name should be obj.linux.debug instead of gobj"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ory name should be obj.linux.debug instead of gobj.linux g. Rerun: make install_tcltk Proceed with installing octtools: make install_octtools >& oct.out & Proceed with the build make install >& install.out & CGTarget fails to compile ../"
+    },
+    {
+      "chunk_id": 40,
+      "text": "all >& install.out & CGTarget fails to compile ../../../../src/domains/cg/kernel/CGTarget.cc:703: implicit declaration of func tion `int cuserid(...)' This change is in the Subversion tree, so it should not be necessary. >The change is"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ee, so it should not be necessary. >The change is to comment //msg << \"User: \" << cuserid(NULL) << \"\\n\" and use msg << \"User: \" << getlogin() << \"\\n\" vhdl/targets/SynthTarget.cc needs a similar change This change is in the Subversion"
+    },
+    {
+      "chunk_id": 42,
+      "text": "a similar change This change is in the Subversion tree, so it should not be necessary. // comCode << \"designer = \\\"\" << cuserid(NULL) << \"\\\"\" << \"\\n\"; comCode << \"designer = \\\"\" << getlogin() << \"\\\"\" << \"\\n\"; As does SynthArchTarget.cc This chan"
+    },
+    {
+      "chunk_id": 43,
+      "text": "\"\\\"\" << \"\\n\"; As does SynthArchTarget.cc This change is in the Subversion tree, so it should not be necessary. acs/targets/StringArray.cc fails with ../../../../src/domains/acs/targets/StringArray.cc:90: implicit declaration of function `int strcat(."
+    },
+    {
+      "chunk_id": 44,
+      "text": "90: implicit declaration of function `int strcat(...)' The fix is to add #include <string.h> This change is in the Subversion tree, so it should not be necessary. acs/stars fails to link with ACSRamDelayFixSim.o(.data+0x0): multiple definition of `st"
+    },
+    {
+      "chunk_id": 45,
+      "text": "layFixSim.o(.data+0x0): multiple definition of `star_nm_ACSRamDelayFixSim' ACSRamDelayFixSim.o(.data+0x0): first defined here The fix is to edit acs/stars/make.template and find the se"
+    },
+    {
+      "chunk_id": 46,
+      "text": "te and find the second instance of ACSRamDelayFixSim.pl and remove it and the remaining .pl files. This change is in the Subversion tree, so it should not be necessary. [root@dhcp-43-60"
+    },
+    {
+      "chunk_id": 47,
+      "text": "e, so it should not be necessary. [root@dhcp-43-60 stars]# diff -c make.template.old make.template *** make.template.old 2003-07-15 18:05:10.000000000 -0700 --- make.templ"
+    },
+    {
+      "chunk_id": 49,
+      "text": "*** ACSUnPackBits.pl ACSUnPackBitsCGFPGA.pl ACSUnPackBitsFixSim.pl \\ ACSXMGraph.pl ACSXMGraphCGFPGA.pl ACSXMGraphFPCGC.pl ACSXMGraphFPSim.pl ACS\\"
+    },
+    {
+      "chunk_id": 50,
+      "text": "SXMGraphFPSim.pl ACS\\ XMGraphFixSim.pl \\ ACSXYgraph.pl ACSXYgraphCGFPGA.pl ACSXYgraphFPCGC.pl ACSXYgraphFPSim.pl ACS\\ XYgraphFixSim.pl \\"
+    },
+    {
+      "chunk_id": 51,
+      "text": "XYgraphFixSim.pl \\ - ACSRamDelayFixSim.pl \\ - ACSRamp.pl ACSRampCGFPGA.pl ACSRampFPCGC.pl ACSRampFPSim.pl ACSRampFixSim.p\\"
+    },
+    {
+      "chunk_id": 52,
+      "text": "l ACSRampFPSim.pl ACSRampFixSim.p\\ l \\ - ACSShift.pl ACSShiftCGFPGA.pl ACSShiftFPSim.pl ACSShiftFixSim.pl \\ - ACSSin.pl ACSSinCGFPGA"
+    },
+    {
+      "chunk_id": 53,
+      "text": "- ACSSin.pl ACSSinCGFPGA.pl ACSSinFPCGC.pl ACSSinFPSim.pl ACSSinFixSim.pl \\ - ACSSink.pl ACSSinkCGFPGA.pl ACSSinkFPCGC.pl ACSSinkFPSim.pl ACSSinkFixSim.p\\"
+    },
+    {
+      "chunk_id": 54,
+      "text": ".pl ACSSinkFixSim.p\\ l \\ - ACSSource.pl ACSSourceCGFPGA.pl ACSSourceFPCGC.pl ACSSourceFPSim.pl ACSSour\\ ceFixSim.pl \\"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ceFixSim.pl \\ - ACSSqrt.pl ACSSqrtCGFPGA.pl ACSSqrtFPCGC.pl ACSSqrtFPSim.pl ACSSqrtFixSim.p\\ l \\ - ACSSub.pl ACS"
+    },
+    {
+      "chunk_id": 56,
+      "text": "- ACSSub.pl ACSSubCGFPGA.pl ACSSubFPCGC.pl ACSSubFPSim.pl ACSSubFixSim.pl \\ - ACSUniSeq.pl ACSUniSeqCGFPGA.pl \\ - ACSXMGraph.pl ACSXMGr"
+    },
+    {
+      "chunk_id": 57,
+      "text": "- ACSXMGraph.pl ACSXMGraphCGFPGA.pl ACSXMGraphFPCGC.pl ACSXMGraphFPSim.pl ACS\\ XMGraphFixSim.pl \\ - ACSXYgraph.pl ACSXYgraphCGFPGA.pl ACSXYgraphF"
+    },
+    {
+      "chunk_id": 58,
+      "text": "- ACSXYgraph.pl ACSXYgraphCGFPGA.pl ACSXYgraphFPCGC.pl ACSXYgraphFPSim.pl ACS\\ XYgraphFixSim.pl # The .cc files SRCS=$(PL_SRCS:.pl=."
+    },
+    {
+      "chunk_id": 59,
+      "text": "SRCS=$(PL_SRCS:.pl=.cc) --- 89,94 ---- pxgraph fails to compile ../../../src/pxgraph/pxgraph/xgraph.h:77:21: macro \"strchr\" requires 2 arguments, but only 1 given The fix is to edit"
+    },
+    {
+      "chunk_id": 60,
+      "text": "2 arguments, but only 1 given The fix is to edit ptolemy/src/pxgraph/pxgraph/xgraph.h and comment out the declaration of strchr This change is in the Subversion tree, so it should not be necessary. Then run make install Run a sample demo by doing cd"
+    },
+    {
+      "chunk_id": 61,
+      "text": "hen run make install Run a sample demo by doing cd $PTOLEMY ptiny src/domains/sdf/demo/butterfly After the Ptolemy Welcome Window comes up, move the mouse over the"
+    },
+    {
+      "chunk_id": 62,
+      "text": "se over the model and type a capital R to run it. When running a model that uses the Java version of pxgraph, the output is screwy. For example, the butterf"
+    },
+    {
+      "chunk_id": 63,
+      "text": "the output is screwy. For example, the butterfly model results in in the 10^38 range. The problem here is with the binary data format of the Java version"
+    },
+    {
+      "chunk_id": 64,
+      "text": "format of the Java version of pxgraph. The solution is to use the X11 version of pxgraph by doing: PT_USE_X11_PXGRAPH=yes export PT"
+    },
+    {
+      "chunk_id": 65,
+      "text": "export PT_USE_X11_PXGRAPH (The sample .bashrc above has been adjusted accordingly) [Red Hat 9.0]: If it complains that it cannot find ptiny, run make install in gobj.linux/pigiRpc g"
+    },
+    {
+      "chunk_id": 66,
+      "text": "n gobj.linux/pigiRpc g and then run cd $PTOLEMY make bin/pigi $PTOLEMY/bin/pigi is merely a symbolic link that"
+    },
+    {
+      "chunk_id": 67,
+      "text": "lic link that from $PTOLEMY/bin/pigiEnv.sh . [Red Hat 9.0]: I get the following message in the terminal window after clicking on \"Go\": /home/celaine/ptclassic/ptolemy/bin/pxgraph: Could not find /home"
+    },
+    {
+      "chunk_id": 68,
+      "text": "tclassic/ptolemy/bin/pxgraph: Could not find /home/celaine/ptclassic/ptolemy/bin.linux/pxgraph.x11 $PT_USE_X11_PXGRAPH was set, so Ptolemy is attempting to"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ting to use the X11 pxgraph instead of the Java pxgraph. See /home/celaine/ptclassic/ptolemy/src/pxgraph/README.txt for more information cd to gob"
+    },
+    {
+      "chunk_id": 70,
+      "text": "/pxgraph/README.txt for more information cd to gobj.linux/pxgraph g and run gmake install g. I got the following errors: In file included from ../../../src/pxgraph/pxgraph/xgout.h:37, from ../../.."
+    },
+    {
+      "chunk_id": 71,
+      "text": "from ../../../src/pxgraph/pxgraph/xgraph.c:47: ../../../src/pxgraph/pxgraph/xgraph.h:74: macro `strcpy' used without args and gcc -c -O3 -fomit-frame-pointer -W"
+    },
+    {
+      "chunk_id": 72,
+      "text": "thout args and gcc -c -O3 -fomit-frame-pointer -Wall -Wcast-align -Wsynth -Dlinux -D_REENTRANT -DI_UNISTD -I../../../src/pxgraph/pxgraph -I/usr/X11R6/include -DNEED_STRICMP=1 ../../../src/pxgraph/pxgraph/xtb.c"
+    },
+    {
+      "chunk_id": 73,
+      "text": "pxgraph/xtb.c ../../../src/pxgraph/pxgraph/xtb.c:77: macro `strcpy' used without args Comment out the lines in src/pxgraph/pxgraph/xgraph.h and gsrc/pxgraph/pxgraph/xtb.c g that say: extern char *st"
+    },
+    {
+      "chunk_id": 74,
+      "text": "/pxgraph/pxgraph/xtb.c g that say: extern char *strcpy(); Rerun make install [Debug version]: The directory name should be obj.linux.debug instead of gobj.linux g. [Debug version]: Try to run pigi . If you get this error message, it is not running t"
+    },
+    {
+      "chunk_id": 75,
+      "text": "If you get this error message, it is not running the correct binary: pigi: /home/celaine/ptclassic/ptolemy/bin.linux.debug/pigiRpc.debug does not exist or is not executable. Using /home/celaine/ptcl"
+    },
+    {
+      "chunk_id": 76,
+      "text": "executable. Using /home/celaine/ptclassic/ptolemy/bin.linux.debug/pigiRpc instead. [Debug version]: In obj.linux.debug/pigiRpc : make pigiRpc.ptrim.debug Try to run ptrim -debug . The following error message is ok: ptrim: /home/celaine"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ollowing error message is ok: ptrim: /home/celaine/ptclassic/ptolemy/bin.linux.debug/pigiRpc.ptrim.debug does not exist or is not executable. Using /home/celaine/ptclassic/ptolemy/obj.linux.debug/pi"
+    },
+    {
+      "chunk_id": 78,
+      "text": "/home/celaine/ptclassic/ptolemy/obj.linux.debug/pigiRpc/pigiRpc.ptrim.debug instead. Contact Update Help Copyright © 1999 - UC Regents; all rights reserved."
+    }
+  ]
+}

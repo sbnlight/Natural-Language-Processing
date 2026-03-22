@@ -1,0 +1,133 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/CapeCodeZeroDelayLoops",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / CapeCodeZeroDelayLoops Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / CapeCodeZeroDelayLoops See Cape Code Host -> Loops"
+    },
+    {
+      "chunk_id": 2,
+      "text": "apeCodeZeroDelayLoops See Cape Code Host -> Loops for how to avoid zero delay loops in Cape Code. This page is about the details of the implementation. The Problem When the model $PTII/org/terraswarm/accessor/test/auto/WebSocketClientJS.xml : is run,"
+    },
+    {
+      "chunk_id": 3,
+      "text": "accessor/test/auto/WebSocketClientJS.xml : is run, the following stack trace appears ptolemy. kernel . util . IllegalActionException : Found a zero delay loop containing . WebSocketClientJS . WebSocketServer in . WebSocketClientJS and . WebSocketClie"
+    },
+    {
+      "chunk_id": 4,
+      "text": "tServer in . WebSocketClientJS and . WebSocketClientJS . WebSocketServer at ptolemy. actor . util . CausalityInterfaceForComposites ._computeOutputPortDepth ( CausalityInterfaceForComposites. java : 755 ) at ptolemy. actor . util . CausalityInterface"
+    },
+    {
+      "chunk_id": 5,
+      "text": "55 ) at ptolemy. actor . util . CausalityInterfaceForComposites ._computeInputDepth ( CausalityInterfaceForComposites. java : 694 ) at ptolemy. actor . util . CausalityInterfaceForComposites ._computeOutputPortDepth ( CausalityInterfaceForComposites."
+    },
+    {
+      "chunk_id": 6,
+      "text": "OutputPortDepth ( CausalityInterfaceForComposites. java : 763 ) at ptolemy. actor . util . CausalityInterfaceForComposites ._computeInputDepth ( CausalityInterfaceForComposites. java : 694 ) at ptolemy. actor . util . CausalityInterfaceForComposites"
+    },
+    {
+      "chunk_id": 7,
+      "text": "y. actor . util . CausalityInterfaceForComposites ._computeActorDepth ( CausalityInterfaceForComposites. java : 530 ) at ptolemy. actor . util . CausalityInterfaceForComposites . checkForCycles ( CausalityInterfaceForComposites. java : 95 ) at ptolem"
+    },
+    {
+      "chunk_id": 8,
+      "text": "alityInterfaceForComposites. java : 95 ) at ptolemy. domains . de . kernel . DEDirector . preinitialize ( DEDirector. java : 1338 ) at ptolemy. actor . CompositeActor . preinitialize ( CompositeActor. java : 1820 ) at ptolemy. actor . Manager . prein"
+    },
+    {
+      "chunk_id": 9,
+      "text": "java : 1820 ) at ptolemy. actor . Manager . preinitializeAndResolveTypes ( Manager. java : 1030 ) at ptolemy. actor . Manager . initialize ( Manager. java : 702 ) at ptolemy. actor . Manager . execute ( Manager. java : 354 ) at ptolemy. actor . Mana"
+    },
+    {
+      "chunk_id": 10,
+      "text": "e ( Manager. java : 354 ) at ptolemy. actor . Manager . run ( Manager. java : 1252 ) at ptolemy. actor . Manager $PtolemyRunThread. run ( Manager. java : 1903 ) [$[Get Code]] The proposed fix is to set the connection output of accessors/web/net/WebSo"
+    },
+    {
+      "chunk_id": 11,
+      "text": "t the connection output of accessors/web/net/WebSocketServer.js to be spontaneous: this . output ( 'connection' , { 'spontaneous' : true } ) ; [$[Get Code]] However, this does not solve the problem. Analysis The MicrostepDelay actor can be used to fi"
+    },
+    {
+      "chunk_id": 12,
+      "text": "nalysis The MicrostepDelay actor can be used to fix the zero delay loop, see $PTII/org/terraswarm/accessor/test/auto/WebSocketClient.xml . However, we want to create a composite accessor that will run on any accessor host and thus does not use the M"
+    },
+    {
+      "chunk_id": 13,
+      "text": "n on any accessor host and thus does not use the MicrostepDelay actor. The MicrostepDelay actor has two methods that are used to fix the loop: /** Declare that the output does not depend on the input in a firing. * @exception IllegalActionException"
+    },
+    {
+      "chunk_id": 14,
+      "text": "in a firing. * @exception IllegalActionException If the causality interface * cannot be computed. * @see #getCausalityInterface() */ @Override public void declareDelayDependency ( ) throws IllegalActionException { _declareDelayDependency ( input,"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ctionException { _declareDelayDependency ( input, output, 0.0 ) ; } ... /** Return false indicating that this actor can be fired even if * the inputs are unknown. * @return False. */ @Override public boolean isStrict ( ) { return false ; } [$[Get C"
+    },
+    {
+      "chunk_id": 16,
+      "text": "c boolean isStrict ( ) { return false ; } [$[Get Code]] commonHost.js defines two methods that deal with spontaneous outputs: /** Assign priorities to contained accessors based on a topological sort of the * connectivity graph. Priorities are intege"
+    },
+    {
+      "chunk_id": 17,
+      "text": "f the * connectivity graph. Priorities are integers (positive or negative), where a lower * number indicates a higher priority. The number for an accessor is assured of being * higher than the number for any upstream accessor. An accessor A is up"
+    },
+    {
+      "chunk_id": 18,
+      "text": "er for any upstream accessor. An accessor A is upstream of * an accessor B if A has an output connected to an input of B and that output is not * marked \"spontaneous\" (that is, it does not have an option with name \"spontaneous\" * and value true)."
+    },
+    {
+      "chunk_id": 19,
+      "text": "option with name \"spontaneous\" * and value true). A spontaneous output is produced by an asynchronous callback * rather than as a response to an input. Every directed cycle in a connectivity * graph must contain at least one spontaneous output or"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ph must contain at least one spontaneous output or there will be a deadlock * due to a causality loop. */ Accessor. prototype . assignPriorities = function ( ) { ... [$[Get Code]] assignPriorities() calls /** Assuming that the specified accessor has"
+    },
+    {
+      "chunk_id": 21,
+      "text": "calls /** Assuming that the specified accessor has an assigned priority, follow its * connections downstream and assign priorities to connected accessors. * @param accessor The contained accessor with a priority. * @param cyclePriority If we encou"
+    },
+    {
+      "chunk_id": 22,
+      "text": "th a priority. * @param cyclePriority If we encounter an accessor with this priority, then * there is a causality loop. */ Accessor. prototype . assignImpliedPrioritiesDownstream = function ( accessor , cyclePriority ) { ... [$[Get Code]] and /**"
+    },
+    {
+      "chunk_id": 23,
+      "text": "sor , cyclePriority ) { ... [$[Get Code]] and /** Assuming that the specified accessor has an assigned priority, follow its * connections upstream and assign priorities to connected accessors. * @param accessor The contained accessor with a priorit"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ram accessor The contained accessor with a priority. * @param cyclePriority If we encounter an accessor with this priority, then * there is a causality loop. */ Accessor. prototype . assignImpliedPrioritiesUpstream = function ( accessor , cyclePri"
+    },
+    {
+      "chunk_id": 25,
+      "text": "rioritiesUpstream = function ( accessor , cyclePriority ) { var myPriority = accessor. priority ; // To get repeatable priorities, iterate over outputs in order. for ( var i = 0 ; i < accessor. outputList . length ; i ++ ) { var output = accessor. ou"
+    },
+    {
+      "chunk_id": 26,
+      "text": "List . length ; i ++ ) { var output = accessor. outputs [ accessor. outputList [ i ] ] ; if ( output. spontaneous ) { // Output is spontaneous, so my priority has no implications // for downstream accessors. continue ; } if ( output. destinations ) {"
+    },
+    {
+      "chunk_id": 27,
+      "text": "essors. continue ; } if ( output. destinations ) { // There are destination accessors. ... [$[Get Code]] These two functions loop through the outputs and if the output is marked as spontaneous The priorities are used here: /** Schedule a reaction of"
+    },
+    {
+      "chunk_id": 28,
+      "text": "orities are used here: /** Schedule a reaction of the specified contained accessor. * This puts the accessor onto the event queue in priority order. * This assumes that priorities are unique to each accessor. * It is necessary for the react() func"
+    },
+    {
+      "chunk_id": 29,
+      "text": "accessor. * It is necessary for the react() function to be invoked for this event * to be handled, so this function uses setTimeout(function, time) with time * argument 0 to schedule a reaction. This ensures that the reaction occurs * after the"
+    },
+    {
+      "chunk_id": 30,
+      "text": "his ensures that the reaction occurs * after the currently executing function has completely executed. * @param accessor The accessor. */ Accessor. prototype . scheduleEvent = function ( accessor ) { ... [$[Get Code]] Solution The solution was to a"
+    },
+    {
+      "chunk_id": 31,
+      "text": "{ ... [$[Get Code]] Solution The solution was to add declareDelayDependency() to the JavaScript actor. First, we loop through the output ports and add a SingletonParameter to the port if the spontaneous argument is present in the accessor. Then, de"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ous argument is present in the accessor. Then, declareDelayDependency() loops through the ports and declares any ports with spontaneous == true as not depending on any of the inputs. Edit - History - Print - Recent Changes - Search Page last modifie"
+    }
+  ]
+}

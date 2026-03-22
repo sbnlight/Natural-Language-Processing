@@ -1,0 +1,381 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/data/expr/FileParameter.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "FileParameter JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    },
+    {
+      "chunk_id": 2,
+      "text": "| Constr | Method Detail: Field | Constr | Method ptolemy.data.expr Class FileParameter java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.util.Attribute ptolemy.kernel.util.AbstractSettableAttribute ptolemy.data.expr.Variable ptolemy.data"
+    },
+    {
+      "chunk_id": 3,
+      "text": "eAttribute ptolemy.data.expr.Variable ptolemy.data.expr.Parameter ptolemy.data.expr.StringParameter ptolemy.data.expr.FileParameter All Implemented Interfaces: java.lang.Cloneable, HasTypeConstraints , Typeable , FileOrURLAccessor , Changeable , Debu"
+    },
+    {
+      "chunk_id": 4,
+      "text": ", Typeable , FileOrURLAccessor , Changeable , Debuggable , DebugListener , Derivable , ModelErrorHandler , MoMLExportable , Moveable , Nameable , Settable , ValueListener Direct Known Subclasses: DefaultModelAttribute , JSAccessor.ActionableAttribute"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ultModelAttribute , JSAccessor.ActionableAttribute , LiveLink public class FileParameter extends StringParameter implements FileOrURLAccessor This is an attribute that specifies a file or URL. The value of this attribute, accessed by getExpression("
+    },
+    {
+      "chunk_id": 6,
+      "text": "lue of this attribute, accessed by getExpression(), is a string that names a file or URL, possibly containing references to variables defined in scope using the syntax $ID, ${ID} or $(ID). The value returned by getToken() is the name of the file"
+    },
+    {
+      "chunk_id": 7,
+      "text": "e returned by getToken() is the name of the file with such references resolved. If this attribute contains a parameter named allowFiles with value false, then when a file browser is used to select a file, that file browser will be set to not show"
+    },
+    {
+      "chunk_id": 8,
+      "text": "file, that file browser will be set to not show files (only directories will be shown). If this attribute contains a parameter named allowDirectories with value true, then the file browser will permit the user to select directories (the default"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ermit the user to select directories (the default behavior is that when a directory is selected, that directory is opened and its contained files and directories are listed). If the model containing this attribute has been saved to a MoML file, th"
+    },
+    {
+      "chunk_id": 10,
+      "text": "this attribute has been saved to a MoML file, then the file name can be given relative to the directory containing that MoML file. If the model has not been saved to a file, then the classpath is used for identifying relative file names. Files c"
+    },
+    {
+      "chunk_id": 11,
+      "text": "used for identifying relative file names. Files can be given relative to a base , where the base is the URI of the first container above this one that has a URIAttribute. Normally, this URI specifies the file or URL containing the model definitio"
+    },
+    {
+      "chunk_id": 12,
+      "text": "es the file or URL containing the model definition. Thus, files that are referred to here can be kept in the same directory as the model, or in a related directory, and can moved together with the model. The following special file names are unders"
+    },
+    {
+      "chunk_id": 13,
+      "text": "model. The following special file names are understood: System.in: Standard input. System.out: Standard output. Note, however, that these file names cannot be converted to URLs using the asURL() method. A file name can also contain the following st"
+    },
+    {
+      "chunk_id": 14,
+      "text": "od. A file name can also contain the following strings that start with \"$\", which get substituted with the appropriate values. Predefined values String Description Property $CWD The current working directory user.dir $HOME The user's home director"
+    },
+    {
+      "chunk_id": 15,
+      "text": "directory user.dir $HOME The user's home directory user.home $PTII The home directory of the Ptolemy II installation ptolemy.ptII.dir $TMPDIR The temporary directory java.io.tmpdir $USERNAME The user's account name user.name The above properties are"
+    },
+    {
+      "chunk_id": 16,
+      "text": "'s account name user.name The above properties are normally set when a Ptolemy II application starts. If a file name begins with the reference \"$CLASSPATH\", then when the file is opened for reading, the openForReading() method will search for the f"
+    },
+    {
+      "chunk_id": 17,
+      "text": "the openForReading() method will search for the file relative to the classpath (using the getResource() method of the current class loader). This will only work for a file that exists, and thus the openForWriting() method will not understand the"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e openForWriting() method will not understand the \"$CLASSPATH\" string; this makes sense since the classpath typically has several directories, and it would not be obvious where to create the file. The asURL() method also recognizes the \"$CLASSPA"
+    },
+    {
+      "chunk_id": 19,
+      "text": "The asURL() method also recognizes the \"$CLASSPATH\" string, but not the asFile() method (which is typically used when accessing a file for writing). NOTE: If the container of this parameter also contains a variable named CLASSPATH, then the valu"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ontains a variable named CLASSPATH, then the value of that variable is used instead of the Java classpath. Since: Ptolemy II 4.0 Version: $Id$ Author: Edward A. Lee See Also: URIAttribute Pt.AcceptedRating: Yellow (cxh) Pt.ProposedRating: Green (ea"
+    },
+    {
+      "chunk_id": 21,
+      "text": "dRating: Yellow (cxh) Pt.ProposedRating: Green (eal) Nested Class Summary Nested classes/interfaces inherited from class ptolemy.data.expr. Variable Variable.CircularDependencyError , Variable.VariableScope Nested classes/interfaces inherited from cl"
+    },
+    {
+      "chunk_id": 22,
+      "text": "eScope Nested classes/interfaces inherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Nested classes/interfaces inherited from interface ptolemy.kernel.util. Settable Settable.Visibility Field Summary Fields inherited"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ettable.Visibility Field Summary Fields inherited from class ptolemy.data.expr. Variable _currentExpression , _needsEvaluation , _parserScope , _parseTreeValid , _suppressVariableSubstitution , _valueListeners Fields inherited from class ptolemy.kern"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Listeners Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME"
+    },
+    {
+      "chunk_id": 25,
+      "text": "t , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.kernel.util. Settable EXPERT , FULL , NONE , NOT_EDITABLE Constructor Summary Constructors Constructor and Desc"
+    },
+    {
+      "chunk_id": 26,
+      "text": "structor Summary Constructors Constructor and Description FileParameter ( NamedObj container, java.lang.String name) Construct an attribute with the given name contained by the specified container. FileParameter ( NamedObj container,"
+    },
+    {
+      "chunk_id": 27,
+      "text": "d container. FileParameter ( NamedObj container, java.lang.String name, boolean isOutput) Construct an attribute with the given name contained by the specified container. Method Summary All Methods Instance Methods Concret"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ethod Summary All Methods Instance Methods Concrete Methods Modifier and Type Method and Description java.io.File asFile () Return the file as a File object. java.net.URL asURL () Return the file as a URL. java.lang.Object clone ( Workspace workspace"
+    },
+    {
+      "chunk_id": 29,
+      "text": "URL. java.lang.Object clone ( Workspace workspace) Clone the attribute into the specified workspace. void close () Close the file. java.net.URI getBaseDirectory () Return the directory to use as the base for relative file or URL names. boolean isOut"
+    },
+    {
+      "chunk_id": 30,
+      "text": "base for relative file or URL names. boolean isOutput () Return whether the file is to be written to. java.io.BufferedReader openForReading () Open the file or URL for reading. java.io.Writer openForWriting () Open the file for writing. java.io.Write"
+    },
+    {
+      "chunk_id": 31,
+      "text": "riting () Open the file for writing. java.io.Writer openForWriting (boolean append) Open the file for writing or appending. void setBaseDirectory (java.net.URI directory) Set the directory to use as the base for relative file or URL names. Methods in"
+    },
+    {
+      "chunk_id": 32,
+      "text": "he base for relative file or URL names. Methods inherited from class ptolemy.data.expr. StringParameter stringValue Methods inherited from class ptolemy.data.expr. Parameter addChoice , exportMoML , getChoices , removeAllChoices , removeChoice Method"
+    },
+    {
+      "chunk_id": 33,
+      "text": "etChoices , removeAllChoices , removeChoice Methods inherited from class ptolemy.data.expr. Variable _description , _evaluate , _getCurrentExpression , _notifyValueListeners , _parseIfNecessary , _propagate , _propagateToValueListeners , _propagateVa"
+    },
+    {
+      "chunk_id": 34,
+      "text": "pagate , _propagateToValueListeners , _propagateValue , _setToken , _setTokenAndNotify , addValueListener , attributeChanged , getDeclaredType , getExpression , getFreeIdentifiers , getParserScope , getScope , getScope , getToken , getType , getTypeT"
+    },
+    {
+      "chunk_id": 35,
+      "text": "etScope , getScope , getToken , getType , getTypeTerm , getValueAsString , getVariable , getVisibility , invalidate , isKnown , isLazy , isStringMode , isSuppressVariableSubstitution , isTypeAcceptable , removeValueListener , reset , setContainer , s"
+    },
+    {
+      "chunk_id": 36,
+      "text": "e , removeValueListener , reset , setContainer , setExpression , setLazy , setName , setParseTreeEvaluator , setStringMode , setSuppressVariableSubstitution , setToken , setToken , setTypeAtLeast , setTypeAtLeast , setTypeAtMost , setTypeEquals , set"
+    },
+    {
+      "chunk_id": 37,
+      "text": "tTypeAtLeast , setTypeAtMost , setTypeEquals , setTypeSameAs , setUnknown , setValueListenerAsWeakDependency , setVisibility , stringRepresentation , toString , typeConstraintList , typeConstraints , validate , valueChanged Methods inherited from cla"
+    },
+    {
+      "chunk_id": 38,
+      "text": "validate , valueChanged Methods inherited from class ptolemy.kernel.util. AbstractSettableAttribute getDefaultExpression Methods inherited from class ptolemy.kernel.util. Attribute _checkContainer , _getContainedObject , _propagateExistence , getCont"
+    },
+    {
+      "chunk_id": 39,
+      "text": "getContainedObject , _propagateExistence , getContainer , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , updateContent Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixA"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ibute , _adjustOverride , _attachText , _cloneFixAttributeFields , _containedDecorators , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _exportMoMLContents , _getIndentPrefix , _isMoMLSuppressed , _mar"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ents , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeChange , _removeAttribute , _splitName , _stripNumericSuffix , _validateSettables , addChangeListener , addDebu"
+    },
+    {
+      "chunk_id": 42,
+      "text": ", _validateSettables , addChangeListener , addDebugListener , addHierarchyListener , attributeDeleted , attributeList , attributeList , attributeTypeChanged , clone , containedObjectsIterator , decorators , deepContains , depthInHierarchy , descripti"
+    },
+    {
+      "chunk_id": 43,
+      "text": "tors , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName"
+    },
+    {
+      "chunk_id": 44,
+      "text": "getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , get"
+    },
+    {
+      "chunk_id": 45,
+      "text": "ndler , getName , getName , getPrototypeList , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propagateExistence , propagateValue , propagateValue"
+    },
+    {
+      "chunk_id": 46,
+      "text": "opagateExistence , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErro"
+    },
+    {
+      "chunk_id": 47,
+      "text": ", setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, finalize, getClass, hashCode,"
+    },
+    {
+      "chunk_id": 48,
+      "text": "lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.kernel.util. Settable addValueListener , getDefaultExpression , getDisplayName , getExpression , getValueAsString , getVisi"
+    },
+    {
+      "chunk_id": 49,
+      "text": "yName , getExpression , getValueAsString , getVisibility , removeValueListener , setExpression , setVisibility , validate Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getFullName , getName , getName , se"
+    },
+    {
+      "chunk_id": 50,
+      "text": "etContainer , getFullName , getName , getName , setName Constructor Detail FileParameter public FileParameter( NamedObj container, java.lang.String name) throws IllegalActionException , NameDuplicationException Cons"
+    },
+    {
+      "chunk_id": 51,
+      "text": "galActionException , NameDuplicationException Construct an attribute with the given name contained by the specified container. The container argument must not be null, or a NullPointerException will be thrown. This attribute will use the works"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ll be thrown. This attribute will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to the empty string. Increment the version of the workspace. Parameters: container"
+    },
+    {
+      "chunk_id": 53,
+      "text": "e version of the workspace. Parameters: container - The container. name - The name of this attribute. Throws: IllegalActionException - If the attribute is not of an acceptable class for the container, or if the name contains a period. NameDuplicat"
+    },
+    {
+      "chunk_id": 54,
+      "text": "er, or if the name contains a period. NameDuplicationException - If the name coincides with an attribute already in the container. FileParameter public FileParameter( NamedObj container, java.lang.String name,"
+    },
+    {
+      "chunk_id": 55,
+      "text": "java.lang.String name, boolean isOutput) throws IllegalActionException , NameDuplicationException Construct an attribute with the given name contained by the specified container. The container argument"
+    },
+    {
+      "chunk_id": 56,
+      "text": "the specified container. The container argument must not be null, or a NullPointerException will be thrown. This attribute will use the workspace of the container for synchronization and version counts. If the name argument is null, then the"
+    },
+    {
+      "chunk_id": 57,
+      "text": "n counts. If the name argument is null, then the name is set to the empty string. Increment the version of the workspace. Parameters: container - The container. name - The name of this attribute. isOutput - Whether the file is to be written to. T"
+    },
+    {
+      "chunk_id": 58,
+      "text": "isOutput - Whether the file is to be written to. Throws: IllegalActionException - If the attribute is not of an acceptable class for the container, or if the name contains a period. NameDuplicationException - If the name coincides with an attri"
+    },
+    {
+      "chunk_id": 59,
+      "text": "Exception - If the name coincides with an attribute already in the container. Method Detail asFile public java.io.File asFile() throws IllegalActionException Return the file as a File object. This method first attempts to di"
+    },
+    {
+      "chunk_id": 60,
+      "text": "a File object. This method first attempts to directly use the file name to construct the File. If the resulting File is not absolute, then it attempts to resolve it relative to the base directory returned by getBaseDirectory(). If there is n"
+    },
+    {
+      "chunk_id": 61,
+      "text": "ry returned by getBaseDirectory(). If there is no such base URI, then it simply returns the relative File object. The file need not exist for this method to succeed. Thus, this method can be used to determine whether a file with a given name"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ed to determine whether a file with a given name exists, prior to calling openForWriting(). A typical usage looks like this: FileParameter fileParameter; ... File file = fileParameter.asFile(); if (file.exists()) { ..."
+    },
+    {
+      "chunk_id": 63,
+      "text": "asFile(); if (file.exists()) { ... Ask the user if it's OK to overwrite... ... Throw an exception if not... } // The following will overwrite an existing file. Writer writer = new PrintWriter(fileParameter.op"
+    },
+    {
+      "chunk_id": 64,
+      "text": "Writer writer = new PrintWriter(fileParameter.openForWriting()); If the name begins with \"$CLASSPATH\", then search for the file relative to the classpath. If the name begins with $CLASSPATH and a file is not found in the CLASSPATH, then the v"
+    },
+    {
+      "chunk_id": 65,
+      "text": "a file is not found in the CLASSPATH, then the value of $PTII is substituted in a returned. If this is not done, then the File that is created would have $CLASSPATH or xxxxxxCLASSPATHxxxxxx in the file pathname, which is unlikely to be usefu"
+    },
+    {
+      "chunk_id": 66,
+      "text": "the file pathname, which is unlikely to be useful. Specified by: asFile in interface FileOrURLAccessor Returns: A File, or null if no file name has been specified. Throws: IllegalActionException - If a parse error occurs reading the file name. S"
+    },
+    {
+      "chunk_id": 67,
+      "text": "f a parse error occurs reading the file name. See Also: getBaseDirectory() asURL public java.net.URL asURL() throws IllegalActionException Return the file as a URL. If the file name is relative, then it is interpreted as bein"
+    },
+    {
+      "chunk_id": 68,
+      "text": "name is relative, then it is interpreted as being relative to the directory returned by getBaseDirectory(). If the name begins with \"$CLASSPATH\", then search for the file relative to the classpath. If no file is found, then it throws an excep"
+    },
+    {
+      "chunk_id": 69,
+      "text": "th. If no file is found, then it throws an exception. Specified by: asURL in interface FileOrURLAccessor Returns: A URL, or null if no file name or URL has been specified. Throws: IllegalActionException - If the file cannot be read, or if the fi"
+    },
+    {
+      "chunk_id": 70,
+      "text": "tion - If the file cannot be read, or if the file cannot be represented as a URL (e.g. System.in), or the name specification cannot be parsed. clone public java.lang.Object clone( Workspace workspace) throws java.lang.Clo"
+    },
+    {
+      "chunk_id": 71,
+      "text": "space) throws java.lang.CloneNotSupportedException Clone the attribute into the specified workspace. The resulting object has no base directory name nor any reference to any open stream. Overrides: clone in class Parameter P"
+    },
+    {
+      "chunk_id": 72,
+      "text": "open stream. Overrides: clone in class Parameter Parameters: workspace - The workspace for the new object. Returns: A new attribute. Throws: java.lang.CloneNotSupportedException - If a derived class contains an attribute that cannot be cloned. See"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ontains an attribute that cannot be cloned. See Also: Object.clone() close public void close() throws IllegalActionException Close the file. If it has not been opened using openForReading() or openForWriting(), then do nothing. Also,"
+    },
+    {
+      "chunk_id": 74,
+      "text": "g() or openForWriting(), then do nothing. Also, if the file is System.in or System.out, then do not close it (it does not make sense to close these files). Specified by: close in interface FileOrURLAccessor Throws: IllegalActionException - If"
+    },
+    {
+      "chunk_id": 75,
+      "text": "OrURLAccessor Throws: IllegalActionException - If the file or URL cannot be closed. getBaseDirectory public java.net.URI getBaseDirectory() Return the directory to use as the base for relative file or URL names. If setBaseDirectory() has been ca"
+    },
+    {
+      "chunk_id": 76,
+      "text": "or URL names. If setBaseDirectory() has been called, then that directory is returned. Otherwise, the directory containing the file returned by URIAttribute.getModelURI() is returned, which is the URI of the first container above this attrib"
+    },
+    {
+      "chunk_id": 77,
+      "text": "the URI of the first container above this attribute in the hierarchy that has a URIAttribute, or null if there none. Specified by: getBaseDirectory in interface FileOrURLAccessor Returns: A directory name, or null if there is none. See Also: setB"
+    },
+    {
+      "chunk_id": 78,
+      "text": "ory name, or null if there is none. See Also: setBaseDirectory(URI) , URIAttribute.getModelURI(NamedObj) isOutput public boolean isOutput() Return whether the file is to be written to. Returns: True if the file is to be written and false otherwise. o"
+    },
+    {
+      "chunk_id": 79,
+      "text": "f the file is to be written and false otherwise. openForReading public java.io.BufferedReader openForReading() throws IllegalActionException Open the file or URL for reading. If the name begins with \"$CLASSPATH"
+    },
+    {
+      "chunk_id": 80,
+      "text": "for reading. If the name begins with \"$CLASSPATH\", then search for the file relative to the classpath. If the name is relative, then it is relative to the directory returned by getBaseDirectory(). This method will first close any previously o"
+    },
+    {
+      "chunk_id": 81,
+      "text": "). This method will first close any previously opened file, whether it was opened for reading or writing. Specified by: openForReading in interface FileOrURLAccessor Returns: A buffered reader. Throws: IllegalActionException - If the file or URL"
+    },
+    {
+      "chunk_id": 82,
+      "text": "rows: IllegalActionException - If the file or URL cannot be opened. See Also: getBaseDirectory() openForWriting public java.io.Writer openForWriting() throws IllegalActionException Open the file for writing. If the f"
+    },
+    {
+      "chunk_id": 83,
+      "text": "tionException Open the file for writing. If the file does not exist, then create it. If the file name is not absolute, the it is assumed to be relative to the base directory returned by getBaseDirectory(). If permitted, this method will retur"
+    },
+    {
+      "chunk_id": 84,
+      "text": "irectory(). If permitted, this method will return a Writer that will simply overwrite the contents of the file. It is up to the user of this method to check whether this is OK (by first calling asFile() and calling exists() on the returned va"
+    },
+    {
+      "chunk_id": 85,
+      "text": "asFile() and calling exists() on the returned value). This method will first close any previously opened file, whether it was opened for reading or writing. Specified by: openForWriting in interface FileOrURLAccessor Returns: A writer, or null"
+    },
+    {
+      "chunk_id": 86,
+      "text": "face FileOrURLAccessor Returns: A writer, or null if no file name has been specified. Throws: IllegalActionException - If the file cannot be opened or created. See Also: getBaseDirectory() , asFile() openForWriting public java.io.Writer openForWri"
+    },
+    {
+      "chunk_id": 87,
+      "text": "() openForWriting public java.io.Writer openForWriting(boolean append) throws IllegalActionException Open the file for writing or appending. If the file does not exist, then create it. If the file name is not absolu"
+    },
+    {
+      "chunk_id": 88,
+      "text": "then create it. If the file name is not absolute, the it is assumed to be relative to the base directory returned by getBaseDirectory(). If permitted, this method will return a Writer that will simply overwrite the contents of the file. It"
+    },
+    {
+      "chunk_id": 89,
+      "text": "l simply overwrite the contents of the file. It is up to the user of this method to check whether this is OK (by first calling asFile() and calling exists() on the returned value). This method will first close any previously opened file, wh"
+    },
+    {
+      "chunk_id": 90,
+      "text": "will first close any previously opened file, whether it was opened for reading or writing. Specified by: openForWriting in interface FileOrURLAccessor Parameters: append - If true, then append to the file rather than overwriting. Returns: A w"
+    },
+    {
+      "chunk_id": 91,
+      "text": "the file rather than overwriting. Returns: A writer, or null if no file name has been specified. Throws: IllegalActionException - If the file cannot be opened or created. See Also: getBaseDirectory() , asFile() setBaseDirectory public void set"
+    },
+    {
+      "chunk_id": 92,
+      "text": "tory() , asFile() setBaseDirectory public void setBaseDirectory(java.net.URI directory) Set the directory to use as the base for relative file or URL names. Specified by: setBaseDirectory in interface FileOrURLAccessor Parameters: directory - The bas"
+    },
+    {
+      "chunk_id": 93,
+      "text": "FileOrURLAccessor Parameters: directory - The base directory. See Also: getBaseDirectory() , URIAttribute.getModelURI(NamedObj) Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classe"
+    },
+    {
+      "chunk_id": 94,
+      "text": "Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

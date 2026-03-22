@@ -1,0 +1,169 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII4.0/ptII4.0.1/doc/codeDoc/ptolemy/actor/lib/security/SymmetricEncryption.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "SymmetricEncryption Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.lib.security Class SymmetricEncryption ja"
+    },
+    {
+      "chunk_id": 2,
+      "text": "my.actor.lib.security Class SymmetricEncryption java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.actor.AtomicActor ptolemy.actor.TypedAtomicActor ptolemy.ac"
+    },
+    {
+      "chunk_id": 3,
+      "text": "micActor ptolemy.actor.TypedAtomicActor ptolemy.actor.lib.security.CryptographyActor ptolemy.actor.lib.security.CipherActor ptolemy.actor.lib.security.SymmetricEncryption All Implemented Interfaces: Actor , Changeable , java.lang.Cloneable, Debuggabl"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ctor , Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , Instantiable , ModelErrorHandler , MoMLExportable , Nameable , java.io.Serializable, TypedActor public class SymmetricEncryption extends CipherActor Encryp"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ass SymmetricEncryption extends CipherActor Encrypt an unsigned byte array using a symmetric algorithm. In cryptography, a symmetric algorithm is an algorithm that uses the same key for encryption and decryption. An asymmetric algorithm uses t"
+    },
+    {
+      "chunk_id": 6,
+      "text": "and decryption. An asymmetric algorithm uses two different keys: a public key and a private key. Sun's documentation says that asymmetric algorithms are usually much slower than symmetric algorithms. The initial default set of algorithms"
+    },
+    {
+      "chunk_id": 7,
+      "text": "lgorithms. The initial default set of algorithms that comes with the Sun JDK does not include an asymmetric encryption algorithm, though other algorithms may be installed by the system administrator. This actor reads an unsigned byte array at"
+    },
+    {
+      "chunk_id": 8,
+      "text": "rator. This actor reads an unsigned byte array at the input port, encrypts the data using the data from the key port and then writes the unsigned byte array results to the output port. The key should be the same for both the SymmetricDecrypt"
+    },
+    {
+      "chunk_id": 9,
+      "text": "hould be the same for both the SymmetricDecryption actor and this actor. The key should not be visible to users as the security of the encrypted message relies on the secrecy of this key. The algorithm parameter determines which algorithm i"
+    },
+    {
+      "chunk_id": 10,
+      "text": "e algorithm parameter determines which algorithm is used. The algorithm specified must be symmetric. The mode and padding can also be specified in the mode and padding parameters. In case a provider specific instance of an algorithm is need"
+    },
+    {
+      "chunk_id": 11,
+      "text": "provider specific instance of an algorithm is needed the provider may also be specified in the provider parameter. Note that for simplicity, this actor does not support the notion of algorithm parameters, so the algorithm must not require th"
+    },
+    {
+      "chunk_id": 12,
+      "text": "arameters, so the algorithm must not require that algorithm parameters be transmitted separately from the key. If the user selects an algorithm that uses algorithm parameters, then an exception will likely be thrown. This actor relies on the"
+    },
+    {
+      "chunk_id": 13,
+      "text": "on will likely be thrown. This actor relies on the Java Cryptography Architecture (JCA) and Java Cryptography Extension (JCE). See the CryptographyActor documentation for resources about the JCE. Since: Ptolemy II 4.0 Version: $Id: SymmetricEn"
+    },
+    {
+      "chunk_id": 14,
+      "text": "E. Since: Ptolemy II 4.0 Version: $Id: SymmetricEncryption.java,v 1.39 2004/04/13 05:12:38 cxh Exp $ Author: Christopher Hylands Brooks, Contributor: Rakesh Reddy See Also: Serialized Form Accepted Rating: Yellow (cxh) Proposed Rating: Green (cxh) Ne"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ting: Yellow (cxh) Proposed Rating: Green (cxh) Nested Class Summary Nested classes inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary TypedIOPort key The key to be used by this actor to encrypt the data. Fields"
+    },
+    {
+      "chunk_id": 16,
+      "text": "be used by this actor to encrypt the data. Fields inherited from class ptolemy.actor.lib.security. CipherActor _cipher , _mode , _padding , _updateCipherNeeded , mode , padding Fields inherited from class ptolemy.actor.lib.security. CryptographyActo"
+    },
+    {
+      "chunk_id": 17,
+      "text": "class ptolemy.actor.lib.security. CryptographyActor _algorithm , _keySize , _provider , algorithm , input , keySize , output , provider Fields inherited from class ptolemy.actor. AtomicActor _stopRequested Fields inherited from class ptolemy.kernel.u"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ested Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNA"
+    },
+    {
+      "chunk_id": 19,
+      "text": ", CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary SymmetricEncryption ( CompositeEntity container, jav"
+    },
+    {
+      "chunk_id": 20,
+      "text": "CompositeEntity container, java.lang.String name) Construct an actor with the given container and name. Method Summary protected byte[] _process (byte[] dataBytes) Encrypt the data using the javax.crypto.Cipher. void fire () If t"
+    },
+    {
+      "chunk_id": 21,
+      "text": "a using the javax.crypto.Cipher. void fire () If there is a token on the input port, this method takes the data from the input and encrypts the data based on the algorithm , provider , mode and padding using the key read in from the key port. Metho"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ing using the key read in from the key port. Methods inherited from class ptolemy.actor.lib.security. CipherActor _updateCipher , attributeChanged , initialize Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChang"
+    },
+    {
+      "chunk_id": 23,
+      "text": "or. TypedAtomicActor _addPort , attributeTypeChanged , clone , newPort , typeConstraintList Methods inherited from class ptolemy.actor. AtomicActor _createReceivers , clone , connectionsChanged , getDirector , getExecutiveDirector , getFunctionDepend"
+    },
+    {
+      "chunk_id": 24,
+      "text": "irector , getExecutiveDirector , getFunctionDependency , getManager , inputPortList , iterate , newReceiver , outputPortList , postfire , prefire , preinitialize , pruneDependencies , removeDependency , setContainer , stop , stopFire , terminate , wr"
+    },
+    {
+      "chunk_id": 30,
+      "text": "gateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeList , attributeList , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , export"
+    },
+    {
+      "chunk_id": 31,
+      "text": "vent , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDerivedList , getFullName , getModelErrorHandler , getName , getName , getSourc"
+    },
+    {
+      "chunk_id": 32,
+      "text": "etModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName"
+    },
+    {
+      "chunk_id": 33,
+      "text": "emoveDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setModelErrorHandler , setPersistent , setSource , toplevel , toString , workspace Methods inherited from class java.lang.Object equals, finalize, getC"
+    },
+    {
+      "chunk_id": 34,
+      "text": "from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.actor. Actor getDirector , getExecutiveDirector , getFunctionDependency , getManager , inputPortList , newR"
+    },
+    {
+      "chunk_id": 35,
+      "text": "tionDependency , getManager , inputPortList , newReceiver , outputPortList Methods inherited from interface ptolemy.actor. Executable iterate , postfire , prefire , preinitialize , stop , stopFire , terminate , wrapup Methods inherited from interface"
+    },
+    {
+      "chunk_id": 36,
+      "text": "erminate , wrapup Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getFullName , getName , getName Field Det"
+    },
+    {
+      "chunk_id": 37,
+      "text": "iption , getFullName , getName , getName Field Detail key public TypedIOPort key The key to be used by this actor to encrypt the data. The type is an KeyToken containing a java.security.Key. Usually the output of the SecretKey actor is connected"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ly the output of the SecretKey actor is connected to this port Constructor Detail SymmetricEncryption public SymmetricEncryption ( CompositeEntity container, java.lang.String name) throws NameDuplication"
+    },
+    {
+      "chunk_id": 39,
+      "text": "g name) throws NameDuplicationException , IllegalActionException Construct an actor with the given container and name. Parameters: container - The container. name - The name of this actor. Throws: IllegalActionException - If the a"
+    },
+    {
+      "chunk_id": 40,
+      "text": "s actor. Throws: IllegalActionException - If the actor cannot be contained by the proposed container. NameDuplicationException - If the container already has an actor with this name. Method Detail fire public void fire () throws Illeg"
+    },
+    {
+      "chunk_id": 41,
+      "text": "il fire public void fire () throws IllegalActionException If there is a token on the input port, this method takes the data from the input and encrypts the data based on the algorithm , provider , mode and padding using the key read in fr"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ovider , mode and padding using the key read in from the key port. This processed data is then sent on the output port. All parameters should be the same as the corresponding decryption actor. This method calls javax.crypto.Cipher.init() wit"
+    },
+    {
+      "chunk_id": 43,
+      "text": "This method calls javax.crypto.Cipher.init() with the value of the key . Specified by: fire in interface Executable Overrides: fire in class CipherActor Throws: IllegalActionException - If thrown by base class. _process protected byte[] _process (b"
+    },
+    {
+      "chunk_id": 44,
+      "text": "base class. _process protected byte[] _process (byte[] dataBytes) throws IllegalActionException Encrypt the data using the javax.crypto.Cipher. Specified by: _process in class CryptographyActor Parameters: dataBytes - the data to"
+    },
+    {
+      "chunk_id": 45,
+      "text": "tographyActor Parameters: dataBytes - the data to be encrypted. Returns: byte[] the encrypted data. Throws: IllegalActionException - If error occurs in ByteArrayOutputStream, if the key is invalid, if the padding is bad or if the block size is ille"
+    },
+    {
+      "chunk_id": 46,
+      "text": "f the padding is bad or if the block size is illegal. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

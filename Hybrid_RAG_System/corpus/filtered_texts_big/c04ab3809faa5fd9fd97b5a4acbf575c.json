@@ -1,0 +1,213 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/cs169.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/cs169.help F"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Feb 17 2009 CONTENTS: Resources for CS169 SVN mySQL (UNIX) PostgreSQL (UNIX) Apache (UNIX) Jakarta-Tomcat (UNIX) PHP (UNIX) OpenSSL (UNIX) IIS (Windows) MS-SQL (Windows) Displaying MS-SQL"
+    },
+    {
+      "chunk_id": 3,
+      "text": "IS (Windows) MS-SQL (Windows) Displaying MS-SQL data via IIS (Windows) Rational Software Architect Resources for CS169 ------------------- CS169 projects often involve software that is not already available on the EECS Instruction systems"
+    },
+    {
+      "chunk_id": 4,
+      "text": "lready available on the EECS Instruction systems, so CS169 TAs should notify EECS Instruction (via email to inst@eecs.berkeley.edu) of the software requirements for CS169 projects. CS169 projects often involve database access via a WEB serv"
+    },
+    {
+      "chunk_id": 5,
+      "text": "jects often involve database access via a WEB server. Here is the software that we have provided in the past: IIS, Tomcat on Scotland (Windows server) JDK, Visual C++ (on Windows in 330 Soda) PHP, Tomcat, mySQL, Perl on Pentagon (UNIX) Apache"
+    },
+    {
+      "chunk_id": 6,
+      "text": "HP, Tomcat, mySQL, Perl on Pentagon (UNIX) Apache server on Pentagon (UNIX), with server-side includes Postgres on Pentagon (UNIX), can be accessed from IIS or Apache CVS (on Windows in 330 Soda and on UNIX accounts) SVN --- Repositories can b"
+    },
+    {
+      "chunk_id": 7,
+      "text": "d on UNIX accounts) SVN --- Repositories can be set up for individuals and for groups. Please see /share/b/pub/svn.help for mnore information. mySQL (UNIX) ----- Located on pentagon.CS under /usr/local/mysql Documentation: http://www.my"
+    },
+    {
+      "chunk_id": 8,
+      "text": "er /usr/local/mysql Documentation: http://www.mysql.com Here is how to setup for individual use: % set path = (/usr/local/mysql/bin $path) % vi .my.cnf Include the following info [mysqld] datadir=/home/cc/cs169/sp05/class/cs169-xx/var"
+    },
+    {
+      "chunk_id": 9,
+      "text": "] datadir=/home/cc/cs169/sp05/class/cs169-xx/var/data socket=cs169-xx.sock port=3306 <--- Make sure to use a unique port #user=cs169-xx [mysql.server] basedir=/home/cc/cs169/sp05/class/cs169-xx/var ** xx should be replaced by your logi"
+    },
+    {
+      "chunk_id": 10,
+      "text": "169-xx/var ** xx should be replaced by your login letters. % mysql_install_db % mysqld_safe & % mysql --socket=$HOME/var/data/cs169-xx.sock -u root The on-line help files on Pentagon are in /usr/local/mysql/man. To read them (for example)"
+    },
+    {
+      "chunk_id": 11,
+      "text": "usr/local/mysql/man. To read them (for example): % man -M /usr/local/mysql/man mysql PostgreSQL (UNIX) ---------- Located on pentagon under /usr/local/pgsql docs: http://www.postgresql.org and /usr/local/pgsql/doc Here is how to setup f"
+    },
+    {
+      "chunk_id": 12,
+      "text": "and /usr/local/pgsql/doc Here is how to setup for individual use: Please substitute cs169-?? with your login. Example: cs169-aa Assume ($HOME=/home/cc/cs169/fa07/class/cs169-??) % set path = (/usr/local/pgsql/bin $path) % setenv PGDATA $HOME"
+    },
+    {
+      "chunk_id": 13,
+      "text": "/usr/local/pgsql/bin $path) % setenv PGDATA $HOME/pgsqldb % initdb After you have initiallized the pgsqldb directory you need to edit the file labeled postgresql.conf under the pgsqldb directory. Specifically you need to edit the port you w"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ry. Specifically you need to edit the port you will be using. Please contact your TA if you don't understand what this means. To avoid having to include the port in the following commands you can set the environment variable PGPORT."
+    },
+    {
+      "chunk_id": 15,
+      "text": "an set the environment variable PGPORT. Example: % setenv PGPORT 53546 Once you have done this you can start the server with the pg_ctl command. % pg_ctl -D $PGDATA -l logfile start Before you can create and populate tables you"
+    },
+    {
+      "chunk_id": 16,
+      "text": "t Before you can create and populate tables you need to create a db you can access. % createdb --port= cs169-?? To access the running daemon and be able to populate the database you use psql. % psql -p cs169-?? To stop the server you"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ql. % psql -p cs169-?? To stop the server you just run pg_ctl with a stop directive. % pg_ctl stop Apache (UNIX) ------ Located on pentagon under /usr/local/apache2 docs: http://pentagon.cs.berkeley.edu/manual Running on port 80 l"
+    },
+    {
+      "chunk_id": 18,
+      "text": "n.cs.berkeley.edu/manual Running on port 80 logs: /usr/local/apache2/logs group URL: http://pentagon.CS.Berkeley.EDU/~cs169-g1 Jakarta-Tomcat (UNIX) -------------- Stand-alone WEB server that will do JSP. Located on pentagon under /usr/"
+    },
+    {
+      "chunk_id": 19,
+      "text": "hat will do JSP. Located on pentagon under /usr/local/tomcat docs: http://jakarta.apache.org/tomcat If you want to run it, do the following on pentagon. Create an \"mc/tomcat\" directory in your home directory % cd ~ % mkdir -p mc/tomcat"
+    },
+    {
+      "chunk_id": 20,
+      "text": "r home directory % cd ~ % mkdir -p mc/tomcat Enter that directory, and create symbolic links to all of the files and directories in /usr/local/tomcat: % cd mc/tomcat % ln -s /usr/local/tomcat/* . Remove the \"logs\", \"conf\", \"webapps\", a"
+    },
+    {
+      "chunk_id": 21,
+      "text": "cat/* . Remove the \"logs\", \"conf\", \"webapps\", and \"work\" symlinks. Then, create \"logs\" and \"work\" directories and copy the \"conf\" and \"webapps\" directories from /usr/local/tomcat so that you can setup your own configuration: % \\rm logs"
+    },
+    {
+      "chunk_id": 22,
+      "text": "can setup your own configuration: % \\rm logs conf webapps work % mkdir logs % mkdir work % cp -R /usr/local/tomcat/conf . % cp -R /usr/local/tomcat/webapps . Set these environment variables: setenv JAVA_HOME /usr/sww/opt/java setenv C"
+    },
+    {
+      "chunk_id": 23,
+      "text": "es: setenv JAVA_HOME /usr/sww/opt/java setenv CATALINA_HOME ~/mc/tomcat You can type them at the command line each time you login, or you can add them to your ~/.cshrc file so they are set automatically each time you login. By default"
+    },
+    {
+      "chunk_id": 24,
+      "text": "tomatically each time you login. By default tomcat is setup to start on port 8080. You want to change this port to something else. Otherwise you may encounter problems. To change this port edit conf/server.xml file and change the value for"
+    },
+    {
+      "chunk_id": 25,
+      "text": "dit conf/server.xml file and change the value for Programs->Microsoft Sql Server->Query Analyzer Enter \"scotland\" for the SQL Server, select \"Windows authentication\". Select Query->Change Database...\" to select your database. Select Edit->Ins"
+    },
+    {
+      "chunk_id": 26,
+      "text": "e...\" to select your database. Select Edit->Insert Template...\" to select SQL coding samples. If you wish to access the SQL server from another Windows computer such as a laptop, you can install the client tools there. To do that: 1."
+    },
+    {
+      "chunk_id": 27,
+      "text": "stall the client tools there. To do that: 1. Logon to your computer as the local Administator. 2. Connect these shares ahead of time: \\\\fileservice.eecs.berkeley.edu\\software \\\\winsww.eecs.berkeley.edu\\sww You can do that by ente"
+    },
+    {
+      "chunk_id": 28,
+      "text": "s.berkeley.edu\\sww You can do that by entering those share names in the Start->Run window (one at a time) and clicking \"OK\". When you are prompted for a username and password, enter \"EECS\\cs169-xx\" (replace cs169-xx with your o"
+    },
+    {
+      "chunk_id": 29,
+      "text": "nter \"EECS\\cs169-xx\" (replace cs169-xx with your own EECS Windows username) and enter the password for that account. After a short delay, a directory window will pop up for that share. 3. Then select \"Start\" and \"Run\" again and en"
+    },
+    {
+      "chunk_id": 30,
+      "text": "3. Then select \"Start\" and \"Run\" again and enter \\\\fileservice\\software\\sqlserver\\InstallSqlClient\\SqlSrvrClient-EECS.bat and click on \"OK\". After the script completes you should be able to connect to the dataserver"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ould be able to connect to the dataserver on scotland by invoking: Start->Programs->Microsoft Sql Server->Query Analyzer as described above. If the Query Analyzer asks you for a username and password, enter the same"
+    },
+    {
+      "chunk_id": 32,
+      "text": "or a username and password, enter the same thing as in step 2 above. Displaying MS-SQL data via IIS (Windows) ------------------------------ EECS Instruction will set permissions on the MS-SQL database and on the \\\\fileservice\\cs169\\sp0"
+    },
+    {
+      "chunk_id": 33,
+      "text": "-SQL database and on the \\\\fileservice\\cs169\\sp05\\www group folder so that the students in a group can access the database via Query Analyzer and can install server-side programs that are run via http://scotland.cs.berkeley.edu. CS169 TAs sh"
+    },
+    {
+      "chunk_id": 34,
+      "text": "a http://scotland.cs.berkeley.edu. CS169 TAs should inform EECS Instruction of the members of the group. Programming tools for the server-side programs include perl and MS Visual Studio compilers. For references, see http://inst.eecs.berk"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ers. For references, see http://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=perl.help http://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=microsoft.help Visual Basic and .NET are problematic because they only run with local administrator p"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ecause they only run with local administrator privileges, which we cannot give to students in the Instructional labs. So students who wish to use Visual Basic should plan to use their own computers. EECS Instruction can provide a copy of"
+    },
+    {
+      "chunk_id": 37,
+      "text": "puters. EECS Instruction can provide a copy of Visual Basic. Here are examples of how to 1. create the database tables 2. use ASP to connect to the database and generate a table of the results 3. dump the contents of a table usin"
+    },
+    {
+      "chunk_id": 38,
+      "text": "e results 3. dump the contents of a table using a command line perl script 1. Example of connecting to SqlServer using command line tool osql.exe and creating and inserting into tables. The tool is located in: C:\\Program Files\\Microso"
+    },
+    {
+      "chunk_id": 39,
+      "text": "The tool is located in: C:\\Program Files\\Microsoft SQL Server\\80\\Tools\\BINN\\osql.exe % osql -Ucs169-g1 -Sscotland Password: 1> use g1 2> go 1> create table t1 (c1 int, c2 varchar(3)) 2> go 1> insert into t1 values (1,\"foo\") 2> go 1> sele"
+    },
+    {
+      "chunk_id": 40,
+      "text": "1> insert into t1 values (1,\"foo\") 2> go 1> select * from t1 2> go c1 c2 ----------- ---- 1 foo 1> CREATE TABLE mytable 2> ( 3> low int, 4> high int, 5> myavg AS (low + high)/2 6> ) 7> 8> go 1>"
+    },
+    {
+      "chunk_id": 41,
+      "text": "myavg AS (low + high)/2 6> ) 7> 8> go 1> insert into mytable values (3,4) 2> insert into mytable values (9,5) 3> go 1> select * from mytable 2> go low high myavg ----------- ----------- ----------- 3"
+    },
+    {
+      "chunk_id": 42,
+      "text": "------ ----------- ----------- 3 4 3 9 5 7 2. Connecting to SQL Server using ASP. Create a file foo.asp containing the fragment below, and place it in the website. This will co"
+    },
+    {
+      "chunk_id": 43,
+      "text": "t below, and place it in the website. This will connect to the dataserver, with the user/password in the script, and access the data from the table created in example 1, and display it as a table. Low High Average <% 'Set an active conne"
+    },
+    {
+      "chunk_id": 44,
+      "text": "a table. Low High Average <% 'Set an active connection to the Connection object using a DSN-less connection sConnect=\"DRIVER={SQL Server}; Server=SCOTLAND;Database=G1;UID=cs169-g1;PWD=cs169-g1;\" sql = \"SELECT low,high,myavg FROM myTable \" Set"
+    },
+    {
+      "chunk_id": 45,
+      "text": "sql = \"SELECT low,high,myavg FROM myTable \" Set objRec = Server.CreateObject(\"ADODB.Recordset\") objRec.Open sql, sConnect While NOT objRec.EOF Response.Write( \" \" & \" \" & objRec(\"low\") & \" \" & \" \" & objRec(\"high\") & \" \" & \" \" & objRec"
+    },
+    {
+      "chunk_id": 46,
+      "text": "& \" \" & \" \" & objRec(\"high\") & \" \" & \" \" & objRec(\"myavg\") & \" \") objRec.MoveNext Wend objRec.Close Set objRec = Nothing %> 3. Connecting to SQL Server using Perl. Logs into sqlserver and dumps out the table contents. Run the perl"
+    },
+    {
+      "chunk_id": 47,
+      "text": "d dumps out the table contents. Run the perl script via the commandline. #!perl use DBI; use Win32; my $password = \"cs169-g1\"; $dbh = DBI->connect( \"dbi:ODBC:scotland\", \"cs169-g1\", $password, {RaiseError => 0, PrintError => 1, Auto"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ssword, {RaiseError => 0, PrintError => 1, AutoCommit => 1} ) or die \"Unable to connect: \" . $DBI::errstr . \"\\n\"; $sel = $dbh->prepare(\"use G1\"); $ret = $sel->execute; $sel = $dbh->prepare(\"select * from myTable\"); $ret = $sel->execut"
+    },
+    {
+      "chunk_id": 49,
+      "text": "are(\"select * from myTable\"); $ret = $sel->execute; my $resources = $sel->fetchall_arrayref( { low => 1, high => 1, myavg => 1 } ); #print \" \\n \\n Low High Average \\n\"; print \"Low\\tHigh\\TAverage\\n"
+    },
+    {
+      "chunk_id": 50,
+      "text": "Low High Average \\n\"; print \"Low\\tHigh\\TAverage\\n\"; foreach my $row (@$resources) { #printf(\" %d %d %d \\n\", printf(\"%d\\t%d\\t%d\\n\", $row->{\"low\"},$row->{\"high\"},$row->{\"myavg\"}); } #print \" \\n\"; Rational Software Architect"
+    },
+    {
+      "chunk_id": 51,
+      "text": "); } #print \" \\n\"; Rational Software Architect --------------------------- Prof Bodik obtained Rational Software Architect from IBM for use by CS169 in Fall 2005. It is installed on the Windows computers in 330 Soda. Instructional"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ows computers in 330 Soda. Instructional Support Group 378/384/386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

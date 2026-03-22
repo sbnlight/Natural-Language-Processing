@@ -1,0 +1,109 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/~cxh/sapub/sketchup.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Sketchup Sketchup SketchUp is a free 3D modelling tool that interfaces to Google Earth Virtual Playa Virtual Playa has a number of models of art from Burning Man. I spent some time converting these to FlightGear . Below are notes about importing Mic"
+    },
+    {
+      "chunk_id": 2,
+      "text": "o FlightGear . Below are notes about importing Microsoft Flight Simulator bgl files into Sketchup. Obviously, one should not violate the copyright of any bgl files. Importing 3ds models See the Virtual Playa Flight Gear Instructions for information"
+    },
+    {
+      "chunk_id": 3,
+      "text": "al Playa Flight Gear Instructions for information on downloading Virtual Playa .bgl files and the flipped bitmaps. I used the FlightGear utils/Modeller/threedconvert.exe program to convert from .bgl to 3ds: ../FlightGear-0.9.8/utils/Modeller/threedc"
+    },
+    {
+      "chunk_id": 4,
+      "text": "to 3ds: ../FlightGear-0.9.8/utils/Modeller/threedconvert.exe duckybar.ssg duckybar.3ds Here's a script that will convert all the .bgl files to .3ds files: #!/bin/sh bgls=`ls -1 *.bgl` for bgl in $bgls do echo $bgl ssg=`basename $bgl .bgl`.3ds ./Fl"
+    },
+    {
+      "chunk_id": 5,
+      "text": "do echo $bgl ssg=`basename $bgl .bgl`.3ds ./FlightGear-0.9.8/utils/Modeller/threedconvert.exe $bgl $ssg >& `basename $bgl bgl`.out ls -l $ssg done Download and Install Google Sketchup . In 6/06, I used the free edition of version 5. Start up Go"
+    },
+    {
+      "chunk_id": 6,
+      "text": "I used the free edition of version 5. Start up Google Sketchup. Import the first .3ds model: File -> Import, Important: set the units to feet by hitting the Options button and selecting feet. Browse to the 3ds file, hit open The model will appear. I"
+    },
+    {
+      "chunk_id": 7,
+      "text": "to the 3ds file, hit open The model will appear. Importing Sketchup Models into Google Earth There is plenty of good documentation about this in Google Sketchup Support : How do I place a SketchUp model in Google Earth? BurningMan.kmz Google Earth Su"
+    },
+    {
+      "chunk_id": 8,
+      "text": "el in Google Earth? BurningMan.kmz Google Earth Super-position scripts There is a limit to how large a single image can be. To see the limit, start Google Earth and see Help -&gt About. Typically, the limit is 2048x2048. ( Instructions ) Sketchup: W"
+    },
+    {
+      "chunk_id": 9,
+      "text": "limit is 2048x2048. ( Instructions ) Sketchup: What's the best way to import a large images into Sketchup? Google Earth User Guide: Using Image Overlays and 3D models Google Earth KML Google Earth KML 2.0 Tutorial Google Earth KML User Guide COLLAD"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ML 2.0 Tutorial Google Earth KML User Guide COLLADA says: \"Google Earth (release 4) has adopted COLLADA (1.4) as their native format for describing the objects populating the earth. Users can simply drag and drop a COLLADA (.dae) file on top of the v"
+    },
+    {
+      "chunk_id": 11,
+      "text": "rag and drop a COLLADA (.dae) file on top of the virtual earth. Alternatively, Google sketchup can also be used to create .kmz files, a zip file containing a KML file, a COLLADA (.dae) file, and all the texture images.\" Brian Flood's overview of Goog"
+    },
+    {
+      "chunk_id": 12,
+      "text": "he texture images.\" Brian Flood's overview of Google Earth 4 and KML 2.1 The Keyhole bbs: info about super-overlays Creating an overlay Based on The Java Forum about tiling Netpbm's pamdice seems useful Install Cygwin and select Netpbm Convert the i"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ul Install Cygwin and select Netpbm Convert the image from png to pnm: pngtopnm < ../06TCmap2.png > 06TCmap2.pnm Dice it: pamdice -outstem 06TCmap2_256 -width=256 -height=256 < 06TCmap2.pnm You will need the Imagemagick tools. I installed Cygwin fr"
+    },
+    {
+      "chunk_id": 14,
+      "text": "need the Imagemagick tools. I installed Cygwin from http://www.cygwin.com and then be sure to install Imagemagick. Scripts subdivide2 Takes an image, subdivides it until the image size is less than 256 bytes. Each image is also resampled to 256x2"
+    },
+    {
+      "chunk_id": 15,
+      "text": "256 bytes. Each image is also resampled to 256x256. The sub images are put into directories 0, 1, 2, 3 with layout 0 1 2 3 Note that the images/ subdirectories can be removed after subdivide2 runs dicekml traverses the directories create"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ide2 runs dicekml traverses the directories created by subdivide2. Sample Usage Edit subdivide2 and set the subdivide2 variable to the location of the subdivide2 script. We do this because subdivide2 calls itself recursively. Edit dicekml and"
+    },
+    {
+      "chunk_id": 17,
+      "text": "de2 calls itself recursively. Edit dicekml and set the dicekml variable to the location of the dicekml script. Again, we do this because dicekml calls itself recursively. Invoke subdivide2, creating the subdirectories: subdivide2 CompositeM"
+    },
+    {
+      "chunk_id": 18,
+      "text": "creating the subdirectories: subdivide2 CompositeMerged.png Tuning tip: Ideally, the image is an even multiple of 256 pixels and is square. If not, you can adjust the sizes to which the model is scalled and the size at which we subdivide agai"
+    },
+    {
+      "chunk_id": 19,
+      "text": "is scalled and the size at which we subdivide again. For example, a large image divides down to 359x307, so we scale it to that size and only subdivide if the image is larger than that size: if [ $newWidth -gt 359 -o $newHeight -gt 307 ] ; then"
+    },
+    {
+      "chunk_id": 20,
+      "text": "[ $newWidth -gt 359 -o $newHeight -gt 307 ] ; then (cd $ext; $subdivide2 img.png) fi # Scale to the smallest tile size mogrify -scale 359x307 $ext/img.png Convert the initial image to its tile by using the Imagemagick \"conver"
+    },
+    {
+      "chunk_id": 21,
+      "text": "e to its tile by using the Imagemagick \"convert\" utility. convert -scale 256 CompositeMerged.png img.png If, under Windows, convert fails to start up, you may need to adjust the path: export PATH=/usr/X11R6/bin:${PATH} Note that 256x256 is th"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ATH=/usr/X11R6/bin:${PATH} Note that 256x256 is the magic number if your image size divides by 256. An alternative is to resize it so that it is the same size as the smallest tile that is produced by subdivide2. Continuing with our exam"
+    },
+    {
+      "chunk_id": 23,
+      "text": "duced by subdivide2. Continuing with our example one would: convert -scale 359x307 CompositeMerged.png img.png Invoke dicekml, creating the doc.kml files First, update dicekml by changing minLodPixels=270 to the value of the size of the tile"
+    },
+    {
+      "chunk_id": 24,
+      "text": "LodPixels=270 to the value of the size of the tiles. For example, my tiles came out to be 180x153, so I set minLodPixels to 180+(180/2). An alternative would be change subdivide2 so that it does not create images less than 307 pixels in siz"
+    },
+    {
+      "chunk_id": 25,
+      "text": "s not create images less than 307 pixels in size. Then, run dicekml: dicekml 40.78698240735224 40.75238209417149 -119.1995634988887 -119.2439715775522 Clean up the images directories created by subdivide2 find . -name \"images\" -exec rmdir {} \\; C"
+    },
+    {
+      "chunk_id": 26,
+      "text": "bdivide2 find . -name \"images\" -exec rmdir {} \\; Create a top.kml file and update the lat and lon."
+    }
+  ]
+}

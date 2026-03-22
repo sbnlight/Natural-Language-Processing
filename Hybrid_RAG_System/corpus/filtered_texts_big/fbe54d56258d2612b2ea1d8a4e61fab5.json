@@ -1,0 +1,309 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/math/Precision.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Precision Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.math Class Precision java.lang.Object ptolemy.math.Precis"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ass Precision java.lang.Object ptolemy.math.Precision All Implemented Interfaces: java.lang.Cloneable, java.io.Serializable public class Precision extends java.lang.Object implements java.lang.Cloneable, java.io.Serializable This class defines the pr"
+    },
+    {
+      "chunk_id": 3,
+      "text": "le, java.io.Serializable This class defines the precision of a signed or unsigned fixed point value. The precision of a fixed point value is represented as internally as three fields: the number of bits ( n ), the binary exponent ( e ), and a sign"
+    },
+    {
+      "chunk_id": 4,
+      "text": "bits ( n ), the binary exponent ( e ), and a sign bit ( s ). The number of bits ( n ) defines the dynamic range of the format (2 n ). The exponent ( e ) determines the placement of the binary point for all values of this format. This binary po"
+    },
+    {
+      "chunk_id": 5,
+      "text": "int for all values of this format. This binary point placement is \"fixed\" and is specified within the precision format rather than within individual Fixed point values. The mantissa bits of all fixed point values using this this precision format"
+    },
+    {
+      "chunk_id": 6,
+      "text": "xed point values using this this precision format are multiplied by 2 m . Note that m can take on a positive, negative, or zero value. This allows the binary point to be placed anywhere necessary and even beyond the bounds of the mantissa (i.e. t"
+    },
+    {
+      "chunk_id": 7,
+      "text": "nd even beyond the bounds of the mantissa (i.e. to the right of the lsb or to the left of the msb). The sign value s is used to indicate whether the fixed point precision value is treated as signed (s = 1) or unsigned (s = 0). Signed fixed point"
+    },
+    {
+      "chunk_id": 8,
+      "text": "d (s = 1) or unsigned (s = 0). Signed fixed point formats are represented in a 2's complement format. As a consequence, a single bit is used to represent the sign of the number. The value of a multi-bit signed number is: Signed(B) = 2^m x (- b_{n"
+    },
+    {
+      "chunk_id": 9,
+      "text": "-bit signed number is: Signed(B) = 2^m x (- b_{n-1} x 2^{n-1} + \\sum_{i=0}^{n-2} b_i x 2^i), where b_i is the value of bit i of the bit vector. Unsigned fixed formats are represented as unsigned binary values. No bits are used to represent the s"
+    },
+    {
+      "chunk_id": 10,
+      "text": "inary values. No bits are used to represent the sign and all values are positive. The actual value of a multi-bit unsigned fixed point number is: Unsigned(B) = 2^m x (\\sum_{i=0}^{n-1} b_i x 2^i) This class supports several different String formats"
+    },
+    {
+      "chunk_id": 11,
+      "text": "is class supports several different String formats for specifying and displaying the Precision. These String formats are supported by several classes that extend the Precision.PrecisionFormat class. Several such classes have been created. Any give"
+    },
+    {
+      "chunk_id": 12,
+      "text": "Several such classes have been created. Any given precision string format can be represented in any of the valid precision string formats. The four supported Precision String formats are shown in the table below. A static singleton object of eac"
+    },
+    {
+      "chunk_id": 13,
+      "text": "the table below. A static singleton object of each of these formats is provided in this class. Each String Representation column of the table represent equivalent Precision formats: Format Name Format Spec String Representation Precision.IntegerFra"
+    },
+    {
+      "chunk_id": 14,
+      "text": "at Spec String Representation Precision.IntegerFractionPrecisionFormat [integer bits].[fraction bits] 3.2 0.7 -2.12 12.-4 32.0 U1.7 Precision.LengthIntegerPrecisionFormat [total bits]/[integer bits] 5/3 7/0 10/-2 8/12 32/32 U8/1 Precision.VHDLPrecisi"
+    },
+    {
+      "chunk_id": 15,
+      "text": "/3 7/0 10/-2 8/12 32/32 U8/1 Precision.VHDLPrecisionFormat [MSb position]:[LSb position] 2:-2 -1:-7 -3:-12 11:4 31:0 U0:-7 Precision.LengthExponentPrecisionFormat \\ [total bits]e[binary point position] 5e-2 7e-7 10e-12 8e4 32e0 U8e-7 An instance of t"
+    },
+    {
+      "chunk_id": 16,
+      "text": "] 5e-2 7e-7 10e-12 8e4 32e0 U8e-7 An instance of the class is immutable, meaning that its value is set in the constructor and cannot then be modified. Since: Ptolemy II 0.4 Version: $Id: Precision.java,v 1.69 2006/10/25 00:17:33 cxh Exp $ Author: Ba"
+    },
+    {
+      "chunk_id": 17,
+      "text": "va,v 1.69 2006/10/25 00:17:33 cxh Exp $ Author: Bart Kienhuis, Contributor: Mike Wirthlin See Also: FixPoint , Serialized Form Accepted Rating: Red (kienhuis) Proposed Rating: Yellow (kienhuis) Nested Class Summary static class Precision.ExpressionLa"
+    },
+    {
+      "chunk_id": 18,
+      "text": "Class Summary static class Precision.ExpressionLanguagePrecisionFormat Precision format for use with the Expression Language. static class Precision.IntegerFractionPrecisionFormat Defines a Precision string format using the INTEGER.FRACTION precisi"
+    },
+    {
+      "chunk_id": 19,
+      "text": "string format using the INTEGER.FRACTION precision format. static class Precision.LengthExponentPrecisionFormat Defines a Precision string format using the LENGTHeEXPONENT precision format. static class Precision.LengthIntegerPrecisionFormat Defin"
+    },
+    {
+      "chunk_id": 20,
+      "text": "class Precision.LengthIntegerPrecisionFormat Defines a Precision string format using the LENGTH/INTEGER precision format. static class Precision.PrecisionFormat Defines a String format for specifying a Precision object. static class Precision.VHDLPr"
+    },
+    {
+      "chunk_id": 21,
+      "text": "a Precision object. static class Precision.VHDLPrecisionFormat Defines a Precision string format using the VHDL MSB:LSB precision format. Field Summary static Precision.PrecisionFormat EXPRESSION_LANGUAGE static ExpressionLanguagePrecisionFormat ob"
+    },
+    {
+      "chunk_id": 22,
+      "text": "NGUAGE static ExpressionLanguagePrecisionFormat object. static Precision.PrecisionFormat INTEGER_FRACTION static IntegerFractionPrecisionFormat object. static Precision.PrecisionFormat LENGTH_EXPONENT static LengthExponentPrecisionFormat object. stat"
+    },
+    {
+      "chunk_id": 23,
+      "text": "static LengthExponentPrecisionFormat object. static Precision.PrecisionFormat LENGTH_INTEGER static LengthIntegerPrecisionFormat object. static Precision.PrecisionFormat VHDL static VHDLPrecisionFormat object. Constructor Summary Precision (int leng"
+    },
+    {
+      "chunk_id": 24,
+      "text": "at object. Constructor Summary Precision (int length, int integerBits) Construct a Precision object based on the length/integer bits format. Precision (int sign, int length, int exponent) Construct a Precision object b"
+    },
+    {
+      "chunk_id": 25,
+      "text": "int exponent) Construct a Precision object based on the sign, length, and exponent format. Precision (java.lang.String str) Construct a Precision object based on the provided string. Method Summary java.lang.Object clone () Return this, that"
+    },
+    {
+      "chunk_id": 26,
+      "text": "mmary java.lang.Object clone () Return this, that is, return the reference to this object. boolean equals (java.lang.Object object) Return true if the indicated object is an instance of Precision and the precision format matches exactly. java.math."
+    },
+    {
+      "chunk_id": 27,
+      "text": "d the precision format matches exactly. java.math.BigDecimal findMaximum () Return the maximum obtainable value in this precision. java.math.BigDecimal findMinimum () Return the minimum obtainable value for this precision. java.math.BigDecimal getEps"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ue for this precision. java.math.BigDecimal getEpsilon () Return the incremental value between discrete values under the given Precision format. int getExponent () Return the location of the binary exponent. int getFractionBitLength () Return the nu"
+    },
+    {
+      "chunk_id": 29,
+      "text": "xponent. int getFractionBitLength () Return the number of bits representing the fractional part. int getIntegerBitLength () Return the number of bits representing the integer part. int getLeastSignificantBitPosition () Return the bit position of the"
+    },
+    {
+      "chunk_id": 30,
+      "text": "cantBitPosition () Return the bit position of the least significant bit of the given fixed point precision. java.math.BigInteger getMaximumUnscaledValue () Return the maximum integer value before scaling so that quantization levels are represented"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ling so that quantization levels are represented by adjacent integers. java.math.BigInteger getMinimumUnscaledValue () Return the minimum integer value before scaling so that quantization levels are represented by adjacent integers. int getMostSi"
+    },
+    {
+      "chunk_id": 32,
+      "text": "e represented by adjacent integers. int getMostSignificantBitPosition () Return the bit position of the most significant bit of the given fixed point precision. int getMostSignificantDataBitPosition () Return the bit position of the most significan"
+    },
+    {
+      "chunk_id": 33,
+      "text": "() Return the bit position of the most significant data bit of the given fixed point precision. int getNumberOfBits () Return the total number of bits. java.math.BigInteger getNumberOfLevels () Return the total number of discrete values possible. i"
+    },
+    {
+      "chunk_id": 34,
+      "text": "rn the total number of discrete values possible. int getSign () Return the sign (0 = unsigned, 1 = signed). boolean isSigned () Determine if the fixed point format is signed or not. static java.math.BigDecimal shiftBigDecimal (java.math.BigDecimal va"
+    },
+    {
+      "chunk_id": 35,
+      "text": "igDecimal shiftBigDecimal (java.math.BigDecimal val, int shiftval) Shift the BigDecimal value either right or left by a power of 2 value. java.lang.String toString () Return a string representing this precision. java.lang.String toS"
+    },
+    {
+      "chunk_id": 36,
+      "text": "representing this precision. java.lang.String toString ( Precision.PrecisionFormat format) Return a string representation of this format in one of several styles. static Precision union ( Precision precisionA, Precision precisionB) Return the preci"
+    },
+    {
+      "chunk_id": 37,
+      "text": "precisionA, Precision precisionB) Return the precision that is the maximum of the two supplied precisions in both the length and exponent. Methods inherited from class java.lang.Object finalize, getClass, hashCode, notify, notifyAll, wait, wait, wa"
+    },
+    {
+      "chunk_id": 38,
+      "text": "Class, hashCode, notify, notifyAll, wait, wait, wait Field Detail INTEGER_FRACTION public static final Precision.PrecisionFormat INTEGER_FRACTION static IntegerFractionPrecisionFormat object. LENGTH_EXPONENT public static final Precision.PrecisionFor"
+    },
+    {
+      "chunk_id": 39,
+      "text": "XPONENT public static final Precision.PrecisionFormat LENGTH_EXPONENT static LengthExponentPrecisionFormat object. LENGTH_INTEGER public static final Precision.PrecisionFormat LENGTH_INTEGER static LengthIntegerPrecisionFormat object. EXPRESSION_LANG"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ngthIntegerPrecisionFormat object. EXPRESSION_LANGUAGE public static final Precision.PrecisionFormat EXPRESSION_LANGUAGE static ExpressionLanguagePrecisionFormat object. VHDL public static final Precision.PrecisionFormat VHDL static VHDLPrecisionForm"
+    },
+    {
+      "chunk_id": 41,
+      "text": "sion.PrecisionFormat VHDL static VHDLPrecisionFormat object. Constructor Detail Precision public Precision (java.lang.String str) throws java.lang.IllegalArgumentException Construct a Precision object based on the provided string. The str"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ion object based on the provided string. The string can describe the precision in any of the syntaxes explained in the description of this class. Parameters: str - The string representing the precision. Throws: java.lang.IllegalArgumentException"
+    },
+    {
+      "chunk_id": 43,
+      "text": "ision. Throws: java.lang.IllegalArgumentException - If the precision string supplied does not match one of the known formats. Precision public Precision (int length, int integerBits) throws java.lang.IllegalArgumentExcep"
+    },
+    {
+      "chunk_id": 44,
+      "text": "s) throws java.lang.IllegalArgumentException Construct a Precision object based on the length/integer bits format. This constructor will create a new signed Precision object with length bits and an exponent of -fracBits . Parameters: le"
+    },
+    {
+      "chunk_id": 45,
+      "text": "bits and an exponent of -fracBits . Parameters: length - The total number of bits. integerBits - The number of integer bits. Throws: java.lang.IllegalArgumentException - If the given values are negative or when the integer number of bits is larger"
+    },
+    {
+      "chunk_id": 46,
+      "text": "ative or when the integer number of bits is larger than the total number of bits. Precision public Precision (int sign, int length, int exponent) throws java.lang.IllegalArgumentException Construct a Pre"
+    },
+    {
+      "chunk_id": 47,
+      "text": "java.lang.IllegalArgumentException Construct a Precision object based on the sign, length, and exponent format. Parameters: sign - The presence of a sign bit (1 = signed, 0 = unsigned). length - The total number of bits. exponent - The bit location"
+    },
+    {
+      "chunk_id": 48,
+      "text": "total number of bits. exponent - The bit location of the exponent. Throws: java.lang.IllegalArgumentException - If the Precision arguments are inconsistent. Method Detail clone public java.lang.Object clone () Return this, that is, return the refe"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ect clone () Return this, that is, return the reference to this object. Returns: This Precision. equals public boolean equals (java.lang.Object object) Return true if the indicated object is an instance of Precision and the precision format matches"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ce of Precision and the precision format matches exactly. Parameters: object - Object to test for equality Returns: True if the precisions are equal. findMaximum public java.math.BigDecimal findMaximum () Return the maximum obtainable value in this"
+    },
+    {
+      "chunk_id": 51,
+      "text": "mum () Return the maximum obtainable value in this precision. This value is obtained by multiplying the result of getMaximumUnscaledValue() by 2 exponent . Returns: The maximum value obtainable for this precision. findMinimum public java.math.BigDe"
+    },
+    {
+      "chunk_id": 52,
+      "text": "this precision. findMinimum public java.math.BigDecimal findMinimum () Return the minimum obtainable value for this precision. This value is obtained by multiplying the result of getMinimumUnscaledValue() by 2 exponent . Returns: The minimum value"
+    },
+    {
+      "chunk_id": 53,
+      "text": "alue() by 2 exponent . Returns: The minimum value obtainable for the given precision. getEpsilon public java.math.BigDecimal getEpsilon () Return the incremental value between discrete values under the given Precision format. This is calculated as 2"
+    },
+    {
+      "chunk_id": 54,
+      "text": "he given Precision format. This is calculated as 2^exponent. Returns: Incremental (epsilon) value. getExponent public int getExponent () Return the location of the binary exponent. Returns: the location of the fixed binary exponent. getFractionBitLen"
+    },
+    {
+      "chunk_id": 55,
+      "text": "on of the fixed binary exponent. getFractionBitLength public int getFractionBitLength () Return the number of bits representing the fractional part. The is computed as -exponent. Returns: The length of the fractional part. getIntegerBitLength publi"
+    },
+    {
+      "chunk_id": 56,
+      "text": "of the fractional part. getIntegerBitLength public int getIntegerBitLength () Return the number of bits representing the integer part. This is computed as length + exponent. Returns: the length of the integer part. getLeastSignificantBitPosition p"
+    },
+    {
+      "chunk_id": 57,
+      "text": "the integer part. getLeastSignificantBitPosition public int getLeastSignificantBitPosition () Return the bit position of the least significant bit of the given fixed point precision. This value is the same as the exponent value of this format. Bit"
+    },
+    {
+      "chunk_id": 58,
+      "text": "e same as the exponent value of this format. Bit 0 refers to the bit just to the left of the binary point. Returns: Least significant bit position. getMaximumUnscaledValue public java.math.BigInteger getMaximumUnscaledValue () Return the maximum in"
+    },
+    {
+      "chunk_id": 59,
+      "text": "r getMaximumUnscaledValue () Return the maximum integer value before scaling so that quantization levels are represented by adjacent integers. For signed values, this number is 2^(n-1) - 1 For unsigned values, this number is 2^(n) - 1 Returns:"
+    },
+    {
+      "chunk_id": 60,
+      "text": "unsigned values, this number is 2^(n) - 1 Returns: The maximum inclusive value. getMinimumUnscaledValue public java.math.BigInteger getMinimumUnscaledValue () Return the minimum integer value before scaling so that quantization levels are represente"
+    },
+    {
+      "chunk_id": 61,
+      "text": "caling so that quantization levels are represented by adjacent integers. For signed values, this number is -(2^(n-1)) For unsigned values, this number is 0. Returns: The minimum unscaled value value obtainable for the given precision. getMos"
+    },
+    {
+      "chunk_id": 62,
+      "text": "value obtainable for the given precision. getMostSignificantBitPosition public int getMostSignificantBitPosition () Return the bit position of the most significant bit of the given fixed point precision. Bit 0 refers to the bit just to the left o"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ision. Bit 0 refers to the bit just to the left of the binary point. Returns: Least significant bit position. getMostSignificantDataBitPosition public int getMostSignificantDataBitPosition () Return the bit position of the most significant data bit"
+    },
+    {
+      "chunk_id": 64,
+      "text": "the bit position of the most significant data bit of the given fixed point precision. If this Precision is signed, this will return getMostSignificantBitPosition - 1. If this Precision is unsigned, this will return getMostSignificantBitPosition."
+    },
+    {
+      "chunk_id": 65,
+      "text": ", this will return getMostSignificantBitPosition. Returns: Least significant bit position. getNumberOfBits public int getNumberOfBits () Return the total number of bits. Returns: the total number of bits. getNumberOfLevels public java.math.BigInteger"
+    },
+    {
+      "chunk_id": 66,
+      "text": "its. getNumberOfLevels public java.math.BigInteger getNumberOfLevels () Return the total number of discrete values possible. Returns: the total number of levels. getSign public int getSign () Return the sign (0 = unsigned, 1 = signed). Returns: the s"
+    },
+    {
+      "chunk_id": 67,
+      "text": "he sign (0 = unsigned, 1 = signed). Returns: the sign status. isSigned public boolean isSigned () Determine if the fixed point format is signed or not. Returns: true if format is signed union public static Precision union ( Precision precisionA, Prec"
+    },
+    {
+      "chunk_id": 68,
+      "text": "tatic Precision union ( Precision precisionA, Precision precisionB) Return the precision that is the maximum of the two supplied precisions in both the length and exponent. This method is used to align instances of FixPoint onto a single precis"
+    },
+    {
+      "chunk_id": 69,
+      "text": "align instances of FixPoint onto a single precision representation. If either Precision object is signed, the new Precision object will be signed. Parameters: precisionA - A precision precisionB - Another precision Returns: A precision at least a"
+    },
+    {
+      "chunk_id": 70,
+      "text": "Another precision Returns: A precision at least as precise as the two arguments. shiftBigDecimal public static java.math.BigDecimal shiftBigDecimal (java.math.BigDecimal val, int shiftval) Shift the"
+    },
+    {
+      "chunk_id": 71,
+      "text": "int shiftval) Shift the BigDecimal value either right or left by a power of 2 value. This method will perform a multiplication by 2^ shiftval on the BigDecimal value when shiftval is positive and will perform a divi"
+    },
+    {
+      "chunk_id": 72,
+      "text": "hen shiftval is positive and will perform a divide by 2^ -shiftval on the BigDecimal value when shiftval is negative. Parameters: val - BigDecimal value to shift. shiftval - Amount of \"power of 2\" shifting to perform on the BigDecimal value Retu"
+    },
+    {
+      "chunk_id": 73,
+      "text": "shifting to perform on the BigDecimal value Returns: shifted BigDecimal value. toString public java.lang.String toString () Return a string representing this precision. The string is expressed as \"( m.n )\", where m indicates the number of integer"
+    },
+    {
+      "chunk_id": 74,
+      "text": "\"( m.n )\", where m indicates the number of integer bits and n represents the number of fractional bits. Returns: A string representing this precision. toString public java.lang.String toString ( Precision.PrecisionFormat format) Return a string rep"
+    },
+    {
+      "chunk_id": 75,
+      "text": "cision.PrecisionFormat format) Return a string representation of this format in one of several styles. Parameters: format - The String format represented desired for printing. Returns: String representation of the object using the given PrecisionFo"
+    },
+    {
+      "chunk_id": 76,
+      "text": "ntation of the object using the given PrecisionFormat Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

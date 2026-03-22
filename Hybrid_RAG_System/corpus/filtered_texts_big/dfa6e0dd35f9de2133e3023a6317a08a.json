@@ -1,0 +1,449 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/TockOS/HailSize",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | TockOS / HailSize Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print TockOS / HailSize This page consists of notes about TockOS problems wi"
+    },
+    {
+      "chunk_id": 2,
+      "text": "is page consists of notes about TockOS problems with the Hail board and size Too Big The first problem is that make fails because the file is too big: LD / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.elf"
+    },
+    {
+      "chunk_id": 3,
+      "text": "examples / duktape / build / cortex-m4 / app.elf / Users / cxh / src / hail / tock / userland / libtock / build / cortex-m4 / libtock.a ( sys.o ) : In function ` abort ': /Users/cxh/src/hail/tock/userland/libtock/sys.c:56: multiple definition of `ab"
+    },
+    {
+      "chunk_id": 4,
+      "text": "rland/libtock/sys.c:56: multiple definition of `abort' / Users / cxh / src / hail / tock / userland / newlib / libc.a ( lib_a-abort.o ) : / home / alevy / hack / helena / tock / userland / newlib / newlib-2.2.0.20150423\\ -out / arm-none-eabi / armv6-"
+    },
+    {
+      "chunk_id": 5,
+      "text": "wlib-2.2.0.20150423\\ -out / arm-none-eabi / armv6-m / newlib / libc / stdlib / .. / .. / .. / .. / .. / .. / newlib-2.2.0.20150423 / newlib / libc / stdlib / abort.c: 55 : first define\\ d here / opt / local / lib / gcc / arm-none-eabi / 5.1.0 / .. /"
+    },
+    {
+      "chunk_id": 6,
+      "text": "local / lib / gcc / arm-none-eabi / 5.1.0 / .. / .. / .. / .. / arm-none-eabi / bin / ld: / Users / cxh / src / hail / tock / userland / examples / duktape / build\\ / cortex-m4 / app.elf section ` .data ' will not fit in region `SRAM' / opt / local"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ata ' will not fit in region `SRAM' / opt / local / lib / gcc / arm-none-eabi / 5.1.0 / .. / .. / .. / .. / arm-none-eabi / bin / ld: region ` SRAM ' overflowed by 34680 bytes /Users/cxh/src/hail/tock/userland/examples/duktape/build/cortex-m4/c_event"
+    },
+    {
+      "chunk_id": 8,
+      "text": "/userland/examples/duktape/build/cortex-m4/c_eventloop.o: In function `eventloop_run' : / Users / cxh / src / hail / tock / userland / examples / duktape / c_eventloop.c: 381 : undefined reference to ` usleep ' /Users/cxh/src/hail/tock/userland/newli"
+    },
+    {
+      "chunk_id": 9,
+      "text": "` usleep ' /Users/cxh/src/hail/tock/userland/newlib/libc.a(lib_a-gettimeofdayr.o): In function `_gettimeofday_r' : / home / alevy / hack / helena / tock / userland / newlib / newlib-2.2.0.20150423-out / arm-none-eabi / armv6-m / newlib / libc / reent"
+    },
+    {
+      "chunk_id": 10,
+      "text": "/ arm-none-eabi / armv6-m / newlib / libc / reent / .. / .. / .. / .. / .. / .. / \\ newlib-2.2.0.20150423 / newlib / libc / reent / gettimeofdayr.c: 71 : undefined reference to ` _gettimeofday ' collect2: error: ld returned 1 exit status make: *** ["
+    },
+    {
+      "chunk_id": 11,
+      "text": "ect2: error: ld returned 1 exit status make: *** [/Users/cxh/src/hail/tock/userland/examples/duktape/build/cortex-m4/app.elf] Error 1 [$[Get Code]] The size of the SRAM is determined by https://github.com/helena-project/tock/blob/master/userland/link"
+    },
+    {
+      "chunk_id": 12,
+      "text": ".com/helena-project/tock/blob/master/userland/linker.ld : MEMORY { FLASH (rx) : ORIGIN = 0x80000000, LENGTH = 0x00080000 SRAM (RWX) : ORIGIN = 0x00000000, LENGTH = 0x00002000 } [$[Get Code]] See Duktape under Cortex M4: region `SRAM' overflowed by 36"
+    },
+    {
+      "chunk_id": 13,
+      "text": "pe under Cortex M4: region `SRAM' overflowed by 36208 bytes (Google Groups) for possibilities about relocating. However, smaller sizes are possible: 512K of memory so that we have breathing room. 256K might not work. Duktape Eclipse ARM Cortex M4 wa"
+    },
+    {
+      "chunk_id": 14,
+      "text": "K might not work. Duktape Eclipse ARM Cortex M4 was reported to have the following sizes: Code size = 176K Constants = 628 bytes RAM = 492 bytes Here are the sizes: bash-3.2$ size build / cortex-m4 /* .o text data bss dec hex f"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ex-m4 /* .o text data bss dec hex filename 1530 182 168 1880 758 build / cortex-m4 / c_eventloop.o 160 10 0 170 aa build / cortex-m4 / duk_stack.o 118708 17206 0 135914 212ea build / cortex-m4 / duktape.o 700 3993 0 4693 1255 build / c"
+    },
+    {
+      "chunk_id": 16,
+      "text": "rtex-m4 / duktape.o 700 3993 0 4693 1255 build / cortex-m4 / eduk.o 384 211 0 595 253 build / cortex-m4 / modSearch.o 380 38052 0 38432 9620 build / cortex-m4 / nofileio.o [$[Get Code]] See https://mcuoneclipse.com/2013/04/14/text-data-and-bss-code-a"
+    },
+    {
+      "chunk_id": 17,
+      "text": "uoneclipse.com/2013/04/14/text-data-and-bss-code-and-data-size-explained/ for an explanation about text, data and bss. We want to decrease data by moving the the JavaScript code that is encoded in the .h files into the text segment. To do this, we ma"
+    },
+    {
+      "chunk_id": 18,
+      "text": ".h files into the text segment. To do this, we make the arrays in commonHost.h, events.h and util.h be const . Compilation See Compilation for details RampJSDisplay It is possible to read from stdout using tockloader eduk.c was modifies so that if i"
+    },
+    {
+      "chunk_id": 19,
+      "text": "using tockloader eduk.c was modifies so that if it is compiled with -DEDUK_RAMPJSDISPLAY -DEDUK_RUNRAMPJSDISPLAY , then the test/auto/RampJSDisplay.js Composite Accessor is invoked. Below is a run of eduk from a shell. Note that we used Control-C t"
+    },
+    {
+      "chunk_id": 20,
+      "text": "eduk from a shell. Note that we used Control-C to terminate. bash-3.2$ pwd / Users / cxh / src / hail / tock / userland / examples / duktape / accessors / web / hosts / duktape / eduk bash-3.2$ rm eduk bash-3.2$ make SWARMLET =-DEDUK_RUN_RAMPJSDISP"
+    },
+    {
+      "chunk_id": 21,
+      "text": "duk bash-3.2$ make SWARMLET =-DEDUK_RUN_RAMPJSDISPLAY gcc -o eduk -DEDUK_FULL -DEDUK_RAMPJSDISPLAY -DEDUK_RUN_RAMPJSDISPLAY -Os -pedantic -std =c99 -Wall -fstrict-aliasing -fomit-fram\\ e-pointer -I. -I.. / duktape / src c_eventloop.c duk_stack.c"
+    },
+    {
+      "chunk_id": 22,
+      "text": "-I.. / duktape / src c_eventloop.c duk_stack.c eduk.c modSearch.c nofileio.c .. / duktape / src / duktape.c -lm bash-3.2$ . / eduk eduk: About to run test / auto / RampJSDisplay.js duktapeHost.js done 1 2 3 C-c C-c bash-3.2$ [$[Get Code]] RESPONSE"
+    },
+    {
+      "chunk_id": 23,
+      "text": "one 1 2 3 C-c C-c bash-3.2$ [$[Get Code]] RESPONSE_BADADDR: Invalid address for page to write Unfortunately, the binary is still too large and fails to flash: bash-3.2$ make TOCK_BOARD =hail PORT = / dev / tty.usbserial-00001014 program LD / Users /"
+    },
+    {
+      "chunk_id": 24,
+      "text": "dev / tty.usbserial-00001014 program LD / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.elf BIN / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.bin Finished debug"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ktape / build / cortex-m4 / app.bin Finished debug [ unoptimized + debuginfo ] target ( s ) in 0.0 secs Running `/ Users / cxh / src / hail / tock / userland / tools / elf2tbf / target / debug / elf2tbf -o / Users / cxh / src / hail / tock / userland"
+    },
+    {
+      "chunk_id": 26,
+      "text": "bf -o / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.bin / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.elf ` tockloader --port / dev / tty.usbserial-00001014 f"
+    },
+    {
+      "chunk_id": 27,
+      "text": "tockloader --port / dev / tty.usbserial-00001014 flash --address 0x30000 / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.bin Error: Error when flashing page Error: RESPONSE_BADADDR: Invalid address for page"
+    },
+    {
+      "chunk_id": 28,
+      "text": "Error: RESPONSE_BADADDR: Invalid address for page to write ( address: 0x80000 Could not flash the binaries. make: *** [ program ] Error 1 bash-3.2$ [$[Get Code]] Here's the size of our duktape binary compared with the accl-leds binary. bash-3.2$ arm"
+    },
+    {
+      "chunk_id": 29,
+      "text": "compared with the accl-leds binary. bash-3.2$ arm-none-eabi-size duktape / build / cortex-m4 / app.elf text data bss dec hex filename 313304 3449 308 317061 4d685 duktape / build / cortex-m4 / app.elf bash-3.2$ arm-none-eabi-size acce"
+    },
+    {
+      "chunk_id": 30,
+      "text": "tex-m4 / app.elf bash-3.2$ arm-none-eabi-size accel-leds / build / cortex-m4 / app.elf text data bss dec hex filename 4014 197 40 4251 109b accel-leds / build / cortex-m4 / app.elf bash-3.2$ [$[Get Code]] See Duktape under Cortex M4: r"
+    },
+    {
+      "chunk_id": 31,
+      "text": "-3.2$ [$[Get Code]] See Duktape under Cortex M4: region `SRAM' overflowed by 36208 bytes (Google Groups) for possibilities about relocating. Minimum Duktape I added a #ifdef EDUK_MIN to try to create the a very small eduk: bash-3.2$ make PORT = / dev"
+    },
+    {
+      "chunk_id": 32,
+      "text": "the a very small eduk: bash-3.2$ make PORT = / dev / tty.usbserial-00001014 TOCK_BOARD =hail text data bss dec hex filename 263168 3237 236 266641 41191 / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex"
+    },
+    {
+      "chunk_id": 33,
+      "text": "k / userland / examples / duktape / build / cortex-m4 / app.elf [$[Get Code]] But it failed: bash-3.2$ make PORT = / dev / tty.usbserial-00001014 TOCK_BOARD =hail program tockloader --port / dev / tty.usbserial-00001014 flash --address 0x30000 / User"
+    },
+    {
+      "chunk_id": 34,
+      "text": ".usbserial-00001014 flash --address 0x30000 / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.bin Error: Error when flashing page Error: RESPONSE_BADADDR: Invalid address for page to write ( address: 0x80000"
+    },
+    {
+      "chunk_id": 35,
+      "text": "alid address for page to write ( address: 0x80000 Could not flash the binaries. make: *** [ program ] Error 1 bash-3.2$ [$[Get Code]] The above message comes from https://github.com/helena-project/tockloader/blob/master/tockloader/main.py if ret [ 1"
+    },
+    {
+      "chunk_id": 36,
+      "text": "kloader/blob/master/tockloader/main.py if ret [ 1 ] != RESPONSE_OK: print ( 'Error: Error when flashing page' ) if ret [ 1 ] == RESPONSE_BADADDR: print ( 'Error: RESPONSE_BADADDR: Invalid address for page to write (address: 0x{:X}' . format ( address"
+    },
+    {
+      "chunk_id": 37,
+      "text": "page to write (address: 0x{:X}' . format ( address + ( i* 512 ) ) ) elif ret [ 1 ] == RESPONSE_INTERROR: print ( 'Error: RESPONSE_INTERROR: Internal error when writing flash' ) elif ret [ 1 ] == RESPONSE_BADARGS: print ( 'Error: RESPONSE_BADARGS: Inv"
+    },
+    {
+      "chunk_id": 38,
+      "text": "NSE_BADARGS: print ( 'Error: RESPONSE_BADARGS: Invalid length for flash page write' ) else : print ( 'Error: 0x{:X}' . format ( ret [ 1 ] ) ) return False [$[Get Code]] The Hail boot loader at https://github.com/lab11/hail/blob/master/bootloader/src/"
+    },
+    {
+      "chunk_id": 39,
+      "text": "/github.com/lab11/hail/blob/master/bootloader/src/bl_commands.c is what returns the RESPONSE_BADARGS . (Note that in tockloader, the macro is RESPONSE_BADARGS , whereas in bootloader, it is RES_BADARGS . if ( addr < ALLOWED_FLASH_FLOOR || addr >= AL"
+    },
+    {
+      "chunk_id": 40,
+      "text": "GS . if ( addr < ALLOWED_FLASH_FLOOR || addr >= ALLOWED_FLASH_CEILING || ( addr & 511 ) != 0 ) { _escape_set ( NULL , 0 , RES_BADADDR ) ; return ; } [$[Get Code]] Optimize for space Using -Os to optimize for space failed: Running `/ Users / cxh / src"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ize for space failed: Running `/ Users / cxh / src / hail / tock / userland / tools / elf2tbf / target / debug / elf2tbf -o / Users / cxh / src / hail / tock / u\\ serland / examples / duktape / build / cortex-m4 / app.bin / Users / cxh / src / hail /"
+    },
+    {
+      "chunk_id": 42,
+      "text": "/ cortex-m4 / app.bin / Users / cxh / src / hail / tock / userland / examples / duktape / build / cortex\\ -m4 / app.elf ` text data bss dec hex filename 169680 2617 236 172533 2a1f5 / Users / cxh / src / hail / tock / userland / exampl"
+    },
+    {
+      "chunk_id": 43,
+      "text": "sers / cxh / src / hail / tock / userland / examples / duktape / build / cortex-m4 / app.e\\ lf bash-3.2$ make PORT = / dev / tty.usbserial-00001014 TOCK_BOARD =hail program tockloader --port / dev / tty.usbserial-00001014 flash --address 0x30000 / Us"
+    },
+    {
+      "chunk_id": 44,
+      "text": "ty.usbserial-00001014 flash --address 0x30000 / Users / cxh / src / hail / tock / userland / examples\\ / duktape / build / cortex-m4 / app.bin Error connecting to bootloader. No \"pong\" received. Things that could be wrong: - The bootloader is not fla"
+    },
+    {
+      "chunk_id": 45,
+      "text": "s that could be wrong: - The bootloader is not flashed on the chip - The DTR / RTS lines are not working - The serial port being used is incorrect - The bootloader API has changed - There is a bug in this script Could not flash the binaries. make: **"
+    },
+    {
+      "chunk_id": 46,
+      "text": "this script Could not flash the binaries. make: *** [ program ] Error 1 bash-3.2$ [$[Get Code]] Interestingly compiling accel-leds with -Os works. Without -Os : text data bss dec hex filename 4014 197 40 4251 109b / Users / cxh / src /"
+    },
+    {
+      "chunk_id": 47,
+      "text": "lename 4014 197 40 4251 109b / Users / cxh / src / hail / tock / userland / examples / accel-leds / build / cortex-m4 / app.elf [$[Get Code]] With -Os : text data bss dec hex filename 3486 197 40 3723 e8b / Users / cxh / src / hail / t"
+    },
+    {
+      "chunk_id": 48,
+      "text": "486 197 40 3723 e8b / Users / cxh / src / hail / tock / userland / examples / accel-leds / build / cortex-m4 / app.elf [$[Get Code]] Eventually, I was able to get tockloader to work. Adding a print statement to /opt/local/Library/Frameworks/Python.fr"
+    },
+    {
+      "chunk_id": 49,
+      "text": "atement to /opt/local/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/tockloader/main.py seemed to allow the load to complete? # Loop through the binary 512 bytes at a time until it has been flashed # to the chip. for i i"
+    },
+    {
+      "chunk_id": 50,
+      "text": "e until it has been flashed # to the chip. for i in range ( len ( binary ) // 512 ) : targetAddress = address + i * 512 # FIXME: Printing the address seems to help avoid RESPONSE_BADADDR print ( '0x:{:X}' . format ( targetAddress ) ) # First we write"
+    },
+    {
+      "chunk_id": 51,
+      "text": ":X}' . format ( targetAddress ) ) # First we write the sync string to make sure the bootloader is ready # to receive this page of the binary. self . sp . write ( SYNC_MESSAGE ) time . sleep ( 0.0001 ) [$[Get Code]] Tockloader Below is an approved way"
+    },
+    {
+      "chunk_id": 52,
+      "text": "[$[Get Code]] Tockloader Below is an approved way of updated tockloader. sudo -i mkdir ~ / src cd ~ / src git clone https: // github.com / helena-project / tockloader.git cd tockloader / opt / local / bin / python3.6 setup.py install ( :source lang"
+    },
+    {
+      "chunk_id": 53,
+      "text": "/ bin / python3.6 setup.py install ( :source lang =bash: ) Note that for the above to work, your ~ / .bashrc needs to refer to the Python 3.6 binary directory: ( :source lang =bash: ) export PATH = / opt / local / Library / Frameworks / Python.framew"
+    },
+    {
+      "chunk_id": 54,
+      "text": "opt / local / Library / Frameworks / Python.framework / Versions / 3.6 / bin: ${PATH} [$[Get Code]] Local TockLoader Messing around with tockloader was getting tricky because when I installed using /opt/local/bin/pip-3.6 , the main.py was owned by ro"
+    },
+    {
+      "chunk_id": 55,
+      "text": "pt/local/bin/pip-3.6 , the main.py was owned by root. Then, when in downloaded from the tockloader github repo and ran setup, it looked like /opt/local/Library/Frameworks/Python.framework/Versions/3.6/bin/tockloader was using a compressed .egg file."
+    },
+    {
+      "chunk_id": 56,
+      "text": "/bin/tockloader was using a compressed .egg file. So, I installed a local copy. cd ~/src/hail git clone https://github.com/helena-project/tockloader.git mkdir bin cd bin ln -s ../tockloader/tockloader/main.py tockloader chmod a+x ../tockloader/tocklo"
+    },
+    {
+      "chunk_id": 57,
+      "text": "/main.py tockloader chmod a+x ../tockloader/tockloader/main.py export PATH=`pwd`:${PATH} [$[Get Code]] Continuing with Optimizing for Space After getting -Os to work and tockloader working, I can upload bash-3.2$ size build / cortex-m4 / app.elf text"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ad bash-3.2$ size build / cortex-m4 / app.elf text data bss dec hex filename 169680 2617 236 172533 2a1f5 build / cortex-m4 / app.elf bash-3.2$ make PORT = / dev / tty.usbserial-00001014 TOCK_BOARD =hail program tockloader --port / dev"
+    },
+    {
+      "chunk_id": 59,
+      "text": "4 TOCK_BOARD =hail program tockloader --port / dev / tty.usbserial-00001014 flash --address 0x30000 / Users / cxh / src / hail / tock / userland / examples / duktap\\ e / build / cortex-m4 / app.bin Wrote 262656 bytes in 32.840 seconds CRC check passe"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ote 262656 bytes in 32.840 seconds CRC check passed. Binaries successfully loaded. [$[Get Code]] However, the red LED flashes, indicating a problem. Using tockloader listen , I see the following output: bash-3.2$ tockloader --port / dev / tty.usbseri"
+    },
+    {
+      "chunk_id": 61,
+      "text": "t: bash-3.2$ tockloader --port / dev / tty.usbserial-00001014 listen Kernel panic at / Users / cxh / src / hail / tock / chips / sam4l / src / lib.rs: 238 : \"Process HardFault. r0 0x0 r1 0x20005330 r2 0x20005f00 r3 0x0 r12 0x921f980 lr 0x3061d p"
+    },
+    {
+      "chunk_id": 62,
+      "text": "r2 0x20005f00 r3 0x0 r12 0x921f980 lr 0x3061d pc 0x4f796 prs 0x41000000 sp 0x20004d10 SHCSR 0x0 CFSR 0x1 HSFR 0x400Kernel panic at /Users/cxh/src/hail/tock/chips/sam4l/src/lib.rs:238: \" Process HardFault. r0 0x0 r1 0x20005330 r2 0x20005f00"
+    },
+    {
+      "chunk_id": 63,
+      "text": "HardFault. r0 0x0 r1 0x20005330 r2 0x20005f00 r3 0x0 r12 0x921f980 lr 0x3061d pc 0x4f796 prs 0x41000000 sp 0x20004d10 SHCSR 0x0 CFSR 0x1 HSFR 0x40000000 \" [$[Get Code]] Update my fork See Updating my fork for how to merge from the helena-pr"
+    },
+    {
+      "chunk_id": 64,
+      "text": "dating my fork for how to merge from the helena-project/tock repo into the branch I then reprogrammed the kernel on the board, see https://github.com/helena-project/tock/tree/master/boards/hail Size Again The new version has better error map, below i"
+    },
+    {
+      "chunk_id": 65,
+      "text": "gain The new version has better error map, below is how to reproduce the issue I have ifdef'd my main down to just printing, which works fine, I can listen to the board and see the message. However, if at link time, I include the duktape.o file, then"
+    },
+    {
+      "chunk_id": 66,
+      "text": "f at link time, I include the duktape.o file, then I get a fault. I'm guessing this is a size issue, but could use some help. Details: Here's how to reproduce this. I'm using these versions: bash-3.2$ rustc --version rustc 1.12.0-nightly ( 54c0dcfd6"
+    },
+    {
+      "chunk_id": 67,
+      "text": "rustc --version rustc 1.12.0-nightly ( 54c0dcfd6 2016 -07- 28 ) bash-3.2$ arm-none-eabi-gcc --version arm-none-eabi-gcc ( GNU Tools for ARM Embedded Processors ) 5.4.1 20160919 ( release ) [ ARM / embedded- 5 -branch revision 240496 ] Copyright ( C"
+    },
+    {
+      "chunk_id": 68,
+      "text": "bedded- 5 -branch revision 240496 ] Copyright ( C ) 2015 Free Software Foundation, Inc. This is free software; see the source for copying conditions. There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. [$[Get Code"
+    },
+    {
+      "chunk_id": 69,
+      "text": "Y or FITNESS FOR A PARTICULAR PURPOSE. [$[Get Code]] I'm working in a branch (cxbrooks/ducktape3) on a (fork https://github.com/cxbrooks/tock ). I sync'd my fork to the helena-project/tock about 60 minutes ago: bash-3.2$ git log | head -200 commit"
+    },
+    {
+      "chunk_id": 70,
+      "text": "minutes ago: bash-3.2$ git log | head -200 commit c44eebf8b0aaf6b2df9c5daabc2e69cd9a74bd08 Author: Christopher Brooks < cxh @ eecs.berkeley.edu > Date: Fri Jan 6 17 : 46 : 37 2017 -0800 Duktape Makefile that compiles but faults at run time. commit"
+    },
+    {
+      "chunk_id": 71,
+      "text": "file that compiles but faults at run time. commit c352454bed6e63a5ab5f30329f4a8f7beabebc2e Author: Branden Ghena < brghena @ umich.edu > Date: Fri Jan 6 20 : 34 : 41 2017 -0500 Refactor process status printing * Explain text segment in more depth *"
+    },
+    {
+      "chunk_id": 72,
+      "text": "us printing * Explain text segment in more depth * Refactor ` statistics_str ` function * Remove unnecessary fields from process struct [$[Get Code]] Here are the commands to run: git clone https: // github.com / cxbrooks / tock cd tock git checkout"
+    },
+    {
+      "chunk_id": 73,
+      "text": "github.com / cxbrooks / tock cd tock git checkout cxbrooks / duktape3 cd boards / hail make PORT = / dev / tty.usbserial-00002014 TOCK_BOARD =hail program cd .. / .. / userland / examples / blink make PORT = / dev / tty.usbserial-00002014 TOCK_BOARD"
+    },
+    {
+      "chunk_id": 74,
+      "text": "PORT = / dev / tty.usbserial-00002014 TOCK_BOARD =hail program [$[Get Code]] The blink program works fine. The duktape example program consists of a makefile that has a target called \"update\" that checks out the accessors repo and copies .c and .h f"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ecks out the accessors repo and copies .c and .h files. cd .. / duktape make update make PORT = / dev / tty.usbserial-00002014 TOCK_BOARD =hail program [$[Get Code]] Here are the sizes: bash-3.2$ size build / cortex-m4 /* / opt / local / libexec / ll"
+    },
+    {
+      "chunk_id": 76,
+      "text": "build / cortex-m4 /* / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. text data bss dec hex filename 163544 6621 236 170401 299a1 build / cortex-m4 / app.el"
+    },
+    {
+      "chunk_id": 77,
+      "text": "4 6621 236 170401 299a1 build / cortex-m4 / app.elf / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. 1562 182 168 1912 778 build / cortex-m4 / c_eventloop.o / opt / local /"
+    },
+    {
+      "chunk_id": 78,
+      "text": "build / cortex-m4 / c_eventloop.o / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. 160 10 0 170 aa build / cortex-m4 / duk_stack.o / opt / local / libexec / llvm- 3.9 / bi"
+    },
+    {
+      "chunk_id": 79,
+      "text": "k_stack.o / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. 120092 17206 0 137298 21852 build / cortex-m4 / duktape.o / opt / local / libexec / llvm- 3.9 / bin / llvm-size:"
+    },
+    {
+      "chunk_id": 80,
+      "text": "/ local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. 54 15 0 69 45 build / cortex-m4 / eduk.o / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was"
+    },
+    {
+      "chunk_id": 81,
+      "text": "bin / llvm-size: error reading file: The file was not recognized as a valid object file. 92 42 0 134 86 build / cortex-m4 / ledcontrol.o / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a vali"
+    },
+    {
+      "chunk_id": 82,
+      "text": "eading file: The file was not recognized as a valid object file. 384 211 0 595 253 build / cortex-m4 / modSearch.o / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. 0 0 0 0"
+    },
+    {
+      "chunk_id": 83,
+      "text": "as not recognized as a valid object file. 0 0 0 0 0 build / cortex-m4 / nofileio.o [$[Get Code]] The board has the red-blink-of-death. (Reminds me of the students that used a red blinking LED as their first program on a similar board. They thought t"
+    },
+    {
+      "chunk_id": 84,
+      "text": "first program on a similar board. They thought they got it right the first time! But it was just the error blink.) Listening to the port: bash-3.2$ tockloader --port / dev / tty.usbserial-00002014 listen Kernel panic at / Users / cxh / src / hail"
+    },
+    {
+      "chunk_id": 85,
+      "text": "listen Kernel panic at / Users / cxh / src / hail / tock / kernel / src / process.rs: 278 : \"Process duktape had a fault\" --- | Fault Status | --- Instruction Access Violation: true Forced Hard Fault: true Fault Status Register ( CFSR ) : 0x000"
+    },
+    {
+      "chunk_id": 86,
+      "text": "true Fault Status Register ( CFSR ) : 0x00000001 Hard Fault Status Register ( HFSR ) : 0x40000000 --- | App Status | --- App: duktape [ Fault ] - Events Queued: 0 Syscall Count: 0 & #9556;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#95"
+    },
+    {
+      "chunk_id": 88,
+      "text": "&#9552;&#9552;&#9552;Kernel panic at /Users/cxh/src/hail/tock/kernel/src/process.rs:278: \"Process duktape had a fault\" --- | Fault Status | --- Instruction Access Violation: true Forced Hard Fault: true Fault Status Register ( CFSR ) : 0x000000"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ue Fault Status Register ( CFSR ) : 0x00000001 Hard Fault Status Register ( HFSR ) : 0x40000000 --- | App Status | --- App: duktape [ Fault ] - Events Queued: 0 Syscall Count: 0 & #9556;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;"
+    },
+    {
+      "chunk_id": 115,
+      "text": "[$[Get Code]] BTW - the output is pretty, but it does not copy and paste that well. Maybe stick with non-graphical characters? Ok, so the above failed. Now remove duktape.c, which is huge, and two files that use functions defined in duktape.c: rm c"
+    },
+    {
+      "chunk_id": 116,
+      "text": "iles that use functions defined in duktape.c: rm c_eventloop.c ledcontrol.c duktape.c make clean make PORT = / dev / tty.usbserial-00002014 TOCK_BOARD =hail program [$[Get Code]] Here are the sizes: bash-3.2$ size build / cortex-m4 /* / opt / local /"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ash-3.2$ size build / cortex-m4 /* / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. text data bss dec hex filename 206 4236 20 4462 116e build / cortex-m4 /"
+    },
+    {
+      "chunk_id": 118,
+      "text": "ilename 206 4236 20 4462 116e build / cortex-m4 / app.elf / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. 160 10 0 170 aa build / cortex-m4 / duk_stack.o / opt / local / l"
+    },
+    {
+      "chunk_id": 119,
+      "text": "build / cortex-m4 / duk_stack.o / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. 54 15 0 69 45 build / cortex-m4 / eduk.o / opt / local / libexec / llvm- 3.9 / bin / llvm-"
+    },
+    {
+      "chunk_id": 120,
+      "text": "/ opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. 384 211 0 595 253 build / cortex-m4 / modSearch.o / opt / local / libexec / llvm- 3.9 / bin / llvm-size: error reading fil"
+    },
+    {
+      "chunk_id": 121,
+      "text": "c / llvm- 3.9 / bin / llvm-size: error reading file: The file was not recognized as a valid object file. 0 0 0 0 0 build / cortex-m4 / nofileio.o [$[Get Code]] And here is my message: bash-3.2$ tockloader --port / dev / tty.usbserial-00002014 listen"
+    },
+    {
+      "chunk_id": 122,
+      "text": "ader --port / dev / tty.usbserial-00002014 listen Hello World ! [$[Get Code]] So, printing works. Below is the part of the main() from eduk.c: int main ( int argc , char * argv [ ] ) { #ifdef HAIL_PRINT #ifdef __ARM_EABI__ putnstr_async ( hello , si"
+    },
+    {
+      "chunk_id": 123,
+      "text": "INT #ifdef __ARM_EABI__ putnstr_async ( hello , sizeof ( hello ) , nop , NULL ) ; #else printf ( \"%s\" , hello ) ; #endif // __ARM_EABI return 0 ; #else //HAIL_PRINT [$[Get Code]] So, what I don't understand is why including duktape.o in the binary is"
+    },
+    {
+      "chunk_id": 124,
+      "text": "rstand is why including duktape.o in the binary is causing the crash. Any ideas? Unfortunately, duktape.c is 87k lines of code, so paring this down is not easy. I'm using Duktape-1.6.0, which came out in December. Duktape-2.0.0 is out, but the conf"
+    },
+    {
+      "chunk_id": 125,
+      "text": "t in December. Duktape-2.0.0 is out, but the configuration options have changed. I have not looked very far in to how to use gdb to debug this. I was able to use tools/build-arm-gdb to build an arm-specific version of gdb. I believe I need to use"
+    },
+    {
+      "chunk_id": 126,
+      "text": "specific version of gdb. I believe I need to use the -tty argument to gdb. I see that https://github.com/helena-project/tock/blob/master/doc/tutorials/README.md has plans for a JTAG/GDB tutorial and that https://github.com/helena-project/tock/blob"
+    },
+    {
+      "chunk_id": 127,
+      "text": "d that https://github.com/helena-project/tock/blob/master/boards/storm/README.md has some details about using JLinkGDBServer. My guess is that to use gdb, I need to get a JTAG box. I saw some notes about which JTAG box is preferred, but I'm not fin"
+    },
+    {
+      "chunk_id": 128,
+      "text": "about which JTAG box is preferred, but I'm not finding them right now. So, any ideas here? Disable the MPU Below is Brendan's response: \"To give a little more information here, the large version of your code is failing at the very first line of `main"
+    },
+    {
+      "chunk_id": 129,
+      "text": "ur code is failing at the very first line of `main`. This very much looks like an MPU problem to me and you might be able to get around it for now by simply disabling the MPU.\" \"To determine this:\" \"I checked out and built your code. Then I ran `make"
+    },
+    {
+      "chunk_id": 130,
+      "text": "checked out and built your code. Then I ran `make debug` which generates an LST file, `build/cortex-m4/app.lst` (Warning: this lst file is 700000 lines and took a couple minutes to generate)\" \"Then I looked up the address where your app is failing f"
+    },
+    {
+      "chunk_id": 131,
+      "text": "looked up the address where your app is failing from the debug report. 0x8001BA9C in the LST file.\" ... 8001ba9c <main>: * * @param argc The number of arguments. * @param argv The arguments. */ //main(void) int main(int argc, char *argv[]) { 8001b"
+    },
+    {
+      "chunk_id": 132,
+      "text": "ain(void) int main(int argc, char *argv[]) { 8001ba9c: b507 push {r0, r1, r2, lr} #ifdef HAIL_PRINT #ifdef __ARM_EABI__ putnstr_async(hello, sizeof(hello), nop, NULL); 8001ba9e: 4b09 ldr r3, [pc, #36] ; (800"
+    },
+    {
+      "chunk_id": 133,
+      "text": "4b09 ldr r3, [pc, #36] ; (8001bac4 <main+0x28>) ... [$[Get Code]] \"The actual entry point of your program is in libtock/crt1.c . Relevant disassembly:\" ... Disassembly of section .text: 80000000 <_start>: __attribute__ ((section("
+    },
+    {
+      "chunk_id": 134,
+      "text": ".text: 80000000 <_start>: __attribute__ ((section(\".start\"), used, naked)) void _start( __attribute__((unused))void* mem_start, __attribute__((unused))void* app_memory_break, __attribute__((unused))void* kernel_memory_break) { main(); 80000000:"
+    },
+    {
+      "chunk_id": 135,
+      "text": "id* kernel_memory_break) { main(); 80000000: f01b fd4c bl 8001ba9c <main> while(1) { yield(); } 80000004: f01d ff5e bl 8001dec4 <yield> 80000008: e7fc b.n 80000004 <_start+0x4> ... [$[Get Code]]"
+    },
+    {
+      "chunk_id": 136,
+      "text": "b.n 80000004 <_start+0x4> ... [$[Get Code]] \"So, the very first thing your code does is branch to main(), which immediately throws an Instruction Access Violation. It seems that we are probably doing something wrong when setting up the MPU for"
+    },
+    {
+      "chunk_id": 137,
+      "text": "doing something wrong when setting up the MPU for programs with a lot of flash. For now, you could try turning off the MPU. Comment out the MPU enable in the kernel. ( https://github.com/cxbrooks/tock/blob/cxbrooks/duktape3/boards/hail/src/main.rs#L3"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/Pre-AccessorsConnectingAJavaProgramToROS",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / Pre-AccessorsConnectingAJavaProgramToROS Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / Pre-AccessorsConnectingAJavaProgr"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ory Print Main / Pre-AccessorsConnectingAJavaProgramToROS Before we configure accessors, we first need to establish a connection between two entities. This page documents how to setup the connection between an external java program and ROS. You will"
+    },
+    {
+      "chunk_id": 3,
+      "text": "etween an external java program and ROS. You will need to install ROS first. This approach requires two external packages, and the Eclipse IDE: rosbridge , a ros package for non-ROS programs to connect with a running ROS system. It provides an API an"
+    },
+    {
+      "chunk_id": 4,
+      "text": "t with a running ROS system. It provides an API and sets up WebSocket for connection. java_rosbridge , a Java library that sets up a connection with a rosbridge WebSocket The code and steps provided follow closely the code provided in java_rosbridge"
+    },
+    {
+      "chunk_id": 5,
+      "text": "follow closely the code provided in java_rosbridge written by James MacGlashan. To do more, compile the docs and explore the API in java_rosbridge. Connecting a ROS Publisher with a Java Subscriber First we will set up a ROS publisher Set up ros with"
+    },
+    {
+      "chunk_id": 6,
+      "text": "rst we will set up a ROS publisher Set up ros with the following terminal commands: $roscore $roslaunch rosbridge_server rosbridge_websocket.launch sets up the ROS websocket (assumes you have installed rosbridge) Then enter $rostopic pub /chatter \"st"
+    },
+    {
+      "chunk_id": 7,
+      "text": "d rosbridge) Then enter $rostopic pub /chatter \"std_msgs/String\" \"hi there\" . This publishes the string \"hi there\" to the topic /chatter. Now we will write the java listener Download the java_rosbridge library above from gitHub: git clone https://git"
+    },
+    {
+      "chunk_id": 8,
+      "text": "e library above from gitHub: git clone https://github.com/h2r/java_rosbridge Open Eclipse, select File>New Project>Java Project from Existing Antfile. Select the build.xml file in the toplevel directory of java_rosbridge We will create the following"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ry of java_rosbridge We will create the following Listener.java file in the existing src/test folder for this basic tutorial: package tests; import ros.Publisher; import ros.RosBridge; import ros.RosListenDelegate; import java.util.HashMap; import"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ListenDelegate; import java.util.HashMap; import java.util.Map; public class Listener { public static void main(String[] args) { if(args.length != 1){ System.out.println(\"Need the rosbridge websocket URI provided as argument\");"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ridge websocket URI provided as argument\"); System.exit(0); } RosBridge bridge = RosBridge.createConnection(args[0]); bridge.waitForConnection(); bridge.subscribe(\"/chatter\", \"std_msgs/String\", new RosListenDelegate() {"
+    },
+    {
+      "chunk_id": 12,
+      "text": "std_msgs/String\", new RosListenDelegate() { @Override public void receive(Map<String, Object> data, String stringRep) { System.out.println(\"I received: \" + stringRep); } }); } } Eclipse should auto-com"
+    },
+    {
+      "chunk_id": 13,
+      "text": "} }); } } Eclipse should auto-compile, so supply the WebSocket URI as a command line argument (Right Click on Listener Java, select Run As->Run Configurations, and select the tab Arguments). This is \"ws://localhost:9090\" by default."
+    },
+    {
+      "chunk_id": 14,
+      "text": "ments). This is \"ws://localhost:9090\" by default. Run the file, and you should see the Eclipse console log: \"I received: hi there.\" Connecting a ROS Subscriber with a Java Publisher We now make an external java program talk to a ROS subscriber. In Ec"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ernal java program talk to a ROS subscriber. In Eclipse, create this file Talker.java and run it: package tests; import ros.Publisher; import ros.RosBridge; import ros.RosListenDelegate; import java.util.HashMap; import java.util.Map; public class"
+    },
+    {
+      "chunk_id": 16,
+      "text": ".util.HashMap; import java.util.Map; public class Talker { public static void main(String[] args) { if(args.length != 1){ System.out.println(\"Need the rosbridge websocket URI provided as argument\"); System.exit(0); } Ros"
+    },
+    {
+      "chunk_id": 17,
+      "text": "s argument\"); System.exit(0); } RosBridge bridge = RosBridge.createConnection(args[0]); bridge.waitForConnection(); Publisher pub = new Publisher(\"/chatter\", \"std_msgs/String\", bridge); final Map<String, String> strData ="
+    },
+    {
+      "chunk_id": 18,
+      "text": "bridge); final Map<String, String> strData = new HashMap<String, String>(); for(int i = 0; i < 100; i++) { strData.put(\"data\", \"hello from java \" + i); System.out.println(\"sending...\"); pub.publish(strData); try {"
+    },
+    {
+      "chunk_id": 19,
+      "text": "g...\"); pub.publish(strData); try { Thread.sleep(500); } catch (InterruptedException e) { e.printStackTrace(); } } } } Now we run a ROS subsciber to the topic /chatter From a terminal, enter $rostopic ech"
+    }
+  ]
+}

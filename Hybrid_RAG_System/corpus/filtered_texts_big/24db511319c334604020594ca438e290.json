@@ -1,0 +1,973 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/kernel/CompositeEntity.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "CompositeEntity JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Meth"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ld | Constr | Method Detail: Field | Constr | Method ptolemy.kernel Class CompositeEntity java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity <T> ptolemy.kernel.ComponentEntity ptolemy.kernel.Compos"
+    },
+    {
+      "chunk_id": 3,
+      "text": "olemy.kernel.ComponentEntity ptolemy.kernel.CompositeEntity All Implemented Interfaces: java.lang.Cloneable, Changeable , Debuggable , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Su"
+    },
+    {
+      "chunk_id": 4,
+      "text": "MLExportable , Moveable , Nameable Direct Known Subclasses: CompositeActor , Configuration , Effigy , EffigyFactory , EntityLibrary , ExceptionManagerModel , FSMActor , ModelDirectory , Ontology , OntologySolverModel , SyntacticGraph , Tableau public"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ologySolverModel , SyntacticGraph , Tableau public class CompositeEntity extends ComponentEntity A CompositeEntity is a cluster in a clustered graph. I.e., it is a non-atomic entity, in that it can contain other entities and relations. It supports"
+    },
+    {
+      "chunk_id": 6,
+      "text": "contain other entities and relations. It supports transparent ports, where, in effect, the port of a contained entity is represented by a port of this entity. Methods that \"deeply\" traverse the topology see right through transparent ports. It ma"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ology see right through transparent ports. It may be opaque, in which case its ports are opaque and methods that \"deeply\" traverse the topology do not see through them. For instance, deepEntityList() returns the opaque entities directly or indir"
+    },
+    {
+      "chunk_id": 8,
+      "text": "t() returns the opaque entities directly or indirectly contained by this entity. To add an entity or relation to this composite, call its setContainer() method with this composite as an argument. To remove it, call its setContainer() method with"
+    },
+    {
+      "chunk_id": 9,
+      "text": "o remove it, call its setContainer() method with a null argument (or another container). The entity must be an instance of ComponentEntity and the relation of ComponentRelation or an exception is thrown. Derived classes may further constrain the"
+    },
+    {
+      "chunk_id": 10,
+      "text": "thrown. Derived classes may further constrain these to subclasses. To do that, they should override the protected methods _addEntity() and _addRelation() and the public member newRelation(). A CompositeEntity may be contained by another Composit"
+    },
+    {
+      "chunk_id": 11,
+      "text": "mpositeEntity may be contained by another CompositeEntity. To set that up, call the setContainer() method of the inside entity. Derived classes may further constrain the container to be a subclass of CompositeEntity. To do this, they should overr"
+    },
+    {
+      "chunk_id": 12,
+      "text": "of CompositeEntity. To do this, they should override setContainer() to throw an exception. Recursive containment structures, where an entity directly or indirectly contains itself, are disallowed, and an exception is thrown on an attempt to set"
+    },
+    {
+      "chunk_id": 13,
+      "text": ", and an exception is thrown on an attempt to set up such a structure. A CompositeEntity can contain instances of ComponentPort. By default these ports will be transparent, although subclasses of CompositeEntity can make them opaque by overriding"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ompositeEntity can make them opaque by overriding the isOpaque() method to return true . Derived classes may further constrain the ports to a subclass of ComponentPort. To do this, they should override the public method newPort() to create a port"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ride the public method newPort() to create a port of the appropriate subclass, and the protected method _addPort() to throw an exception if its argument is a port that is not of the appropriate subclass. Since contained entities implement the Inst"
+    },
+    {
+      "chunk_id": 16,
+      "text": "class. Since contained entities implement the Instantiable interface, some may be class definitions. If an entity is a class definition, then it is not included in the lists returned by entityList() , entityList(Class) , deepEntityList() , and all"
+    },
+    {
+      "chunk_id": 17,
+      "text": ") , entityList(Class) , deepEntityList() , and allAtomicEntityList() . Correspondingly, if it is not a class definition, then it is not included in the list returned by classDefinitionList() . Contained class definitions are nonetheless required t"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ained class definitions are nonetheless required to have names distinct from contained entities that are not class definitions, and the method getEntity(String) will return either a class definition or an entity that is not a class definition, as"
+    },
+    {
+      "chunk_id": 19,
+      "text": "n or an entity that is not a class definition, as long as the name matches. Note that contained entities that are class definitions cannot be connected to other entities. Moreover, they cannot be deleted as long as there are either subclasses or"
+    },
+    {
+      "chunk_id": 20,
+      "text": "deleted as long as there are either subclasses or instances present. Since: Ptolemy II 0.2 Version: $Id$ Author: John S. Davis II, Edward A. Lee, contributor: Christopher Brooks Pt.AcceptedRating: Green (hyzheng) Pt.ProposedRating: Green (eal) Neste"
+    },
+    {
+      "chunk_id": 21,
+      "text": "een (hyzheng) Pt.ProposedRating: Green (eal) Nested Class Summary Nested Classes Modifier and Type Class and Description protected class CompositeEntity.ContainedObjectsIterator This class is an iterator over all the contained objects (all instance"
+    },
+    {
+      "chunk_id": 22,
+      "text": "tor over all the contained objects (all instances of NamedObj). Field Summary Fields Modifier and Type Field and Description (package private) NamedList _containedEntities List of contained entities. (package private) NamedList _containedRelations"
+    },
+    {
+      "chunk_id": 23,
+      "text": ". (package private) NamedList _containedRelations protected java.util.List<ptolemy.kernel.CompositeEntity.LinkRecord> _levelCrossingLinks Level-crossing links within this composite for which this composite is responsible. Fields inherited from clas"
+    },
+    {
+      "chunk_id": 24,
+      "text": "osite is responsible. Fields inherited from class ptolemy.kernel. Entity _portList Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _e"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ging , _debugListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary Constructors Constructor and Description CompositeEntity"
+    },
+    {
+      "chunk_id": 26,
+      "text": "uctors Constructor and Description CompositeEntity () Construct an entity in the default workspace with an empty string as its name. CompositeEntity ( CompositeEntity container, java.lang.String name) Create an object with a name and"
+    },
+    {
+      "chunk_id": 27,
+      "text": "lang.String name) Create an object with a name and a container. CompositeEntity ( Workspace workspace) Construct an entity in the specified workspace with an empty string as a name. Method Summary All Methods Instance Methods Concrete Methods Depre"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ll Methods Instance Methods Concrete Methods Deprecated Methods Modifier and Type Method and Description protected void _addEntity ( ComponentEntity entity) Add an entity or class definition to this container. protected void _addRelation ( ComponentR"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ontainer. protected void _addRelation ( ComponentRelation relation) Add a relation to this container. protected void _adjustDeferrals () Adjust the deferrals in this object. protected java.util.List< Decorator > _containedDecorators () Return a list"
+    },
+    {
+      "chunk_id": 30,
+      "text": "Decorator > _containedDecorators () Return a list of decorators contained by this object. protected void _deepOpaqueEntityList (java.util.List result) List the opaque entities that are directly or indirectly contained by this entity. protected java"
+    },
+    {
+      "chunk_id": 31,
+      "text": "irectly contained by this entity. protected java.lang.String _description (int detail, int indent, int bracket) Return a description of the object. protected void _exportMoMLContents (java.io.Writer output,"
+    },
+    {
+      "chunk_id": 32,
+      "text": "Contents (java.io.Writer output, int depth) Write a MoML description of the contents of this object, which in this class are the attributes, ports, contained relations, and contained entities, plus all links. protected void _fi"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ained entities, plus all links. protected void _finishedAddEntity ( ComponentEntity entity) Notify this entity that the given entity has been added inside it. protected void _removeEntity ( ComponentEntity entity) Remove the specified entity. protect"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ntity entity) Remove the specified entity. protected void _removeRelation ( ComponentRelation relation) Remove the specified relation. protected void _validateSettables (java.util.Collection attributesValidated) Validate attributes deeply contained b"
+    },
+    {
+      "chunk_id": 35,
+      "text": "sValidated) Validate attributes deeply contained by this object if they implement the Settable interface by calling their validate() method. java.util.List allAtomicEntityList () Return a list that consists of all the atomic entities in a model. vo"
+    },
+    {
+      "chunk_id": 36,
+      "text": "consists of all the atomic entities in a model. void allowLevelCrossingConnect (boolean boole) Allow or disallow connections that are created using the connect() method to cross levels of the hierarchy. java.util.List classDefinitionList () List th"
+    },
+    {
+      "chunk_id": 37,
+      "text": "chy. java.util.List classDefinitionList () List the contained class definitions in the order they were added (using their setContainer() method). java.lang.Object clone ( Workspace workspace) Clone the object into the specified workspace. Compone"
+    },
+    {
+      "chunk_id": 38,
+      "text": "e the object into the specified workspace. ComponentRelation connect ( ComponentPort port1, ComponentPort port2) Create a new relation and use it to connect two ports. ComponentRelation connect ( ComponentPort port1, ComponentPort port2, java."
+    },
+    {
+      "chunk_id": 39,
+      "text": "onentPort port1, ComponentPort port2, java.lang.String relationName) Create a new relation with the specified name and use it to connect two ports. java.util.Iterator containedObjectsIterator () Return an iterator over contained objects. jav"
+    },
+    {
+      "chunk_id": 40,
+      "text": "() Return an iterator over contained objects. java.util.List< CompositeEntity > deepCompositeEntityList () Return a list that consists of all the transparent and opaque composite entities in a model. java.util.List deepEntityList () List the opaqu"
+    },
+    {
+      "chunk_id": 41,
+      "text": "l. java.util.List deepEntityList () List the opaque entities that are directly or indirectly contained by this entity. java.util.Enumeration deepGetEntities () Deprecated. Use deepEntityList() instead. java.util.List deepNamedObjList () List the Na"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ad. java.util.List deepNamedObjList () List the NamedObjs that are directly or indirectly contained by this entity. java.util.List deepOpaqueEntityList () List the opaque entities that are directly or indirectly contained by this entity. java.uti"
+    },
+    {
+      "chunk_id": 43,
+      "text": "or indirectly contained by this entity. java.util.Set< ComponentRelation > deepRelationSet () Return a set with the relations that are directly or indirectly contained by this entity. java.util.List entityList () List the contained entities in th"
+    },
+    {
+      "chunk_id": 44,
+      "text": "st entityList () List the contained entities in the order they were added (using their setContainer() method). <T> java.util.List<T> entityList (java.lang.Class<T> filter) Return a list of the component entities contained by this object that are"
+    },
+    {
+      "chunk_id": 45,
+      "text": "nent entities contained by this object that are instances of the specified Java class. java.lang.String exportLinks (int depth, java.util.Collection filter) Return a sequence of MoML link attributes that describe any link between objec"
+    },
+    {
+      "chunk_id": 46,
+      "text": "attributes that describe any link between objects (ports, entities, and relations) that are present in the filter argument. void exportMoML (java.io.Writer output, int depth, java.lang.String name) Override the base class to"
+    },
+    {
+      "chunk_id": 47,
+      "text": "java.lang.String name) Override the base class to initialize a data structure that can capture and then export level-crossing links deeply contained structure within. Attribute getAttribute (java.lang.String name) Get the attribute with the given"
+    },
+    {
+      "chunk_id": 48,
+      "text": "lang.String name) Get the attribute with the given name. java.util.Enumeration getEntities () Deprecated. Use entityList() instead. ComponentEntity getEntity (java.lang.String name) Get a contained entity by name. Port getPort (java.lang.String name)"
+    },
+    {
+      "chunk_id": 49,
+      "text": "tity by name. Port getPort (java.lang.String name) Get a contained port by name. ComponentRelation getRelation (java.lang.String name) Get a contained relation by name. java.util.Enumeration getRelations () Deprecated. Use relationList() instead. boo"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ons () Deprecated. Use relationList() instead. boolean isAtomic () Return false since CompositeEntities are not atomic. boolean isOpaque () Return false. java.util.List lazyAllAtomicEntityList () Lazy version of allAtomicEntityList() . java.util.List"
+    },
+    {
+      "chunk_id": 51,
+      "text": "version of allAtomicEntityList() . java.util.List lazyAllCompositeEntityList () Lazy version of {#link #allCompositeEntityList()}. java.util.List lazyAllCompositeTransparentAndOpaqueEntityList () Return all the transparent and opaque composites. jav"
+    },
+    {
+      "chunk_id": 52,
+      "text": "urn all the transparent and opaque composites. java.util.List lazyClassDefinitionList () Lazy version of classDefinitionList() . java.util.List lazyDeepEntityList () Lazy version of deepEntityList() . java.util.List lazyEntityList () Lazy version of"
+    },
+    {
+      "chunk_id": 53,
+      "text": "java.util.List lazyEntityList () Lazy version of entityList() . java.util.List lazyRelationList () Lazy version of relationList() . ComponentRelation newRelation (java.lang.String name) Create a new relation with the specified name, add it to the"
+    },
+    {
+      "chunk_id": 54,
+      "text": "relation with the specified name, add it to the relation list, and return it. int numberOfEntities () Return the number of contained entities, not including class definitions. int numberOfRelations () Return the number of contained relations. int"
+    },
+    {
+      "chunk_id": 55,
+      "text": "s () Return the number of contained relations. int numEntities () Deprecated. Use numberOfEntities int numRelations () Deprecated. Use numberOfRelations. java.util.List relationList () List the relations contained by this entity. void removeAllEntiti"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ons contained by this entity. void removeAllEntities () Remove all contained entities and unlink them from all relations. void removeAllRelations () Remove all contained relations and unlink them from everything. void setClassDefinition (boolean isCl"
+    },
+    {
+      "chunk_id": 57,
+      "text": "everything. void setClassDefinition (boolean isClass) Specify whether this object is a class definition. void setContainer ( CompositeEntity container) Override the base class so that if the argument is null, all level-crossing links from inside t"
+    },
+    {
+      "chunk_id": 58,
+      "text": "is null, all level-crossing links from inside this composite to outside this composite are removed. java.lang.String statistics (java.lang.String className) Return a string describing how many actors, parameters, ports, and relations are in thi"
+    },
+    {
+      "chunk_id": 59,
+      "text": "tors, parameters, ports, and relations are in this CompositeEntity. java.lang.String uniqueName (java.lang.String prefix) Return a name that is guaranteed to not be the name of any contained attribute, port, class, entity, or relation. Methods inh"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ute, port, class, entity, or relation. Methods inherited from class ptolemy.kernel. ComponentEntity _checkContainer , _getContainedObject , _propagateExistence , getContainer , instantiate , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp"
+    },
+    {
+      "chunk_id": 61,
+      "text": ", moveToFirst , moveToIndex , moveToLast , moveUp , newPort , propagateExistence , setName Methods inherited from class ptolemy.kernel. Entity _addPort , _removePort , connectedPortList , connectedPorts , connectionsChanged , getPorts , linkedRelatio"
+    },
+    {
+      "chunk_id": 62,
+      "text": "ts , connectionsChanged , getPorts , linkedRelationList , linkedRelations , portList , removeAllPorts Methods inherited from class ptolemy.kernel. InstantiableNamedObj _setParent , getChildren , getElementName , getParent , getPrototypeList , isClass"
+    },
+    {
+      "chunk_id": 63,
+      "text": "ementName , getParent , getPrototypeList , isClassDefinition , isWithinClassDefinition Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _adjustOverride , _attachText , _cloneFixAttributeFields , _copyChangeRequestList , _deb"
+    },
+    {
+      "chunk_id": 64,
+      "text": "FixAttributeFields , _copyChangeRequestList , _debug , _debug , _debug , _debug , _debug , _executeChangeRequests , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _notifyHierarchyListenersAfterChange , _notifyHierarchyListenersBeforeCh"
+    },
+    {
+      "chunk_id": 65,
+      "text": "ersAfterChange , _notifyHierarchyListenersBeforeChange , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , addHierarchyListener , attributeChanged , attributeDeleted , attributeList , attri"
+    },
+    {
+      "chunk_id": 66,
+      "text": "Changed , attributeDeleted , attributeList , attributeList , attributeTypeChanged , clone , decorators , deepContains , depthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML ,"
+    },
+    {
+      "chunk_id": 67,
+      "text": "xportMoML , exportMoML , exportMoML , exportMoML , exportMoMLPlain , getAttribute , getAttributes , getChangeListeners , getClassName , getDecoratorAttribute , getDecoratorAttributes , getDerivedLevel , getDerivedList , getDisplayName , getFullName ,"
+    },
+    {
+      "chunk_id": 68,
+      "text": ", getDerivedList , getDisplayName , getFullName , getModelErrorHandler , getName , getName , getSource , handleModelError , isDeferringChangeRequests , isOverridden , isPersistent , lazyContainedObjectsIterator , message , notifyOfNameChange , propa"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ctsIterator , message , notifyOfNameChange , propagateValue , propagateValues , removeAttribute , removeChangeListener , removeDebugListener , removeHierarchyListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , set"
+    },
+    {
+      "chunk_id": 70,
+      "text": "setDeferringChangeRequests , setDerivedLevel , setDisplayName , setModelErrorHandler , setPersistent , setSource , sortContainedObjects , toplevel , toString , validateSettables , workspace Methods inherited from class java.lang.Object equals, finali"
+    },
+    {
+      "chunk_id": 71,
+      "text": "herited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from int"
+    },
+    {
+      "chunk_id": 72,
+      "text": "edList , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getDisplayName , getFullName , getName , getName Field Detail _levelCrossingLinks protected java.util.List<ptolemy.kernel.CompositeEntity.LinkRecord>"
+    },
+    {
+      "chunk_id": 73,
+      "text": "il.List<ptolemy.kernel.CompositeEntity.LinkRecord> _levelCrossingLinks Level-crossing links within this composite for which this composite is responsible. This data structure is populated when exportMoML() is called. _containedEntities NamedList"
+    },
+    {
+      "chunk_id": 74,
+      "text": "rtMoML() is called. _containedEntities NamedList _containedEntities List of contained entities. _containedRelations NamedList _containedRelations Constructor Detail CompositeEntity public CompositeEntity() Construct an entity in the default workspa"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ntity() Construct an entity in the default workspace with an empty string as its name. Add the entity to the workspace directory. Increment the version number of the workspace. CompositeEntity public CompositeEntity( Workspace workspace) Construc"
+    },
+    {
+      "chunk_id": 76,
+      "text": "lic CompositeEntity( Workspace workspace) Construct an entity in the specified workspace with an empty string as a name. You can then change the name with setName(). If the workspace argument is null, then use the default workspace. Add the ent"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ull, then use the default workspace. Add the entity to the workspace directory. Increment the version number of the workspace. Parameters: workspace - The workspace that will list the entity. CompositeEntity public CompositeEntity( CompositeEntit"
+    },
+    {
+      "chunk_id": 78,
+      "text": "ositeEntity public CompositeEntity( CompositeEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Create an object with a name and a container. The container argume"
+    },
+    {
+      "chunk_id": 79,
+      "text": "ith a name and a container. The container argument must not be null, or a NullPointerException will be thrown. This entity will use the workspace of the container for synchronization and version counts. If the name argument is null, then the"
+    },
+    {
+      "chunk_id": 80,
+      "text": "n counts. If the name argument is null, then the name is set to the empty string. Increment the version of the workspace. Parameters: container - The container entity. name - The name of the entity. Throws: IllegalActionException - If the contain"
+    },
+    {
+      "chunk_id": 81,
+      "text": "y. Throws: IllegalActionException - If the container is incompatible with this entity. NameDuplicationException - If the name coincides with an entity already in the container. Method Detail allAtomicEntityList public java.util.List allAtomicEn"
+    },
+    {
+      "chunk_id": 82,
+      "text": "AtomicEntityList public java.util.List allAtomicEntityList() Return a list that consists of all the atomic entities in a model. This method differs from deepEntityList() in that this method looks inside opaque entities, whereas deepEntityList()"
+    },
+    {
+      "chunk_id": 83,
+      "text": "inside opaque entities, whereas deepEntityList() does not. The returned list does not include any entities that are class definitions. Returns: a List of all atomic entities in the model. allowLevelCrossingConnect public void allowLevelCrossingCo"
+    },
+    {
+      "chunk_id": 84,
+      "text": "elCrossingConnect public void allowLevelCrossingConnect(boolean boole) Allow or disallow connections that are created using the connect() method to cross levels of the hierarchy. The default is that such connections are disallowed. Generally it"
+    },
+    {
+      "chunk_id": 85,
+      "text": "at such connections are disallowed. Generally it is a bad idea to allow level-crossing connections, since it breaks modularity. This loss of modularity means, among other things, that this composite cannot be cloned. Nonetheless, this capabi"
+    },
+    {
+      "chunk_id": 86,
+      "text": "osite cannot be cloned. Nonetheless, this capability is provided for the benefit of users that feel they just must have it, and who are willing to sacrifice clonability and modularity. Parameters: boole - True to allow level-crossing connection"
+    },
+    {
+      "chunk_id": 87,
+      "text": "s: boole - True to allow level-crossing connections. classDefinitionList public java.util.List classDefinitionList() List the contained class definitions in the order they were added (using their setContainer() method). The returned list does n"
+    },
+    {
+      "chunk_id": 88,
+      "text": "setContainer() method). The returned list does not include any entities that are not class definitions. The returned list is static in the sense that it is not affected by any subsequent additions or removals of class definitions. This meth"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ns or removals of class definitions. This method is read-synchronized on the workspace. Returns: A list of ComponentEntity objects. See Also: entityList() clone public java.lang.Object clone( Workspace workspace) throws jav"
+    },
+    {
+      "chunk_id": 90,
+      "text": "space workspace) throws java.lang.CloneNotSupportedException Clone the object into the specified workspace. The new object is not added to the directory of that workspace (you must do this yourself if you want it there). Th"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ust do this yourself if you want it there). This method gets read access on the workspace associated with this object. Overrides: clone in class ComponentEntity Parameters: workspace - The workspace for the cloned object. Returns: A new Composi"
+    },
+    {
+      "chunk_id": 92,
+      "text": "pace for the cloned object. Returns: A new CompositeEntity. Throws: java.lang.CloneNotSupportedException - If one of the attributes cannot be cloned. See Also: NamedObj.exportMoML(Writer, int, String) , NamedObj.setDeferringChangeRequests(boolean)"
+    },
+    {
+      "chunk_id": 93,
+      "text": "g) , NamedObj.setDeferringChangeRequests(boolean) connect public ComponentRelation connect( ComponentPort port1, ComponentPort port2) throws IllegalActionException Create a new relation and use it to connect two ports. It"
+    },
+    {
+      "chunk_id": 94,
+      "text": "ew relation and use it to connect two ports. It creates a new relation using newRelation() with an automatically generated name and uses it to link the specified ports. The order of the ports determines the order in which the links to the rel"
+    },
+    {
+      "chunk_id": 95,
+      "text": "termines the order in which the links to the relation are established, but otherwise has no importance. The name is of the form \"_R i \" where i is an integer. Level-crossing connections are not permitted unless allowLevelCrossingConnect() h"
+    },
+    {
+      "chunk_id": 96,
+      "text": "t permitted unless allowLevelCrossingConnect() has been called with a true argument. Note that is rarely a good idea to permit level crossing connections, since they break modularity and cloning. A reference to the newly created relation is re"
+    },
+    {
+      "chunk_id": 97,
+      "text": "A reference to the newly created relation is returned. To remove the relation, call its setContainer() method with a null argument. This method is write-synchronized on the workspace and increments its version number. Note that if this metho"
+    },
+    {
+      "chunk_id": 98,
+      "text": "ements its version number. Note that if this method is being called many times, then it may be more efficient to use connect(ComponentPort, ComponentPort, String) instead of this method because this method calls uniqueName(String) each time, which"
+    },
+    {
+      "chunk_id": 99,
+      "text": "method calls uniqueName(String) each time, which searches the object for attributes, ports, entities and relations that may match a candidate unique name. Parameters: port1 - The first port to connect. port2 - The second port to connect. Returns"
+    },
+    {
+      "chunk_id": 100,
+      "text": "nnect. port2 - The second port to connect. Returns: The ComponentRelation that is created to connect port1 and port2. Throws: IllegalActionException - If one of the arguments is null, or if a disallowed level-crossing connection would result. co"
+    },
+    {
+      "chunk_id": 101,
+      "text": "allowed level-crossing connection would result. connect public ComponentRelation connect( ComponentPort port1, ComponentPort port2, java.lang.String relationName) throws IllegalActionExceptio"
+    },
+    {
+      "chunk_id": 102,
+      "text": "throws IllegalActionException , NameDuplicationException Create a new relation with the specified name and use it to connect two ports. Level-crossing connections are not permitted unless allowLevelCrossingConnect() has been"
+    },
+    {
+      "chunk_id": 103,
+      "text": "tted unless allowLevelCrossingConnect() has been called with a true argument. Note that is rarely a good idea to permit level crossing connections, since they break modularity and cloning. A reference to the newly created alias relation is"
+    },
+    {
+      "chunk_id": 104,
+      "text": "reference to the newly created alias relation is returned. To remove the relation, call its setContainer() method with a null argument. This method is write-synchronized on the workspace and increments its version number. Parameters: port1 - T"
+    },
+    {
+      "chunk_id": 105,
+      "text": "crements its version number. Parameters: port1 - The first port to connect. port2 - The second port to connect. relationName - The name of the new relation. Returns: The ComponentRelation that is created to connect port1 and port2. Throws: IllegalA"
+    },
+    {
+      "chunk_id": 106,
+      "text": "ted to connect port1 and port2. Throws: IllegalActionException - If one of the arguments is null, or if a disallowed level-crossing connection would result, or if the two ports are not in the same workspace as this entity. NameDuplicationExce"
+    },
+    {
+      "chunk_id": 107,
+      "text": "same workspace as this entity. NameDuplicationException - If there is already a relation with the specified name in this entity. containedObjectsIterator public java.util.Iterator containedObjectsIterator() Return an iterator over contained object"
+    },
+    {
+      "chunk_id": 108,
+      "text": "terator() Return an iterator over contained objects. In this class, this is an iterator over attributes, ports, classes, entities, and relations. Overrides: containedObjectsIterator in class Entity Returns: An iterator over instances of NamedObj"
+    },
+    {
+      "chunk_id": 109,
+      "text": "y Returns: An iterator over instances of NamedObj contained by this object. deepCompositeEntityList public java.util.List< CompositeEntity > deepCompositeEntityList() Return a list that consists of all the transparent and opaque composite entiti"
+    },
+    {
+      "chunk_id": 110,
+      "text": "all the transparent and opaque composite entities in a model. This method differs from allAtomicEntityList() in that this method returns CompositeEntities and allAtomicEntityList() returns atomic entities. This method differs from deepEntity"
+    },
+    {
+      "chunk_id": 111,
+      "text": "c entities. This method differs from deepEntityList() in that this method returns only opaque and transparent CompositeEntities, whereas deepEntityList() returns opaque ComponentEntities. The returned list of this method does not include an"
+    },
+    {
+      "chunk_id": 112,
+      "text": "returned list of this method does not include any entities that are class definitions. The entityList(Class) method only returns entities in the current level, this method traverses the hierarchy. Returns: a List of all transparent and opaque c"
+    },
+    {
+      "chunk_id": 113,
+      "text": "y. Returns: a List of all transparent and opaque composite entities in the model. A transparent composite is a composite that does not contain a director. An opaque composite is a composite that does contain a director. Note that class defin"
+    },
+    {
+      "chunk_id": 114,
+      "text": "does contain a director. Note that class definitions are also returned. deepOpaqueEntityList public java.util.List deepOpaqueEntityList() List the opaque entities that are directly or indirectly contained by this entity. The list will be empty"
+    },
+    {
+      "chunk_id": 115,
+      "text": "contained by this entity. The list will be empty if there are no such contained entities. This list does not include class definitions nor anything contained by them. This method is read-synchronized on the workspace. Returns: A list of opaqu"
+    },
+    {
+      "chunk_id": 116,
+      "text": "ronized on the workspace. Returns: A list of opaque ComponentEntity objects. See Also: classDefinitionList() , allAtomicEntityList() deepEntityList public java.util.List deepEntityList() List the opaque entities that are directly or indirectly cont"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ue entities that are directly or indirectly contained by this entity. The list will be empty if there are no such contained entities. This list does not include class definitions nor anything contained by them. This method is read-synchroniz"
+    },
+    {
+      "chunk_id": 118,
+      "text": "ontained by them. This method is read-synchronized on the workspace. Returns: A list of opaque ComponentEntity objects. See Also: classDefinitionList() , allAtomicEntityList() deepNamedObjList public java.util.List deepNamedObjList() List the Named"
+    },
+    {
+      "chunk_id": 119,
+      "text": "c java.util.List deepNamedObjList() List the NamedObjs that are directly or indirectly contained by this entity. The list will be empty if there are no such contained NamedObjs. This list does not include class definitions nor anything contain"
+    },
+    {
+      "chunk_id": 120,
+      "text": "t include class definitions nor anything contained by them. This method is read-synchronized on the workspace. This method differs from deepEntityList() in that deepEntityList() does not look inside opaques. Returns: A list of opaque Componen"
+    },
+    {
+      "chunk_id": 121,
+      "text": "inside opaques. Returns: A list of opaque ComponentEntity objects. See Also: classDefinitionList() , allAtomicEntityList() deepRelationSet public java.util.Set< ComponentRelation > deepRelationSet() Return a set with the relations that are directly o"
+    },
+    {
+      "chunk_id": 122,
+      "text": "eturn a set with the relations that are directly or indirectly contained by this entity. The set will be empty if there are no such contained relations. This method is read-synchronized on the workspace. Returns: A set of ComponentRelation obj"
+    },
+    {
+      "chunk_id": 123,
+      "text": "workspace. Returns: A set of ComponentRelation objects. deepGetEntities @Deprecated public java.util.Enumeration deepGetEntities() Deprecated. Use deepEntityList() instead. Enumerate the opaque entities that are directly or indirectly contained by"
+    },
+    {
+      "chunk_id": 124,
+      "text": "es that are directly or indirectly contained by this entity. The enumeration will be empty if there are no such contained entities. The enumeration does not include any entities that are class definitions. This method is read-synchronized on"
+    },
+    {
+      "chunk_id": 125,
+      "text": "definitions. This method is read-synchronized on the workspace. Returns: An enumeration of opaque ComponentEntity objects. entityList public java.util.List entityList() List the contained entities in the order they were added (using their setCont"
+    },
+    {
+      "chunk_id": 126,
+      "text": "n the order they were added (using their setContainer() method). The returned list does not include any class definitions. The returned list is static in the sense that it is not affected by any subsequent additions or removals of entities."
+    },
+    {
+      "chunk_id": 127,
+      "text": "ny subsequent additions or removals of entities. This method is read-synchronized on the workspace. Returns: A list of ComponentEntity objects. See Also: classDefinitionList() entityList public <T> java.util.List<T> entityList(java.lang.Class<T>"
+    },
+    {
+      "chunk_id": 128,
+      "text": "> java.util.List<T> entityList(java.lang.Class<T> filter) Return a list of the component entities contained by this object that are instances of the specified Java class. If there are no such instances, then return an empty list. The returned li"
+    },
+    {
+      "chunk_id": 129,
+      "text": "tances, then return an empty list. The returned list does not include class definitions. This method is read-synchronized on the workspace. Type Parameters: T - The type corresponding to the class of interest. Parameters: filter - The class of Co"
+    },
+    {
+      "chunk_id": 130,
+      "text": "of interest. Parameters: filter - The class of ComponentEntity of interest. Returns: A list of instances of specified class. See Also: classDefinitionList() exportLinks public java.lang.String exportLinks(int depth,"
+    },
+    {
+      "chunk_id": 131,
+      "text": "Links(int depth, java.util.Collection filter) throws java.io.IOException Return a sequence of MoML link attributes that describe any link between objects (ports, entities, and relatio"
+    },
+    {
+      "chunk_id": 132,
+      "text": "link between objects (ports, entities, and relations) that are present in the filter argument. Both ends of the link must be present in filter for MoML to be generated for that link. The filter argument normally contains ports, relations, and"
+    },
+    {
+      "chunk_id": 133,
+      "text": "r argument normally contains ports, relations, and entities that are contained by this composite entity. If it contains an entity, then that is equivalent to containing all the ports contained by that entity. It is recommended to use a collect"
+    },
+    {
+      "chunk_id": 134,
+      "text": "y that entity. It is recommended to use a collection class (such as HashSet) for which the contains() method is efficient. If the filter argument is null, then return all the links that this composite is responsible for (i.e., apply no filteri"
+    },
+    {
+      "chunk_id": 135,
+      "text": "mposite is responsible for (i.e., apply no filtering). If the argument is an empty collection, then return none of the links. The links that this entity is responsible for are the inside links of its ports, and links on ports contained by con"
+    },
+    {
+      "chunk_id": 136,
+      "text": "f its ports, and links on ports contained by contained entities. If any link is found where both ends of the link are inherited objects, then that link is not exported. It is assumed that the base class will export that link. For this purpose,"
+    },
+    {
+      "chunk_id": 137,
+      "text": "class will export that link. For this purpose, a port of a contained entity is deemed to be an inherited object if it is itself a class element and its container is an inherited object. Parameters: depth - The depth below the MoML export in t"
+    },
+    {
+      "chunk_id": 138,
+      "text": "ters: depth - The depth below the MoML export in the hierarchy. filter - A collection of ports, parameters, and entities, or null to apply no filtering. Returns: A string that describes the links present in the filter . Throws: java.io.IOException"
+    },
+    {
+      "chunk_id": 139,
+      "text": "resent in the filter . Throws: java.io.IOException - If an I/O error occurs. exportMoML public void exportMoML(java.io.Writer output, int depth, java.lang.String name) throws java.io.IOExc"
+    },
+    {
+      "chunk_id": 140,
+      "text": ".String name) throws java.io.IOException Override the base class to initialize a data structure that can capture and then export level-crossing links deeply contained structure within. Otherwise, this delegates to the base class"
+    },
+    {
+      "chunk_id": 141,
+      "text": "hin. Otherwise, this delegates to the base class to do all the work. Specified by: exportMoML in interface MoMLExportable Overrides: exportMoML in class InstantiableNamedObj Parameters: output - The output stream to write to. depth - The depth in t"
+    },
+    {
+      "chunk_id": 142,
+      "text": "output stream to write to. depth - The depth in the hierarchy, to determine indenting. name - The name to use in the exported MoML. Throws: java.io.IOException - If an I/O error occurs. See Also: MoMLExportable getAttribute public Attribute getAttri"
+    },
+    {
+      "chunk_id": 143,
+      "text": "LExportable getAttribute public Attribute getAttribute(java.lang.String name) Get the attribute with the given name. The name may be compound, with fields separated by periods, in which case the attribute returned is contained by a (deeply) conta"
+    },
+    {
+      "chunk_id": 144,
+      "text": "ribute returned is contained by a (deeply) contained attribute, port, relation, or entity. If the name contains one or more periods, then it is assumed to be the relative name of an attribute contained by one of the contained attributes, po"
+    },
+    {
+      "chunk_id": 145,
+      "text": "contained by one of the contained attributes, ports, entities or relations. This method is read-synchronized on the workspace. Overrides: getAttribute in class Entity Parameters: name - The name of the desired attribute. Returns: The requested at"
+    },
+    {
+      "chunk_id": 146,
+      "text": "f the desired attribute. Returns: The requested attribute if it is found, null otherwise. getEntities @Deprecated public java.util.Enumeration getEntities() Deprecated. Use entityList() instead. Enumerate the contained entities in the order they were"
+    },
+    {
+      "chunk_id": 147,
+      "text": "rate the contained entities in the order they were added (using their setContainer() method). The returned enumeration is static in the sense that it is not affected by any subsequent additions or removals of entities. This method is read-s"
+    },
+    {
+      "chunk_id": 148,
+      "text": "or removals of entities. This method is read-synchronized on the workspace. Returns: An enumeration of ComponentEntity objects. getEntity public ComponentEntity getEntity(java.lang.String name) Get a contained entity by name. The name may be comp"
+    },
+    {
+      "chunk_id": 149,
+      "text": "t a contained entity by name. The name may be compound, with fields separated by periods, in which case the entity returned is contained by a (deeply) contained entity. This method will return class definitions and ordinary entities. This m"
+    },
+    {
+      "chunk_id": 150,
+      "text": "lass definitions and ordinary entities. This method is read-synchronized on the workspace. Parameters: name - The name of the desired entity. Returns: An entity with the specified name, or null if none exists. getPort public Port getPort(java.lan"
+    },
+    {
+      "chunk_id": 151,
+      "text": "none exists. getPort public Port getPort(java.lang.String name) Get a contained port by name. The name may be compound, with fields separated by periods, in which case the port returned is contained by a (deeply) contained entity. This method"
+    },
+    {
+      "chunk_id": 152,
+      "text": "ned by a (deeply) contained entity. This method is read-synchronized on the workspace. Overrides: getPort in class Entity Parameters: name - The name of the desired port. Returns: A port with the specified name, or null if none exists. getRelation"
+    },
+    {
+      "chunk_id": 153,
+      "text": "ecified name, or null if none exists. getRelation public ComponentRelation getRelation(java.lang.String name) Get a contained relation by name. The name may be compound, with fields separated by periods, in which case the relation returned is con"
+    },
+    {
+      "chunk_id": 154,
+      "text": "iods, in which case the relation returned is contained by a (deeply) contained entity. This method is read-synchronized on the workspace. Parameters: name - The name of the desired relation. Returns: A relation with the specified name, or null if"
+    },
+    {
+      "chunk_id": 155,
+      "text": "ns: A relation with the specified name, or null if none exists. getRelations @Deprecated public java.util.Enumeration getRelations() Deprecated. Use relationList() instead. Enumerate the relations contained by this entity. The returned enumeration"
+    },
+    {
+      "chunk_id": 156,
+      "text": "tained by this entity. The returned enumeration is static in the sense that it is not affected by any subsequent additions or removals of relations. This method is read-synchronized on the workspace. Returns: An enumeration of ComponentRelati"
+    },
+    {
+      "chunk_id": 157,
+      "text": "kspace. Returns: An enumeration of ComponentRelation objects. isAtomic public final boolean isAtomic() Return false since CompositeEntities are not atomic. Note that this will return false even if there are no contained entities or relations. De"
+    },
+    {
+      "chunk_id": 158,
+      "text": "here are no contained entities or relations. Derived classes may not override this. To hide the contents of the entity, they should override isOpaque(). Overrides: isAtomic in class ComponentEntity Returns: False. See Also: CompositeEntity isOpa"
+    },
+    {
+      "chunk_id": 159,
+      "text": "ty Returns: False. See Also: CompositeEntity isOpaque public boolean isOpaque() Return false. Derived classes may return true in order to hide their components behind opaque ports. Overrides: isOpaque in class ComponentEntity Returns: True if the"
+    },
+    {
+      "chunk_id": 160,
+      "text": "que in class ComponentEntity Returns: True if the entity is opaque. See Also: CompositeEntity lazyAllAtomicEntityList public java.util.List lazyAllAtomicEntityList() Lazy version of allAtomicEntityList() . In this base class, this is identical to a"
+    },
+    {
+      "chunk_id": 161,
+      "text": "t() . In this base class, this is identical to allAtomicEntityList(), except that if any inside entities are lazy, their contents are listed lazily. Derived classes may omit from the returned list any entities whose instantiation is deferred"
+    },
+    {
+      "chunk_id": 162,
+      "text": "ist any entities whose instantiation is deferred. Returns: A list of ComponentEntity objects. lazyAllCompositeEntityList public java.util.List lazyAllCompositeEntityList() Lazy version of {#link #allCompositeEntityList()}. In this base class, thi"
+    },
+    {
+      "chunk_id": 163,
+      "text": "lCompositeEntityList()}. In this base class, this is identical to allCompositeEntityList(), except that if any contained composite is lazy, its contents are listed lazily. Derived classes may omit from the returned list any class definition"
+    },
+    {
+      "chunk_id": 164,
+      "text": "omit from the returned list any class definitions whose instantiation is deferred. Returns: A list of transparent ComponentEntity objects. lazyAllCompositeTransparentAndOpaqueEntityList public java.util.List lazyAllCompositeTransparentAndOpaqueEnti"
+    },
+    {
+      "chunk_id": 165,
+      "text": "util.List lazyAllCompositeTransparentAndOpaqueEntityList() Return all the transparent and opaque composites. In this base class, if any contained composite is lazy, its contents are listed lazily. Derived classes may omit from the returned list"
+    },
+    {
+      "chunk_id": 166,
+      "text": "Derived classes may omit from the returned list any class definitions whose instantiation is deferred. Returns: A list of transparent ComponentEntity objects. lazyClassDefinitionList public java.util.List lazyClassDefinitionList() Lazy version o"
+    },
+    {
+      "chunk_id": 167,
+      "text": "util.List lazyClassDefinitionList() Lazy version of classDefinitionList() . In this base class, this is identical to classDefinitionList(), but derived classes may omit from the returned list any class definitions whose instantiation is deferre"
+    },
+    {
+      "chunk_id": 168,
+      "text": "class definitions whose instantiation is deferred. Returns: A list of ComponentEntity objects. lazyDeepEntityList public java.util.List lazyDeepEntityList() Lazy version of deepEntityList() . In this base class, this is identical to deepEntityLis"
+    },
+    {
+      "chunk_id": 169,
+      "text": "his base class, this is identical to deepEntityList(), except that if any contained composite is lazy, its contents are listed lazily. Derived classes may omit from the returned list any entities whose instantiation is deferred. Returns: A li"
+    },
+    {
+      "chunk_id": 170,
+      "text": "s whose instantiation is deferred. Returns: A list of ComponentEntity objects. lazyEntityList public java.util.List lazyEntityList() Lazy version of entityList() . In this base class, this is identical to entityList(), but derived classes may o"
+    },
+    {
+      "chunk_id": 171,
+      "text": "tical to entityList(), but derived classes may omit from the returned list any entities whose instantiation is deferred. Returns: A list of ComponentEntity objects. lazyRelationList public java.util.List lazyRelationList() Lazy version of relatio"
+    },
+    {
+      "chunk_id": 172,
+      "text": "il.List lazyRelationList() Lazy version of relationList() . In this base class, this is identical to relationList(), but derived classes may omit from the returned list any relations whose instantiation is deferred. Returns: A list of Relation"
+    },
+    {
+      "chunk_id": 173,
+      "text": "ntiation is deferred. Returns: A list of Relation objects. newRelation public ComponentRelation newRelation(java.lang.String name) throws IllegalActionException , NameDuplicationException Create a new relation with the s"
+    },
+    {
+      "chunk_id": 174,
+      "text": "licationException Create a new relation with the specified name, add it to the relation list, and return it. Derived classes can override this to create domain-specific subclasses of ComponentRelation. This method is write-synchronized on the w"
+    },
+    {
+      "chunk_id": 175,
+      "text": "tion. This method is write-synchronized on the workspace and increments its version number. Parameters: name - The name of the new relation. Returns: The new relation. Throws: IllegalActionException - If name argument is null. NameDuplicationExce"
+    },
+    {
+      "chunk_id": 176,
+      "text": "on - If name argument is null. NameDuplicationException - If name collides with a name already in the container. numEntities @Deprecated public int numEntities() Deprecated. Use numberOfEntities Return the number of contained entities, not includi"
+    },
+    {
+      "chunk_id": 177,
+      "text": "turn the number of contained entities, not including class definitions. This method is read-synchronized on the workspace. Returns: The number of entities. See Also: numberOfEntities() numRelations @Deprecated public int numRelations() Deprecated"
+    },
+    {
+      "chunk_id": 178,
+      "text": "s @Deprecated public int numRelations() Deprecated. Use numberOfRelations. Return the number of contained relations. This method is read-synchronized on the workspace. Returns: The number of relations. numberOfEntities public int numberOfEntities()"
+    },
+    {
+      "chunk_id": 179,
+      "text": "ns. numberOfEntities public int numberOfEntities() Return the number of contained entities, not including class definitions. This method is read-synchronized on the workspace. Returns: The number of entities. numberOfRelations public int numberOf"
+    },
+    {
+      "chunk_id": 180,
+      "text": "of entities. numberOfRelations public int numberOfRelations() Return the number of contained relations. This method is read-synchronized on the workspace. Returns: The number of relations. relationList public java.util.List relationList() List the"
+    },
+    {
+      "chunk_id": 181,
+      "text": "ist public java.util.List relationList() List the relations contained by this entity. The returned list is static in the sense that it is not affected by any subsequent additions or removals of relations. This method is read-synchronized on t"
+    },
+    {
+      "chunk_id": 182,
+      "text": "relations. This method is read-synchronized on the workspace. Returns: An unmodifiable list of ComponentRelation objects. removeAllEntities public void removeAllEntities() Remove all contained entities and unlink them from all relations. This is"
+    },
+    {
+      "chunk_id": 183,
+      "text": "ies and unlink them from all relations. This is done by setting their containers to null. This method is read-synchronized on the workspace and increments its version number. removeAllRelations public void removeAllRelations() Remove all contai"
+    },
+    {
+      "chunk_id": 184,
+      "text": "public void removeAllRelations() Remove all contained relations and unlink them from everything. This is done by setting their containers to null. This method is write-synchronized on the workspace and increments its version number. setClassDef"
+    },
+    {
+      "chunk_id": 185,
+      "text": "e and increments its version number. setClassDefinition public void setClassDefinition(boolean isClass) throws IllegalActionException Specify whether this object is a class definition. If the argument is true and this enti"
+    },
+    {
+      "chunk_id": 186,
+      "text": "efinition. If the argument is true and this entity is not a class definition, then all level crossing relations that This method overrides the base class to check that if the argument is true, then this entity contains no ports with links."
+    },
+    {
+      "chunk_id": 187,
+      "text": "then this entity contains no ports with links. This method is write synchronized on the workspace. Overrides: setClassDefinition in class Entity Parameters: isClass - True to make this object a class definition. Throws: IllegalActionException - If"
+    },
+    {
+      "chunk_id": 188,
+      "text": "ss definition. Throws: IllegalActionException - If the argument is true and this entity contains ports with links. See Also: InstantiableNamedObj.isClassDefinition() , Instantiable setContainer public void setContainer( CompositeEntity container)"
+    },
+    {
+      "chunk_id": 189,
+      "text": "lic void setContainer( CompositeEntity container) throws IllegalActionException , NameDuplicationException Override the base class so that if the argument is null, all level-crossing links from inside this composite to outside thi"
+    },
+    {
+      "chunk_id": 190,
+      "text": "ng links from inside this composite to outside this composite are removed. Overrides: setContainer in class ComponentEntity Parameters: container - The proposed container. Throws: IllegalActionException - If the action would result in a recursiv"
+    },
+    {
+      "chunk_id": 191,
+      "text": "tion - If the action would result in a recursive containment structure, or if this entity and container are not in the same workspace, or if the protected method _checkContainer() throws it, or if a contained Settable becomes invalid and"
+    },
+    {
+      "chunk_id": 192,
+      "text": "or if a contained Settable becomes invalid and the error handler throws it. NameDuplicationException - If the name of this entity collides with a name already in the container. See Also: ComponentEntity.getContainer() statistics public java."
+    },
+    {
+      "chunk_id": 193,
+      "text": "onentEntity.getContainer() statistics public java.lang.String statistics(java.lang.String className) throws IllegalActionException Return a string describing how many actors, parameters, ports, and relations are in this C"
+    },
+    {
+      "chunk_id": 194,
+      "text": "s, parameters, ports, and relations are in this CompositeEntity. Entities whose instantiation is deferred are not included. Parameters: className - If non-null and non-empty, then also include the number of objects with the give name. Returns: a"
+    },
+    {
+      "chunk_id": 195,
+      "text": "number of objects with the give name. Returns: a string describing the number of components. Throws: IllegalActionException - If the class named by actorClassName cannot be found. uniqueName public java.lang.String uniqueName(java.lang.String prefi"
+    },
+    {
+      "chunk_id": 196,
+      "text": "java.lang.String uniqueName(java.lang.String prefix) Return a name that is guaranteed to not be the name of any contained attribute, port, class, entity, or relation. In this implementation, the argument is stripped of any numeric suffix, and t"
+    },
+    {
+      "chunk_id": 197,
+      "text": "rgument is stripped of any numeric suffix, and then a numeric suffix is appended and incremented until a name is found that does not conflict with a contained attribute, port, class, entity, or relation. If this composite entity or any compos"
+    },
+    {
+      "chunk_id": 198,
+      "text": "relation. If this composite entity or any composite entity that it contains defers its MoML definition (i.e., it is an instance of a class or a subclass), then the prefix gets appended with \"_ n _\", where n is the depth of this deferral. That"
+    },
+    {
+      "chunk_id": 199,
+      "text": "_\", where n is the depth of this deferral. That is, if the object deferred to also defers, then n is incremented. Note that this method should be called judiciously from when the CompositeEntity is large. The reason is that this method sear"
+    },
+    {
+      "chunk_id": 200,
+      "text": "y is large. The reason is that this method searches for matching attributes, ports, classes, entities and relations, which can result in slow performance. Overrides: uniqueName in class Entity Parameters: prefix - A prefix for the name. Returns:"
+    },
+    {
+      "chunk_id": 201,
+      "text": "rameters: prefix - A prefix for the name. Returns: A unique name. _addEntity protected void _addEntity( ComponentEntity entity) throws IllegalActionException , NameDuplicationException Add an entity or class definition to this cont"
+    },
+    {
+      "chunk_id": 202,
+      "text": "ion Add an entity or class definition to this container. This method should not be used directly. Call the setContainer() method of the entity instead. This method does not set the container of the entity to point to this composite entity. I"
+    },
+    {
+      "chunk_id": 203,
+      "text": "the entity to point to this composite entity. It assumes that the entity is in the same workspace as this container, but does not check. The caller should check. Derived classes may override this method to constrain the the entity to a subc"
+    },
+    {
+      "chunk_id": 204,
+      "text": "his method to constrain the the entity to a subclass of ComponentEntity. This method is not synchronized on the workspace, so the caller should be. Parameters: entity - Entity to contain. Throws: IllegalActionException - If the entity has no na"
+    },
+    {
+      "chunk_id": 205,
+      "text": ": IllegalActionException - If the entity has no name, or the action would result in a recursive containment structure. NameDuplicationException - If the name collides with a name already in the entity. _addRelation protected void _addRelation( C"
+    },
+    {
+      "chunk_id": 206,
+      "text": "ntity. _addRelation protected void _addRelation( ComponentRelation relation) throws IllegalActionException , NameDuplicationException Add a relation to this container. This method should not be used directly. Call the setConta"
+    },
+    {
+      "chunk_id": 207,
+      "text": "should not be used directly. Call the setContainer() method of the relation instead. This method does not set the container of the relation to refer to this container. This method is not synchronized on the workspace, so the caller should"
+    },
+    {
+      "chunk_id": 208,
+      "text": "chronized on the workspace, so the caller should be. Parameters: relation - Relation to contain. Throws: IllegalActionException - If the relation has no name. NameDuplicationException - If the name collides with a name already on the contained r"
+    },
+    {
+      "chunk_id": 209,
+      "text": "collides with a name already on the contained relations list. _adjustDeferrals protected void _adjustDeferrals() throws IllegalActionException Adjust the deferrals in this object. This method should be called on any newl"
+    },
+    {
+      "chunk_id": 210,
+      "text": "object. This method should be called on any newly created object that is created by cloning. While cloning, parent relations are set to null. That is, no object in the clone has a parent. This method identifies the correct parent for any obje"
+    },
+    {
+      "chunk_id": 211,
+      "text": "ethod identifies the correct parent for any object in the clone. To do this, it uses the class name. Specifically, if this object has a class name that refers to a class in scope, then it replaces the current parent with that object. To loo"
+    },
+    {
+      "chunk_id": 212,
+      "text": "aces the current parent with that object. To look for a class in scope, we go up the hierarchy, but no more times than the return value of getDerivedLevel(). The reason for this is that if the class from which this object is defined is above"
+    },
+    {
+      "chunk_id": 213,
+      "text": "lass from which this object is defined is above that level, then we do not want to establish a parent relationship with that class. This object is implied, and the parent relationship of the object from which it is implied is sufficient. Deri"
+    },
+    {
+      "chunk_id": 214,
+      "text": "ect from which it is implied is sufficient. Derived classes that contain other objects should recursively call this method on contained objects. Overrides: _adjustDeferrals in class ComponentEntity Throws: IllegalActionException - If the class fo"
+    },
+    {
+      "chunk_id": 215,
+      "text": "y Throws: IllegalActionException - If the class found in scope cannot be set. _containedDecorators protected java.util.List< Decorator > _containedDecorators() Return a list of decorators contained by this object. This overrides the base class t"
+    },
+    {
+      "chunk_id": 216,
+      "text": "by this object. This overrides the base class to include not only attributes that implement the Decorator interface, but also entities. Overrides: _containedDecorators in class NamedObj Returns: A list of contained decorators. _deepOpaqueEntityL"
+    },
+    {
+      "chunk_id": 217,
+      "text": "A list of contained decorators. _deepOpaqueEntityList protected void _deepOpaqueEntityList(java.util.List result) List the opaque entities that are directly or indirectly contained by this entity. The list will be empty if there are no such cont"
+    },
+    {
+      "chunk_id": 218,
+      "text": "The list will be empty if there are no such contained entities. This list does not include class definitions nor anything contained by them. This method is not read-synchronized on the workspace, its caller should be read-synchronized. Parame"
+    },
+    {
+      "chunk_id": 219,
+      "text": ", its caller should be read-synchronized. Parameters: result - The list of opaque ComponentEntity objects. See Also: classDefinitionList() , allAtomicEntityList() , deepEntityList() _description protected java.lang.String _description(int detail,"
+    },
+    {
+      "chunk_id": 220,
+      "text": "tected java.lang.String _description(int detail, int indent, int bracket) throws IllegalActionException Return a description of the objec"
+    },
+    {
+      "chunk_id": 221,
+      "text": "lActionException Return a description of the object. The level of detail depends on the argument, which is an or-ing of the static final constants defined in the NamedObj class. Lines are indented according to to the level argument using the"
+    },
+    {
+      "chunk_id": 222,
+      "text": "ed according to to the level argument using the protected method _getIndentPrefix(). Zero, one or two brackets can be specified to surround the returned description. If one is specified it is the the leading bracket. This is used by derived"
+    },
+    {
+      "chunk_id": 223,
+      "text": "he the leading bracket. This is used by derived classes that will append to the description. Those derived classes are responsible for the closing bracket. An argument other than 0, 1, or 2 is taken to be equivalent to 0. This method is read-"
+    },
+    {
+      "chunk_id": 224,
+      "text": "aken to be equivalent to 0. This method is read-synchronized on the workspace. Overrides: _description in class Entity Parameters: detail - The level of detail. indent - The amount of indenting. bracket - The number of surrounding brackets (0, 1, o"
+    },
+    {
+      "chunk_id": 225,
+      "text": "cket - The number of surrounding brackets (0, 1, or 2). Returns: A description of the object. Throws: IllegalActionException - If thrown while getting the description of subcomponents. _exportMoMLContents protected void _exportMoMLContents(java.io."
+    },
+    {
+      "chunk_id": 226,
+      "text": "ntents protected void _exportMoMLContents(java.io.Writer output, int depth) throws java.io.IOException Write a MoML description of the contents of this object, which in this class are t"
+    },
+    {
+      "chunk_id": 227,
+      "text": "ntents of this object, which in this class are the attributes, ports, contained relations, and contained entities, plus all links. The links are written in an order that respects the ordering in ports, but not necessarily the ordering in rel"
+    },
+    {
+      "chunk_id": 228,
+      "text": "n ports, but not necessarily the ordering in relations. This method is called by exportMoML(). Each description is indented according to the specified depth and terminated with a newline character. Overrides: _exportMoMLContents in class Enti"
+    },
+    {
+      "chunk_id": 229,
+      "text": "cter. Overrides: _exportMoMLContents in class Entity Parameters: output - The output to write to. depth - The depth in the hierarchy, to determine indenting. Throws: java.io.IOException - If an I/O error occurs. See Also: NamedObj.exportMoML(Writer,"
+    },
+    {
+      "chunk_id": 230,
+      "text": "ror occurs. See Also: NamedObj.exportMoML(Writer, int) _finishedAddEntity protected void _finishedAddEntity( ComponentEntity entity) Notify this entity that the given entity has been added inside it. This base class does nothing. Derived classes"
+    },
+    {
+      "chunk_id": 231,
+      "text": "This base class does nothing. Derived classes may override it to do something useful in responds to the notification. It is not synchronized on the workspace, so the caller should be. Parameters: entity - The contained entity. _removeEntity"
+    },
+    {
+      "chunk_id": 232,
+      "text": "ters: entity - The contained entity. _removeEntity protected void _removeEntity( ComponentEntity entity) Remove the specified entity. This method should not be used directly. Call the setContainer() method of the entity instead with a null argum"
+    },
+    {
+      "chunk_id": 233,
+      "text": ") method of the entity instead with a null argument. The entity is assumed to be contained by this composite (otherwise, nothing happens). This does not alter the entity in any way. This method is not synchronized on the workspace, so the c"
+    },
+    {
+      "chunk_id": 234,
+      "text": "d is not synchronized on the workspace, so the caller should be. Parameters: entity - The entity to remove. _removeRelation protected void _removeRelation( ComponentRelation relation) Remove the specified relation. This method should not be used"
+    },
+    {
+      "chunk_id": 235,
+      "text": "cified relation. This method should not be used directly. Call the setContainer() method of the relation instead with a null argument. The relation is assumed to be contained by this composite (otherwise, nothing happens). This does not alte"
+    },
+    {
+      "chunk_id": 236,
+      "text": "(otherwise, nothing happens). This does not alter the relation in any way. This method is not synchronized on the workspace, so the caller should be. Parameters: relation - The relation to remove. _validateSettables protected void _validateSett"
+    },
+    {
+      "chunk_id": 237,
+      "text": "e. _validateSettables protected void _validateSettables(java.util.Collection attributesValidated) throws IllegalActionException Validate attributes deeply contained by this object if they implement the Settable interface"
+    },
+    {
+      "chunk_id": 238,
+      "text": "object if they implement the Settable interface by calling their validate() method. This method overrides the base class to check attributes contained by the contained entities and relations. Errors that are triggered by this validation are h"
+    },
+    {
+      "chunk_id": 239,
+      "text": "Errors that are triggered by this validation are handled by calling handleModelError(). Overrides: _validateSettables in class Entity Parameters: attributesValidated - A HashSet of Attributes that have already been validated. For example, Settab"
+    },
+    {
+      "chunk_id": 240,
+      "text": "ave already been validated. For example, Settables that implement the SharedSettable interface are validated only once. Throws: IllegalActionException - If the superclass throws it or if handleModelError() throws it. See Also: NamedObj.handleM"
+    },
+    {
+      "chunk_id": 241,
+      "text": "ModelError() throws it. See Also: NamedObj.handleModelError(NamedObj, IllegalActionException) Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr"
+    },
+    {
+      "chunk_id": 242,
+      "text": "ames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

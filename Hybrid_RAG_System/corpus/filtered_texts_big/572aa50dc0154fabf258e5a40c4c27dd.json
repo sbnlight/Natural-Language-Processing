@@ -1,0 +1,121 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/cs186.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/cs186.help S"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Sep 30 2010 CONTENTS: Computing Resources for CS186 Where Postgres is Installed Permissions on public_html Directories Troubleshooting: 'failed: Not enough space' Troubleshooting: 'could not bin"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Not enough space' Troubleshooting: 'could not bind' or 'postmaster already running' Troubleshooting: Postgres maxconnections Troubleshooting: .nfs* files Computing Resources for CS186 ----------------------------- CS186 are issued UNIX acocunt"
+    },
+    {
+      "chunk_id": 4,
+      "text": "------------------ CS186 are issued UNIX acocunts and can login to any Instructional UNIX computer lab or server. They typically use the SUN X86 workstations in 275 Soda and the X86 login servers (for names and locations of computers please"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ers (for names and locations of computers please see http://inst.eecs.berkeley.edu/clients). CS186 students typically use these UNIX-based applications: Postgres Apache CVS Where Postgres is Installed --------------------------- Student"
+    },
+    {
+      "chunk_id": 6,
+      "text": "is Installed --------------------------- Students can install and run their own Postgres servers on rhombus.cs. The TA for the class must isuue a unique TCP/IP port (an integer between 5000 and 6000) to each student so their servers do not co"
+    },
+    {
+      "chunk_id": 7,
+      "text": "d 6000) to each student so their servers do not compete for network connections. Versions of Postgres are installed in the instructors account, such as /home/ff/cs186/pgsql* /home/ff/cs186/postgresql* ~cs186/pgsql is a symbolic link to the"
+    },
+    {
+      "chunk_id": 8,
+      "text": "tgresql* ~cs186/pgsql is a symbolic link to the version that the CS186 instructors wish to use each semester. Students can run the PostgreSQL interactive terminal with \"psql\". See \"man psql\" for help. On rhombus.cs, the sys admins creat"
+    },
+    {
+      "chunk_id": 9,
+      "text": "\" for help. On rhombus.cs, the sys admins create a subdirectory for each student's account on a local filesystem called /home/tmp. When running intensive disk i/o processes, CS186 students should login to rhombus.cs and use their /home/t"
+    },
+    {
+      "chunk_id": 10,
+      "text": "hould login to rhombus.cs and use their /home/tmp file space. This gives them faster disk access and avoids excessive loads on the NFS-mounted home directory filesystem. The default settings for Postgres uses 1000 buffers and 100 maxconnect"
+    },
+    {
+      "chunk_id": 11,
+      "text": "for Postgres uses 1000 buffers and 100 maxconnections. Students should change them to 64 buffers and 16 maxconnections to reduce the load on the computer. For more information, please see /share/b/pub/postgres.help /share/b/pub/"
+    },
+    {
+      "chunk_id": 12,
+      "text": "/share/b/pub/postgres.help /share/b/pub/apache.help /share/b/pub/cvs.help Permissions on public_html Directories -------------------------------------- Permissions on the student WEB site directories are set to insure that the stu"
+    },
+    {
+      "chunk_id": 13,
+      "text": "site directories are set to insure that the students are able to work on their cs186 web project without having other students looking at the sources. Where $USER is a cs186 student account: mkdir ~$USER/public_html chown $USER ~$USER"
+    },
+    {
+      "chunk_id": 14,
+      "text": "mkdir ~$USER/public_html chown $USER ~$USER/public_html chmod 710 ~$USER/public_html chgrp nobody ~$USER/public_html The result (using cs186-aa for example): cd ~cs186-aa ls -lad public_html drwx--x--- 2 cs186-aa nobo"
+    },
+    {
+      "chunk_id": 15,
+      "text": "-lad public_html drwx--x--- 2 cs186-aa nobody 512 Nov 1 19:26 public_html/ The WEB server runs as group \"nobody\", so permissons \"710\" allows the WEB server to read specific pages, such as http://pentagon.cs.berkeley.edu/~cs1"
+    },
+    {
+      "chunk_id": 16,
+      "text": "such as http://pentagon.cs.berkeley.edu/~cs186-aa/myurl.html http://pentagon.cs.berkeley.edu/~cs186-aa/hw4/ but not a directory listing of the public_html directory, ie not http://pentagon.cs.berkeley.edu/~cs186-aa/ The students"
+    },
+    {
+      "chunk_id": 17,
+      "text": "entagon.cs.berkeley.edu/~cs186-aa/ The students can re-run the mkdir, chown and chmod commands if needed, but they have to ask \"inst@eecs\" to run the chgrp command. The 'nobody' group allows the WEB server to read the subdir while denying a"
+    },
+    {
+      "chunk_id": 18,
+      "text": "the WEB server to read the subdir while denying access to the other students who are logged in to the UNIX systems. Troubleshooting: 'failed: Not enough space' ------------------------------------------- If you get an error such as \"FATAL"
+    },
+    {
+      "chunk_id": 19,
+      "text": "---------- If you get an error such as \"FATAL: shmat(id=134217751) failed: Not enough space\" it is caused by the system running out of shared memory or semaphores. Please include the output of '/bin/ipcs -at' in a bug report to 'inst@eecs"
+    },
+    {
+      "chunk_id": 20,
+      "text": "t of '/bin/ipcs -at' in a bug report to 'inst@eecs'. 'ipcs' shows what resources are currently in use. ('man ipcs' tells more about that command.) Usually, it is a transient problem. The sys admins run /share/b/adm/bin/killipc.pl perio"
+    },
+    {
+      "chunk_id": 21,
+      "text": "e sys admins run /share/b/adm/bin/killipc.pl periodically (typically every 6 hours) on the CS186 servers. It kills abandoned postgres processes and frees up the related resources. Troubleshooting: 'could not bind' or 'postmaster already runn"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ting: 'could not bind' or 'postmaster already running' ---------------------------------------------------------------- If you get an error such as LOG: could not bind IPv6 socket: Cannot assign requested address HINT: Is another postmaster"
+    },
+    {
+      "chunk_id": 23,
+      "text": "requested address HINT: Is another postmaster already running on port 16141? then either someone else is using the same port as you (talk to your TA about confirming the allocation of ports) or you may have failed to kill a previous proc"
+    },
+    {
+      "chunk_id": 24,
+      "text": "or you may have failed to kill a previous process that is still using the same port. You can try to kill your Postgres \"postmaster\" processes with the UNIX command 'pg_ctl stop'. If that doesn't fix the problem, you can find the prcesses wi"
+    },
+    {
+      "chunk_id": 25,
+      "text": "sn't fix the problem, you can find the prcesses with the UNIX command 'ps -f' and you can kill each one with the command 'kill PID' where PID is the process ID number taken from the PID column. Troubleshooting: Postgres maxconnections ----------"
+    },
+    {
+      "chunk_id": 26,
+      "text": "roubleshooting: Postgres maxconnections ---------------------------------------- The default settings for Postgres uses 1000 buffers and 100 maxconnections. Students should change them to 64 buffers and 16 maxconnections to reduce the load o"
+    },
+    {
+      "chunk_id": 27,
+      "text": "fers and 16 maxconnections to reduce the load on the computer. Troubleshooting: .nfs* files ---------------------------- \"What are the .nfs* files in my $PGDATA/globals/ directory?\" The .nfs* files get created when you start Postgres a"
+    },
+    {
+      "chunk_id": 28,
+      "text": ".nfs* files get created when you start Postgres and it is using your $PGDATA/globals folder. Stop Postgres and the .nfs* files will disappear. You can find your Postgres processes with the UNIX command 'ps -f'. Instructional Suppor"
+    },
+    {
+      "chunk_id": 29,
+      "text": "UNIX command 'ps -f'. Instructional Support Group 378/384/386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

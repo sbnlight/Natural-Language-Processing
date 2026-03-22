@@ -1,0 +1,277 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/MaximPegasusGettimeofday",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Maxim Pegasus gettimeofday() Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Maxim Pegasus gettimeofday() After determin"
+    },
+    {
+      "chunk_id": 2,
+      "text": "otes / Maxim Pegasus gettimeofday() After determining in MaximPegasus Duktape Problems that gettimeofday() is not implemented, we need implement it. We have these choices Resources DuktapeEclipseARMCortexM3 -> TimerSetup reference material only, we a"
+    },
+    {
+      "chunk_id": 3,
+      "text": "rtexM3 -> TimerSetup reference material only, we are on a Cortex-M4 DuktapeEclipseARMCortexM4 -> TimerSetup We are using a Cortex M4 that is different that the one used in this example, but it could work out. https://github.com/ARMmbed/mbed-time Trie"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ork out. https://github.com/ARMmbed/mbed-time Tried this, but ran into problems. TockOS Compilation -> gettimeofday ''TockOS-specific, we are under mbed here' DuktapeEclipseARMCortexM4 -> TimerSetup DuktapeEclipseARMCortexM4 -> TimerSetup We are usin"
+    },
+    {
+      "chunk_id": 5,
+      "text": "uktapeEclipseARMCortexM4 -> TimerSetup We are using a Cortex M4 that is different that the one used in this example, but it could work out. Let's try it. Adding the code int _gettimeofday ( struct timeval * tv , void * tz ) { unsigned long i , j ; tv"
+    },
+    {
+      "chunk_id": 6,
+      "text": "eval * tv , void * tz ) { unsigned long i , j ; tv -> tv_sec = sysSeconds ; i = ( 65306 - ( TIMER1 -> TAV & 0x00FFFF ) ) ; i *= 15312 ; // Every count from prescaler = 0.0153125 // Taking the remains from prescaler j = ( ( TIMER1 -> TAV & 0xFF0000 )"
+    },
+    {
+      "chunk_id": 7,
+      "text": "from prescaler j = ( ( TIMER1 -> TAV & 0xFF0000 ) >> 16 ) ; j = 245 - j ; j *= 62 ; tv -> tv_usec = i + j ; return ( 0 ) ; } [$[Get Code]] The compilation fails: .. / eduk2.cpp: In function 'int _gettimeofday(timeval*, void*)' : .. / eduk2.cpp: 31 :"
+    },
+    {
+      "chunk_id": 8,
+      "text": "imeofday(timeval*, void*)' : .. / eduk2.cpp: 31 : 35 : error: 'sysSeconds' was not declared in this scope tv- > tv_sec = sysSeconds; ^ .. / eduk2.cpp: 33 : 45 : error: 'TIMER1' was not declared in this scope i = ( 6"
+    },
+    {
+      "chunk_id": 9,
+      "text": "clared in this scope i = ( 65306 - ( TIMER1- > TAV & 0x00FFFF ) ) ; ^ [$[Get Code]] Looking at the contents of https://chess.eecs.berkeley.edu/densoeal/wiki/uploads/Main/LPC-Accessor.tar.gz: bash-3.2$ find ~ / Downloads / LPC-Ac"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ssor.tar.gz: bash-3.2$ find ~ / Downloads / LPC-Accessor -type f | xargs grep sysSeconds / Users / cxh / Downloads / LPC-Accessor / Debug / DUK-M4-LPC-Led.map: .bss.sysSeconds / Users / cxh / Downloads / LPC-Accessor / Debug / DUK-M4-LPC-Led.map:"
+    },
+    {
+      "chunk_id": 11,
+      "text": "s / LPC-Accessor / Debug / DUK-M4-LPC-Led.map: 0x100001e4 sysSeconds Binary file / Users / cxh / Downloads / LPC-Accessor / Debug / LPC-Accessor.elf matches / Users / cxh / Downloads / LPC-Accessor / Debug / LPC-Accessor"
+    },
+    {
+      "chunk_id": 12,
+      "text": "/ Downloads / LPC-Accessor / Debug / LPC-Accessor.map: .bss.sysSeconds / Users / cxh / Downloads / LPC-Accessor / Debug / LPC-Accessor.map: 0x10001bf4 sysSeconds Binary file / Users / cxh / Downloads / LPC-Accessor / De"
+    },
+    {
+      "chunk_id": 13,
+      "text": "file / Users / cxh / Downloads / LPC-Accessor / Debug / system / src / cortexm / exception_handlers.o matches Binary file / Users / cxh / Downloads / LPC-Accessor / Debug / system / src / DEVICE / drv_BrdLPC4088.o matches / Users / cxh / Downloads /"
+    },
+    {
+      "chunk_id": 14,
+      "text": "_BrdLPC4088.o matches / Users / cxh / Downloads / LPC-Accessor / Debug / testDUK-ARM_M4-LPC.map: .bss.sysSeconds / Users / cxh / Downloads / LPC-Accessor / Debug / testDUK-ARM_M4-LPC.map: 0x100001e4 sysSeconds / Users /"
+    },
+    {
+      "chunk_id": 15,
+      "text": "0x100001e4 sysSeconds / Users / cxh / Downloads / LPC-Accessor / system / include / DEVICE / LPC177x_8x.h:extern long sysSeconds; / Users / cxh / Downloads / LPC-Accessor / system / src / cortexm / exception_handlers.c: sysSeco"
+    },
+    {
+      "chunk_id": 16,
+      "text": "src / cortexm / exception_handlers.c: sysSeconds++; / Users / cxh / Downloads / LPC-Accessor / system / src / DEVICE / drv_BrdLPC4088.c:long sysSeconds = 0 ; / Users / cxh / Downloads / LPC-Accessor / system / src / DEVICE / drv_BrdLPC4088"
+    },
+    {
+      "chunk_id": 17,
+      "text": "-Accessor / system / src / DEVICE / drv_BrdLPC4088.c: tv- > tv_sec = sysSeconds; bash-3.2$ [$[Get Code]] It seems like a location in memory is called sysSeconds? Let's try the next one again. ARMmbed/mbed-time https://github.com/ARMmbe"
+    },
+    {
+      "chunk_id": 18,
+      "text": "again. ARMmbed/mbed-time https://github.com/ARMmbed/mbed-time Tried this with out installing yotta , but ran into problems. Summary: Yotta is used with mbed 3. mbed 5 uses different tools, see https://www.mbed.com/en/platform/software/mbed-yotta/ mb"
+    },
+    {
+      "chunk_id": 19,
+      "text": "//www.mbed.com/en/platform/software/mbed-yotta/ mbed 5 includes an RTOS, which we may or may not want. https://github.com/ARMmbed/mbed-time uses yotta, thus it requires mbed 3. As the MAX32630 was released after mbed 5 was released, it is not clear i"
+    },
+    {
+      "chunk_id": 20,
+      "text": "eased after mbed 5 was released, it is not clear if mbed 3 is supported or usable on this chip. Thus, https://github.com/ARMmbed/mbed-time is probably not usable on this chip. Whole Yotta Love? This time, let's follow the instructions. http://yottado"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ime, let's follow the instructions. http://yottadocs.mbed.com/ has installation instructions, all I had to do was pip2 install yotta [$[Get Code]] Protip : use pip2 , not pip . See Maxim Pegasus - Python2 Yotta fails to install mbed-time bash-3.2$ y"
+    },
+    {
+      "chunk_id": 22,
+      "text": "thon2 Yotta fails to install mbed-time bash-3.2$ yotta install mbed-time warning: The build target has not been set , so the default ( x86-osx-native, ) is being used. You can use ` yotta target < t\\ argetname >` to set the build target. See http: //"
+    },
+    {
+      "chunk_id": 23,
+      "text": "argetname >` to set the build target. See http: // yottadocs.mbed.com / tutorial / targets.html for more information on using t\\ argets. info: get versions for x86-osx-native info: download x86-osx-native @ 0.0.8 from the public module registry You n"
+    },
+    {
+      "chunk_id": 24,
+      "text": "tive @ 0.0.8 from the public module registry You need to log in to do this. Press enter to continue. Your browser will open to complete login. waiting for response... If you are unable to use a browser on this machine, please copy and paste this URL"
+    },
+    {
+      "chunk_id": 25,
+      "text": "r on this machine, please copy and paste this URL into a browser: https: // yotta.mbed.com / #login/<elided> .. info: get versions for mbed-hal info: download mbed-hal @ 1.3.0 from the public module registry info: get versions for mbed-drivers info:"
+    },
+    {
+      "chunk_id": 26,
+      "text": "egistry info: get versions for mbed-drivers info: download mbed-drivers @ 1.5.0 from the public module registry info: get versions for cmsis-core info: download cmsis-core @ 1.2.0 from the public module registry info: get versions for ualloc info: do"
+    },
+    {
+      "chunk_id": 27,
+      "text": "le registry info: get versions for ualloc info: download ualloc @ 1.3.0 from the public module registry info: get versions for minar info: download minar @ 1.3.0 from the public module registry info: get versions for core-util info: download core-uti"
+    },
+    {
+      "chunk_id": 28,
+      "text": "get versions for core-util info: download core-util @ 1.8.0 from the public module registry info: get versions for compiler-polyfill info: download compiler-polyfill @ 1.3.0 from the public module registry info: get versions for greentea-client info:"
+    },
+    {
+      "chunk_id": 29,
+      "text": "istry info: get versions for greentea-client info: download greentea-client @ 1.1.0 from the public module registry info: get versions for dlmalloc info: download dlmalloc @ 1.1.0 from the public module registry info: get versions for minar-platform"
+    },
+    {
+      "chunk_id": 30,
+      "text": "le registry info: get versions for minar-platform info: download minar-platform @ 1.1.0 from the public module registry info: get versions for minar-platform-posix error: Failed to satisfy dependencies of / Users / cxh / ptII / org / terraswarm / acc"
+    },
+    {
+      "chunk_id": 31,
+      "text": "s of / Users / cxh / ptII / org / terraswarm / accessor / accessors / web / hosts / duktape / mbed-duktape2 / mbed-time / yotta_modules / minar-platform: error: minar-platform-posix does not exist in the modules registry. Check that the name is corre"
+    },
+    {
+      "chunk_id": 32,
+      "text": "the modules registry. Check that the name is correct, and that it has been published. bash-3.2$ [$[Get Code]] It looks like there is not a yotta target for this board? bash-3.2$ yotta search target xdk110-gcc 0.0.2: Official mbed build target for the"
+    },
+    {
+      "chunk_id": 33,
+      "text": "k110-gcc 0.0.2: Official mbed build target for the XDK110, using the GCC toolchain. mbed-target:xdk110, mbed-target:xdk, efm32gg, gcc efm32hg-stk-gcc 1.0.0: Official mbed build target for the SLSTK3400A Starter Kit for EFM32HG, using the GCC toolchai"
+    },
+    {
+      "chunk_id": 34,
+      "text": "0A Starter Kit for EFM32HG, using the GCC toolchain. mbed-target:efm32hg-stk, mbed-target:efm32hg_stk3400, mbed-official, efm32hg-stk test-target-dep 0.0.2: Test Target Test Dependencies autopulated frdm-k64f-armcc 2.0.0: Official mbed build target f"
+    },
+    {
+      "chunk_id": 35,
+      "text": "rdm-k64f-armcc 2.0.0: Official mbed build target for the mbed frdm-k64f development board, using the armcc toolchain. mbed-target:k64f, mbed-official, mbed, k64f, frdm-k64f, armcc stm32f429i-disco-gcc 0.0.20: Official mbed build target for the mbed s"
+    },
+    {
+      "chunk_id": 36,
+      "text": "0.0.20: Official mbed build target for the mbed stm32f429i-disco development board. mbed-target:discovery-f429zi, mbed-official, stm32f429i-disco, gcc nordic-nrf51822-gcc 1.0.0: Official mbed build target for the mbed nrf51822 development board, usi"
+    },
+    {
+      "chunk_id": 37,
+      "text": "arget for the mbed nrf51822 development board, using the armgcc toolchain. mbed-target:nrf51822, mbed-official, nrf51822, nordic, gcc nrf51dk-gcc 1.0.0: Official mbed build target for the nRF51-DK 32KB platform. mbed-official, mbed-target:nrf51_dk, g"
+    },
+    {
+      "chunk_id": 38,
+      "text": "B platform. mbed-official, mbed-target:nrf51_dk, gcc nordic-nrf51822-gcc-unofficial-fota 1.0.6: UNOfficial mbed build target for the mbed nrf51822 development board, using the armgcc toolchain. Nordic globs multiple targets in a repo which means you"
+    },
+    {
+      "chunk_id": 39,
+      "text": "globs multiple targets in a repo which means you can 't target and override them. This fork adds FOTA .dat and .zip generation for OTA DFU. Requires srecord(srec_cat) to be installed. mbed-target:nrf51822, mbed-unofficial, nrf51822, nordic, gcc bbc-"
+    },
+    {
+      "chunk_id": 40,
+      "text": "51822, mbed-unofficial, nrf51822, nordic, gcc bbc-microbit-classic-gcc-exp 0.2.3: Official mbed build target for the mbed nrf51822 development board, using the armgcc toolchain. [EXPERIMENTAL TARGET] mbed-target:nrf51822, mbed-official, nrf51822, nor"
+    },
+    {
+      "chunk_id": 41,
+      "text": "mbed-target:nrf51822, mbed-official, nrf51822, nordic, gcc nordic-nrf51822-32k-gcc 0.1.3: Official mbed build target for the nrf51822 32KB chip. mbed-target:nrf51822, mbed-official, nrf51822, nordic, gcc bash-3.2$ [$[Get Code]] Ok, try a simple targe"
+    },
+    {
+      "chunk_id": 42,
+      "text": "gcc bash-3.2$ [$[Get Code]] Ok, try a simple target: bash-3.2$ yotta target mbed-gcc bash-3.2$ yotta install mbed-time info: get versions for mbed-gcc info: download mbed-gcc @ 1.2.2 from the public module registry info: get versions for minar-platfo"
+    },
+    {
+      "chunk_id": 43,
+      "text": "odule registry info: get versions for minar-platform-mbed info: download minar-platform-mbed @ 1.3.0 from the public module registry bash-3.2$ [$[Get Code]] However, where is this stuff installed? Also, this assumes that we have a yotta compatible pr"
+    },
+    {
+      "chunk_id": 44,
+      "text": "o, this assumes that we have a yotta compatible project, which I don't think we do. mbed-time by hand Edit Makefile : CPP_SRCS = \\ ../ mbed - time / source / time . cpp \\ ../ eduk2 . cpp [$[Get Code]] Running make fails: .. / mbed-time / source / tim"
+    },
+    {
+      "chunk_id": 45,
+      "text": "Running make fails: .. / mbed-time / source / time.cpp: 97 : 66 : error: 'MINAR_PLATFORM_TIME_BASE' was not declared in this scope uint64_t seconds = ( highTicks + ( ( uint64_t ) lowTicks ) ) / MINAR_PLATFORM_TIME_BASE; [$[Get Code]] Searching bash-"
+    },
+    {
+      "chunk_id": 46,
+      "text": "_PLATFORM_TIME_BASE; [$[Get Code]] Searching bash-3.2$ find . -type f | xargs grep MINAR_PLATFORM_TIME_BASE Binary file . / BUILD / mbed-duktape2.elf matches Binary file . / eduk2 / c_eventloop.o matches Binary file . / mbed-duktape2 / mbed-time / so"
+    },
+    {
+      "chunk_id": 47,
+      "text": "hes Binary file . / mbed-duktape2 / mbed-time / source / time.o matches . / mbed-os / targets / TARGET_ONSEMI / TARGET_NCS36510 / target_config.h: #define MINAR_PLATFORM_TIME_BASE 1000000 . / mbed-time / source / time.cpp: uint64_t seconds = ("
+    },
+    {
+      "chunk_id": 48,
+      "text": "e / source / time.cpp: uint64_t seconds = ( highTicks + ( ( uint64_t ) lowTicks ) ) / MINAR_PLATFORM_TIME_BASE; . / mbed-time / source / time.cpp: tvp- > tv_usec = ( uint64_t ) ( lowTicks % MINAR_PLATFORM_TIME_BASE ) * 1000000 / MINAR_P"
+    },
+    {
+      "chunk_id": 49,
+      "text": "s % MINAR_PLATFORM_TIME_BASE ) * 1000000 / MINAR_PLATFORM_TIME_BASE; . / mbed-time / yotta_modules / minar-platform-mbed / minar-platform / minar_platform_types.h: #ifndef YOTTA_CFG_MINAR_PLATFORM_TIME_BASE . / mbed-time / yotta_modules / minar-platf"
+    },
+    {
+      "chunk_id": 50,
+      "text": "E_BASE . / mbed-time / yotta_modules / minar-platform-mbed / minar-platform / minar_platform_types.h: # define YOTTA_CFG_MINAR_PLATFORM_TIME_BASE 1000 . / mbed-time / yotta_modules / minar-platform-mbed / minar-platform / minar_platform_types.h"
+    },
+    {
+      "chunk_id": 51,
+      "text": "orm-mbed / minar-platform / minar_platform_types.h: #ifndef MINAR_PLATFORM_TIME_BASE . / mbed-time / yotta_modules / minar-platform-mbed / minar-platform / minar_platform_types.h: # define MINAR_PLATFORM_TIME_BASE YOTTA_CFG_MINAR_PLATFORM_TIME_"
+    },
+    {
+      "chunk_id": 52,
+      "text": "TFORM_TIME_BASE YOTTA_CFG_MINAR_PLATFORM_TIME_BASE . / mbed-time / yotta_modules / minar-platform-mbed / minar-platform / minar_platform_types.h: Time_Base = MINAR_PLATFORM_TIME_BASE, . / mbed-time / yotta_modules / minar-platform-mbed / sourc"
+    },
+    {
+      "chunk_id": 53,
+      "text": "time / yotta_modules / minar-platform-mbed / source / mbed_platform.cpp: return ( total_active + total_sleep ) / MINAR_PLATFORM_TIME_BASE; . / mbed-time / yotta_modules / minar-platform-mbed / source / mbed_platform.cpp: return total_active / MINAR_P"
+    },
+    {
+      "chunk_id": 54,
+      "text": "/ mbed_platform.cpp: return total_active / MINAR_PLATFORM_TIME_BASE; bash-3.2$ [$[Get Code]] Where is minar_platform_types.h included? bash-3.2$ find . -type f | xargs grep minar_platform_types.h . / mbed-time / yotta_modules / minar-platform / minar"
+    },
+    {
+      "chunk_id": 55,
+      "text": "mbed-time / yotta_modules / minar-platform / minar-platform / minar_platform.h: #include \"minar-platform/minar_platform_types.h\" bash-3.2$ [$[Get Code]] Where is minar_platform.h included bash-3.2$ find . -type f | xargs grep minar_platform.h . / mbe"
+    },
+    {
+      "chunk_id": 56,
+      "text": "nd . -type f | xargs grep minar_platform.h . / mbed-time / yotta_modules / minar / minar / minar.h: #include \"minar-platform/minar_platform.h\" . / mbed-time / yotta_modules / minar / source / minar.cpp: #include \"minar-platform/minar_platform.h\" . /"
+    },
+    {
+      "chunk_id": 57,
+      "text": "p: #include \"minar-platform/minar_platform.h\" . / mbed-time / yotta_modules / minar-platform-mbed / source / mbed_platform.cpp: #include \"minar-platform/minar_platform.h\" . / mbed-time / yotta_modules / minar-platform-mbed / test / platform_test / ma"
+    },
+    {
+      "chunk_id": 58,
+      "text": "/ minar-platform-mbed / test / platform_test / main.cpp: #include \"minar-platform/minar_platform.h\" bash-3.2$ find mbed-time -type f | xargs grep minar.h mbed-time / yotta_modules / mbed-drivers / mbed-drivers / mbed.h: #include \"minar/minar.h\" mbed"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ed-drivers / mbed.h: #include \"minar/minar.h\" mbed-time / yotta_modules / mbed-drivers / source / I2C.cpp: #include \"minar/minar.h\" mbed-time / yotta_modules / mbed-drivers / source / retarget.cpp: #include \"minar/minar.h\" mbed-time / yotta_modules /"
+    },
+    {
+      "chunk_id": 60,
+      "text": "nclude \"minar/minar.h\" mbed-time / yotta_modules / mbed-drivers / source / SerialBase.cpp: #include \"minar/minar.h\" mbed-time / yotta_modules / mbed-drivers / source / SPI.cpp: #include \"minar/minar.h\" mbed-time / yotta_modules / mbed-drivers / sourc"
+    },
+    {
+      "chunk_id": 61,
+      "text": "\" mbed-time / yotta_modules / mbed-drivers / source / v2 / I2C.cpp: #include \"minar/minar.h\" mbed-time / yotta_modules / mbed-drivers / source / v2 / I2CDetail.cpp: #include \"minar/minar.h\" mbed-time / yotta_modules / minar / minar-internal-headers /"
+    },
+    {
+      "chunk_id": 62,
+      "text": "/ yotta_modules / minar / minar-internal-headers / CallbackNode.h: #include \"minar/minar.h\" mbed-time / yotta_modules / minar / source / minar.cpp: #include \"minar/minar.h\" mbed-time / yotta_modules / minar / test / complex_dispatch.cpp: #include \"mi"
+    },
+    {
+      "chunk_id": 63,
+      "text": "minar / test / complex_dispatch.cpp: #include \"minar/minar.h\" mbed-time / yotta_modules / minar / test / dispatchtest.cpp: #include \"minar/minar.h\" bash-3.2$ [$[Get Code]] Ok, try this. Put mbed-time/yotta_modules/mbed-drivers/mbed-drivers in the i"
+    },
+    {
+      "chunk_id": 64,
+      "text": "e/yotta_modules/mbed-drivers/mbed-drivers in the include path before mbed-os so that we get a different mbed.h? #Partial Solution Partial Solution The solution is to use an mbed timer : #ifdef __MBED__ #include \"mbed.h\" #include \"rtos.h\" extern \"C\" {"
+    },
+    {
+      "chunk_id": 65,
+      "text": "_ #include \"mbed.h\" #include \"rtos.h\" extern \"C\" { Timer timer; int gettimeofday ( struct timeval * globalTVP, void * tzp __attribute__ ( ( unused ) ) ) { globalTVP- > tv_sec = time ( NULL ) ; // FIXME: https: // docs.mbed.com / docs / mbed-os-api-re"
+    },
+    {
+      "chunk_id": 66,
+      "text": "E: https: // docs.mbed.com / docs / mbed-os-api-reference / en / latest / APIs / tasks / Timer / // says: // \"Timers are based on 32-bit int microsecond counters, so they can // only time up to a maximum of 2^31-1 microseconds (30 // minutes). They a"
+    },
+    {
+      "chunk_id": 67,
+      "text": "mum of 2^31-1 microseconds (30 // minutes). They are designed for times between microseconds and // seconds. For longer times, you should consider the time() real // time clock. \" globalTVP- > tv_usec = timer.read_ms ( ) - time ( NULL ) * 1000 ; fpri"
+    },
+    {
+      "chunk_id": 68,
+      "text": "= timer.read_ms ( ) - time ( NULL ) * 1000 ; fprintf ( stderr, \"%s:%d: gettimeofday(): time is %20ld sec, %20ld usec \\n \" , __FILE__, __LINE__, globalTVP- > tv_sec, globalTVP- > tv_usec ) ; return 0 ; } } #endif #endif ... int main ( int argc, char"
+    }
+  ]
+}

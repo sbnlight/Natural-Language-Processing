@@ -1,0 +1,121 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/Windows",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Notes about supporting Windows Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Notes about supporting Windows Cape Code"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Notes / Notes about supporting Windows Cape Code Windows Prerequisites In theory, it is possible to download the Cape Code Windows installer and use it. In practice, to develop Accessors it is helpful to install the following software A Java Develo"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ul to install the following software A Java Development Kit (JDK) To even run the izpack installer, we need to include a JVM. Ideally, we would share this JVM with the one we use at runtime. In addition, for development using Eclipse, A Java Develop"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ion, for development using Eclipse, A Java Development Kit (JDK) is required because we need the javac binary. A Java Runtime Environment (JRE) is not sufficient. http://www.oracle.com/technetwork/java/javase/downloads/index.html In June, 2017, we u"
+    },
+    {
+      "chunk_id": 5,
+      "text": "va/javase/downloads/index.html In June, 2017, we used Java SE 8u131. The CapeCode Windows installer installs the JRE in $PTII/jre . javac is not present. Installing JDK1.8.0_131 is a 181Mb gzipped tar file. The JRE is a 81Mb gzipped file Below are t"
+    },
+    {
+      "chunk_id": 6,
+      "text": "file. The JRE is a 81Mb gzipped file Below are the choices: Have the user download and install the appropriate JDK Extend the Izpack installer to invoke and included installer Redistribute a portion of the JDK Redistribute The JDK Actually, it turn"
+    },
+    {
+      "chunk_id": 7,
+      "text": "of the JDK Redistribute The JDK Actually, it turns out that we can't redistribute all of the JDK. http://www.oracle.com/technetwork/java/javase/jdk-8-readme-2095712.html says that we can ship: cp jdk1.8.0_131 / bin / java.exe jre64 / bin ( cd jdk1.8"
+    },
+    {
+      "chunk_id": 8,
+      "text": "1.8.0_131 / bin / java.exe jre64 / bin ( cd jdk1.8.0_131; tar -cf - ` find . -name \"*.ttf\" ` ) | ( cd jre64; tar -xpf - ) cp jdk1.8.0_131 / lib / tools.jar jre64 / lib / tools.jar cp jdk1.8.0_131 / jre / bin / attach.dll jre64 / bin / cp jdk1.8.0_131"
+    },
+    {
+      "chunk_id": 9,
+      "text": "e / bin / attach.dll jre64 / bin / cp jdk1.8.0_131 / bin / jarsigner.exe jre64 / bin [$[Get Code]] I'm trying that now. TODO: Have the installer add jre64/bin to the path Be sure that the Oracle license is present in the installer. Apache Ant Apache"
+    },
+    {
+      "chunk_id": 10,
+      "text": "nse is present in the installer. Apache Ant Apache Ant is used to compile files. See http://ant.apache.org/manual/install.html apache-ant-1.9.9-bin.zip is 8.3Mb, uncompressed it is 39Mb. We could consider checking it in. http://ant.apache.org/manual"
+    },
+    {
+      "chunk_id": 11,
+      "text": "sider checking it in. http://ant.apache.org/manual/install.html says that only bin and lib are required. The are 2.7Mb on disk. We have checked in ant as $PTII/ant and created $PTII/bin/ant which will use ant from $PTII/ant/bin/ant if it exists. JS"
+    },
+    {
+      "chunk_id": 12,
+      "text": "l use ant from $PTII/ant/bin/ant if it exists. JSAccessor has been modified to attempt to use the version of ant in $PTII/bin/ant. Node.js The Node Accessor Host is fairly powerful and interesting. We want to support it https://nodejs.org/en/downlo"
+    },
+    {
+      "chunk_id": 13,
+      "text": "We want to support it https://nodejs.org/en/download/ For Windows, maybe we can include a copy of node and npm in vendors. See https://github.com/nodejs/node/tree/master/tools/msvs/msi for how the Windows installer is built. We could have the same th"
+    },
+    {
+      "chunk_id": 14,
+      "text": "dows installer is built. We could have the same thing here, where we have node and npm in the path. These might need to be .bat files. Python Python2 is needed if you want to use the Node OpenCV camera module. https://www.python.org/downloads/window"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ra module. https://www.python.org/downloads/windows/ In June, 2017, we used Python 2.7.13 Symbolic Links The accessors repo has two symbolic links in it: bash-3.2$ ls -l accessors / web / node_modules /@ accessors-hosts accessors / web / hosts / brow"
+    },
+    {
+      "chunk_id": 16,
+      "text": "/@ accessors-hosts accessors / web / hosts / browser / common lrwxr-xr-x 1 cxh staff 10 Jun 15 11 : 18 accessors / web / hosts / browser / common - > .. / common / lrwxr-xr-x 1 cxh staff 8 Jun 15 11 : 18 accessors / web / node_modules /@ accessors"
+    },
+    {
+      "chunk_id": 17,
+      "text": "1 : 18 accessors / web / node_modules /@ accessors-hosts - > .. / hosts bash-3.2$ [$[Get Code]] Symbolic links are supported under Windows, but don't work very well. More importantly, installing Node using the Node Windows installer results in a ver"
+    },
+    {
+      "chunk_id": 18,
+      "text": "using the Node Windows installer results in a version of Node that does not understand Cygwin symbolic links. This is a problem because we are looking for node modules in @accessors-hosts/hosts, which is now a symbolic link. Possible Solutions: Hav"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ch is now a symbolic link. Possible Solutions: Have a different tree under Windows, where accessors/web/node_modules/@accessors-hosts is a directory. This means that the documentation is different nodeHosts.js is different because var accessorPath ="
+    },
+    {
+      "chunk_id": 20,
+      "text": "eHosts.js is different because var accessorPath = [ path. join ( __dirname , '..' , '..' ) ] ; [$[Get Code]] would need to be changed to var accessorPath = [ path. join ( __dirname , '..' , '..' , '..' ) ] ; [$[Get Code]] Have the Windows users run a"
+    },
+    {
+      "chunk_id": 21,
+      "text": "' ) ] ; [$[Get Code]] Have the Windows users run a script that creates a Windows-compatible link. We have code to create the link in FileUtilities.createLink() or in the Windows power shell with: cmd /x mklink @accessors-hosts ..\\hosts It is not cle"
+    },
+    {
+      "chunk_id": 22,
+      "text": "/x mklink @accessors-hosts ..\\hosts It is not clear if this will work A Windows link might no longer be compatible with svn under Cygwin We could possibly do this as part of the top level ant build.xml file Move accessors/web/hosts back to accessors"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ml file Move accessors/web/hosts back to accessors/web/node_modules/@accessors-hosts/hosts This is what we had in the past, it makes things harder for developers, but is more node-like. npm As part of the test harness, we invoke npm to install module"
+    },
+    {
+      "chunk_id": 24,
+      "text": "the test harness, we invoke npm to install modules. Under Windows, the npm file distributed with the Node installer is a shell script. Ant will not execute this shell script because ant under Windows uses cmd to execute files. The workaround is t"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ws uses cmd to execute files. The workaround is to check to see if npm.cmd is in the path and use that. This is solved, but makes the build.xml file more ugly and confusing. Also, we can't set the npm.executable property at the top of the file with"
+    },
+    {
+      "chunk_id": 26,
+      "text": "m.executable property at the top of the file with the other properties. Note that accessors also invoke npm if packages are not installed. accessors/web/hosts/node/node_modules/@accessors-modules/serial/serial.js contains: var SerialPort = nodeHost."
+    },
+    {
+      "chunk_id": 27,
+      "text": "al/serial.js contains: var SerialPort = nodeHost. installIfMissingThenRequire ( 'serialport' ) ; [$[Get Code]] The above needs to be tested. The node opencv module does not install. npm install opencv requires that Python2 be installed. npm install o"
+    },
+    {
+      "chunk_id": 28,
+      "text": "requires that Python2 be installed. npm install opencv failed under Windows after Python2 is installed. Under Windows, we are including $PTII/lib/opencv_java320.dll. Under Mac OS X, the user will need to install OpenCV, see https://opencv-java-tutor"
+    },
+    {
+      "chunk_id": 29,
+      "text": "d to install OpenCV, see https://opencv-java-tutorials.readthedocs.io/en/latest/01-installing-opencv-for-java.html#install-opencv-3-x-under-macos Provide a VM Another idea is to provide a VM that is configured properly. One issue is that it is not cl"
+    }
+  ]
+}

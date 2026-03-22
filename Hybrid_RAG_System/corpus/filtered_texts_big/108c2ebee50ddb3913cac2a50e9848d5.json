@@ -1,0 +1,141 @@
+{
+  "url": "https://iris.eecs.berkeley.edu/faq/unix/nis/",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "NIS | IRIS Skip to main content Skip to primary navigation Skip to primary sidebar NIS Changing Your NIS Domain Shell Configuring Your Machine to Be Part of the Department’s NIS Domain Configuring your Desktop Configuring your Laptop Exporting Your H"
+    },
+    {
+      "chunk_id": 2,
+      "text": "r Desktop Configuring your Laptop Exporting Your Home Directory to a Machine or a Group of Machines Setting Your NIS Password Controlling Login Access to Your Machine Using NIS Changing Your NIS Domain Shell To request a permanent shell change within"
+    },
+    {
+      "chunk_id": 3,
+      "text": "n Shell To request a permanent shell change within the “mammoth” NIS domain, please contact Helpdesk . If your machine does not belong to the “mammoth” domain, please email root@yourmachine (e.g., root@argon, root@bsac) to request a shell change. If"
+    },
+    {
+      "chunk_id": 4,
+      "text": "t@argon, root@bsac) to request a shell change. If you are unsure about who to contact, Helpdesk will point you in the right direction. You can change your shell for the current session by typing the name of the shell at the prompt. Configuring Your M"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ame of the shell at the prompt. Configuring Your Machine to be Part of the Department’s NIS Domain CONFIGURING YOUR DESKTOP The following changes must be made to your Unix/Linux machine for it to become part of the NIS domain. This instruction is wri"
+    },
+    {
+      "chunk_id": 6,
+      "text": "me part of the NIS domain. This instruction is written for FreeBSD 5.1 but should work for all other flavors of Linux and BSD. Please backup relevent files before you start work. If the following configuration does not work for your distribution and"
+    },
+    {
+      "chunk_id": 7,
+      "text": "iguration does not work for your distribution and you find a solution please email Helpdesk with pertinent information and we’ll post it. Submit a System Activation Request requesting a fixed IP and that SWW and your home directory be exported to you"
+    },
+    {
+      "chunk_id": 8,
+      "text": "hat SWW and your home directory be exported to your machine, or that your machine be added to the right netgroup. Log into your machine as root Depending on your OS, do the following: For FreeBSD Only: Add the following lines to /etc/rc.conf: amd_ena"
+    },
+    {
+      "chunk_id": 9,
+      "text": ": Add the following lines to /etc/rc.conf: amd_enable=”YES” amd_flags=”-F /etc/amd.conf” #enable nfs client: nfs_client_enable=”YES” nfs_reserved_port_only=”YES” #enable nis client: nis_client_enable=”YES” nis_client_flags=”-S"
+    },
+    {
+      "chunk_id": 10,
+      "text": ": nis_client_enable=”YES” nis_client_flags=”-S mammoth,cronus.CS.BERKELEY.EDU,rhea.CS.BERKELEY.EDU -m” nisdomainname=”mammoth” enable rpc_bind rpcbind_enable=”YES” ntpdate_enable=”YES” ntpdate_flags=”-b cronus.CS.BERKELEY.EDU” Fo"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ES” ntpdate_flags=”-b cronus.CS.BERKELEY.EDU” For Linux Only: Make sure ypbind daemon is installed Make sure the hostname is correct (and is the same as the one submitted) by typing hostname in a terminal. If it is not correct, edit /etc/rc.conf an"
+    },
+    {
+      "chunk_id": 12,
+      "text": "rminal. If it is not correct, edit /etc/rc.conf and put hostname=“machine.eecs.berkeley.edu” , replacing “machine” with your machine name. Add the proper NIS server lines to your /etc/yp.conf. To do so, you’ll need your IP address. Once you have it,"
+    },
+    {
+      "chunk_id": 13,
+      "text": "o, you’ll need your IP address. Once you have it, find the 3rd octet from the left. For example, if your IP is 128.32.35.144 then the 3rd octet would be “35”. We’ll call this number ‘oct’. The proper NIS servers for your machine will be “cronus-<oct>"
+    },
+    {
+      "chunk_id": 14,
+      "text": "NIS servers for your machine will be “cronus-<oct>” and “rhea-<oct>” with suffixes “cs.berkeley.edu” or “eecs.berkeley.edu” if your machine resides in Soda or Cory, respectively. Once you know the server-names, you can add the following lines to your"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ver-names, you can add the following lines to your/etc/yp.conf file: domain mammoth server <rhea-server-name> domain mammoth server <cronus-server-name> Add the following line to /etc/sysconfig/network: NISDOMAIN=mammoth Your /etc/nsswitch.conf sho"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ork: NISDOMAIN=mammoth Your /etc/nsswitch.conf should look something like this (you should read the man page for nsswitch.conf before making changes): passwd: compat shadow: compat group: files nis #hosts: db files nisplus"
+    },
+    {
+      "chunk_id": 17,
+      "text": "files nis #hosts: db files nisplus nis dns hosts: dns files # Example – obey only what nisplus tells us… #services: nisplus [NOTFOUND=return] files #networks: nisplus [NOTFOUND=return] files #protocols: nisplus ["
+    },
+    {
+      "chunk_id": 18,
+      "text": "s [NOTFOUND=return] files #protocols: nisplus [NOTFOUND=return] files #rpc: nisplus [NOTFOUND=return] files #ethers: nisplus [NOTFOUND=return] files #netmasks: nisplus [NOTFOUND=return] files bootparams: nisplus [NOTFOUN"
+    },
+    {
+      "chunk_id": 19,
+      "text": "return] files bootparams: nisplus [NOTFOUND=return] files ethers: files netmasks: files networks: files protocols: files rpc: files services: files netgroup: nis publickey: nisplus automount:"
+    },
+    {
+      "chunk_id": 20,
+      "text": "up: nis publickey: nisplus automount: nis files aliases: files nis Start up /sbin/portmap if it is not already running. Create the directory /var/yp if it does not exist. (Re)start /usr/sbin/ypbind Use the command rpcinfo -u localh"
+    },
+    {
+      "chunk_id": 21,
+      "text": "/usr/sbin/ypbind Use the command rpcinfo -u localhost ypbind to check if ypbind was able to register its service with the portmapper. Add the following lines to /etc/amd.conf: #Define an AMD Mount Point [ /home/cs ] map_name = amd.ho"
+    },
+    {
+      "chunk_id": 22,
+      "text": "nt [ /home/cs ] map_name = amd.home.cs [ /home/eecs ] map_name = amd.home.eecs map_type = nis Reboot. CONFIGURING YOUR LAPTOP Home and project directories can be mounted automatically"
+    },
+    {
+      "chunk_id": 23,
+      "text": "project directories can be mounted automatically by adding to /etc/fstab, but this can be problematic since a laptop will not always be on the network. Instead, a script can be created with the lines: mount_smbfs -I home.eecs.berkeley.edu -W EECS //"
+    },
+    {
+      "chunk_id": 24,
+      "text": ": mount_smbfs -I home.eecs.berkeley.edu -W EECS //username@home/username /mnt/nfs_spaces/username mount_smbfs -I project.eecs.berkeley.edu -W EECS //username@project/pname /mnt/nfs_spaces/pname Where username and pname should be replaced with you"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ere username and pname should be replaced with your username and project-space name respectively. The password will be your Windows password. You need to make sure that the mount points are owned by yourself (not root) if you want to be able to write"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ourself (not root) if you want to be able to write to them. SWW cannot be mounted, it is only NFS exported. Exporting Your Home Directory to a Machine or Group of Machines You can have your home directory exported to a machine or group of machines by"
+    },
+    {
+      "chunk_id": 27,
+      "text": "tory exported to a machine or group of machines by emailing help@eecs with the name of the machine (or machines) and ask that your home directory be NFS exported to those machine(s). Setting Your NIS Password You can change your NIS password by eithe"
+    },
+    {
+      "chunk_id": 28,
+      "text": "Password You can change your NIS password by either visiting Helpdesk with a valid picture ID or logging into passwd.eecs.berkeley.edu with ssh. Controlling Login Access to Your Machine Using NIS To log into a machine, the username must be in the pas"
+    },
+    {
+      "chunk_id": 29,
+      "text": "og into a machine, the username must be in the password file (etc/passwd and sometimes also etc/shadow – both edited with vipw). For instance, on a machine that uses shadow, the password file would consist of: root:x:0:0:root:/root:/bin/bash If you w"
+    },
+    {
+      "chunk_id": 30,
+      "text": "nsist of: root:x:0:0:root:/root:/bin/bash If you want to open the computer to a netgroup (for example: manager-logins), you add (at the bottom because its searched top down) to the password file: +@manager-logins::0:0::/home: To let everyone on the n"
+    },
+    {
+      "chunk_id": 31,
+      "text": "nager-logins::0:0::/home: To let everyone on the network log into the machine, add: +::0:0::: And to deny everyone not specified in the password file (including netgroups), add at the very, very bottom: +::0:0:::/usr/local/etc/nologin For example, to"
+    },
+    {
+      "chunk_id": 32,
+      "text": "m: +::0:0:::/usr/local/etc/nologin For example, to deny alumni netgroup access you can add +@alumni-l::0:0:::/usr/local/etc/nologin to your /etc/passwd file. You can add that shell to any netgroup to deny login access. Read the man page for passwd fo"
+    },
+    {
+      "chunk_id": 33,
+      "text": "deny login access. Read the man page for passwd for more information. Primary Sidebar IRIS Service Status We have 0 Active Incidents, and 1 Scheduled Maintenance noted. IST Service Status Outages to campus services are listed at berkeley.statusdashbo"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ampus services are listed at berkeley.statusdashboard.com ."
+    }
+  ]
+}

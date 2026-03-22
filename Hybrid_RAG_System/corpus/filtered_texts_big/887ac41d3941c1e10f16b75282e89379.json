@@ -1,0 +1,469 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/actor/gui/Configuration.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Configuration JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    },
+    {
+      "chunk_id": 2,
+      "text": "| Constr | Method Detail: Field | Constr | Method ptolemy.actor.gui Class Configuration java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity <T> ptolemy.kernel.ComponentEntity ptolemy.kernel.Composi"
+    },
+    {
+      "chunk_id": 3,
+      "text": "lemy.kernel.ComponentEntity ptolemy.kernel.CompositeEntity ptolemy.actor.gui.Configuration All Implemented Interfaces: java.lang.Cloneable, ApplicationConfigurer , InstanceOpener , Changeable , Debuggable , DebugListener , Derivable , Instantiable ,"
+    },
+    {
+      "chunk_id": 4,
+      "text": "able , DebugListener , Derivable , Instantiable , ModelErrorHandler , MoMLExportable , Moveable , Nameable Direct Known Subclasses: SingleWindowConfiguration public class Configuration extends CompositeEntity implements ApplicationConfigurer , Instan"
+    },
+    {
+      "chunk_id": 5,
+      "text": "teEntity implements ApplicationConfigurer , InstanceOpener The configuration of an application that uses Ptolemy II classes. An instance of this class is in charge of the user interface, and coordinates multiple views of multiple models. One of its"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ates multiple views of multiple models. One of its functions, for example, is to manage the opening of new models, ensuring that an appropriate view is used. It also makes sure that if a model is opened that is already open, then existing views ar"
+    },
+    {
+      "chunk_id": 7,
+      "text": "pened that is already open, then existing views are shown rather than creating new views. The applications vergil and moml (at least) use configurations defined in MoML files, typically located in ptII/ptolemy/configs. The moml application takes a"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ptII/ptolemy/configs. The moml application takes as command line arguments a list of MoML files, the first of which is expected to define an instance of Configuration and its contents. That configuration is then used to open subsequent MoML files"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ration is then used to open subsequent MoML files on the command line, and to manage the user interface. Rather than performing all these functions itself, this class is a container for a model directory, effigy factories, and tableau factories th"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ctory, effigy factories, and tableau factories that actually realize these functions. An application is configured by populating an instance of this class with a suitable set of these other classes. A minimal configuration defined in MoML is show"
+    },
+    {
+      "chunk_id": 11,
+      "text": ". A minimal configuration defined in MoML is shown below: <?xml version=\"1.0\" standalone=\"no\"?> <!DOCTYPE entity PUBLIC \"-//UC Berkeley//DTD MoML 1//EN\" \"http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd\"> <entity name=\"configuration\" class=\"pt"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ML_1.dtd\"> <entity name=\"configuration\" class=\"ptolemy.actor.gui.Configuration\"> <doc>Configuration to run but not edit Ptolemy II models</doc> <entity name=\"directory\" class=\"ptolemy.actor.gui.ModelDirectory\"/> <entity name=\"effigyFactory\" class"
+    },
+    {
+      "chunk_id": 13,
+      "text": "elDirectory\"/> <entity name=\"effigyFactory\" class=\"ptolemy.actor.gui.PtolemyEffigy$Factory\"/> <property name=\"tableauFactory\" class=\"ptolemy.actor.gui.RunTableau$Factory\"/> </entity> It must contain, at a minimum, an instance of ModelDirectory, na"
+    },
+    {
+      "chunk_id": 14,
+      "text": "n, at a minimum, an instance of ModelDirectory, named \"directory\", and an instance of EffigyFactory, named \"effigyFactory\". The openModel() method delegates to the effigy factory the opening of a model. It may also contain an instance of TextEdito"
+    },
+    {
+      "chunk_id": 15,
+      "text": "del. It may also contain an instance of TextEditorTableauFactory, named \"tableauFactory\". A tableau is a visual representation of the model in a top-level window. The above minimal configuration can be used to run Ptolemy II models by opening a r"
+    },
+    {
+      "chunk_id": 16,
+      "text": "n be used to run Ptolemy II models by opening a run panel only. When the directory becomes empty (all models have been closed), it removes itself from the configuration. When this happens, the configuration calls System.exit() to exit the applicat"
+    },
+    {
+      "chunk_id": 17,
+      "text": "iguration calls System.exit() to exit the application. To access the configuration from a random place, if you have a NamedObj foo , then you can call: Effigy effigy = Configuration.findEffigy(foo.toplevel()); Configuration configuration = effigy.t"
+    },
+    {
+      "chunk_id": 18,
+      "text": "plevel()); Configuration configuration = effigy.toplevel(); Since: Ptolemy II 1.0 Version: $Id$ Author: Steve Neuendorffer and Edward A. Lee See Also: EffigyFactory , ModelDirectory , Tableau , TextEditorTableau Pt.AcceptedRating: Yellow (celaine) P"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ditorTableau Pt.AcceptedRating: Yellow (celaine) Pt.ProposedRating: Green (eal) Nested Class Summary Nested classes/interfaces inherited from class ptolemy.kernel. CompositeEntity CompositeEntity.ContainedObjectsIterator Field Summary Fields Modifier"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ainedObjectsIterator Field Summary Fields Modifier and Type Field and Description static java.lang.String _DIRECTORY_NAME The name of the model directory. Parameter classesToRemove A Parameter that is an array of Strings where each element names a"
+    },
+    {
+      "chunk_id": 21,
+      "text": "an array of Strings where each element names a class to be removed. Parameter removeGraphicalClasses A Parameter that if set to true adds RemoveGraphicalClasses to the list of MoMLFilters. Fields inherited from class ptolemy.kernel. CompositeEnti"
+    },
+    {
+      "chunk_id": 22,
+      "text": "inherited from class ptolemy.kernel. CompositeEntity _levelCrossingLinks Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _deferChangeRequests , _elementName ,"
+    },
+    {
+      "chunk_id": 23,
+      "text": "gListeners , _deferChangeRequests , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Constructor Summary Constructors Constructor and Description Configuration ( Workspace w"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ructor and Description Configuration ( Workspace workspace) Construct an instance in the specified workspace with an empty string as a name. Method Summary All Methods Static Methods Instance Methods Concrete Methods Modifier and Type Method and De"
+    },
+    {
+      "chunk_id": 25,
+      "text": "s Concrete Methods Modifier and Type Method and Description protected void _removeEntity ( ComponentEntity entity) Remove the specified entity; if that entity is the model directory, then exit the application. void attributeChanged ( Attribute attr"
+    },
+    {
+      "chunk_id": 26,
+      "text": "pplication. void attributeChanged ( Attribute attribute) React to a change in an attribute. java.lang.String check () Check the configuration for common style problems. static java.lang.String checkCloneFields ( NamedObj namedObj) Check that clone(Wo"
+    },
+    {
+      "chunk_id": 27,
+      "text": "oneFields ( NamedObj namedObj) Check that clone(Workspace) method properly sets the fields. static void closeAllTableaux () Close all the tableaux. static java.util.List< Configuration > configurations () Return a list of all the configurations that"
+    },
+    {
+      "chunk_id": 28,
+      "text": "s () Return a list of all the configurations that have been created. Tableau createPrimaryTableau ( Effigy effigy) Create the first tableau for the given effigy, using the tableau factory. static Effigy findEffigy ( NamedObj model) Find an effigy f"
+    },
+    {
+      "chunk_id": 29,
+      "text": "figy findEffigy ( NamedObj model) Find an effigy for the specified model by searching all the configurations that have been created. ModelDirectory getDirectory () Get the model directory. PtolemyEffigy getEffigy ( NamedObj model) Get the effigy fo"
+    },
+    {
+      "chunk_id": 30,
+      "text": "figy getEffigy ( NamedObj model) Get the effigy for the specified Ptolemy model. java.lang.Object getStringParameterAsClass (java.lang.String parameterName, java.lang.Class[] constructorParameterTypes,"
+    },
+    {
+      "chunk_id": 31,
+      "text": "constructorParameterTypes, java.lang.Object[] constructorParameterClass) Instantiate the class named by a StringParameter in the configuration. void openAnInstance ( NamedObj entity) Open the specified instance. Tableau openI"
+    },
+    {
+      "chunk_id": 32,
+      "text": "entity) Open the specified instance. Tableau openInstance ( NamedObj entity) Open the specified instance. Tableau openInstance ( NamedObj entity, CompositeEntity container) Open the specified instance. Tableau openModel ( NamedObj entity) Open the sp"
+    },
+    {
+      "chunk_id": 33,
+      "text": ". Tableau openModel ( NamedObj entity) Open the specified Ptolemy II model. Tableau openModel ( NamedObj entity, CompositeEntity container) Open the specified Ptolemy II model. Tableau openModel (java.net.URL base, java.net.URL in,"
+    },
+    {
+      "chunk_id": 34,
+      "text": ".net.URL base, java.net.URL in, java.lang.String identifier) Open the specified URL. Tableau openModel (java.net.URL base, java.net.URL in, java.lang.String identifier, EffigyFactory factory) Open the specified URL"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ier, EffigyFactory factory) Open the specified URL using the specified effigy factory. (package private) void removeConfiguration ( Configuration configuration) Remove the configuration from the list of configurations. void setContainer ( CompositeEn"
+    },
+    {
+      "chunk_id": 36,
+      "text": "of configurations. void setContainer ( CompositeEntity container) If the argument is not null, then throw an exception. void showAll () Find all instances of Tableau deeply contained in the directory and call show() on them. Methods inherited from"
+    },
+    {
+      "chunk_id": 37,
+      "text": "and call show() on them. Methods inherited from class ptolemy.kernel. CompositeEntity _addEntity , _addRelation , _adjustDeferrals , _containedDecorators , _deepOpaqueEntityList , _description , _exportMoMLContents , _finishedAddEntity , _removeRel"
+    },
+    {
+      "chunk_id": 38,
+      "text": "portMoMLContents , _finishedAddEntity , _removeRelation , _validateSettables , allAtomicEntityList , allowLevelCrossingConnect , classDefinitionList , clone , connect , connect , containedObjectsIterator , deepCompositeEntityList , deepEntityList , d"
+    },
+    {
+      "chunk_id": 54,
+      "text": ", propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getDisplayName , getFullName , getName , getName Field Detail classesToRemove public Parameter classesToRemove A Parameter that is an array of Strings wher"
+    },
+    {
+      "chunk_id": 55,
+      "text": "emove A Parameter that is an array of Strings where each element names a class to be removed. The initial default value is an array with an empty element. Kepler uses this parameter to remove certain classes: <property name=\"_classesToRemove\" cl"
+    },
+    {
+      "chunk_id": 56,
+      "text": "tain classes: <property name=\"_classesToRemove\" class=\"ptolemy.data.expr.Parameter\" value=\"{\"ptolemy.codegen.kernel.StaticSchedulingCodeGenerator\",\"ptolemy.codegen.c.kernel.CCodeGenerator\"}\"> <doc>An array of Strings, where each element names"
+    },
+    {
+      "chunk_id": 57,
+      "text": "<doc>An array of Strings, where each element names a class to removed by the MoMLFilter.</doc> >/property> removeGraphicalClasses public Parameter removeGraphicalClasses A Parameter that if set to true adds RemoveGraphicalClasses to the list of"
+    },
+    {
+      "chunk_id": 58,
+      "text": "o true adds RemoveGraphicalClasses to the list of MoMLFilters. Use this to run non-graphical classes. Note that setting this parameter and using MoMLApplication is not likely to work as MoMLApplication sets the look and feel which invokes the g"
+    },
+    {
+      "chunk_id": 59,
+      "text": "cation sets the look and feel which invokes the graphical system. The initial value is a boolean with the value false, indicating that RemoveGraphicalClasses should not be added to the filter list. _DIRECTORY_NAME public static final java.lang.St"
+    },
+    {
+      "chunk_id": 60,
+      "text": ". _DIRECTORY_NAME public static final java.lang.String _DIRECTORY_NAME The name of the model directory. See Also: Constant Field Values Constructor Detail Configuration public Configuration( Workspace workspace) throws IllegalActionExce"
+    },
+    {
+      "chunk_id": 61,
+      "text": "workspace) throws IllegalActionException , NameDuplicationException Construct an instance in the specified workspace with an empty string as a name. You can then change the name with setName(). If the workspace argument is null, th"
+    },
+    {
+      "chunk_id": 62,
+      "text": "setName(). If the workspace argument is null, then use the default workspace. Add the instance to the workspace directory. Increment the version number of the workspace. Note that there is no constructor that takes a container as an argumen"
+    },
+    {
+      "chunk_id": 63,
+      "text": "constructor that takes a container as an argument; a Configuration is always a top-level entity (this is enforced by the setContainer() method). Parameters: workspace - The workspace that will list the entity. Throws: IllegalActionException - I"
+    },
+    {
+      "chunk_id": 64,
+      "text": "ist the entity. Throws: IllegalActionException - If the container is incompatible with this entity. NameDuplicationException - If the name coincides with an entity already in the container. Method Detail attributeChanged public void attributeCh"
+    },
+    {
+      "chunk_id": 65,
+      "text": "od Detail attributeChanged public void attributeChanged( Attribute attribute) throws IllegalActionException React to a change in an attribute. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute t"
+    },
+    {
+      "chunk_id": 66,
+      "text": "s NamedObj Parameters: attribute - The attribute that changed. Throws: IllegalActionException - If the change is not acceptable to this container (not thrown in this base class). check public java.lang.String check() throws"
+    },
+    {
+      "chunk_id": 67,
+      "text": "lang.String check() throws java.lang.Exception Check the configuration for common style problems. Returns: HTML describing the problems Throws: java.lang.Exception - If there is a problem cloning the configuration. checkCloneFi"
+    },
+    {
+      "chunk_id": 68,
+      "text": "a problem cloning the configuration. checkCloneFields public static java.lang.String checkCloneFields( NamedObj namedObj) throws java.lang.CloneNotSupportedException,"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ception, java.lang.IllegalAccessException, IllegalActionException , NameDuplicationException , java.lang.ClassNotFoundException Check that clone(Workspace"
+    },
+    {
+      "chunk_id": 70,
+      "text": ".ClassNotFoundException Check that clone(Workspace) method properly sets the fields. In a cloned Director, Attribute or Actor, all private fields should either point to null or to distinct objects. Parameters: namedObj - The NamedObj, usually a"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ts. Parameters: namedObj - The NamedObj, usually a Director, Attribute or actor to be checked. Returns: A string containing an error message if there is a problem, otherwise return the empty string. Throws: java.lang.CloneNotSupportedException -"
+    },
+    {
+      "chunk_id": 72,
+      "text": "g. Throws: java.lang.CloneNotSupportedException - If namedObj does not support clone(Workspace). java.lang.IllegalAccessException - If there is a problem getting a field. java.lang.ClassNotFoundException - If a class cannot be found. IllegalActio"
+    },
+    {
+      "chunk_id": 73,
+      "text": "ception - If a class cannot be found. IllegalActionException NameDuplicationException closeAllTableaux public static void closeAllTableaux() throws IllegalActionException Close all the tableaux. Throws: IllegalActionExcep"
+    },
+    {
+      "chunk_id": 74,
+      "text": "Close all the tableaux. Throws: IllegalActionException - If thrown while accessing the Configuration or while closing the tableaux. configurations public static java.util.List< Configuration > configurations() Return a list of all the configuration"
+    },
+    {
+      "chunk_id": 75,
+      "text": "gurations() Return a list of all the configurations that have been created. Note that if this method is called before a configuration is created, then it will return an empty linked list. Returns: A list of configurations, where each element of"
+    },
+    {
+      "chunk_id": 76,
+      "text": ": A list of configurations, where each element of the list is of type Configuration. createPrimaryTableau public Tableau createPrimaryTableau( Effigy effigy) Create the first tableau for the given effigy, using the tableau factory. This is calle"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ffigy, using the tableau factory. This is called after an effigy is first opened, or when a new effigy is created. If the method fails to create a tableau, then it removes the effigy from the directory. This prevents us from having lingerin"
+    },
+    {
+      "chunk_id": 78,
+      "text": "directory. This prevents us from having lingering effigies that have no user interface. Parameters: effigy - The effigy for which to create a tableau. Returns: A tableau for the specified effigy, or null if none can be opened. findEffigy publi"
+    },
+    {
+      "chunk_id": 79,
+      "text": "or null if none can be opened. findEffigy public static Effigy findEffigy( NamedObj model) Find an effigy for the specified model by searching all the configurations that have been created. Although typically there is only one, in principle th"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ugh typically there is only one, in principle there may be more than one. This can be used to find a configuration, which is typically the result of calling toplevel() on the effigy. Parameters: model - The model for which to find an effigy. R"
+    },
+    {
+      "chunk_id": 81,
+      "text": ": model - The model for which to find an effigy. Returns: An effigy, or null if none can be found. getStringParameterAsClass public java.lang.Object getStringParameterAsClass(java.lang.String parameterName,"
+    },
+    {
+      "chunk_id": 82,
+      "text": "rName, java.lang.Class[] constructorParameterTypes, java.lang.Object[] constructorParameterClass) throws ja"
+    },
+    {
+      "chunk_id": 83,
+      "text": "throws java.lang.ClassNotFoundException, java.lang.IllegalAccessException, IllegalActionException , java.lang"
+    },
+    {
+      "chunk_id": 85,
+      "text": "java.lang.NoSuchMethodException Instantiate the class named by a StringParameter in the configuration. Parameters: parameterName - The name of the StringParameter in the configuration. constructorParameterTypes - An array of param"
+    },
+    {
+      "chunk_id": 86,
+      "text": "ion. constructorParameterTypes - An array of parameter types, null if there are no parameters constructorParameterClass - An array of objects to pass to the constructor. Returns: an instance of the class named by parameterName, or null if the con"
+    },
+    {
+      "chunk_id": 87,
+      "text": "class named by parameterName, or null if the configuration does not contain a parameter by that name. Throws: java.lang.ClassNotFoundException - If the class named by parameterName cannot be found. java.lang.IllegalAccessException - If the cons"
+    },
+    {
+      "chunk_id": 88,
+      "text": "nd. java.lang.IllegalAccessException - If the constructor is not accessible. IllegalActionException - If thrown while reading the parameter named by parameterName. java.lang.InstantiationException - If the object cannot be instantiated java.lang.re"
+    },
+    {
+      "chunk_id": 89,
+      "text": "If the object cannot be instantiated java.lang.reflect.InvocationTargetException - If there is problem invoking the constructor. java.lang.NoSuchMethodException - If there is no constructor with the type. getDirectory public ModelDirectory getDire"
+    },
+    {
+      "chunk_id": 90,
+      "text": "e type. getDirectory public ModelDirectory getDirectory() Get the model directory. Returns: The model directory, or null if there isn't one. getEffigy public PtolemyEffigy getEffigy( NamedObj model) Get the effigy for the specified Ptolemy model. T"
+    },
+    {
+      "chunk_id": 91,
+      "text": "et the effigy for the specified Ptolemy model. This searches all instances of PtolemyEffigy deeply contained by the directory, and returns the first one it encounters that is an effigy for the specified model. Parameters: model - The Ptolemy mo"
+    },
+    {
+      "chunk_id": 92,
+      "text": "pecified model. Parameters: model - The Ptolemy model. Returns: The effigy for the model, or null if none is found. openAnInstance public void openAnInstance( NamedObj entity) throws IllegalActionException , NameDuplicationExcepti"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ws IllegalActionException , NameDuplicationException Open the specified instance. A derived class looks for the instance, and if the instance already has open tableaux, then put those in the foreground Otherwise, create a new tableau and if n"
+    },
+    {
+      "chunk_id": 94,
+      "text": "round Otherwise, create a new tableau and if necessary, a new effigy. Unless there is a more natural container for the effigy (e.g. it is a hierarchical model), then if a new effigy is created, it is put into the directory of the configurati"
+    },
+    {
+      "chunk_id": 95,
+      "text": "d, it is put into the directory of the configuration. Any new tableau created will be contained by that effigy. Specified by: openAnInstance in interface InstanceOpener Parameters: entity - The entity to open. Throws: IllegalActionException - If co"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ty to open. Throws: IllegalActionException - If constructing an effigy or tableau fails. NameDuplicationException - If a name conflict occurs (this should not be thrown). openInstance public Tableau openInstance( NamedObj entity)"
+    },
+    {
+      "chunk_id": 97,
+      "text": "leau openInstance( NamedObj entity) throws IllegalActionException , NameDuplicationException Open the specified instance. If the instance already has open tableaux, then put those in the foreground and return the first one."
+    },
+    {
+      "chunk_id": 98,
+      "text": "se in the foreground and return the first one. Otherwise, create a new tableau and if necessary, a new effigy. Unless there is a more natural container for the effigy (e.g. it is a hierarchical model), then if a new effigy is created, it is"
+    },
+    {
+      "chunk_id": 99,
+      "text": "l model), then if a new effigy is created, it is put into the directory of the configuration. Any new tableau created will be contained by that effigy. Parameters: entity - The entity to open. Returns: The tableau that is created, or the first on"
+    },
+    {
+      "chunk_id": 100,
+      "text": "urns: The tableau that is created, or the first one found, or null if none is created or found. Throws: IllegalActionException - If constructing an effigy or tableau fails. NameDuplicationException - If a name conflict occurs (this should no"
+    },
+    {
+      "chunk_id": 101,
+      "text": "ion - If a name conflict occurs (this should not be thrown). openInstance public Tableau openInstance( NamedObj entity, CompositeEntity container) throws IllegalActionException , NameDuplicationException Open the specified ins"
+    },
+    {
+      "chunk_id": 102,
+      "text": ", NameDuplicationException Open the specified instance. If the instance already has open tableaux, then put those in the foreground and return the first one. Otherwise, create a new tableau and, if necessary, a new effigy. Unless there is a m"
+    },
+    {
+      "chunk_id": 103,
+      "text": "if necessary, a new effigy. Unless there is a more natural place for the effigy (e.g. it is a hierarchical model), then if a new effigy is created, it is put into the container argument, or if that is null, into the directory of the configur"
+    },
+    {
+      "chunk_id": 104,
+      "text": "f that is null, into the directory of the configuration. Any new tableau created will be contained by that effigy. Parameters: entity - The model. container - The container for any new effigy. Returns: The tableau that is created, or the first one"
+    },
+    {
+      "chunk_id": 105,
+      "text": "ns: The tableau that is created, or the first one found, or null if none is created or found. Throws: IllegalActionException - If constructing an effigy or tableau fails. NameDuplicationException - If a name conflict occurs (this should not"
+    },
+    {
+      "chunk_id": 106,
+      "text": "n - If a name conflict occurs (this should not be thrown). openModel public Tableau openModel(java.net.URL base, java.net.URL in, java.lang.String identifier) throws java.lang.Exc"
+    },
+    {
+      "chunk_id": 107,
+      "text": "identifier) throws java.lang.Exception Open the specified URL. If a model with the specified identifier is present in the directory, then find all the tableaux of that model and make them visible; otherwise, read a model from"
+    },
+    {
+      "chunk_id": 108,
+      "text": "make them visible; otherwise, read a model from the specified URL in and create a default tableau for the model and add the tableau to this directory. Parameters: base - The base for relative file references, or null if there are no relative f"
+    },
+    {
+      "chunk_id": 109,
+      "text": "references, or null if there are no relative file references. in - The input URL. identifier - The identifier that uniquely identifies the model. Returns: The tableau that is created, or null if none. Throws: java.lang.Exception - If the URL cann"
+    },
+    {
+      "chunk_id": 110,
+      "text": "one. Throws: java.lang.Exception - If the URL cannot be read. openModel public Tableau openModel(java.net.URL base, java.net.URL in, java.lang.String identifier, EffigyFactory factory)"
+    },
+    {
+      "chunk_id": 111,
+      "text": "identifier, EffigyFactory factory) throws java.lang.Exception Open the specified URL using the specified effigy factory. If a model with the specified identifier is present in the directory, then find all the tableaux of that mo"
+    },
+    {
+      "chunk_id": 112,
+      "text": "directory, then find all the tableaux of that model and make them visible; otherwise, read a model from the specified URL in and create a default tableau for the model and add the tableau to this directory. Parameters: base - The base for relat"
+    },
+    {
+      "chunk_id": 113,
+      "text": "s directory. Parameters: base - The base for relative file references, or null if there are no relative file references. in - The input URL. identifier - The identifier that uniquely identifies the model. factory - The effigy factory to use. Retur"
+    },
+    {
+      "chunk_id": 114,
+      "text": "model. factory - The effigy factory to use. Returns: The tableau that is created, or null if none. Throws: java.lang.Exception - If the URL cannot be read. openModel public Tableau openModel( NamedObj entity) throws IllegalActionEx"
+    },
+    {
+      "chunk_id": 115,
+      "text": "j entity) throws IllegalActionException , NameDuplicationException Open the specified Ptolemy II model. If a model already has open tableaux, then put those in the foreground and return the first one. Otherwise, create a new ta"
+    },
+    {
+      "chunk_id": 116,
+      "text": "return the first one. Otherwise, create a new tableau and if necessary, a new effigy. Unless there is a more natural container for the effigy (e.g. it is a hierarchical model), then if a new effigy is created, it is put into the directory of"
+    },
+    {
+      "chunk_id": 117,
+      "text": "effigy is created, it is put into the directory of the configuration. Any new tableau created will be contained by that effigy. Parameters: entity - The model. Returns: The tableau that is created, or the first one found, or null if none is crea"
+    },
+    {
+      "chunk_id": 118,
+      "text": "or the first one found, or null if none is created or found. Throws: IllegalActionException - If constructing an effigy or tableau fails. NameDuplicationException - If a name conflict occurs (this should not be thrown). openModel public Tabl"
+    },
+    {
+      "chunk_id": 119,
+      "text": "is should not be thrown). openModel public Tableau openModel( NamedObj entity, CompositeEntity container) throws IllegalActionException , NameDuplicationException Open the specified Ptolemy II model. If a model already has open"
+    },
+    {
+      "chunk_id": 120,
+      "text": "ed Ptolemy II model. If a model already has open tableaux, then put those in the foreground and return the first one. Otherwise, create a new tableau and, if necessary, a new effigy. Unless there is a more natural place for the effigy (e.g."
+    },
+    {
+      "chunk_id": 121,
+      "text": "re is a more natural place for the effigy (e.g. it is a hierarchical model), then if a new effigy is created, it is put into the container argument, or if that is null, into the directory of the configuration. Any new tableau created will be"
+    },
+    {
+      "chunk_id": 122,
+      "text": "configuration. Any new tableau created will be contained by that effigy. Parameters: entity - The model. container - The container for any new effigy. Returns: The tableau that is created, or the first one found, or null if none is created or f"
+    },
+    {
+      "chunk_id": 123,
+      "text": "irst one found, or null if none is created or found. Throws: IllegalActionException - If constructing an effigy or tableau fails. NameDuplicationException - If a name conflict occurs (this should not be thrown). setContainer public void setC"
+    },
+    {
+      "chunk_id": 124,
+      "text": "ould not be thrown). setContainer public void setContainer( CompositeEntity container) throws IllegalActionException , NameDuplicationException If the argument is not null, then throw an exception. This ensures that the object is"
+    },
+    {
+      "chunk_id": 125,
+      "text": "w an exception. This ensures that the object is always at the top level of a hierarchy. Overrides: setContainer in class CompositeEntity Parameters: container - The proposed container. If the proposed container is null, then super.setContainer"
+    },
+    {
+      "chunk_id": 126,
+      "text": "posed container is null, then super.setContainer(null) is invoked, which may free up memory. Throws: IllegalActionException - If the argument is not null. NameDuplicationException - If thrown by a parent class. See Also: ComponentEntity.getContai"
+    },
+    {
+      "chunk_id": 127,
+      "text": "parent class. See Also: ComponentEntity.getContainer() showAll public void showAll() Find all instances of Tableau deeply contained in the directory and call show() on them. If there is no directory, then do nothing. removeConfiguration void remo"
+    },
+    {
+      "chunk_id": 128,
+      "text": "ry, then do nothing. removeConfiguration void removeConfiguration( Configuration configuration) Remove the configuration from the list of configurations. Parameters: configuration - The configuration to be removed. _removeEntity protected void _remov"
+    },
+    {
+      "chunk_id": 129,
+      "text": "to be removed. _removeEntity protected void _removeEntity( ComponentEntity entity) Remove the specified entity; if that entity is the model directory, then exit the application. This method should not be called directly. Call the setContainer()"
+    },
+    {
+      "chunk_id": 130,
+      "text": "not be called directly. Call the setContainer() method of the entity instead with a null argument. The entity is assumed to be contained by this composite (otherwise, nothing happens). This does not alter the entity in any way. This method"
+    },
+    {
+      "chunk_id": 131,
+      "text": "oes not alter the entity in any way. This method is not synchronized on the workspace, so the caller should be. Overrides: _removeEntity in class CompositeEntity Parameters: entity - The entity to remove. Skip navigation links Overview Package Cl"
+    },
+    {
+      "chunk_id": 132,
+      "text": "remove. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

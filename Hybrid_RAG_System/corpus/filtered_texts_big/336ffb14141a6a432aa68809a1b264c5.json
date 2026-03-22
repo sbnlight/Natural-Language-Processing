@@ -1,0 +1,49 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/MacOSMissingTTYPort",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / MacOSMissingTTYPort Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / MacOSMissingTTYPort When connecting a Hail or Edison"
+    },
+    {
+      "chunk_id": 2,
+      "text": "cOSMissingTTYPort When connecting a Hail or Edison then the devices are plugged in to the USB port for programming. If the device is connected, then you should see: bash-3.2$ ls -ltr / dev / tty * | tail crw-rw-rw- 1 root wheel 4 , 4 Feb 23 10 : 44"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ail crw-rw-rw- 1 root wheel 4 , 4 Feb 23 10 : 44 / dev / ttyp4 crw-rw-rw- 1 root wheel 4 , 3 Feb 23 10 : 44 / dev / ttyp3 crw-rw-rw- 1 root wheel 4 , 2 Feb 23 10 : 44 / dev / ttyp2 crw-rw-rw- 1 root wheel 4 , 1 Feb 23 10 : 44 / dev / ttyp1 crw-rw"
+    },
+    {
+      "chunk_id": 4,
+      "text": "t wheel 4 , 1 Feb 23 10 : 44 / dev / ttyp1 crw-rw-rw- 1 root wheel 4 , 0 Feb 23 10 : 44 / dev / ttyp0 crw-rw-rw- 1 root wheel 20 , 0 Feb 23 10 : 44 / dev / tty.Bluetooth-Incoming-Port crw-rw-rw- 1 root wheel 20 , 2 Feb 23 10 : 44 / dev / tty.usbs"
+    },
+    {
+      "chunk_id": 5,
+      "text": "root wheel 20 , 2 Feb 23 10 : 44 / dev / tty.usbserial-ANZ1R15T crw--w---- 1 cxh tty 16 , FTI 1 Feb 23 10 : 45 / dev / ttys001 crw-rw-rw- 1 root wheel 2 , 0 Feb 23 10 : 45 / dev / tty crw--w---- 1 cxh tty 16 , 0 Feb 23 10 : 45 / dev / ttys000 b"
+    },
+    {
+      "chunk_id": 6,
+      "text": "cxh tty 16 , 0 Feb 23 10 : 45 / dev / ttys000 bash-3.2$ [$[Get Code]] If ls -l /dev/tty* | tail is not showing the /dev/tty.ucbserial* port, then read on. Apparently, recent versions of the com.FTDI driver seem to slowly kill the serial port. One"
+    },
+    {
+      "chunk_id": 7,
+      "text": "I driver seem to slowly kill the serial port. One solution is to remove that driver: Check that the FTDI driver is installed: bash-3.2$ kextstat | grep FTDI 138 0 0xffffff7f82e4d000 0x8000 0x8000 com.FTDI.driver.FTDIUSBSerialDriver ( 2.2.18"
+    },
+    {
+      "chunk_id": 8,
+      "text": "com.FTDI.driver.FTDIUSBSerialDriver ( 2.2.18 ) 638ECCC3-375D-CD1A-C2EC-0DC14740FC9C < 119 39 5 4 3 1 > [$[Get Code]] Unplug the USB ports Look for the driver file: bash-3.2$ find / System / Library / Extensions -name \"*FTDI*\" / System / Library"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ry / Extensions -name \"*FTDI*\" / System / Library / Extensions / AppleUSBFTDI.kext / System / Library / Extensions / AppleUSBFTDI.kext / Contents / MacOS / AppleUSBFTDI / System / Library / Extensions / EnergiaFTDIDrivers2.2.18.pkg / System / Library"
+    },
+    {
+      "chunk_id": 10,
+      "text": "/ EnergiaFTDIDrivers2.2.18.pkg / System / Library / Extensions / FTDI Installer.pmdoc / System / Library / Extensions / FTDIUSBSerialDriver.kext [$[Get Code]] Unload the FTDIUSBSerialDriver.kext not sure about this command : kextunload / System / Li"
+    },
+    {
+      "chunk_id": 11,
+      "text": "sure about this command : kextunload / System / Library / Extensions / FTDIUSBSerialDriver.kext [$[Get Code]] Check that it is unloaded bash-3.2$ kextstat | grep FTDI [$[Get Code]] Move the file elsewhere sudo mv / System / Library / Extensions / FTD"
+    }
+  ]
+}

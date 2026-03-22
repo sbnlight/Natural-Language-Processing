@@ -1,0 +1,293 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII5.0/ptII5.0.1/doc/codeDoc/ptolemy/domains/fsm/kernel/NonStrictFSMDirector.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "NonStrictFSMDirector Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.domains.fsm.kernel Class NonStrictFSMDirector"
+    },
+    {
+      "chunk_id": 2,
+      "text": "emy.domains.fsm.kernel Class NonStrictFSMDirector java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.util.Attribute ptolemy.actor.Director ptolemy.domains.fsm.kernel.FSMDirector ptolemy.domains.fsm.kernel.NonStrictFSMDirector All Implemente"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ins.fsm.kernel.NonStrictFSMDirector All Implemented Interfaces: Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , ExplicitChangeContext , ModelErrorHandler , MoMLExportable , Moveable , Nameable , java.io.Seriali"
+    },
+    {
+      "chunk_id": 4,
+      "text": "Exportable , Moveable , Nameable , java.io.Serializable public class NonStrictFSMDirector extends FSMDirector This director extends FSMDirector by consuming only input tokens that are needed in the current state. An input port will consume at most"
+    },
+    {
+      "chunk_id": 5,
+      "text": "current state. An input port will consume at most one token if: 1. The port is referred by any guard expression of the preemptive transitions leaving the current state, the output actions and/or set actions of the enabled transition. 2. No"
+    },
+    {
+      "chunk_id": 6,
+      "text": "d/or set actions of the enabled transition. 2. No preemptive transition is enabled and the port is referred by the refinements of the current state, any guard expression of the nonpreemptive transitions leaving the current state, the output"
+    },
+    {
+      "chunk_id": 7,
+      "text": "nsitions leaving the current state, the output actions and/or set actions of the enabled transition. A port is said to be referred by a guard/output action/set action expression of a transition if the port name appears in that expression. A"
+    },
+    {
+      "chunk_id": 8,
+      "text": "if the port name appears in that expression. A port is said to be referred by a state refinement if the it is not a dangling port and has a consumption rate greater than zero in the refinement. FIXME: This is highly preliminary. Missing capa"
+    },
+    {
+      "chunk_id": 9,
+      "text": "t. FIXME: This is highly preliminary. Missing capabilities: FIXME: Currently this director uses the default receiver of FSMDirector, which is a mailbox, so there is no way to consume more than one token. This director could use a different r"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ne token. This director could use a different receiver and support a syntax in the guard expression language to support consumption of more than one token. Since: Ptolemy II 4.1 Version: $Id: NonStrictFSMDirector.java,v 1.22 2005/04/29 20:04"
+    },
+    {
+      "chunk_id": 11,
+      "text": "NonStrictFSMDirector.java,v 1.22 2005/04/29 20:04:25 cxh Exp $ Author: Ye Zhou See Also: Serialized Form Accepted Rating: Red (cxh) Proposed Rating: Red (zhouye) Nested Class Summary Nested classes inherited from class ptolemy.kernel.util. NamedObj"
+    },
+    {
+      "chunk_id": 12,
+      "text": "nherited from class ptolemy.kernel.util. NamedObj NamedObj.ContainedObjectsIterator Field Summary Fields inherited from class ptolemy.domains.fsm.kernel. FSMDirector _currentLocalReceiverMap , _enabledRefinements , _enabledTransition , _localReceiver"
+    },
+    {
+      "chunk_id": 13,
+      "text": "dRefinements , _enabledTransition , _localReceiverMaps , _mutationEnabled , controllerName Fields inherited from class ptolemy.actor. Director _currentTime , _stopRequested , timeResolution Fields inherited from class ptolemy.kernel.util. NamedObj _c"
+    },
+    {
+      "chunk_id": 14,
+      "text": "erited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _changeRequests , _debugging , _debugListeners , _elementName , _isPersistent , _verbose , _workspace , ATTRIBUTES , CLASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME ,"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ASSNAME , COMPLETE , CONTENTS , DEEP , FULLNAME , LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary NonStrictFSMDirector ( CompositeEntity container, java.l"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ositeEntity container, java.lang.String name) Construct a director in the given container with the given name. Method Summary void fire () Fire the modal model. void getNonpreemptiveTransitionsReferredInputPorts ( State state) Gi"
+    },
+    {
+      "chunk_id": 17,
+      "text": "iveTransitionsReferredInputPorts ( State state) Given a state, get a set of input ports referred in the guards of the preemptive transitions leaving that state. void getOutputActionsReferredInputPorts ( Transition transition) Given a transition, ge"
+    },
+    {
+      "chunk_id": 18,
+      "text": "ts ( Transition transition) Given a transition, get a set of input ports referred in the outputActions of that transition. void getPreemptiveTransitionsReferredInputPorts ( State state) Given a state, get a set of input ports referred in the guards"
+    },
+    {
+      "chunk_id": 19,
+      "text": "e, get a set of input ports referred in the guards of the nonpreemptive transitions leaving that state. void getReferredInputPorts (java.util.Set portSet, java.util.Set referredInputPorts) Given a set of ports, get those are i"
+    },
+    {
+      "chunk_id": 20,
+      "text": "dInputPorts) Given a set of ports, get those are input ports and put them in the indicated referred set. void getRefinementReferredInputPorts ( State state) Given a state, get a set of input ports referred by the refinements of that state. void g"
+    },
+    {
+      "chunk_id": 21,
+      "text": "eferred by the refinements of that state. void getSetActionsReferredInputPorts ( Transition transition) Given a transition, get a set of input ports referred in the set actions of that transition. java.util.Set getTransitionReferredInputPorts (ja"
+    },
+    {
+      "chunk_id": 22,
+      "text": "java.util.Set getTransitionReferredInputPorts (java.util.List transitionList) Given a list of transitions, get a set of referred input ports in the guard expressions of all the transitions leaving this state. void initialize () Initialize the dire"
+    },
+    {
+      "chunk_id": 23,
+      "text": "this state. void initialize () Initialize the director. boolean postfire () Call the postfire() method of the super class. boolean transferInputs ( IOPort port) Override the super class by only transferring inputs for those input ports that are ref"
+    },
+    {
+      "chunk_id": 24,
+      "text": "erring inputs for those input ports that are referred by the guard expressions of the preemptive transitions leaving the current state. Methods inherited from class ptolemy.domains.fsm.kernel. FSMDirector _buildLocalReceiverMaps , _chooseTransiti"
+    },
+    {
+      "chunk_id": 25,
+      "text": "Director _buildLocalReceiverMaps , _chooseTransition , _currentLocalReceivers , _getLastChosenTransition , _readInputs , _readOutputsFromRefinement , _setCurrentConnectionMap , _setCurrentState , attributeChanged , clone , fireAt , getContext , getCo"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ibuteChanged , clone , fireAt , getContext , getController , getModelNextIterationTime , getModifiedVariables , getNextIterationTime , handleModelError , newReceiver , prefire , setContainer , setModelTime Methods inherited from class ptolemy.actor."
+    },
+    {
+      "chunk_id": 27,
+      "text": "lTime Methods inherited from class ptolemy.actor. Director _description , _isEmbedded , _isTopLevel , domainPolymorphicTransferInputs , domainPolymorphicTransferOutputs , fireAt , fireAtCurrentTime , getCurrentTime , getModelStartTime , getModelStopT"
+    },
+    {
+      "chunk_id": 28,
+      "text": "getCurrentTime , getModelStartTime , getModelStopTime , getModelTime , getStartTime , getStopTime , getTimeResolution , initialize , invalidateResolvedTypes , invalidateSchedule , iterate , preinitialize , requestInitialization , setCurrentTime , sto"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ize , requestInitialization , setCurrentTime , stop , stopFire , suggestedModalModelDirectors , terminate , transferOutputs , wrapup Methods inherited from class ptolemy.kernel.util. Attribute _getContainedObject , _propagateExistence , getContainer"
+    },
+    {
+      "chunk_id": 30,
+      "text": "tainedObject , _propagateExistence , getContainer , moveDown , moveToFirst , moveToIndex , moveToLast , moveUp , setName , updateContent Methods inherited from class ptolemy.kernel.util. NamedObj _addAttribute , _attachText , _cloneFixAttributeFields"
+    },
+    {
+      "chunk_id": 31,
+      "text": "Attribute , _attachText , _cloneFixAttributeFields , _debug , _debug , _debug , _debug , _debug , _exportMoMLContents , _getIndentPrefix , _isMoMLSuppressed , _markContentsDerived , _propagateValue , _removeAttribute , _splitName , _stripNumericSuffi"
+    },
+    {
+      "chunk_id": 32,
+      "text": "_removeAttribute , _splitName , _stripNumericSuffix , addChangeListener , addDebugListener , attributeList , attributeList , attributeTypeChanged , clone , containedObjectsIterator , deepContains , depthInHierarchy , description , description , event"
+    },
+    {
+      "chunk_id": 33,
+      "text": "pthInHierarchy , description , description , event , executeChangeRequests , exportMoML , exportMoML , exportMoML , exportMoML , exportMoML , getAttribute , getAttribute , getAttributes , getChangeListeners , getClassName , getDerivedLevel , getDeriv"
+    },
+    {
+      "chunk_id": 34,
+      "text": "teners , getClassName , getDerivedLevel , getDerivedList , getElementName , getFullName , getModelErrorHandler , getName , getName , getPrototypeList , getSource , isDeferringChangeRequests , isOverridden , isPersistent , message , propagateExistence"
+    },
+    {
+      "chunk_id": 35,
+      "text": "dden , isPersistent , message , propagateExistence , propagateValue , propagateValues , removeChangeListener , removeDebugListener , requestChange , setClassName , setDeferringChangeRequests , setDerivedLevel , setModelErrorHandler , setNormalDebuggi"
+    },
+    {
+      "chunk_id": 36,
+      "text": "vedLevel , setModelErrorHandler , setNormalDebugging , setPersistent , setSource , setVerboseDebugging , sortContainedObjects , toplevel , toString , uniqueName , validateSettables , workspace Methods inherited from class java.lang.Object equals, fin"
+    },
+    {
+      "chunk_id": 37,
+      "text": "inherited from class java.lang.Object equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Methods inherited from interface ptolemy.kernel.util. Nameable description , getContainer , getFullName , getName , getName , setName Con"
+    },
+    {
+      "chunk_id": 38,
+      "text": "er , getFullName , getName , getName , setName Constructor Detail NonStrictFSMDirector public NonStrictFSMDirector ( CompositeEntity container, java.lang.String name) throws IllegalActionException , Na"
+    },
+    {
+      "chunk_id": 39,
+      "text": "throws IllegalActionException , NameDuplicationException Construct a director in the given container with the given name. The container argument must not be null, or a NullPointerException will be thrown. If the name argument is"
+    },
+    {
+      "chunk_id": 40,
+      "text": "xception will be thrown. If the name argument is null, then the name is set to the empty string. Increment the version number of the workspace. Parameters: container - Container of this director. name - Name of this director. Throws: IllegalActio"
+    },
+    {
+      "chunk_id": 41,
+      "text": "name - Name of this director. Throws: IllegalActionException - If the name has a period in it, or the director is not compatible with the specified container. NameDuplicationException - If the container not a CompositeActor and the name collide"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ainer not a CompositeActor and the name collides with an entity in the container. Method Detail fire public void fire () throws IllegalActionException Fire the modal model. The preemptive transitions from the current state are examined"
+    },
+    {
+      "chunk_id": 43,
+      "text": "transitions from the current state are examined. If there is more than one transition enabled, an exception is thrown. If there is exactly one preemptive transition enabled, then it is chosen. Get additional input ports referred by the outpu"
+    },
+    {
+      "chunk_id": 44,
+      "text": "Get additional input ports referred by the output actions and set actions of the enabled transition and executed the output actions. The refinements of the current state will not be fired. If no preemptive transition is enabled, get additional"
+    },
+    {
+      "chunk_id": 45,
+      "text": "preemptive transition is enabled, get additional input ports referred by the refinements of the current state and transfer at most one token from these input ports. Fire the refinements. After this, get additional input ports referred by the n"
+    },
+    {
+      "chunk_id": 46,
+      "text": "is, get additional input ports referred by the nonpreemptive transitions from the current state and transfer at most one token from these input ports. Then examine the nonpreemptive transitions. If there is more than one transition enabled, a"
+    },
+    {
+      "chunk_id": 47,
+      "text": "If there is more than one transition enabled, an exception is thrown. If there is exactly one nonpreemptive transition enabled, then it is chosen. Get additional input ports referred by the output actions and set actions of the enabled trans"
+    },
+    {
+      "chunk_id": 48,
+      "text": "put actions and set actions of the enabled transition and executed the output actions. Specified by: fire in interface Executable Overrides: fire in class FSMDirector Throws: IllegalActionException - If the super class throws it. getNonpreemptiveTr"
+    },
+    {
+      "chunk_id": 49,
+      "text": "- If the super class throws it. getNonpreemptiveTransitionsReferredInputPorts public void getNonpreemptiveTransitionsReferredInputPorts ( State state) throws IllegalActionException Given a state, get"
+    },
+    {
+      "chunk_id": 50,
+      "text": "throws IllegalActionException Given a state, get a set of input ports referred in the guards of the preemptive transitions leaving that state. Parameters: state - The given state. Throws: IllegalActionException - If there is no controller or i"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ctionException - If there is no controller or if any guard expression is illegal. getOutputActionsReferredInputPorts public void getOutputActionsReferredInputPorts ( Transition transition) throws IllegalActi"
+    },
+    {
+      "chunk_id": 52,
+      "text": "throws IllegalActionException Given a transition, get a set of input ports referred in the outputActions of that transition. Parameters: transition - The transition. Throws: IllegalActionException - If there is no co"
+    },
+    {
+      "chunk_id": 53,
+      "text": "Throws: IllegalActionException - If there is no controller or if the outputActions is illegal. getPreemptiveTransitionsReferredInputPorts public void getPreemptiveTransitionsReferredInputPorts ( State state)"
+    },
+    {
+      "chunk_id": 54,
+      "text": "te state) throws IllegalActionException Given a state, get a set of input ports referred in the guards of the nonpreemptive transitions leaving that state. Parameters: state - The given state. Throws:"
+    },
+    {
+      "chunk_id": 55,
+      "text": "tate. Parameters: state - The given state. Throws: IllegalActionException - If there is no controller or if any guard expression is illegal. getReferredInputPorts public void getReferredInputPorts (java.util.Set portSet,"
+    },
+    {
+      "chunk_id": 56,
+      "text": "(java.util.Set portSet, java.util.Set referredInputPorts) Given a set of ports, get those are input ports and put them in the indicated referred set. Parameters: portSet - The given set of ports referredInputPorts"
+    },
+    {
+      "chunk_id": 57,
+      "text": "rtSet - The given set of ports referredInputPorts - The referred set. getRefinementReferredInputPorts public void getRefinementReferredInputPorts ( State state) throws IllegalActionException Given a state, get a s"
+    },
+    {
+      "chunk_id": 58,
+      "text": "rows IllegalActionException Given a state, get a set of input ports referred by the refinements of that state. Parameters: state - The given state. Throws: IllegalActionException - If refinement with given name is not found, or if the port rate d"
+    },
+    {
+      "chunk_id": 59,
+      "text": "h given name is not found, or if the port rate does not contain a valid expression. getSetActionsReferredInputPorts public void getSetActionsReferredInputPorts ( Transition transition) throws IllegalActionExcept"
+    },
+    {
+      "chunk_id": 60,
+      "text": "throws IllegalActionException Given a transition, get a set of input ports referred in the set actions of that transition. Parameters: transition - The given transition. Throws: IllegalActionException - If there is no contro"
+    },
+    {
+      "chunk_id": 61,
+      "text": "ws: IllegalActionException - If there is no controller or if any set action expression is illegal. getTransitionReferredInputPorts public java.util.Set getTransitionReferredInputPorts (java.util.List transitionList)"
+    },
+    {
+      "chunk_id": 62,
+      "text": "st transitionList) throws IllegalActionException Given a list of transitions, get a set of referred input ports in the guard expressions of all the transitions leaving this state. Parameters: transition"
+    },
+    {
+      "chunk_id": 63,
+      "text": "sitions leaving this state. Parameters: transitionList - The list of Transitions. Returns: A set of input ports referred by the guard expressions of the given transition list. Throws: IllegalActionException - If there is no controller or if the"
+    },
+    {
+      "chunk_id": 64,
+      "text": "Exception - If there is no controller or if the guard expression is illegal. initialize public void initialize () throws IllegalActionException Initialize the director. Get the referred input ports in the guard expressions of all"
+    },
+    {
+      "chunk_id": 65,
+      "text": "rred input ports in the guard expressions of all preemptive transitions leaving the initial state. Specified by: initialize in interface Executable Overrides: initialize in class FSMDirector Throws: IllegalActionException - If the super class throw"
+    },
+    {
+      "chunk_id": 66,
+      "text": "IllegalActionException - If the super class throws it. postfire public boolean postfire () throws IllegalActionException Call the postfire() method of the super class. Get the referred input ports in the guard expressions of all p"
+    },
+    {
+      "chunk_id": 67,
+      "text": "ed input ports in the guard expressions of all preemptive transitions that go out from the current state. Specified by: postfire in interface Executable Overrides: postfire in class FSMDirector Returns: True if the mode controller wishes to be sc"
+    },
+    {
+      "chunk_id": 68,
+      "text": "turns: True if the mode controller wishes to be scheduled for another iteration. Throws: IllegalActionException - If the super class throws it. transferInputs public boolean transferInputs ( IOPort port) throws IllegalActionE"
+    },
+    {
+      "chunk_id": 69,
+      "text": "port) throws IllegalActionException Override the super class by only transferring inputs for those input ports that are referred by the guard expressions of the preemptive transitions leaving the current state. Overrides: t"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ransitions leaving the current state. Overrides: transferInputs in class FSMDirector Parameters: port - The input port to transfer tokens from. Returns: True if at least one data token is transferred. Throws: IllegalActionException - If the port is n"
+    },
+    {
+      "chunk_id": 71,
+      "text": "Throws: IllegalActionException - If the port is not an opaque input port. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHO"
+    },
+    {
+      "chunk_id": 72,
+      "text": "D | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

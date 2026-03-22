@@ -1,0 +1,185 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/submit",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); if (! exists $ENV{'MASTERDIR'}) { do \"acquireD"
+    },
+    {
+      "chunk_id": 2,
+      "text": "if (! exists $ENV{'MASTERDIR'}) { do \"acquireDir.pl\"; askForMaster($#ARGV+1, 1, 1, \"Usage: submit ASSIGNMENT\\n E.g., submit hw1\", \"Enter the name of the course for which you are submitting\" . \"\\n an assignment (e.g., ee245, cs16"
+    },
+    {
+      "chunk_id": 3,
+      "text": "tting\" . \"\\n an assignment (e.g., ee245, cs164): \"); } require \"GradingBase.pl\"; CmndLine (\"fbu:t:\", 1, 1); require \"GradingCommon.pl\"; $me = MyLogin (); if ($opt_u and $AUTHORIZED{$me}) { $me = $opt_u; } else { if ($opt_u and $me ne $"
+    },
+    {
+      "chunk_id": 4,
+      "text": "$me = $opt_u; } else { if ($opt_u and $me ne $opt_u) { Fatal (\"You are not authorized to submit assignments for $opt_u.\"); } } $assgn = shift; if (! StudentExists ($me)) { Fatal (\"$me is not registered as a student in $COURSE.\"); } if"
+    },
+    {
+      "chunk_id": 5,
+      "text": "not registered as a student in $COURSE.\"); } if ($assgn !~ /^[-a-zA-Z0-9_.]+$/) { Fatal (\"Invalid format for assignment name: $assgn.\"); } if (! AssignmentExists ($assgn)) { Fatal (\"There is no assignment $assgn. The valid\\n\" . \"assig"
+    },
+    {
+      "chunk_id": 6,
+      "text": "s no assignment $assgn. The valid\\n\" . \"assignment names currently are\\n\\t\" . join (\", \", @ASSIGNMENT_LIST) . \".\"); } elsif (! $ASSGN_SUBMIT{$assgn}) { Note (\"At the moment, assignment $assgn does not allow for \" . \"electronic submis"
+    },
+    {
+      "chunk_id": 7,
+      "text": "assgn does not allow for \" . \"electronic submission.\") unless $opt_b; if (not $opt_b and Yorn (\"Would you like to submit anyway?\")) { Note (\"OK, but you should inform the instructor of this glitch.\"); } else { Fatal (\"There is no"
+    },
+    {
+      "chunk_id": 8,
+      "text": "this glitch.\"); } else { Fatal (\"There is no electronic submission for assignment $assgn.\"); } } undef %fileSet; undef %partners; if ($opt_t) { if (not $ASSGN_PARTNERS{$assgn}) { Fatal (\"This assignment does not have partners, so"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Fatal (\"This assignment does not have partners, so you may not \" . \"specify a team.\"); } if (not TeamExists ($opt_t)) { Fatal (\"There is no team $opt_t.\"); } foreach $login (split (/\\s+/, TeamMembers ($opt_t))) {"
+    },
+    {
+      "chunk_id": 10,
+      "text": "in (split (/\\s+/, TeamMembers ($opt_t))) { $partners{$login} = 1; } if (not $partners{$me}) { Fatal (\"You are not registered as a member of $opt_t.\"); } delete $partners{$me}; } elsif ($opt_b and $ASSGN_PARTNERS{$assgn}) {"
+    },
+    {
+      "chunk_id": 11,
+      "text": "; } elsif ($opt_b and $ASSGN_PARTNERS{$assgn}) { if (not (-f \"MY.PARTNERS\" and -r _)) { Fatal (\"Assignment has partnerships: must be a MY.PARTNERS file \" . \"for batch submission.\") } } elsif ($ASSGN_PARTNERS{$assgn}) { Note (\"Ple"
+    },
+    {
+      "chunk_id": 12,
+      "text": "} elsif ($ASSGN_PARTNERS{$assgn}) { Note (\"Please enter the logins of your partner(s), if any.\"); Note (\"Enter '.' to stop.\"); while (1) { $partner = Fetch (\"Login: \"); next if ($partner eq $me); last if ($partner eq \".\"); if ("
+    },
+    {
+      "chunk_id": 13,
+      "text": "artner eq $me); last if ($partner eq \".\"); if (! StudentExists ($partner)) { Warn (\"$partner is not registered as a $COURSE student, and \" . \"is being ignored.\"); next; } $partners{$partner} = 1; } } if ($ASSGN_PARTNERS{$assg"
+    },
+    {
+      "chunk_id": 14,
+      "text": "{$partner} = 1; } } if ($ASSGN_PARTNERS{$assgn}) { if (! %partners) { if (!Yorn (\"You have no partners, correct?\")) { Fatal (\"Submission FAILS.\"); } } else { print STDERR \"Your partners' logins are \"; foreach (keys %partners) {"
+    },
+    {
+      "chunk_id": 15,
+      "text": "rtners' logins are \"; foreach (keys %partners) { print STDERR \"$_ \"; } print STDERR \"\\n\"; if (! Yorn (\"Is this correct?\")) { Fatal (\"Submission FAILS.\"); } } unlink (\"MY.PARTNERS\"); @partnerList = ($me, sort (keys (%partner"
+    },
+    {
+      "chunk_id": 16,
+      "text": "@partnerList = ($me, sort (keys (%partners))); System (\"echo \" . join (\" \", @partnerList) . \" > MY.PARTNERS\"); Note (\"Created MY.PARTNERS file.\"); $fileSet{\"./MY.PARTNERS\"} = 1; } else { @partnerList = (); } Note (\"Looking"
+    },
+    {
+      "chunk_id": 17,
+      "text": "} else { @partnerList = (); } Note (\"Looking for files to turn in....\"); sub Traverse { my $dir = shift; my $size; my @candidates; my $full; if (opendir (TRAVERSE_DIR, $dir)) { @candidates = readdir (TRAVERSE_DIR); closedi"
+    },
+    {
+      "chunk_id": 18,
+      "text": "{ @candidates = readdir (TRAVERSE_DIR); closedir (TRAVERSE_DIR); Candidate: foreach (@candidates) { $full = \"$dir/$_\"; next if (/^\\.\\.?$/); if (/[#;\\[\\]\\?'\"|\\n`\\\\ \\t&]/) { Note (\"Skipping file name $_, which contains strang"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ote (\"Skipping file name $_, which contains strange characters\"); next; } $f = $full; $f =~ s{^\\./}{}; $mustAccept = 0; foreach $acc (split (/ /, $ASSGN_REQUIRED{$assgn})) { if ($f =~ m{^${acc}$}) {"
+    },
+    {
+      "chunk_id": 20,
+      "text": "{ if ($f =~ m{^${acc}$}) { if (-d $full) { Fatal (\"Required file $f must not be a directory.\"); next; } $size = (stat (_))[7];"
+    },
+    {
+      "chunk_id": 21,
+      "text": "$size = (stat (_))[7]; if ($size > $MAX_ALLOWED_FILE_SIZE) { Fatal (\"Required file $f is too big (>$MAX_ALLOWED_FILE_SIZE bytes)\"); next; }"
+    },
+    {
+      "chunk_id": 22,
+      "text": "next; } $requiredSet{$acc} = 1; if (not $fileSet{$full}) { $fileSet{$full} = 1; Note (\"Submitting $f.\"); } $mustAccept = 1; } } if (not $mustAccept) { foreach"
+    },
+    {
+      "chunk_id": 23,
+      "text": "} if (not $mustAccept) { foreach $rej (split (/ /, $ASSGN_REJECT{$assgn})) { next Candidate if ($f =~ m{$rej}); } foreach $rej (split (/ /, $ASSGN_REJECTL{$assgn})) { next Candidate if ($f =~ m{$rej} &&"
+    },
+    {
+      "chunk_id": 24,
+      "text": "sgn})) { next Candidate if ($f =~ m{$rej} && -l $full); } foreach $acc (split (/ /, $ASSGN_ACCEPT{$assgn})) { if ($f =~ m{$acc}) { if (-d $full) { Note (\"Looking at files in directory $full.\"); Traverse ($full)"
+    },
+    {
+      "chunk_id": 25,
+      "text": "les in directory $full.\"); Traverse ($full); } elsif (-f _) { $size = (stat (_))[7]; if ($size > $MAX_ALLOWED_FILE_SIZE) { Note(\"Skipping file $f: more"
+    },
+    {
+      "chunk_id": 26,
+      "text": "Note(\"Skipping file $f: more than $MAX_ALLOWED_FILE_SIZE bytes long.\"); next; } Note (\"Submitting $full.\"); $fileSet{$full} = 1; } next Candidate;"
+    },
+    {
+      "chunk_id": 27,
+      "text": "$fileSet{$full} = 1; } next Candidate; } } if (-d $full) { if ($opt_b or Yorn (\"Look at files in directory $full?\")) { Traverse ($full); } else { Note (\"Skipping directory $full.\"); } } elsif (-f _ and not"
+    },
+    {
+      "chunk_id": 28,
+      "text": "irectory $full.\"); } } elsif (-f _ and not $fileSet{$full}) { my $size = (stat (_))[7]; if ($size > $MAX_ALLOWED_FILE_SIZE) { Note(\"Skipping file $f: more than $MAX_ALLOWED_FILE_SIZE bytes lon"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ile $f: more than $MAX_ALLOWED_FILE_SIZE bytes long.\"); next; } if ($opt_b or Yorn (\"Turn in $full\". ($size > 50_000 ? \" (it's $size bytes long)\" : \"\") . \"? \")) { $fileSet{$fu"
+    },
+    {
+      "chunk_id": 30,
+      "text": "s long)\" : \"\") . \"? \")) { $fileSet{$full} = 1; } } } } } } &Traverse (\".\"); if (! %fileSet) { Fatal (\"Nothing submitted. Submission FAILS.\"); } foreach $pat (split (/ /, $ASSGN_REQUIRED{$assgn})) { if"
+    },
+    {
+      "chunk_id": 31,
+      "text": "t (split (/ /, $ASSGN_REQUIRED{$assgn})) { if (not $requiredSet{$pat}) { Fatal (\"You must turn in a file $pat for this assignment.\\n\" . \"Here is the complete list of files you must turn in:\\n \" . $ASSGN_REQUIRED{$assgn} . \"\\n\" ."
+    },
+    {
+      "chunk_id": 32,
+      "text": "n:\\n \" . $ASSGN_REQUIRED{$assgn} . \"\\n\" . \"Error: submission FAILED.\"); } } while (1) { @allFiles = sort (keys %fileSet); print STDERR \"The files you have submitted are:\"; for ($i = 0; $i <= $#allFiles; $i += 1) {"
+    },
+    {
+      "chunk_id": 33,
+      "text": ":\"; for ($i = 0; $i <= $#allFiles; $i += 1) { print STDERR \"\\n\\t\" if ($i % 4 == 0); print STDERR \"$allFiles[$i] \"; } print STDERR \"\\n\"; if ($opt_b or Yorn (\"Is this correct?\")) { last; } else { if (!Yorn (\"Would you like to"
+    },
+    {
+      "chunk_id": 34,
+      "text": "last; } else { if (!Yorn (\"Would you like to submit additional files?\")) { Fatal (\"Submission FAILS by request.\"); } while (1) { print STDERR \"Additional file to submit: \"; $resp = ; $resp =~ s/^\\s*(.*?)\\s*$/$1/; last"
+    },
+    {
+      "chunk_id": 35,
+      "text": "p = ; $resp =~ s/^\\s*(.*?)\\s*$/$1/; last if ($resp eq \"\"); if (! -r $resp) { print STDERR \"Can't read $resp; rejected.\\n\"; next; } if (! -f _) { print STDERR \"$resp is not a plain file; rejected.\\n\"; next; }"
+    },
+    {
+      "chunk_id": 36,
+      "text": "not a plain file; rejected.\\n\"; next; } if ($resp !~ \"^/\") { $resp = \"./$resp\"; } $fileSet{\"$resp\"} = 1; } } } $fileArg = \"\"; foreach (@allFiles) { $fileArg .= \" \" . ShellQuote ($_); } $tmpdir = \"/tmp/subm$$\"; AddCl"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ShellQuote ($_); } $tmpdir = \"/tmp/subm$$\"; AddClean ($tmpdir); if (-x \"$PRETEST_DIR/$assgn\") { TEST: { $passed = 0; Note (\"Performing sanity check on your submission\"); System (\"/bin/rm -rf $tmpdir\"); System (\"mkdi"
+    },
+    {
+      "chunk_id": 38,
+      "text": "(\"/bin/rm -rf $tmpdir\"); System (\"mkdir $tmpdir && chmod 0700 $tmpdir \" . \"&& tar chf - $fileArg | ( cd $tmpdir; tar xf - )\") || do { Warn (\"Could not set up test.\"); last TEST; }; System (\"cd $tmpdir; $PRETEST_DIR/$assgn"
+    },
+    {
+      "chunk_id": 39,
+      "text": "}; System (\"cd $tmpdir; $PRETEST_DIR/$assgn\") && ($passed = 1); } System (\"/bin/rm -rf $tmpdir\"); if ($passed) { Note (\"Sanity checks passed.\"); } else { Note (\"Error: Insanity detected.\\n\" . \" You can carry"
+    },
+    {
+      "chunk_id": 40,
+      "text": "Insanity detected.\\n\" . \" You can carry on and submit anyway, but you may not get\\n\" . \" much credit for the assignment.\"); if (($opt_b and $opt_f) or Yorn (\"Continue submission anyway?\")) { Warn (\"Your submission is likely t"
+    },
+    {
+      "chunk_id": 41,
+      "text": "yway?\")) { Warn (\"Your submission is likely to be faulty.\") unless $opt_b; } else { Fatal (\"Submission canceled.\"); } } } Note (\"Copying submission of assignment $assgn....\"); { $partnerList = join (' ', @partnerList); if ("
+    },
+    {
+      "chunk_id": 42,
+      "text": "$partnerList = join (' ', @partnerList); if ($opt_u) { open (GRADER, \"|$SUBMIT_PROG -u $me -s 'Submission for assignment ${assgn}' \" . $partnerList) or last; } else { open (GRADER, \"|$SUBMIT_PROG -s 'Submi"
+    },
+    {
+      "chunk_id": 43,
+      "text": "open (GRADER, \"|$SUBMIT_PROG -s 'Submission for assignment ${assgn}' $partnerList\") or last; } if ($partnerList) { print GRADER \">>PARTNERS: $partnerList\\n\\n\"; } open (ENCODER, \"tar chf - $fileArg | gzip -c | uuen"
+    },
+    {
+      "chunk_id": 44,
+      "text": "(ENCODER, \"tar chf - $fileArg | gzip -c | uuencode ${assgn}-handin.tar.gz|\") or last; while ( ) { print GRADER $_; } close ENCODER or last; close GRADER or last; Note (\"Submission complete.\"); exit 0; }; Fatal (\"Ther"
+    },
+    {
+      "chunk_id": 45,
+      "text": "bmission complete.\"); exit 0; }; Fatal (\"There was some problem submitting to the class account.\\n\" . \"Assignment NOT SUBMITTED.\");"
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/NPM",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / NPM Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / NPM This page contains discussion and notes about using the Node Pac"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ains discussion and notes about using the Node Package Manager (npm) with Accessors. See npm for links to other pages about npm. Current Design The idea is to use the Node Package Manager ( npm ) to manage the modules and accessors. npm supports dep"
+    },
+    {
+      "chunk_id": 3,
+      "text": "manage the modules and accessors. npm supports dependencies and versioning. If we don't use npm, then we will end up creating something very similar to npm. The Node community is very large and is where our work could likely have the most impact. The"
+    },
+    {
+      "chunk_id": 4,
+      "text": "re our work could likely have the most impact. The more we follow the Node/npm way, the more likely it is that people will use our work. For smaller platforms, we want to be able to easily deploy swarmlets that include the required accessors, which w"
+    },
+    {
+      "chunk_id": 5,
+      "text": "mlets that include the required accessors, which would be a subset of all the accessors and all the hosts. npm supports scopes , which are names that start with @. We should have the following scopes: @accessors - the npm scope for accessors themselv"
+    },
+    {
+      "chunk_id": 6,
+      "text": "@accessors - the npm scope for accessors themselves @accessors-modules - the npm scope for modules required by accessors. @accessors-hosts - for the hosts Currently, we are optionally downloading accessor definitions from the accessors website. In"
+    },
+    {
+      "chunk_id": 7,
+      "text": "essor definitions from the accessors website. In practice, we almost never do this because we are running accessors in a development environment. Also, versioning of the accessors is not supported. Dependency management is hacked in, for example un"
+    },
+    {
+      "chunk_id": 8,
+      "text": "Dependency management is hacked in, for example under Node, the serial accessor will attempt to npm install the serialport module if it is not present. This does not work very well. We could define a npm module that defines a swarmlet. The package."
+    },
+    {
+      "chunk_id": 9,
+      "text": "npm module that defines a swarmlet. The package.json would list which accessors and which versions of the accessors are required. The accessor in the @accessors npm scope would in turn define which modules in the @accessors-modules scope are requi"
+    },
+    {
+      "chunk_id": 10,
+      "text": "modules in the @accessors-modules scope are required and which versions. The package.json file would also refer to the .js file that defines the accessor itself. Open questions: How would other hosts work? Non-Node hosts could get the npm swarmlet"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ts work? Non-Node hosts could get the npm swarmlet and process the package.json file. Maybe the host-specific modules in @accessors-modules would be elsewhere in npm, such as @accessors-modules-cordova. Marten and Christopher are discussing this. Po"
+    },
+    {
+      "chunk_id": 12,
+      "text": "a. Marten and Christopher are discussing this. Possibly hosts themselves could be as npm modules so that we can version them. We don't have to implement the npm accessors feature now, but if we keep the @accessors-modules scope, then we can implemen"
+    },
+    {
+      "chunk_id": 13,
+      "text": "the @accessors-modules scope, then we can implement the @accessors scope in the future. ( Details below here are somewhat obsolete ) Issues Module Naming NPM requires that package names be lower case : \"Some rules\" \"New packages must not have upperca"
+    },
+    {
+      "chunk_id": 14,
+      "text": ": \"Some rules\" \"New packages must not have uppercase letters in the name.\" \"Some tips:\" \"Don't put \"js\" or \"node\" in the name. It's assumed that it's js, since you're writing a package.json file, and you can specify the engine using the \"engines\" fie"
+    },
+    {
+      "chunk_id": 15,
+      "text": "you can specify the engine using the \"engines\" field. (See below.)\" Outcome: The accessors required some modules with mixed case names, which were changed to hyphenated names. In Cape Code, some modules have Java classes. In Java, package names cann"
+    },
+    {
+      "chunk_id": 16,
+      "text": "es have Java classes. In Java, package names cannot have hyphens or @ signs. So @accessors-modules becomes modules . Hyphenated names like http-client are converted to camelCase: httpClient . These conversions are done in $PTII/ptolemy/actor/lib/jjs"
+    },
+    {
+      "chunk_id": 17,
+      "text": "onversions are done in $PTII/ptolemy/actor/lib/jjs/require.js. How much of the npm module system should we use? We have two npm packages @terraswarm/accessors @terraswarm/gdp For the Node accessor host, we have these modules ./hosts/hosts/node/node_m"
+    },
+    {
+      "chunk_id": 18,
+      "text": "t, we have these modules ./hosts/hosts/node/node_modules/@accessors-modules/http-client/http-client.js: * @module @accessors-modules/http-client ./hosts/hosts/node/node_modules/@accessors-modules/udp-socket/udpSocket.js: * @module @accessors-modules/"
+    },
+    {
+      "chunk_id": 19,
+      "text": "socket/udpSocket.js: * @module @accessors-modules/udp-socket ./hosts/hosts/node/node_modules/@accessors-modules/web-socket-client/web-socket-client.js: * @module @accessors-modules/web-socket-client ./hosts/hosts/node/node_modules/@accessors-modules/"
+    },
+    {
+      "chunk_id": 20,
+      "text": "/hosts/hosts/node/node_modules/@accessors-modules/web-socket-server/web-socket-server.js: * @module @accessors-modules/web-socket-server We also have ./hosts/common/commonHost.js: * @module @accessors-hosts/commonHost ./hosts/node/nodeHost.js: * @m"
+    },
+    {
+      "chunk_id": 21,
+      "text": "s-hosts/commonHost ./hosts/node/nodeHost.js: * @module @accessors-hosts/node ./hosts/node/nodeHostInvoke.js: * @module @accessors-hosts/nodeHostInvoke ./hosts/node/nodeHostShell.js: * @module @accessors-hosts/nodeHostShell One idea would be to bre"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ssors-hosts/nodeHostShell One idea would be to break up the current accessor modules in the repository into separate modules. Below are some upsides: Using modules is the npm way. What we have now is a bit of hack. Previously, in node_modules, we ha"
+    },
+    {
+      "chunk_id": 23,
+      "text": "a bit of hack. Previously, in node_modules, we had both modules we have written and modules that are required. Having the modules we have written be regular npm modules and could help with management of the code. This would improve dependency manag"
+    },
+    {
+      "chunk_id": 24,
+      "text": "t of the code. This would improve dependency management because it would be possible to only include the modules required for a Composite Accessor. We could use semantic versioning for module versions. The accessors package.json could have certain mo"
+    },
+    {
+      "chunk_id": 25,
+      "text": ". The accessors package.json could have certain modules, such as commonHost as dependencies Moving the accessors Currently, the accessors/web/ directory contains directories that define accessors along with other directories. Accessor_1.dtd"
+    },
+    {
+      "chunk_id": 26,
+      "text": "g with other directories. Accessor_1.dtd gdp package.json README.md geodesy reports accessors-license.htm hosts robotics au"
+    },
+    {
+      "chunk_id": 27,
+      "text": "hosts robotics audio image services audioIo index.html signals build.xml index.json"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ml index.json styles cameras jjsModules.nyc svn.html contextAware jsdoc test copyright.txt library toc.ht"
+    },
+    {
+      "chunk_id": 29,
+      "text": "library toc.htm coverage localization trusted demo mutable tutorial deterministicTemporalSemantics net"
+    },
+    {
+      "chunk_id": 30,
+      "text": "erministicTemporalSemantics net updateIndex devices node_modules utilities doc obsolete wiki [$[Get Code]] Perhaps the director"
+    },
+    {
+      "chunk_id": 31,
+      "text": "wiki [$[Get Code]] Perhaps the directories that define accessors should be moved in to a lib subdirectory? This would take some work, but now is better than later. Another idea is to create to separate node organizations: @accessors - for"
+    },
+    {
+      "chunk_id": 32,
+      "text": "to separate node organizations: @accessors - for the non-host-specific Accessor definitions Each of the hosts would need to be able to understand this syntax We need to be able to support development. Where do these go Do we have a repo per module?"
+    },
+    {
+      "chunk_id": 33,
+      "text": ". Where do these go Do we have a repo per module? @accessors-node or @accessors/node - for the node-specific implementations Restructuring Proposal To check out the work in progress: svn co https://repo.eecs.berkeley.edu/svn/projects/icyphy/accessors"
+    },
+    {
+      "chunk_id": 34,
+      "text": "po.eecs.berkeley.edu/svn/projects/icyphy/accessors/branches/npm-0-1/accessors accessors-npm The npm system includes support for dependencies and versioning, so we will use it. We can use npm for the accessors definitions themselves and the modules re"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ccessors definitions themselves and the modules required by the accessors. First, we will try it with the Node host, then try other hosts. One point of discussion is that accessors are not modules. However accessors require a bunch of features that m"
+    },
+    {
+      "chunk_id": 36,
+      "text": "wever accessors require a bunch of features that modules have such as versioning, dependency management, being downloaded from a central location. We can either use this nice, somewhat sane npm module system to support these features for accessors,"
+    },
+    {
+      "chunk_id": 37,
+      "text": "e system to support these features for accessors, or we can spend time reimplementing it all. I say that we should use npm. Scoping npm supports scoping ( https://docs.npmjs.com/misc/scope ). I'd like to create two scopes: @accessors and @accessor"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ke to create two scopes: @accessors and @accessors-impl 1) @accessors would define the accessors definitions, for example, we would have @accessors/net/TCPSocketClient which would define the TCPSocketClient accessor as a npm module. (I'm not sure if"
+    },
+    {
+      "chunk_id": 39,
+      "text": "tClient accessor as a npm module. (I'm not sure if we can have three deep directories like @accessors/net/TCPSocket. If we can't then we could go with @accessors-net/TCPSocket or some other idea) @accessors/common would define the common host module"
+    },
+    {
+      "chunk_id": 40,
+      "text": "cessors/common would define the common host module. 2) @accessors-modules (not sure about the name) would include the implementations of the modules required by the accessors. For example the TCPSocketClient accessor currently requires a socket modu"
+    },
+    {
+      "chunk_id": 41,
+      "text": "etClient accessor currently requires a socket module, which would be renamed to @accessors-impl/socket. Accessor hosts would provide host-specific implementations of these modules. For Cape Code, we could consider moving actor/lib/jjs/modules to acto"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ould consider moving actor/lib/jjs/modules to actor/lib/jjs/@accessor-impl, or we could just have the Cape Code-specific require() function map @accessor-impl to modules. So require('@accessor-impl/') would find actor/lib/jjs/modules/socket/package.j"
+    },
+    {
+      "chunk_id": 43,
+      "text": "would find actor/lib/jjs/modules/socket/package.json, which already exists. One open question is: what would the development tree look like? Probably we would have directories that would contain the definitions of the modules. So, we would have acce"
+    },
+    {
+      "chunk_id": 44,
+      "text": "definitions of the modules. So, we would have accessors/web/node_modules/@accessors/net/TCPSocketClient/package.json which would describe the TCPSocketClient accessor and include dependency and version information. The code itself would be in access"
+    },
+    {
+      "chunk_id": 45,
+      "text": "n information. The code itself would be in accessors/web/node_modules/@accessors/net/TCPSocketClient/TCPSocketClient.js The node host would have: accessors/web/hosts/node/node_modules/@accessors-modules/@accessors-impl/socket/package.json which woul"
+    },
+    {
+      "chunk_id": 46,
+      "text": "les/@accessors-impl/socket/package.json which would describe the socket implementation (including version info). An alternative would be to create separate repos for each module. This would make configuration and set up more difficult, but would be"
+    },
+    {
+      "chunk_id": 47,
+      "text": "iguration and set up more difficult, but would be more in the npm spirit. We might as well bite the bullet and create git repos. In the near term, I'm proposing that not go with separate repos, but consider the possibility of supporting that in the"
+    },
+    {
+      "chunk_id": 48,
+      "text": "onsider the possibility of supporting that in the future. Design Decisions Use dash-separated module names as opposed to camelCase So that we can follow the npm style There are two types of npm modules - ones we write and ones that get loaded by othe"
+    },
+    {
+      "chunk_id": 49,
+      "text": "s - ones we write and ones that get loaded by other modules. Ideally, we would like to keep these separate accessors/web/node_modules could be for modules we write so that we can find them and accessors/node_modules would be for modules that are req"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ors/node_modules would be for modules that are required by the modules we write. There should be a @accessors-hosts namespace For common , node and other hosts The node host should have a separate node_modules directory for the implementation of the"
+    },
+    {
+      "chunk_id": 51,
+      "text": "e_modules directory for the implementation of the modules required by the accessors Other hosts could have a similar structure. The modules would be in the @accessor-modules scope. So, we would have accessors/web/node_modules/@accessors-hosts/node/"
+    },
+    {
+      "chunk_id": 52,
+      "text": "accessors/web/node_modules/@accessors-hosts/node/node_modules/@accessors-modules/@accessors-modules Getting require to work with accessors themselves seems tricky Part of the issue is that we need to be able to read the code of the accessor. We cou"
+    },
+    {
+      "chunk_id": 53,
+      "text": "be able to read the code of the accessor. We could use the npm module.filename to get the filename. However, finding the code seems tricky Push down accessor definitions It would be good if the accessor definitions themselves were pushed down a le"
+    },
+    {
+      "chunk_id": 54,
+      "text": "essor definitions themselves were pushed down a level from accessors/web/cameras to accessors/web/accessors/cameras or accessors/node_modules/@accessors/cameras . There is this tension between developing accessors and using npm to get the definitions"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ing accessors and using npm to get the definitions We need to be able to support both We need a way to upload the npm modules programmatically Note that the version number in package.json needs to be incremented for each upload. Cape Code Host NPM De"
+    },
+    {
+      "chunk_id": 56,
+      "text": "incremented for each upload. Cape Code Host NPM Design Decisions To find the modules, we will map require('@accessors-modules/cameras') to actor/lib/jjs/modules/cameras In Java, @accessor-modules is not a legitmate package name, it should be mapped t"
+    },
+    {
+      "chunk_id": 57,
+      "text": "ot a legitmate package name, it should be mapped to _accessor_modules , which means that we would have actor/lib/jjs/_accessor_modules/cameras . It seems easier to just stick with what we have with actor/lib/jjs/modules/cameras . To implement this,"
+    },
+    {
+      "chunk_id": 58,
+      "text": "tor/lib/jjs/modules/cameras . To implement this, in actor/lib/jjs/external/require.js , resolveModuleToFile() gets a one line addition: moduleName = moduleName. replace ( /@accessors-modules/ , 'modules' ) ; [$[Get Code]] npm5 npm 5 it not backward"
+    }
+  ]
+}

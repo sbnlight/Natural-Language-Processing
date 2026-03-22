@@ -1,0 +1,137 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/projects/summaries/05/compositionalityAnalysis.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Compositionality Analysis Compositionality Analysis Researchers: Haiyang Zheng Advisor: Edward A. Lee Component-based design is important for design of complex embedded software. By properly defining component interfaces, we can form new components b"
+    },
+    {
+      "chunk_id": 2,
+      "text": "component interfaces, we can form new components by composing existing components. The newly formed component may be further composed with other components. One of the key requirements to guarantee the compositionality of components is to make the"
+    },
+    {
+      "chunk_id": 3,
+      "text": "the compositionality of components is to make the interface of a composite model consistent with and indistinguishable from the interface of a primitive component. Ptolemy II has a component architecture based on actor-oriented design. The components"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ure based on actor-oriented design. The components are actors with ports, and each actor implements a specific model of computation (MOC). Connections between ports represent the communication dependency that goes from an output port of one componen"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ency that goes from an output port of one component to an input port of another component. On the other hand, the connections that go from an input port of one component to one of the output ports of the same component does not get reflected in this"
+    },
+    {
+      "chunk_id": 6,
+      "text": "the same component does not get reflected in this communication dependency. This interface design of a component (consisting of its ports only) focuses on the relationship between components but abstracts away too many details of the components the"
+    },
+    {
+      "chunk_id": 7,
+      "text": "tracts away too many details of the components themselves. In particular, the information of whether the tokens sent through an output port depend on the tokens received from an input port of the same component, which we call the functional depende"
+    },
+    {
+      "chunk_id": 8,
+      "text": "e component, which we call the functional dependency , is lost. This missing information makes composition of hierarchical components difficult. We are experimenting with interface theories for exposing various types of functional dependencies for"
+    },
+    {
+      "chunk_id": 9,
+      "text": "osing various types of functional dependencies for components. One example of one type of functional dependency that we are concerned with is the time causality in continuous-time and discrete-event models. In both the continuous and discrete models"
+    },
+    {
+      "chunk_id": 10,
+      "text": "odels. In both the continuous and discrete models, zero-delay feedback loops are not allowed. These models require that at least one component in every loop has a non-zero delay from its input ports to its output ports, i.e. it must be strictly cau"
+    },
+    {
+      "chunk_id": 11,
+      "text": "to its output ports, i.e. it must be strictly causal . In discrete-event models, one of the commonly used strictly-causal actors is a timed-delay actor, which explicitly declares that the current output value does not depend on the current input va"
+    },
+    {
+      "chunk_id": 12,
+      "text": "tput value does not depend on the current input value (assuming a non-zero delay). The simulation engine leverages this information to verify the existence of a valid schedule and constructs it. However, in a hierarchical heterogeneous model such a"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ever, in a hierarchical heterogeneous model such as figure 1, that strictly-delay actor may be hidden deeply in the lower levels of hierarchy and invisible to the upper levels. This makes it very difficult for analysis and construction of a valid sc"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ficult for analysis and construction of a valid schedule. Our solution is to extend the current component interface design with the abstraction of the causality information of a component. This causality information is composable and can be propaga"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ality information is composable and can be propagated across levels of hierarchy, allowing wider possibilities to analyze semantically valid component composition. We have already deployed this solution to enhance the discrete-event domain in Ptolem"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ion to enhance the discrete-event domain in Ptolemy II. Another type of functional dependency that we are interested in is the strictness property of a component. One of the important facts we found is that the composition of strict actors may not b"
+    },
+    {
+      "chunk_id": 17,
+      "text": "is that the composition of strict actors may not be strict any more. Consequently, the model of computation (MOC) of a composite model may be different from all individual components, even if the MOC's of the individual components are the same. One"
+    },
+    {
+      "chunk_id": 18,
+      "text": "'s of the individual components are the same. One of such examples is shown in figure 2. The correct behavior of the composite actor is to first react to the second input and generate some output and then react to the first input for each iteration"
+    },
+    {
+      "chunk_id": 19,
+      "text": "d then react to the first input for each iteration. According to this, the composite actor as a composition of strict actor(s) is not strict. In order to execute such models correctly, we need to apply the semantics of synchronous reactive systems"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ply the semantics of synchronous reactive systems instead of the normal discrete-event semantics. We call this extended discrete-event model of computation Timed SR . The semantics of Timed SR defines the behavior of a model at a particular point in"
+    },
+    {
+      "chunk_id": 21,
+      "text": "s the behavior of a model at a particular point in time as a fixed point computation. Each component in the model reacts (possibly more than once) to available input events until no more new events are generated at the same time. What is more inter"
+    },
+    {
+      "chunk_id": 22,
+      "text": "re generated at the same time. What is more interesting, the functional dependency analysis of causality mentioned above gives exactly the information necessary to find an optimal schedule of component reactions. Our functional dependency analysis i"
+    },
+    {
+      "chunk_id": 23,
+      "text": "nt reactions. Our functional dependency analysis is also interested in how the strictness property of components affects the composition of models with untimed models of computations. One example is the Kahn-MacQueen process network model of computa"
+    },
+    {
+      "chunk_id": 24,
+      "text": "the Kahn-MacQueen process network model of computation, where actors are concurrently running threads that do blocking-read but nonblocking write. Blocking read realizes sequential functions, which usually do not compose. A typical example of the mu"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ually do not compose. A typical example of the multiple-input identity function, of which a blocking-read implementation can not find all possibly correct behaviors. One of the key assumptions of this blocking-read implementation is that all functi"
+    },
+    {
+      "chunk_id": 26,
+      "text": "is blocking-read implementation is that all functions are strict. However, this assumption is a very conservative approximation and does not always hold, specially for composition of sequential functions. Nevertheless, through the functional depend"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ions. Nevertheless, through the functional dependency analysis mentioned above, we can precisely tell which inputs belong to which strict functions defined inside a composite function, and consequently can partition the composite function into a set"
+    },
+    {
+      "chunk_id": 28,
+      "text": "ly can partition the composite function into a set of small (might still be composite) and strict functions, and then apply the blocking-read implementation to find the correct behaviors. References: 1. A. Benveniste, B. Caillaud, P. Le Guernic, Comp"
+    },
+    {
+      "chunk_id": 29,
+      "text": "1. A. Benveniste, B. Caillaud, P. Le Guernic, Compositionality in dataLow synchronous languages: specification & distributed code generation, Inform. Comput. 163 (2) (2000) 125-171. 2. Stephen A. Edwards and Edward A. Lee,\"The Semantics and Execution"
+    },
+    {
+      "chunk_id": 30,
+      "text": "rds and Edward A. Lee,\"The Semantics and Execution of a Synchronous Block-Diagram Language,\" Science of Computer Programming, Vol. 48, no. 1, July 2003. 3. G. Kahn and D. B. MacQueen, \"Coroutines and Networks of Parallel Processes,\" In Proceedings of"
+    },
+    {
+      "chunk_id": 31,
+      "text": "Networks of Parallel Processes,\" In Proceedings of Information Processing, North-Holland Publishing Co., 1977. 4. Edward A. Lee and Thomas M. Parks, \"Dataflow Process Networks\", In Proceedings of the IEEE, vol. 83, no. 5, pp. 773-801, May, 1995 5. Ed"
+    },
+    {
+      "chunk_id": 32,
+      "text": "IEEE, vol. 83, no. 5, pp. 773-801, May, 1995 5. Edward A. Lee, \"Modeling Concurrent Real-time Processes Using Discrete Events,\" Invited paper to Annals of Software Engineering, Special Volume on Real-Time Software Engineering, Volume 7, 1999, pp. 25-"
+    },
+    {
+      "chunk_id": 33,
+      "text": "Time Software Engineering, Volume 7, 1999, pp. 25-45 6. Edward A. Lee, \"Embedded Software,\" Advances in Computers (M. Zelkowitz, editor), Vol. 56, Academic Press, London, 2002. Last updated 11/01/04"
+    }
+  ]
+}

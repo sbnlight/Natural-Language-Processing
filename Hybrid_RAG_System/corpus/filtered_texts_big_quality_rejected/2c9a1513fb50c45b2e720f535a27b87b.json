@@ -1,0 +1,533 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII7.0/ptII7.0.1/doc/coding/tcljava.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "TclJava Package Commands - java manual page NAME java - Java method invocation package SYNOPSIS package require java ?1.1? java::new signature ? arg arg ... ? java::new arraySignature sizeList ? valueList ? java::call ? -noconvert ? class signature ?"
+    },
+    {
+      "chunk_id": 2,
+      "text": "List ? java::call ? -noconvert ? class signature ? arg arg ... ? java::field ? -noconvert ? objOrClass fieldSignature ? value fieldSignature value ... ? java::instanceof javaObj type java::prop ? -noconvert ? javaObj property ? value property value ."
+    },
+    {
+      "chunk_id": 3,
+      "text": "onvert ? javaObj property ? value property value ... ? java::info option ? arg arg ... ? java::null java::isnull javaObj java::lock javaObj java::unlock javaObj java::defineclass classData java::getinterp java::throw throwableObj java::cast signature"
+    },
+    {
+      "chunk_id": 4,
+      "text": "terp java::throw throwableObj java::cast signature javaObj javaObj ? -noconvert ? signature ? arg arg ... ? javaArrayObj ? -noconvert ? option ? arg arg ... ? DESCRIPTION package require java ?1.1? java::new java::call java::field java::instanceof ja"
+    },
+    {
+      "chunk_id": 5,
+      "text": "va::new java::call java::field java::instanceof java::prop java::info class javaObj events objOrClass baseclass objOrClass dimensions objOrClass fields ? -type ? ? -static ? objOrClass methods ? -type ? ? -static ? objOrClass constructors objOrClass"
+    },
+    {
+      "chunk_id": 6,
+      "text": "? ? -static ? objOrClass constructors objOrClass properties objOrClass ? -type ? superclass objOrClass java::null java::isnull java::lock java::unlock java::defineclass java::getinterp java::throw java::cast javaObj javaArrayObj length get ? -noconv"
+    },
+    {
+      "chunk_id": 7,
+      "text": "va::cast javaObj javaArrayObj length get ? -noconvert ? indexList set indexList value getrange ? -noconvert ? ? indexList ? count ?? setrange ? indexList ? count ?? valueList CLASS NAMES SIGNATURE CONVERSION EXCEPTIONS THROWING EXCEPTIONS OBJECT GARB"
+    },
+    {
+      "chunk_id": 8,
+      "text": "VERSION EXCEPTIONS THROWING EXCEPTIONS OBJECT GARBAGE COLLECTION ERRORS IN CALLBACK SCRIPTS SEE ALSO KEYWORDS NAME java - Java method invocation package SYNOPSIS package require java ?1.1? java::new signature ? arg arg ... ? java::new arraySignature"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ignature ? arg arg ... ? java::new arraySignature sizeList ? valueList ? java::call ? -noconvert ? class signature ? arg arg ... ? java::field ? -noconvert ? objOrClass fieldSignature ? value fieldSignature value ... ? java::instanceof javaObj type j"
+    },
+    {
+      "chunk_id": 10,
+      "text": "nature value ... ? java::instanceof javaObj type java::prop ? -noconvert ? javaObj property ? value property value ... ? java::info option ? arg arg ... ? java::null java::isnull javaObj java::lock javaObj java::unlock javaObj java::defineclass class"
+    },
+    {
+      "chunk_id": 11,
+      "text": "vaObj java::unlock javaObj java::defineclass classData java::getinterp java::throw throwableObj java::cast signature javaObj javaObj ? -noconvert ? signature ? arg arg ... ? javaArrayObj ? -noconvert ? option ? arg arg ... ? DESCRIPTION package requi"
+    },
+    {
+      "chunk_id": 12,
+      "text": "? option ? arg arg ... ? DESCRIPTION package require java ?1.1? package require java loads the java package which provides an interface for creating and manipulating Java objects via oject handles . Object handles are references to Java objects in T"
+    },
+    {
+      "chunk_id": 13,
+      "text": "Object handles are references to Java objects in Tcl. Many of the commands in the java package take arguments and return values that are object handles. The java package is automatically included in Jacl, but needs to be loaded in Tcl Blend. When t"
+    },
+    {
+      "chunk_id": 14,
+      "text": "Jacl, but needs to be loaded in Tcl Blend. When the package is loaded in Tcl Blend, Tcl will use an existing Java VM or initialize a new one as needed. Note that tcl.lang and the JDK 1.1 need to be on the class path. When Tcl Blend under JDK1.2 is"
+    },
+    {
+      "chunk_id": 15,
+      "text": "on the class path. When Tcl Blend under JDK1.2 is initializing the java package, it reads the tclblend_init Tcl global variable, and passes its value along to the Java Virtual Machine upon initialization. Example values include: -Djava.compiler=NONE"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ion. Example values include: -Djava.compiler=NONE disable Just In Time Compiler -Djava.library.path=c:\\jdk\\lib\\tools.jar set native library path -verbose:jni print debugging messages For -verbose , the value should be a string with one or more comma"
+    },
+    {
+      "chunk_id": 17,
+      "text": "e value should be a string with one or more comma separated names (i.e. class,jni ). In JDK1.2 the standard names are: class , gc , jni To see what other options are available, run java -help from the command line. In addition tclblend_init can have"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e command line. In addition tclblend_init can have the following values: help Print a help message and then stop JVM initialization. debug Print out debugging messages while start up. To use tclblend_init , set it before loading the java package: set"
+    },
+    {
+      "chunk_id": 19,
+      "text": "init , set it before loading the java package: set tclblend_init -verbose:jni package require java Note that tclblend_init is only read if the Tcl Blend C shared library was compiled with JDK1.2. java::new The java::new command is used to create new"
+    },
+    {
+      "chunk_id": 20,
+      "text": "::new The java::new command is used to create new instances of Java objects from Tcl. The signature argument specifies which class constructor to use for creating the object. See SIGNATURE below for a full description of how to specify the signature"
+    },
+    {
+      "chunk_id": 21,
+      "text": "a full description of how to specify the signature of non-array constructors. Additional parameters to the java::new command are converted to Java objects or primitive values and passed to the constructor. See the CLASS LOADING section in the java::"
+    },
+    {
+      "chunk_id": 22,
+      "text": "uctor. See the CLASS LOADING section in the java::load man page for a description on how classes are resolved and loaded into the VM. Any of the java commands that reference a java class also use the mechanism described in CLASS LOADING. The arraySi"
+    },
+    {
+      "chunk_id": 23,
+      "text": "mechanism described in CLASS LOADING. The arraySignature argument consists of a class name or a primitive data type followed by one or more pairs of brackets. The number of pairs of brackets determines the dimension of the array (e.g. {int[][][]} i"
+    },
+    {
+      "chunk_id": 24,
+      "text": "nes the dimension of the array (e.g. {int[][][]} indicates a three dimensional array of integers; the curly braces keep the interpreter from removing the extra brackets). The sizeList argument determines the number of array elements allocated for ea"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ines the number of array elements allocated for each dimension in the array. The i 'th element of sizeList specifies the size of the i 'th dimension of the array. If sizeList contains more elements than the number of dimensions specified by arraySi"
+    },
+    {
+      "chunk_id": 26,
+      "text": "than the number of dimensions specified by arraySignature , then an error is returned. If sizeList contains fewer elements than the number of dimensions specified by arraySignature , then the size will be determined by the valueList , if present. T"
+    },
+    {
+      "chunk_id": 27,
+      "text": "ll be determined by the valueList , if present. The valueList argument is used to set initial values of the array cells. Elements of the valueList must be of the same type as the base class of the array. If the array is multidimensional, then the"
+    },
+    {
+      "chunk_id": 28,
+      "text": "rray. If the array is multidimensional, then the list must contain sublists of a depth equal to the number of dimensions of the array. If no element is specified in the valueList for a particular array cell, the cell will be initialized to the stand"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ay cell, the cell will be initialized to the standard default value for the corresponding Java array type. If the length of the sizeList is smaller than the number of array dimensions, the size of each row whose size is not specified by the sizeList"
+    },
+    {
+      "chunk_id": 30,
+      "text": "h row whose size is not specified by the sizeList is determined by the length of the corresponding sublist in valueList , or 0 if the valueList contains no corresponding sublist. An error occurs if any dimension other than the last has size 0. The"
+    },
+    {
+      "chunk_id": 31,
+      "text": "ny dimension other than the last has size 0. The CONVERSION and EXCEPTIONS sections below describe the result and possible error conditions of the java::new command, including the effect of the optional -noconvert flag. java::call The java::call com"
+    },
+    {
+      "chunk_id": 32,
+      "text": "nal -noconvert flag. java::call The java::call command is used to invoke public static methods from Tcl. The class argument specifies the fully qualified name of the declaring class of the method to invoke. See the CLASS NAMES below for a full desc"
+    },
+    {
+      "chunk_id": 33,
+      "text": "invoke. See the CLASS NAMES below for a full description of fully qualified class names. The signature argument specifies which class method to invoke (see SIGNATURE below). Additional parameters to the java::call command are converted to Java obj"
+    },
+    {
+      "chunk_id": 34,
+      "text": "o the java::call command are converted to Java objects or primitive types and passed to the method. The CONVERSION and EXCEPTIONS sections below describe the result and possible error conditions of the java::call command, including the effect of the"
+    },
+    {
+      "chunk_id": 35,
+      "text": "e java::call command, including the effect of the optional -noconvert flag. java::field The java::field command is used to manipulate public fields from Tcl. The objOrClass argument specifies either a fully qualified name of the declaring class of t"
+    },
+    {
+      "chunk_id": 36,
+      "text": "a fully qualified name of the declaring class of the field to access, or an object handle. The fieldSignature argument specifies which field to manipulate (see SIGNATURE below). If an additional value parameter exists, then the field will be set to"
+    },
+    {
+      "chunk_id": 37,
+      "text": "ue parameter exists, then the field will be set to value , otherwise the current value of the field is returned. Multiple fields may be set via additional parameters by alternating field signatures and values. The -noconvert flag can only be used w"
+    },
+    {
+      "chunk_id": 38,
+      "text": "nd values. The -noconvert flag can only be used when getting the value of a field. The CONVERSION section below describes the effect of the optional -noconvert flag on the result. java::instanceof The java::instanceof command is used to tell whethe"
+    },
+    {
+      "chunk_id": 39,
+      "text": "he java::instanceof command is used to tell whether a Java object is of a given type. The javaObj argument specifies an object handle. The type argument specifies a fully qualified interface or class name (see CLASS NAMES below). If the type argum"
+    },
+    {
+      "chunk_id": 40,
+      "text": "s name (see CLASS NAMES below). If the type argument is a class name, java::instanceof returns 1 if the javaObj argument is an instance of type or an instance of a subclass of type . If the type argument is an interface name, java::instanceof retur"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ument is an interface name, java::instanceof returns true if the javaObj argument implements this interface. Otherwise, java::instanceof returns 0. java::prop The java::prop command is used to manipulate Java Bean properties from Tcl. The javaObj ar"
+    },
+    {
+      "chunk_id": 42,
+      "text": "ate Java Bean properties from Tcl. The javaObj argument specifies an object handle. The property argument specifies a Java Bean property that has corresponding get and set methods. If an additional value parameter exists, then the property will be"
+    },
+    {
+      "chunk_id": 43,
+      "text": "value parameter exists, then the property will be set to value , otherwise the current value of the property is returned. Multiple properties may be set via additional parameters by alternating properties and values. The -noconvert flag can only be"
+    },
+    {
+      "chunk_id": 44,
+      "text": "rties and values. The -noconvert flag can only be used when getting the value of a property. The CONVERSION section below describes the effect of the optional -noconvert flag on the result. java::info The java::info command provides introspection f"
+    },
+    {
+      "chunk_id": 45,
+      "text": "fo The java::info command provides introspection for Java classes, objects, and Beans. The valid options for this command are: class javaObj Returns the class name of the specified Java object. events objOrClass Returns a list of the fully-qualified"
+    },
+    {
+      "chunk_id": 46,
+      "text": "s objOrClass Returns a list of the fully-qualified names of all the event interfaces of the Java class or object. The events of a Java class are determined by the JavaBean design patterns. Usually, if a Java class has the methods add XXX Listener and"
+    },
+    {
+      "chunk_id": 47,
+      "text": "a Java class has the methods add XXX Listener and remove XXX Listener and XXX is the name of an interface, then XXX is considered as an event interface of the Java class. baseclass objOrClass Returns the base class name of the specified class or Jav"
+    },
+    {
+      "chunk_id": 48,
+      "text": "the base class name of the specified class or Java object. For example, the base class of a Java array object of type String[][][] is java.lang.String. If the class or Java object is not an array, the base class is the same as the class. dimensions"
+    },
+    {
+      "chunk_id": 49,
+      "text": "he base class is the same as the class. dimensions objOrClass Returns the number of dimensions of the specified array class or Java array object. If the class or Java object is not an array, the number of dimensions is 0. fields ? -type ? ? -static"
+    },
+    {
+      "chunk_id": 50,
+      "text": "er of dimensions is 0. fields ? -type ? ? -static ? objOrClass Returns a list of fieldSignatures of public fields of the specified class or Java object (see SIGNATURE below). For shadowed superclass fields, the fieldSignature is full. For all other"
+    },
+    {
+      "chunk_id": 51,
+      "text": "fields, the fieldSignature is full. For all other fields, the fieldSignature is simple. If the ? -type ? flag is used, then each element of the result list is a pair containing the data type and fieldSignature. If the -static flag is used, only st"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ldSignature. If the -static flag is used, only static fields will appear in the result list. Otherwise, only non-static fields will appear in the result list. methods ? -type ? ? -static ? objOrClass Returns a list that describes all methods of the"
+    },
+    {
+      "chunk_id": 53,
+      "text": "s Returns a list that describes all methods of the specified class or Java object. If -type is not used, each element in the list is the full signature of a method. If -type is used, each element in the list is in turn a list in the form { type sig e"
+    },
+    {
+      "chunk_id": 54,
+      "text": "he list is in turn a list in the form { type sig exceptions }, where type is the method's return type, sig is the method's full signature, and exceptions is a list of the fully-qualified names of all the checked exceptions that can be thrown by this"
+    },
+    {
+      "chunk_id": 55,
+      "text": "the checked exceptions that can be thrown by this method. If the method does not throw exceptions, exceptions is the empty list. If the -static flag is used, only static methods will appear in the result list. Otherwise, only non-static methods will"
+    },
+    {
+      "chunk_id": 56,
+      "text": "sult list. Otherwise, only non-static methods will appear in the result list. constructors objOrClass Returns a list of the full signatures of constructors of the specified class or Java object. properties objOrClass ? -type ? Returns a list of the n"
+    },
+    {
+      "chunk_id": 57,
+      "text": "rties objOrClass ? -type ? Returns a list of the names of Java Bean properties of the specified class or Java object. If the ? -type ? flag is used, then each element of the result list is a pair containing the data type and name of the property. su"
+    },
+    {
+      "chunk_id": 58,
+      "text": "taining the data type and name of the property. superclass objOrClass Returns the name of the immediate superclass of the specified Java object or class. If objOrClass is or is an instance of java.lang.Object, then the empty string is returned. java"
+    },
+    {
+      "chunk_id": 59,
+      "text": "ng.Object, then the empty string is returned. java::null The java::null command returns an object handle that represents the \"null\" value in Java. To check for null results from Java method invocations, compare the methods' return values to the resu"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ns, compare the methods' return values to the result of java::null . The exact form of the return value of java::null is not specified and is likely to change. java::isnull The java::isnull command is used to tell whether a Java object has the null"
+    },
+    {
+      "chunk_id": 61,
+      "text": "s used to tell whether a Java object has the null value. The javaObj argument specifies an object handle. If the object has the null value, java::isnull returns 1. If the object is a Java object then java::isnull will return 0. If the object is n"
+    },
+    {
+      "chunk_id": 62,
+      "text": "en java::isnull will return 0. If the object is not a valid Java object but rather a standard Tcl string, java::isnull will return an error stating that the argument was not a Java object. java::lock The java::lock command prevents the Java object,"
+    },
+    {
+      "chunk_id": 63,
+      "text": "The java::lock command prevents the Java object, javaObj , from getting garbage collected. A Tcl variable that references a Java object has an internal rep that points to the Java object. If the Tcl variable's internal rep is changed (e.g. to a Tc"
+    },
+    {
+      "chunk_id": 64,
+      "text": "l variable's internal rep is changed (e.g. to a Tcl List), the pointer to the Java Object is removed, and the Java object is garbage collected. The java::lock maintains a copy of javaObj 's internal rep, so the Java object will be preserved. Multip"
+    },
+    {
+      "chunk_id": 65,
+      "text": "rep, so the Java object will be preserved. Multiple locks can be placed on the same Tcl variable. If javaObject is not a valid reference to a Java object, a Tcl error is generated. java::unlock The java::unlock command removes a lock placed on java"
+    },
+    {
+      "chunk_id": 66,
+      "text": "java::unlock command removes a lock placed on javaObj by the java::lock command. Multiple locks are allowed on javaObj . The java::unlock removes one lock each time it is called. If the internal rep of the Tcl variable referenced by javaObj is zer"
+    },
+    {
+      "chunk_id": 67,
+      "text": "p of the Tcl variable referenced by javaObj is zero after the lock is removed, the Java object will be garbage collected. If javaObj does not have an existing lock a Tcl error is generated. java::defineclass The java::defineclass command is used to"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ineclass The java::defineclass command is used to convert a string of bytes into a Java Class object. The classData argument is a string of bytes that compose a class. For example, the classData string could be from reading a Java class file. Class"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ing could be from reading a Java class file. ClassData is passed to the TclClassLoader, where the TclClassLoader attempts to construct a Java Class object from the bytes. If classData does not represent a valid class, java::defineclass returns a nul"
+    },
+    {
+      "chunk_id": 70,
+      "text": "ent a valid class, java::defineclass returns a null object, otherwise it will return a handle to the Java Class object. A class is not valid if; the TclClassLoader cannot decipher a class from classData , the class has already been loaded into the V"
+    },
+    {
+      "chunk_id": 71,
+      "text": "ata , the class has already been loaded into the VM, or if the class is in the reserved java package. See the CLASS LOADING section in the java::load man page for information on the TclClassLoader. The TclClassLoader maintains a cache of the Java Cl"
+    },
+    {
+      "chunk_id": 72,
+      "text": "he TclClassLoader maintains a cache of the Java Class objects loaded by the java::defineclass routine. The name of the class, which is stored within the class bytecodes, is extracted and is used to reference the cached Java Class object. If the cla"
+    },
+    {
+      "chunk_id": 73,
+      "text": "eference the cached Java Class object. If the class name is used in future calls (e.g. java::new ) the class defined by classData is used. For example: set file [open Foo.class r] # Tcl Blend users must call 'fconfigure $file -translate binary' se"
+    },
+    {
+      "chunk_id": 74,
+      "text": "must call 'fconfigure $file -translate binary' set data [read $file] # This returns a Java Class object. set class [java::defineclass $data] # Get an instance of the object. set object [$class newInstance] # The class is now loaded into the VM, s"
+    },
+    {
+      "chunk_id": 75,
+      "text": "nstance] # The class is now loaded into the VM, so the # following call also works. set object [java::new Foo] java::getinterp The java::getinterp command returns a handle to the current Java Interp object. This command is primarily used to pass th"
+    },
+    {
+      "chunk_id": 76,
+      "text": "object. This command is primarily used to pass the interp object as an argument to a Java method. java::throw The java::throw command throws a Java exception. ThrowableObj must be a valid Java object handle and must be an instance of java.lang.Throw"
+    },
+    {
+      "chunk_id": 77,
+      "text": "handle and must be an instance of java.lang.Throwable . Internally, the java::throw command sets the errorCode global variable to a list whose first element is the string \"JAVA\" and whose second element is throwableObj . Then, it generates a Tcl er"
+    },
+    {
+      "chunk_id": 78,
+      "text": "ment is throwableObj . Then, it generates a Tcl error to cause the script to return abruptly. The effect of calling the java::throw command is exactly the same as calling a Java method which throws a Java exception (see section RETURN VALUES AND EXCE"
+    },
+    {
+      "chunk_id": 79,
+      "text": "Java exception (see section RETURN VALUES AND EXCEPTIONS in java(n) .) java::cast The java::cast command converts a Java object from one type to another. The signature argument provides the name of the Java class that the Java object should be cast t"
+    },
+    {
+      "chunk_id": 80,
+      "text": "e Java class that the Java object should be cast to and the javaObj provides the Java object that will be cast. Casting is done in a type safe way as defined by the Java Language Specification. For example, an instance of the Java class java.lang.Str"
+    },
+    {
+      "chunk_id": 81,
+      "text": "ample, an instance of the Java class java.lang.String can be allocated and cast into an instance of the class java.lang.Object with the following code. # Get an instance of a String object. set string [java::new String \"Hi there\"] # Cast the String"
+    },
+    {
+      "chunk_id": 82,
+      "text": "[java::new String \"Hi there\"] # Cast the String to an Object reference set object [java::cast Object $string] # Cast the Object reference back up to a String reference set string2 [java::cast String $object] Casting also works in for java array ob"
+    },
+    {
+      "chunk_id": 83,
+      "text": "g $object] Casting also works in for java array objects. Arrays can be cast to an array of a parent class type or to the special base type Object. The javaObj argument must be a valid Java object handle and the signature argument must specify a Java"
+    },
+    {
+      "chunk_id": 84,
+      "text": "dle and the signature argument must specify a Java class that the javaObj argument is able to be cast. If these conditions are not met an error will be raised. javaObj Each Java object handle is also the name of a Tcl command that can be used to invo"
+    },
+    {
+      "chunk_id": 85,
+      "text": "the name of a Tcl command that can be used to invoke public methods of that object from Tcl. The signature argument specifies which method to invoke (see SIGNATURE below). Additional parameters to an object command are converted to Java objects or"
+    },
+    {
+      "chunk_id": 86,
+      "text": "n object command are converted to Java objects or primitive values and passed to the method. The RETURN VALUES AND EXCEPTIONS section below describes the result (and possible error conditions) of the object command, including the effect of the optio"
+    },
+    {
+      "chunk_id": 87,
+      "text": "object command, including the effect of the optional -noconvert flag on the result. javaArrayObj If a Java object handle represents an instance of an array object, then it is also the name of a Tcl command that takes the following options: length ,"
+    },
+    {
+      "chunk_id": 88,
+      "text": "ommand that takes the following options: length , get , set , getrange , and setrange . If any other option is chosen, the behavior of the array object command defaults to that of the object command described above. The -noconvert flag can only be"
+    },
+    {
+      "chunk_id": 89,
+      "text": "described above. The -noconvert flag can only be used with the get , getrange , and default options. The options for this command behave as follows: length Returns the number of elements in the Java object. If the object is a multi-dimensional arr"
+    },
+    {
+      "chunk_id": 90,
+      "text": "object. If the object is a multi-dimensional array, the number of elements in the first dimension is returned. get ? -noconvert ? indexList Returns the value stored in the multi-dimensional array cell specified by indexList . The i 'th element in"
+    },
+    {
+      "chunk_id": 91,
+      "text": "ll specified by indexList . The i 'th element in indexList specifies the index value of the i 'th array dimension. For example, the result of the following commands is the string \"easy\". set a [java::new {String[]} {6} {Java scripting is easy in Tc"
+    },
+    {
+      "chunk_id": 92,
+      "text": "::new {String[]} {6} {Java scripting is easy in Tcl}] $a get 3 To retrieve a k-dimensional subarray of an n-dimensional array, specify an indexList with n - k index values. For example, the following commands result in subArray containing a 1-dimens"
+    },
+    {
+      "chunk_id": 93,
+      "text": "commands result in subArray containing a 1-dimensional char array handle that refers to a[1][0], the internal value of which is {e f}. set a [java::new {char[][][]} {2 2 2} {{{a b} {c d}} {{e f} {g h}}}] set subArray [$a get {1 0}] The CONVERSION se"
+    },
+    {
+      "chunk_id": 94,
+      "text": "}}}] set subArray [$a get {1 0}] The CONVERSION section below describes the effect of the optional -noconvert flag on the result. set indexList value Sets the multi-dimensional array cell specified by indexList to value . The i 'th element in indexL"
+    },
+    {
+      "chunk_id": 95,
+      "text": "indexList to value . The i 'th element in indexList specifies the index value of the i 'th array dimension. If value is not the correct data type, an error is returned. For example, the following commands result in a having an interanl value of {"
+    },
+    {
+      "chunk_id": 96,
+      "text": "commands result in a having an interanl value of {Tcl is a great scripting language!}. set a [java::new {String[]} {6} {Tcl is a good scripting language!}] $a set 3 great getrange ? -noconvert ? ? indexList ? count ?? Returns the list of objects corr"
+    },
+    {
+      "chunk_id": 97,
+      "text": "exList ? count ?? Returns the list of objects corresponding to the specified range of the array. The range starts at the element specified by indexList and spans a maximum of count elements or the remaining elements of the subarray. The indexList d"
+    },
+    {
+      "chunk_id": 98,
+      "text": "maining elements of the subarray. The indexList defaults to 0, and count defaults to the length of the subarray. For example, the result of the following commands is the list {scripting is easy}. set a [java::new {String[]} {6} {Java scripting is e"
+    },
+    {
+      "chunk_id": 99,
+      "text": "t a [java::new {String[]} {6} {Java scripting is easy in Tcl}] $a getrange 1 3 To retrieve a k-dimensional subarray of an n-dimensional array, specify an indexList with n - k index values. For example, the following commands result in pair containin"
+    },
+    {
+      "chunk_id": 100,
+      "text": "e, the following commands result in pair containing two 1-dimensional char array handles that refer to a[0][1] and a[0][2], the internal values of which are {c d} and {e f} respectively. set a [java::new {char[][][]} {2 3 2} {{{a b} {c d} {e f}} {{g"
+    },
+    {
+      "chunk_id": 101,
+      "text": "new {char[][][]} {2 3 2} {{{a b} {c d} {e f}} {{g h} {i j} {k l}}}] set pair [$a getrange {0 1} 2] The CONVERSION section below describes the effect of the optional -noconvert flag on the result. setrange ? indexList ? count ?? valueList Sets the ran"
+    },
+    {
+      "chunk_id": 102,
+      "text": "ange ? indexList ? count ?? valueList Sets the range of array elements to elements of valueList . The range starts at the element specified by indexList and spans a minimum of count elements, the remaining elements of the subarray, or the size of va"
+    },
+    {
+      "chunk_id": 103,
+      "text": "aining elements of the subarray, or the size of valueList . If an element of valueList in the replacement range is not the correct data type, an error is returned. For example, the following commands result in a having an interanl value of {Tcl is"
+    },
+    {
+      "chunk_id": 104,
+      "text": "s result in a having an interanl value of {Tcl is an excellent scripting language!} set a [java::new {String[]} {6} {Tcl is a good scripting language!}] $a setrange 2 {an excellent} CLASS NAMES Any command which takes as input or returns a class name"
+    },
+    {
+      "chunk_id": 105,
+      "text": "mmand which takes as input or returns a class name , interface name , or primitive value expects a fully qualified Java class name (e.g. java.awt.Button). If a name is not fully qualified, it is assumed to be in java.lang.*. SIGNATURE A signature is"
+    },
+    {
+      "chunk_id": 106,
+      "text": "med to be in java.lang.*. SIGNATURE A signature is the string which specifies a class constructor, method, or field, thereby distinguishing it from other constructors, methods, and fields. We will refer to signatures of fields as fieldSignatures ."
+    },
+    {
+      "chunk_id": 107,
+      "text": "fer to signatures of fields as fieldSignatures . Any further mention of signatures refers to those of both constructors and methods. Two forms of signatures are accepted: simple and full. The simple signature is a single element list containing th"
+    },
+    {
+      "chunk_id": 108,
+      "text": "e signature is a single element list containing the method or constructor name. In most cases a simple signature is all that is needed as the Java method resolver is able to disambiguate overloaded Java methods based on the types of Java object argum"
+    },
+    {
+      "chunk_id": 109,
+      "text": "va methods based on the types of Java object arguments. There are some cases where the Java method resolver is unable to determine which Java method you intended to invoke and you will be forced to use the full signature for the method. The full sign"
+    },
+    {
+      "chunk_id": 110,
+      "text": "e the full signature for the method. The full signature is used to distinguish between two or more methods with the same name and number of arguments. The full signature of a method is a Tcl list containing the method name followed by the type of eac"
+    },
+    {
+      "chunk_id": 111,
+      "text": "aining the method name followed by the type of each parameter of the method. The full form of fieldSignature is required to specify shadowed fields of superclasses. CONVERSION For calls that return the value of a Java field, property, array element,"
+    },
+    {
+      "chunk_id": 112,
+      "text": "e value of a Java field, property, array element, or method or constructor, Tcl automatically converts the result to a corresponding Tcl value. If the type of the return value is a boolean or numeric type, it will be converted to an integer (or floa"
+    },
+    {
+      "chunk_id": 113,
+      "text": "type, it will be converted to an integer (or floating-point) value. If the result is a string, then the contents of the string are returned. For all other object types, a new Java object handle is created and returned. If the -noconvert option is"
+    },
+    {
+      "chunk_id": 114,
+      "text": "created and returned. If the -noconvert option is specified, then Tcl's automatic data conversion is overidden, and a new Java object handle is created and returned. EXCEPTIONS Java constructors and methods are invoked by calls to java::new , java::"
+    },
+    {
+      "chunk_id": 115,
+      "text": "methods are invoked by calls to java::new , java::call , and object commands. If the method invoked throws an exception, Tcl returns the string representation of the exception as an error. The errorCode is set to a list whose first two elements are"
+    },
+    {
+      "chunk_id": 116,
+      "text": "Code is set to a list whose first two elements are the string \"JAVA\" and the object handle of the exception object, respectively. THROWING EXCEPTIONS The java::throw command is used to raise a Java exception. The following code will raise a ClassNotF"
+    },
+    {
+      "chunk_id": 117,
+      "text": "ception. The following code will raise a ClassNotFoundException. java::throw [java::new ClassNotFoundException \"bad class foo\"] OBJECT GARBAGE COLLECTION The object handle associated with a Java object is considered to be an object reference by the J"
+    },
+    {
+      "chunk_id": 118,
+      "text": "t is considered to be an object reference by the Java VM, ensuring that the Java object is not garbage collected while Tcl is using it. Tcl will release the object handle when the last reference to the handle in a Tcl script goes away. A handle is"
+    },
+    {
+      "chunk_id": 119,
+      "text": "he handle in a Tcl script goes away. A handle is considered to be active as long as at least one Tcl_Obj points to the handle. In practice this means that Java object handles must be stored in Tcl variables or passed as arguments to other commands"
+    },
+    {
+      "chunk_id": 120,
+      "text": "ariables or passed as arguments to other commands to keep them from being released. Constructing a Java object handle using concat or some other string manipulation command will produce a string that can be used where a Java object handle is expecte"
+    },
+    {
+      "chunk_id": 121,
+      "text": "can be used where a Java object handle is expected, but it will not count as a reference to the object for garbage collection purposes. Tcl objects usually remain one type over their life, but occasionally a Tcl object must be converted from one typ"
+    },
+    {
+      "chunk_id": 122,
+      "text": "onally a Tcl object must be converted from one type to another. For example, a Java object handle may be passed as the argument to the llength command. The internal rep of the Tcl object is converted from a Java object handle to a Tcl List. When th"
+    },
+    {
+      "chunk_id": 123,
+      "text": "from a Java object handle to a Tcl List. When this happens the ref count of the Java object handle is decremented. If the ref count becomes zero, the Java object handle is invalidated and the Tcl variable no longer accesses a Java object. For exa"
+    },
+    {
+      "chunk_id": 124,
+      "text": "ariable no longer accesses a Java object. For example: # Create a new Java Object. The ref count equals one. set o [java::new java.lang.Object] # Call a method of the Java Object. puts [$o toString] # Convert the Java object handle to a Tcl List."
+    },
+    {
+      "chunk_id": 125,
+      "text": "] # Convert the Java object handle to a Tcl List. This # decrements the ref count by one. The ref count equals # zero and the Java object is invalidated. llength $o # This command will generate an error, because the # Tcl object no longer refere"
+    },
+    {
+      "chunk_id": 126,
+      "text": "n error, because the # Tcl object no longer references a valid Java object. puts [$o toString] The solution is to guarantee that the Java object handle's ref count does not become zero. Use the java::lock and java::unlock commands to maintain a perm"
+    },
+    {
+      "chunk_id": 127,
+      "text": ":lock and java::unlock commands to maintain a permanent reference to the Java object handle. For example: # Create a new Java object. The ref count equals one. set o [java::new java.lang.Object] # Lock the Java Object handle so it is not invalidate"
+    },
+    {
+      "chunk_id": 128,
+      "text": "ock the Java Object handle so it is not invalidated. # The ref count now equals two. java::lock $o # Convert the Java object to a Tcl List. This decrements # the ref count by one. The ref count equals one and the # Java object remains valid. lleng"
+    },
+    {
+      "chunk_id": 129,
+      "text": "als one and the # Java object remains valid. llength $o # Now this command works. It also increments the ref count # of the java object, because a Tcl List is being converted # to the original Java object handle. puts [$o toString] # Remove the lo"
+    },
+    {
+      "chunk_id": 130,
+      "text": "object handle. puts [$o toString] # Remove the lock and decrement the ref count. java::unlock $o # Now this will fail as in the previous example. llength $o puts [$o toString] SEE ALSO java::load , java::bind KEYWORDS java , tcl Copyright © 1998 by"
+    },
+    {
+      "chunk_id": 131,
+      "text": "java::bind KEYWORDS java , tcl Copyright © 1998 by Sun Microsystems, Inc. Copyright © 1995-2001 Roger E. Critchlow Jr. This file is based on a file similar to http://dev.scriptics.com/man/java1.1/TclJava/java.htm"
+    },
+    {
+      "chunk_id": 132,
+      "text": "ava/java.htm"
+    }
+  ]
+}

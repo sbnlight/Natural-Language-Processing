@@ -1,0 +1,61 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/run-moss",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"b:l:e:n\", 1,"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"b:l:e:n\", 1, 2); require \"GradingCommon.pl\"; require \"TestingCommon.pl\"; $assgn = shift; if ($#ARGV == 0) { $todir = shift; } else { $todir = \"/tmp/runm$$\"; AddClean ($todir); System (\"/bin/rm -rf"
+    },
+    {
+      "chunk_id": 3,
+      "text": "\"; AddClean ($todir); System (\"/bin/rm -rf $todir\"); } $todir =~ s{/+$}{}; if (! AssignmentExists ($assgn)) { Fatal (\"Assignment $assgn does not exist.\"); } $unpack = 1; if (-d $todir) { if (not Yorn(\"Directory $todir exists. Unpa"
+    },
+    {
+      "chunk_id": 4,
+      "text": "{ if (not Yorn(\"Directory $todir exists. Unpack files and overwrite contents?\")) { $unpack = 0; } } else { mkdir ($todir, 0700); } chdir $todir || Fatal(\"Could not switch to directory $todir.\"); if ($unpack) { @allEntries ="
+    },
+    {
+      "chunk_id": 5,
+      "text": "tory $todir.\"); if ($unpack) { @allEntries = GLOB (\"$SUBMISSION_DIR/$assgn/*.*[0-9]\"); Note (\"Unpacking submissions for assignment $assgn into $todir.\"); %subms = {}; foreach $subm (@allEntries) { next if (not -f $subm or IsPartne"
+    },
+    {
+      "chunk_id": 6,
+      "text": "(@allEntries) { next if (not -f $subm or IsPartnerSubmission ($file)); $login = undef; ($login) = ($subm =~ m{.*/(.*)\\.\\d+}); if ($login) { $subms{$login} = $subm; } } foreach $login (keys %subms) { UnpackSubmission($assgn, $subms{"
+    },
+    {
+      "chunk_id": 7,
+      "text": "(keys %subms) { UnpackSubmission($assgn, $subms{$login}, \"$login\", 0) || Warn (\"Could not unpack $subms{$login}.\"); } } if ($opt_n) { exit 0; } if ($opt_l) { @lang = (\"-l\", $opt_l); } elsif (defined $DEFAULT_LANGUAGE) { @lan"
+    },
+    {
+      "chunk_id": 8,
+      "text": "l); } elsif (defined $DEFAULT_LANGUAGE) { @lang = (\"-l\", $DEFAULT_LANGUAGE); } else { @lang = (); } $base_patn = \"\"; if ($opt_b) { ($base_patn) = ($opt_b =~ m{(.*?)[,/]*$}); $base_patn =~ s{,}{|}g; $base_patn = \"^(?:$base_patn)/\""
+    },
+    {
+      "chunk_id": 9,
+      "text": "n =~ s{,}{|}g; $base_patn = \"^(?:$base_patn)/\"; } $finder = \"find -H * -name .svn -prune -o -type f\"; if (not $opt_e and $DEFAULT_SUFFIXES) { $opt_e = $DEFAULT_SUFFIXES; } if ($opt_e) { $opt_e =~ s/,+$//; $finder .= \" \\\\(\"; $sep"
+    },
+    {
+      "chunk_id": 10,
+      "text": "$opt_e =~ s/,+$//; $finder .= \" \\\\(\"; $sep = \" \"; @exts = split (/,/, $opt_e); foreach $ext (@exts) { $finder .= \"$sep-name *$ext\"; $sep = \" -o \"; } $finder .= \" \\\\)\"; } else { @exts = (); } @raw_files = s"
+    },
+    {
+      "chunk_id": 11,
+      "text": "\" \\\\)\"; } else { @exts = (); } @raw_files = split(/\\n/, `$finder`); @bases = (); @files = (); for $file (@raw_files) { if ($base_patn and $file =~ m{$base_patn}) { push(@bases, \"-b\", $file); } else { push(@files, $file); } } Note"
+    },
+    {
+      "chunk_id": 12,
+      "text": "; } else { push(@files, $file); } } Note(\"Submitting files for $assgn to moss:\"); if (@lang) { Note(\" Language: $lang[1]\"); } else { Note(\" No language specified.\"); } if ($opt_b) { Note(\" Base directories: $opt_b\"); }"
+    },
+    {
+      "chunk_id": 13,
+      "text": "_b) { Note(\" Base directories: $opt_b\"); } else { Note(\" No base files.\"); } if (@exts) { Note(\" Submitting files in $todir ending in \" . join(' ', @exts)); } else { Note(\" Submitting all files in $todir.\"); } if (Yorn(\"S"
+    },
+    {
+      "chunk_id": 14,
+      "text": "Submitting all files in $todir.\"); } if (Yorn(\"Submit?\")) { System(\"$MOSS_PROGRAM\", \"-d\", @bases, @lang, @files) || Fatal(\"$MOSS_PROGRAM failed: $!\"); } exit(0)"
+    }
+  ]
+}

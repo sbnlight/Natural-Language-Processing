@@ -1,0 +1,37 @@
+{
+  "url": "https://people.eecs.berkeley.edu/~ronf/MFI/evolution/99alpha/pivdata/cyldata/fcalc.m",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "rho=1.23; % air density (kg/m^3) L=.136; % cylinder length (m) cols=100; rows=100; dT=100; % time interval (microseconds) xLen=.03; % FOV along x (m) yLen=.03; % FOV along y (m) dx=xLen/cols; dy=yLen/rows; xpx=30; % micrometers/pixel along x yp"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Len/rows; xpx=30; % micrometers/pixel along x ypx=30; % micrometers/pixel along y x=data(:,1); x=reshape(x,cols,rows)'; x=x*xpx; % pos along x in micrometers y=data(:,2); y=reshape(y,cols,rows)'; y=y*ypx; % pos along x in micrometers u=data(:"
+    },
+    {
+      "chunk_id": 3,
+      "text": "; y=y*ypx; % pos along x in micrometers u=data(:,3); % \"vel\" along x in pixels u=reshape(u,cols,rows)'; u=u*xpx/dT; % vel along x in m/s v=data(:,4); % \"vel\" along y in pixels v=reshape(v,cols,rows)'; v=v*ypx/dT; % vel along y in m/s f=.5*(data(:"
+    },
+    {
+      "chunk_id": 4,
+      "text": ")'; v=v*ypx/dT; % vel along y in m/s f=.5*(data(:,5)+1); % flags indicating valid points f=reshape(f,cols,rows)'; %%%%%%%%%%%%%%%%%%%% % Top calculations % %%%%%%%%%%%%%%%%%%%% tmpu=u(1,:)'; tmpv=v(1,:)'; tmpf=f(1,:)'; [topu,topv]=vecintrp(tmpu,tm"
+    },
+    {
+      "chunk_id": 5,
+      "text": "1,:)'; tmpf=f(1,:)'; [topu,topv]=vecintrp(tmpu,tmpv,tmpf,cols); Ftop=dx*[topu,topv]'*topv; %%%%%%%%%%%%%%%%%%%%%%% % Bottom calculations % %%%%%%%%%%%%%%%%%%%%%%% tmpu=u(end,:)'; tmpv=v(end,:)'; tmpf=f(end,:)'; [botu,botv]=vecintrp(tmpu,tmpv,tmpf"
+    },
+    {
+      "chunk_id": 6,
+      "text": "pf=f(end,:)'; [botu,botv]=vecintrp(tmpu,tmpv,tmpf,cols); Fbot=-dx*[botu,botv]'*botv; %%%%%%%%%%%%%%%%%%%%% % Left calculations % %%%%%%%%%%%%%%%%%%%%% tmpu=u(:,1); tmpv=v(:,1); tmpf=f(:,1); [lftu,lftv]=vecintrp(tmpu,tmpv,tmpf,rows); Flft=-dy*[lf"
+    },
+    {
+      "chunk_id": 7,
+      "text": "lftv]=vecintrp(tmpu,tmpv,tmpf,rows); Flft=-dy*[lftu,lftv]'*lftu; %%%%%%%%%%%%%%%%%%%%%% % Right calculations % %%%%%%%%%%%%%%%%%%%%%% tmpu=u(:,end); tmpv=v(:,end); tmpf=f(:,end); [rgtu,rgtv]=vecintrp(tmpu,tmpv,tmpf,rows); Frgt=dy*[rgtu,rgtv]'*rgt"
+    },
+    {
+      "chunk_id": 8,
+      "text": "rp(tmpu,tmpv,tmpf,rows); Frgt=dy*[rgtu,rgtv]'*rgtu; F=[Ftop,Fbot,Flft,Frgt,Ftop+Fbot+Flft+Frgt]*rho*L; flux=[dx*sum(topv),-dx*sum(botv),-dy*sum(lftu),dy*sum(rgtu)]; flux=[flux,sum(flux)]; fx=F(1,:); fy=F(2,:);"
+    }
+  ]
+}

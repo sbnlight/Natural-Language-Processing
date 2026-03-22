@@ -1,0 +1,125 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/ptolemy/actor/lib/BooleanSwitch.java",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "/* A polymorphic switch with boolean select. Copyright (c) 1997-2007 The Regents of the University of California. All rights reserved. Permission is hereby granted, without written agreement and without license or royalty fees, to use, copy, mod"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ithout license or royalty fees, to use, copy, modify, and distribute this software and its documentation for any purpose, provided that the above copyright notice and the following two paragraphs appear in all copies of this software. IN NO EVE"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ppear in all copies of this software. IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN I"
+    },
+    {
+      "chunk_id": 4,
+      "text": "USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED W"
+    },
+    {
+      "chunk_id": 5,
+      "text": "IES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN \"AS IS\" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATION TO PROVIDE MAINTENANCE,"
+    },
+    {
+      "chunk_id": 6,
+      "text": "LIFORNIA HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS. PT_COPYRIGHT_VERSION_2 COPYRIGHTENDKEY This is similar to Switch and could be design/code reviewed at the same time. */ package ptolemy.actor."
+    },
+    {
+      "chunk_id": 7,
+      "text": "iewed at the same time. */ package ptolemy.actor.lib; import ptolemy.actor.TypedAtomicActor; import ptolemy.actor.TypedIOPort; import ptolemy.data.BooleanToken; import ptolemy.data.Token; import ptolemy.data.type.BaseType; import ptolemy.kernel.Com"
+    },
+    {
+      "chunk_id": 8,
+      "text": "lemy.data.type.BaseType; import ptolemy.kernel.CompositeEntity; import ptolemy.kernel.util.IllegalActionException; import ptolemy.kernel.util.NameDuplicationException; import ptolemy.kernel.util.StringAttribute; /////////////////////////////////////"
+    },
+    {
+      "chunk_id": 9,
+      "text": "gAttribute; ////////////////////////////////////////////////////////////////////////// //// BooleanSwitch /** A type polymorphic switch with boolean valued control. In an iteration, if an input token is available at the control input, that token"
+    },
+    {
+      "chunk_id": 10,
+      "text": "ken is available at the control input, that token is read, and its value is noted. Its value specifies the input port that should be read next. If the control input is true, then if an input token is available on the input port, then it is is re"
+    },
+    {
+      "chunk_id": 11,
+      "text": "is available on the input port, then it is is read and sent to the trueOutput . Likewise with a false input and the falseOutput port. Because tokens are immutable, the same Token is sent to the output, rather than a copy. The input port may re"
+    },
+    {
+      "chunk_id": 12,
+      "text": "output, rather than a copy. The input port may receive Tokens of any type. If no token has ever been received on the control port, then falseOutput is assumed to be the one to receive data. @author Steve Neuendorffer @version $Id: BooleanSwitch.jav"
+    },
+    {
+      "chunk_id": 13,
+      "text": "teve Neuendorffer @version $Id: BooleanSwitch.java,v 1.25.4.1 2007/02/04 01:37:25 cxh Exp $ @since Ptolemy II 2.0 @Pt.ProposedRating Green (neuendor) @Pt.AcceptedRating Red (neuendor) */ public class BooleanSwitch extends TypedAtomicActor {"
+    },
+    {
+      "chunk_id": 14,
+      "text": "lass BooleanSwitch extends TypedAtomicActor { /** Construct an actor in the specified container with the specified * name. * @param container The container. * @param name The name of this actor within the container. * @exc"
+    },
+    {
+      "chunk_id": 15,
+      "text": "e of this actor within the container. * @exception IllegalActionException If the actor cannot be contained * by the proposed container. * @exception NameDuplicationException If the name coincides with * an actor already in t"
+    },
+    {
+      "chunk_id": 16,
+      "text": "name coincides with * an actor already in the container. */ public BooleanSwitch(CompositeEntity container, String name) throws IllegalActionException, NameDuplicationException { super(container, name); in"
+    },
+    {
+      "chunk_id": 17,
+      "text": "tion { super(container, name); input = new TypedIOPort(this, \"input\", true, false); control = new TypedIOPort(this, \"control\", true, false); control.setTypeEquals(BaseType.BOOLEAN); trueOutput = new TypedIOPor"
+    },
+    {
+      "chunk_id": 18,
+      "text": "Type.BOOLEAN); trueOutput = new TypedIOPort(this, \"trueOutput\", false, true); falseOutput = new TypedIOPort(this, \"falseOutput\", false, true); trueOutput.setTypeAtLeast(input); falseOutput.setTypeAtLeast(input);"
+    },
+    {
+      "chunk_id": 19,
+      "text": "falseOutput.setTypeAtLeast(input); // Put the control input on the bottom of the actor. StringAttribute controlCardinal = new StringAttribute(control, \"_cardinal\"); controlCardinal.setExpression(\"SOUT"
+    },
+    {
+      "chunk_id": 20,
+      "text": "nal\"); controlCardinal.setExpression(\"SOUTH\"); } /////////////////////////////////////////////////////////////////// //// ports and parameters //// /** Input that selects one of the other"
+    },
+    {
+      "chunk_id": 21,
+      "text": "//// /** Input that selects one of the other input ports. The type is * BooleanToken. */ public TypedIOPort control; /** The input port. The type can be anything. */ public TypedIOPort input; /** Output for t"
+    },
+    {
+      "chunk_id": 22,
+      "text": "public TypedIOPort input; /** Output for tokens on the true path. The type is at least the * type of the input. */ public TypedIOPort trueOutput; /** Output for tokens on the false path. The type is at least the *"
+    },
+    {
+      "chunk_id": 23,
+      "text": "the false path. The type is at least the * type of the input. */ public TypedIOPort falseOutput; /////////////////////////////////////////////////////////////////// //// public methods"
+    },
+    {
+      "chunk_id": 24,
+      "text": "public methods //// /** Read a token from each input port. If the token from the * control input is true, then output the token consumed from the * input port on the trueOutput port, * other"
+    },
+    {
+      "chunk_id": 25,
+      "text": "* input port on the trueOutput port, * otherwise output the token on the falseOutput port. * * @exception IllegalActionException If there is no director. */ public void fire() throws IllegalActionException { super.fi"
+    },
+    {
+      "chunk_id": 26,
+      "text": ") throws IllegalActionException { super.fire(); if (control.hasToken(0)) { _control = ((BooleanToken) control.get(0)).booleanValue(); } if (input.hasToken(0)) { Token token = input.get(0);"
+    },
+    {
+      "chunk_id": 27,
+      "text": "0)) { Token token = input.get(0); if (_control) { trueOutput.send(0, token); } else { falseOutput.send(0, token); } } } /** Initialize this actor so tha"
+    },
+    {
+      "chunk_id": 28,
+      "text": "} } /** Initialize this actor so that the falseOutput is written * to until a token arrives on the control input. * @exception IllegalActionException If the parent class throws it. */ public void initialize() throws"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ws it. */ public void initialize() throws IllegalActionException { super.initialize(); _control = false; } /////////////////////////////////////////////////////////////////// //// private"
+    },
+    {
+      "chunk_id": 30,
+      "text": "//////// //// private variables //// // The most recently read control token. private boolean _control = false; }"
+    }
+  ]
+}

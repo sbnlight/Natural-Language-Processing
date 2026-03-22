@@ -1,0 +1,133 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII4.0/ptII4.0.1/ptolemy/data/unit/demo/StaticUnits/NonAppletStaticUnits.htm",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Static Units System Static Units System The Static Units System in Ptolemy II provides the means to constrain a model in terms of the allowable units of measure for the actors, and ports on the actors. It is static, in that the constraints do not rel"
+    },
+    {
+      "chunk_id": 2,
+      "text": ". It is static, in that the constraints do not relevant when the model is run. Rather, the constraints are used to determine if the model is correct. In order to illustrate these concepts, the Fermenter model, shown here, will be used. The purpose of"
+    },
+    {
+      "chunk_id": 3,
+      "text": "er model, shown here, will be used. The purpose of this model is simulate the growth process in a fermenter. There are three submodels; 1) growth models the number of cells being produced as a function of the current number of cells and the vat tempe"
+    },
+    {
+      "chunk_id": 4,
+      "text": "n of the current number of cells and the vat temperature, 2) HeatProduction models the amount of heat produced (in calories) as a function of the amount of work done (in joules), and 3) HeatExchanger models the removal of heat from the vat as a funct"
+    },
+    {
+      "chunk_id": 5,
+      "text": "models the removal of heat from the vat as a function of the rate at which water flows through the cooling jacket around the vat. Port Units Specifications In order to see the units sepcifications on the ports of the actors the PortConfigurerDialog m"
+    },
+    {
+      "chunk_id": 6,
+      "text": "the ports of the actors the PortConfigurerDialog must be used. Right mouse click on the actor and select \"Configure Ports\". For example, applying the PortConfigurerDialog to the HeatExcnager actor shows Note the units column which shows that, the Tem"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ws Note the units column which shows that, the TempVessel port has units degree , the TempCW port has units degree , the output port has units calories/second , and, the flow port has units gallons/hour . Actor Units Specifications In order to see th"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ur . Actor Units Specifications In order to see the units sepcifications on the actors the ConfigureUnitsDialog must be used. Right mouse click on the actor and select \"Configure Units\". For example, applying the ConfigurerUnitsDialog to the AddSubtr"
+    },
+    {
+      "chunk_id": 9,
+      "text": "applying the ConfigurerUnitsDialog to the AddSubtract actor shows This shows that there are two units constraints for the AddSubtract actor. The expression $plus=$minus says that the plus and minus ports must have the same units. For example, it is i"
+    },
+    {
+      "chunk_id": 10,
+      "text": "rts must have the same units. For example, it is incorrect to subtract gallons/hour from gallons . Similarly, the expression $output=$minus says that the output port must have the same units as the minus port. Some of the units constraints in the mod"
+    },
+    {
+      "chunk_id": 11,
+      "text": "nus port. Some of the units constraints in the model are inconsistent. In addition to the HeatExchanger port unit constraints, and AddSubtract actor unit constraints illustrated above, the HeatProduction.heat port has the units calories . Since the H"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ion.heat port has the units calories . Since the HeatProduction.heat port is connected (via the AddSubtract actor) to the HeatExchanger.output port which has units calories/second the model is inconsistent in terms of the units constraints. UnitConst"
+    },
+    {
+      "chunk_id": 13,
+      "text": "stent in terms of the units constraints. UnitConstraints Solver The UnitConstraint Solver is used to discover, analyze, and, in some cases, fix, unit inconsistencies that exist in a model. The UnitConstraintSolver Dialog is a user interface tool that"
+    },
+    {
+      "chunk_id": 14,
+      "text": "straintSolver Dialog is a user interface tool that provides an interface to the UnitConstraints Solver. For a detailed reference explanation of just the UnitConstraints Solver Dialog, click here . To start the UnitConstraint Solver right mouse-click"
+    },
+    {
+      "chunk_id": 15,
+      "text": "start the UnitConstraint Solver right mouse-click and select UnitsConstraint Solver as shown below. This will cause the UnitConstraints Solver Dialog to appear as shown below. Although, no components were selected prior to starting the UnitConstraint"
+    },
+    {
+      "chunk_id": 16,
+      "text": "were selected prior to starting the UnitConstraintsSolver Dialog it is assumed that all of the components will be used. A component is highlighted with yellow if it is a member of this set. By clicking on the Run button in the Minimal Span Solutions"
+    },
+    {
+      "chunk_id": 17,
+      "text": "g on the Run button in the Minimal Span Solutions panel the solver finds a single minimal span solution. This is indicated in the results pane with the label Inconsistent relation5 joule/population relation7 1/hour . This is a shortened version of th"
+    },
+    {
+      "chunk_id": 18,
+      "text": "lation7 1/hour . This is a shortened version of the results and indicates three properties The soultion is inconsistent. To become consistent relation5 would need to be replaced with an actor that transforms the input by joule/population. To become c"
+    },
+    {
+      "chunk_id": 19,
+      "text": "nsforms the input by joule/population. To become consistent relation7 would need to be replaced with an actor that transforms the input by 1/hour. If the result Inconsistent relation5 joule/population relation7 1/hour is selected the result is then d"
+    },
+    {
+      "chunk_id": 20,
+      "text": "relation7 1/hour is selected the result is then displayed in the graph viewer. The components that are part of the minimal span solution are colored with green signifying that a component is consistent and red signifying that it is inconsistent. In"
+    },
+    {
+      "chunk_id": 21,
+      "text": "nt and red signifying that it is inconsistent. In the above graphic, relation7 connects the flow actor to the HeaExchanger actor with flow.output having units gallonUS, and HeatExchanger.flow having units gallonUS/hour. This relation is red indicatin"
+    },
+    {
+      "chunk_id": 22,
+      "text": "nits gallonUS/hour. This relation is red indicating that it is inconsistent. In addition, the graphic also shows that if the cursor is placed over the relation on the graph viewer the requisite transformation 1/hour is displayed as a tooltip. The gra"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ormation 1/hour is displayed as a tooltip. The graph viewer also displays the inconsistency found on relation5 (this is in a portion of the graph viewer not shown in the above graphic). In this case the growth.population port has units population and"
+    },
+    {
+      "chunk_id": 24,
+      "text": "he growth.population port has units population and is connedted (via relation5) to the HeatProduction.work port that has units joules. Placing the cursor over this relation causes the tooltip joule/population to appear. Fixing unit inconsistencies Th"
+    },
+    {
+      "chunk_id": 25,
+      "text": "pulation to appear. Fixing unit inconsistencies These inconsistencies can be fixed by making two modifications; The flow actor is replaced with an actor that has an output port with units gallonUS/hour . An actor is inserted between growth.population"
+    },
+    {
+      "chunk_id": 26,
+      "text": "r . An actor is inserted between growth.population and HeatProduction.work that converts population to joules. These changes have been implemented in the model StaticUnits2.xml which is located in the same directory as StaticUnits.xml used above. Cli"
+    },
+    {
+      "chunk_id": 27,
+      "text": "same directory as StaticUnits.xml used above. Click here to start it. The following graphic shows these changes. Now, that these inconsistencies have been fixed the UnitConstraints Solver can be used to find other inconsistencies. For example, the H"
+    },
+    {
+      "chunk_id": 28,
+      "text": "to find other inconsistencies. For example, the HeatProduction.heat port has units calories, but the HeatExchanger.output has units calories/second. The AddSubtract actor requires that the units on the plus, and minus ports be the same. Therefore, t"
+    },
+    {
+      "chunk_id": 29,
+      "text": "he plus, and minus ports be the same. Therefore, the units constraints in this part of the model are inconsistent. In contrast to the inconsistencies described above, this inconsistency is ambiguous in that it can be caused by two different situation"
+    },
+    {
+      "chunk_id": 30,
+      "text": "n that it can be caused by two different situations. The HeatExchanger.output port could be integrated so that both the plus and minus ports have units calories. Or, the HeatProduction.heat port could be differentiated so that both the plus and minus"
+    },
+    {
+      "chunk_id": 31,
+      "text": "be differentiated so that both the plus and minus ports have units calorie/second. The following graphics illustrate these situations. The relation between HeatExchanger.output and AddSubtract.minus is inconsistent. The relation between HeatProducti"
+    },
+    {
+      "chunk_id": 32,
+      "text": "is inconsistent. The relation between HeatProduction.heat and AddSubtract.plus is inconsistent."
+    }
+  ]
+}

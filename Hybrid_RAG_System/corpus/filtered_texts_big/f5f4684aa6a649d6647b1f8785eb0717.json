@@ -1,0 +1,61 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/LifeCycleManagement/NodeForever",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / NodeForever Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / NodeForever (redirected from LifeCycleManagement.NodeForever"
+    },
+    {
+      "chunk_id": 2,
+      "text": "r (redirected from LifeCycleManagement.NodeForever ) npm forever is an npm package that spawns separate processes for each Node script. There are ways to create, list and kill each Node process. The reason this won't work for us is because we want to"
+    },
+    {
+      "chunk_id": 3,
+      "text": "eason this won't work for us is because we want to be able to do this within the Browser Host , which does not have access to processes. However, the interface that used by forever could be useful. In the Cape Code Host , the AccessorSSHCodeGenerator"
+    },
+    {
+      "chunk_id": 4,
+      "text": "the Cape Code Host , the AccessorSSHCodeGenerator uses forever to manage the Node Host on a remote machine Resources Automatically start forever (node) on system restart (stackoverflow) Tools Below is a description of various tools forever-service f"
+    },
+    {
+      "chunk_id": 5,
+      "text": "s a description of various tools forever-service forever-service is a npm module that adds a service that when started will start up on reboot Pros and Cons + Works on the Edison + Adding and deleting is by name and is fairly easy. - Must be run as r"
+    },
+    {
+      "chunk_id": 6,
+      "text": "is by name and is fairly easy. - Must be run as root crontab file Add lines like @reboot /usr/local/bin/forever start -c /usr/local/bin/node /your/path/to/your/app.js to a crontab file. Pros and Cons: + Works as sbuser - old skool - need to enable c"
+    },
+    {
+      "chunk_id": 7,
+      "text": ": + Works as sbuser - old skool - need to enable crontab for the user as root. - need to manage the crontab file and delete lines. pm2 Resources: PM2 (software) (Wikipedia) pm2 (keymetrics.io) Commands: Sample command start up command: pm2 start . /"
+    },
+    {
+      "chunk_id": 8,
+      "text": "s: Sample command start up command: pm2 start . / invoke.js -- RampJSTestDisplay.js [$[Get Code]] Get the log: / home / sbuser / cg / node_modules / .bin / pm2 logs invoke [$[Get Code]] Run after reboot: sbuser @ edison:~ / cg / RampJSTestDisplay$ pm"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ot: sbuser @ edison:~ / cg / RampJSTestDisplay$ pm2 startup [ PM2 ] Init System found: systemd [ PM2 ] You have to run this command as root. Execute the following command: sudo env PATH = $PATH : / usr / local / node-v6.9.5-linux-x86 / bin / home / s"
+    },
+    {
+      "chunk_id": 10,
+      "text": "r / local / node-v6.9.5-linux-x86 / bin / home / sbuser / cg / node_modules / pm2 / bin / pm2 startup systemd -u sbuser --hp / home / sbuser buser @ edison:~ / cg / RampJSTestDisplay$ pm2 save [ PM2 ] Saving current process list... [ PM2 ] Successful"
+    },
+    {
+      "chunk_id": 11,
+      "text": "Saving current process list... [ PM2 ] Successfully saved in / home / sbuser / .pm2 / dump.pm2 sbuser @ edison:~ / cg / RampJSTestDisplay$ [$[Get Code]] During reboot, dmesg returns [ 2.886162 ] systemd [ 1 ] : Configuration file / etc / systemd / s"
+    },
+    {
+      "chunk_id": 12,
+      "text": "emd [ 1 ] : Configuration file / etc / systemd / system / pm2.service is marked executable. Please remove executable permission bits. Proceeding anyway. [$[Get Code]] The fix is to run sudo chmod a-x /etc/systemd/system/pm2.service and reboot Pros an"
+    },
+    {
+      "chunk_id": 13,
+      "text": "/etc/systemd/system/pm2.service and reboot Pros and Cons: + Install with npm + works on Edison - Must run a command as root to make it persistent. + Allows grouping and clustering, has a deployment mechanism. Issues Running as Root The reality is tha"
+    },
+    {
+      "chunk_id": 14,
+      "text": "chanism. Issues Running as Root The reality is that any thing works across a reboot will require some sort of root activity. crontab requires root enabling crontab for the user pm2 requires running a command See Also Life Cycle Management Other Acces"
+    }
+  ]
+}

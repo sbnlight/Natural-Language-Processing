@@ -1,0 +1,69 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/Audio",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Audio Notes Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Audio Notes Modifying Clip Player to use getResource() The g"
+    },
+    {
+      "chunk_id": 2,
+      "text": "s Modifying Clip Player to use getResource() The goal is to modify ClipPlayer to use getResource() instead of accepting a URL as the name of the clip to be played. The reason we are using a URL is because the javafx Media constructor expects a String"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ause the javafx Media constructor expects a String that represents a URI. If we used getResource() here, then we would need to get the resource, create a URI with a server and serve the contents to the Media constructor, which would then read the URI"
+    },
+    {
+      "chunk_id": 4,
+      "text": "e Media constructor, which would then read the URI again. This seems silly, if we want to use getResource(), then we should probably not use javafx Media and instead use getResource() and what we use in AudioHelper Details about ClipPlayer $PTII/org/"
+    },
+    {
+      "chunk_id": 5,
+      "text": "in AudioHelper Details about ClipPlayer $PTII/org/terraswarm/accessor/accessors/web/audio/ClipPlayer.js uses the audio module, which is defined in $PTII/ptolemy/actor/lib/jjs/modules/audio/audio.js, which uses a ClipPlayerHelper, which is defined in"
+    },
+    {
+      "chunk_id": 6,
+      "text": "hich uses a ClipPlayerHelper, which is defined in ptolemy/actor/lib/jjs/modules/audio/ClipPlayerHelper.java ClipPlayerHelper uses javafx.scene.media.MediaPlayer, which takes a javafx.scene.media.Media ( https://docs.oracle.com/javafx/2/api/javafx/sce"
+    },
+    {
+      "chunk_id": 7,
+      "text": "( https://docs.oracle.com/javafx/2/api/javafx/scene/media/Media.html ) as an argument: _player = new MediaPlayer(new Media(url)); The constructor for Media takes a String: public Media(java.lang.String source) Constructs a Media instance. This is th"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ng source) Constructs a Media instance. This is the only way to specify the media source. The source must represent a valid URI and is immutable. Only HTTP, FILE, and JAR URLs are supported. If the provided URL is invalid then an exception will be th"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ovided URL is invalid then an exception will be thrown. If an asynchronous error occurs, the error property will be set. Listen to this property to be notified of any such errors. If the source uses a non-blocking protocol such as FILE, then any prob"
+    },
+    {
+      "chunk_id": 10,
+      "text": "non-blocking protocol such as FILE, then any problems which can be detected immediately will cause a MediaException to be thrown. Such problems include the media being inaccessible or in an unsupported format. If however a potentially blocking proto"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ed format. If however a potentially blocking protocol such as HTTP is used, then the connection will be initialized asynchronously so that these sorts of errors will be signaled by setting the error property. Constraints: The supplied URI must confor"
+    },
+    {
+      "chunk_id": 12,
+      "text": "roperty. Constraints: The supplied URI must conform to RFC-2396 as required by java.net.URI. Only HTTP, FILE, and JAR URIs are supported. See java.net.URI for more information about URI formatting in general. JAR URL syntax is specified in java.net.J"
+    },
+    {
+      "chunk_id": 13,
+      "text": "general. JAR URL syntax is specified in java.net.JarURLConnection. getResource() Edward wrote: \"I think the key reason for using getResource() is simply to have a uniform convention for how to access files from within a swarmlet. An alternative would"
+    },
+    {
+      "chunk_id": 14,
+      "text": "files from within a swarmlet. An alternative would be to abstract the part of getResource() that translates a string, e.g. \"strum.wav\", into something to read. I.e., what is the search path?\" \"So an alternative would be just to make the original Clip"
+    },
+    {
+      "chunk_id": 15,
+      "text": "lternative would be just to make the original ClipPlayer smarter so it matches the searches that getResource() does.\" In CapeCode, getResource() has no search path, we throw an error if the resource refers to a disallowed path (Starts with / , .. , a"
+    },
+    {
+      "chunk_id": 16,
+      "text": "efers to a disallowed path (Starts with / , .. , anything other than http , https , $CLASSPATH , $KEYSTORE etc.) One idea would be to modify getResource() so that it takes a returnURI option which would return the approved URI of the resource. SeeAls"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version1/SpeechRecognition",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / Speech Recognition Module Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / Speech Recognition Module Convert speech"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ersion1 / Speech Recognition Module Convert speech to text with this module! Currently, only live speech is supported. Recorded speech could be a future enhancement. CapeCode requires a library file download (due to size) and generally requires an a"
+    },
+    {
+      "chunk_id": 3,
+      "text": "download (due to size) and generally requires an additional custom dictionary file for acceptable accuracy. Please see the CapeCode Setup and Customization sections. Speech recognition is the first step in a user interaction strategy. The area of N"
+    },
+    {
+      "chunk_id": 4,
+      "text": "tep in a user interaction strategy. The area of Natural Language Understanding further investigates inferring intent from speech. Functions SpeechRecognition (options): Create a speech recognizer. Set options.continuous to true for continuous speec"
+    },
+    {
+      "chunk_id": 5,
+      "text": "et options.continuous to true for continuous speech recognition; false to stop after first recognition. setOptions (options): Set options. Set options.continuous to true for continuous speech recognition; false to stop after first recognition. star"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ition; false to stop after first recognition. start (): Start recognizing speech. stop (): Stop recognizing speech. Events onerror : Emitted upon error. Supplies the error message. result : Emitted when a speech result is available. Supplies the re"
+    },
+    {
+      "chunk_id": 7,
+      "text": "hen a speech result is available. Supplies the result text. Usage First, require the module and create a new speech recognition object. var speechRecognition = require('@accessors-modules/speech-recognition'); var options = {}; options.continu"
+    },
+    {
+      "chunk_id": 8,
+      "text": "gnition'); var options = {}; options.continuous = true; // If you would like continuous recognition var recognition = new speechRecognition.SpeechRecognition(options); Set up an event listener for results, then start the recognizer. For ex"
+    },
+    {
+      "chunk_id": 9,
+      "text": "er for results, then start the recognizer. For example, to send results to an output named output : var self = this; recognition.on('result', function(result) { self.send('output', result); }); recognition.start(); CapeCode Setup Cap"
+    },
+    {
+      "chunk_id": 10,
+      "text": "}); recognition.start(); CapeCode Setup CapeCode uses CMU Sphinx4 for recognition. The library .jar files are around 35MB total, which is a bit large to check in to the repository. To install Sphinx4: Create the directory where configure look"
+    },
+    {
+      "chunk_id": 11,
+      "text": "Sphinx4: Create the directory where configure looks for the jars: mkdir $PTII / vendors / misc / sphinx4 [$[Get Code]] Download these .jar files and place in ptolemy/vendors/misc/sphinx: wget -O $PTII / vendors / misc / sphinx4 / sphinx4-core-5prealp"
+    },
+    {
+      "chunk_id": 12,
+      "text": "/ vendors / misc / sphinx4 / sphinx4-core-5prealpha.jar 'https://oss.sonatype.org/service/local/artifact/maven/redirect?r=releases&g=net.sf.phat&a=sphinx4-core&v=5prealpha&e=jar' wget -O $PTII / vendors / misc / sphinx4 / sphinx4-data-5prealpha.jar"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ors / misc / sphinx4 / sphinx4-data-5prealpha.jar 'https://oss.sonatype.org/service/local/artifact/maven/redirect?r=releases&g=net.sf.phat&a=sphinx4-data&v=5prealpha&e=jar' [$[Get Code]] Rerun configure to update the classpath: ( cd $PTII ; . / confi"
+    },
+    {
+      "chunk_id": 14,
+      "text": "re to update the classpath: ( cd $PTII ; . / configure ) [$[Get Code]] If you have problems, then build Sphinx4 from source: Download https://sourceforge.net/projects/cmusphinx/files/sphinx4/5prealpha/ Unzip in $PTII/vendors/misc so that $PTII/vendor"
+    },
+    {
+      "chunk_id": 15,
+      "text": "/ Unzip in $PTII/vendors/misc so that $PTII/vendors/misc/sphinx4-5prealpha-src is created. Install gradle. Under Mac, use HomeBrew and run brew install gradle Build with gradle compileJava Copy the jar files to $PTII/vendors/misc/sphinx4/sphinx4-cor"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ar files to $PTII/vendors/misc/sphinx4/sphinx4-core-5prealpha.jar and $PTII/vendors/misc/sphinx4/sphinx4-data-5prealpha.jar Customization CapeCode uses CMU Sphinx4 which performs much better with a custom dictionary and language model. CMU offers a"
+    },
+    {
+      "chunk_id": 17,
+      "text": "stom dictionary and language model. CMU offers a free online tool for generating these. You'll need a file with sentences for your application, one sentence per line. For example, see $PTII/ptolemy/actor/lib/jjs/modules/speechRecognition/demo/Speec"
+    },
+    {
+      "chunk_id": 18,
+      "text": "actor/lib/jjs/modules/speechRecognition/demo/SpeechRecognition/weather.samples , which is copied from a CMU Sphinx demo. Navigate to: http://www.speech.cs.cmu.edu/tools/lmtool-new.html upload the sentence file and click \"COMPILE KNOWLEDGE BASE\". Lmto"
+    },
+    {
+      "chunk_id": 19,
+      "text": "ence file and click \"COMPILE KNOWLEDGE BASE\". Lmtool will generate some files. Copy the .dic and .lm files to a local directory. Then, set the SpeechRecognition accessor dictionaryPath and languageModelPath to point to these files. Back to Optional"
+    }
+  ]
+}

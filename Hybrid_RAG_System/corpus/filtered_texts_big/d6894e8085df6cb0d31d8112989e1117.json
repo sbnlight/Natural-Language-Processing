@@ -1,0 +1,73 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/KeyValueStoreOnTerra",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Key/Value Store on Terra and Swarmnuc2008 Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Key/Value Store on Terra and S"
+    },
+    {
+      "chunk_id": 2,
+      "text": "story Print Notes / Key/Value Store on Terra and Swarmnuc2008 On terra.eecs.berkeley.edu, we are running the $PTII/ptolemy/actor/lib/jjs/modules/httpServer/demo/KeyValueStoreClient/KeyValueStoreServerTerra.xml model. We have a similar setup running o"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Terra.xml model. We have a similar setup running on swarmnuc2008.eecs.berkeley.edu , see $PTII/org/terraswarm/accessor/demo/AugmentedRealityVideoSOHO/README.txt On terra.eecs.berkeley.edu, the way the model gets started is by using pm2 in the sbuser"
+    },
+    {
+      "chunk_id": 4,
+      "text": "model gets started is by using pm2 in the sbuser account. On terra, ~sbuser/runKVStore contains #!/bin/sh # pm2 start --interpreter=bash ~/runKVStore $PTII / bin / ptinvoke ptolemy.moml.MoMLSimpleApplication $PTII / ptolemy / actor / lib / jjs / mo"
+    },
+    {
+      "chunk_id": 5,
+      "text": "plication $PTII / ptolemy / actor / lib / jjs / modules / httpServer / demo / KeyValueStoreClient / KeyValueStoreServerTerra.xml [$[Get Code]] On swarmnuc2008, ~sbuser/runKVStore contains: #!/bin/sh # pm2 start --interpreter=bash ~/runKVStore $PTII"
+    },
+    {
+      "chunk_id": 6,
+      "text": "pm2 start --interpreter=bash ~/runKVStore $PTII / bin / ptinvoke ptolemy.moml.MoMLSimpleApplication $PTII / org / terraswarm / accessor / demo / AugmentedRealityVideoSOHO / KeyValueStoreServerSOHO.xml [$[Get Code]] PM2 Installation Instructions As"
+    },
+    {
+      "chunk_id": 7,
+      "text": "ml [$[Get Code]] PM2 Installation Instructions As the sbuser, install pm2 cd mkdir node_modules npm install pm2 export PATH =~ / node_modules / bin: ${PATH} [$[Get Code]] You may want to add the export line to sbuser's ~/.bashrc . As root, run the co"
+    },
+    {
+      "chunk_id": 8,
+      "text": "t line to sbuser's ~/.bashrc . As root, run the command below to set up pm2 to start up on reboot export PATH = / home / sbuser / src / ptII / bin: ${PATH} export PTII = / home / sbuser / src / ptII ~sbuser / node_modules / .bin / pm2 startup [$[Get"
+    },
+    {
+      "chunk_id": 9,
+      "text": "sbuser / node_modules / .bin / pm2 startup [$[Get Code]] As sbuser, create the ~sbuser/runKVStore file (see above for the contents) and make it executable: chmod a+x ~ / runKVStore [$[Get Code]] As sbuser, create ~sbuser/sbuser.cron (see above). As s"
+    },
+    {
+      "chunk_id": 10,
+      "text": "user, create ~sbuser/sbuser.cron (see above). As sbuser, have pm2 start up our script: pm2 start --interpreter = bash ~ / runKVStore [$[Get Code]] As sbuser, run the startup command to register the sbuser account: sbuser @ swarmnuc2008:~ / .pm2 / log"
+    },
+    {
+      "chunk_id": 11,
+      "text": "user account: sbuser @ swarmnuc2008:~ / .pm2 / logs$ pm2 startup / home / sbuser / src / ptII / bin / node: Running / usr / bin / node / home / sbuser / node_modules / .bin / pm2 startup [ PM2 ] Init System found: systemd [ PM2 ] To setup the Startup"
+    },
+    {
+      "chunk_id": 12,
+      "text": "System found: systemd [ PM2 ] To setup the Startup Script, copy / paste the following command: sudo env PATH = $PATH : / usr / bin / home / sbuser / node_modules / pm2 / bin / pm2 startup systemd -u sbuser --hp / home / sbuser [$[Get Code]] It might"
+    },
+    {
+      "chunk_id": 13,
+      "text": "buser --hp / home / sbuser [$[Get Code]] It might not be necessary to run the above command, but it probably does not hurt. As root, run the setup command: sudo env PATH = $PATH : / usr / bin / home / sbuser / node_modules / pm2 / bin / pm2 startup s"
+    },
+    {
+      "chunk_id": 14,
+      "text": "sbuser / node_modules / pm2 / bin / pm2 startup systemd -u sbuser --hp / home / sbuser [$[Get Code]] As sbuser, save the current setup: sbuser @ swarmnuc2008:~ / .pm2 / logs$ pm2 save / home / sbuser / src / ptII / bin / node: Running / usr / bin /"
+    },
+    {
+      "chunk_id": 15,
+      "text": "/ src / ptII / bin / node: Running / usr / bin / node / home / sbuser / node_modules / .bin / pm2 save [ PM2 ] Saving current process list... [ PM2 ] Successfully saved in / home / sbuser / .pm2 / dump.pm2 sbuser @ swarmnuc2008:~ / .pm2 / logs$ [$[G"
+    },
+    {
+      "chunk_id": 16,
+      "text": "mp.pm2 sbuser @ swarmnuc2008:~ / .pm2 / logs$ [$[Get Code]] Firewall The port is currently 8099. To change the port edit the model and then update the firewall. See https://www.terraswarm.org/swarmos/wiki/Main/TerraAndTerraTest#toc13 Restarting We"
+    },
+    {
+      "chunk_id": 17,
+      "text": "s/wiki/Main/TerraAndTerraTest#toc13 Restarting We restart the model every day so as to avoid memory leaks and other failures ~sbuser/sbuser.cron contains: 1 5 * * * cxh -c '/home/sbuser/cg/node_modules/.bin/pm2 restart runKVStore' >& / home / sbuser"
+    }
+  ]
+}

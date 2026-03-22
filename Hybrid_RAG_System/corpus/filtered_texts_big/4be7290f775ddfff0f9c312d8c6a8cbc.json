@@ -1,0 +1,105 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/grading/bin/assign-letter-grades",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "#!/usr/bin/env perl # -*- mode: Perl;-*- # Version 4.20.8 # See the file COPYING in the main distribution directory for copyright notice. unshift (@INC, '/home/ff/cs61b/grading-software/share/lib'); require \"GradingBase.pl\"; CmndLine (\"Hxs:o:\", 0);"
+    },
+    {
+      "chunk_id": 2,
+      "text": "require \"GradingBase.pl\"; CmndLine (\"Hxs:o:\", 0); @headings = @ARGV; require \"GradingCommon.pl\"; require \"Obscure.pl\"; if (! @headings) { @headings = ('Final', 'Total', 'Grade'); } if (! defined ($opt_H)) { STD: foreach $std ( ('SID', 'Na"
+    },
+    {
+      "chunk_id": 3,
+      "text": "($opt_H)) { STD: foreach $std ( ('SID', 'Name') ) { foreach $h (@headings) { next STD if ($h eq $std); } splice (@headings, 0, 0, $std); } } $needCode = 0; foreach $h (@headings) { if ($h eq \"Code\") { $needCode = 1; } }"
+    },
+    {
+      "chunk_id": 4,
+      "text": "if ($h eq \"Code\") { $needCode = 1; } } if (! $opt_s) { $opt_s = $headings[0]; } # Get up-to-date grade book and open it. System (\"make-grade-book\") || Warn (\"Could not make the grade book.\"); $gradebook = \"$SECRET_DIR/grade.book"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ade book.\"); $gradebook = \"$SECRET_DIR/grade.book\"; open (GRADEBOOK, $gradebook) || Fatal (\"Could not open grade book file: $!\"); # Get column headings and skip weights. $columns = ; ($columns && ) || Fatal (\"Grade book seems to be empty"
+    },
+    {
+      "chunk_id": 6,
+      "text": "&& ) || Fatal (\"Grade book seems to be empty.\"); @columns = split (/\\s+/, $columns); for ($i = 0; $i <= $#columns; $i += 1) { $column{$columns[$i]} = $i; } foreach (@ASSIGNMENT_LIST) { if (!exists ($column{$_})) { Warn (\"No column in"
+    },
+    {
+      "chunk_id": 7,
+      "text": "if (!exists ($column{$_})) { Warn (\"No column in grade book for assignment $_.\"); } } if ($opt_x) { $here = tell GRADEBOOK; @SIDs = (); while ( ) { @_ = split /\\s/; next if ($_[3] !~ /[0-9]{8}/); push (@SIDs, $_[3]);"
+    },
+    {
+      "chunk_id": 8,
+      "text": "($_[3] !~ /[0-9]{8}/); push (@SIDs, $_[3]); } seek (GRADEBOOK, $here, 0) || Fatal (\"Couldn't rewind the grade book.\"); %OSID = obfuscate (@SIDs); } # Initialize grade map @minScores = values %GRADE_SCALE; @letterGrades = keys %GRAD"
+    },
+    {
+      "chunk_id": 9,
+      "text": "= values %GRADE_SCALE; @letterGrades = keys %GRADE_SCALE; $worst = 0; for ($i = 1; $i <= $#minScores; $i += 1) { if ($minScores[$i] < $minScores[$worst]) { $worst = $i; } } # Initialize column widths with heading widths. foreach $col (@hea"
+    },
+    {
+      "chunk_id": 10,
+      "text": "umn widths with heading widths. foreach $col (@headings) { $width{$col} = length ($col); } # Determine which columns are numeric. foreach $col (@headings) { if (AssignmentExists ($col) || $IS_CATEGORY{$col}) { $numFormat{$col} = 1; } }"
+    },
+    {
+      "chunk_id": 11,
+      "text": "_CATEGORY{$col}) { $numFormat{$col} = 1; } } $numFormat{'Total'} = 1; # Collect all results in @grades. while ( ) { @line = split (/\\s+/); undef %vals; ($vals{'Login'}, $vals{'Last'}, $vals{'First'}, $vals{'SID'}) = @line;"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ast'}, $vals{'First'}, $vals{'SID'}) = @line; next if (!$vals{'Login'}); $vals{'Name'} = \"$vals{'Last'}, $vals{'First'}\"; if ($needCode) { $vals{'Code'} = GetCode ($vals{'Login'}); } foreach $assgn (@ASSIGNMENT_LIST) { if (ex"
+    },
+    {
+      "chunk_id": 13,
+      "text": "} foreach $assgn (@ASSIGNMENT_LIST) { if (exists ($column{$assgn}) && $column{$assgn} !~ /^-+$/) { $vals{$assgn} = $line[$column{$assgn}] * $ASSGN_WEIGHT{$assgn}; } else { $vals{$assgn} = \"---\"; } } $vals{'Total'} = 0;"
+    },
+    {
+      "chunk_id": 14,
+      "text": "n} = \"---\"; } } $vals{'Total'} = 0; foreach $category (keys %IS_CATEGORY) { @scores = (); foreach $assgn (@ASSIGNMENT_LIST) { if ($ASSGN_CATEGORY{$assgn} eq $category) { push (@scores, $vals{$assgn}); } } if ($THROW_OUT_"
+    },
+    {
+      "chunk_id": 15,
+      "text": "scores, $vals{$assgn}); } } if ($THROW_OUT_LOWEST{$category}) { @scores = sort { $a <=> $b } @scores; splice @scores, 0, $THROW_OUT_LOWEST{$category}; } $vals{$category} = 0; foreach (@scores) { $vals{$category} += $_; } $v"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ch (@scores) { $vals{$category} += $_; } $vals{'Total'} += $vals{$category}; } $k = $worst; $score = $vals{'Total'}; for ($i = 0; $i <= $#minScores; $i += 1) { if ($score >= $minScores[$i] && $minScores[$i] > $minScores[$"
+    },
+    {
+      "chunk_id": 17,
+      "text": ">= $minScores[$i] && $minScores[$i] > $minScores[$k]) { $k = $i; } } $vals{'Grade'} = $letterGrades[$k]; if (exists ($vals{$opt_s})) { $line = lc ($vals{$opt_s}); } else { Fatal (\"No column $opt_s.\"); } if ($opt_x) {"
+    },
+    {
+      "chunk_id": 18,
+      "text": "al (\"No column $opt_s.\"); } if ($opt_x) { if ($OSID{$vals{'SID'}} =~ /^.?$/) { $vals{'SID'} = $vals{'Login'}; } else { $vals{'SID'} = $OSID{$vals{'SID'}}; } } foreach $col (@headings) { $val = $vals{$col}; if ("
+    },
+    {
+      "chunk_id": 19,
+      "text": "each $col (@headings) { $val = $vals{$col}; if ($numFormat{$col} && $val =~ /-?[0-9.]+/) { $len = 5; } else { $len = length ($val); } if ($len > $width{$col}) { $width{$col} = $len; } $line .= \"\\t$vals{$col}\"; } push (@"
+    },
+    {
+      "chunk_id": 20,
+      "text": "; } $line .= \"\\t$vals{$col}\"; } push (@lines, $line); } # Sort results by key. @lines = sort (@lines); if ($opt_o) { open (STDOUT, \">$opt_o\") || Fatal (\"Could not open $opt_o: $!\"); } # Determine column formats. foreach $col (@hea"
+    },
+    {
+      "chunk_id": 21,
+      "text": "} # Determine column formats. foreach $col (@headings) { if ($numFormat{$col}) { $numFormat{$col} = \"%$width{$col}.1f \"; $strFormat{$col} = \"%$width{$col}s \"; } else { $strFormat{$col} = \"%-$width{$col}s \"; } } # Now print, with a n"
+    },
+    {
+      "chunk_id": 22,
+      "text": "\"%-$width{$col}s \"; } } # Now print, with a new page every 50 lines $n = 0; foreach (@lines) { @line = split (\"\\t\"); shift (@line); if ($n % 50 == 0) { print \"\\f\" if ($n > 0); foreach $col (@headings) { printf \"%-$width{$col}s"
+    },
+    {
+      "chunk_id": 23,
+      "text": "ch $col (@headings) { printf \"%-$width{$col}s \", (\" \" x (($width{$col}-length($col))/2)) . $col; } print \"\\n\"; foreach $col (@headings) { printf \"%s \", (\"-\" x $width{$col}); } print \"\\n\"; } foreach $col (@headings) { $v"
+    },
+    {
+      "chunk_id": 24,
+      "text": "nt \"\\n\"; } foreach $col (@headings) { $val = shift (@line); $len = $width{$col}; if ($numFormat{$col} && $val =~ /-?[0-9]*(\\.[0-9]*)?/) { printf $numFormat{$col}, $val; } else { printf $strFormat{$col}, $val; } } print"
+    },
+    {
+      "chunk_id": 25,
+      "text": "printf $strFormat{$col}, $val; } } print \"\\n\"; $n += 1; } exit 0;"
+    }
+  ]
+}

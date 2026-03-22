@@ -1,0 +1,469 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIlatest/ptII/doc/codeDoc/ptolemy/kernel/util/Workspace.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Workspace JavaScript is disabled on your browser. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method pto"
+    },
+    {
+      "chunk_id": 2,
+      "text": "onstr | Method Detail: Field | Constr | Method ptolemy.kernel.util Class Workspace java.lang.Object ptolemy.kernel.util.Workspace All Implemented Interfaces: Nameable public final class Workspace extends java.lang.Object implements Nameable An instan"
+    },
+    {
+      "chunk_id": 3,
+      "text": "nds java.lang.Object implements Nameable An instance of Workspace is used for synchronization and version tracking of interdependent groups of objects. These objects are said to be in the workspace. This is not the same as the container associatio"
+    },
+    {
+      "chunk_id": 4,
+      "text": ". This is not the same as the container association in Ptolemy II. A workspace is never returned by a getContainer() method. The workspace provides a rudimentary directory service that can be used to keep track of the objects within it. It is not"
+    },
+    {
+      "chunk_id": 5,
+      "text": "to keep track of the objects within it. It is not required to use it in order to use the workspace for synchronization. Items are added to the directory by calling add(). The names of the items in the directory are not required to be unique. The"
+    },
+    {
+      "chunk_id": 6,
+      "text": "the directory are not required to be unique. The synchronization model of the workspace is a multiple-reader, single-writer model. Any number of threads can simultaneously read the workspace. Only one thread at a time can have write access to the"
+    },
+    {
+      "chunk_id": 7,
+      "text": "one thread at a time can have write access to the workspace, and while the write access is held, no other thread can get read access. When reading the state of objects in the workspace, a thread must ensure that no other thread is simultaneously mo"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ensure that no other thread is simultaneously modifying the objects in the workspace. To read-synchronize on a workspace, use the following code: try { _workspace.getReadAccess(); // ... code that reads } finally { _workspace.doneReading(); }"
+    },
+    {
+      "chunk_id": 9,
+      "text": "t reads } finally { _workspace.doneReading(); } We assume that the _workspace variable references the workspace, as for example in the NamedObj class. The getReadAccess() method suspends the current thread if another thread is currently modifyin"
+    },
+    {
+      "chunk_id": 10,
+      "text": "nt thread if another thread is currently modifying the workspace, and otherwise returns immediately. Note that multiple readers can simultaneously have read access. The finally clause is executed even if an exception occurs. This is essential be"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ven if an exception occurs. This is essential because without the call to doneReading(), the workspace will never again allow any thread to modify it. To make safe changes to the objects in a workspace, a thread must write-synchronize using the"
+    },
+    {
+      "chunk_id": 12,
+      "text": "space, a thread must write-synchronize using the following code: try { _workspace.getWriteAccess(); // ... code that writes } finally { _workspace.doneWriting(); } Again, the call to doneWriting() is essential, or the workspace will remain per"
+    },
+    {
+      "chunk_id": 13,
+      "text": "() is essential, or the workspace will remain permanently locked to either reading or writing. Note that it is not necessary to obtain a write lock just to add an item to the workspace directory. The methods for accessing the directory are all sy"
+    },
+    {
+      "chunk_id": 14,
+      "text": "he methods for accessing the directory are all synchronized, so there is no risk of any thread reading an inconsistent state. A major subtlety in using this class concerns acquiring a write lock while holding a read lock. If a thread holds a read"
+    },
+    {
+      "chunk_id": 15,
+      "text": "ile holding a read lock. If a thread holds a read lock and calls getWriteAccess(), if any other thread holds a read lock, then the call to getWriteAccess() will block the calling thread until those other read accesses are released. However, while"
+    },
+    {
+      "chunk_id": 16,
+      "text": "other read accesses are released. However, while the thread is blocked, it yields its read permissions. This prevents a deadlock from occurring, but it means that the another thread may acquire write permission while the thread is stalled and mo"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ite permission while the thread is stalled and modify the model. Specifically, the pattern is: try { _workspace.getReadAccess(); ... do things ... try { _workspace.getWriteAccess(); ... at this point,"
+    },
+    {
+      "chunk_id": 18,
+      "text": "e.getWriteAccess(); ... at this point, the structure of a model may have changed! ... ... make my own changes knowing that the structure may have changed... } finally { _workspace.doneWriting(); }"
+    },
+    {
+      "chunk_id": 19,
+      "text": "_workspace.doneWriting(); } ... continue doing things, knowing the model may have changed... } finally { _workspace.doneReading(); } Unfortunately, a user may acquire a read access and invoke a method tha"
+    },
+    {
+      "chunk_id": 20,
+      "text": "ay acquire a read access and invoke a method that, unknown to the user, acquires write access. For this reason, it is very important to document methods that acquire write access, and to avoid invoking them within blocks that hold read access."
+    },
+    {
+      "chunk_id": 21,
+      "text": "nvoking them within blocks that hold read access. Note that there is no difficulty acquiring read access from within a block holding write access. Since: Ptolemy II 0.2 Version: $Id$ Author: Edward A. Lee, Mudit Goel, Lukito Muliadi, Xiaojun Liu"
+    },
+    {
+      "chunk_id": 22,
+      "text": "d A. Lee, Mudit Goel, Lukito Muliadi, Xiaojun Liu Pt.AcceptedRating: Green (liuxj) Pt.ProposedRating: Green (liuxj) Constructor Summary Constructors Constructor and Description Workspace () Create a workspace with an empty string as its name. Workspa"
+    },
+    {
+      "chunk_id": 23,
+      "text": "orkspace with an empty string as its name. Workspace (java.lang.String name) Create a workspace with the specified name. Method Summary All Methods Instance Methods Concrete Methods Deprecated Methods Modifier and Type Method and Description protecte"
+    },
+    {
+      "chunk_id": 24,
+      "text": "Modifier and Type Method and Description protected java.lang.String _description (int detail, int indent, int bracket) Return a description of the workspace. void add ( NamedObj item) Add an item to the directory. java.lang.S"
+    },
+    {
+      "chunk_id": 25,
+      "text": "bj item) Add an item to the directory. java.lang.String description () Return a full description of the workspace and everything in its directory. java.lang.String description (int detail) Return a description of the workspace. java.util.Enumeratio"
+    },
+    {
+      "chunk_id": 26,
+      "text": "description of the workspace. java.util.Enumeration directory () Deprecated. Use directoryList() instead. java.util.List< NamedObj > directoryList () Return an unmodifiable list of the items in the directory, in the order in which they were added."
+    },
+    {
+      "chunk_id": 27,
+      "text": "rectory, in the order in which they were added. void doneReading () Indicate that the calling thread is finished reading. void doneTemporaryWriting () Indicate that the calling thread is finished writing. void doneWriting () Indicate that the calli"
+    },
+    {
+      "chunk_id": 28,
+      "text": "iting. void doneWriting () Indicate that the calling thread is finished writing. NamedObj getContainer () Get the container. java.lang.String getDisplayName () Return a name to present to the user, which is the same as what is returned by getName()"
+    },
+    {
+      "chunk_id": 29,
+      "text": "ich is the same as what is returned by getName(). java.lang.String getFullName () Get the full name. java.lang.String getName () Get the name. java.lang.String getName ( NamedObj relativeTo) Get the name. void getReadAccess () Obtain permission to"
+    },
+    {
+      "chunk_id": 30,
+      "text": "name. void getReadAccess () Obtain permission to read objects in the workspace. long getVersion () Get the version number. void getWriteAccess () Obtain permission to write to objects in the workspace. boolean handleModelError ( NamedObj context, Il"
+    },
+    {
+      "chunk_id": 31,
+      "text": "e. boolean handleModelError ( NamedObj context, IllegalActionException exception) Handle a model error by throwing the specified exception. void incrVersion () Increment the version number by one. void reacquireReadPermission (int depth) Reacquire re"
+    },
+    {
+      "chunk_id": 32,
+      "text": "d reacquireReadPermission (int depth) Reacquire read permission on the workspace for the current thread. int releaseReadPermission () Release read permission on the workspace held by the current thread, and return the depth of the nested calls"
+    },
+    {
+      "chunk_id": 33,
+      "text": "hread, and return the depth of the nested calls to getReadAccess(). void remove ( NamedObj item) Remove the specified item from the directory. void removeAll () Remove all items from the directory. void setName (java.lang.String name) Set or change"
+    },
+    {
+      "chunk_id": 34,
+      "text": "void setName (java.lang.String name) Set or change the name. java.lang.String toString () Return a concise description of the object. void wait (java.lang.Object obj) Release all the read accesses held by the current thread and suspend the thread b"
+    },
+    {
+      "chunk_id": 35,
+      "text": "d by the current thread and suspend the thread by calling Object.wait() on the specified object. void wait (java.lang.Object obj, long timeout) This method is equivalent to the single argument version except that you can specify a timeout, wh"
+    },
+    {
+      "chunk_id": 36,
+      "text": "ersion except that you can specify a timeout, which is in milliseconds. Methods inherited from class java.lang.Object clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait Constructor Detail Workspace public Workspace() C"
+    },
+    {
+      "chunk_id": 37,
+      "text": "Constructor Detail Workspace public Workspace() Create a workspace with an empty string as its name. Workspace public Workspace(java.lang.String name) Create a workspace with the specified name. This name will form the prefix of the full name of"
+    },
+    {
+      "chunk_id": 38,
+      "text": "s name will form the prefix of the full name of all contained objects. If the name argument is null, then an empty string \"\" is used as the name. Parameters: name - Name of the workspace. Method Detail add public void add( NamedObj item)"
+    },
+    {
+      "chunk_id": 39,
+      "text": "etail add public void add( NamedObj item) throws IllegalActionException Add an item to the directory. The names of the objects in the directory are not required to be unique. Only items with no container can be added. Items with a con"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ith no container can be added. Items with a container are still viewed as being within the workspace, but they are not explicitly listed in the directory. Instead, their top-level container is expected to be listed (although this is not enf"
+    },
+    {
+      "chunk_id": 41,
+      "text": "expected to be listed (although this is not enforced). Increment the version number. Parameters: item - Item to list in the directory. Throws: IllegalActionException - If the item has a container, is already in the directory, or is not in this"
+    },
+    {
+      "chunk_id": 42,
+      "text": "is already in the directory, or is not in this workspace. description public java.lang.String description() throws IllegalActionException Return a full description of the workspace and everything in its directory."
+    },
+    {
+      "chunk_id": 43,
+      "text": "the workspace and everything in its directory. This is accomplished by calling the description method with an argument for full detail. Specified by: description in interface Nameable Returns: A description of the workspace. Throws: IllegalActio"
+    },
+    {
+      "chunk_id": 44,
+      "text": "description of the workspace. Throws: IllegalActionException - If thrown while getting the description of subcomponents. description public java.lang.String description(int detail) throws IllegalActionException Return a"
+    },
+    {
+      "chunk_id": 45,
+      "text": "throws IllegalActionException Return a description of the workspace. The level of detail depends on the argument, which is an or-ing of the static final constants defined in the NamedObj class. This method returns an empty string ("
+    },
+    {
+      "chunk_id": 46,
+      "text": "bj class. This method returns an empty string (not null) if there is nothing to report. If the contents are requested, then the items in the directory are also described. Parameters: detail - The level of detail. Returns: A description of the w"
+    },
+    {
+      "chunk_id": 47,
+      "text": "e level of detail. Returns: A description of the workspace. Throws: IllegalActionException - If thrown while getting the description of subcomponents. directory @Deprecated public java.util.Enumeration directory() Deprecated. Use directoryList() in"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ion directory() Deprecated. Use directoryList() instead. Enumerate the items in the directory, in the order in which they were added. Returns: An enumeration of NamedObj objects. directoryList public java.util.List< NamedObj > directoryList() Retur"
+    },
+    {
+      "chunk_id": 49,
+      "text": "c java.util.List< NamedObj > directoryList() Return an unmodifiable list of the items in the directory, in the order in which they were added. Returns: A list of instances of NamedObj. doneReading public final void doneReading() Indicate that the c"
+    },
+    {
+      "chunk_id": 50,
+      "text": "ublic final void doneReading() Indicate that the calling thread is finished reading. If this thread is completely done reading (it has no other read access to the workspace), then notify all threads that are waiting to get read/write access to"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ds that are waiting to get read/write access to this workspace so that they may contend for access. Throws: InvalidStateException - If this method is called before a corresponding call to getReadAccess() by the same thread. See Also: getReadAc"
+    },
+    {
+      "chunk_id": 52,
+      "text": "adAccess() by the same thread. See Also: getReadAccess() doneTemporaryWriting public final void doneTemporaryWriting() Indicate that the calling thread is finished writing. If this thread is completely done writing (it has no other write access t"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ely done writing (it has no other write access to the workspace), then notify all threads that are waiting to get read/write access to this workspace so that they may contend for access. This method does not increment the version number of"
+    },
+    {
+      "chunk_id": 54,
+      "text": "method does not increment the version number of the workspace. This method is used to temporarily add an attribute to the workspace without increment the version number, or otherwise to gain exclusive access to the workspace without changing"
+    },
+    {
+      "chunk_id": 55,
+      "text": "clusive access to the workspace without changing the structure of the model. Throws: InvalidStateException - If this method is called before a corresponding call to getWriteAccess() by the same thread. See Also: Attribute.Attribute(NamedObj, Str"
+    },
+    {
+      "chunk_id": 56,
+      "text": "hread. See Also: Attribute.Attribute(NamedObj, String, boolean) , doneWriting() doneWriting public final void doneWriting() Indicate that the calling thread is finished writing. If this thread is completely done writing (it has no other write acc"
+    },
+    {
+      "chunk_id": 57,
+      "text": "mpletely done writing (it has no other write access to the workspace), then notify all threads that are waiting to get read/write access to this workspace so that they may contend for access. It also increments the version number of the works"
+    },
+    {
+      "chunk_id": 58,
+      "text": "It also increments the version number of the workspace. Throws: InvalidStateException - If this method is called before a corresponding call to getWriteAccess() by the same thread. getContainer public NamedObj getContainer() Get the container. Al"
+    },
+    {
+      "chunk_id": 59,
+      "text": "lic NamedObj getContainer() Get the container. Always return null since a workspace has no container. Specified by: getContainer in interface Nameable Returns: null. getDisplayName public java.lang.String getDisplayName() Return a name to present"
+    },
+    {
+      "chunk_id": 60,
+      "text": ".String getDisplayName() Return a name to present to the user, which is the same as what is returned by getName(). Specified by: getDisplayName in interface Nameable Returns: The name. See Also: getName() getFullName public java.lang.String getFull"
+    },
+    {
+      "chunk_id": 61,
+      "text": "Name() getFullName public java.lang.String getFullName() Get the full name. Specified by: getFullName in interface Nameable Returns: The name of the workspace. getName public java.lang.String getName() Get the name. Specified by: getName in interface"
+    },
+    {
+      "chunk_id": 62,
+      "text": ") Get the name. Specified by: getName in interface Nameable Returns: The name of the workspace. See Also: setName(String) getName public java.lang.String getName( NamedObj relativeTo) Get the name. Since this can have no container, the relative nam"
+    },
+    {
+      "chunk_id": 63,
+      "text": "nce this can have no container, the relative name is always the same as the name. Specified by: getName in interface Nameable Parameters: relativeTo - This argument is ignored. Returns: The name of the workspace. See Also: setName(String) getReadAc"
+    },
+    {
+      "chunk_id": 64,
+      "text": "the workspace. See Also: setName(String) getReadAccess public final void getReadAccess() Obtain permission to read objects in the workspace. This method suspends the calling thread until read access has been obtained. Read access is granted unles"
+    },
+    {
+      "chunk_id": 65,
+      "text": "has been obtained. Read access is granted unless either another thread has write access, or there are threads that have requested write access and not gotten it yet. If this thread already has read access, then access is granted irrespective"
+    },
+    {
+      "chunk_id": 66,
+      "text": "s read access, then access is granted irrespective of other write requests. If the calling thread is interrupted while waiting to get read access, an InternalErrorException is thrown, and the thread does not have read permission to the worksp"
+    },
+    {
+      "chunk_id": 67,
+      "text": "read does not have read permission to the workspace. It is essential that a call to this method is matched by a call to doneReading(), regardless of whether this method returns normally or an exception is thrown. This is to ensure that the wo"
+    },
+    {
+      "chunk_id": 68,
+      "text": "exception is thrown. This is to ensure that the workspace is in a consistent state, otherwise write access may never again be granted in this workspace. If while holding read access the thread attempts to get write access and is blocked, then"
+    },
+    {
+      "chunk_id": 69,
+      "text": "ttempts to get write access and is blocked, then upon attempting to get write access, the read lock is released, and it is not reacquired until the write access is granted. Therefore, upon any call to any method that gets write access within"
+    },
+    {
+      "chunk_id": 70,
+      "text": "all to any method that gets write access within a block holding read access, the model structure can change. You should not assume that the model is the same prior to the call as after. Throws: InternalErrorException - If the calling thread is"
+    },
+    {
+      "chunk_id": 71,
+      "text": "InternalErrorException - If the calling thread is interrupted while waiting to get read access. See Also: doneReading() getVersion public final long getVersion() Get the version number. The version number is incremented on each call to doneWrit"
+    },
+    {
+      "chunk_id": 72,
+      "text": "n number is incremented on each call to doneWriting() and also on calls to incrVersion(). It is meant to track changes to the objects in the workspace. Returns: A non-negative long integer. getWriteAccess public final void getWriteAccess() Obtain"
+    },
+    {
+      "chunk_id": 73,
+      "text": "teAccess public final void getWriteAccess() Obtain permission to write to objects in the workspace. Write access is granted if there are no other threads that currently have read or write access. In particular, it is granted if this thread alr"
+    },
+    {
+      "chunk_id": 74,
+      "text": "In particular, it is granted if this thread already has write access, or if it is the only thread with read access. Note that if this method blocks, a side effect is that other threads will block when trying to acquire read access so as to e"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ck when trying to acquire read access so as to ensure that write access will eventually be granted. This makes it very risky to hold any locks while trying to acquire read or write access. This method suspends the calling thread until such acce"
+    },
+    {
+      "chunk_id": 76,
+      "text": "method suspends the calling thread until such access has been obtained. If the calling thread is interrupted while waiting to get write access, an InternalErrorException is thrown, and the thread does not have write permission to the workspac"
+    },
+    {
+      "chunk_id": 77,
+      "text": "d does not have write permission to the workspace. It is essential that a call to this method is matched by a call to doneWriting(), regardless of whether this method returns normally or an exception is thrown. This is to ensure that the work"
+    },
+    {
+      "chunk_id": 78,
+      "text": "ception is thrown. This is to ensure that the workspace is in a consistent state, otherwise read or write access may never again be granted in this workspace. Throws: InternalErrorException - If the calling thread is interrupted while waiting"
+    },
+    {
+      "chunk_id": 79,
+      "text": "he calling thread is interrupted while waiting to get write access. See Also: doneWriting() handleModelError public boolean handleModelError( NamedObj context, IllegalActionException exception) throws IllegalActionExceptio"
+    },
+    {
+      "chunk_id": 80,
+      "text": "throws IllegalActionException Handle a model error by throwing the specified exception. Parameters: context - The object in which the error occurred. exception - An exception that represents the error. Returns: Never returns. Th"
+    },
+    {
+      "chunk_id": 81,
+      "text": "t represents the error. Returns: Never returns. Throws: IllegalActionException - The exception passed as an argument is always thrown. Since: Ptolemy II 2.1 incrVersion public final void incrVersion() Increment the version number by one. reacquire"
+    },
+    {
+      "chunk_id": 82,
+      "text": "n() Increment the version number by one. reacquireReadPermission public void reacquireReadPermission(int depth) Reacquire read permission on the workspace for the current thread. Call this after a call to releaseReadPermissions(). Parameters: dep"
+    },
+    {
+      "chunk_id": 83,
+      "text": "all to releaseReadPermissions(). Parameters: depth - The depth of the permissions to reacquire. See Also: releaseReadPermission() releaseReadPermission public int releaseReadPermission() Release read permission on the workspace held by the curren"
+    },
+    {
+      "chunk_id": 84,
+      "text": "d permission on the workspace held by the current thread, and return the depth of the nested calls to getReadAccess(). It is essential that after calling this, you also call reacquireReadPermission(int), passing it as an argument the value"
+    },
+    {
+      "chunk_id": 85,
+      "text": "ssion(int), passing it as an argument the value returned by this method. Hence, you should use this as follows: int depth = releaseReadPermission(); try { ... do whatever here ... } finally { reacquireReadPermission(depth);"
+    },
+    {
+      "chunk_id": 86,
+      "text": "} finally { reacquireReadPermission(depth); } Note that this is done automatically by the wait(Object) method, so if you can use that instead, please do. Returns: The depth of read permissions held by the current thread. See Also: r"
+    },
+    {
+      "chunk_id": 87,
+      "text": "issions held by the current thread. See Also: reacquireReadPermission(int) , wait(Object) , wait(Object, long) remove public void remove( NamedObj item) Remove the specified item from the directory. Note that that item will still refer to this w"
+    },
+    {
+      "chunk_id": 88,
+      "text": ". Note that that item will still refer to this workspace as its workspace (its workspace is immutable). If the object is not in the directory, do nothing. Increment the version number. Parameters: item - The NamedObj to be removed. removeAll"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ters: item - The NamedObj to be removed. removeAll public void removeAll() Remove all items from the directory. Note that those items will still refer to this workspace as their workspace (their workspace is immutable). Increment the version nu"
+    },
+    {
+      "chunk_id": 90,
+      "text": "orkspace is immutable). Increment the version number. setName public void setName(java.lang.String name) Set or change the name. If a null argument is given the name is set to an empty string. Increment the version number. Specified by: setNam"
+    },
+    {
+      "chunk_id": 91,
+      "text": "Increment the version number. Specified by: setName in interface Nameable Parameters: name - The new name. See Also: getName() toString public java.lang.String toString() Return a concise description of the object. Overrides: toString in class java.l"
+    },
+    {
+      "chunk_id": 92,
+      "text": "of the object. Overrides: toString in class java.lang.Object Returns: The class name and name. wait public void wait(java.lang.Object obj) throws java.lang.InterruptedException Release all the read accesses held by the current thread and su"
+    },
+    {
+      "chunk_id": 93,
+      "text": "he read accesses held by the current thread and suspend the thread by calling Object.wait() on the specified object. When the call returns, re-acquire all the read accesses held earlier by the thread and return. If the calling thread is inter"
+    },
+    {
+      "chunk_id": 94,
+      "text": "hread and return. If the calling thread is interrupted while waiting to re-acquire read accesses, an InternalErrorException is thrown, and the thread no longer has read access to the workspace. This method helps prevent deadlocks caused when"
+    },
+    {
+      "chunk_id": 95,
+      "text": "This method helps prevent deadlocks caused when a thread that waits for another thread to do something prevents it from doing that something by holding read access on the workspace. IMPORTANT : The calling thread should not hold a lock on obj"
+    },
+    {
+      "chunk_id": 96,
+      "text": "The calling thread should not hold a lock on obj when calling this method, unlike a direct call to obj .wait(). Holding such a lock can lead to deadlock because this method can block for an indeterminate amount of time while trying to reacquir"
+    },
+    {
+      "chunk_id": 97,
+      "text": "erminate amount of time while trying to reacquire read permissions that it releases. Moreover, holding such a lock is pointless since this method internally calls obj .wait() (within its own synchronized( obj ) block, so the calling method cann"
+    },
+    {
+      "chunk_id": 98,
+      "text": "ronized( obj ) block, so the calling method cannot assume that the lock on obj was held during the entire execution of this method. If the calling thread needs to hold a lock on obj until obj .wait() is called, then you should manually release"
+    },
+    {
+      "chunk_id": 99,
+      "text": "ait() is called, then you should manually release read permissions and release the obj before reacquiring them, as follows: int depth = 0; try { synchronized(obj) { ... depth = releaseReadPermission();"
+    },
+    {
+      "chunk_id": 100,
+      "text": "depth = releaseReadPermission(); obj.wait(); } } finally { if (depth > 0) { reacquireReadPermission(depth); } } Parameters: obj - The object that the thread wants to wait on. Throws: java.lang."
+    },
+    {
+      "chunk_id": 101,
+      "text": "at the thread wants to wait on. Throws: java.lang.InterruptedException - If the calling thread is interrupted while waiting on the specified object and all the read accesses held earlier by the thread are re-acquired. InternalErrorException - I"
+    },
+    {
+      "chunk_id": 102,
+      "text": "thread are re-acquired. InternalErrorException - If re-acquiring the read accesses held earlier by the thread fails. wait public void wait(java.lang.Object obj, long timeout) throws java.lang.InterruptedException This me"
+    },
+    {
+      "chunk_id": 103,
+      "text": "throws java.lang.InterruptedException This method is equivalent to the single argument version except that you can specify a timeout, which is in milliseconds. If value of the timeout argument is zero, then the method is exactly equivalent"
+    },
+    {
+      "chunk_id": 104,
+      "text": "t is zero, then the method is exactly equivalent to the single argument version, and no timeout is implemented. If the value is larger than zero, then the method returns if either the thread is notified by another thread or the timeout expires."
+    },
+    {
+      "chunk_id": 105,
+      "text": "notified by another thread or the timeout expires. IMPORTANT : The calling thread should not hold a lock on obj when calling this method, unlike a direct call to obj .wait(). Holding such a lock can lead to deadlock because this method can block"
+    },
+    {
+      "chunk_id": 106,
+      "text": "n lead to deadlock because this method can block for an indeterminate amount of time while trying to reacquire read permissions that it releases. Moreover, holding such a lock is pointless since this method internally calls obj .wait() (within"
+    },
+    {
+      "chunk_id": 107,
+      "text": "this method internally calls obj .wait() (within its own synchronized( obj ) block, so the calling method cannot assume that the lock on obj was held during the entire execution of this method. Parameters: obj - The object that the thread wants"
+    },
+    {
+      "chunk_id": 108,
+      "text": "arameters: obj - The object that the thread wants to wait on. timeout - The maximum amount of time to wait, in milliseconds, or zero to not specify a timeout. Throws: java.lang.InterruptedException - If the calling thread is interrupted while w"
+    },
+    {
+      "chunk_id": 109,
+      "text": "- If the calling thread is interrupted while waiting on the specified object and all the read accesses held earlier by the thread are re-acquired. InternalErrorException - If re-acquiring the read accesses held earlier by the thread fails."
+    },
+    {
+      "chunk_id": 110,
+      "text": "ead accesses held earlier by the thread fails. See Also: wait(Object) _description protected java.lang.String _description(int detail, int indent, int bracket)"
+    },
+    {
+      "chunk_id": 111,
+      "text": "int bracket) throws IllegalActionException Return a description of the workspace. The level of detail depends on the argument, which is an or-ing of the static final constants define"
+    },
+    {
+      "chunk_id": 112,
+      "text": "s an or-ing of the static final constants defined in the NamedObj class. If the contents are requested, then the items in the directory are also described. Zero, one or two brackets can be specified to surround the returned description. If"
+    },
+    {
+      "chunk_id": 113,
+      "text": "ified to surround the returned description. If one is specified it is the the leading bracket. This is used by derived classes that will append to the description. Those derived classes are responsible for the closing bracket. An argument ot"
+    },
+    {
+      "chunk_id": 114,
+      "text": "ponsible for the closing bracket. An argument other than 0, 1, or 2 is taken to be equivalent to 0. Parameters: detail - The level of detail. indent - The amount of indenting. bracket - The number of surrounding brackets (0, 1, or 2). Returns: A de"
+    },
+    {
+      "chunk_id": 115,
+      "text": "f surrounding brackets (0, 1, or 2). Returns: A description of the workspace. Throws: IllegalActionException - If thrown while getting the description of subcomponents. Skip navigation links Overview Package Class Tree Deprecated Index Help Prev Cl"
+    },
+    {
+      "chunk_id": 116,
+      "text": "w Package Class Tree Deprecated Index Help Prev Class Next Class Frames No Frames All Classes Summary: Nested | Field | Constr | Method Detail: Field | Constr | Method"
+    }
+  ]
+}

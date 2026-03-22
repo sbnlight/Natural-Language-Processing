@@ -1,0 +1,65 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Main/InterfacingHardwareSpecificsWithNodeAndAccessors",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Main / InterfacingHardwareSpecificsWithNodeAndAccessors Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Main / InterfacingHardwareSpecif"
+    },
+    {
+      "chunk_id": 2,
+      "text": "dit History Print Main / InterfacingHardwareSpecificsWithNodeAndAccessors Summary One of the challenges when using Accessor with IoT devices is that the hardware sometimes (if not often) is very specific and tailor to the application. Often, we end"
+    },
+    {
+      "chunk_id": 3,
+      "text": "fic and tailor to the application. Often, we end up using what is available in the specific JS engine and adapt as much as possible. It would be nice to interface the native code that was used when the IoT device was developed and interface it with"
+    },
+    {
+      "chunk_id": 4,
+      "text": "the IoT device was developed and interface it with Accessors. Next section is a procedure to interface a native C code with Accessors. Use Case Scenario We want to control a motor from Internet using WebSockets. The motor is controlled by an ARM ta"
+    },
+    {
+      "chunk_id": 5,
+      "text": "g WebSockets. The motor is controlled by an ARM target (in this case beaglebone black) In this case, we are using a constant to send a command to the target. The commands are as follows 0 - stop 1 - move forward 2 - move backwards For now the speed"
+    },
+    {
+      "chunk_id": 6,
+      "text": "move forward 2 - move backwards For now the speed is constant. Interface Procedure In this case, target machine (beaglebone black) has the following nodejs packages ws (install using npm install -g ws) ffi (install using npm install -g ffi) Note: f"
+    },
+    {
+      "chunk_id": 7,
+      "text": ") ffi (install using npm install -g ffi) Note: ffi MUST be installed at target, cross compilation does not work. The idea is to use ffi to construct a library that can be used within NodeJs and Accessors C-Interface code For this example, the motor"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ssors C-Interface code For this example, the motor is using PWM2 and one of the GPIO's (GPIO72) is controlling the direction; 1 = forward, 0 = backwards. The code that controls the motor would be as follows: #include <stdint.h> #include <stdlib.h> #"
+    },
+    {
+      "chunk_id": 9,
+      "text": "follows: #include <stdint.h> #include <stdlib.h> #define EXPORT EXPORT void motorCtrl ( int action ) { switch ( action ) { case 0 : system ( \"echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable\" ) ; break ; case 1 : system ( \"echo 1 > /sys/class/gpio/gpio72"
+    },
+    {
+      "chunk_id": 10,
+      "text": "case 1 : system ( \"echo 1 > /sys/class/gpio/gpio72/value\" ) ; system ( \"echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable\" ) ; system ( \"echo 3000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle\" ) ; break ; case 3 : system ( \"echo 0 > /sys/class/gpio/gpio72/va"
+    },
+    {
+      "chunk_id": 11,
+      "text": "e 3 : system ( \"echo 0 > /sys/class/gpio/gpio72/value\" ) ; system ( \"echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable\" ) ; system ( \"echo 3000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle\" ) ; break ; } } [$[Get Code]] Now we create the C library as follows"
+    },
+    {
+      "chunk_id": 12,
+      "text": "[Get Code]] Now we create the C library as follows gcc -shared -fpic motorCtrl.c -o libmotorctrl.so NodeJS Interface code Now we are going to connect a websocket with the library that we just created as follows: var ffi = require ( 'ffi' ) var libmot"
+    },
+    {
+      "chunk_id": 13,
+      "text": "as follows: var ffi = require ( 'ffi' ) var libmotorctrl = ffi. Library ( './libmotorctrl' , { 'motorCtrl' : [ '' , [ 'int' ] ] } ) var WebSocketServer = require ( 'ws' ) . Server , wss = new WebSocketServer ( { port : 8080 } ) wss. on ( 'connection'"
+    },
+    {
+      "chunk_id": 14,
+      "text": "tServer ( { port : 8080 } ) wss. on ( 'connection' , function connection ( ws ) { ws. on ( 'message' , function incoming ( message ) { libmotorctrl. motorCtrl ( parseInt ( message ) ) ; } ) ; ws. send ( 'something' ) ; } ) ; [$[Get Code]] When we sen"
+    },
+    {
+      "chunk_id": 16,
+      "text": "June 23, 2016, at 07:35 pm"
+    }
+  ]
+}

@@ -1,0 +1,349 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII4.0/ptII4.0.1/doc/codeDoc/ptolemy/actor/lib/hoc/ModelReference.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "ModelReference Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.actor.lib.hoc Class ModelReference java.lang.Object"
+    },
+    {
+      "chunk_id": 2,
+      "text": "tor.lib.hoc Class ModelReference java.lang.Object ptolemy.kernel.util.NamedObj ptolemy.kernel.InstantiableNamedObj ptolemy.kernel.Entity ptolemy.kernel.ComponentEntity ptolemy.actor.AtomicActor ptolemy.actor.TypedAtomicActor ptolemy.actor.lib.hoc.Mod"
+    },
+    {
+      "chunk_id": 3,
+      "text": "y.actor.TypedAtomicActor ptolemy.actor.lib.hoc.ModelReference All Implemented Interfaces: Actor , Changeable , java.lang.Cloneable, Debuggable , DebugListener , Derivable , Executable , ExecutionListener , Instantiable , ModelErrorHandler , MoMLExpor"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ner , Instantiable , ModelErrorHandler , MoMLExportable , Nameable , java.io.Serializable, TypedActor Direct Known Subclasses: VisualModelReference public class ModelReference extends TypedAtomicActor implements ExecutionListener This is an atomic ac"
+    },
+    {
+      "chunk_id": 5,
+      "text": "implements ExecutionListener This is an atomic actor that can execute a model specified by a file or URL. This can be used to define an actor whose firing behavior is given by a complete execution of another model. An instance of this actor ca"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ion of another model. An instance of this actor can have ports added to it. If it has input ports, then on each firing, before executing the referenced model, this actor will read an input token from the input port, if there is one, and use"
+    },
+    {
+      "chunk_id": 7,
+      "text": "n from the input port, if there is one, and use it to set the value of a top-level parameter in the referenced model that has the same name as the port, if there is one. The simplest way to ensure that there is a matching parameter is to"
+    },
+    {
+      "chunk_id": 8,
+      "text": "nsure that there is a matching parameter is to use a PortParameter for inputs. However, this actor will work also for ordinary ports. In this case, if there is a top-level parameter of the referenced model with the same name as the port, an"
+    },
+    {
+      "chunk_id": 9,
+      "text": "eferenced model with the same name as the port, and it is an instance of Variable (or its derived class Parameter), then the token read at the input is moved into it using its setToken() method. Otherwise, if it is an instance of Settable, t"
+    },
+    {
+      "chunk_id": 10,
+      "text": "Otherwise, if it is an instance of Settable, then a string representation of the token is copied using the setExpression() method. Input ports should not be multiports, and if they are, then all but the first channel will be ignored. If"
+    },
+    {
+      "chunk_id": 11,
+      "text": "all but the first channel will be ignored. If this actor has output ports and the referenced model is executed, then upon completion of that execution, this actor looks for top-level parameters in the referenced model whose names match thos"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ers in the referenced model whose names match those of the output ports. If there are such parameters, then the final value of those parameters is sent to the output ports. If such a parameter is an instance of Variable (or its derived class"
+    },
+    {
+      "chunk_id": 13,
+      "text": "s an instance of Variable (or its derived class Parameter), then its contained token is sent to the output. Otherwise, if it is an instance of Settable, then a string token is produced on the output with its value equal to that returned b"
+    },
+    {
+      "chunk_id": 14,
+      "text": "output with its value equal to that returned by getExpression() of the Settable. If the model is executed in the calling thread, then the outputs will be produced before the fire() method returns. If the model is executed in a new threa"
+    },
+    {
+      "chunk_id": 15,
+      "text": "eturns. If the model is executed in a new thread, then the outputs will be produced whenever that thread completes execution of the model. Output ports should not be multiports. If they are, then all but the first channel will be ignored."
+    },
+    {
+      "chunk_id": 16,
+      "text": "then all but the first channel will be ignored. Normally, when you create output ports for this actor, you will have to manually set the type. There is no type inference from the parameter of the referenced model. A typical use of this a"
+    },
+    {
+      "chunk_id": 17,
+      "text": "r of the referenced model. A typical use of this actor will use the SetVariable actor inside to define the value of the output port. A suite of parameters is provided to control what happens when this actor executes: executionOnFiring : The"
+    },
+    {
+      "chunk_id": 18,
+      "text": "his actor executes: executionOnFiring : The value of this string attribute determines what execution happens when the fire() method is invoked. The recognized values are: \"run in calling thread\" (the default) \"run in a new thread\" \"do no"
+    },
+    {
+      "chunk_id": 19,
+      "text": "thread\" (the default) \"run in a new thread\" \"do nothing\". If execution in a separate thread is selected, then the execution can optionally be stopped by the postfire() method (see below). If the model is still executing the next time fire() is"
+    },
+    {
+      "chunk_id": 20,
+      "text": "del is still executing the next time fire() is called on this actor, then the fire() method will wait for completion of the first execution. If an exception occurs during a run in another thread, then it will be reported at the next invoc"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ead, then it will be reported at the next invocation of fire(), postfire(), or wrapup(). Note that if you select \"run in a new thread\" and this actor has output ports, the data is produced to those output ports when the execution complete"
+    },
+    {
+      "chunk_id": 22,
+      "text": "those output ports when the execution completes, whenever that might be. This may make output ports difficult to use in some domains. lingerTime : The amount of time (in milliseconds) to linger in the fire() method of this actor. This"
+    },
+    {
+      "chunk_id": 23,
+      "text": "nger in the fire() method of this actor. This is a long that defaults to 0L. If the model is run, then the linger occurs after the run is complete (if the run occurs in the calling thread) or after the run starts (if the run occurs in a"
+    },
+    {
+      "chunk_id": 24,
+      "text": "r after the run starts (if the run occurs in a separate thread). This can be used, for example, to run a model for a specified amount of time, then ask it to finish() and continue. modelFileOrURL : The file name or URL of the model that t"
+    },
+    {
+      "chunk_id": 25,
+      "text": "rURL : The file name or URL of the model that this actor will execute. postfireAction : The value of this string attribute determines what happens in the postfire() method. The recognized values are: \"do nothing\" (the default) \"stop executi"
+    },
+    {
+      "chunk_id": 26,
+      "text": "lues are: \"do nothing\" (the default) \"stop executing\" The \"stop executing\" choices will only have an effect if if executionOnFiring is set to \"run in a new thread\". This can be used, for example, to run a model for a specified amount of time"
+    },
+    {
+      "chunk_id": 27,
+      "text": ", to run a model for a specified amount of time, and then stop it. There are currently a number of serious limitations: FIXME: Pausing the referring model doesn't pause the referenced model. FIXME: Need options for error handling. Since: Ptolemy I"
+    },
+    {
+      "chunk_id": 28,
+      "text": "Need options for error handling. Since: Ptolemy II 4.0 Version: $Id: ModelReference.java,v 1.12 2004/04/19 05:07:39 eal Exp $ Author: Edward A. Lee See Also: RunCompositeActor , SetVariable , Serialized Form Accepted Rating: Red (eal) Proposed Ratin"
+    },
+    {
+      "chunk_id": 29,
+      "text": "zed Form Accepted Rating: Red (eal) Proposed Rating: Yellow (eal) Nested Class Summary Nested classes inherited from class ptolemy.kernel. Entity Entity.ContainedObjectsIterator Field Summary protected NamedObj _model The model. StringParameter execu"
+    },
+    {
+      "chunk_id": 30,
+      "text": "d NamedObj _model The model. StringParameter executionOnFiring The value of this string parameter determines what execution happens when the fire() method is invoked. Parameter lingerTime The amount of time (in milliseconds) to linger in the fire()"
+    },
+    {
+      "chunk_id": 31,
+      "text": "of time (in milliseconds) to linger in the fire() method of this actor. FileParameter modelFileOrURL The file name or URL of the model that this actor represents. StringParameter postfireAction The value of this string attribute determines what ha"
+    },
+    {
+      "chunk_id": 32,
+      "text": "value of this string attribute determines what happens in the postfire() method. Fields inherited from class ptolemy.actor. AtomicActor _stopRequested Fields inherited from class ptolemy.kernel.util. NamedObj _changeListeners , _changeLock , _chan"
+    },
+    {
+      "chunk_id": 34,
+      "text": ", LINKS Fields inherited from interface ptolemy.actor. Executable COMPLETED , NOT_READY , STOP_ITERATING Constructor Summary ModelReference ( CompositeEntity container, java.lang.String name) Construct a ModelReference with a name and"
+    },
+    {
+      "chunk_id": 35,
+      "text": "g name) Construct a ModelReference with a name and a container. Method Summary void attributeChanged ( Attribute attribute) Override the base class to open the model specified if the attribute is modelFileOrURL, or for other parameters, to cache"
+    },
+    {
+      "chunk_id": 36,
+      "text": "delFileOrURL, or for other parameters, to cache their values. java.lang.Object clone ( Workspace workspace) Override the base class to ensure that private variables are reset to null. void executionError ( Manager manager, java.lang."
+    },
+    {
+      "chunk_id": 37,
+      "text": "Error ( Manager manager, java.lang.Throwable throwable) React to the fact that execution has failed by unregistering as an execution listener and by allowing subsequent executions. void executionFinished ( Manager manager) React to t"
+    },
+    {
+      "chunk_id": 38,
+      "text": "id executionFinished ( Manager manager) React to the fact that execution is finished by unregistering as an execution listener and by allowing subsequent executions. void fire () Run a complete execution of the referenced model. void managerStateCh"
+    },
+    {
+      "chunk_id": 39,
+      "text": "ution of the referenced model. void managerStateChanged ( Manager manager) Report in debugging statements that the manager state has changed. boolean postfire () Override the base class to perform requested postfire actions. void stop () Override the"
+    },
+    {
+      "chunk_id": 40,
+      "text": "uested postfire actions. void stop () Override the base class to call stop() on the referenced model. void stopFire () Request that execution of the current iteration complete. void terminate () Override the base class to call terminate() on the refe"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ide the base class to call terminate() on the referenced model. void wrapup () Report an exception if it occurred in a background run. Methods inherited from class ptolemy.actor. TypedAtomicActor _addPort , attributeTypeChanged , clone , newPort , ty"
+    },
+    {
+      "chunk_id": 42,
+      "text": "Port , attributeTypeChanged , clone , newPort , typeConstraintList Methods inherited from class ptolemy.actor. AtomicActor _createReceivers , connectionsChanged , getDirector , getExecutiveDirector , getFunctionDependency , getManager , initialize ,"
+    },
+    {
+      "chunk_id": 43,
+      "text": "getFunctionDependency , getManager , initialize , inputPortList , iterate , newReceiver , outputPortList , prefire , preinitialize , pruneDependencies , removeDependency , setContainer Methods inherited from class ptolemy.kernel. ComponentEntity _adj"
+    },
+    {
+      "chunk_id": 54,
+      "text": "List Methods inherited from interface ptolemy.actor. Executable initialize , iterate , prefire , preinitialize Methods inherited from interface ptolemy.kernel.util. Derivable getDerivedLevel , getDerivedList , propagateValue Methods inherited from in"
+    },
+    {
+      "chunk_id": 55,
+      "text": "vedList , propagateValue Methods inherited from interface ptolemy.kernel.util. Nameable description , getFullName , getName , getName Field Detail executionOnFiring public StringParameter executionOnFiring The value of this string parameter determine"
+    },
+    {
+      "chunk_id": 56,
+      "text": "iring The value of this string parameter determines what execution happens when the fire() method is invoked. The recognized values are: \"run in calling thread\" (the default) \"run in a new thread\" \"do nothing\". lingerTime public Parameter linger"
+    },
+    {
+      "chunk_id": 57,
+      "text": "\" \"do nothing\". lingerTime public Parameter lingerTime The amount of time (in milliseconds) to linger in the fire() method of this actor. This is a long that defaults to 0L. If the model is run, then the linger occurs after the run is complete"
+    },
+    {
+      "chunk_id": 58,
+      "text": "then the linger occurs after the run is complete (if the run occurs in the calling thread) or after the run starts (if the run occurs in a separate thread). modelFileOrURL public FileParameter modelFileOrURL The file name or URL of the model that"
+    },
+    {
+      "chunk_id": 59,
+      "text": "elFileOrURL The file name or URL of the model that this actor represents. postfireAction public StringParameter postfireAction The value of this string attribute determines what happens in the postfire() method. The recognized values are: \"do noth"
+    },
+    {
+      "chunk_id": 60,
+      "text": "ire() method. The recognized values are: \"do nothing\" (the default) \"stop executing\" The \"stop executing\" choices will only have an effect if if executionOnFiring is set to \"run in a new thread\". This can be used, for example, to run a model for"
+    },
+    {
+      "chunk_id": 61,
+      "text": "This can be used, for example, to run a model for a specified amount of time, and then stop it. _model protected NamedObj _model The model. Constructor Detail ModelReference public ModelReference ( CompositeEntity container,"
+    },
+    {
+      "chunk_id": 62,
+      "text": "CompositeEntity container, java.lang.String name) throws IllegalActionException , NameDuplicationException Construct a ModelReference with a name and a container. The container argument must not be null, or a"
+    },
+    {
+      "chunk_id": 63,
+      "text": "The container argument must not be null, or a NullPointerException will be thrown. This actor will use the workspace of the container for synchronization and version counts. If the name argument is null, then the name is set to the empty st"
+    },
+    {
+      "chunk_id": 64,
+      "text": "ment is null, then the name is set to the empty string. Increment the version of the workspace. This actor will have no local director initially, and its executive director will be simply the director of the container. Parameters: container -"
+    },
+    {
+      "chunk_id": 65,
+      "text": "irector of the container. Parameters: container - The container. name - The name of this actor. Throws: IllegalActionException - If the container is incompatible with this actor. NameDuplicationException - If the name coincides with an actor al"
+    },
+    {
+      "chunk_id": 66,
+      "text": "eption - If the name coincides with an actor already in the container. Method Detail attributeChanged public void attributeChanged ( Attribute attribute) throws IllegalActionException Override the base class to open the model"
+    },
+    {
+      "chunk_id": 67,
+      "text": "xception Override the base class to open the model specified if the attribute is modelFileOrURL, or for other parameters, to cache their values. Overrides: attributeChanged in class NamedObj Parameters: attribute - The attribute that changed. Thr"
+    },
+    {
+      "chunk_id": 68,
+      "text": "eters: attribute - The attribute that changed. Throws: IllegalActionException - If the change is not acceptable to this container (not thrown in this base class). clone public java.lang.Object clone ( Workspace workspace) th"
+    },
+    {
+      "chunk_id": 69,
+      "text": "e ( Workspace workspace) throws java.lang.CloneNotSupportedException Override the base class to ensure that private variables are reset to null. Overrides: clone in class AtomicActor Parameters: workspace - The workspace for th"
+    },
+    {
+      "chunk_id": 70,
+      "text": "Actor Parameters: workspace - The workspace for the cloned object. Returns: A new instance of ModelReference. Throws: java.lang.CloneNotSupportedException - If cloned ports cannot have as their container the cloned entity (this should not occur),"
+    },
+    {
+      "chunk_id": 71,
+      "text": "tainer the cloned entity (this should not occur), or if one of the attributes cannot be cloned. executionError public void executionError ( Manager manager, java.lang.Throwable throwable) React to the fact that execution"
+    },
+    {
+      "chunk_id": 72,
+      "text": "owable throwable) React to the fact that execution has failed by unregistering as an execution listener and by allowing subsequent executions. Report an execution failure at the next opportunity. This method will be called when an exception or"
+    },
+    {
+      "chunk_id": 73,
+      "text": "This method will be called when an exception or error is caught by a manager during a run in another thread of the referenced model. Specified by: executionError in interface ExecutionListener Parameters: manager - The manager controlling the e"
+    },
+    {
+      "chunk_id": 74,
+      "text": "arameters: manager - The manager controlling the execution. throwable - The throwable to report. executionFinished public void executionFinished ( Manager manager) React to the fact that execution is finished by unregistering as an execution listen"
+    },
+    {
+      "chunk_id": 75,
+      "text": "finished by unregistering as an execution listener and by allowing subsequent executions. This is called when an execution of the referenced model in another thread has finished and the wrapup sequence has completed normally. The number of su"
+    },
+    {
+      "chunk_id": 76,
+      "text": "equence has completed normally. The number of successfully completed iterations can be obtained by calling getIterationCount() on the manager. Specified by: executionFinished in interface ExecutionListener Parameters: manager - The manager cont"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ionListener Parameters: manager - The manager controlling the execution. fire public void fire () throws IllegalActionException Run a complete execution of the referenced model. A complete execution consists of invocation of super.initia"
+    },
+    {
+      "chunk_id": 78,
+      "text": "execution consists of invocation of super.initialize(), repeated invocations of super.prefire(), super.fire(), and super.postfire(), followed by super.wrapup(). The invocations of prefire(), fire(), and postfire() are repeated until either t"
+    },
+    {
+      "chunk_id": 79,
+      "text": "re(), and postfire() are repeated until either the model indicates it is not ready to execute (prefire() returns false), or it requests a stop (postfire() returns false or stop() is called). Before running the complete execution, this method"
+    },
+    {
+      "chunk_id": 80,
+      "text": "efore running the complete execution, this method examines input ports, and if they are connected, have data, and if the referenced model has a top-level parameter with the same name, then one token is read from the input port and used to set t"
+    },
+    {
+      "chunk_id": 81,
+      "text": "en is read from the input port and used to set the value of the parameter in the referenced model. After running the complete execution, if there are any output ports, then this method looks for top-level parameters in the referenced model"
+    },
+    {
+      "chunk_id": 82,
+      "text": "or top-level parameters in the referenced model with the same name as the output ports, and if there are any, reads their values and produces them on the output. If no model has been specified, then this method does nothing. Specified by: fire"
+    },
+    {
+      "chunk_id": 83,
+      "text": "then this method does nothing. Specified by: fire in interface Executable Overrides: fire in class AtomicActor Throws: IllegalActionException - If there is no director, or if the director's action methods throw it. managerStateChanged public void"
+    },
+    {
+      "chunk_id": 84,
+      "text": "methods throw it. managerStateChanged public void managerStateChanged ( Manager manager) Report in debugging statements that the manager state has changed. This method is called if the referenced model is executed in another thread and the manage"
+    },
+    {
+      "chunk_id": 85,
+      "text": "del is executed in another thread and the manager changes state. Specified by: managerStateChanged in interface ExecutionListener Parameters: manager - The manager controlling the execution. See Also: Manager.getState() postfire public boolean post"
+    },
+    {
+      "chunk_id": 86,
+      "text": "o: Manager.getState() postfire public boolean postfire () throws IllegalActionException Override the base class to perform requested postfire actions. Specified by: postfire in interface Executable Overrides: postfire in class Atomic"
+    },
+    {
+      "chunk_id": 87,
+      "text": "ace Executable Overrides: postfire in class AtomicActor Returns: Whatever the superclass returns (probably true). Throws: IllegalActionException - Not thrown in this base class. stop public void stop () Override the base class to call stop() on the r"
+    },
+    {
+      "chunk_id": 88,
+      "text": "() Override the base class to call stop() on the referenced model. Specified by: stop in interface Executable Overrides: stop in class AtomicActor stopFire public void stopFire () Description copied from interface: Executable Request that execution o"
+    },
+    {
+      "chunk_id": 89,
+      "text": "rom interface: Executable Request that execution of the current iteration complete. If an iteration is always a finite computation (the usual case), i.e. the fire() method always returns in finite time, then nothing needs to be done in this m"
+    },
+    {
+      "chunk_id": 90,
+      "text": "te time, then nothing needs to be done in this method, except possibly to pass on the request to any contained executable objects. This method is used to request that an unbounded computation suspend, returning control to the caller. Thus,"
+    },
+    {
+      "chunk_id": 91,
+      "text": "suspend, returning control to the caller. Thus, if the fire() method does not normally return in finite time, then this method is used to request that it return. It should suspend execution in such a way that if the fire() method is called"
+    },
+    {
+      "chunk_id": 92,
+      "text": "n such a way that if the fire() method is called again, execution will resume at the point where it was suspended. However, it should not assume the fire() method will be called again. It is possible that the wrapup() method will be called"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ossible that the wrapup() method will be called next. Specified by: stopFire in interface Executable Overrides: stopFire in class AtomicActor terminate public void terminate () Override the base class to call terminate() on the referenced model. Sp"
+    },
+    {
+      "chunk_id": 94,
+      "text": "ss to call terminate() on the referenced model. Specified by: terminate in interface Executable Overrides: terminate in class AtomicActor wrapup public void wrapup () throws IllegalActionException Report an exception if it occurred in a b"
+    },
+    {
+      "chunk_id": 95,
+      "text": "xception Report an exception if it occurred in a background run. Specified by: wrapup in interface Executable Overrides: wrapup in class AtomicActor Throws: IllegalActionException - If there is no director, or if a background run threw an exceptio"
+    },
+    {
+      "chunk_id": 96,
+      "text": "ector, or if a background run threw an exception. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    },
+    {
+      "chunk_id": 97,
+      "text": "IL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version1/NodeBundlingInstructions",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / NodeBundlingInstructions Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / NodeBundlingInstructions Why Bundle? Many"
+    },
+    {
+      "chunk_id": 2,
+      "text": "rsion1 / NodeBundlingInstructions Why Bundle? Many Node modules are fully compatible with accessors because they consist of pure javascript with no Node dependencies. To convert a Node module to an accessor module when the Node module consists entire"
+    },
+    {
+      "chunk_id": 3,
+      "text": "cessor module when the Node module consists entirely of a single \"ModuleName.js\" file, simply copy \"ModuleName.js\" into the accessor modules directory. If the Node module has no Node.js dependencies, you can now require it an accessor with: require('"
+    },
+    {
+      "chunk_id": 4,
+      "text": "you can now require it an accessor with: require('ModuleName') However some complex Node modules are built with more than just one \"ModuleName.js\" file. Sometimes a Node module has a 'lib' directory containing multiple \"library.js\" files which are in"
+    },
+    {
+      "chunk_id": 5,
+      "text": "ontaining multiple \"library.js\" files which are in turn required by \"ModuleName.js\". A node module might also have dependencies on other Node modules. Even though the entire complex Node module might be compatible with accessors, it could get very co"
+    },
+    {
+      "chunk_id": 6,
+      "text": "be compatible with accessors, it could get very confusing to copy 30 javascript files into the accessor modules directory. This is especially true when the main entry point for a Node module (eg. \"Main.js\") has a different name than the Node module i"
+    },
+    {
+      "chunk_id": 7,
+      "text": "n.js\") has a different name than the Node module itself. Node's module loading system is capable of resolving such an inconsistency by parsing the package.json file in a Node module, but you would have to fix the names manually when copying them over"
+    },
+    {
+      "chunk_id": 8,
+      "text": "e to fix the names manually when copying them over to the accessors directory. How to Bundle While you could copy the many files of a complex Node module over to the accessor module directory and manually resolve the naming inconsistencies, browserif"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ally resolve the naming inconsistencies, browserify can do most of the work. Browserify automatically combines a full dependency graph of Node modules into a single \"Bundle.js\" file by recursively following require statements in the code. With a few"
+    },
+    {
+      "chunk_id": 10,
+      "text": "lowing require statements in the code. With a few small modifications, the output \"Bundle.js\" can be copied to the accessors modules directory in a few simple steps. Install browserify. $npm install -g browserify Download your desired Node module (<M"
+    },
+    {
+      "chunk_id": 11,
+      "text": "g browserify Download your desired Node module (<ModuleName>). $npm install <ModuleName> . Your current working directory should now have a node_modules subdirectory. Create a new file \"Wrapper.js\" with these two lines: var tmp = require ( '<ModuleNa"
+    },
+    {
+      "chunk_id": 12,
+      "text": "th these two lines: var tmp = require ( '<ModuleName>' ) ; exposeBundleModules ( tmp ) ; [$[Get Code]] Run $browserify Wrapper.js -o Bundle.js . This will bundle the entire Node module into Bundle.js. Open Bundle.js and insert the following function"
+    },
+    {
+      "chunk_id": 13,
+      "text": "Open Bundle.js and insert the following function at the top of the file : function exposeBundleModules ( < ModuleName > ) { module. exports = < ModuleName >; } [$[Get Code]] That's it! Copy Bundle.js to the accessors module directory (and perhaps na"
+    }
+  ]
+}

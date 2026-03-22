@@ -1,0 +1,1553 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/Users_Guide/original/unix.tex",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "\\chapter{Basic UNIX} \\renewcommand{\\thempfootnote}{\\arabic{mpfootnote}} \\setcounter{mpfootnote}{0} \\setcounter{footnote}{0} \\section{Introduction} There are many different variants of UNIX such as Digital Equipment Corporation's Ultrix, Silicon Grap"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ital Equipment Corporation's Ultrix, Silicon Graphics' IRIX, Hewlett Packard's HPUX, Sun Microsystems' SunOS, etc. Most of these systems are either based on Berkeley (BSD) UNIX or AT\\&T System V UNIX. The commands in this manual should work on all"
+    },
+    {
+      "chunk_id": 3,
+      "text": ". The commands in this manual should work on all of the Instructional systems and we have tried to explain any differences where appropriate. Please keep in mind, however, that you should expect slightly different behavior on the various Instructio"
+    },
+    {
+      "chunk_id": 4,
+      "text": "ghtly different behavior on the various Instructional systems running different operating systems. \\section{Logging On and Off} {\\it The Kerberos system greatly enhances password security when logging in. More advanced users are strongly encouraged"
+    },
+    {
+      "chunk_id": 5,
+      "text": "g in. More advanced users are strongly encouraged to read and follow instructions in the file /usr/pub/kerberos.help on any EECS Instructional machine.} \\index{Kerberos} \\subsection{Logging On} \\index{logging on} \\index{logging in|see{logging on}"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ndex{logging on} \\index{logging in|see{logging on}} Logging on is the process of identifying yourself to a workstation and being granted access to use it. A description of the login procedure follows. You can login to any machine that you are auth"
+    },
+    {
+      "chunk_id": 7,
+      "text": "s. You can login to any machine that you are authorized to use either directly from a workstation or from a terminal. If the workstation screen is dark, wiggle the mouse and a login banner should appear. If nothing appears, make sure that the monit"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ear. If nothing appears, make sure that the monitor or terminal is powered on. Somewhere on that screen should be the following prompt: \\begin{quote} \\tt login: \\end{quote} Enter your username\\index{username} (in lowercase letters) and press \\key{R"
+    },
+    {
+      "chunk_id": 9,
+      "text": "{username} (in lowercase letters) and press \\key{Return}. You will then be prompted for a ``{\\tt Password: }''. Enter your password\\index{password} and press \\key{Return}. Notice that your password is not displayed on the screen. If all goes well"
+    },
+    {
+      "chunk_id": 10,
+      "text": "is not displayed on the screen. If all goes well, the system will pause, print the contents of the /etc/motd file (``message-of-the-day''), then display: \\begin{quote} \\tt \\% \\end{quote} This is the default shell prompt and it indicates that you h"
+    },
+    {
+      "chunk_id": 11,
+      "text": "e default shell prompt and it indicates that you have logged in successfully and that the system is waiting for you to enter an UNIX command. \\subsection{Login Errors}\\index{logging on!errors} The system will not let you login if you mistype your u"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ystem will not let you login if you mistype your username or password. If you mistype your username or password, {\\it login} returns this message: \\begin{quote} \\tt Password incorrect \\end{quote} Be sure to type your username and password exactly"
+    },
+    {
+      "chunk_id": 13,
+      "text": "sure to type your username and password exactly as shown on your account form. Don't insert any blank spaces; make sure they are both in the proper case. To try login again, press \\key{Return} until the {\\tt login:} prompt reappears. \\subsection{"
+    },
+    {
+      "chunk_id": 14,
+      "text": "l the {\\tt login:} prompt reappears. \\subsection{Common Login Problems and Overview}\\index{problems!with login} Other than the just mentioned password problem, there are other problems that can occur when logging in to an Instructional system. In o"
+    },
+    {
+      "chunk_id": 15,
+      "text": "when logging in to an Instructional system. In order to understand these problems, it is useful to have a general idea of how accounts are set up in the EECS Instructional environment. When you first login to your account, the system looks for your"
+    },
+    {
+      "chunk_id": 16,
+      "text": "t login to your account, the system looks for your home directory information in its password file. Your home directory is where all your files are stored and is usually something like {\\it /home/j/users/your\\_login}. After determining the name of yo"
+    },
+    {
+      "chunk_id": 17,
+      "text": "ers/your\\_login}. After determining the name of your home directory, the system must make it available to you. All this happens automatically when you first login without you even being aware of it, so when things work properly you just login and are"
+    },
+    {
+      "chunk_id": 18,
+      "text": "o when things work properly you just login and are put into your home directory. (Your .cshrc and .login files are also executed at this time, so if you have modified them incorrectly you may not be able to login.) Since your home directory is not"
+    },
+    {
+      "chunk_id": 19,
+      "text": "able to login.) Since your home directory is not necessarily local to the system you're on, problems can occur. For example, you could be logged into the workstation called ``basie'' but your home directory could be on ``po''. Therefore, once the s"
+    },
+    {
+      "chunk_id": 20,
+      "text": "rectory could be on ``po''. Therefore, once the system knows your home directory, it needs to make it available to you. This usually involves a process called ``NFS mounting'', which is done automatically on the EECS Instructional systems. In the a"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ically on the EECS Instructional systems. In the above case, basie would request that po make your home directory available. If po were currently down, then your home directory would be temporarily unavailable and you might see a message such as: \\i"
+    },
+    {
+      "chunk_id": 22,
+      "text": "navailable and you might see a message such as: \\index{problems!with no home directory} \\begin{quote} {\\tt No directory! Logging in with home=/} \\end{quote} (If your home directory system is down, you will not be able to access your files at all f"
+    },
+    {
+      "chunk_id": 23,
+      "text": "you will not be able to access your files at all from {\\it any} system. You will have to wait until the system containing your home directory is back on-line.) Alternatively, even if po is up, basie might be having a problem mounting po's filesystem"
+    },
+    {
+      "chunk_id": 24,
+      "text": "might be having a problem mounting po's filesystem. In that case, you might try logging into another Instructional system because your home directory may be available there. It is important to know the name of the system that contains {\\it your} ho"
+    },
+    {
+      "chunk_id": 25,
+      "text": "the name of the system that contains {\\it your} home directory so you will know whether a particular system being down will affect you or not. For example, if you were told that cory was going to be down all day tomorrow for system work, you would w"
+    },
+    {
+      "chunk_id": 26,
+      "text": "down all day tomorrow for system work, you would want to know whether your files were on cory or not. Type: \\begin{quote} {\\tt \\%} {\\bf cd; df -n .}~~~~~~~~~~(on the DEC systems) \\\\ {\\tt \\%} {\\bf cd; bdf .}~~~~~~~~~~(on the HP systems) \\end{quote}"
+    },
+    {
+      "chunk_id": 27,
+      "text": "; bdf .}~~~~~~~~~~(on the HP systems) \\end{quote} for information about your home directory location. If you see something like {\\tt /dev/rz0e} in the first column, then your home directory is located on your current system; if you see something lik"
+    },
+    {
+      "chunk_id": 28,
+      "text": "d on your current system; if you see something like {\\tt po:/home/n}, then your home directory resides on po. \\subsubsection{Login Problem: Disk Quota Exceeded} If you have exceeded your disk quota, the system may log you out immediately after you l"
+    },
+    {
+      "chunk_id": 29,
+      "text": "the system may log you out immediately after you login. This is because a windowing system, such as on the HP or DEC workstations, usually needs to write a small temporary file when you login and it cannot do so if you have no disk quota left. If"
+    },
+    {
+      "chunk_id": 30,
+      "text": "annot do so if you have no disk quota left. If this happens to you, you should still be able to login without windows (see signs posted in the labs for how to do this), remotely from another account if you have it, or via a modem from home. Logi"
+    },
+    {
+      "chunk_id": 31,
+      "text": "nt if you have it, or via a modem from home. Login this way and remove or compress some of your files to lower your disk usage. Then you should be able to login on a windowing system again. Please see Section \\ref{Quota} for more specific details"
+    },
+    {
+      "chunk_id": 32,
+      "text": "see Section \\ref{Quota} for more specific details. \\subsection{Correcting Errors and Using Control Keys} When you see the {\\tt \\%} prompt, you are logged in and ready to enter commands. However, before you start learning UNIX commands, there are"
+    },
+    {
+      "chunk_id": 33,
+      "text": "efore you start learning UNIX commands, there are a few keys and key sequences you need to know. Any key sequence that begins with {\\bf CTRL} produces what is called a {\\it control sequence}.\\index{control sequence} To enter a control sequence, hol"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ontrol sequence} To enter a control sequence, hold the \\key{CTRL} key down just as you would the \\key{SHIFT} key, then type the rest of the sequence. If you need to back up and correct a typing mistake on a command line,\\index{command line!correcti"
+    },
+    {
+      "chunk_id": 35,
+      "text": "ake on a command line,\\index{command line!correcting mistakes} there are several ways to do this depending upon which workstation or terminal you're using. You'll need to learn which of these work on the systems you are using: \\begin{itemize} \\item"
+    },
+    {
+      "chunk_id": 36,
+      "text": "the systems you are using: \\begin{itemize} \\item use the \\key{DELETE} key\\index{delete@\\key{DELETE} key} \\item use the \\key{BACKSPACE} key\\index{backspace@\\key{BACKSPACE} key} \\item use the \\key{$<$X} key \\item use \\ctrl{h} \\end{itemize} \\ctrl{u}\\i"
+    },
+    {
+      "chunk_id": 37,
+      "text": "} key \\item use \\ctrl{h} \\end{itemize} \\ctrl{u}\\index{CTRL-u@\\ctrl{u}} is another control sequence. You can erase the entire command line\\index{command line!erasing} by entering \\ctrl{u}. This key sequence produces the UNIX {\\it kill} character."
+    },
+    {
+      "chunk_id": 38,
+      "text": "sequence produces the UNIX {\\it kill} character. Sometimes \\ctrl{x}\\index{CTRL-x@\\ctrl{x}} is used for kill instead. The \\ctrl{c} key\\index{CTRL-c@\\ctrl{c}} sequence produces the UNIX {\\it interrupt character}.\\index{command!interrupting} If you h"
+    },
+    {
+      "chunk_id": 39,
+      "text": "t character}.\\index{command!interrupting} If you have entered a command that you now want to terminate, try entering \\ctrl{c}.\\index{command!quitting from} If one doesn't work, try entering several. Unfortunately, some programs ignore \\ctrl{c} and r"
+    },
+    {
+      "chunk_id": 40,
+      "text": "Unfortunately, some programs ignore \\ctrl{c} and refuse to quit. In these cases you can try entering {\\bf q} (for quit), the {\\bf exit} command, or \\key{Return} followed by a \\ctrl{d}.\\index{CTRL-d@\\ctrl{d}} The \\ctrl{d} works on UNIX as an end-of-f"
+    },
+    {
+      "chunk_id": 41,
+      "text": "ctrl{d}} The \\ctrl{d} works on UNIX as an end-of-file marker. \\subsection{Setting Your Terminal Type}\\index{terminal type}\\label{termtype} %-classic VAX Users Guide stuff Often software packages and programs require that you use a certain terminal"
+    },
+    {
+      "chunk_id": 42,
+      "text": "programs require that you use a certain terminal type and that you explicitly specify that terminal type to UNIX. Your account on an Instructional machine may be set up to automatically ask you for your terminal type. In that case, you can just do"
+    },
+    {
+      "chunk_id": 43,
+      "text": "our terminal type. In that case, you can just do {\\tt source .login} and you will be prompted for the correct terminal type. The above variables will all be set properly then. If this is not the case, you should use the {\\bf set}, {\\bf setenv}, an"
+    },
+    {
+      "chunk_id": 44,
+      "text": "se, you should use the {\\bf set}, {\\bf setenv}, and {\\bf unsetenv} commands instead: \\begin{quote} {\\tt \\%}~~{\\bf set term}{\\tt =}{\\it terminal\\_type} \\\\ {\\tt \\%}~~{\\bf unsetenv TERMCAP} \\\\ {\\tt \\%}~~{\\bf setenv TERM} {\\it terminal\\_type} \\\\ \\end{quo"
+    },
+    {
+      "chunk_id": 45,
+      "text": "{\\bf setenv TERM} {\\it terminal\\_type} \\\\ \\end{quote} where {\\it terminal\\_type} is the type of terminal that you are currently on. Popular terminal types include: {\\tt xterm} (on workstations), {\\tt hpterm} (on HPs with HP VUE), {\\tt vt100}. More"
+    },
+    {
+      "chunk_id": 46,
+      "text": "t hpterm} (on HPs with HP VUE), {\\tt vt100}. More information on the {\\bf set term} command can be found by entering: \\begin{quote} {\\tt \\%}~~{\\bf man 5 termcap} \\end{quote} You may also need to reset the terminal by using the {\\bf tset} command:\\i"
+    },
+    {
+      "chunk_id": 47,
+      "text": "et the terminal by using the {\\bf tset} command:\\index{tset@{\\bf tset} command} \\begin{quote} {\\tt \\%}~~{\\bf tset -r} \\end{quote} \\subsection{Logging Out}\\index{logging off} \\index{logging out|see{logging off}} You must always logoff to end your s"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ogging off}} You must always logoff to end your session. If you don't, the next person who walks up to your workstation or terminal will be able to access your files. To logout from a workstation, \\index{logging off!from a workstation} you will ei"
+    },
+    {
+      "chunk_id": 49,
+      "text": "\\index{logging off!from a workstation} you will either need to exit from {\\it all} your windows by typing ``exit'' in each window, or select {\\bf exit} or {\\bf logout} from one of the menus, depending upon the type of workstation you're on. On the DE"
+    },
+    {
+      "chunk_id": 50,
+      "text": "upon the type of workstation you're on. On the DECstations, for example, hold down the left mouse button in the root window and then select ``exit'' from the list of options by dragging the mouse down. Wait until you see the login banner before lea"
+    },
+    {
+      "chunk_id": 51,
+      "text": "n. Wait until you see the login banner before leaving the workstation. That is the only way you can be sure that you are logged out of everything. See Sections \\ref{logout} and \\ref{logout2} for more details about how to logout from a workstation"
+    },
+    {
+      "chunk_id": 52,
+      "text": "re details about how to logout from a workstation running X Windows or HP VUE. To logout when you are accessing the system via a terminal, enter:\\index{logging off!from a terminal} \\begin{quote} {\\tt \\%}~~\\bf logout \\end{quote} A few problems\\index"
+    },
+    {
+      "chunk_id": 53,
+      "text": "\\%}~~\\bf logout \\end{quote} A few problems\\index{logging off!problems} \\index{problems!logging off} may arise when you attempt to {\\bf logout}. If UNIX says {\\tt ``There are stopped jobs.''} \\index{job!stopped} and doesn't log you out, you must fi"
+    },
+    {
+      "chunk_id": 54,
+      "text": "{job!stopped} and doesn't log you out, you must first kill \\index{job!killing} \\index{killing a job} the remaining jobs. Type: \\begin{quote} {\\tt \\%}~~\\bf jobs \\end{quote} You'll see something like the following: \\begin{quote} {\\tt [1] + Stopped"
+    },
+    {
+      "chunk_id": 55,
+      "text": "the following: \\begin{quote} {\\tt [1] + Stopped vi /tmp/myFile} {\\tt [2] + Stopped mail} \\end{quote} To kill these jobs, for example, type: \\begin{quote} {\\tt \\%}~~\\bf kill \\%1 \\%2 \\end{quote} After killing all remainin"
+    },
+    {
+      "chunk_id": 56,
+      "text": "ll \\%1 \\%2 \\end{quote} After killing all remaining jobs, you may enter {\\bf logout} again and UNIX will log you out. If UNIX says {\\tt ``Not login shell.''} and you are entering commands in the login window of a workstation, enter {\\bf exit}, and th"
+    },
+    {
+      "chunk_id": 57,
+      "text": "window of a workstation, enter {\\bf exit}, and then enter {\\bf logout} once again. Continue this procedure as long as UNIX continues to respond {\\tt ``Not login shell.''} \\section{Files and Filenames}\\index{file}\\index{filename} A file is a logic"
+    },
+    {
+      "chunk_id": 58,
+      "text": "es}\\index{file}\\index{filename} A file is a logically-related collection of information. Information such as electronic mail, computer programs, and papers done with a word processor can be stored on the computer in files. You refer to a file by its"
+    },
+    {
+      "chunk_id": 59,
+      "text": "the computer in files. You refer to a file by its filename. \\index{filename!format} %Obtained from MIT's `Athena Workstation' (p. 11) UNIX filenames can be up to 256 characters in length. You can use any character on the keyboard in a filename exc"
+    },
+    {
+      "chunk_id": 60,
+      "text": "se any character on the keyboard in a filename except a slash ({\\tt /}); recommended characters are {\\tt a}--{\\tt z}, {\\tt A}--{\\tt Z}, {\\tt 0}--{\\tt 9}, the period ({\\tt.}), the dash ({\\tt-}), and the underscore ({\\tt\\ttunderscore}). If you use any"
+    },
+    {
+      "chunk_id": 61,
+      "text": "e underscore ({\\tt\\ttunderscore}). If you use any other characters, you may run into problems later. The case\\index{filename!case} of the letters makes a difference when specifying filenames: {\\tt myfile} is a different file than {\\tt Myfile}.\\ind"
+    },
+    {
+      "chunk_id": 62,
+      "text": "myfile} is a different file than {\\tt Myfile}.\\index{case sensitivity} \\subsection{Wildcards and Metacharacters}\\index{wildcard} \\index{metacharacters} Wildcards, also known as metacharacters, are used to refer to a group of files. You can choose"
+    },
+    {
+      "chunk_id": 63,
+      "text": "sed to refer to a group of files. You can choose a group of files with a single file specification rather than specifying each filename separately. The two general purpose wildcard characters are the asterisk ({\\tt *})\\index{wildcard! e@{\\tt*}}\\in"
+    },
+    {
+      "chunk_id": 64,
+      "text": "e asterisk ({\\tt *})\\index{wildcard! e@{\\tt*}}\\index{ e@{\\tt*}} which is a match-all character, and the question mark ({\\tt ?})\\index{wildcard! c@{\\tt?}}\\index{ c@{\\tt?}} which is the match-single character. You can also use the selective wildcard"
+    },
+    {
+      "chunk_id": 65,
+      "text": "aracter. You can also use the selective wildcard symbols called brackets, {\\tt [ ]},\\index{wildcard! r@{\\tt[}}\\index{ r@{\\tt[}}% \\index{wildcard! s@{\\tt]}}\\index{ s@{\\tt]}} to specify which characters can occur within a filename at any specific poin"
+    },
+    {
+      "chunk_id": 66,
+      "text": "s can occur within a filename at any specific point. \\subsubsection{The Match-All Wildcard Character (*)} %-same as above... The asterisk ({\\tt *})\\index{wildcard! e@{\\tt*}}\\index{ e@{\\tt*}} is used to replace all or part of a filename. Use the a"
+    },
+    {
+      "chunk_id": 67,
+      "text": "d to replace all or part of a filename. Use the asterisk when you want to select all files that match any possible value (including no value at all) in a filename. Some examples on how to use the * to select files are shown in Figure~\\ref{wild}. \\"
+    },
+    {
+      "chunk_id": 68,
+      "text": "to select files are shown in Figure~\\ref{wild}. \\subsubsection{The Match-Single Wildcard Character (?)} %-same as above The question mark ({\\tt?})\\index{wildcard! c@{\\tt?}}\\index{ c@{\\tt?}} is used to indicate a single-character replacement in a fi"
+    },
+    {
+      "chunk_id": 69,
+      "text": "to indicate a single-character replacement in a filename. For example, {\\tt b?th} refers to all four-character filenames that begin with a lowercase ``b'' and end with lowercase ``th''. Some examples on how to use the ``?'' to select files are shown"
+    },
+    {
+      "chunk_id": 70,
+      "text": "on how to use the ``?'' to select files are shown in Figure~\\ref{wild}. \\subsubsection{Selecting Filenames with Brackets} Brackets \\hbox{\\tt [ ]}\\index{wildcard! r@{\\tt[}}\\index{ r@{\\tt[}}% \\index{wildcard! s@{\\tt]}}\\index{ s@{\\tt]}} are used as a"
+    },
+    {
+      "chunk_id": 71,
+      "text": "wildcard! s@{\\tt]}}\\index{ s@{\\tt]}} are used as a wildcard mechanism to choose from a group of characters that might occur at a particular point in a filename. For instance, {\\tt b[aeiu]t} refers to the lowercase filenames {\\tt bat}, {\\tt bet}, {\\t"
+    },
+    {
+      "chunk_id": 72,
+      "text": "the lowercase filenames {\\tt bat}, {\\tt bet}, {\\tt bit} and {\\tt but}. You can also choose an alphabetic or numeric range of characters by using a hyphen ({\\tt -}).\\index{ f@{\\tt-}} For instance, \\hbox{\\tt z[w-z]z} would refer to lowercase filename"
+    },
+    {
+      "chunk_id": 73,
+      "text": "box{\\tt z[w-z]z} would refer to lowercase filenames {\\tt zwz}, {\\tt zxz}, {\\tt zyz} and {\\tt zzz}. Additional examples on how to use the \\hbox{\\tt [ ]} to select files are shown in Figure~\\ref{wild}. \\begin{figure}[htb]\\centering \\begin{minipage}{"
+    },
+    {
+      "chunk_id": 74,
+      "text": "\\begin{figure}[htb]\\centering \\begin{minipage}{9.5cm} {\\bf Files:}\\\\ \\begin{verbatim} dog.dat hello.dvi hello.tex sub2 hello.aux hello.log oscar verona.txt \\end{verbatim} \\end{minipage} \\vskip 12pt \\begin{tabular}{ll} {\\bf File S"
+    },
+    {
+      "chunk_id": 75,
+      "text": "ipage} \\vskip 12pt \\begin{tabular}{ll} {\\bf File Specification} & {\\bf File(s) Selected} \\\\[3pt] {\\bf hello.*} & hello.aux~~ hello.dvi~~ hello.log~~ hello.tex \\\\ {\\bf {}*s*} & oscar~~ sub2 \\\\ {\\bf sub?} & sub2 \\\\ {\\bf hello.??x} & hello.aux~~ he"
+    },
+    {
+      "chunk_id": 76,
+      "text": "sub?} & sub2 \\\\ {\\bf hello.??x} & hello.aux~~ hello.tex \\\\ {\\bf hello.[adl]*} & hello.aux~~ hello.dvi~~ hello.log \\\\ {\\bf {}*[a-e]*t*} & dog.dat~~ hello.tex~~ verona.txt \\\\ \\end{tabular} \\isucaption{Using Wildcards to Select Files} \\label{wild"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ption{Using Wildcards to Select Files} \\label{wild} \\end{figure} \\section{UNIX\\/\\TM\\ Commands} \\subsection{Giving Commands to UNIX\\/\\TM\\ } %Borrowed from DIGITAL's Gray Book(p.1-5) %Intermixed with VAX Users Guide 89-90 (p. 14 and following) Onc"
+    },
+    {
+      "chunk_id": 78,
+      "text": "h VAX Users Guide 89-90 (p. 14 and following) Once you have successfully logged in, the computer runs a program that prompts you for your first command. The system signals its readiness to accept commands by displaying the {\\tt \\%} prompt.\\index{pr"
+    },
+    {
+      "chunk_id": 79,
+      "text": "mmands by displaying the {\\tt \\%} prompt.\\index{prompt} The program that you are running at this point is called `the shell' because it seems to surround the computer system and separates users from the computer's internal programming. The internals"
+    },
+    {
+      "chunk_id": 80,
+      "text": "he computer's internal programming. The internals of the computer system are known as `the kernel'. When you type commands at the {\\tt \\%} prompt, you are telling the shell to run other programs for you. When you enter a command at the command promp"
+    },
+    {
+      "chunk_id": 81,
+      "text": "you. When you enter a command at the command prompt, you are really specifying the program that you want to run. The UNIX system comes with many utility programs that you run by entering their names. \\subsubsection{Case Sensitivity}\\index{case sens"
+    },
+    {
+      "chunk_id": 82,
+      "text": "\\subsubsection{Case Sensitivity}\\index{case sensitivity} \\index{command!case} %Drawn From:MIT's `Athena Workstation' (p. 6) UNIX is unusual among operating systems because it is {\\it case-sensitive}. It makes a difference whether you enter a lett"
+    },
+    {
+      "chunk_id": 83,
+      "text": "}. It makes a difference whether you enter a letter in UPPERCASE or lowercase. The command to list files in UNIX is {\\bf ls}, not {\\bf LS}. The file {\\tt readme} is different from the file {\\tt Readme}, which is different again from the file {\\tt"
+    },
+    {
+      "chunk_id": 84,
+      "text": "dme}, which is different again from the file {\\tt README}. A command option like {\\bf -p} is different from the command option {\\bf -P}. You must pay attention to the case of letters and always enter them exactly as specified. Most commands in UNIX"
+    },
+    {
+      "chunk_id": 85,
+      "text": "them exactly as specified. Most commands in UNIX are entered in lowercase. Uppercase is usually used to make something really stand out or when the lowercase alternative is already being used for something else. \\subsubsection{Setting Your Comman"
+    },
+    {
+      "chunk_id": 86,
+      "text": "omething else. \\subsubsection{Setting Your Command Path}\\index{command!not found} \\index{path!setting}\\label{settingPath} Sometimes when you type a command name, you get an error ``{\\tt Command not found.}'' First, check to be sure that you have no"
+    },
+    {
+      "chunk_id": 87,
+      "text": "ound.}'' First, check to be sure that you have not made a typo or misspelled the name of the command. If you have typed the command correctly and are still getting this error, then you probably need to add a directory to your ``path'' When you firs"
+    },
+    {
+      "chunk_id": 88,
+      "text": "to add a directory to your ``path'' When you first login to the computer, the {\\it path} variable gets set in your shell. (See Chapter \\ref{cshell}.) Type {\\bf echo \\$path} to see what it is currently set to. You should see a list of directories wh"
+    },
+    {
+      "chunk_id": 89,
+      "text": "ly set to. You should see a list of directories where most of the common programs are found. This list of directories is set from your .cshrc or .login file upon logging in. Only commands found in your path can be executed. For this reason, your in"
+    },
+    {
+      "chunk_id": 90,
+      "text": "our path can be executed. For this reason, your instructor or TA may tell you to add a class directory to your path, such as {\\tt \\~\\space cs186/bin}, or a path to some specific software, such as {\\tt /cad/bin/hspice}. This is done by editing the pat"
+    },
+    {
+      "chunk_id": 91,
+      "text": "/cad/bin/hspice}. This is done by editing the path line your {\\bf .login} or {\\bf .cshrc} file. (See Sections \\ref{customiz} and \\ref{path2}.) For example, if I type {\\bf hspice} and get {\\tt hspice: Command not found.} I need to tell the comput"
+    },
+    {
+      "chunk_id": 92,
+      "text": "ice: Command not found.} I need to tell the computer where to find hspice by adding it to my path. \\index{path!setting} There are two steps to this: (1) find out where hspice is and (2) add that directory to my path. For the first part, it is usua"
+    },
+    {
+      "chunk_id": 93,
+      "text": "ectory to my path. For the first part, it is usually best to look in /usr/pub to see if there is any information about the software I want to run. If not, then I will probably need to ask my classmates, TA, instructor or root@cory. I see the foll"
+    },
+    {
+      "chunk_id": 94,
+      "text": "ates, TA, instructor or root@cory. I see the following information in /usr/pub/hspice.help: \\begin{quote} {\\tt You MUST add /cad/bin to your search path BEFORE /usr/local/bin, otherwise you will see this message every time and not run the real S"
+    },
+    {
+      "chunk_id": 95,
+      "text": "see this message every time and not run the real SPICE.} \\end{quote} Therefore, I edit my .cshrc file as follows: Before: \\begin{quote} {\\tt set path = (/usr/ucb /usr/bin /usr/local/bin \\verb+\\+ \\\\ /usr/sww /usr/sww/bin /share/a/bin . )} \\end{q"
+    },
+    {
+      "chunk_id": 96,
+      "text": "\\ /usr/sww /usr/sww/bin /share/a/bin . )} \\end{quote} After: \\begin{quote} {\\tt set path = (/usr/ucb /usr/bin /cad/bin /usr/local/bin \\verb+\\+ \\\\ /usr/sww /usr/sww/bin /share/a/bin . )} \\end{quote} The next time I login, my path"
+    },
+    {
+      "chunk_id": 97,
+      "text": ". )} \\end{quote} The next time I login, my path will be set with the new directory and hspice should be in my path. Please note that great care must be taken when editing your .cshrc file because if you make any mistakes, you may not be able to lo"
+    },
+    {
+      "chunk_id": 98,
+      "text": "f you make any mistakes, you may not be able to login back in to your account. \\subsubsection{Continuing Your Command on More than One Line} \\index{command!continued} UNIX commands may be entered using more than one line. The backslash, \\verb+\\+"
+    },
+    {
+      "chunk_id": 99,
+      "text": "using more than one line. The backslash, \\verb+\\+,\\index{ t@\\verb+\\+} is used to continue a command on the following line. Add a \\verb+\\+ to the command line that you would like to continue, press \\key{Return}, then continue typing on the next line"
+    },
+    {
+      "chunk_id": 100,
+      "text": "key{Return}, then continue typing on the next line. Continuing commands is useful when you have an extremely long command, when you are using several command options, or to make a command script more readable. \\subsection{Changing Your Password} %"
+    },
+    {
+      "chunk_id": 101,
+      "text": "readable. \\subsection{Changing Your Password} % The passwd Command} \\index{password!changing} It is a good idea to change your password frequently. When changing your password on an Instructional system, you need to run the {\\bf passwd} command"
+    },
+    {
+      "chunk_id": 102,
+      "text": "l system, you need to run the {\\bf passwd} command. Here is an example: \\begin{center} \\begin{tabular}{l} {\\tt \\%}~~{\\bf passwd} \\\\ {\\tt Old password:}~~{\\it old\\_password} \\\\ {\\tt New password:}~~{\\it new\\_password} \\\\ {\\tt Verify:}~{\\it new\\_passw"
+    },
+    {
+      "chunk_id": 103,
+      "text": "it new\\_password} \\\\ {\\tt Verify:}~{\\it new\\_password}\\\\ {\\tt \\%} \\\\ \\end{tabular} \\end{center} Enter your old and new passwords as indicated by the prompts. Verifying simply means to enter your new password again so UNIX can verify that you didn't"
+    },
+    {
+      "chunk_id": 104,
+      "text": "password again so UNIX can verify that you didn't make a typing error the first time you entered your new password. For reasons of privacy and security, your password does not appear on the screen. If the password you enter for {\\it new\\_password}"
+    },
+    {
+      "chunk_id": 105,
+      "text": "If the password you enter for {\\it new\\_password} and {\\it verifying} do not match, you will see the message `{\\tt Mismatch - try again}' or `{\\tt Mismatch - password unchanged}' and you will have to enter your {\\it new\\_password} again. \\subsubsect"
+    },
+    {
+      "chunk_id": 106,
+      "text": "enter your {\\it new\\_password} again. \\subsubsection{Where to Run the Command} Since your Instructional login name and password can be used on many machines, you need to be sure to change your password on a password server machine. First try runnin"
+    },
+    {
+      "chunk_id": 107,
+      "text": "rd on a password server machine. First try running the {\\bf passwd} command on your current system. If you get an error like this: \\begin{quote} A T T E N T I O N ~~~ P L E A S E chfn, chsh, an"
+    },
+    {
+      "chunk_id": 108,
+      "text": "chfn, chsh, and passwd have been disabled on this machine. You should now login to po.eecs to run any of the above commands by typing:"
+    },
+    {
+      "chunk_id": 109,
+      "text": "un any of the above commands by typing: {\\tt \\%}~~{\\bf rlogin po.eecs} - T C S (root@cory) \\end{quote} then follow the instructions listed, i"
+    },
+    {
+      "chunk_id": 110,
+      "text": "end{quote} then follow the instructions listed, i.e., type {\\bf rlogin po.eecs}. Also, it usually takes time for a password change to get distributed to all the Instructional systems, so be sure to remember your old password until the change has be"
+    },
+    {
+      "chunk_id": 111,
+      "text": "remember your old password until the change has been completely distributed. \\subsubsection{Choosing Your Password} For maximum effectiveness your password\\index{password!format} should be at least 8 characters long; should contain letters, numbers"
+    },
+    {
+      "chunk_id": 112,
+      "text": "characters long; should contain letters, numbers and symbols; should not be readily associated in any way with your name or person, and should be changed periodically. Some systems will {\\it require} that your password be 8 or more characters and n"
+    },
+    {
+      "chunk_id": 113,
+      "text": "} that your password be 8 or more characters and not all lower case. If you forget your password, we have no way of finding out what it was set to. We can, however, allow you to change it again. We do not change passwords via e-mail because this is"
+    },
+    {
+      "chunk_id": 114,
+      "text": "do not change passwords via e-mail because this is insecure, therefore, you need to come in person and see the staff in 384 Cory Hall. {\\bf Good} password choices include:\\index{password!good} \\begin{itemize} \\item Non-words \\item Letter, number"
+    },
+    {
+      "chunk_id": 115,
+      "text": "{itemize} \\item Non-words \\item Letter, number, and symbol combinations \\end{itemize} {\\bf Poor} password choices include:\\index{password!poor} \\begin{itemize} \\item Your username (Never use this.) \\item Any part of your given name \\item"
+    },
+    {
+      "chunk_id": 116,
+      "text": "his.) \\item Any part of your given name \\item Anybody's name, i.e., name of friend, mother, spouse, etc. \\item A word that is in any dictionary, including foreign languages \\item Short words \\item Numbers alone \\item Common non-words (e.g"
+    },
+    {
+      "chunk_id": 117,
+      "text": "\\item Numbers alone \\item Common non-words (e.g., OK, ASAP) \\item Control sequences \\end{itemize} \\subsection{Listing Files} %: The ls Command} \\index{file!listing} The {\\bf ls} command\\index{ls@{\\bf ls} command} is used to obtain a list of"
+    },
+    {
+      "chunk_id": 118,
+      "text": "x{ls@{\\bf ls} command} is used to obtain a list of files in your current working directory. Normally the filenames are listed alphabetically in four or five columns. A more informative listing of your files, however, can be obtained through the use"
+    },
+    {
+      "chunk_id": 119,
+      "text": "ur files, however, can be obtained through the use of optional qualifiers. \\label{lsll} The {\\bf -l} option gives complete information on every file listed including file protection, file owner, file size, and date created. The {\\bf -a} option list"
+    },
+    {
+      "chunk_id": 120,
+      "text": "size, and date created. The {\\bf -a} option lists both regular and {\\it hidden} files in your present working directory. Hidden files\\index{hidden files}\\index{file!hidden} have filenames that begin with {\\tt .} and are special purpose files within"
+    },
+    {
+      "chunk_id": 121,
+      "text": "with {\\tt .} and are special purpose files within UNIX that are not normally shown by the {\\bf ls} command. You can also combine these options, as follows: {\\bf ls -al}. Some sample output from the {\\bf ls -l} command is shown in Figure~\\ref{ls}."
+    },
+    {
+      "chunk_id": 122,
+      "text": "{\\bf ls -l} command is shown in Figure~\\ref{ls}. \\begin{figure}[htb] \\begin{verbatim} drwx------ 4 username 512 Jul 13 15:06 Mail drwx------ 2 username 512 Jul 13 15:52 News drwx------ 2 username"
+    },
+    {
+      "chunk_id": 123,
+      "text": "15:52 News drwx------ 2 username 512 Jul 10 11:33 Proj1 -rw------- 1 username 26 Jul 11 13:16 dog.dat -rw------- 1 username 8 Jul 13 13:40 hello.aux -rw------- 1 username 232"
+    },
+    {
+      "chunk_id": 124,
+      "text": "lo.aux -rw------- 1 username 232 Jul 13 13:40 hello.dvi -rw------- 1 username 949 Jul 13 13:40 hello.log -rw------- 1 username 67 Jul 13 13:40 hello.tex -rw-r----- 1 username 25"
+    },
+    {
+      "chunk_id": 125,
+      "text": "llo.tex -rw-r----- 1 username 259 Jul 11 09:11 oscar -rw-r----- 1 username 70 Jul 11 13:52 sub2 -rw-r----- 1 username 451 Jul 19 13:49 verona.txt \\end{verbatim} \\isucaption{Sample Output from the"
+    },
+    {
+      "chunk_id": 126,
+      "text": "\\end{verbatim} \\isucaption{Sample Output from the {\\bf ls -l} Command} \\label{ls} \\end{figure} \\subsection{Displaying the Contents of a File} \\index{file!displaying} %: The cat Command} %A combo of:VAX Users Guide 89-90 (p. 37) %and MIT's Athena Wo"
+    },
+    {
+      "chunk_id": 127,
+      "text": "VAX Users Guide 89-90 (p. 37) %and MIT's Athena Workstations (p. 16) The {\\bf cat} command\\index{cat@{\\bf cat} command} displays the contents of a file on your terminal screen. The {\\bf cat} command has the following form: \\begin{quote} {\\tt \\%}~~{"
+    },
+    {
+      "chunk_id": 128,
+      "text": "has the following form: \\begin{quote} {\\tt \\%}~~{\\bf cat}~~{\\it filename} \\end{quote} Be careful when you cat a file. You should only cat a text file. If you accidentally cat a non-text file (like a binary file), you will get a lot of garbage and"
+    },
+    {
+      "chunk_id": 129,
+      "text": "a binary file), you will get a lot of garbage and your terminal may hang. If you're not sure what the type of a file is, use the ``file'' \\index{file command} command: \\begin{quote} {\\tt \\%}~~{\\bf file}~~{\\it filename} \\end{quote} If the file is ve"
+    },
+    {
+      "chunk_id": 130,
+      "text": "le}~~{\\it filename} \\end{quote} If the file is very long, its contents may scroll\\index{scrolling} past you faster than you can read them. If this happens, you can enter \\ctrl{s}\\index{CTRL-s@\\ctrl{s}} to stop the screen from scrolling and then \\ct"
+    },
+    {
+      "chunk_id": 131,
+      "text": "s}} to stop the screen from scrolling and then \\ctrl{q}\\index{CTRL-q@\\ctrl{q}} to resume scrolling. Rather than doing this, however, you could use the {\\bf more} command.\\index{more@{\\bf more} command} The {\\bf more} command displays a file's conte"
+    },
+    {
+      "chunk_id": 132,
+      "text": "d} The {\\bf more} command displays a file's contents one screen at a time, pausing after every screenful so that you can read them. The format of the {\\bf more} command is as follows: \\begin{quote} {\\tt \\%}~~{\\bf more}~~{\\it filename} \\end{quote}"
+    },
+    {
+      "chunk_id": 133,
+      "text": "{\\tt \\%}~~{\\bf more}~~{\\it filename} \\end{quote} Once {\\bf more} has filled up the screen, you must give it a {\\it subcommand} to tell it to continue. The most commonly used subcommands are summarized in Table~\\ref{moresub}. \\begin{table}[htb]\\cen"
+    },
+    {
+      "chunk_id": 134,
+      "text": "ed in Table~\\ref{moresub}. \\begin{table}[htb]\\centering \\setlength{\\captionwidth}{8.5cm} \\isucaption{Subcommands Commonly Used with the {\\bf more} Command} \\label{moresub} \\begin{tabular}{ll} \\key{SPACEBAR} & Moves forward one screenful\\\\ \\key{Retur"
+    },
+    {
+      "chunk_id": 135,
+      "text": "ACEBAR} & Moves forward one screenful\\\\ \\key{Return} & Moves forward one line\\\\ {\\bf b} & Moves back one page\\\\ {\\tt /}{\\it word}~\\key{Return} & Search forward for {\\it word}\\\\ {\\bf q} or {\\ctrl c} & Quit\\\\ {\\bf h} & Help \\end{tabular} \\end{table} T"
+    },
+    {
+      "chunk_id": 136,
+      "text": "Quit\\\\ {\\bf h} & Help \\end{tabular} \\end{table} The {\\bf more} command cannot display binary or directory files. The {\\bf more} command is a UNIX {\\it filter};\\index{filter} many other UNIX commands filter their output through {\\bf more}. Instead"
+    },
+    {
+      "chunk_id": 137,
+      "text": "filter their output through {\\bf more}. Instead of processing the output directly, it is sent through {\\bf more} which gives you more control. In UNIX terms, we say that we ``{\\it pipe}\\index{piping} the output through {\\bf more}''. \\label{piping}"
+    },
+    {
+      "chunk_id": 138,
+      "text": "} the output through {\\bf more}''. \\label{piping} When you enter a command and its output is too large to fit on one screen, you can cancel the output by typing {\\ctrl c}\\index{CTRL-c@\\ctrl{c}} and re-enter it as follows: \\begin{quote} {\\tt \\%}~~{\\it"
+    },
+    {
+      "chunk_id": 139,
+      "text": "-enter it as follows: \\begin{quote} {\\tt \\%}~~{\\it command}~~$|$~~{\\bf more} \\end{quote} or \\begin{quote} {\\tt \\%}~~!!~~$|$~~{\\bf more}\\footnote{see Section \\ref{bangbang}.} \\end{quote} The ``\\verb+|+''\\index{ l@\\verb+\"|+} is the pipe character. For"
+    },
+    {
+      "chunk_id": 140,
+      "text": "''\\index{ l@\\verb+\"|+} is the pipe character. For example, if you have collected hundreds of files, you can pipe the output of {\\bf ls -l} through {\\bf more} by entering {\\bf ls -l~\\verb+|+~more}.\\index{ls@{\\bf ls} command} There may be times when"
+    },
+    {
+      "chunk_id": 141,
+      "text": "dex{ls@{\\bf ls} command} There may be times when you don't want to display the entire contents of a file. Suppose you forgot what was in a file of 150 lines. Looking at only a few lines from that file would probably be enough so that you wouldn't"
+    },
+    {
+      "chunk_id": 142,
+      "text": "file would probably be enough so that you wouldn't have to look at the rest of the file. For this reason, the {\\bf head} and {\\bf tail} commands were created. The {\\bf head} command\\index{head@{\\bf head} command} displays the first ten lines of a gi"
+    },
+    {
+      "chunk_id": 143,
+      "text": "ead} command} displays the first ten lines of a given file while the {\\bf tail} command\\index{tail@{\\bf tail} command} displays the last ten lines of a file. The {\\bf head} and {\\bf tail} commands have the following form: \\begin{quote} {\\tt \\%}~~{\\b"
+    },
+    {
+      "chunk_id": 144,
+      "text": "ve the following form: \\begin{quote} {\\tt \\%}~~{\\bf head}~~{\\it filename}\\\\[6pt] {\\tt \\%}~~{\\bf tail}~~{\\it filename} \\end{quote} An additional command options \\hbox{\\bf -\\it n} or \\hbox{\\bf +\\it n} can also be added to the {\\bf head} and {\\bf tail}"
+    },
+    {
+      "chunk_id": 145,
+      "text": "can also be added to the {\\bf head} and {\\bf tail} commands where {\\it n} specifies exactly how many lines you would like to see from a particular file. Counting starts with the first line of the file when you use \\hbox{\\bf +\\it n} and the last line"
+    },
+    {
+      "chunk_id": 146,
+      "text": "e when you use \\hbox{\\bf +\\it n} and the last line when you use \\hbox{\\bf -\\it n}. Examples of the {\\bf cat}, {\\bf head} and {\\bf tail} commands are shown in Figure~\\ref{verona}. \\begin{figure}[htb]\\centering\\label{verona} \\begin{tabular}{l} {\\tt \\%"
+    },
+    {
+      "chunk_id": 147,
+      "text": "centering\\label{verona} \\begin{tabular}{l} {\\tt \\%}~~{\\bf cat verona.txt} \\\\ {\\tt Cease to lament for that thou canst not help.} \\\\ {\\tt And study help for that which thou lamentst.} \\\\ {\\tt Time is the nurse and breeder of a"
+    },
+    {
+      "chunk_id": 148,
+      "text": "t.} \\\\ {\\tt Time is the nurse and breeder of all good.} \\\\ {\\tt Here, if thou stay, thou canst not see thy love;} \\\\ {\\tt Besides, thy staying will abridge thy life.} \\\\ {\\tt Hope is a lover's staff: walk hence with that} \\\\ {\\tt An"
+    },
+    {
+      "chunk_id": 149,
+      "text": "lover's staff: walk hence with that} \\\\ {\\tt And manage it against despairing thoughts.} \\\\ {\\tt \\%}~~{\\bf head -3 verona.txt} \\\\ {\\tt Cease to lament for that thou canst not help.} \\\\ {\\tt And study help for that which tho"
+    },
+    {
+      "chunk_id": 150,
+      "text": "elp.} \\\\ {\\tt And study help for that which thou lamentst.} \\\\ {\\tt Time is the nurse and breeder of all good.} \\\\ {\\tt \\%}~~{\\bf tail -1 verona.txt} \\\\ {\\tt And manage it against despairing thoughts.} \\\\ {\\tt \\%}~~"
+    },
+    {
+      "chunk_id": 151,
+      "text": "against despairing thoughts.} \\\\ {\\tt \\%}~~{\\bf tail +1 verona.txt} \\\\ {\\tt Cease to lament for that thou canst not help.} \\\\ \\end{tabular} \\isucaption{Examples of the {\\bf cat}, {\\bf head}, and {\\bf tail} Commands} \\end{figu"
+    },
+    {
+      "chunk_id": 152,
+      "text": "t}, {\\bf head}, and {\\bf tail} Commands} \\end{figure} \\subsection{Deleting Files}\\index{file!deleting} \\index{deleting files} It is a good idea to delete files that you know you won't need anymore. Otherwise, your directory can become very full an"
+    },
+    {
+      "chunk_id": 153,
+      "text": "Otherwise, your directory can become very full and you can exceed your allotted disk space. The command to delete or remove a file is the {\\bf rm} command\\index{rm@{\\bf rm} command} and its format is as follows: \\begin{quote} {\\tt \\%} {\\bf rm} {\\it"
+    },
+    {
+      "chunk_id": 154,
+      "text": "as follows: \\begin{quote} {\\tt \\%} {\\bf rm} {\\it filename} \\end{quote} UNIX doesn't verify the deletion, it just deletes the file and prompts for the next command. You can specify more than one file to be deleted on the command line by separating"
+    },
+    {
+      "chunk_id": 155,
+      "text": "e to be deleted on the command line by separating the filenames with blanks. You can also, with caution, use wildcards\\index{wildcard} (\\verb+* ? [ ]+) \\index{deleting files!wildcards and} to delete groups of files. The most catastrophic mistake y"
+    },
+    {
+      "chunk_id": 156,
+      "text": "groups of files. The most catastrophic mistake you could probably make would be to enter {\\bf rm *} which would delete {\\it all} of the non-hidden files in your current directory. Please note that there are no ``undelete'' utilities available in U"
+    },
+    {
+      "chunk_id": 157,
+      "text": "there are no ``undelete'' utilities available in UNIX, so once you have deleted something, it's gone. A {\\bf -i} parameter, as in {\\bf rm -i} {\\it filename}, provides for a verification prompt before deleting multiple files. Type ``n'' or ``y'' in"
+    },
+    {
+      "chunk_id": 158,
+      "text": "deleting multiple files. Type ``n'' or ``y'' in response. \\begin{quote} {\\tt \\%}~~{\\bf ls} \\\\ {\\tt foo bar} \\\\ {\\tt \\%}~~{\\bf rm -i}~~{\\it *} \\\\ {\\tt rm: remove foo? {\\bf y} } \\\\ {\\tt rm: remove bar? {\\bf n} } \\\\ {\\tt \\%}~~{\\bf ls} \\\\ {\\tt bar} \\\\"
+    },
+    {
+      "chunk_id": 159,
+      "text": "? {\\bf n} } \\\\ {\\tt \\%}~~{\\bf ls} \\\\ {\\tt bar} \\\\ \\end{quote} Many users set an alias for {\\bf rm} to {\\bf rm -i} for safety. See Section~\\ref{customiz} for more information on customizing your environment. Additionally, the {\\bf noclobber} variable"
+    },
+    {
+      "chunk_id": 160,
+      "text": "nment. Additionally, the {\\bf noclobber} variable can help to protect your files from accidential deletions (See Sections \\ref{path2} and \\ref{avoid}). \\index{noclobber@{\\bf noclobber} variable} \\subsection{Copying and Renaming Files} \\index{renamin"
+    },
+    {
+      "chunk_id": 161,
+      "text": "section{Copying and Renaming Files} \\index{renaming files}\\index{copying files} \\index{file!copying} \\index{file!renaming} %: The cp and mv Commands} %Directly pinched from MIT's Athena Workstations (p. 18) The {\\bf cp} command\\index{cp@{\\bf cp} com"
+    },
+    {
+      "chunk_id": 162,
+      "text": "p. 18) The {\\bf cp} command\\index{cp@{\\bf cp} command} is used to create a duplicate copy of an existing file. The form of the {\\bf cp} command is: \\begin{quote} {\\tt \\%}~~{\\bf cp}~~{\\it old\\_filename}~~{\\it copy\\_filename} \\end{quote} UNIX makes"
+    },
+    {
+      "chunk_id": 163,
+      "text": "me}~~{\\it copy\\_filename} \\end{quote} UNIX makes a copy of {\\it old\\_filename} and calls it {\\it copy\\_filename}. If {\\it copy\\_filename} already exists, it is {\\it overwritten}. Again, UNIX does not verify the copy by default. See Figure~\\ref{cpm"
+    },
+    {
+      "chunk_id": 164,
+      "text": "ot verify the copy by default. See Figure~\\ref{cpmv} for an example of the {\\bf cp} command. You can, however, use the {\\bf -i} option to avoid accidentally destroying files. The {\\bf mv} command\\index{mv@{\\bf mv} command} is used to move or rename"
+    },
+    {
+      "chunk_id": 165,
+      "text": "ex{mv@{\\bf mv} command} is used to move or rename a file. The form of the {\\bf mv} command is: \\begin{quote} {\\tt \\%}~~{\\bf mv}~~{\\it old\\_filename}~~{\\it new\\_filename} \\end{quote} UNIX renames {\\it old\\_filename} to {\\it new\\_filename}, effective"
+    },
+    {
+      "chunk_id": 166,
+      "text": "t old\\_filename} to {\\it new\\_filename}, effectively moving it from one file to another. If {\\it new\\_filename} already exists, it is overwritten. UNIX does not verify that it has moved the file. As with the {\\bf rm} and {\\bf cp} commands, you can"
+    },
+    {
+      "chunk_id": 167,
+      "text": "with the {\\bf rm} and {\\bf cp} commands, you can use the {\\bf -i} option. See Figure~\\ref{cpmv} for an example of the {\\bf mv} command. \\begin{figure}[htb]\\centering \\begin{minipage}{11.8cm} \\tt \\begin{tabular}{l} \\% {\\bf ls} \\end{tabular} \\begin{v"
+    },
+    {
+      "chunk_id": 168,
+      "text": "gin{tabular}{l} \\% {\\bf ls} \\end{tabular} \\begin{verbatim} dog.dat hello.dvi hello.tex sub2 hello.aux hello.log oscar verona.txt \\end{verbatim} \\begin{tabular}{l} \\% {\\bf cp~~oscar~~zzz.dat} \\\\ \\% {\\bf ls} \\end{tabular} \\begin{verba"
+    },
+    {
+      "chunk_id": 169,
+      "text": "zzz.dat} \\\\ \\% {\\bf ls} \\end{tabular} \\begin{verbatim} dog.dat hello.log oscar verona.txt hello.aux hello.tex sub2 zzz.dat hello.dvi \\end{verbatim} \\begin{tabular}{l} \\% {\\bf mv~~sub2~~view.sub} \\\\ \\% {\\bf ls} \\end{tabular} \\be"
+    },
+    {
+      "chunk_id": 170,
+      "text": "~~sub2~~view.sub} \\\\ \\% {\\bf ls} \\end{tabular} \\begin{verbatim} dog.dat hello.log oscar view.sub hello.aux hello.tex verona.txt zzz.dat hello.dvi \\end{verbatim} \\end{minipage} \\isucaption{Examples of the {\\bf cp} and {\\bf mv} Command"
+    },
+    {
+      "chunk_id": 171,
+      "text": "tion{Examples of the {\\bf cp} and {\\bf mv} Commands} \\label{cpmv} \\end{figure} {\\bf Note:} Both {\\bf cp} and {\\bf mv} allow you to overwrite existing files. To overwrite means that the contents of the previous existing file are gone forever. It is"
+    },
+    {
+      "chunk_id": 172,
+      "text": "he previous existing file are gone forever. It is very easy to overwrite an existing file if you are not being careful. Both commands have a {\\bf -i} option that will ``{\\bf i}nquire'' whether you are sure you want to overwrite a file. See Section \\"
+    },
+    {
+      "chunk_id": 173,
+      "text": "e sure you want to overwrite a file. See Section \\ref{customiz} for more information. \\subsection{Printing Files} See Chapter \\ref{printing files}. \\subsection{Online Manual ({\\bf ``man''}) Pages}\\label{man:command} Online documentation for UNIX i"
+    },
+    {
+      "chunk_id": 174,
+      "text": "abel{man:command} Online documentation for UNIX is provided by a facility that displays pages of the 12-volume UNIX manual set and any manual pages available for locally-provided programs and facilities. \\subsubsection{The {\\bf man} Command}\\index{"
+    },
+    {
+      "chunk_id": 175,
+      "text": "ies. \\subsubsection{The {\\bf man} Command}\\index{man@{\\bf man} command} If you know the name of a manual entry, you can display information about it with the {\\bf man} command. For example, to display information about the {\\bf ls} command, enter:"
+    },
+    {
+      "chunk_id": 176,
+      "text": "lay information about the {\\bf ls} command, enter: \\begin{quote} {\\tt \\% }{\\bf man~ls} \\end{quote} You will see displayed a series of standard subsections common to most manual entries: \\begin{description} \\item [NAME] contains the name of the comm"
+    },
+    {
+      "chunk_id": 177,
+      "text": "iption} \\item [NAME] contains the name of the command and a short description. \\item [SYNTAX] lists the correct syntax of the command. Items in square brackets {\\tt [~]} are optional and items that are underscored are values to be supplied by you."
+    },
+    {
+      "chunk_id": 178,
+      "text": "are underscored are values to be supplied by you. \\item[DESCRIPTION] contains a longer description of the command than that provided in the NAME section. \\item[OPTIONS] contains a detailed description of the options shown in the syntax diagram. \\i"
+    },
+    {
+      "chunk_id": 179,
+      "text": "on of the options shown in the syntax diagram. \\item[RESTRICTIONS] details restrictions that apply to the command. \\item[FILES] lists any files required for the command. \\item[KNOWN BUGS] lists any known bugs that apply to the command. \\item[SEE"
+    },
+    {
+      "chunk_id": 180,
+      "text": "known bugs that apply to the command. \\item[SEE ALSO] lists related commands. The references include the name of the related command and the manual section in parentheses, e.g., more(1). \\end{description} \\subsubsection{How the Sections are Organ"
+    },
+    {
+      "chunk_id": 181,
+      "text": "iption} \\subsubsection{How the Sections are Organized}\\label{man:section} In order to effectively use the manual pages, you must know something about the organization of the UNIX Manual. It is organized into eight sections: \\begin{enumerate} \\item"
+    },
+    {
+      "chunk_id": 182,
+      "text": "nized into eight sections: \\begin{enumerate} \\item User Commands \\item System Calls \\item Subroutines \\item Devices \\item File Formats \\item Games \\item Miscellaneous \\item System Administration \\end{enumerate} Most of the common UNIX commands are fo"
+    },
+    {
+      "chunk_id": 183,
+      "text": "enumerate} Most of the common UNIX commands are found in Section~1. Information useful for programming and system administration is found in the other sections. It is possible that there are entries in multiple sections for a given manual reference."
+    },
+    {
+      "chunk_id": 184,
+      "text": "in multiple sections for a given manual reference. However, {\\bf man} only displays the lowest numbered section when displaying a manual page. For example, most sections contain a manual page entitled {\\bf intro}. When you issue the command {\\bf m"
+    },
+    {
+      "chunk_id": 185,
+      "text": "ed {\\bf intro}. When you issue the command {\\bf man intro}, you only see the {\\bf intro} for section 1. To see the entries in other sections, place the section number in the {\\bf man} command. For example, to see the {\\bf intro} for section 8, ent"
+    },
+    {
+      "chunk_id": 186,
+      "text": "example, to see the {\\bf intro} for section 8, enter the command: \\begin{quote} {\\tt \\% }{\\bf man 8 intro} \\end{quote} \\subsubsection{Finding an Appropriate {\\bf man} Page} If you are unsure which manual page to read, you can scan the manual pages"
+    },
+    {
+      "chunk_id": 187,
+      "text": "anual page to read, you can scan the manual pages for a list of pages that might be appropriate. There are two ways to do this: \\begin{itemize} \\item If you know the name of a manual entry, you can specify the {\\bf -f} option to display a list of p"
+    },
+    {
+      "chunk_id": 188,
+      "text": "specify the {\\bf -f} option to display a list of page titles and one-line summaries that match the name of the manual entry. For example, to see a list of the manual entries named {\\bf intro}, enter the command: \\begin{quote} {\\tt \\% }{\\bf man -f in"
+    },
+    {
+      "chunk_id": 189,
+      "text": "the command: \\begin{quote} {\\tt \\% }{\\bf man -f intro} \\end{quote} Each line contains a reference that you can use to display a manual page. The name of the reference is followed by a section number in parentheses. Use the method described in secti"
+    },
+    {
+      "chunk_id": 190,
+      "text": "in parentheses. Use the method described in section \\ref{man:section} to display the manual entry from the desired section. \\item If you don't know the name of a manual entry, you can try searching for a keyword that describes the feature you are s"
+    },
+    {
+      "chunk_id": 191,
+      "text": "for a keyword that describes the feature you are seeking. The {\\bf -k} option tells {\\bf man} to search for a keyword and list a summary for each page that contains the keyword in its title. For example, to search for the keyword {\\em introduction},"
+    },
+    {
+      "chunk_id": 192,
+      "text": "ple, to search for the keyword {\\em introduction}, issue the command: \\begin{quote} {\\tt \\% }{\\bf man -k introduction} \\end{quote} This process involves a certain amount of guesswork on your part. Your keyword may not have been used by the authors o"
+    },
+    {
+      "chunk_id": 193,
+      "text": "ur keyword may not have been used by the authors of the manual page you seek, so you may need to try several choices before you get a list of pages you can use. Some of the pages may not be related to the your topic but you can usually scan the summ"
+    },
+    {
+      "chunk_id": 194,
+      "text": "o the your topic but you can usually scan the summaries and decide which manual entry might be more useful. \\item Some terms are not found by keyword searches but are included in the description of other commands. For example, variables used by the"
+    },
+    {
+      "chunk_id": 195,
+      "text": "ther commands. For example, variables used by the C shell are described in the section which covers the C shell. To display the entry for the C shell, enter the command: \\begin{quote} {\\tt \\%}~~{\\bf man csh} \\end{quote} \\end{itemize} Once you have"
+    },
+    {
+      "chunk_id": 196,
+      "text": "man csh} \\end{quote} \\end{itemize} Once you have a list, use the method described in Section~\\ref{man:section} to display manual pages that interest you. \\subsubsection{The MANPATH Variable}\\label{MANPATH} \\index{{\\bf MANPATH} variable} Just as you"
+    },
+    {
+      "chunk_id": 197,
+      "text": "ANPATH} \\index{{\\bf MANPATH} variable} Just as you have a directory path when you type UNIX commands in the shell, there is a directory path that is followed when searching for manual pages. Type: \\begin{quote} {\\tt \\%}~~{\\bf echo~~\\$MANPATH} \\end{qu"
+    },
+    {
+      "chunk_id": 198,
+      "text": "gin{quote} {\\tt \\%}~~{\\bf echo~~\\$MANPATH} \\end{quote} to see your current path for manual pages. There are some directories that will automatically be searched when you run the {\\bf man} command, but you may need to add additional directories to yo"
+    },
+    {
+      "chunk_id": 199,
+      "text": "t you may need to add additional directories to your MANPATH so that they are also searched. For example, if you want to read the manual pages for the Purify program on the HPs you may need to modify your MANPATH as follows: \\begin{quote} {\\tt \\%}"
+    },
+    {
+      "chunk_id": 200,
+      "text": "y your MANPATH as follows: \\begin{quote} {\\tt \\%}~~{\\bf setenv~~ MANPATH ~~\\$\\{MANPATH\\}:/usr/local/pure/purify/man} \\end{quote} The MANPATH variable works like the path variable described in Section \\ref{settingPath}. Please see that section for"
+    },
+    {
+      "chunk_id": 201,
+      "text": "n \\ref{settingPath}. Please see that section for more details. \\subsubsection{The X Windows Version of {\\bf man}} There is also a graphical interface to UNIX manual pages that can be used on some of the workstations. {\\bf xman}\\index{xman@{\\bf xma"
+    },
+    {
+      "chunk_id": 202,
+      "text": "the workstations. {\\bf xman}\\index{xman@{\\bf xman} command} is an X Windows implementation of {\\bf man} that was written by the MIT X Windows Consortium. Among the features that make {\\bf xman} desirable are indexes to manual pages and the ability"
+    },
+    {
+      "chunk_id": 203,
+      "text": "rable are indexes to manual pages and the ability to ``click'' on any index entry for display. If you are at a workstation, you may want to try {\\bf xman}. To use it, enter: \\begin{quote} {\\tt \\% }{\\bf xman} \\end{quote} A small dialog box opens gi"
+    },
+    {
+      "chunk_id": 204,
+      "text": "\\bf xman} \\end{quote} A small dialog box opens giving you the choices \\key{Help} \\key{manual page} and \\key{quit}. If you click on \\key{Help}, a window containing a explanation of {\\bf xman} and its operation opens. %\\section{Some Not-So-Simple UN"
+    },
+    {
+      "chunk_id": 205,
+      "text": "operation opens. %\\section{Some Not-So-Simple UNIX\\/\\TM\\ Commands?} \\subsection{The History Command}\\label{bangbang} %Classic VAX Users Guide stuff 89-90 (p. 47) It is quite common to enter a command, then later find that you would like to enter"
+    },
+    {
+      "chunk_id": 206,
+      "text": "and, then later find that you would like to enter that command again, or to want to know exactly what commands you have previously entered. The {\\bf history} command\\index{history@{\\bf history} command} displays previously entered UNIX commands so t"
+    },
+    {
+      "chunk_id": 207,
+      "text": "nd} displays previously entered UNIX commands so that you can use them over again. To use ``history'', you must first set it to the number of commands that you want the system to remember for you. For example \\begin{quote} {\\tt \\%}~~{\\bf set history"
+    },
+    {
+      "chunk_id": 208,
+      "text": "r example \\begin{quote} {\\tt \\%}~~{\\bf set history=30} \\end{quote} (You can also include this command in your {\\tt \\~{}/.cshrc} file. See Section \\ref{customiz} for more information.) Then, to see a numbered list of the last thirty UNIX commands yo"
+    },
+    {
+      "chunk_id": 209,
+      "text": "numbered list of the last thirty UNIX commands you used, enter: \\begin{quote} {\\tt \\%}~~{\\bf history} \\end{quote} To re-enter a previous command, enter: \\begin{quote} {\\tt \\%}~~{\\bf !}{\\it specifier} \\end{quote} where {\\it specifier} is a command nu"
+    },
+    {
+      "chunk_id": 210,
+      "text": "\\end{quote} where {\\it specifier} is a command number or a pattern that specifies a previous command.\\index{command!re-entering}\\index{ n@{\\tt \"!}} (The commands entered most recently have the highest numbers.) You can also enter: \\begin{quote} {\\t"
+    },
+    {
+      "chunk_id": 211,
+      "text": "t numbers.) You can also enter: \\begin{quote} {\\tt \\%}~~{\\bf !!} \\end{quote} This will repeat the exact command you just entered. \\noindent Here are some examples: \\begin{quote} {\\tt \\%}~~{\\bf history} \\\\ {}~{\\tt 1 ls -l} \\\\ {"
+    },
+    {
+      "chunk_id": 213,
+      "text": "t ...contents of dog.dat...} \\\\ {\\tt \\%}~~{\\bf !ls} \\\\ {}~{\\tt ...repeat of ls command...} \\\\ \\end{quote} See Section \\ref{cshBasics} for more of this. \\subsection{The {\\bf set prompt} Command} %Classic VAX Users Guide stuff 89-90 (p. 47)"
+    },
+    {
+      "chunk_id": 214,
+      "text": "mand} %Classic VAX Users Guide stuff 89-90 (p. 47) UNIX signals its readiness to accept your next command by displaying the {\\tt \\%} prompt. You can change this prompt by using the {\\bf set prompt} command.\\index{prompt}\\index{set prompt@{\\bf set p"
+    },
+    {
+      "chunk_id": 215,
+      "text": "command.\\index{prompt}\\index{set prompt@{\\bf set prompt} command} The {\\bf set prompt} command has the form: \\begin{quote} {\\tt \\%}~~{\\bf set prompt = '}{\\it new\\_prompt}{\\bf '} \\end{quote} where {\\it new\\_prompt} will be used to replace {\\tt \\%}. Fo"
+    },
+    {
+      "chunk_id": 216,
+      "text": "new\\_prompt} will be used to replace {\\tt \\%}. For example, suppose you wanted to change your prompt to ``Hello Sharon\\% ''. To do this you would enter the following command: \\begin{quote} {\\tt \\%}~~{\\bf set prompt='Hello Sharon\\% '} \\\\ {\\tt Hello"
+    },
+    {
+      "chunk_id": 217,
+      "text": "~{\\bf set prompt='Hello Sharon\\% '} \\\\ {\\tt Hello Sharon\\% } \\\\ \\end{quote} To include the name of your host system in your prompt: \\begin{quote} {\\tt \\%}~~{\\bf set prompt=``~~~ `hostname`\\% ''} \\\\ \\end{quote} Your n"
+    },
+    {
+      "chunk_id": 218,
+      "text": "ompt=``~~~ `hostname`\\% ''} \\\\ \\end{quote} Your new prompt remains in effect (unless you change it again) until the end of your current terminal session. If you want the prompt for your login window to become more permanent, you can include it in y"
+    },
+    {
+      "chunk_id": 219,
+      "text": "to become more permanent, you can include it in your {\\tt .cshrc} file as discussed further in Chapter~\\ref{cshell}. \\subsection{Using {\\bf finger} to Find Other Users} %Is anybody out there? The finger Command} The {\\bf finger} command\\index{fin"
+    },
+    {
+      "chunk_id": 220,
+      "text": "inger Command} The {\\bf finger} command\\index{finger@{\\bf finger} command} allows you to see if a particular username is currently logged onto the system. To use the {\\bf finger} command, enter the following: \\begin{quote} {\\tt \\%}~~{\\bf finger}~~{"
+    },
+    {
+      "chunk_id": 221,
+      "text": "following: \\begin{quote} {\\tt \\%}~~{\\bf finger}~~{\\it username} \\end{quote} If that particular username is currently logged in to the system, you will see their login date and time. To check on another system, use: \\begin{quote} {\\tt \\%}~~{\\bf finge"
+    },
+    {
+      "chunk_id": 222,
+      "text": "er system, use: \\begin{quote} {\\tt \\%}~~{\\bf finger}~~{\\it username@hostname} \\end{quote} To see all the users currently on a system, use: \\begin{quote} {\\tt \\%}~~{\\bf finger}~~{\\it @hostname} \\end{quote} You can also issue a finger command for you"
+    },
+    {
+      "chunk_id": 223,
+      "text": "uote} You can also issue a finger command for your own username to check the name fields.\\index{finger@{\\bf finger} command} \\index{chfn@{\\bf chfn} command} Issue the following command and you will be prompted for changes to your name or nickname. \\"
+    },
+    {
+      "chunk_id": 224,
+      "text": "e prompted for changes to your name or nickname. \\begin{quote} {\\tt \\%}~~{\\bf chfn} \\end{quote} To add/change the information for your plan or project, just create/edit the files called {\\tt .plan} or {\\tt .project} \\index{plan file} \\index{project"
+    },
+    {
+      "chunk_id": 225,
+      "text": "r {\\tt .project} \\index{plan file} \\index{project file} in your home directory. \\subsection{Redirecting Input and Output} \\index{input!redirection}\\index{output!redirection} \\index{redirection!of output}\\index{redirection!of input} %Mostly from: The"
+    },
+    {
+      "chunk_id": 226,
+      "text": "put}\\index{redirection!of input} %Mostly from: The Little Gray Book (p. 4-10) When a command generates standard output, UNIX normally writes this information to your terminal screen. Likewise, when a command requests standard input, UNIX normally g"
+    },
+    {
+      "chunk_id": 227,
+      "text": "a command requests standard input, UNIX normally gets the information from your terminal. You can, however, change this. The right-angle bracket ($>$)\\index{ b@{\\tt>}} tells UNIX to % The right-angle bracket ({\\tt >})\\index{ b@{\\tt>}} tells UNIX to"
+    },
+    {
+      "chunk_id": 228,
+      "text": "bracket ({\\tt >})\\index{ b@{\\tt>}} tells UNIX to send the output from a command to a file rather than to the terminal screen. You can think of it as funneling the information to a file rather than allowing the output data to flow to the terminal sc"
+    },
+    {
+      "chunk_id": 229,
+      "text": "llowing the output data to flow to the terminal screen. For instance: \\begin{quote} {\\tt \\%}~~{\\bf cat {\\tt >} sub2} \\end{quote} would redirect the output from the {\\bf cat} command to a file called {\\tt sub2} instead of having the output go to the t"
+    },
+    {
+      "chunk_id": 230,
+      "text": "\\tt sub2} instead of having the output go to the terminal screen. In this particular case, {\\tt sub2} gets overwritten by the output\\index{redirection!of output!overwriting} \\index{redirection!of output!appending} and the previous contents of {\\tt s"
+    },
+    {
+      "chunk_id": 231,
+      "text": "put!appending} and the previous contents of {\\tt sub2} (if any) are destroyed. You can use double right-angle brackets ({\\tt >>})\\index{ ba@{\\tt>>}} if you want UNIX to redirect its output so that it appends to the end of a file that already exists"
+    },
+    {
+      "chunk_id": 232,
+      "text": "appends to the end of a file that already exists rather than just overwriting the previous contents of a file. For instance: \\begin{quote} {\\tt \\%}~~{\\bf ls -l {\\tt >>} sub2} \\end{quote} would add the output from the {\\bf ls -l} command to the end"
+    },
+    {
+      "chunk_id": 233,
+      "text": "he output from the {\\bf ls -l} command to the end of {\\tt sub2}. You can also redirect standard input from a command to come from a file by using a single left-angle bracket ({$<$}).\\index{ a@{\\tt<}} Using this, you are funneling from a file to the"
+    },
+    {
+      "chunk_id": 234,
+      "text": "Using this, you are funneling from a file to the command you are using as input. For instance: \\begin{quote} {\\tt \\%}~~{\\bf oscar {\\tt <} dog.dat} \\end{quote} the program {\\tt oscar} would now take its input from {\\tt dog.dat} rather than from the"
+    },
+    {
+      "chunk_id": 235,
+      "text": "its input from {\\tt dog.dat} rather than from the terminal. {\\bf Note:} Redirecting your input and output with {\\tt >} and {\\tt <} is completely different from piping {\\tt |} (which was discussed on page~\\pageref{piping}). With {\\tt >} and {\\tt <}"
+    },
+    {
+      "chunk_id": 236,
+      "text": "page~\\pageref{piping}). With {\\tt >} and {\\tt <} you are simply redirecting your input from or output to a file whereas with piping you are redirecting your output to another command. \\subsection{File Protection}\\index{file!protection} \\index{file!"
+    },
+    {
+      "chunk_id": 237,
+      "text": "le Protection}\\index{file!protection} \\index{file!access privileges} %: The chmod Command} In a multiuser environment, there is a need for protecting personal or confidential files. Security begins with passwords, but while passwords can keep non-"
+    },
+    {
+      "chunk_id": 238,
+      "text": "with passwords, but while passwords can keep non-users out of the system, they do not provide protection from other users. The second phase of protection is dependent upon the user. Each user must be responsible for restricting access to their ind"
+    },
+    {
+      "chunk_id": 239,
+      "text": "be responsible for restricting access to their individual files. File access privileges on UNIX are divided into three categories: \\begin{enumerate} \\item User (owner) privileges\\index{file!access privileges!user} \\item Group privileges\\index{fi"
+    },
+    {
+      "chunk_id": 240,
+      "text": "privileges!user} \\item Group privileges\\index{file!access privileges!group} \\item Other (world) privileges\\index{file!access privileges!other} \\end{enumerate} Whenever you try to manipulate a file, UNIX looks to see what type of protection the f"
+    },
+    {
+      "chunk_id": 241,
+      "text": "e, UNIX looks to see what type of protection the file has: \\begin{description} \\item[1. User privileges.] If you are the owner of the file (your user-id matched the user-id of the file), it checks the user rights. \\item[2. Group privileges.] If yo"
+    },
+    {
+      "chunk_id": 242,
+      "text": "e user rights. \\item[2. Group privileges.] If you are in the owner's group (your group-id matches the group-id of the file), it checks the privileges that the owner has granted to the group. \\item[3. Other privileges.] If neither your user-id nor"
+    },
+    {
+      "chunk_id": 243,
+      "text": "3. Other privileges.] If neither your user-id nor your group-id matches those of the file, UNIX then checks the world privileges. \\end{description} You can find out what access privileges your files have by using the {\\bf ls -l} commands as shown o"
+    },
+    {
+      "chunk_id": 244,
+      "text": "have by using the {\\bf ls -l} commands as shown on page \\pageref{lsll}. Figure~\\ref{ls2} shows the output from the {\\bf ls -l} command. \\begin{figure}[htb] \\begin{verbatim} drwx------ 4 username 512 Jul 13 15:06 Mail drw"
+    },
+    {
+      "chunk_id": 245,
+      "text": "sername 512 Jul 13 15:06 Mail drwx------ 2 username 512 Jul 13 15:52 News drwx------ 2 username 512 Jul 10 11:33 Proj1 -rw------- 1 username 26 Jul 11 13:16 dog.dat -rw------- 1"
+    },
+    {
+      "chunk_id": 246,
+      "text": "26 Jul 11 13:16 dog.dat -rw------- 1 username 8 Jul 13 13:40 hello.aux -rw------- 1 username 232 Jul 13 13:40 hello.dvi -rw------- 1 username 949 Jul 13 13:40 hello.log -rw-------"
+    },
+    {
+      "chunk_id": 247,
+      "text": "949 Jul 13 13:40 hello.log -rw------- 1 username 67 Jul 13 13:40 hello.tex -rw-r----- 1 username 259 Jul 11 09:11 oscar -rw-r----- 1 username 70 Jul 11 13:52 sub2 -rw-r----- 1 userna"
+    },
+    {
+      "chunk_id": 248,
+      "text": "0 Jul 11 13:52 sub2 -rw-r----- 1 username 451 Jul 19 13:49 verona.txt \\end{verbatim} \\isucaption{Sample Output from the {\\bf ls -l} Command} \\label{ls2} \\end{figure} The first item on the line is the file's {\\it mode}. A ``d'' in"
+    },
+    {
+      "chunk_id": 249,
+      "text": "on the line is the file's {\\it mode}. A ``d'' in the first column of the mode means that the file is a directory and a ``{\\tt -}'' means that the file is a normal file. Starting in the second column of the mode, the first three characters represent"
+    },
+    {
+      "chunk_id": 250,
+      "text": "of the mode, the first three characters represent the {\\it user} privileges; the next three, the {\\it group} privileges; and the last three, the {\\it world} (or public) privileges. Within each group of three, the first position controls read (and t"
+    },
+    {
+      "chunk_id": 251,
+      "text": "of three, the first position controls read (and therefore copy) privileges to the file, the second controls write and delete privileges, and the third controls whether the file may be executed by the specified users. An {\\tt r} in position one gran"
+    },
+    {
+      "chunk_id": 252,
+      "text": "specified users. An {\\tt r} in position one grants read/copy privileges, {\\tt w} in the second position grants write/delete privileges, and an {\\tt x} in the third position allows the file to be executed. A {\\tt -} in any of these positions denies"
+    },
+    {
+      "chunk_id": 253,
+      "text": "cuted. A {\\tt -} in any of these positions denies the specified users the corresponding access privilege. For instance, in Figure~\\ref{ls2} the file {\\tt oscar} is a normal file. It has owner read and write privileges, group read privilege, and no"
+    },
+    {
+      "chunk_id": 254,
+      "text": "nd write privileges, group read privilege, and no other or world privileges. \\subsection{Using {\\bf chmod} to Change File Protection}\\index{file!protection} The owner of a file may set and/or change permissions using the {\\bf chmod} command.\\index{"
+    },
+    {
+      "chunk_id": 255,
+      "text": "permissions using the {\\bf chmod} command.\\index{chmod@{\\bf chmod} command} There are two methods for using chmod - {\\it symbolic} and {\\it absolute}. \\subsubsection{Symbolic format} The symbolic format for the {\\bf chmod} command is as follows: \\b"
+    },
+    {
+      "chunk_id": 256,
+      "text": "rmat for the {\\bf chmod} command is as follows: \\begin{quote} {\\tt \\%}~~{\\bf chmod [ugo][{\\tt+=}--][rwx]}~~{\\it filename(s)} \\end{quote} where {\\bf u} represents the user privileges, {\\bf g} the group privileges, and {\\bf o} the other privileges; {\\t"
+    },
+    {
+      "chunk_id": 257,
+      "text": "privileges, and {\\bf o} the other privileges; {\\tt +}\\index{ j@{\\tt+}} means add the specified privilege(s), {\\tt -}\\index{ f@{\\tt-}} means remove the specified privilege(s), and {\\tt =}\\index{ d@{\\tt=}} means set the specified privileges. You may n"
+    },
+    {
+      "chunk_id": 258,
+      "text": "t=}} means set the specified privileges. You may name as many files as you like and you may also set several privileges at once by separating them with commas. Thus, for example, to change a file named {\\tt oscar} to have group and other privileges"
+    },
+    {
+      "chunk_id": 259,
+      "text": "ed {\\tt oscar} to have group and other privileges of read, write and execute, you would enter: \\begin{quote} {\\tt \\%}~~{\\bf chmod go{\\tt+}rwx~~oscar} or {\\tt \\%}~~{\\bf chmod g{\\tt+}rwx,o{\\tt+}rwx~~oscar} \\end{quote} or, if you now want to take away"
+    },
+    {
+      "chunk_id": 260,
+      "text": "car} \\end{quote} or, if you now want to take away read and write privileges for group and other, you would enter: \\begin{quote} {\\tt \\%}~~{\\bf chmod~~go-rw~~oscar} \\end{quote} \\subsubsection{Absolute format} The absolute format of the chmod command"
+    },
+    {
+      "chunk_id": 261,
+      "text": "format} The absolute format of the chmod command is: \\begin{quote} {\\tt \\%}~~{\\bf chmod {\\tt nnn}~~filename} \\end{quote} where {\\tt nnn} is a list of three integers, one each corresponding to {\\it owner}, {\\it group}, and {\\it other}, and each integ"
+    },
+    {
+      "chunk_id": 262,
+      "text": "ner}, {\\it group}, and {\\it other}, and each integer represents a sum of the desired permissions as follows: \\begin{verbatim} 4 = read permission 2 = write permission 1 = execute permission \\end{verbatim} For example, to give the file owner read (4"
+    },
+    {
+      "chunk_id": 263,
+      "text": "atim} For example, to give the file owner read (4) and write (2) permission and deny all privileges to group and other: \\begin{quote} {\\tt \\%}~~{\\bf chmod {\\tt600}~~filename} \\end{quote} To give the file owner read (4), write (2), and execute (1)"
+    },
+    {
+      "chunk_id": 264,
+      "text": "e file owner read (4), write (2), and execute (1) permission and the group just read and execute permission: \\begin{quote} {\\tt \\%}~~{\\bf chmod {\\tt750}~~filename} \\end{quote} Type {\\tt man chmod} for more information. \\subsection{Changing UNIX Fi"
+    },
+    {
+      "chunk_id": 265,
+      "text": "or more information. \\subsection{Changing UNIX File Groups}\\index{file groups} %: The chgrp Command} %-same as previous Sometimes a user needs to be a member of more than one group. Every user may be a potential member of many groups. At any given"
+    },
+    {
+      "chunk_id": 266,
+      "text": "e a potential member of many groups. At any given time, however, UNIX considers a user to be a member of only one group. To list the various groups to which you belong, enter:\\index{file groups!listing}\\index{groups@{\\bf groups} command} \\begin{quo"
+    },
+    {
+      "chunk_id": 267,
+      "text": "ing}\\index{groups@{\\bf groups} command} \\begin{quote} {\\tt \\%}~~{\\bf groups} \\end{quote} To list the groups to which your files belong (each file may only belong to one group), enter:\\index{file groups!listing for files} \\begin{quote} {\\tt \\%}~~{\\bf"
+    },
+    {
+      "chunk_id": 268,
+      "text": "ps!listing for files} \\begin{quote} {\\tt \\%}~~{\\bf ls -l}~~~~~~~~~~~~~~(on HP machines) \\\\ {\\tt \\%}~~{\\bf ls -lg}~~~~~~~~~~~~(on non-HP machines) \\end{quote} If you are a member of more than one group, you can change the group membership of your dir"
+    },
+    {
+      "chunk_id": 269,
+      "text": "p, you can change the group membership of your directory and files by using the {\\bf chgrp} command. The {\\bf chgrp} command changes the group-id of the files to that of the group specified. The {\\bf chgrp} command\\index{chgrp@{\\bf chgrp} command}"
+    },
+    {
+      "chunk_id": 270,
+      "text": "f chgrp} command\\index{chgrp@{\\bf chgrp} command} has the following form: \\begin{quote} {\\tt \\%}~~{\\bf chgrp}~~{\\it groupname}~~{\\it filename(s)} \\end{quote} The user invoking {\\bf chgrp} must belong to the specified group and be the owner of the fi"
+    },
+    {
+      "chunk_id": 271,
+      "text": "to the specified group and be the owner of the file. If you are not a member of a group with which you want to share files, you cannot share the files. \\section{Moving Around the UNIX Hierarchical File System}\\index{file system} In UNIX, as with"
+    },
+    {
+      "chunk_id": 272,
+      "text": "File System}\\index{file system} In UNIX, as with most operating systems, files are maintained in a hierarchical structure. By definition, hierarchy means ``having an organized structure''. Often files and directories are explained by drawing an an"
+    },
+    {
+      "chunk_id": 273,
+      "text": "les and directories are explained by drawing an analogy to a filing cabinet. Directories\\index{directory} allow the system to organize files into related groups, much as a manila folder in a filing cabinet organizes (or keeps together) papers that ar"
+    },
+    {
+      "chunk_id": 274,
+      "text": "binet organizes (or keeps together) papers that are related to a particular topic. While the manila folder is analogous to a directory, the drawer of the file cabinet can also be compared to a directory. In other words, directories can contain othe"
+    },
+    {
+      "chunk_id": 275,
+      "text": "ory. In other words, directories can contain other directories as well as files. Figure~\\ref{dirtree} shows an example of a hierarchical file structure or a ``directory tree'', as it is more commonly called. In UNIX, the uppermost directory is call"
+    },
+    {
+      "chunk_id": 276,
+      "text": "y called. In UNIX, the uppermost directory is called the ``root directory''\\index{directory!root}\\index{root directory} and in most UNIX documentation you'll see the root directory represented simply as {\\tt /}.\\index{ u@{\\tt/}} The table shows five"
+    },
+    {
+      "chunk_id": 277,
+      "text": "as {\\tt /}.\\index{ u@{\\tt/}} The table shows five directories organized under the root directory: bin, etc, home, usr, and dev. \\begin{figure}[hbt] \\def\\baselinestretch{.7} \\small \\begin{verbatim} / (root directory)"
+    },
+    {
+      "chunk_id": 279,
+      "text": "| | | | | | | | | /bin /etc /home /usr /dev |"
+    },
+    {
+      "chunk_id": 280,
+      "text": "| | ------------------ | | | | /susan /arthur"
+    },
+    {
+      "chunk_id": 282,
+      "text": "---- | | | | | | | | | | /Mail /News /Proj1 dog.dat hello.tex"
+    },
+    {
+      "chunk_id": 284,
+      "text": "---------- | | | | | | | | myfila myfilb myfilc myfilz \\end{verbatim} \\isu"
+    },
+    {
+      "chunk_id": 285,
+      "text": "a myfilb myfilc myfilz \\end{verbatim} \\isucaption{UNIX Hierarchical File Structure} \\label{dirtree} \\end{figure} \\subsection{The Default Directory}\\index{directory!default} \\index{default directory} When you login, your default directory is"
+    },
+    {
+      "chunk_id": 286,
+      "text": "ectory} When you login, your default directory is set to something like: \\begin{quote} {\\tt /home/a/fa92/c162/class/c162-aa}. \\end{quote} Figure~\\ref{dirtree} shows examples of file systems for users named {\\tt susan} and {\\tt arthur}. We will loo"
+    },
+    {
+      "chunk_id": 287,
+      "text": "s named {\\tt susan} and {\\tt arthur}. We will look at Arthur's files. Arthur's default directory is {\\tt /home/arthur}. When he logs in, he is placed in this directory. Currently Arthur's default directory contains files named {\\tt Mail, News, Pr"
+    },
+    {
+      "chunk_id": 288,
+      "text": "directory contains files named {\\tt Mail, News, Proj1, dog.dat, {\\rm and} hello.tex}. The files {\\tt Mail, News, {\\rm and} Proj1} are all directories, as indicated by the {\\bf /}. In looking further down the directory tree, we see that the director"
+    },
+    {
+      "chunk_id": 289,
+      "text": "down the directory tree, we see that the directory {\\tt Proj1} contains files named {\\tt myfila, myfilb, myfilc, {\\rm and} myfilz}. \\subsection{Changing Directories}\\index{directory!changing} % Using the {\\bf cd} Command} If Arthur wants to make {"
+    },
+    {
+      "chunk_id": 290,
+      "text": "g the {\\bf cd} Command} If Arthur wants to make {\\tt Proj1} his current working directory,\\index{directory!working}\\index{working directory} he can do so using the {\\bf cd} (change directory) command.\\index{cd@{\\bf cd} command} \\begin{quote} {\\tt \\%"
+    },
+    {
+      "chunk_id": 291,
+      "text": ".\\index{cd@{\\bf cd} command} \\begin{quote} {\\tt \\%}~~{\\bf cd Proj1}~~~~~~~~{\\it or}\\\\ {\\tt \\%}~~{\\bf cd /home/arthur/Proj1} \\end{quote} In the first example, Arthur must be in his default directory, because he is using a {\\it relative pathname}.\\in"
+    },
+    {
+      "chunk_id": 292,
+      "text": "because he is using a {\\it relative pathname}.\\index{pathname!relative} It is called a relative pathname because it is relative to his current directory. The second example uses a {\\it full pathname};\\index{pathname!full} this command would success"
+    },
+    {
+      "chunk_id": 293,
+      "text": "};\\index{pathname!full} this command would successfully place Arthur in his {\\tt Proj1} directory regardless of his current location. A full pathname begins with the root directory which is always designated by the beginning slash ({\\tt /}).\\index{"
+    },
+    {
+      "chunk_id": 294,
+      "text": "signated by the beginning slash ({\\tt /}).\\index{ u@{\\tt/}} Issuing the {\\bf cd} command with no directory specified returns you to your default directory. The {\\bf pwd} command\\index{pwd@{\\bf pwd} command} displays (``prints'' to the screen -- not"
+    },
+    {
+      "chunk_id": 295,
+      "text": "command} displays (``prints'' to the screen -- not a printer) your current working directory.\\index{working directory!listing} \\begin{table}[hbt]\\centering \\isucaption{Working with Directories} \\label{default-dir} \\begin{tabular}{lll} \\bf Example &"
+    },
+    {
+      "chunk_id": 296,
+      "text": "l{default-dir} \\begin{tabular}{lll} \\bf Example & \\bf Function \\\\[8pt] {\\bf pwd} & Display (``print'' to screen) the current working directory. \\\\ [2ex] {\\bf cd} & Makes your default directory your\\\\ & current working directory. \\\\ {\\bf cd Proj1} & C"
+    },
+    {
+      "chunk_id": 297,
+      "text": "& current working directory. \\\\ {\\bf cd Proj1} & Changes working directory to Proj1.\\\\ {\\bf cd ..} & Move up one directory level. \\\\ {\\bf cd ../directory name} & Move to another directory at the\\\\ & same level as the current one.\\\\ {\\bf cd ../..} & M"
+    },
+    {
+      "chunk_id": 298,
+      "text": "ame level as the current one.\\\\ {\\bf cd ../..} & Move up two directory levels. \\\\ [2ex] {\\bf mkdir proj} & Creates subdirectory named {\\tt proj} in\\\\ & current directory. \\\\ {\\bf mkdir chap1 chap2 } & Creates two subdirectories named {\\tt chap1} \\\\ &"
+    },
+    {
+      "chunk_id": 299,
+      "text": "Creates two subdirectories named {\\tt chap1} \\\\ & and {\\tt chap2} in the current directory. \\\\ {\\bf mkdir Proj1/pub} & Creates a directory named {\\tt pub} in the\\\\ & subdirectory {\\bf Proj1} (assumes Proj1 is\\\\ & in the current directory). \\\\ [2ex]"
+    },
+    {
+      "chunk_id": 300,
+      "text": "s Proj1 is\\\\ & in the current directory). \\\\ [2ex] {\\bf rmdir Proj1} & Removes the directory {\\tt Proj1} if\\\\ & there are no files in it. \\\\ {\\bf rm -r Proj1} & Removes the directory {\\tt Proj1} and \\\\ & {\\bf all} the files it contains. \\\\ \\end{tabul"
+    },
+    {
+      "chunk_id": 301,
+      "text": "\\ & {\\bf all} the files it contains. \\\\ \\end{tabular} \\end{table} \\subsection{Creating Directories}\\index{directory!creating} % Using the {\\bf mkdir} Command} Once you begin creating files, you may find that your home (default) directory becomes cl"
+    },
+    {
+      "chunk_id": 302,
+      "text": "find that your home (default) directory becomes cluttered. To enhance the organization of your files, you can create subdirectories\\index{subdirectory|see{directory}} using the {\\bf mkdir} command.\\index{mkdir@{\\bf mkdir} command} When a subdirecto"
+    },
+    {
+      "chunk_id": 303,
+      "text": "ndex{mkdir@{\\bf mkdir} command} When a subdirectory is created, it is empty. When creating subdirectories, it is important to be aware of your current working directory. Unless an alternate pathname is specified, UNIX creates the subdirectory wit"
+    },
+    {
+      "chunk_id": 304,
+      "text": "e is specified, UNIX creates the subdirectory within your current working directory. \\begin{quote} \\tt \\% {\\bf pwd}\\\\ /home/username\\\\ \\% {\\bf ls}\\\\ Mail News Proj1 dog.dat hello.tex\\\\ \\% {\\bf mkdir~~Proj1{\\tt/}c"
+    },
+    {
+      "chunk_id": 305,
+      "text": "t hello.tex\\\\ \\% {\\bf mkdir~~Proj1{\\tt/}chapters~~proj2}\\\\ \\% {\\bf mv~~hello.tex~~Proj1{\\tt/}chapters{\\tt/}hello.tex}\\\\ \\% {\\bf ls}\\\\ Mail News Proj1 dog.dat proj2\\\\ \\% {\\bf cd Proj1}\\\\ \\% {\\bf ls chapter"
+    },
+    {
+      "chunk_id": 306,
+      "text": "proj2\\\\ \\% {\\bf cd Proj1}\\\\ \\% {\\bf ls chapters}\\\\ hello.tex \\end{quote} \\subsubsection{Deleting Directories}\\index{directory!deleting} For one reason or another, there may come a time when you want to delete a directory. UNIX uses the {\\bf rm"
+    },
+    {
+      "chunk_id": 307,
+      "text": "want to delete a directory. UNIX uses the {\\bf rmdir} (remove directory) command.\\index{rmdir@{\\bf rmdir} command} To avoid having ``orphaned'' files (files that cannot be accessed because they are in a directory that has been deleted), UNIX will no"
+    },
+    {
+      "chunk_id": 308,
+      "text": "n a directory that has been deleted), UNIX will not let you delete a directory unless it is empty. There may be a circumstance, however, when you do want to delete a subdirectory and all the subdirectories and files contained within. To accomplish t"
+    },
+    {
+      "chunk_id": 309,
+      "text": "tories and files contained within. To accomplish that, you could {\\bf cd} to each subdirectory and systematically delete all the files. Instead UNIX has provided the {\\bf -r} option on the {\\bf rm} command which provides that function. \\begin{quote}"
+    },
+    {
+      "chunk_id": 310,
+      "text": "ommand which provides that function. \\begin{quote} {\\tt \\%} {\\bf rmdir Proj1}\\\\ {\\tt \\%} {\\bf rm -r Proj1}\\\\ {\\tt \\%} {\\bf rm -ri Proj1} \\end{quote} The first example would display the message: {\\tt rmdir: Proj1: Directory not empty}. The second e"
+    },
+    {
+      "chunk_id": 311,
+      "text": "rmdir: Proj1: Directory not empty}. The second example would remove the subdirectory {\\tt Proj1} and all the files in that subdirectory. The third example includes two options on the {\\bf rm} command: the {\\bf i}nquire option and the {\\bf r}ecursi"
+    },
+    {
+      "chunk_id": 312,
+      "text": "d: the {\\bf i}nquire option and the {\\bf r}ecursive option. The {\\bf i}nquire option instructs UNIX to prompt for a yes/no response for each file being deleted. If {\\tt Proj1} contained two files named {\\tt book.tex} and {\\tt stats}, the interacti"
+    },
+    {
+      "chunk_id": 313,
+      "text": "amed {\\tt book.tex} and {\\tt stats}, the interaction would appear as follows: \\begin{quote} \\tt \\% {\\bf rm -ri Proj1}\\\\ rm: remove Proj1/book.tex? {\\bf y}\\\\ rm: remove Proj1/stats? {\\bf y}\\\\ rm: remove Proj1? {\\bf y}\\\\ \\% \\end{quote} If you replied `"
+    },
+    {
+      "chunk_id": 314,
+      "text": "e Proj1? {\\bf y}\\\\ \\% \\end{quote} If you replied `{\\bf n}' to either of the first two prompts, the directory would not be deleted. \\section{Quotas}\\index{quota}\\label{Quota} Quotas are limits on your expenditure of certain resources. Quotas are cu"
+    },
+    {
+      "chunk_id": 315,
+      "text": "r expenditure of certain resources. Quotas are currently imposed on disk storage space. \\subsection{Disk Quota}{\\index{disk quota}\\index{quota!disk} {\\it The information in this section, with any current updates, is also available on-line in /usr/"
+    },
+    {
+      "chunk_id": 316,
+      "text": "urrent updates, is also available on-line in /usr/pub/disk.quotas. See Section \\ref{info} for details.} Your disk quota is the limit on the amount of space you can use to store your files and the number of files you can have. This limit is usually"
+    },
+    {
+      "chunk_id": 317,
+      "text": "ber of files you can have. This limit is usually a couple of megabytes and ``named'' accounts have larger disk quotas than ``class'' accounts. As you accumulate mail, homework, and other files in your directory, you may approach this limit. If you"
+    },
+    {
+      "chunk_id": 318,
+      "text": "r directory, you may approach this limit. If you are over this limit when you log in, you should receive a message telling you how much you must remove. Don't ignore these messages! You can lose or damage your files if you attempt to save files whe"
+    },
+    {
+      "chunk_id": 319,
+      "text": "damage your files if you attempt to save files when you are over your quota.\\index{problems!with disk quota} Sometimes the quota system gets ``out of whack'' and does not give you warning messages. Therefore, it is always a good idea to get in the"
+    },
+    {
+      "chunk_id": 320,
+      "text": "Therefore, it is always a good idea to get in the habit of checking your disk quota yourself. \\noindent You can check your disk quota with: \\begin{quote} {\\tt \\%} {\\bf quota} \\end{quote} The system will respond with, for example: \\begin{verbatim} Us"
+    },
+    {
+      "chunk_id": 321,
+      "text": "ill respond with, for example: \\begin{verbatim} Username: joeuser Your home directory is (/home/g/users/joeuser), which is on po. Trying to connect to po... Checking quota on machine po.EECS.Berkeley.EDU... Disc quotas for joeuser (uid 9999): Fi"
+    },
+    {
+      "chunk_id": 322,
+      "text": "EDU... Disc quotas for joeuser (uid 9999): Filsys current quota limit #warns files quota limit #warns /home/g 484 5000 6000 126 0 0 \\end{verbatim} The {\\tt current} value is the amount of"
+    },
+    {
+      "chunk_id": 323,
+      "text": "erbatim} The {\\tt current} value is the amount of disk space you are using in kilobytes (1024 bytes=1K, 1000K=1MB). The {\\tt quota} amount is the ``soft'' limit. The {\\tt limit} value is the ``hard'' limit. You may exceed the soft limit during a"
+    },
+    {
+      "chunk_id": 324,
+      "text": "'' limit. You may exceed the soft limit during a session so long as you stay under the hard limit. If you log out and back in and are over the soft limit, no file creation or expansion is allowed until you are back under the soft limit. You can ne"
+    },
+    {
+      "chunk_id": 325,
+      "text": "til you are back under the soft limit. You can never create files in excess of the hard limit. If you are over your quota while editing a file, your file could be truncated to zero length when you try to save it. Therefore, as already stated, it is"
+    },
+    {
+      "chunk_id": 326,
+      "text": "ry to save it. Therefore, as already stated, it is a good idea to get in the habit of checking your quota regularly so this does not happen to you. The {\\tt files} value is the current number of files you have in all directories. The {\\tt quota} fi"
+    },
+    {
+      "chunk_id": 327,
+      "text": "s you have in all directories. The {\\tt quota} field (on the right) is the ``soft'' limit on the number of files you may own. The {\\tt limit} value (on the right) is the ``hard'' limit on the number of files you own. A zero in that field means that"
+    },
+    {
+      "chunk_id": 328,
+      "text": "of files you own. A zero in that field means that you have no limit. We do not currently restrict the {\\it number} of files that you may have -- just the total disk space. The {\\tt warn} fields are not used. \\subsubsection{Disk Quota Exceeded}\\in"
+    },
+    {
+      "chunk_id": 329,
+      "text": "not used. \\subsubsection{Disk Quota Exceeded}\\index{quota!exceeded}\\label{compress} If you exceed your quota, and are not in the middle of a process, i.e., in an editor or reading news, you can just clean up your files. You should remove any unnec"
+    },
+    {
+      "chunk_id": 330,
+      "text": "clean up your files. You should remove any unnecessary files. If there are files that you want to keep on-line, but won't be referring to often, you can compress them using {\\bf compress} or {\\bf gzip}. The {\\bf compress}\\index{compress@{\\bf compr"
+    },
+    {
+      "chunk_id": 331,
+      "text": "ip}. The {\\bf compress}\\index{compress@{\\bf compress} command} command will take a file, reduce its size, and add a ``.Z'' extension to the filename. For example, \\begin{quote} {\\tt \\%}~~{\\bf ls} \\\\ {\\tt hw1 proj2 notes} \\\\ {\\tt \\%}~~{\\bf compress"
+    },
+    {
+      "chunk_id": 332,
+      "text": "{\\tt hw1 proj2 notes} \\\\ {\\tt \\%}~~{\\bf compress hw1} \\\\ {\\tt \\%}~~{\\bf ls} \\\\ {\\tt hw1.Z proj2 notes} \\\\ \\end{quote} To view your file at a later date, use the {\\bf uncompress}\\index{uncompress@{\\bf uncompress} command} command: \\begin{quote} {\\tt"
+    },
+    {
+      "chunk_id": 333,
+      "text": "f uncompress} command} command: \\begin{quote} {\\tt \\%}~~{\\bf uncompress hw1.Z} \\end{quote} Type ``{\\bf man compress}'' for more details. {\\bf Gzip}\\index{gzip@{\\bf gzip} command} is another program used to compress files. The corresponding command"
+    },
+    {
+      "chunk_id": 334,
+      "text": "used to compress files. The corresponding command for uncompressing is {\\bf gunzip}.\\index{gunzip@{\\bf gunzip} command} Files with a ``.gz'' extension are probably {\\bf gzip}ed. (Note: this is not the same program as PKZIP, a common PC utility; gun"
+    },
+    {
+      "chunk_id": 335,
+      "text": "he same program as PKZIP, a common PC utility; gunzip will not uncompress files that were compressed with PKZIP.) Type ``{\\bf man gzip}'' for more details. If you are in the middle of running a program when your quota is exceeded, you should exit f"
+    },
+    {
+      "chunk_id": 336,
+      "text": "ram when your quota is exceeded, you should exit from the program. Your program's open files are included in your disk quota, so if you leave programs running you may exceed your quota. If you are using an editor and need to save a file before exi"
+    },
+    {
+      "chunk_id": 337,
+      "text": "using an editor and need to save a file before exiting, you can save the file in the /tmp directory.\\index{tmp@{{\\tt /tmp} directory}} Every user can write files in /tmp, but all files in /tmp get erased periodically and should only be stored there t"
+    },
+    {
+      "chunk_id": 338,
+      "text": "sed periodically and should only be stored there temporarily. If you have exceeded your disk quota and then try to write a file in your directory, the file may be truncated, i.e., you will lose the contents of the file. Storing your file in /tmp un"
+    },
+    {
+      "chunk_id": 339,
+      "text": "ontents of the file. Storing your file in /tmp until you are able to reduce your disk usage is one way to avoid this. To save a file in /tmp while using the {\\bf vi} editor type: \\begin{quote} \\key{Esc}~~~~~~~~~~~~~~~~~~~~~~(to be sure you're in co"
+    },
+    {
+      "chunk_id": 340,
+      "text": "Esc}~~~~~~~~~~~~~~~~~~~~~~(to be sure you're in command mode) \\\\ {\\bf :w /tmp/{\\it filename}} \\\\ {\\bf :q} \\end{quote} To save a file in /tmp while using the {\\bf Jove} or {\\bf Emacs} editors, type: \\begin{quote} \\ctrl{x} \\ctrl{w} \\\\ \\end{quote} You"
+    },
+    {
+      "chunk_id": 341,
+      "text": "begin{quote} \\ctrl{x} \\ctrl{w} \\\\ \\end{quote} You will see: \\begin{quote} {\\tt :write-file (default filename)} \\end{quote} Type /tmp/{\\it filename} to store the file in the /tmp directory and then exit the file without saving the changes in your curr"
+    },
+    {
+      "chunk_id": 342,
+      "text": "t the file without saving the changes in your current directory. \\section{Connecting to Other Network Computers} \\subsection{Anonymous FTP}\\label{anonFTP} \\index{FTP!anonymous} \\index{anonymous FTP} FTP stands for ``file transfer program''. It is us"
+    },
+    {
+      "chunk_id": 343,
+      "text": "FTP stands for ``file transfer program''. It is used to transfer files between different computers on a network. Anonymous ftp allows users to connect to another computer, and read or copy certain files without have an account (login) on that compute"
+    },
+    {
+      "chunk_id": 344,
+      "text": "es without have an account (login) on that computer. To use anonymous FTP, type {\\bf ftp} {\\it hostname} where {\\it hostname} is the name of the system you want to connect to, for example cory.eecs.berkeley.edu. At the {\\tt Name: } prompt, type"
+    },
+    {
+      "chunk_id": 345,
+      "text": "s.berkeley.edu. At the {\\tt Name: } prompt, type {\\bf anonymous}.\\footnote{On some systems you can type {\\bf ftp} instead of {\\bf anonymous}.} At the {\\tt Password:} prompt, you should type your electronic mail address. This is so the managers of"
+    },
+    {
+      "chunk_id": 346,
+      "text": "ctronic mail address. This is so the managers of that system know who is connecting and can contact you if necessary. Once you are connected, your prompt will be shown as {\\tt ftp>}. You can then use the {\\bf cd}, {\\bf ls}, and {\\bf get} commands t"
+    },
+    {
+      "chunk_id": 347,
+      "text": "e the {\\bf cd}, {\\bf ls}, and {\\bf get} commands to move around in directories, see listings of files, and get (i.e., copy to your home system) files. Most anonymous FTP sites have README files somewhere. Also, it is conventional to put public FTP fi"
+    },
+    {
+      "chunk_id": 348,
+      "text": "ere. Also, it is conventional to put public FTP files in a subdirectory called ``pub''. Here is an example of how to connect to ``cory'' and get an information file about the Ptolemy program: \\noindent {\\tt \\%} {\\bf ftp cory.eecs.berkeley.edu} \\key"
+    },
+    {
+      "chunk_id": 349,
+      "text": "ent {\\tt \\%} {\\bf ftp cory.eecs.berkeley.edu} \\key{Return} \\\\ {\\tt Connected to cory.eecs.berkeley.edu. \\\\ 220 cory.Berkeley.EDU FTP server (ULTRIX Version 4.1 Fri Jul 24 13:34:28 EDT 1992) ready. \\\\ Name (cory.eecs.berkeley.edu:):} {\\bf anonymous} \\"
+    },
+    {
+      "chunk_id": 350,
+      "text": "Name (cory.eecs.berkeley.edu:):} {\\bf anonymous} \\key{Return} \\\\ {\\tt 331 Guest login ok, send ident as password. \\\\ Password:}\\footnote{Type your electronic mail address here, but it won't show up on the screen.}\\\\ {\\tt 230 Guest login ok, access re"
+    },
+    {
+      "chunk_id": 351,
+      "text": "the screen.}\\\\ {\\tt 230 Guest login ok, access restrictions apply.\\\\ ftp>} {\\bf ls} \\key{Return}\\\\ {\\tt 200 PORT command successful.\\\\ 150 Opening data connection for /bin/ls (128.32.134.4,1791) (0 bytes).\\\\ README \\\\ bin \\\\ pub \\\\ 226 Transfer comp"
+    },
+    {
+      "chunk_id": 352,
+      "text": "ytes).\\\\ README \\\\ bin \\\\ pub \\\\ 226 Transfer complete. \\\\ 27 bytes received in 0.31 seconds (0.085 Kbytes/s) \\\\ ftp> {\\bf cd pub} \\key{Return} \\\\ {\\tt 250 CWD command successful. \\\\ ftp>} {\\bf ls} \\key{Return} \\\\ \\tt 200 PORT command successful. \\\\"
+    },
+    {
+      "chunk_id": 353,
+      "text": "ey{Return} \\\\ \\tt 200 PORT command successful. \\\\ 150 Opening data connection for /bin/ls (128.32.134.4,1792) (0 bytes). \\\\ EECS.facilities \\\\ account-form \\\\ compress.help \\\\ ptolemy.help \\hfill {\\it (This is only a partial list of files.)}\\\\ spice"
+    },
+    {
+      "chunk_id": 354,
+      "text": "t (This is only a partial list of files.)}\\\\ spice.help \\\\ suprem.help \\\\ talk.help \\\\ terminal.setup \\\\ 226 Transfer complete. \\\\ 620 bytes received in 0.2 seconds (3 Kbytes/s) \\\\ ftp> {\\bf get ptolemy.help} \\key{Return} \\\\ {\\tt 200 PORT command suc"
+    },
+    {
+      "chunk_id": 355,
+      "text": "my.help} \\key{Return} \\\\ {\\tt 200 PORT command successful. \\\\ 150 Opening data connection for ptolemy.help (128.32.134.4,1793) (16006 bytes). \\\\ 226 Transfer complete. \\\\ local: ptolemy.help remote: ptolemy.help \\\\ 16434 bytes received in 0.031 secon"
+    },
+    {
+      "chunk_id": 356,
+      "text": "tolemy.help \\\\ 16434 bytes received in 0.031 seconds (5.1e+02 Kbytes/s) \\\\ ftp>} {\\bf quit} \\key{Return} \\\\ {\\tt 221 Goodbye. \\\\ \\%} \\rm Table \\ref{FTPtbl} shows some useful FTP commands. \\begin{table}[htb]\\centering \\setlength{\\captionwidth}{4.5in"
+    },
+    {
+      "chunk_id": 357,
+      "text": "le}[htb]\\centering \\setlength{\\captionwidth}{4.5in} \\isucaption{Common FTP Commands} \\label{FTPtbl} \\begin{tabular}{ll} {\\bf ftp} {\\it hostname} & Connect to {\\it hostname} for file transfers. \\\\ {\\bf ?} & Help \\\\ {\\bf cd} {\\it directory} & Change w"
+    },
+    {
+      "chunk_id": 358,
+      "text": "f ?} & Help \\\\ {\\bf cd} {\\it directory} & Change working directory to {\\it directory}. \\\\ {\\bf cd .~.} & Change working directory to one level up. \\\\ {\\bf binary} & Set file transfer mode to binary.\\\\ {\\bf get} {\\it filename} & Copy remote {\\it file"
+    },
+    {
+      "chunk_id": 359,
+      "text": "\\ {\\bf get} {\\it filename} & Copy remote {\\it filename} to local system.\\\\ {\\bf mget} {\\it file1 file2 file3} & Copy multiple files to local system. \\\\ {\\bf mget *} & Copy all files in working directory. \\\\ {\\bf quit} & Quit file transfer program.\\\\"
+    },
+    {
+      "chunk_id": 360,
+      "text": "ory. \\\\ {\\bf quit} & Quit file transfer program.\\\\ \\ctrl{c} & Cancel (abort) file transfer. \\\\ \\end{tabular} \\end{table} \\par \\par Type {\\bf man ftp} for more information. There is one more important thing to note regarding FTP. In order to save di"
+    },
+    {
+      "chunk_id": 361,
+      "text": "t thing to note regarding FTP. In order to save disk space, most files longer than a few pages are stored in {\\it compressed format} and must be uncompressed before being used. Compressed files are commonly denoted by a ``.Z'' suffix. See Section \\r"
+    },
+    {
+      "chunk_id": 362,
+      "text": "ommonly denoted by a ``.Z'' suffix. See Section \\ref{compress} for details about the {\\bf compress} and {\\bf uncompress} commands. \\subsection{The World-Wide Web, Netscape, Mosaic, and Lynx}\\label{netscape} \\index{Mosaic} \\index{Netscape} \\index{WWW"
+    },
+    {
+      "chunk_id": 363,
+      "text": "tscape} \\index{Mosaic} \\index{Netscape} \\index{WWW} \\index{Lynx} The World-Wide Web (WWW) is described as a ``wide-area hypermedia information retrieval initiative aiming to give universal access to a large universe of documents''. You can find an"
+    },
+    {
+      "chunk_id": 364,
+      "text": "a large universe of documents''. You can find an amazing amount of information, such as many U.C. Berkeley EECS and CS technical reports, pictures of the Shoemaker-Levy comet crashing into Jupiter, pictures of the Vatican art galleries, the Encyclop"
+    },
+    {
+      "chunk_id": 365,
+      "text": "ictures of the Vatican art galleries, the Encyclopedia Britannica Online, MTV News, and much, much more. To access WWW, you need an interface tool. The most common is called ``Netscape''; ``Mosaic'' is another similar tool. ``Lynx'' is a text-base"
+    },
+    {
+      "chunk_id": 366,
+      "text": "' is another similar tool. ``Lynx'' is a text-based browser for use with vt100 terminals or emulators (for example, running on PCs or Macs). On the EECS Instructional systems, you can access these programs with one of the following commands: \\begin{"
+    },
+    {
+      "chunk_id": 367,
+      "text": "grams with one of the following commands: \\begin{quote} {\\tt \\%}~~\\bf netscape \\\\ {\\tt \\%}~~\\bf Mosaic \\\\ {\\tt \\%}~~\\bf lynx \\\\ \\end{quote} A more detailed explanation of these programs is beyond the scope of this manual, however they are pretty s"
+    },
+    {
+      "chunk_id": 368,
+      "text": "he scope of this manual, however they are pretty simple to use. Just click the mouse on any underlined (hyper-)text and you'll be able to navigate through the menus. (For lynx, use your arrow keys.) To access the EECS Instructional home page, selec"
+    },
+    {
+      "chunk_id": 369,
+      "text": "To access the EECS Instructional home page, select \\key{Open} and type in the following address: \\begin{quote} {\\tt \\%}~~\\bf http://www-inst.eecs.berkeley.edu \\end{quote} Please see the file /usr/pub/netscape.help or /usr/pub/mosaic.help for more"
+    },
+    {
+      "chunk_id": 370,
+      "text": "ub/netscape.help or /usr/pub/mosaic.help for more information. \\subsection{Using {\\bf Gopher}}\\label{gopher} \\index{Gopher} Gopher is a network utility that helps you ``go fer'' information. It's very easy to use because most menus have helpful inf"
+    },
+    {
+      "chunk_id": 371,
+      "text": "ry easy to use because most menus have helpful information listed at the bottom of each screen. To start it up, just type ``{\\bf gopher}''.\\footnote{You can also run an X Windows version of gopher by typing ``{\\bf xgopher}'' on a workstation.} (You"
+    },
+    {
+      "chunk_id": 372,
+      "text": "typing ``{\\bf xgopher}'' on a workstation.} (You must do this from the shell, not inside an editor such as JOVE or vi.) On the Instructional systems, you should see a menu somewhat like the following: {\\tt \\begin{center} Internet Gopher Informati"
+    },
+    {
+      "chunk_id": 373,
+      "text": "ng: {\\tt \\begin{center} Internet Gopher Information Client v1.1 \\\\ \\end{center} \\begin{verbatim} --> 1. About the EECS Department Gopher Server. 2. Rosters/ 3. Class schedules/ 4. Computer Science Division Gopher/ 5. E"
+    },
+    {
+      "chunk_id": 374,
+      "text": "4. Computer Science Division Gopher/ 5. EECS Instructional Computing/ 6. ERL/ 7. Research/ 8. Seminar and meeting rooms/ 9. Seminar listings/ 10. Technical and Computer Services (TCS)/ 11. Test.Docs/"
+    },
+    {
+      "chunk_id": 375,
+      "text": "nd Computer Services (TCS)/ 11. Test.Docs/ 12. Tools/ 13. UC Berkeley/ 14. University & Government Gophers/ Press ? for Help, q to Quit, u to go up a menu Page: 1/1 \\end{verbatim} } To select a menu item, just type the i"
+    },
+    {
+      "chunk_id": 376,
+      "text": "verbatim} } To select a menu item, just type the item number. Here are some useful gopher commands: \\par \\par \\begin{minipage} {5in} { \\label{gopherTBL} \\begin{tabular}{ll} {\\bf gopher} & Start gopher from the shell \\\\ {\\bf ?} & Help \\\\ {\\bf q} & Q"
+    },
+    {
+      "chunk_id": 377,
+      "text": "er from the shell \\\\ {\\bf ?} & Help \\\\ {\\bf q} & Quit \\\\ {\\bf u} & Go up one menu level \\\\ {\\it num} {\\bf \\key{Return}} & Select item {\\it num} from menu \\\\ \\key{SPACEBAR} & Move forward one screenful\\\\ {\\bf m} & Mail a gopher file to yourself \\\\ {\\b"
+    },
+    {
+      "chunk_id": 378,
+      "text": "\\\\ {\\bf m} & Mail a gopher file to yourself \\\\ {\\bf s} & Save a gopher file \\footnote{This requires ``write'' permission in the gopher directory, so this generally won't work. Use ``{\\bf m}'' instead.} \\\\ {\\bf p} & Print the file \\footnote{This won't"
+    },
+    {
+      "chunk_id": 379,
+      "text": "} \\\\ {\\bf p} & Print the file \\footnote{This won't work unless you specify which printer the file should go to. See Section \\ref{printing gopher}.} \\\\ \\end{tabular} } \\end{minipage} \\subsubsection{Obtaining Copies of Gopher Files through Mail} Afte"
+    },
+    {
+      "chunk_id": 380,
+      "text": "btaining Copies of Gopher Files through Mail} After you type the ``{\\bf m}'' command in gopher to mail a file to yourself, you should see something like this: \\begin{verbatim} +---------------------------------------------------------------+ |"
+    },
+    {
+      "chunk_id": 383,
+      "text": "----------------------------------------+ \\end{verbatim} Just type in your electronic mail address and type \\key{Return} or \\key{Enter} (or \\ctrl{g} to cancel the mail). Please note that you may need to specify your full address. For example, if you"
+    },
+    {
+      "chunk_id": 384,
+      "text": "to specify your full address. For example, if your login name is {\\it cs61a-zy} on the machine called {\\it cory}, you should specify {\\it cs61a-zy@cory.eecs.berkeley.edu} when mailing files. Type {\\bf hostname} before starting up gopher if you are"
+    },
+    {
+      "chunk_id": 385,
+      "text": "bf hostname} before starting up gopher if you are unsure what the name of your machine is. In order to use the {\\bf gopher} command, there must be a gopher client on your computer. Most computers in the EECS Department will have gopher available, h"
+    },
+    {
+      "chunk_id": 386,
+      "text": "the EECS Department will have gopher available, however if you get ``{\\tt gopher: Command not found.}'' \\index{problems!finding commands (path)} then check with your system administrator to see if gopher is available. If it's not available on your"
+    },
+    {
+      "chunk_id": 387,
+      "text": "pher is available. If it's not available on your system, then you'll have to use another method to obtain information. See Section \\ref{info}. Also, if you have problems find the EECS Instructional information among all the Gopher menus, trying typi"
+    },
+    {
+      "chunk_id": 388,
+      "text": "nformation among all the Gopher menus, trying typing ``{\\tt gopher diva}'' or ``{\\tt gopher diva.EECS}'' instead of just ``{\\tt gopher}''. This should start you out with the EECS gopher menus first. For campus-wide information, such as the current S"
+    },
+    {
+      "chunk_id": 389,
+      "text": "For campus-wide information, such as the current Schedule of Classes, type ``{\\tt gopher infocal}''. \\subsubsection{Printing Gopher Files}\\label{printing gopher} After viewing a file in gopher, you will see the following menu at the bottom of your s"
+    },
+    {
+      "chunk_id": 390,
+      "text": "ill see the following menu at the bottom of your screen: \\begin{verbatim} Press to continue, to mail, to save, or to print: \\end{verbatim} If you type ``{\\tt p}'', your file will be printed to the {\\it default printer} on your system. If your syst"
+    },
+    {
+      "chunk_id": 391,
+      "text": "\\it default printer} on your system. If your system does not have a default printer, an error message ({\\tt unknown printer lp}) will appear on the screen for a brief instance and your file will not be printed. The EECS Instructional computers do n"
+    },
+    {
+      "chunk_id": 392,
+      "text": "be printed. The EECS Instructional computers do not have a default printer, therefore you must tell the system which printer you would like to use as a default. This is done by setting the environment variable {\\tt PRINTER}. See Section \\ref{defpri"
+    },
+    {
+      "chunk_id": 393,
+      "text": "nt variable {\\tt PRINTER}. See Section \\ref{defprint} for details."
+    }
+  ]
+}

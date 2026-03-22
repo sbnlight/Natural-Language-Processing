@@ -1,0 +1,637 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/java/old/ptplot1.2/ptplot/Pxgraph.java",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "/* Java implementation of the X11 pxgraph plotting program Copyright (c) 1997-1998 The Regents of the University of California. All rights reserved. Permission is hereby granted, without written agreement and without license or royalty fees, to"
+    },
+    {
+      "chunk_id": 2,
+      "text": "greement and without license or royalty fees, to use, copy, modify, and distribute this software and its documentation for any purpose, provided that the above copyright notice and the following two paragraphs appear in all copies of this softwar"
+    },
+    {
+      "chunk_id": 3,
+      "text": "o paragraphs appear in all copies of this software. IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMEN"
+    },
+    {
+      "chunk_id": 4,
+      "text": "NG OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO,"
+    },
+    {
+      "chunk_id": 5,
+      "text": "MS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN \"AS IS\" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATION TO PROVID"
+    },
+    {
+      "chunk_id": 6,
+      "text": "VERSITY OF CALIFORNIA HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS. PT_COPYRIGHT_VERSION_2 COPYRIGHTENDKEY */ package p"
+    },
+    {
+      "chunk_id": 7,
+      "text": "COPYRIGHTENDKEY */ package ptplot; import java.awt.*; import java.io.File; import java.io.FileOutputStream; import java.io.IOException; import java.lang.Thread; import java.lang.InterruptedException; import java.util.Proper"
+    },
+    {
+      "chunk_id": 8,
+      "text": "ng.InterruptedException; import java.util.Properties; import java.util.StringTokenizer; ////////////////////////////////////////////////////////////////////////// //// Pxgraph /** This class is a Java application that uses the Plot Java applet to"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Java application that uses the Plot Java applet to simulate the pxgraph X Windows system program. The pxgraph script is a Bourne shell script that attempts to call Java with the proper environment. The pxgraph script has the following usage: pxgraph"
+    },
+    {
+      "chunk_id": 10,
+      "text": "he pxgraph script has the following usage: pxgraph [ options ] [ =WxH+X+Y ] [file . . .] Below we describe the pxgraph arguments. The text is based on the xgraph Unix man page written by David Harrison (University of California). To see the command"
+    },
+    {
+      "chunk_id": 11,
+      "text": "son (University of California). To see the command line options, you can type pxgraph -help . The pxgraph program draws a graph on a display given data read from either data files or from standard input if no files are specified. It can display up to"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ut if no files are specified. It can display up to 64 independent data sets using different colors and/or line styles for each set. It annotates the graph with a title, axis labels, grid lines or tick marks, grid labels, and a legend. There are optio"
+    },
+    {
+      "chunk_id": 13,
+      "text": "marks, grid labels, and a legend. There are options to control the appearance of most components of the graph. The input format is similar to graph( 1G ) but differs slightly. The data consists of a number of data sets . Data sets are separated by a"
+    },
+    {
+      "chunk_id": 14,
+      "text": "number of data sets . Data sets are separated by a blank line. A new data set is also assumed at the start of each input file. A data set consists of an ordered list of points of the form directive X Y . The directive is either draw or move and can"
+    },
+    {
+      "chunk_id": 15,
+      "text": "Y . The directive is either draw or move and can be omitted (Note that with binary data files, you must have a directive, the above statement only applies to ascii format data files). If the directive is draw , a line will be drawn between the previ"
+    },
+    {
+      "chunk_id": 16,
+      "text": "e is draw , a line will be drawn between the previous point and the current point (if a line graph is chosen). Specifying a move directive tells xgraph not to draw a line between the points. If the directive is omitted, draw is assumed for all points"
+    },
+    {
+      "chunk_id": 17,
+      "text": "rective is omitted, draw is assumed for all points in a data set except the first point where move is assumed. The move directive is used most often to allow discontinuous data in a data set. After pxgraph has read the data, it will create a new wi"
+    },
+    {
+      "chunk_id": 18,
+      "text": "pxgraph has read the data, it will create a new window to graphically display the data. Once the window has been opened, all of the data sets will be displayed graphically (subject to the options explained below) with a legend in the upper right cor"
+    },
+    {
+      "chunk_id": 19,
+      "text": "lained below) with a legend in the upper right corner of the screen. To zoom in on a portion of the graph, depress a mouse button in the window and sweep out a region. pxgraph will then the window will be redrawn with just that portion of the graph."
+    },
+    {
+      "chunk_id": 20,
+      "text": "l be redrawn with just that portion of the graph. pxgraph also presents four control buttons in the lower left corner of each window: Exit , Print , HTML and About . The Exit button will exit the process. You can also type Control-D , Control-C or q"
+    },
+    {
+      "chunk_id": 21,
+      "text": "ess. You can also type Control-D , Control-C or q to exit. The Print button brings up a print dialog window. The About button brings up a message about pxgraph . The HTML button prints an HTML file to stdout that can be used to display the file with"
+    },
+    {
+      "chunk_id": 22,
+      "text": "o stdout that can be used to display the file with applet Plot classes (Experimental). pxgraph accepts a large number of commmand line options. A list of these options is given below. = W x H + X + Y Specifies the initial size and location of the pxg"
+    },
+    {
+      "chunk_id": 23,
+      "text": "Specifies the initial size and location of the pxgraph window. - <digit> <name> These options specify the data set name for the corresponding data set. The digit should be in the range 0 to 63. This name will be used in the legend. -bar Specifies tha"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ame will be used in the legend. -bar Specifies that vertical bars should be drawn from the data points to a base point which can be specified with -brb . Usually, the -nl flag is used with this option. The point itself is located at the center of the"
+    },
+    {
+      "chunk_id": 25,
+      "text": ". The point itself is located at the center of the bar. -bb Draw a bounding box around the data region. This is very useful if you prefer to see tick marks rather than grid lines (see -tk ). Unsupported in the Java version. -bd <color> This specifies"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ed in the Java version. -bd <color> This specifies the border color of the pxgraph window. Unsupported in the Java version. -bg <color> Background color of the pxgraph window. In the Java version, this argument takes hexadecimal color values ( fffff"
+    },
+    {
+      "chunk_id": 27,
+      "text": "s argument takes hexadecimal color values ( fffff ), not color names. -binary Data files are in binary format. The -binary argument is the primary difference between xgraph and pxgraph . The Ptolemy Project software makes extensive use of -binary"
+    },
+    {
+      "chunk_id": 28,
+      "text": "y Project software makes extensive use of -binary . There are two binary formats, both of which use 4 byte floats. If the first byte of the data file is not a d , then we assume that the file contains 4 byte floats with no plot commands. If the first"
+    },
+    {
+      "chunk_id": 29,
+      "text": "4 byte floats with no plot commands. If the first byte of the data file is a d , then we assume that the plot commands are encoded as single characters, and the numeric data is a 4 byte float. The commands are encoded as follows: d <4byte float> <4"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ommands are encoded as follows: d <4byte float> <4byte float> Draw a X,Y point e End of dataset n <dataset name> \\n New dataset name, ends in \\n m <4byte float> <4byte float> Move to a X,Y point. To view a binary plot file under unix, we can use the"
+    },
+    {
+      "chunk_id": 31,
+      "text": "iew a binary plot file under unix, we can use the od command. Note that the first character is a d followed by eight bytes of data consisting of two floats of four bytes. cxh@carson 324% od -c data/integrator1.plt 0000000 d \\0 \\0 \\0 \\0 \\0 \\0"
+    },
+    {
+      "chunk_id": 32,
+      "text": "ntegrator1.plt 0000000 d \\0 \\0 \\0 \\0 \\0 \\0 \\0 \\0 d ? 200 \\0 \\0 ? 200 0000020 \\0 \\0 d @ \\0 \\0 \\0 @ , 314 315 d @ @ \\0 \\0 -brb <base> This specifies the base for a bar graph. By default, the base is zero. Unsuppor"
+    },
+    {
+      "chunk_id": 33,
+      "text": "bar graph. By default, the base is zero. Unsupported in the Java version. -brw <width> This specifies the width of bars in a bar graph. The amount is specified in the user units. By default, a bar one pixel wide is drawn. -bw <size> Border width (in"
+    },
+    {
+      "chunk_id": 34,
+      "text": "e pixel wide is drawn. -bw <size> Border width (in pixels) of the pxgraph window. Unsupported in the Java version. -db Causes xgraph to run in synchronous mode and prints out the values of all known defaults. -fg <color> Foreground color. This color"
+    },
+    {
+      "chunk_id": 35,
+      "text": "efaults. -fg <color> Foreground color. This color is used to draw all text and the normal grid lines in the window. In the Java version, this argument takes hexadecimal color values ( fffff ), not color names. -gw Width, in pixels, of normal grid li"
+    },
+    {
+      "chunk_id": 36,
+      "text": "lor names. -gw Width, in pixels, of normal grid lines. Unsupported in the Java version. -gs Line style pattern of normal grid lines. -impulses Draw a line from any plotted point down to the x axis. (This argument is not present in the X11 pxgraph , b"
+    },
+    {
+      "chunk_id": 37,
+      "text": "his argument is not present in the X11 pxgraph , but it is similar to -nl -bar ). -lf <fontname> Label font. All axis labels and grid labels are drawn using this font. Note that the Java version does not use X11 style font specification. In the Java"
+    },
+    {
+      "chunk_id": 38,
+      "text": "not use X11 style font specification. In the Java version, fonts may be specified as fontname , where fontname is one of helvetica , TimesRoman , Courier , Dialog , DialogInput , ZapfDingbats . fontname - style , where style is one of PLAIN , ITALIC"
+    },
+    {
+      "chunk_id": 39,
+      "text": "me - style , where style is one of PLAIN , ITALIC , BOLD , i.e. helvetica-ITALIC fontname - size , or fontname - style - size , where size is an integer font size in points. The default is helvetica-PLAIN-12 . -lnx Specifies a logarithmic X axis. Gr"
+    },
+    {
+      "chunk_id": 40,
+      "text": "PLAIN-12 . -lnx Specifies a logarithmic X axis. Grid labels represent powers of ten. If -lnx is present, then x values must be greater than zero. -lny Specifies a logarithmic Y axis. Grid labels represent powers of ten. If -lny is present, then"
+    },
+    {
+      "chunk_id": 41,
+      "text": "resent powers of ten. If -lny is present, then y values must be greater than zero. -lw width Specifies the width of the data lines in pixels. The default is zero. Unsupported in the Java version. -lx <xl,xh> This option limits the range of the X a"
+    },
+    {
+      "chunk_id": 42,
+      "text": "lx <xl,xh> This option limits the range of the X axis to the specified interval. This (along with -ly ) can be used to zoom in on a particularly interesting portion of a larger graph. -ly <yl,yh> This option limits the range of the Y axis to the spec"
+    },
+    {
+      "chunk_id": 43,
+      "text": "option limits the range of the Y axis to the specified interval. -m Mark each data point with a distinctive marker. There are eight distinctive markers used by xgraph. These markers are assigned uniquely to each different line style on black and whi"
+    },
+    {
+      "chunk_id": 44,
+      "text": "uely to each different line style on black and white machines and varies with each color on color machines. -M Similar to -m but markers are assigned uniquely to each eight consecutive data sets (this corresponds to each different line style on color"
+    },
+    {
+      "chunk_id": 45,
+      "text": "corresponds to each different line style on color machines). -nl Turn off drawing lines. When used with -m , -M , -p , or -P this can be used to produce scatter plots. When used with -bar, it can be used to produce standard bar graphs. -p Marks each"
+    },
+    {
+      "chunk_id": 46,
+      "text": "used to produce standard bar graphs. -p Marks each data point with a small marker (pixel sized). This is usually used with the -nl option for scatter plots. -P Similar to -p but marks each pixel with a large dot. -rv Reverse video. On black and white"
+    },
+    {
+      "chunk_id": 47,
+      "text": "a large dot. -rv Reverse video. On black and white displays, this will invert the foreground and background colors. The behaviour on color displays is undefined. -t <string> Title of the plot. This string is centered at the top of the graph. -tf <fon"
+    },
+    {
+      "chunk_id": 48,
+      "text": "ring is centered at the top of the graph. -tf <fontname> Title font. This is the name of the font to use for the graph title. See the -lf description above for how to specify fonts. The default is helvetica-BOLD-14 -tk This option causes pxgraph to"
+    },
+    {
+      "chunk_id": 49,
+      "text": "lvetica-BOLD-14 -tk This option causes pxgraph to draw tick marks rather than full grid lines. The -bb option is also useful when viewing graphs with tick marks only. -x <unitname> This is the unit name for the X axis. Its default is \"X\". -y <unitnam"
+    },
+    {
+      "chunk_id": 50,
+      "text": "me for the X axis. Its default is \"X\". -y <unitname> This is the unit name for the Y axis. Its default is \"Y\". -zg <color> This is the color used to draw the zero grid line. Unsupported in the Java version. -zw <width> This is the width of the zero g"
+    },
+    {
+      "chunk_id": 51,
+      "text": "rsion. -zw <width> This is the width of the zero grid line in pixels. Unsupported in the Java version. Compatibility Issues Various compatibility issues are documented above in bold . Below are some other issues: The original xgraph program allowed m"
+    },
+    {
+      "chunk_id": 52,
+      "text": "ther issues: The original xgraph program allowed many formatting directives inside the file. This version only supports draw and move . This original xgraph program allowed blank lines to separate datasets. This version does not. Instead, use the"
+    },
+    {
+      "chunk_id": 53,
+      "text": "tasets. This version does not. Instead, use the move X Y directive. This version does not support X resources. The Java version of pxgraph takes longer to start up than the X11 version. This is an inherent problem with standalone Java applications"
+    },
+    {
+      "chunk_id": 54,
+      "text": "inherent problem with standalone Java applications. One guess is that most of the startup time comes from paging in the shared libraries. Installation Instructions The instructions below are for using the Java pxgraph script instead of the X11 pxgra"
+    },
+    {
+      "chunk_id": 55,
+      "text": "g the Java pxgraph script instead of the X11 pxgraph binary within Ptolemy. Obtain and install a Java Development Kit (JDK) for your platform from www.javasoft.com . Pxgraph works best under JDK1.1.4. Under JDK1.0.2, the Print and About buttons will"
+    },
+    {
+      "chunk_id": 56,
+      "text": "Under JDK1.0.2, the Print and About buttons will not work. Obtain the Ptplot tar file from http://ptolemy.eecs.berkeley.edu/java/ptplot . cd to $PTOLEMY/tycho/java and ungzip and untar the tar file: cd $PTOLEMY/tycho/java gzcat /tmp/ptplot1.2.tar.g"
+    },
+    {
+      "chunk_id": 57,
+      "text": "cd $PTOLEMY/tycho/java gzcat /tmp/ptplot1.2.tar.gz | tar -xf The pxgraph shell script reads a few environment variables and attempts to run. For the script to run, it needs to find the location of the Java JDK installation and the location of the P"
+    },
+    {
+      "chunk_id": 58,
+      "text": "he Java JDK installation and the location of the Ptplot .class files. If the JAVAHOME environment variable is set, then it is read and $JAVAHOME/lib/classes.zip is used in the classpath. For example, if your JDK was at /opt/jdk1.1.4 , then you woul"
+    },
+    {
+      "chunk_id": 59,
+      "text": ", if your JDK was at /opt/jdk1.1.4 , then you would add the following to your .cshrc : setenv JAVAHOME /opt/jdk1.1.4 If JAVAHOME is not set, then the script searches the path and looks for the java binary. If the java binary is found, then the scrip"
+    },
+    {
+      "chunk_id": 60,
+      "text": "nary. If the java binary is found, then the script looks for the appropriate classes.zip to use. If none of the above works, you can edit the pxgraph script and change the JAVADEFAULT setting at the top of the file to point to your JDK. To find the"
+    },
+    {
+      "chunk_id": 61,
+      "text": "top of the file to point to your JDK. To find the Ptplot .class files, the script reads the TYCHO and PTOLEMY variables and looks in PTOLEMY/tycho/java/ptplot . If you do not have Ptolemy or Tycho installed, you can edit the pxgraph script and chang"
+    },
+    {
+      "chunk_id": 62,
+      "text": "stalled, you can edit the pxgraph script and change TYDEFAULT so that the Pxgraph.class file will be found at $TYDEFAULT/java/ptplot/Pxgraph.class Move the old pxgraph binary to a safe place and create a link to the Java Ptplot pxgraph script. cd $PT"
+    },
+    {
+      "chunk_id": 63,
+      "text": "e a link to the Java Ptplot pxgraph script. cd $PTOLEMY/bin.$PTARCH mv pxgraph pxgraph.x11 ln -s ../tycho/java/plot/pxgraph . For further information about this tool, see the Java Plot Website . * @author Christopher Hylands (cxh@eecs.berkeley.edu)"
+    },
+    {
+      "chunk_id": 64,
+      "text": "author Christopher Hylands (cxh@eecs.berkeley.edu) * @version @(#)Pxgraph.java 1.68 01/11/98 * @see Plot */ public class Pxgraph extends Frame { /** Process the arguments and plot the data. */ public Pxgraph(String args[]) {"
+    },
+    {
+      "chunk_id": 65,
+      "text": "*/ public Pxgraph(String args[]) { //setLayout(new FlowLayout(FlowLayout.LEFT)); //setLayout(new BorderLayout()); _plotApplet = new Plot(); _makeButtons(); pack(); add(\"Center\",_plotApplet);"
+    },
+    {
+      "chunk_id": 66,
+      "text": "pack(); add(\"Center\",_plotApplet); try { _parseArgs(args); } catch (CmdLineArgException e) { System.err.println(\"Failed to parse command line arguments: \" + e); } show();"
+    },
+    {
+      "chunk_id": 67,
+      "text": "ments: \" + e); } show(); _plotApplet.init(); // _plotApplet.start(); } /** * Handle an Action. * @deprecated As of JDK1.1 in java.awt.component, but we need * to compile under 1.0.2 fo"
+    },
+    {
+      "chunk_id": 68,
+      "text": "ent, but we need * to compile under 1.0.2 for netscape3.x compatibility. */ public boolean action(Event e, Object arg) { Object target = e.target; if (_debug > 20) System.out.println(\"Pxgraph: action: \"+e+\" \"+target);"
+    },
+    {
+      "chunk_id": 69,
+      "text": "m.out.println(\"Pxgraph: action: \"+e+\" \"+target); if (target == _exitButton) { System.exit(1); return true; } else if (target == _printButton) { _print(); return true; } else if ("
+    },
+    {
+      "chunk_id": 70,
+      "text": "nt(); return true; } else if (target == _htmlButton) { _html(); return true; } else if (target == _aboutButton) { _about(); return true; } else return sup"
+    },
+    {
+      "chunk_id": 71,
+      "text": "return true; } else return super.action (e, arg); // FIXME: action() is deprecated. } /** Handle an event. * @deprecated As of JDK1.1 in java.awt.component * but we need to compile under 1.0.2 for netscape3.x c"
+    },
+    {
+      "chunk_id": 72,
+      "text": "t we need to compile under 1.0.2 for netscape3.x compatibility. */ public boolean handleEvent(Event e) { switch (e.id) { case Event.WINDOW_ICONIFY: //stopAnimation(); break; case Event.WINDOW_D"
+    },
+    {
+      "chunk_id": 73,
+      "text": "(); break; case Event.WINDOW_DEICONIFY: //startAnimation(); break; case Event.WINDOW_DESTROY: System.exit(0); break; } return super.handleEvent(e); // FIXM"
+    },
+    {
+      "chunk_id": 74,
+      "text": "} return super.handleEvent(e); // FIXME: handleEvent is // deprecated in 1.1, we should use processEvent(), // However, we need to compile under 1.0.2 for compatibility with // netscape3.x so we stick with handleEv"
+    },
+    {
+      "chunk_id": 75,
+      "text": "h // netscape3.x so we stick with handleEvent(). } /** Handle key down and key up events. */ public boolean keyDown(Event e, int key) { int keyflags = e.modifiers; if (e.id == Event.KEY_PRESS) { c"
+    },
+    {
+      "chunk_id": 76,
+      "text": "if (e.id == Event.KEY_PRESS) { char c = (char) e.key; switch (c) { case '\\003': // Control-C case '\\004': // Control-D case 'q': System.exit(0);"
+    },
+    {
+      "chunk_id": 77,
+      "text": "ase 'q': System.exit(0); break; case 'x': _pxgraphX11(); // Used for debugging, brings up pxgraph.x11. break; } } return true; } /** Par"
+    },
+    {
+      "chunk_id": 78,
+      "text": "} return true; } /** Parse the command line arguments, do any preprocessing, then plot. * If you have the pxgraph shell script, then * type pxgraph -help for the complete set of arguments. */ public stati"
+    },
+    {
+      "chunk_id": 79,
+      "text": "omplete set of arguments. */ public static void main(String args[]) { Pxgraph pxgraph = new Pxgraph(args); if (_test) { if (_debug > 4) System.out.println(\"Sleeping for 2 seconds\"); try {"
+    },
+    {
+      "chunk_id": 80,
+      "text": "ng for 2 seconds\"); try { Thread.currentThread().sleep(2000); } catch (InterruptedException e) { } System.exit(0); } } //////////////////////////////////////"
+    },
+    {
+      "chunk_id": 82,
+      "text": "h version information. */ private void _about() { Message message = new Message( \" Pxgraph\\n\" + \" A Java Plotting Tool\\n\\n\" + \"By: Edward A. Lee, eal@eecs.berkeley"
+    },
+    {
+      "chunk_id": 83,
+      "text": "\"By: Edward A. Lee, eal@eecs.berkeley.edu and\\n\" + \" Christopher Hylands, cxh@eecs.berkeley.edu\\n\" + \"Version 1.0, Build: @(#)Pxgraph.java 1.68 01/11/98\\n\\n\"+ \"For help, type 'pxgraph -h"
+    },
+    {
+      "chunk_id": 84,
+      "text": "\\n\\n\"+ \"For help, type 'pxgraph -help', or see \\n\" + \"the Pxgraph class documentation.\\n\" + \"For more information, see\\n\" + \"http://ptolemy.eecs.berkeley.edu/java/plot\\n\","
+    },
+    {
+      "chunk_id": 85,
+      "text": "emy.eecs.berkeley.edu/java/plot\\n\", Color.white,Color.black); message.setTitle(\"About Pxgraph\"); message.pack(); message.show(); } /* help - print out help */ private void _help() { /"
+    },
+    {
+      "chunk_id": 86,
+      "text": "help */ private void _help() { // FIXME: we should bring up a dialog box or something. // We use a table here to keep things neat. // If we have: // {\"-bd\", \" \", \"Border\", \"White\", \"(Unsupported)\"},"
+    },
+    {
+      "chunk_id": 87,
+      "text": "\" \", \"Border\", \"White\", \"(Unsupported)\"}, // -bd - The argument // - The description of the value of the argument // Border - The Xgraph file directive (not supported at this time). // White - The defau"
+    },
+    {
+      "chunk_id": 88,
+      "text": "ed at this time). // White - The default (not supported at this time) // \"(Unsupported)\" - The string that is printed to indicate if // a option is unsupported. String commandOptions[][] = {"
+    },
+    {
+      "chunk_id": 89,
+      "text": "orted. String commandOptions[][] = { {\"-bd\", \" \", \"Border\", \"White\", \"(Unsupported)\"}, {\"-bg\", \" \", \"BackGround\", \"White\", \"\"}, {\"-brb\", \" \", \"BarBase\", \"0\", \"(Unsupported)\"}, {\"-brw\", \" \","
+    },
+    {
+      "chunk_id": 90,
+      "text": "\"0\", \"(Unsupported)\"}, {\"-brw\", \" \", \"BarWidth\", \"1\", \"\"}, {\"-bw\", \" \", \"BorderSize\", \"1\", \"(Unsupported)\"}, {\"-fg\", \" \", \"Foreground\", \"Black\", \"\"}, {\"-gw\", \" \", \"GridStyle\", \"1\", \"(Unsupporte"
+    },
+    {
+      "chunk_id": 91,
+      "text": "{\"-gw\", \" \", \"GridStyle\", \"1\", \"(Unsupported)\"}, {\"-lf\", \" \", \"LabelFont\", \"helvetica-12\", \"\"}, {\"-lw\", \" \", \"LineWidth\", \"0\", \"(Unsupported)\"}, {\"-lx\", \" \", \"XLowLimit, XHighLimit\", \"0\", \"\"},"
+    },
+    {
+      "chunk_id": 92,
+      "text": "\" \", \"XLowLimit, XHighLimit\", \"0\", \"\"}, {\"-ly\", \" \", \"YLowLimit, YHighLimit\", \"0\", \"\"}, {\"-t\", \" \", \"TitleText\", \"An X Graph\", \"\"}, {\"-tf\", \" \", \"TitleFont\", \"helvetica-b-14\", \"\"}, {\"-x\", \" \""
+    },
+    {
+      "chunk_id": 93,
+      "text": ", \"helvetica-b-14\", \"\"}, {\"-x\", \" \", \"XUnitText\", \"X\", \"\"}, {\"-y\", \" \", \"YUnitText\", \"Y\", \"\"}, {\"-zg\", \" \", \"ZeroColor\", \"Black\", \"(Unsupported)\"}, {\"-zw\", \" \", \"ZeroWidth\", \"0\", \"(Unsupporte"
+    },
+    {
+      "chunk_id": 94,
+      "text": "{\"-zw\", \" \", \"ZeroWidth\", \"0\", \"(Unsupported)\"}, }; String commandFlags[][] = { {\"-bar\", \"BarGraph\", \"\"}, {\"-bb\", \"BoundBox\", \"(Unsupported)\"}, {\"-binary\", \"Binary\", \"\"}, {\"-d"
+    },
+    {
+      "chunk_id": 95,
+      "text": "{\"-binary\", \"Binary\", \"\"}, {\"-db\", \"Debug\", \"\"}, // -help is not in the original X11 pxgraph. {\"-help\", \"Help\", \"\"}, // -impulses is not in the original X11 pxgraph. {\"-impulses\", \""
+    },
+    {
+      "chunk_id": 96,
+      "text": "original X11 pxgraph. {\"-impulses\", \"Impulses\", \"\"}, {\"-lnx\", \"XLog\", \"\"}, {\"-lny\", \"YLog\", \"\"}, {\"-m\", \"Markers\", \"\"}, {\"-M\", \"StyleMarkers\", \"\"}, {\"-nl\", \"NoLines\", \"\"},"
+    },
+    {
+      "chunk_id": 97,
+      "text": "rkers\", \"\"}, {\"-nl\", \"NoLines\", \"\"}, {\"-p\", \"PixelMarkers\", \"\"}, {\"-P\", \"LargePixel\", \"\"}, {\"-rv\", \"ReverseVideo\", \"\"}, // -test is not in the original X11 pxgraph. We use it for testi"
+    },
+    {
+      "chunk_id": 98,
+      "text": "in the original X11 pxgraph. We use it for testing {\"-test\", \"Test\", \"\"}, {\"-tk\", \"Ticks\", \"\"}, // -v is not in the original X11 pxgraph. {\"-v\", \"Version\", \"\"}, {\"-version\", \"Version\","
+    },
+    {
+      "chunk_id": 99,
+      "text": "rsion\", \"\"}, {\"-version\", \"Version\", \"\"}, }; int i; System.out.println(\"Usage: pxgraph [ options ] [=WxH+X+Y] [file ...]\"); System.out.println(\" options that take values as second args:\"); for(i=0"
+    },
+    {
+      "chunk_id": 100,
+      "text": "hat take values as second args:\"); for(i=0; i < commandOptions.length; i++) { System.out.println(\" \" + commandOptions[i][0] + \" \" + commandOptions[i][1] + \" \" + commandOptions[i][4] );"
+    },
+    {
+      "chunk_id": 101,
+      "text": "\" \" + commandOptions[i][4] ); } System.out.println(\" Boolean flags:\"); for(i=0; i < commandFlags.length; i++) { System.out.println(\" \" + commandFlags[i][0] + \" \" + commandFlags[i]"
+    },
+    {
+      "chunk_id": 102,
+      "text": "[i][0] + \" \" + commandFlags[i][2]); } System.out.println(\"The following pxgraph features are \"+ \"not supported:\"); System.out.println(\" * Directives in pxgraph input files\"); System."
+    },
+    {
+      "chunk_id": 103,
+      "text": "rectives in pxgraph input files\"); System.out.println(\" * Xresources\"); System.out.println(\" For complete documentation, see the \"+ \"Pxgraph Java class documentation.\"); System.exit(1); } /* Dump out h"
+    },
+    {
+      "chunk_id": 104,
+      "text": "; System.exit(1); } /* Dump out html that can be used to redisplay the plot as an applet. */ private void _html() { Dimension dim = size(); // FIXME: size() is deprecated in 1.1, we"
+    },
+    {
+      "chunk_id": 105,
+      "text": "ecated in 1.1, we // should use getSize(), but getSize // is not in 1.0.2. // Read in the user's CLASSPATH and get the first directory, // which should be the lo"
+    },
+    {
+      "chunk_id": 106,
+      "text": "first directory, // which should be the location of the Plot classes StringTokenizer stoken = new StringTokenizer(System.getProperty(\"java.class.path\"),\";:\"); String plotclassdir = new String(\"\"); if (stoke"
+    },
+    {
+      "chunk_id": 107,
+      "text": "g plotclassdir = new String(\"\"); if (stoken.hasMoreTokens()) { plotclassdir = stoken.nextToken(); } StringBuffer applettag = new StringBuffer(\" \\n\"+ \" \\n\"+ \" \\n"
+    },
+    {
+      "chunk_id": 109,
+      "text": "nt i=0;i<(_cmdLineArgs.length - 1);i++) { // FIXME: we are not checking for args that contain // single or double quotes. if (_cmdLineArgs[i].indexOf(\" \") != -1) { // If the arg con"
+    },
+    {
+      "chunk_id": 110,
+      "text": "\") != -1) { // If the arg contains a space, wrap it in single quotes. applettag.append(\"'\" + _cmdLineArgs[i] + \"' \"); } else if (_cmdLineArgs[i].length() == 0) { // If the a"
+    },
+    {
+      "chunk_id": 111,
+      "text": "].length() == 0) { // If the arg is the empty string, print two single quotes. applettag.append(\"'' \"); } else applettag.append(_cmdLineArgs[i] + \" \"); }"
+    },
+    {
+      "chunk_id": 112,
+      "text": "end(_cmdLineArgs[i] + \" \"); } applettag.append(_cmdLineArgs[_cmdLineArgs.length - 1]); } // FIXME: we should handle the background and foreground params. applettag.append(\"\\\">\\n \\n \\n \"); // In"
+    },
+    {
+      "chunk_id": 113,
+      "text": "applettag.append(\"\\\">\\n \\n \\n \"); // In the short term, we dump to stdout System.out.println(applettag.toString()); } /* Set the visibility of the buttons */ private void _setButtonsVisibility(boolean vis) {"
+    },
+    {
+      "chunk_id": 114,
+      "text": "te void _setButtonsVisibility(boolean vis) { //_exitButton.setVisible(vis); //_printButton.setVisible(vis); //_htmlButton.setVisible(vis); //_aboutButton.setVisible(vis); if (vis) { _exitButton.show"
+    },
+    {
+      "chunk_id": 115,
+      "text": "); if (vis) { _exitButton.show(); // FIXME: show() is // deprecated in JDK1.1, but we need to compile under // 1.0.2 for netscape3.x compatibility. _printButton.show(); // FIXME: show() deprecat"
+    },
+    {
+      "chunk_id": 116,
+      "text": "_printButton.show(); // FIXME: show() deprecated, but . . . _htmlButton.show(); // FIXME: show() deprecated, but . . . _aboutButton.show(); // FIXME: show() deprecated, but . . . } else { _exitButton.hi"
+    },
+    {
+      "chunk_id": 117,
+      "text": ". . . } else { _exitButton.hide(); // FIXME: hide() is // deprecated in JDK1.1, but we need to compile under // 1.0.2 for netscape3.x compatibility. _printButton.hide(); // FIXME: hide() deprec"
+    },
+    {
+      "chunk_id": 118,
+      "text": "_printButton.hide(); // FIXME: hide() deprecated, but . . . _htmlButton.hide(); // FIXME: hide() deprecated, but . . . _aboutButton.hide(); // FIXME: hide() deprecated, but . . . } } /* Create buttons."
+    },
+    {
+      "chunk_id": 119,
+      "text": "ut . . . } } /* Create buttons. */ private void _makeButtons() { //setLayout(new FlowLayout(FlowLayout.LEFT)); Panel panel = new Panel(); panel.setLayout(new FlowLayout(FlowLayout.LEFT)); _ex"
+    },
+    {
+      "chunk_id": 120,
+      "text": "out(new FlowLayout(FlowLayout.LEFT)); _exitButton = new Button(\"Exit\"); panel.add(_exitButton); _printButton = new Button(\"Print\"); panel.add(_printButton); _htmlButton = new Button(\"HTML\"); panel.ad"
+    },
+    {
+      "chunk_id": 121,
+      "text": "_htmlButton = new Button(\"HTML\"); panel.add(_htmlButton); _aboutButton = new Button(\"About\"); panel.add(_aboutButton); add(\"South\", panel); } /* Parse the arguments and make calls to the plotApplet accordin"
+    },
+    {
+      "chunk_id": 122,
+      "text": "rguments and make calls to the plotApplet accordingly. */ private int _parseArgs(String args[]) throws CmdLineArgException { int i = 0, j, argsread; String arg; String title = \"A plot\"; int width = 400;"
+    },
+    {
+      "chunk_id": 123,
+      "text": "ng title = \"A plot\"; int width = 400; // Default width of the graph int height = 400; // Default height of the graph // Copy the command line args so we can use them in the printer _cmdLineArgs = new String[a"
+    },
+    {
+      "chunk_id": 124,
+      "text": "in the printer _cmdLineArgs = new String[args.length]; try { System.arraycopy(args,0,_cmdLineArgs,0,args.length); } catch (ArrayIndexOutOfBoundsException e) {} catch (ArrayStoreException e) {} whil"
+    },
+    {
+      "chunk_id": 125,
+      "text": "catch (ArrayStoreException e) {} while (i < args.length) { arg = args[i++]; if (_debug > 2) System.out.print(\"Pxgraph: arg = \" + arg + \"\\n\"); if (arg.startsWith(\"-\")) { if (arg.equals("
+    },
+    {
+      "chunk_id": 126,
+      "text": "startsWith(\"-\")) { if (arg.equals(\"-bg\")) { setBackground(PlotBox.getColorByName(args[i++])); continue; } else if (arg.equals(\"-db\")) { _debug = 10;"
+    },
+    {
+      "chunk_id": 127,
+      "text": "db\")) { _debug = 10; } else if (arg.equals(\"-debug\")) { _debug = (int)Integer.valueOf(args[i++]).intValue(); continue; } else if (arg.equals(\"-fg\")) {"
+    },
+    {
+      "chunk_id": 128,
+      "text": "} else if (arg.equals(\"-fg\")) { setForeground(PlotBox.getColorByName(args[i++])); continue; } else if (arg.equals(\"-help\")) { // -help is not in the original X11 p"
+    },
+    {
+      "chunk_id": 129,
+      "text": "// -help is not in the original X11 pxgraph. _help(); continue; } else if (arg.equals(\"-test\")) { // -test is not in the original X11 pxgraph."
+    },
+    {
+      "chunk_id": 130,
+      "text": "ot in the original X11 pxgraph. _test = true; continue; } else if (arg.equals(\"-t\")) { // -t TitleText \"An X Graph\" title = args[i++];"
+    },
+    {
+      "chunk_id": 131,
+      "text": "title = args[i++]; continue; } else if (arg.equals(\"-v\") || arg.equals(\"-version\")) { // -version is not in the original X11 pxgraph. _about();"
+    },
+    {
+      "chunk_id": 132,
+      "text": "h. _about(); continue; } } else if (arg.startsWith(\"=\")) { // Process =WxH+X+Y int xscreen = 1, yscreen = 1; boolean screenlocationgiv"
+    },
+    {
+      "chunk_id": 133,
+      "text": "een = 1; boolean screenlocationgiven = false; StringTokenizer stoken = new StringTokenizer(arg.substring(1,arg.length()), \"=x-+\"); if (stoken.hasMoreTokens()) { w"
+    },
+    {
+      "chunk_id": 134,
+      "text": "f (stoken.hasMoreTokens()) { width = (int)Integer.valueOf(stoken.nextToken()). intValue(); } if (stoken.hasMoreTokens()) { height = (int)Integer.valueOf("
+    },
+    {
+      "chunk_id": 135,
+      "text": "height = (int)Integer.valueOf(stoken.nextToken()). intValue(); } if (stoken.hasMoreTokens()) { xscreen = (int)Integer.valueOf(stoken.nextToken())."
+    },
+    {
+      "chunk_id": 136,
+      "text": "= (int)Integer.valueOf(stoken.nextToken()). intValue(); screenlocationgiven = true; } if (stoken.hasMoreTokens()) { yscreen = (int)Integer.valueOf(stoken"
+    },
+    {
+      "chunk_id": 137,
+      "text": "yscreen = (int)Integer.valueOf(stoken.nextToken()). intValue(); screenlocationgiven = true; } if (screenlocationgiven) { // Note: we add on"
+    },
+    {
+      "chunk_id": 138,
+      "text": "ongiven) { // Note: we add one so that =800x200+0+0 will show up // in the proper location. setLocation(new Point(xscreen+1, yscreen+1)); } continue;"
+    },
+    {
+      "chunk_id": 139,
+      "text": "} continue; } } // Set up the frame resize(width,height); // FIXME: resize is deprecated in 1.1, // we should use setsize(width,height)"
+    },
+    {
+      "chunk_id": 140,
+      "text": "// we should use setsize(width,height) // but setsize is not in JDK1.0.2 setTitle(title); argsread = i++; if (_debug > 2) { System.err.println(\"Pxgraph: title = \" + title);"
+    },
+    {
+      "chunk_id": 141,
+      "text": ".err.println(\"Pxgraph: title = \" + title); System.err.println(\"Pxgraph: width = \" + width + \" height = \" + height + \" _debug = \" + _debug); } _plotApplet.parseArgs(args); return argsread; }"
+    },
+    {
+      "chunk_id": 142,
+      "text": "et.parseArgs(args); return argsread; } /* Spawn a browser and run the applet Plot class so that the * user can print. Note that we use the JDK1.1 PrintJob * class here. If you are compiling under 1.0.2, you can * jus"
+    },
+    {
+      "chunk_id": 143,
+      "text": "you are compiling under 1.0.2, you can * just comment out the body of this method. */ private void _print () { // awt.print.destination - can be \"printer\" or \"file\" // awt.print.printer - print command"
+    },
+    {
+      "chunk_id": 144,
+      "text": "/ awt.print.printer - print command // awt.print.fileName - name of the file to print // awt.print.numCopies - obvious // awt.print.options - options to pass to the print command // awt.print.orien"
+    },
+    {
+      "chunk_id": 145,
+      "text": "ss to the print command // awt.print.orientation - can be \"portrait\" or \"landscape\" // awt.print.paperSize - can be \"letter\", \"legal\", \"executive\" // or \"a4\" Properties newprops= new Pr"
+    },
+    {
+      "chunk_id": 146,
+      "text": "or \"a4\" Properties newprops= new Properties(); newprops.put(\"awt.print.destination\", \"file\"); newprops.put(\"awt.print.fileName\", \"/tmp/t.ps\"); PrintJob printjob = getToolkit().getPrintJob(this, g"
+    },
+    {
+      "chunk_id": 147,
+      "text": "= getToolkit().getPrintJob(this, getTitle(),newprops); if (printjob != null) { Graphics printgraphics = printjob.getGraphics(); if (printgraphics != null) { Dimension dim = siz"
+    },
+    {
+      "chunk_id": 148,
+      "text": "ics != null) { Dimension dim = size(); // size is deprecated in 1.1, we // should use getSize(), but getSize // is not in 1.0.2. // Make the buttons invisible"
+    },
+    {
+      "chunk_id": 149,
+      "text": "// Make the buttons invisible _setButtonsVisibility(false); _plotApplet._setButtonsVisibility(false); // Print printAll(printgraphics); // Make the bu"
+    },
+    {
+      "chunk_id": 150,
+      "text": "ll(printgraphics); // Make the buttons visible, reset the graphics. _plotApplet._setButtonsVisibility(true); _setButtonsVisibility(true); resize(dim.width,dim.height); // FIXME: resi"
+    },
+    {
+      "chunk_id": 151,
+      "text": "resize(dim.width,dim.height); // FIXME: resize is deprecated // in 1.1, we should use // setsize(width,height) but // setsize is not in JDK1.0.2 show(); printgraph"
+    },
+    {
+      "chunk_id": 152,
+      "text": "show(); printgraphics.dispose(); printjob.end(); } else { printjob.end(); } } } /* Run the X11 pxgraph binary. This function is only used for"
+    },
+    {
+      "chunk_id": 153,
+      "text": "pxgraph binary. This function is only used for * checking backward compatibility with the X11 pxgraph binary. */ private void _pxgraphX11() { try { boolean sawdebug = false; // True if we saw a -debug flag St"
+    },
+    {
+      "chunk_id": 154,
+      "text": "se; // True if we saw a -debug flag String command[] = new String[_cmdLineArgs.length +1]; command[0] = new String(\"pxgraph.x11\"); System.out.print(\"Pxgraph: about to execute: \"+command[0]+\" \"); // Copy"
+    },
+    {
+      "chunk_id": 155,
+      "text": "to execute: \"+command[0]+\" \"); // Copy over args, except for -debug int j = 1; for(int i = 0; i < _cmdLineArgs.length; i++) { if (_cmdLineArgs[i].equals(\"-debug\")) { i++;"
+    },
+    {
+      "chunk_id": 156,
+      "text": "uals(\"-debug\")) { i++; } else { command[j++] = _cmdLineArgs[i]; } System.out.print(command[j-1]+\" \"); } System.out.println(\"\"); Runt"
+    },
+    {
+      "chunk_id": 157,
+      "text": "} System.out.println(\"\"); Runtime runtime = Runtime.getRuntime(); Process browser = runtime.exec(command); } catch (SecurityException e) { System.out.println(\"Pxgraph: _pxgraphX11: \"+e); } catch"
+    },
+    {
+      "chunk_id": 159,
+      "text": "//////////////////////// //// private variables //// private Button _exitButton, _printButton, _htmlButton, _aboutButton; // Command line args pxgraph was called with. private String _"
+    },
+    {
+      "chunk_id": 160,
+      "text": "args pxgraph was called with. private String _cmdLineArgs[]; // For debugging, call with -db or -debug. private static int _debug = 0; // The Plot applet. private Plot _plotApplet; // If true, then auto exit after a few se"
+    },
+    {
+      "chunk_id": 161,
+      "text": "t; // If true, then auto exit after a few seconds. private static boolean _test = false; }"
+    }
+  ]
+}

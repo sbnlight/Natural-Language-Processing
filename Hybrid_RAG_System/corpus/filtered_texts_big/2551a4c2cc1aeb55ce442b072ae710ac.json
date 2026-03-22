@@ -1,0 +1,301 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Obsolete/DeviceDiscovery",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Obsolete / DeviceDiscovery Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Obsolete / DeviceDiscovery This is out of date and left only"
+    },
+    {
+      "chunk_id": 2,
+      "text": "DeviceDiscovery This is out of date and left only as a curiosity. See Main -> Device Discovery Issues Node The node installation takes a number of steps, including copying an older accessor-to-be-copied.js to accessor.js . The IP address has to be en"
+    },
+    {
+      "chunk_id": 3,
+      "text": "ed.js to accessor.js . The IP address has to be entered by hand into the script. What if the IP address changes? The port number needs to be entered into two places How often should this run and how should it be reported? Node.js host instructions Th"
+    },
+    {
+      "chunk_id": 4,
+      "text": "hould it be reported? Node.js host instructions The Node implementation uses Javascript Promises to ping devices asynchronously, then wait until all pings are finished before performing an arp command, then producing the results on the devices port."
+    },
+    {
+      "chunk_id": 5,
+      "text": ", then producing the results on the devices port. Install Node.js, pull SwarmOS repository, run setup scripts See: http://www.terraswarm.org/platforms/wiki/Main/NodeJsAccessors Quick instructions: Download the swarmos repo git clone https: // repo.ee"
+    },
+    {
+      "chunk_id": 6,
+      "text": "nload the swarmos repo git clone https: // repo.eecs.berkeley.edu / git / projects / terraswarm / swarmos.git [$[Get Code]] Build in hosts cd swarmos / hosts / node . / build.sh [$[Get Code]] Build in swarmos/hosts/browser cd .. / browser . / build.s"
+    },
+    {
+      "chunk_id": 7,
+      "text": "swarmos/hosts/browser cd .. / browser . / build.sh [$[Get Code]] Roll back accessor.js to get Accessor.makeFromURL() This accessor uses an old version of swarmos/hosts/browser/public/scripts/accessor.js . Specifically, it requires the Accessor.make"
+    },
+    {
+      "chunk_id": 8,
+      "text": ".js . Specifically, it requires the Accessor.makeFromURL() method, from version 3a32018 of the SwarmOS repository or earlier. After running (cd ../browser; ./build.sh) above, which copies swarmos/hosts/browser/public/scripts/accessor.js to swarmos/h"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ts/browser/public/scripts/accessor.js to swarmos/hosts/node/accessor.js Copy swarmos/hosts/node/accessor-to-be-copied.js to swarmos/hosts/node/accessor.js cd swarmos / { $HOSTS_NODE } cp accessor-to-be-copied.js accessor.js [$[Get Code]] Enter your I"
+    },
+    {
+      "chunk_id": 10,
+      "text": "e-copied.js accessor.js [$[Get Code]] Enter your IP address in discoverhost.js Edit swarmos/hosts/node/discoverhost.js and add your IP address, to detect devices on your local area network. To find your IP address, try ifconfig or ipconfig . We cou"
+    },
+    {
+      "chunk_id": 11,
+      "text": "our IP address, try ifconfig or ipconfig . We could automate this in the future. Start fileserver.js Change to the swarmos/hosts/node directory, and type: node fileserver.js& [$[Get Code]] This will start a fileserver to serve the accessor from your"
+    },
+    {
+      "chunk_id": 12,
+      "text": "start a fileserver to serve the accessor from your local machine. Problem: Unhandled 'error' event: EACESS Under Mac OS X, the error here is that port 80 is not open. bash-3.2$ node fileserver.js & [ 2 ] 16020 bash-3.2$ Listening on port 80 events.js"
+    },
+    {
+      "chunk_id": 13,
+      "text": "2 ] 16020 bash-3.2$ Listening on port 80 events.js: 85 throw er; // Unhandled 'error' event ^ Error: listen EACCES at exports._errnoException ( util.js: 746 : 11 ) at Server._listen2 ( net.js: 1112 : 19 ) at listen ( net.js: 1155 : 10 ) at Server.lis"
+    },
+    {
+      "chunk_id": 14,
+      "text": "19 ) at listen ( net.js: 1155 : 10 ) at Server.listen ( net.js: 1240 : 5 ) at EventEmitter.app.listen ( / Users / cxh / src / swarmos-git / { $HOSTS_NODE } / { $ACCESSORS_MODULES } / express / lib / application.js: 595 : 24 ) at Object. < anonymous >"
+    },
+    {
+      "chunk_id": 15,
+      "text": "pplication.js: 595 : 24 ) at Object. < anonymous > ( / Users / cxh / src / swarmos-git / { $HOSTS_NODE } / fileserver.js: 13 : 5 ) at Module._compile ( module.js: 460 : 26 ) at Object.Module._extensions..js ( module.js: 478 : 10 ) at Module.load ( mo"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ns..js ( module.js: 478 : 10 ) at Module.load ( module.js: 355 : 32 ) at Function.Module._load ( module.js: 310 : 12 ) [$[Get Code]] If an error like this occurs, try changing the port number. Port 80 seems to work on Windows and port 1337 on Linux"
+    },
+    {
+      "chunk_id": 17,
+      "text": "0 seems to work on Windows and port 1337 on Linux and Mac OS X. Change the port in both /hosts/node/discoverhost.js and /hosts/node/fileserver.js . Run discoverhost.js In the swarmos/hosts/node directory, type: node discoverhost.js [$[Get Code]] Pro"
+    },
+    {
+      "chunk_id": 18,
+      "text": "tory, type: node discoverhost.js [$[Get Code]] Problem: Running discoverhost.js fails to find makeFromURL bash-3.2$ node discoverhost.js Run 'testST1()' ' /Users/cxh/src/swarmos-git/{$HOSTS_NODE}/discoverhost.js:38 Accessor.makeFromURL(accessorURL, f"
+    },
+    {
+      "chunk_id": 19,
+      "text": "overhost.js:38 Accessor.makeFromURL(accessorURL, function(accessor) { ^ TypeError: Cannot read property ' makeFromURL ' of undefined at Object.<anonymous> (/Users/cxh/src/swarmos-git/{$HOSTS_NODE}/discoverhost.js:38:9) at Module._compile (module.js:4"
+    },
+    {
+      "chunk_id": 20,
+      "text": "coverhost.js:38:9) at Module._compile (module.js:460:26) at Object.Module._extensions..js (module.js:478:10) at Module.load (module.js:355:32) at Function.Module._load (module.js:310:12) at Function.Module.runMain (module.js:501:10) at startup (node."
+    },
+    {
+      "chunk_id": 21,
+      "text": "odule.runMain (module.js:501:10) at startup (node.js:129:16) at node.js:814:3 bash-3.2$ [$[Get Code]] See Roll back accessor.js to get Accessor.makeFromURL() Problem: Does not work under Mac OS X bash-3.2$ node discoverhost.js Fired bash-3.2$ ping [$"
+    },
+    {
+      "chunk_id": 22,
+      "text": "-3.2$ node discoverhost.js Fired bash-3.2$ ping [$[Get Code]] Beth writes: \"I haven't tried the Ptolemy device discovery on a Mac - I'm guessing the commands are the same as Linux, but the output might be formatted differently? In that case, the acc"
+    },
+    {
+      "chunk_id": 23,
+      "text": "t be formatted differently? In that case, the accessor won't parse it properly and will return an empty array of devices. If you could, could you please send a sample output from:\" ping -c 2 yourIPaddress arp -a Here's the output under Mac OS X:"
+    },
+    {
+      "chunk_id": 24,
+      "text": "ddress arp -a Here's the output under Mac OS X: bash-3.2$ ping -c 2 128.32.45.159 PING 128.32.45.159 ( 128.32.45.159 ) : 56 data bytes 64 bytes from 128.32.45.159: icmp_seq = 0 ttl = 64 time = 0.052 ms 64 bytes from 128.32.45.159: icmp_seq = 1 ttl"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ms 64 bytes from 128.32.45.159: icmp_seq = 1 ttl = 64 time = 0.127 ms --- 128.32.45.159 ping statistics --- 2 packets transmitted, 2 packets received, 0.0 % packet loss round-trip min / avg / max / stddev = 0.052 / 0.089 / 0.127 / 0.038 ms bash-3.2$"
+    },
+    {
+      "chunk_id": 26,
+      "text": "tddev = 0.052 / 0.089 / 0.127 / 0.038 ms bash-3.2$ arp -a wifi-gw.eecs.berkeley.edu ( 128.32.44.1 ) at cc:4e: 24 :6d:5f: 80 on en0 ifscope [ ethernet ] cronus- 44 .eecs.berkeley.edu ( 128.32.44.21 ) at 0 :e0: 81 :5c: 85 :a on en0 ifscope [ ethernet ]"
+    },
+    {
+      "chunk_id": 27,
+      "text": "t 0 :e0: 81 :5c: 85 :a on en0 ifscope [ ethernet ] ? ( 128.32.45.1 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 2 .eecs.berkeley.edu ( 128.32.45.2 ) at b8:e8: 56 :bc: 39 : 75 on en0 ifscope [ ethernet ] dhcp- 45 - 3 .eecs.berkeley.edu ("
+    },
+    {
+      "chunk_id": 28,
+      "text": "ope [ ethernet ] dhcp- 45 - 3 .eecs.berkeley.edu ( 128.32.45.3 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 4 .eecs.berkeley.edu ( 128.32.45.4 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 5 .eecs.berkeley.edu ( 128.32.45.5"
+    },
+    {
+      "chunk_id": 29,
+      "text": "et ] dhcp- 45 - 5 .eecs.berkeley.edu ( 128.32.45.5 ) at b8:f6:b1: 18 :bb: 21 on en0 ifscope [ ethernet ] dhcp- 45 - 6 .eecs.berkeley.edu ( 128.32.45.6 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 7 .eecs.berkeley.edu ( 128.32.45.7 ) at"
+    },
+    {
+      "chunk_id": 30,
+      "text": "hcp- 45 - 7 .eecs.berkeley.edu ( 128.32.45.7 ) at e8:b1:fc:ce: 11 :a2 on en0 ifscope [ ethernet ] dhcp- 45 - 8 .eecs.berkeley.edu ( 128.32.45.8 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 9 .eecs.berkeley.edu ( 128.32.45.9 ) at ( incom"
+    },
+    {
+      "chunk_id": 31,
+      "text": "- 9 .eecs.berkeley.edu ( 128.32.45.9 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 10 .eecs.berkeley.edu ( 128.32.45.10 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 11 .eecs.berkeley.edu ( 128.32.45.11 ) at b8:f6:b1: 10 :6"
+    },
+    {
+      "chunk_id": 32,
+      "text": "s.berkeley.edu ( 128.32.45.11 ) at b8:f6:b1: 10 :6b:f7 on en0 ifscope [ ethernet ] dhcp- 45 - 12 .eecs.berkeley.edu ( 128.32.45.12 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 13 .eecs.berkeley.edu ( 128.32.45.13 ) at ( incomplete ) on"
+    },
+    {
+      "chunk_id": 33,
+      "text": "erkeley.edu ( 128.32.45.13 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 14 .eecs.berkeley.edu ( 128.32.45.14 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 15 .eecs.berkeley.edu ( 128.32.45.15 ) at ( incomplete ) on en0 ifsc"
+    },
+    {
+      "chunk_id": 34,
+      "text": "edu ( 128.32.45.15 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 16 .eecs.berkeley.edu ( 128.32.45.16 ) at 3c: 15 :c2:e0:de:e8 on en0 ifscope [ ethernet ] dhcp- 45 - 17 .eecs.berkeley.edu ( 128.32.45.17 ) at ( incomplete ) on en0 ifscope"
+    },
+    {
+      "chunk_id": 35,
+      "text": "( 128.32.45.17 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 18 .eecs.berkeley.edu ( 128.32.45.18 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 19 .eecs.berkeley.edu ( 128.32.45.19 ) at ( incomplete ) on en0 ifscope [ ether"
+    },
+    {
+      "chunk_id": 36,
+      "text": "2.45.19 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 20 .eecs.berkeley.edu ( 128.32.45.20 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 21 .eecs.berkeley.edu ( 128.32.45.21 ) at ( incomplete ) on en0 ifscope [ ethernet ] dh"
+    },
+    {
+      "chunk_id": 37,
+      "text": ") at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 22 .eecs.berkeley.edu ( 128.32.45.22 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 23 .eecs.berkeley.edu ( 128.32.45.23 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 -"
+    },
+    {
+      "chunk_id": 38,
+      "text": "ncomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 24 .eecs.berkeley.edu ( 128.32.45.24 ) at b8:f6:b1: 14 :aa:fb on en0 ifscope [ ethernet ] dhcp- 45 - 25 .eecs.berkeley.edu ( 128.32.45.25 ) at 1c:ab:a7:b6:b:ca on en0 ifscope [ ethernet ] dhcp- 45 -"
+    },
+    {
+      "chunk_id": 39,
+      "text": "a7:b6:b:ca on en0 ifscope [ ethernet ] dhcp- 45 - 26 .eecs.berkeley.edu ( 128.32.45.26 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 27 .eecs.berkeley.edu ( 128.32.45.27 ) at 14 : 99 :e2:2c: 5 : 19 on en0 ifscope [ ethernet ] dhcp- 45 -"
+    },
+    {
+      "chunk_id": 40,
+      "text": "2c: 5 : 19 on en0 ifscope [ ethernet ] dhcp- 45 - 28 .eecs.berkeley.edu ( 128.32.45.28 ) at 14 : 10 :9f:e3: 19 :3f on en0 ifscope [ ethernet ] dhcp- 45 - 29 .eecs.berkeley.edu ( 128.32.45.29 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 -"
+    },
+    {
+      "chunk_id": 41,
+      "text": "complete ) on en0 ifscope [ ethernet ] dhcp- 45 - 30 .eecs.berkeley.edu ( 128.32.45.30 ) at 3c:a9:f4: 57 :e7: 98 on en0 ifscope [ ethernet ] dhcp- 45 - 31 .eecs.berkeley.edu ( 128.32.45.31 ) at 20 :c9:d0: 46 :4e:6b on en0 ifscope [ ethernet ] dhcp- 4"
+    },
+    {
+      "chunk_id": 42,
+      "text": ":d0: 46 :4e:6b on en0 ifscope [ ethernet ] dhcp- 45 - 32 .eecs.berkeley.edu ( 128.32.45.32 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 33 .eecs.berkeley.edu ( 128.32.45.33 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 34 ."
+    },
+    {
+      "chunk_id": 43,
+      "text": "lete ) on en0 ifscope [ ethernet ] dhcp- 45 - 34 .eecs.berkeley.edu ( 128.32.45.34 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 35 .eecs.berkeley.edu ( 128.32.45.35 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 36 .eecs.ber"
+    },
+    {
+      "chunk_id": 44,
+      "text": "n en0 ifscope [ ethernet ] dhcp- 45 - 36 .eecs.berkeley.edu ( 128.32.45.36 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 37 .eecs.berkeley.edu ( 128.32.45.37 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 38 .eecs.berkeley.ed"
+    },
+    {
+      "chunk_id": 45,
+      "text": "scope [ ethernet ] dhcp- 45 - 38 .eecs.berkeley.edu ( 128.32.45.38 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 39 .eecs.berkeley.edu ( 128.32.45.39 ) at f4:f1:e1: 22 : 67 :2d on en0 ifscope [ ethernet ] dhcp- 45 - 40 .eecs.berkeley.edu"
+    },
+    {
+      "chunk_id": 46,
+      "text": "cope [ ethernet ] dhcp- 45 - 40 .eecs.berkeley.edu ( 128.32.45.40 ) at e0:b5:2d:de:ea:4d on en0 ifscope [ ethernet ] ... dhcp- 45 - 250 .eecs.berkeley.edu ( 128.32.45.250 ) at fc:e9: 98 : 54 : 20 :3b on en0 ifscope [ ethernet ] dhcp- 45 - 251 .eecs.b"
+    },
+    {
+      "chunk_id": 47,
+      "text": "on en0 ifscope [ ethernet ] dhcp- 45 - 251 .eecs.berkeley.edu ( 128.32.45.251 ) at ( incomplete ) on en0 ifscope [ ethernet ] dhcp- 45 - 252 .eecs.berkeley.edu ( 128.32.45.252 ) at ( incomplete ) on en0 ifscope [ ethernet ] test- 45 -a.eecs.berkeley."
+    },
+    {
+      "chunk_id": 48,
+      "text": "n0 ifscope [ ethernet ] test- 45 -a.eecs.berkeley.edu ( 128.32.45.253 ) at ( incomplete ) on en0 ifscope [ ethernet ] test- 45 -b.eecs.berkeley.edu ( 128.32.45.254 ) at ( incomplete ) on en0 ifscope [ ethernet ] ? ( 128.32.45.255 ) at ( incomplete )"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ethernet ] ? ( 128.32.45.255 ) at ( incomplete ) on en0 ifscope [ ethernet ] bash-3.2$ [$[Get Code]] Correct operation Each device will be echoed to the screen as it is found. Then, the output of the accessor will be displayed. The accessor output"
+    },
+    {
+      "chunk_id": 50,
+      "text": "e accessor will be displayed. The accessor outputs a JSON object containing the IP, name and MAC of each device. [ cxh @ terra node ] $ node discoverhost.js Fired Device available at 128.32.48.1 Device available at 128.32.48.21 Device available at 1"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ce available at 128.32.48.21 Device available at 128.32.48.23 Device available at 128.32.48.26 Device available at 128.32.48.29 Device available at 128.32.48.31 Device available at 128.32.48.34 Device available at 128.32.48.39 Device available at 128"
+    },
+    {
+      "chunk_id": 52,
+      "text": "available at 128.32.48.39 Device available at 128.32.48.41 Device available at 128.32.48.42 Device available at 128.32.48.43 Device available at 128.32.48.46 ... Device available at 128.32.48.249 Device available at 128.32.48.250 Device available at"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ice available at 128.32.48.250 Device available at 128.32.48.251 Device available at 128.32.48.77 128.32.48.1: { \"name\" : \"cory115-1-gw.EECS.Berkeley.EDU\" , \"mac\" : \"cc:4e:24:6d:90:80\" } 128.32.48.21: { \"name\" : \"cronus.CS.Berkeley.EDU\" , \"mac\" : \"00"
+    },
+    {
+      "chunk_id": 57,
+      "text": "1: { \"name\" : \"dhcp-48-41.EECS.Berkeley.EDU\" , \"mac\" : \"ec:a8:6b:f6:56:3b\" } 128.32.48.42: { \"name\" : \"dhcp-48-42.EECS.Berkeley.EDU\" , \"mac\" : \"f8:bc:12:5d:f2:77\" } ... [$[Get Code]] Ptolemy host instructions See Ptolemy II (Platforms Wiki) for infor"
+    },
+    {
+      "chunk_id": 58,
+      "text": "ructions See Ptolemy II (Platforms Wiki) for information about getting started with Ptolemy II. Open the model at: $PTII/org/terraswarm/accessor/jjs/demo/DeviceDiscovery/DeviceDiscovery.xml Enter the IP address of the host machine in \"IPaddress\" and"
+    },
+    {
+      "chunk_id": 59,
+      "text": "IP address of the host machine in \"IPaddress\" and run the model. A list of devices, macs and names will be displayed. The Ptolemy implementation uses threads to execute pings of individual IP addresses concurrently. Problems Running fails with Array"
+    },
+    {
+      "chunk_id": 60,
+      "text": "es concurrently. Problems Running fails with ArrayToken(Token[]) called with a an array of length less than 1. java. lang . RuntimeException : ptolemy. kernel . util . IllegalActionException : ArrayToken ( Token [ ] ) called with a an array of length"
+    },
+    {
+      "chunk_id": 61,
+      "text": "ken ( Token [ ] ) called with a an array of length less than 1 . To create an array of length 0 , use the ArrayToken ( Token ) constructor or the \"emptyArray(type)\" function in the expression language. The reason is that elements in ArrayToken must h"
+    },
+    {
+      "chunk_id": 62,
+      "text": ". The reason is that elements in ArrayToken must have a type. at jdk. nashorn . internal . runtime . ScriptRuntime . apply ( ScriptRuntime. java : 382 ) at jdk. nashorn . internal . objects . NativeFunction . call ( NativeFunction. java : 162 ) at jd"
+    },
+    {
+      "chunk_id": 63,
+      "text": "nction . call ( NativeFunction. java : 162 ) at jdk. nashorn . internal . scripts . Script $require. L : 1 $emit ( / Users / cxh / ptII / ptolemy / actor / lib / jjs / external / require. js # 172 : 24 < eval > @0 : 107 ) at jdk. nashorn . internal ."
+    },
+    {
+      "chunk_id": 64,
+      "text": "4 < eval > @0 : 107 ) at jdk. nashorn . internal . scripts . Script $require. L : 1 $DiscoveryService$L : 36 ( / Users / cxh / ptII / ptolemy / actor / lib / jjs / external / require. js # 172 : 24 < eval > @0 : 46 ) at jdk. nashorn . internal . scri"
+    },
+    {
+      "chunk_id": 65,
+      "text": "eval > @0 : 46 ) at jdk. nashorn . internal . scripts . Script $\\ ^ eval\\_. fire ( < eval >: 13 ) at jdk. nashorn . internal . runtime . ScriptFunctionData . invoke ( ScriptFunctionData. java : 535 ) at jdk. nashorn . internal . runtime . ScriptFunct"
+    },
+    {
+      "chunk_id": 66,
+      "text": "at jdk. nashorn . internal . runtime . ScriptFunction . invoke ( ScriptFunction. java : 209 ) at jdk. nashorn . internal . runtime . ScriptRuntime . apply ( ScriptRuntime. java : 378 ) at jdk. nashorn . api . scripting . ScriptObjectMirror . callMemb"
+    },
+    {
+      "chunk_id": 67,
+      "text": ". api . scripting . ScriptObjectMirror . callMember ( ScriptObjectMirror. java : 185 ) at jdk. nashorn . api . scripting . NashornScriptEngine . invokeImpl ( NashornScriptEngine. java : 505 ) at jdk. nashorn . api . scripting . NashornScriptEngine ."
+    },
+    {
+      "chunk_id": 68,
+      "text": "nashorn . api . scripting . NashornScriptEngine . invokeFunction ( NashornScriptEngine. java : 227 ) at ptolemy. actor . lib . jjs . JavaScript . fire ( JavaScript. java : 659 ) at ptolemy. actor . AtomicActor . iterate ( AtomicActor. java : 496 ) a"
+    },
+    {
+      "chunk_id": 69,
+      "text": "tomicActor . iterate ( AtomicActor. java : 496 ) at ptolemy. actor . sched . StaticSchedulingDirector . fire ( StaticSchedulingDirector. java : 216 ) at ptolemy. domains . sdf . kernel . SDFDirector . fire ( SDFDirector. java : 496 ) at ptolemy. acto"
+    },
+    {
+      "chunk_id": 70,
+      "text": "fire ( SDFDirector. java : 496 ) at ptolemy. actor . CompositeActor . fire ( CompositeActor. java : 454 ) at ptolemy. actor . Manager . iterate ( Manager. java : 810 ) at ptolemy. actor . Manager . execute ( Manager. java : 367 ) at ptolemy. actor ."
+    },
+    {
+      "chunk_id": 71,
+      "text": "xecute ( Manager. java : 367 ) at ptolemy. actor . Manager . run ( Manager. java : 1220 ) at ptolemy. actor . Manager $PtolemyRunThread. run ( Manager. java : 1828 ) Caused by : ptolemy. kernel . util . IllegalActionException : ArrayToken ( Token [ ]"
+    },
+    {
+      "chunk_id": 72,
+      "text": ". IllegalActionException : ArrayToken ( Token [ ] ) called with a an array of length less than 1 . To create an array of length 0 , use the ArrayToken ( Token ) constructor or the \"emptyArray(type)\" function in the expression language. The reason is"
+    },
+    {
+      "chunk_id": 73,
+      "text": "function in the expression language. The reason is that elements in ArrayToken must have a type. at ptolemy. data . ArrayToken . < init > ( ArrayToken. java : 79 ) at jdk. nashorn . internal . scripts . Script $\\ ^ eval\\_. convertToToken ( < eval >:"
+    },
+    {
+      "chunk_id": 74,
+      "text": ". Script $\\ ^ eval\\_. convertToToken ( < eval >: 185 ) at jdk. nashorn . internal . scripts . Script $\\ ^ eval\\_. convertToToken ( < eval >: 183 ) at jdk. nashorn . internal . scripts . Script $\\ ^ eval\\_. send ( < eval >: 80 ) at jdk. nashorn . int"
+    },
+    {
+      "chunk_id": 75,
+      "text": "val\\_. send ( < eval >: 80 ) at jdk. nashorn . internal . scripts . Script $\\ ^ eval\\_. L : 16 ( < eval >: 17 ) at jdk. nashorn . internal . runtime . ScriptFunctionData . invoke ( ScriptFunctionData. java : 537 ) at jdk. nashorn . internal . runtime"
+    },
+    {
+      "chunk_id": 76,
+      "text": "java : 537 ) at jdk. nashorn . internal . runtime . ScriptFunction . invoke ( ScriptFunction. java : 209 ) at jdk. nashorn . internal . runtime . ScriptRuntime . apply ( ScriptRuntime. java : 378 ) ... 19 more [$[Get Code]] FIXME: Help? Browser This"
+    },
+    {
+      "chunk_id": 77,
+      "text": ".. 19 more [$[Get Code]] FIXME: Help? Browser This accessor does not run in a browser due to requiring the ping and arp commands from the OS. See Also Main -> Device Discovery Obsolete Edit - History - Print - Recent Changes - Search Page last modifi"
+    }
+  ]
+}

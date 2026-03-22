@@ -1,0 +1,61 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/VersionCurrent/Output",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / Output Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / Output (redirected from VersionCurrent.Output ) Overview An"
+    },
+    {
+      "chunk_id": 2,
+      "text": "edirected from VersionCurrent.Output ) Overview An accessor may define any number of outputs in the body of its setup() function using output ( <string> name , [ options ]): Create an output with the specified name and options. For example: exports."
+    },
+    {
+      "chunk_id": 3,
+      "text": "specified name and options. For example: exports. setup = function ( ) { this . output ( 'price' , { 'type' : 'number' } ) ; } [$[Get Code]] The output () function takes one or two arguments, a name (a required string, recommended to be camelCase wit"
+    },
+    {
+      "chunk_id": 4,
+      "text": "a required string, recommended to be camelCase with a leading lower-case character) and an object with any of the following options: type The data type of the output. If this is not specified, then any valid JavaScript value may be sent to the output"
+    },
+    {
+      "chunk_id": 5,
+      "text": "y valid JavaScript value may be sent to the output. If it is specified, it must be one of the valid data types . spontaneous true or false. A spontaneous output is produced by an asynchronous callback rather than as a response to an input. Every dir"
+    },
+    {
+      "chunk_id": 6,
+      "text": "rather than as a response to an input. Every directed cycle in a connectivity graph must contain at least one spontaneous output or there will be a deadlock due to a causality loop. A spontaneous output port must both be declared and have input han"
+    },
+    {
+      "chunk_id": 7,
+      "text": "tput port must both be declared and have input handler invoke setTimeout(). See Action Functions and Spontaneous . The name is required to be distinct from other inputs, outputs, and parameters. It may match the name of an output in a base accessor ("
+    },
+    {
+      "chunk_id": 8,
+      "text": "y match the name of an output in a base accessor (specified by either extend() or implement()), in which case the options will override those specified in the base. Sending to Outputs An accessor may use the send () function to send values via its ou"
+    },
+    {
+      "chunk_id": 9,
+      "text": "use the send () function to send values via its output ports. This may be done in a callback function, such as a function passed to setTimeout (see Top-Level Java Script Functions ) or addInputHandler (see ). For example, suppose that the following l"
+    },
+    {
+      "chunk_id": 10,
+      "text": "(see ). For example, suppose that the following line is executed in a callback: this . send ( 'price' , 42 ) ; [$[Get Code]] This will send the number 42 to the price output. If you send a null value to an output, and that output is connected to an"
+    },
+    {
+      "chunk_id": 11,
+      "text": "to an output, and that output is connected to an input x of a downstream accessor, then that accessor's input handler will get null when it invokes get ('x'). Note that if the output data type is JSON, then the JavaScript value will be converted to"
+    },
+    {
+      "chunk_id": 12,
+      "text": "N, then the JavaScript value will be converted to a JSON string before sending. This can be confusing. Specifically, if you want to send, say, {\"foo\": 42} , then you should do this . send ( 'output' , { \"foo\" : 42 } ) ; [$[Get Code]] and not this . s"
+    },
+    {
+      "chunk_id": 13,
+      "text": "{ \"foo\" : 42 } ) ; [$[Get Code]] and not this . send ( 'output' , '{\"foo\": 42}' ) ; [$[Get Code]] In other words, do not convert your object to a JSON string yourself. If you call send () multiple times before the receiving accessor has a chance to"
+    },
+    {
+      "chunk_id": 14,
+      "text": "mes before the receiving accessor has a chance to react to the data, then the data will be queued and will cause multiple reactions of the downstream accessor, one for each send (). See Also Input Parameter Back to accessor specification Edit - Histo"
+    }
+  ]
+}

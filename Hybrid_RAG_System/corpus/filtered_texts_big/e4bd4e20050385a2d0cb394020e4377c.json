@@ -1,0 +1,53 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/~cxh/java/tclblend/versioninfo.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "JVM Information JVM Information Below is some code that prints out information about the Java Virtual Machine. Code like this is useful in debugging, especially if you have more than one JVM installed on your machine. # Print JDK version info proc"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ed on your machine. # Print JDK version info proc jdkVersion {} { global tcl_version tcl_patchLevel env puts \"env(CLASSPATH): $env(CLASSPATH)\\ \\njava.class.path property:\\ [java::call System getProperty \"java.class."
+    },
+    {
+      "chunk_id": 3,
+      "text": "[java::call System getProperty \"java.class.path\"]\\n\" puts -nonewline \"jdk version: [java::call System getProperty \\ \"java.version\"]\" if [info exists ::java::patchLevel] { puts \" Tcl Blend patch level: $::java::patchLevel\" }"
+    },
+    {
+      "chunk_id": 4,
+      "text": "Tcl Blend patch level: $::java::patchLevel\" } else { puts \"\" } puts \"tcl version: $tcl_version \\ tcl patch level: $tcl_patchLevel\" puts \"java package: [package versions java] \\ info loaded: [info loaded]\" } # Print the"
+    },
+    {
+      "chunk_id": 5,
+      "text": "info loaded: [info loaded]\" } # Print the JDK property list proc jdkProperties {} { set props [java::call System getProperties] set names [$props propertyNames] while { [$names hasMoreElements] } { set name [$names nextElement]"
+    },
+    {
+      "chunk_id": 6,
+      "text": "MoreElements] } { set name [$names nextElement] puts \"$name=[$props getProperty $name]\" } } These Tcl procs and others are included in util.tcl Here is a sample run of jdkVersion from within Jacl. Note that info loaded is not implemented % jdkV"
+    },
+    {
+      "chunk_id": 7,
+      "text": "l. Note that info loaded is not implemented % jdkVersion env(CLASSPATH): /users/ptdesign/tcltk/itcl/lib/jacl.jar:/usr/java/classes:/usr/java/lib/classes.zip java.class.path property: /users/ptdesign/tcltk/itcl/lib/jacl.jar:/usr/java/classes:/usr/j"
+    },
+    {
+      "chunk_id": 8,
+      "text": "n/tcltk/itcl/lib/jacl.jar:/usr/java/classes:/usr/java/lib/classes.zip jdk version: 1.1.6 tcl version: 8.0 tcl patch level: 8.0 info loaded not implemented Here is a sample run of jdkProperties % jdkProperties user.language=en java.home=/usr/java ja"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Properties user.language=en java.home=/usr/java java.vendor.url.bug=http://java.sun.com/cgi-bin/bugreport.cgi file.encoding.pkg=sun.io java.version=1.1.6 file.separator=/ line.separator= file.encoding=8859_1 java.compiler=sunwjit java.vendor=Sun Mic"
+    },
+    {
+      "chunk_id": 10,
+      "text": "g=8859_1 java.compiler=sunwjit java.vendor=Sun Microsystems Inc. user.timezone=PST user.name=cxh os.arch=sparc os.name=Solaris java.vendor.url=http://www.sun.com/ user.dir=/export/carson/carson1/cxh/public_html/java/tclblend java.class.path=/users/pt"
+    },
+    {
+      "chunk_id": 11,
+      "text": "ublic_html/java/tclblend java.class.path=/users/ptdesign/tcltk/itcl/lib/jacl.jar:/usr/java/classes:/usr/java/lib/classes.zip java.class.version=45.3 os.version=2.x path.separator=: user.home=/users/cxh A complete list of the properties can be found i"
+    },
+    {
+      "chunk_id": 12,
+      "text": "h A complete list of the properties can be found in the java.lang.System getProperties() documentation Last updated: 10/09/05 cxh at eecs"
+    }
+  ]
+}

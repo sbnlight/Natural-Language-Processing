@@ -1,0 +1,45 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/compress.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional & Electronics Support Group /share/b/pub/compress.help December 1991 Avoiding Deleted Files"
+    },
+    {
+      "chunk_id": 2,
+      "text": "December 1991 Avoiding Deleted Files when Using \"Compress\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ The UNIX \"compress\" and \"uncompress\" commands can have an unwelcome side effect that erases your file without saving it. Here i"
+    },
+    {
+      "chunk_id": 3,
+      "text": "that erases your file without saving it. Here is a technique to avoid that. If there is not enough disk space or disk quota to allow for the output file, the commands will write a size 0 output file and then delete the original file as usual."
+    },
+    {
+      "chunk_id": 4,
+      "text": "le and then delete the original file as usual. There must be enough disk space for both the input and output files in order for the commands to work properly. One solution is to make a link to the original file and then compress or uncompress t"
+    },
+    {
+      "chunk_id": 5,
+      "text": "e original file and then compress or uncompress the link. That results in the link being deleted at the end but the original file being left alone. For example: % ln -s ORIGINAL TEMP % compress TEMP % mv TEMP.Z ORIGINAL.Z In the example,"
+    },
+    {
+      "chunk_id": 6,
+      "text": "ess TEMP % mv TEMP.Z ORIGINAL.Z In the example, the result is that a file called ORIGINAL was compressed into a file called ORIGINAL.Z, with both files remaining. First, a symbolic link called TEMP (or anything you want) was created, then it wa"
+    },
+    {
+      "chunk_id": 7,
+      "text": "EMP (or anything you want) was created, then it was compressed. The compress command created an output file called TEMP.Z, then deleted the TEMP link. This left the leave the ORIGINAL file intact, even if the TEMP.Z file was empty due to disk sp"
+    },
+    {
+      "chunk_id": 8,
+      "text": "even if the TEMP.Z file was empty due to disk space limitations. Then, to follow the typical naming convention, the compressed file was renamed to ORIGINAL.Z . Note that you can use extra disk space in the /tmp directory, temporarily, when you a"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ace in the /tmp directory, temporarily, when you are compressing or uncompressing files. For more information about the above commands, see these on-line manual pages: \"man compress\", \"man ln\", \"man mv\". -"
+    },
+    {
+      "chunk_id": 10,
+      "text": "n mv\". - Instructional Support Group 378/386/384 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

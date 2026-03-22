@@ -1,0 +1,137 @@
+{
+  "url": "http://inst.eecs.berkeley.edu/share/b/pub/procmail.help",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "University of California at Berkeley Department of Electrical Engineering & Computer Sciences Instructional Support Group /share/b/pub/procmail.help"
+    },
+    {
+      "chunk_id": 2,
+      "text": "Jan 18, 2008 CONTENTS: What is Procmail Procmail for Beginners More Examples Alternatives for Less Work What is Procmail ---------------- On Unix, there is a powerful system for filtering"
+    },
+    {
+      "chunk_id": 3,
+      "text": "On Unix, there is a powerful system for filtering email called Procmail. Below are some simple examples of how to use it. For details, please see man procmail (on a UNIX computer) man procmailrc (on a UNIX computer) http://www.ii."
+    },
+    {
+      "chunk_id": 4,
+      "text": "rocmailrc (on a UNIX computer) http://www.ii.com/internet/robots/procmail/qs/ Procmail is useful for sorting your incoming mail and for blocking SPAM. The most obvious SPAM is blocked at our imail.eecs.berkeley.edu server and is never de"
+    },
+    {
+      "chunk_id": 5,
+      "text": "r imail.eecs.berkeley.edu server and is never delivered to users. We discard mail that has no legitimate sender and that is from sites that are listed on standard blacklist WEB sites. Procmail for Beginners ---------------------- To manage e"
+    },
+    {
+      "chunk_id": 6,
+      "text": "for Beginners ---------------------- To manage email sent to you at imail.eecs.berkeley.edu, you can create one of these files in your UNIX home directory: .forward or .procmailrc If you have .forward, then .procmailrc is ignored. The .pro"
+    },
+    {
+      "chunk_id": 7,
+      "text": ".forward, then .procmailrc is ignored. The .procmailrc gives you more powerful options for filtering and sorting your incoming email. You can create a simple .procmailrc file that works with the http://imail.eecs.berkeley.edu WEB-based ema"
+    },
+    {
+      "chunk_id": 8,
+      "text": "he http://imail.eecs.berkeley.edu WEB-based email site by running this program while logged into your UNIX account: /share/b/adm/bin/instmail.pl That program creates a basic .procmailrc file and a Mail folder in your UNIX home directo"
+    },
+    {
+      "chunk_id": 9,
+      "text": "ile and a Mail folder in your UNIX home directory. The default .procmailrc file will sort your incoming mail into INBOX and Spam folders. You can edit your .procmail file (with emacs or vi) to contain other filtering rules, which are trig"
+    },
+    {
+      "chunk_id": 10,
+      "text": "to contain other filtering rules, which are triggered by words in the email header or content. Our email server now tags the mail with these lines, which can be used in .procmailrc to decide what to do with the email: X-Barracuda-Spam-Scor"
+    },
+    {
+      "chunk_id": 11,
+      "text": "what to do with the email: X-Barracuda-Spam-Score: 1.59 X-Barracuda-Spam-Status: No, SCORE=1.59 .... Scores greater that 2 get a \"Yes\" status, so you can just filter on the Yes/No flags or use the score to filter more precisely. The e"
+    },
+    {
+      "chunk_id": 12,
+      "text": "e the score to filter more precisely. The example below takes advantage of the \"X-Barracuda-Spam-Status\" line to discard some mail and filter other mail into separate files (aka mail \"folders\" or \"spools\"). These folders can be read by"
+    },
+    {
+      "chunk_id": 13,
+      "text": "ders\" or \"spools\"). These folders can be read by your mail client program (typically the WEB-based SquirrelMail or the UNIX-based pine). ############################################################# # ~/.procmailrc # These rules are a"
+    },
+    {
+      "chunk_id": 14,
+      "text": "###### # ~/.procmailrc # These rules are applied sequentially from the top. ############################################################# MAILDIR=$HOME/Mail DEFAULT=$MAILDIR/`whoami` # these quotes are back-ticks MAYBESPAM=$MA"
+    },
+    {
+      "chunk_id": 15,
+      "text": "i` # these quotes are back-ticks MAYBESPAM=$MAILDIR/Spam ###### # Rule 1: if it matches this, throw it away and stop here ###### :0 * ^From:.*SPAMSITE.COM * ^Subject:.* ADV.* /dev/null ###### # Rule 2: if it"
+    },
+    {
+      "chunk_id": 16,
+      "text": "V.* /dev/null ###### # Rule 2: if it matches this, put in a folder and stop here ###### :0 * ^X-Barracuda-Spam-Status: Yes $MAYBESPAM ###### # Rule 3: if it matches this, put in a folder and stop here ######"
+    },
+    {
+      "chunk_id": 17,
+      "text": "es this, put in a folder and stop here ###### :0 * ^X-Barracuda-Spam-Status: No $DEFAULT ###### # Rule 4: if it hasn't been caught by one of the rules above, # forward a copy of it to \"mymail@at.someplace.else.com\" #"
+    },
+    {
+      "chunk_id": 18,
+      "text": "opy of it to \"mymail@at.someplace.else.com\" # # \"c\" means do this and continue to the next rule # \"!\" indicates that it is an email address ###### :0 c ! mymail@at.someplace.else.com ###### # Rule 5: everything not tr"
+    },
+    {
+      "chunk_id": 19,
+      "text": "se.com ###### # Rule 5: everything not trapped in Rules 1-3 also gets saved to # the $DEFAULT folder ###### :0 $DEFAULT ############### (end of .procmailrc) ################ Rule 1 will ignore email from any sender th"
+    },
+    {
+      "chunk_id": 20,
+      "text": "### Rule 1 will ignore email from any sender that matches \"SPAMSITE.COM\" or with any Subject that has \"ADV\" in it. The message is deleted (technically, it is written to the \"null\" device). Rule 2 will redirect mail with HIGH spam poten"
+    },
+    {
+      "chunk_id": 21,
+      "text": "Rule 2 will redirect mail with HIGH spam potential to a different mail folder. Rule 3 will redirect mail with LOW or MEDIUM spam potential to your default mail folder. Rule 4 is just there to show you how to forward the mail to another em"
+    },
+    {
+      "chunk_id": 22,
+      "text": "to show you how to forward the mail to another email address, and how to math a rule and still continue to the next rule. Rule 5 will redirect all mail not caught by rules 1-3. This will be mail without an \"X-Barracuda-Spam-Status\" line. I"
+    },
+    {
+      "chunk_id": 23,
+      "text": "l without an \"X-Barracuda-Spam-Status\" line. It goes to your default mail folder. Rules are processed sequentially from the top, so the first rule here will discard the messages it catches and the second rule will not see them (unless"
+    },
+    {
+      "chunk_id": 24,
+      "text": "s and the second rule will not see them (unless the first rule had a \"c\"). Note that any rule that deletes messages is risky; if you type it wrong, you could delete more messages than you had intended. So it is a good idea to test any new"
+    },
+    {
+      "chunk_id": 25,
+      "text": "intended. So it is a good idea to test any new rules you create by saving the messages to some file for a little while to see what it is really catching. Then you can change the filename to \"/dev/null\" the delete the messages instead. Yo"
+    },
+    {
+      "chunk_id": 26,
+      "text": "\"/dev/null\" the delete the messages instead. You can match characters in the From, Subject or other mail header fields, or even in the message body. The \"*\" is a wild card that means \"any characters\", so use it carefully! More Examples ---"
+    },
+    {
+      "chunk_id": 27,
+      "text": "racters\", so use it carefully! More Examples ------------- Suppose your user name is cs61a-aa and you want to block all mail from joe@foo.com and bob@bar.com: # .procmailrc file DEFAULT=/var/mail/cs61a-aa MAILDIR=$HOME/Mail :0 * ^From:."
+    },
+    {
+      "chunk_id": 28,
+      "text": "r/mail/cs61a-aa MAILDIR=$HOME/Mail :0 * ^From:.*joe@foo.com.* /dev/null :0 * ^From:.*bob@bar.com.* /dev/null Here is a rule that forwards messages to another email address: :0: * ^To:.*@csua.* * ^Cc:.*@csua.* !mymail@csua.berkeley.ed"
+    },
+    {
+      "chunk_id": 29,
+      "text": "@csua.* * ^Cc:.*@csua.* !mymail@csua.berkeley.edu Here are other useful examples, reported by a student: # Block ALL mail not \"From\" Berkeley machines :0 * !^From: .*berkeley\\.edu.* /dev/null # Block ALL mail not \"From\" Berkeley, AOL an"
+    },
+    {
+      "chunk_id": 30,
+      "text": "ull # Block ALL mail not \"From\" Berkeley, AOL and YAHOO machines :0 * !^From: .*berkeley\\.edu|aol\\.com|yahoo\\.com.* /dev/null Alternatives for Less Work -------------------------- The EECS Instructional email filtering service is not sophist"
+    },
+    {
+      "chunk_id": 31,
+      "text": "structional email filtering service is not sophisticated, but students have many other email options and could forward their email (http://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=email.help) to another site for better email filtering."
+    },
+    {
+      "chunk_id": 32,
+      "text": "to another site for better email filtering. Campus email servers for students and student groups include http://calmail.berkeley.edu http://lists.berkeley.edu EECS Instructional Support 378, 384 & 386 Cory, 333 S"
+    },
+    {
+      "chunk_id": 33,
+      "text": "ional Support 378, 384 & 386 Cory, 333 Soda inst@eecs.berkeley.edu"
+    }
+  ]
+}

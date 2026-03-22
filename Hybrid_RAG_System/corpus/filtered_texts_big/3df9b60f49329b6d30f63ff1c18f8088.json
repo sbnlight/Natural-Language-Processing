@@ -1,0 +1,69 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Version1/Container",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Version1 / Container Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Version1 / Container commonHost module defines a method that create"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ner commonHost module defines a method that creates an Accessor that has a container field. A container that has one or more accessors is a Composite Accessor , which is a type of Swarmlet . Cape Code Cape Code is not setting container because the co"
+    },
+    {
+      "chunk_id": 3,
+      "text": "Cape Code is not setting container because the container is not a Composite Accessor . In Cape Code, the container is a TypedComposite actor that could have non-JavaScript and non-JSAccessor actors in it. Cape Code does not call commonHost.instanti"
+    },
+    {
+      "chunk_id": 4,
+      "text": "in it. Cape Code does not call commonHost.instantiate() or instantiateAndInitialize(), instead Cape Code instantiates an Accessor. In the end, the problem comes down to the fact that in Cape Code, we don't have a composite accessor that we can set as"
+    },
+    {
+      "chunk_id": 5,
+      "text": "don't have a composite accessor that we can set as the container. $PTII/ptolemy/actor/lib/jjs/JavaScript.java _createEngineAndEvaluateSetup() has: try { _instance = ( ( Invocable ) _engine ) . invokeFunction ( \"evaluateCode\" , getName ( ) , scriptVal"
+    },
+    {
+      "chunk_id": 6,
+      "text": "unction ( \"evaluateCode\" , getName ( ) , scriptValue ) ; _exports = ( ( Map ) _instance ) . get ( \"exports\" ) ; } catch ( Throwable throwable ) { throw new IllegalActionException ( this , throwable , \"Failed to evaluate script.\" ) ; } [$[Get Code]] $"
+    },
+    {
+      "chunk_id": 7,
+      "text": "\"Failed to evaluate script.\" ) ; } [$[Get Code]] $PTII/ptolemy/actor/lib/jjs/localFunctions.js has: function evaluateCode ( accessorName , code ) { var bindings = { 'clearInterval' : clearInterval , 'clearTimeout' : clearTimeout , 'error' : error , '"
+    },
+    {
+      "chunk_id": 8,
+      "text": "clearTimeout' : clearTimeout , 'error' : error , 'getParameter' : getParameter , 'httpRequest' : httpRequest , 'input' : input , 'output' : output , 'parameter' : parameter , 'readURL' : readURL , 'require' : require , 'send' : send , 'setDefault' :"
+    },
+    {
+      "chunk_id": 9,
+      "text": "quire' : require , 'send' : send , 'setDefault' : setDefault , 'setInterval' : setInterval , 'setParameter' : setParameter , 'setTimeout' : setTimeout , 'superSend' : superSend } ; return new commonHost. Accessor ( accessorName , code , getAccessorCo"
+    },
+    {
+      "chunk_id": 10,
+      "text": "st. Accessor ( accessorName , code , getAccessorCode , bindings ) ; } [$[Get Code]] Compare that with accessors/hosts/common/commonHost.js instantiate(): Accessor. prototype . instantiate = function ( instanceName , accessorClass ) { if ( ! this . ge"
+    },
+    {
+      "chunk_id": 11,
+      "text": "instanceName , accessorClass ) { if ( ! this . getAccessorCode ) { throw ( 'instantiate() is not supported by this swarmlet host.' ) ; } // For functions that accessor ports, etc., we want the default implementation // when instantiating the contain"
+    },
+    {
+      "chunk_id": 12,
+      "text": "t implementation // when instantiating the contained accessor. var insideBindings = { 'clearInterval' : this . clearInterval , 'clearTimeout' : this . clearTimeout , 'error' : this . error , 'httpRequest' : this . httpRequest , 'readURL' : this . rea"
+    },
+    {
+      "chunk_id": 13,
+      "text": "est' : this . httpRequest , 'readURL' : this . readURL , 'require' : this . require , 'setInterval' : this . setInterval , 'setTimeout' : this . setTimeout , } ; instanceName = this . accessorName + '.' + instanceName ; var containedInstance = instan"
+    },
+    {
+      "chunk_id": 14,
+      "text": ".' + instanceName ; var containedInstance = instantiateAccessor ( instanceName , accessorClass , this . getAccessorCode , insideBindings ) ; containedInstance. container = this ; this . containedAccessors . push ( containedInstance ) ; return contain"
+    },
+    {
+      "chunk_id": 15,
+      "text": "sors . push ( containedInstance ) ; return containedInstance ; } ; [$[Get Code]] It could be seen as a shortcoming that we can't get to the container and that an actor cannot force the container to call wrapup(). However, if we want Cape Code to sup"
+    },
+    {
+      "chunk_id": 16,
+      "text": "ll wrapup(). However, if we want Cape Code to support non-composite accessors, we probably need it to be this way. Probably we want to modify Cape Code so that there is class that can instantiate and invoke a Composite Accessor that contains only pu"
+    }
+  ]
+}

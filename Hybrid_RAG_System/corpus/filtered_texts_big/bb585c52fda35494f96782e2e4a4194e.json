@@ -1,0 +1,421 @@
+{
+  "url": "http://ptolemy.eecs.berkeley.edu/ptolemyII/ptII6.0/ptII6.0.2/doc/codeDoc/ptolemy/math/FixPoint.html",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "FixPoint Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD ptolemy.math Class FixPoint java.lang.Object ptolemy.math.FixPoint"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ss FixPoint java.lang.Object ptolemy.math.FixPoint All Implemented Interfaces: java.lang.Cloneable, java.io.Serializable public class FixPoint extends java.lang.Object implements java.lang.Cloneable, java.io.Serializable The FixPoint class provides a"
+    },
+    {
+      "chunk_id": 3,
+      "text": "java.io.Serializable The FixPoint class provides a fixed point data type and a set of functions that operate on and return fixed point data. An instance of the class is immutable, meaning that its value is set in the constructor and cannot then be"
+    },
+    {
+      "chunk_id": 4,
+      "text": "alue is set in the constructor and cannot then be modified. This is similar to the Java built-in classes like Double, Integer, etc. The FixPoint class represents signed numbers in a two's-complement format or unsigned numbers in a binary format w"
+    },
+    {
+      "chunk_id": 5,
+      "text": "t format or unsigned numbers in a binary format with unlimited dynamic range and a resolution defined by a finite number of fractional bits. The precision is defined by the Precision class. Because a fixed point data type uses a finite number of b"
+    },
+    {
+      "chunk_id": 6,
+      "text": "a fixed point data type uses a finite number of bits to represent a value, a real value is converted to a number that can be expressed with a given precision of the fixed point, thereby introducing a quantization error. The overflow and roundin"
+    },
+    {
+      "chunk_id": 7,
+      "text": "g a quantization error. The overflow and rounding strategies used for this quantization are defined by an instance of the Quantization class. The design of the FixPoint class complies with a philosophy that all operators work losslessly, i.e. th"
+    },
+    {
+      "chunk_id": 8,
+      "text": "sophy that all operators work losslessly, i.e. the fractional precision of the result is determined such there is no loss of precision. To insure lossless operations, the resulting Precision of these operators will expand as necessary. Subsequent"
+    },
+    {
+      "chunk_id": 9,
+      "text": "se operators will expand as necessary. Subsequent results can be quantized as necessary. Violations of the loss-less philosophy occur during construction, division and conversion to floating point. During construction from floating point values, t"
+    },
+    {
+      "chunk_id": 10,
+      "text": "During construction from floating point values, the nearest fixed point representation is created. The preferred divide operator provides for explicit specification of the quantization. A deprecated divide operator guesses at the result precision."
+    },
+    {
+      "chunk_id": 11,
+      "text": "d divide operator guesses at the result precision. Conversion to floating point is limited by the available floating point accuracy. The FixPoint implementation uses the Java class BigInteger to represent the finite value and so this implementatio"
+    },
+    {
+      "chunk_id": 12,
+      "text": "resent the finite value and so this implementation is truly platform independent. Note that the FixPoint does not put any restrictions on the maximum number of bits in the representation of a value. Since: Ptolemy II 0.4, rewritten for Ptolemy II"
+    },
+    {
+      "chunk_id": 13,
+      "text": ". Since: Ptolemy II 0.4, rewritten for Ptolemy II 2.2 Version: $Id: FixPoint.java,v 1.78.2.1 2006/12/30 22:17:39 cxh Exp $ Author: Bart Kienhuis, Ed Willink, Contributor: Edward A. Lee, Mike Wirthlin See Also: Precision , Quantization , Serialized Fo"
+    },
+    {
+      "chunk_id": 14,
+      "text": "See Also: Precision , Quantization , Serialized Form Accepted Rating: Red Proposed Rating: Red (Ed.Willink) Nested Class Summary static class FixPoint.Error An instance of this class is used preserve backwards interface compatibility. Constructor S"
+    },
+    {
+      "chunk_id": 15,
+      "text": "backwards interface compatibility. Constructor Summary FixPoint (java.math.BigDecimal bigDecimal, Quantization quant) Construct a FixPoint by converting a bigDecimal to comply with a quantization specification. FixPoint (double doubleValue, Quant"
+    },
+    {
+      "chunk_id": 16,
+      "text": "specification. FixPoint (double doubleValue, Quantization quant) Construct a FixPoint from a double. FixPoint ( FixPoint fix, Quantization quant) Construct a new FixPoint object by requantizing the given FixPoint object with a new quantization spec"
+    },
+    {
+      "chunk_id": 17,
+      "text": "given FixPoint object with a new quantization specification. FixPoint (int intValue) Construct a FixPoint from an integer. FixPoint (int intValue, boolean signed) Construct a FixPoint from an integer. FixPoint (int intValue, Quantization qua"
+    },
+    {
+      "chunk_id": 18,
+      "text": "integer. FixPoint (int intValue, Quantization quant) Construct a FixPoint from an integer. FixPoint (java.lang.String string, Quantization quant) Construct a FixPoint by converting the BigDecimal interpretation of a string to comply with a quantiz"
+    },
+    {
+      "chunk_id": 19,
+      "text": "erpretation of a string to comply with a quantization specification. Method Summary FixPoint abs () Return a FixPoint with a value equal to the absolute value of this FixPoint. FixPoint add ( FixPoint arg) Return a FixPoint with a value equal to"
+    },
+    {
+      "chunk_id": 20,
+      "text": "oint arg) Return a FixPoint with a value equal to the sum of this FixPoint and the argument. FixPoint add ( FixPoint arg, Quantization quant) Return a FixPoint with a value equal to the sum of this FixPoint and the argument. static Precision addP"
+    },
+    {
+      "chunk_id": 21,
+      "text": "FixPoint and the argument. static Precision addPrecision ( Precision leftArgument, Precision rightArgument) Determines the Precision of an add operation between two FixPoint values. java.math.BigDecimal bigDecimalValue () Return the value of this"
+    },
+    {
+      "chunk_id": 22,
+      "text": "ecimal bigDecimalValue () Return the value of this FixPoint as a BigDecimal number. java.lang.Object clone () Return this, that is, return the reference to this object. FixPoint divide ( FixPoint arg) Return a FixPoint with a value equal to the divis"
+    },
+    {
+      "chunk_id": 23,
+      "text": "Return a FixPoint with a value equal to the division of this FixPoint by the argument. FixPoint divide ( FixPoint arg, Quantization quant) Return a FixPoint equal to the division of this FixPoint by the argument, after application of a quantizat"
+    },
+    {
+      "chunk_id": 24,
+      "text": "y the argument, after application of a quantization specification to the result. static Precision dividePrecision ( Precision leftArgument, Precision rightArgument) Determines the Precision of a divide operation between two FixPoint values. dou"
+    },
+    {
+      "chunk_id": 25,
+      "text": "ivide operation between two FixPoint values. double doubleValue () Return the value of this FixPoint as a double. boolean equals ( FixPoint arg) Return true if this FixPoint is equal to the argument. FixPoint.Error getError () Deprecated. Overflow"
+    },
+    {
+      "chunk_id": 26,
+      "text": ". FixPoint.Error getError () Deprecated. Overflow and rounding status no longer form part of the functionality. Use an overflow and rounding mode that gives the required behaviour or use Overflow.TRAP and/or Rounding.UNNECESSARY to throw except"
+    },
+    {
+      "chunk_id": 27,
+      "text": "TRAP and/or Rounding.UNNECESSARY to throw exceptions if external interaction is required. Precision getPrecision () Return a precision to represent this number. java.math.BigInteger getUnscaledValue () Return the unscaled BigInteger value used to r"
+    },
+    {
+      "chunk_id": 28,
+      "text": "() Return the unscaled BigInteger value used to represent this FixPoint value. int hashCode () Return a hash code value for this value. FixPoint minimumQuantization () Return a new FixPoint value that has the same value as this FixPoint value bu"
+    },
+    {
+      "chunk_id": 29,
+      "text": "hat has the same value as this FixPoint value but with the minimum quantization necessary for representing the value. FixPoint multiply ( FixPoint arg) Return a FixPoint with a value equal to the product of this FixPoint and the argument. FixPo"
+    },
+    {
+      "chunk_id": 30,
+      "text": "product of this FixPoint and the argument. FixPoint multiply ( FixPoint arg, Quantization quant) Return a FixPoint with a value equal to the product of this FixPoint and the argument. static Precision multiplyPrecision ( Precision leftArgument, P"
+    },
+    {
+      "chunk_id": 31,
+      "text": "sion multiplyPrecision ( Precision leftArgument, Precision rightArgument) Determines the Precision of an multiply operation between two FixPoint values. void printFix () Print useful debug information about the FixPoint to standard out. FixPoint"
+    },
+    {
+      "chunk_id": 32,
+      "text": "on about the FixPoint to standard out. FixPoint quantize ( Quantization quant) Return the value after conversion to comply with a quantization specification. FixPoint subtract ( FixPoint arg) Return a FixPoint with a value equal to the difference"
+    },
+    {
+      "chunk_id": 33,
+      "text": "rn a FixPoint with a value equal to the difference between this FixPoint and the argument. FixPoint subtract ( FixPoint arg, Quantization quant) Return a FixPoint with a value equal to the difference of this FixPoint and the argument. static Prec"
+    },
+    {
+      "chunk_id": 34,
+      "text": "e of this FixPoint and the argument. static Precision subtractPrecision ( Precision leftArgument, Precision rightArgument) Determines the Precision of an subtract operation between two FixPoint values. java.lang.String toBitString () Return a bit"
+    },
+    {
+      "chunk_id": 35,
+      "text": "lues. java.lang.String toBitString () Return a bit string representation of this number. java.lang.String toString () Return a string representation of this number. java.lang.String toStringPrecision () Return a string representation of this number a"
+    },
+    {
+      "chunk_id": 36,
+      "text": "() Return a string representation of this number along with the Precision of the number. java.lang.String toStringValuePrecision () Return a string representation of this number along with the unscaled value and Precision of the number. Methods i"
+    },
+    {
+      "chunk_id": 37,
+      "text": "caled value and Precision of the number. Methods inherited from class java.lang.Object equals, finalize, getClass, notify, notifyAll, wait, wait, wait Constructor Detail FixPoint public FixPoint (java.math.BigDecimal bigDecimal, Quantization quant) C"
+    },
+    {
+      "chunk_id": 38,
+      "text": ".math.BigDecimal bigDecimal, Quantization quant) Construct a FixPoint by converting a bigDecimal to comply with a quantization specification. Parameters: bigDecimal - The floating point value. quant - The quantization specification. FixPoint public"
+    },
+    {
+      "chunk_id": 39,
+      "text": "- The quantization specification. FixPoint public FixPoint ( FixPoint fix, Quantization quant) Construct a new FixPoint object by requantizing the given FixPoint object with a new quantization specification. TODO: This isn't the most efficient"
+    },
+    {
+      "chunk_id": 40,
+      "text": "ification. TODO: This isn't the most efficient way of requantizing a value. Need to look into more efficient techniques for doing simple requantizations rather than converting into a BigDecimal. Proposal: - Create methods in Rounding to su"
+    },
+    {
+      "chunk_id": 41,
+      "text": "al. Proposal: - Create methods in Rounding to support Rounding of \"shifted\" BigInteger values - Perform rounding using shifting rather than conversion to BigDecimal Parameters: fix - The existing FixPoint value quant - The quantization sp"
+    },
+    {
+      "chunk_id": 42,
+      "text": "xisting FixPoint value quant - The quantization specification. FixPoint public FixPoint (double doubleValue, Quantization quant) Construct a FixPoint from a double. Perform the conversion using the given quantization specification. Parameters: do"
+    },
+    {
+      "chunk_id": 43,
+      "text": "given quantization specification. Parameters: doubleValue - The floating point value. quant - The quantization specification. Throws: java.lang.IllegalArgumentException - If the doubleValue is equal to Double.NEGATIVE_INFINITY, Double.POSITIVE_I"
+    },
+    {
+      "chunk_id": 44,
+      "text": "to Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, or Double.NaN. FixPoint public FixPoint (int intValue, Quantization quant) Construct a FixPoint from an integer. Perform the conversion using the given quantization specification. Duri"
+    },
+    {
+      "chunk_id": 45,
+      "text": "using the given quantization specification. During conversion, overflow handling may result in a lossy conversion. Parameters: intValue - The integer value. quant - The quantization specification. FixPoint public FixPoint (int intValue) Construct"
+    },
+    {
+      "chunk_id": 46,
+      "text": "FixPoint public FixPoint (int intValue) Construct a FixPoint from an integer. This is a loss-less conversion with a precision having as few bits as possible to represent the value and represented as a signed number. Parameters: intValue - The"
+    },
+    {
+      "chunk_id": 47,
+      "text": "ed as a signed number. Parameters: intValue - The integer value. FixPoint public FixPoint (int intValue, boolean signed) Construct a FixPoint from an integer. This is a loss-less conversion with a precision having as few bits as p"
+    },
+    {
+      "chunk_id": 48,
+      "text": "version with a precision having as few bits as possible to represent the value and the signed determined by the signed parameter. Parameters: intValue - The integer value. signed - if true, represent value as a signed number; otherwise represen"
+    },
+    {
+      "chunk_id": 49,
+      "text": "ent value as a signed number; otherwise represent value as an unsigned value. FixPoint public FixPoint (java.lang.String string, Quantization quant) Construct a FixPoint by converting the BigDecimal interpretation of a string to comply with a qua"
+    },
+    {
+      "chunk_id": 50,
+      "text": "interpretation of a string to comply with a quantization specification. Parameters: string - A string representation of the floating point value. quant - The quantization specification. Throws: java.lang.IllegalArgumentException - If string is not"
+    },
+    {
+      "chunk_id": 51,
+      "text": "a.lang.IllegalArgumentException - If string is not a valid representation of a BigDecimal. Method Detail addPrecision public static Precision addPrecision ( Precision leftArgument, Precision rightArgument) Determines the Precision of an add opera"
+    },
+    {
+      "chunk_id": 52,
+      "text": "Argument) Determines the Precision of an add operation between two FixPoint values. The Precision of the result of an add between two FixPoint values is the Precision union of the two arguments plus one (to allow for bit growth). subtractPre"
+    },
+    {
+      "chunk_id": 53,
+      "text": "plus one (to allow for bit growth). subtractPrecision public static Precision subtractPrecision ( Precision leftArgument, Precision rightArgument) Determines the Precision of an subtract operation between two FixPoint values. The subtract pre"
+    },
+    {
+      "chunk_id": 54,
+      "text": "between two FixPoint values. The subtract precision will increment by one and always be signed. multiplyPrecision public static Precision multiplyPrecision ( Precision leftArgument, Precision rightArgument) Determines the Precision of an multi"
+    },
+    {
+      "chunk_id": 55,
+      "text": "ightArgument) Determines the Precision of an multiply operation between two FixPoint values. The resulting Precision of a multiply between two FixPoint arguments is as follows: the integer location is the sum of the integer locations of the"
+    },
+    {
+      "chunk_id": 56,
+      "text": "tion is the sum of the integer locations of the two arguments and the fractional location is the sum of the fractional locations of the two arguments. dividePrecision public static Precision dividePrecision ( Precision leftArgument, Precision"
+    },
+    {
+      "chunk_id": 57,
+      "text": "videPrecision ( Precision leftArgument, Precision rightArgument) Determines the Precision of a divide operation between two FixPoint values. It is not possible to represent the result of an arbitrary divide with a finite precision. As such, th"
+    },
+    {
+      "chunk_id": 58,
+      "text": "rary divide with a finite precision. As such, this precision conversion rule is lossless. The rule for divide is as follows: - Integer part = left integer bits + right fraction bits + sign - Fraction part = left fractional bits + right inte"
+    },
+    {
+      "chunk_id": 59,
+      "text": "Fraction part = left fractional bits + right integer bits + 1 - sign abs public FixPoint abs () Return a FixPoint with a value equal to the absolute value of this FixPoint. The operation is lossless and the Precision of the result is the same Pr"
+    },
+    {
+      "chunk_id": 60,
+      "text": "s and the Precision of the result is the same Precision as this object. Returns: A non-negative fixed point. add public FixPoint add ( FixPoint arg) Return a FixPoint with a value equal to the sum of this FixPoint and the argument. The operatio"
+    },
+    {
+      "chunk_id": 61,
+      "text": "of this FixPoint and the argument. The operation is lossless and will \"expand\" the Precision of the resulting FixPoint value to include the full precision of the result. This operation will operate on either signed or unsigned fixed value"
+    },
+    {
+      "chunk_id": 62,
+      "text": "operate on either signed or unsigned fixed values. If both operands of an operation are unsigned, the result will be unsigned. If either of the operations are signed, the result will be signed. Parameters: arg - The FixPoint addend. Returns: Th"
+    },
+    {
+      "chunk_id": 63,
+      "text": "Parameters: arg - The FixPoint addend. Returns: The FixPoint sum. add public FixPoint add ( FixPoint arg, Quantization quant) Return a FixPoint with a value equal to the sum of this FixPoint and the argument. The precision of this operation is se"
+    },
+    {
+      "chunk_id": 64,
+      "text": "argument. The precision of this operation is set by the Quantization parameter and the result of the operation may be lossy as dictated by the desired quantization. Parameters: arg - The FixPoint addend. quant - The quantization specification. R"
+    },
+    {
+      "chunk_id": 65,
+      "text": "addend. quant - The quantization specification. Returns: The FixPoint sum. bigDecimalValue public java.math.BigDecimal bigDecimalValue () Return the value of this FixPoint as a BigDecimal number. This is lossless, since the scale of the BigDecimal"
+    },
+    {
+      "chunk_id": 66,
+      "text": "his is lossless, since the scale of the BigDecimal is set to the number of fractional bits. Returns: The BigDecimal value of this FixPoint. clone public java.lang.Object clone () Return this, that is, return the reference to this object. Returns: T"
+    },
+    {
+      "chunk_id": 67,
+      "text": "s, return the reference to this object. Returns: This FixPoint. divide public FixPoint divide ( FixPoint arg) throws java.lang.IllegalArgumentException Return a FixPoint with a value equal to the division of this FixPoint by the arg"
+    },
+    {
+      "chunk_id": 68,
+      "text": "qual to the division of this FixPoint by the argument. The operation is not lossless. Parameters: arg - The FixPoint.divisor. Returns: The FixPoint quotient. Throws: java.lang.IllegalArgumentException - If division by zero and infinity not quanti"
+    },
+    {
+      "chunk_id": 69,
+      "text": "on - If division by zero and infinity not quantizable. divide public FixPoint divide ( FixPoint arg, Quantization quant) throws java.lang.IllegalArgumentException Return a FixPoint equal to the division of this FixPoint by the arg"
+    },
+    {
+      "chunk_id": 70,
+      "text": "qual to the division of this FixPoint by the argument, after application of a quantization specification to the result. The operation is not lossless. Division by zero results in a value of plus or minus infinity, which throws an exception if t"
+    },
+    {
+      "chunk_id": 71,
+      "text": "r minus infinity, which throws an exception if the overflow strategy defined by the quantization specification returns null for plusInfinity or minusInfinity. Parameters: arg - The FixPoint.divisor. quant - The quantization specification. Retur"
+    },
+    {
+      "chunk_id": 72,
+      "text": "sor. quant - The quantization specification. Returns: The FixPoint quotient. Throws: java.lang.IllegalArgumentException - If division by zero. doubleValue public double doubleValue () Return the value of this FixPoint as a double. This is not nece"
+    },
+    {
+      "chunk_id": 73,
+      "text": "of this FixPoint as a double. This is not necessarily lossless, since the precision of the fixed point number may exceed that of the double. Returns: The double value of this FixPoint. equals public boolean equals ( FixPoint arg) Return true if"
+    },
+    {
+      "chunk_id": 74,
+      "text": "blic boolean equals ( FixPoint arg) Return true if this FixPoint is equal to the argument. Two FixPoints are considered equal when the two values are precisely the same. The two FixPoints need not therefore have the same number of fraction bits"
+    },
+    {
+      "chunk_id": 75,
+      "text": "therefore have the same number of fraction bits, but any additional fractional bits in one value must be zero in the other. Parameters: arg - The FixPoint object to use for equality checking. Returns: True if the FixPoints are equal; false oth"
+    },
+    {
+      "chunk_id": 76,
+      "text": "eturns: True if the FixPoints are equal; false otherwise. getError public FixPoint.Error getError () Deprecated. Overflow and rounding status no longer form part of the functionality. Use an overflow and rounding mode that gives the required beha"
+    },
+    {
+      "chunk_id": 77,
+      "text": "w and rounding mode that gives the required behaviour or use Overflow.TRAP and/or Rounding.UNNECESSARY to throw exceptions if external interaction is required. Get the Error condition from the FixValue. Returns: The error condition of the FixValu"
+    },
+    {
+      "chunk_id": 78,
+      "text": "Value. Returns: The error condition of the FixValue. getPrecision public Precision getPrecision () Return a precision to represent this number. This is constructed from the necessary fraction precision and the integer precision annotation. Return"
+    },
+    {
+      "chunk_id": 79,
+      "text": "ion and the integer precision annotation. Returns: The Precision of this number. getUnscaledValue public java.math.BigInteger getUnscaledValue () Return the unscaled BigInteger value used to represent this FixPoint value. Returns: The BigInteger"
+    },
+    {
+      "chunk_id": 80,
+      "text": "nt this FixPoint value. Returns: The BigInteger unscaled value of this number. hashCode public int hashCode () Return a hash code value for this value. This method returns the low order 32 bits of the integer representation. Returns: A hash code"
+    },
+    {
+      "chunk_id": 81,
+      "text": "the integer representation. Returns: A hash code value for this value. minimumQuantization public FixPoint minimumQuantization () Return a new FixPoint value that has the same value as this FixPoint value but with the minimum quantization necessar"
+    },
+    {
+      "chunk_id": 82,
+      "text": "t value but with the minimum quantization necessary for representing the value. The first step of this requantization is to check for \"zero\" bits at the LSB positions of the unscaled value. The value is shifted until the first \"1\" is found a"
+    },
+    {
+      "chunk_id": 83,
+      "text": "he value is shifted until the first \"1\" is found and the exponent is adjusted. Next, the length of the unscaled value is examined and the precision is set to the minimum length possible to represent the value. Returns: The minimum quantize FixP"
+    },
+    {
+      "chunk_id": 84,
+      "text": "sent the value. Returns: The minimum quantize FixPoint value. multiply public FixPoint multiply ( FixPoint arg) Return a FixPoint with a value equal to the product of this FixPoint and the argument. The operation is lossless and will \"expand\" the"
+    },
+    {
+      "chunk_id": 85,
+      "text": "The operation is lossless and will \"expand\" the Precision of the resulting FixPoint value to include the full precision of the result. This operation will operate on either signed or unsigned fixed values. If both operands of an operation a"
+    },
+    {
+      "chunk_id": 86,
+      "text": "fixed values. If both operands of an operation are unsigned, the result will be unsigned. If either of the operations are signed, the result will be signed. Parameters: arg - The FixPoint multiplier. Returns: The FixPoint product. multiply publ"
+    },
+    {
+      "chunk_id": 87,
+      "text": "lier. Returns: The FixPoint product. multiply public FixPoint multiply ( FixPoint arg, Quantization quant) Return a FixPoint with a value equal to the product of this FixPoint and the argument. The precision of this operation is set by the Quanti"
+    },
+    {
+      "chunk_id": 88,
+      "text": "precision of this operation is set by the Quantization parameter and the result of the operation may be lossy as dictated by the desired quantization. Parameters: arg - The FixPoint multiplicand. quant - The quantization specification. Returns: T"
+    },
+    {
+      "chunk_id": 89,
+      "text": "quant - The quantization specification. Returns: The FixPoint product. printFix public void printFix () Print useful debug information about the FixPoint to standard out. This is used for debugging. quantize public FixPoint quantize ( Quantization"
+    },
+    {
+      "chunk_id": 90,
+      "text": "quantize public FixPoint quantize ( Quantization quant) Return the value after conversion to comply with a quantization specification. This method calls FixPoint(FixPoint, Quantization) . Parameters: quant - The quantization constraints. Returns:"
+    },
+    {
+      "chunk_id": 91,
+      "text": "s: quant - The quantization constraints. Returns: The bounded integer value. subtract public FixPoint subtract ( FixPoint arg) Return a FixPoint with a value equal to the difference between this FixPoint and the argument. The operation is lossles"
+    },
+    {
+      "chunk_id": 92,
+      "text": "Point and the argument. The operation is lossless and will \"expand\" the Precision of the resulting FixPoint value to include the full precision of the result. This operation will operate on either signed or unsigned fixed values. If either o"
+    },
+    {
+      "chunk_id": 93,
+      "text": "her signed or unsigned fixed values. If either of the operations are signed, the result will be signed. If both operands are unsigned and the result is positive, an unsigned value will be produced. If both operands are unsigned and the resu"
+    },
+    {
+      "chunk_id": 94,
+      "text": "uced. If both operands are unsigned and the result is negative, a signed value will be generated. Parameters: arg - The FixPoint subtrahend. Returns: The FixPoint difference. subtract public FixPoint subtract ( FixPoint arg, Quantization quant) Ret"
+    },
+    {
+      "chunk_id": 95,
+      "text": "t subtract ( FixPoint arg, Quantization quant) Return a FixPoint with a value equal to the difference of this FixPoint and the argument. The precision of this operation is set by the Quantization parameter and the result of the operation may be"
+    },
+    {
+      "chunk_id": 96,
+      "text": "parameter and the result of the operation may be lossy as dictated by the desired quantization. Parameters: arg - The FixPoint addend. quant - The quantization specification. Returns: The FixPoint sum. toBitString public java.lang.String toBitStrin"
+    },
+    {
+      "chunk_id": 97,
+      "text": "um. toBitString public java.lang.String toBitString () Return a bit string representation of this number. The string takes the form \" sign integerBits . fractionBits \", where sign is - or nothing, integerBits and fractionBits are each a sequenc"
+    },
+    {
+      "chunk_id": 98,
+      "text": "integerBits and fractionBits are each a sequence of \"0\" and \"1\". integerBits comprises no leading zeroes. fractionBits has exactly one digit per bit. If the fixed point number has zero or negative number of fraction bits, the dot is omitted."
+    },
+    {
+      "chunk_id": 99,
+      "text": "ive number of fraction bits, the dot is omitted. Returns: A binary string representation of the value. toString public java.lang.String toString () Return a string representation of this number. This is calculated by first converting the number t"
+    },
+    {
+      "chunk_id": 100,
+      "text": "his is calculated by first converting the number to a BigDecimal, and then returning its string representation. In order to avoid loss there may be as many decimal digits following the decimal point as there fractional bits in this FixPoint. Re"
+    },
+    {
+      "chunk_id": 101,
+      "text": "oint as there fractional bits in this FixPoint. Returns: A decimal string representation of the value. toStringPrecision public java.lang.String toStringPrecision () Return a string representation of this number along with the Precision of the numb"
+    },
+    {
+      "chunk_id": 102,
+      "text": "this number along with the Precision of the number. Returns: A decimal string representation of the value and its precision. toStringValuePrecision public java.lang.String toStringValuePrecision () Return a string representation of this number al"
+    },
+    {
+      "chunk_id": 103,
+      "text": ") Return a string representation of this number along with the unscaled value and Precision of the number. Returns: A decimal string representation of the value and its precision. Overview Package Class Tree Deprecated Index Help PREV CLASS NEXT"
+    },
+    {
+      "chunk_id": 104,
+      "text": "Class Tree Deprecated Index Help PREV CLASS NEXT CLASS FRAMES NO FRAMES All Classes SUMMARY: NESTED | FIELD | CONSTR | METHOD DETAIL: FIELD | CONSTR | METHOD"
+    }
+  ]
+}

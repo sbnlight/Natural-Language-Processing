@@ -1,0 +1,269 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/History/AccessorDesignDiscussion",
+  "chunks": [
+    {
+      "chunk_id": 2,
+      "text": "edit SideBar View Edit History Print Notes / Accessor Design Discussion Notes 05/29/2014, Syntactic Differences (redirected from History.AccessorDesignDiscussion ) From Accessor Design Discussion Decision summary Proceed with single Javascript file r"
+    },
+    {
+      "chunk_id": 3,
+      "text": "sion summary Proceed with single Javascript file representation with long-term goal of domain specific language for separating out static info. Intermediate solution is a single Javascript file with a setup function. Use CommonJS syntax for name, em"
+    },
+    {
+      "chunk_id": 4,
+      "text": "a setup function. Use CommonJS syntax for name, email, author. Use Markdown syntax for other documentation. Flip arguments to addInputHandler() to have callback last. Flip arguments to send() to be send(message, portName). Don't require a port name a"
+    },
+    {
+      "chunk_id": 5,
+      "text": "nd(message, portName). Don't require a port name as an argument to removeInputHandler(). Unnecessary since you have the handler. Use camelCase. Notes Keep XML format, or switch to Javascript, or use JSON, or something else? Brad - Michigan way - Wr"
+    },
+    {
+      "chunk_id": 6,
+      "text": "JSON, or something else? Brad - Michigan way - Write code in JSON (example on web) Gets instantiated by the host Edward - Don't want the JSON format to be the one people edit. What format will people edit? Setup function separated out purposefully."
+    },
+    {
+      "chunk_id": 7,
+      "text": "e edit? Setup function separated out purposefully. Requires statement currently not included, since requires can be placed anywhere in code. Pat - declarative / imperative distinction Intermediate language is useful for tools since it can be read by"
+    },
+    {
+      "chunk_id": 8,
+      "text": "nguage is useful for tools since it can be read by machines that don't necessarily have the capabilities to instantiate the accessor. Edward - Has a price since now have two formats for same accessor. Vision is that if tool only wants interface info"
+    },
+    {
+      "chunk_id": 9,
+      "text": "Vision is that if tool only wants interface info, would have a spare Javascript environment that runs the setup function and constructs a JSON data structure with the interface info. Needs Javascript engine. Pat - allows all of downstream tools to"
+    },
+    {
+      "chunk_id": 10,
+      "text": "pt engine. Pat - allows all of downstream tools to assume things are done correctly, e.g. ports defined. Establishes a contract. Chris - problem if there's a function that runs to define interface, it could not terminate. Marten - Could XML be produ"
+    },
+    {
+      "chunk_id": 11,
+      "text": "t could not terminate. Marten - Could XML be product of post-processing? Edward - We ultimately want an npm for accessors. Do discovery, find requirements for hosting, be able to install. Need a place where the accessor is defined. If multiple file"
+    },
+    {
+      "chunk_id": 12,
+      "text": "ce where the accessor is defined. If multiple files, how to keep consistent? Pat - JSON is the standard, XML is convenience. Edward - But JSON file is not really human-editable. Need a human-editable one. Prabal - Comparison - there are valid reasons"
+    },
+    {
+      "chunk_id": 13,
+      "text": "one. Prabal - Comparison - there are valid reasons for being able to keep things in source, and reasons for not. Intermediate representations allows arbitrary complexity that is easy for computer though painful for human. Brad - Like viewing file in"
+    },
+    {
+      "chunk_id": 14,
+      "text": "ugh painful for human. Brad - Like viewing file in a different language. Download in format you prefer. Chris - Factoring out part of the accessor. Prabal - Not counting delay for doing translation, what's the argument for having an intermediate rep"
+    },
+    {
+      "chunk_id": 15,
+      "text": "what's the argument for having an intermediate representation? Edward - Have e.g. setup in Javascript. If you want JSON, can have tool the will give you that. Prabal - Can derive JSON from Javascript. Pat - Argument: Who cares? The existence of JS"
+    },
+    {
+      "chunk_id": 16,
+      "text": ". Pat - Argument: Who cares? The existence of JSON is an implementation detail. Any host can download Javascript. Prabal - Then, either approach should be acceptable. Chris - JSON format is closest specification to what the accessor is. If code,"
+    },
+    {
+      "chunk_id": 17,
+      "text": "specification to what the accessor is. If code, then you have to run the code to generate the specification. Brad - Could have bugs in parsing tools. Good to centralize that logic. Edward - There is no centralization anyway. Not required to parse"
+    },
+    {
+      "chunk_id": 18,
+      "text": "s no centralization anyway. Not required to parse Javascript, could just execute. Chris - Validating JSON is lower complexity than validating JSON. Good test of tool - does created JSON string contain the proper information? Edward - Still argue th"
+    },
+    {
+      "chunk_id": 19,
+      "text": "in the proper information? Edward - Still argue that we want one file. But, if the file is JSON then we need to provide human-readable editor. Definition needs to be editable by humans. Brad - Does it matter where e.g. creatPort() function runs? N"
+    },
+    {
+      "chunk_id": 20,
+      "text": "it matter where e.g. creatPort() function runs? No - could run in cloud. Pat - There is a one-to-one mapping between Javascript and JSON that is produced. Edward - Which file is the accessor definition? Pat - The Javascript. Edward - Then, don't nee"
+    },
+    {
+      "chunk_id": 21,
+      "text": "on? Pat - The Javascript. Edward - Then, don't need to standardize the JSON file. This is internal representation. Agreed! Marten - Then, discovery will have to run Javascript, and will do exactly the same thing as the host. That's why we have XML"
+    },
+    {
+      "chunk_id": 22,
+      "text": "he same thing as the host. That's why we have XML format wil static part and dynamic part. Edward - Awkwardness of XML convinced me not to do this. Marten - Why not standardize JSON then? Gil - What if we use Javascript as declarative? Pat - Current"
+    },
+    {
+      "chunk_id": 23,
+      "text": "if we use Javascript as declarative? Pat - Current implementation will throw exception if restrictions on Javascript cannot be executed. Developer mental model is that person is developing code in accessor IDE, not necessarily Javascript. Pull up J"
+    },
+    {
+      "chunk_id": 24,
+      "text": "cessor IDE, not necessarily Javascript. Pull up Javascript and JSON. One distinction is that initialize and setup are currently combined; want to change that. Edward - Semantic difference here. We add an inputHandler vs. just calling a function, s"
+    },
+    {
+      "chunk_id": 25,
+      "text": "add an inputHandler vs. just calling a function, since then sending data to a port is essentially an RPC. With inputHandler, can react to multiple inputs simultaneously and can handling merging streams of events. Pat - Could have same inputHandler f"
+    },
+    {
+      "chunk_id": 26,
+      "text": "ms of events. Pat - Could have same inputHandler for different inputs. Chris - Can react to multiple simultaneous events. Relates to MoC question. Edward - As far as static info, syntaxes appear equivalent. Pick one. Marten - Consequence of this wa"
+    },
+    {
+      "chunk_id": 27,
+      "text": "valent. Pick one. Marten - Consequence of this way is that it's pushing problem from user to discovery service. Discovery service still has to generate something queryable. Advantage of XML is that static information is abstracted from implementat"
+    },
+    {
+      "chunk_id": 28,
+      "text": "static information is abstracted from implementation. Edward - That's true. Gil - Natural Javascript concepts may fail if they have to go through separate parser. Brad - Could execute setup function. Chris - Would semantics be constrained to say onl"
+    },
+    {
+      "chunk_id": 29,
+      "text": "Chris - Would semantics be constrained to say only setup can call e.g. create_port(); Would need analysis to ensure this. Edward - More powerful format enables research. Can e.g. create a port on the fly in Ptolemy, can create connections on the f"
+    },
+    {
+      "chunk_id": 30,
+      "text": "he fly in Ptolemy, can create connections on the fly. Chris - Have to say that ports created after executing a function define the interface. Edward - It's a weird way to define a type, but it's very expressive.... maybe too expressive... Pat - Like"
+    },
+    {
+      "chunk_id": 31,
+      "text": "expressive.... maybe too expressive... Pat - Like combination of static interface plus flexibility to change interface. Brad - Up to host to decide if it can support that. Chris - Nice thing about XML is that language of interface is separate from la"
+    },
+    {
+      "chunk_id": 32,
+      "text": "is that language of interface is separate from language of execution. Similar to web pages; division between declarative statements and functionality. Edward - Base class present in XML, but missing from Javascript. Assuming extension is used to d"
+    },
+    {
+      "chunk_id": 33,
+      "text": "from Javascript. Assuming extension is used to determine the base class. Whether you need intermediate representation depend on discovery mechanism, implementation of host, ... To me, need for intermediate representation isn't established. Marten"
+    },
+    {
+      "chunk_id": 34,
+      "text": "ermediate representation isn't established. Marten - Revisit user editing tools. Edward - Think it would be wonderful, but will slow down development if on critical path. Who's going to do it? And by then? Pat - Web page would eliminate need for se"
+    },
+    {
+      "chunk_id": 35,
+      "text": "y then? Pat - Web page would eliminate need for setup function because you're e.g. creating ports in fill-in boxes on web. Edward - If JSON is representation, people won't do anything until they have that tool. Christopher - Like a code motel. Code"
+    },
+    {
+      "chunk_id": 36,
+      "text": "that tool. Christopher - Like a code motel. Code checks in, it doesn't check out. Chris - JSON amenable to tool writing. Pat - Don't agree that if JSON is representation, it has to be human editable. Marten - Kind of need an IDE anyway. Brad - Go th"
+    },
+    {
+      "chunk_id": 37,
+      "text": "Marten - Kind of need an IDE anyway. Brad - Go the other way? Have interface to edit JSON and then Javascript is still the standard? Marten - What about different languages? Chris - Many situations have separated static interface from dynamic code."
+    },
+    {
+      "chunk_id": 38,
+      "text": "have separated static interface from dynamic code. Edward - How about C++ style with header and implementation? Prabal - Could look for a language with cleaner separation, like NesC. Problems could be result of our choice of language. Marten - Inten"
+    },
+    {
+      "chunk_id": 39,
+      "text": "e result of our choice of language. Marten - Intent is that horizontal contracts can be establish only needed info from static portion. Dynamic information is getting into the vertical contract. Attempt to orthogonalize those concerns. Edward - Acc"
+    },
+    {
+      "chunk_id": 40,
+      "text": "empt to orthogonalize those concerns. Edward - Accessors crying for a new domain specific language. Right now, have two hacked together approximations to that, with the XML and Javascript. Javascript is homogeneous in syntax, but static information"
+    },
+    {
+      "chunk_id": 41,
+      "text": "t is homogeneous in syntax, but static information is described dynamically. JSON is also homogeneous, static info is data structure, program is stuck in a string. For near term progress, accessor spec needs to be edited in plain text editor. Thin"
+    },
+    {
+      "chunk_id": 42,
+      "text": "pec needs to be edited in plain text editor. Think only syntax we have, though it's far from perfect, is one on the left. Marten - Thought point of the project was to support multiple languages. Pat - Hadn't imagined accessors written in anything ot"
+    },
+    {
+      "chunk_id": 43,
+      "text": "- Hadn't imagined accessors written in anything other than Javascript. Imagining that accessor can be runnable on any host. How worthwhile are other languages? Edward - Languages are religious choice in computer science, can't win arguments. Prabal"
+    },
+    {
+      "chunk_id": 44,
+      "text": "e in computer science, can't win arguments. Prabal - How do you encapsulate e.g. Python code in this environment? Compile everything to Javascript? Gil - If two accessors with same interface, any way to express that? With JSON could have single int"
+    },
+    {
+      "chunk_id": 45,
+      "text": "to express that? With JSON could have single interface file, with multiple implementations that point to single interface file. Pat - Have standardized notion of interfaces. Main repository of them. Edward - Think this feature is essential, but no"
+    },
+    {
+      "chunk_id": 46,
+      "text": ". Edward - Think this feature is essential, but not that dependent on syntax. Think bundling multiple syntaxes into one file (like in XML) is a mistake. Think we should have two files. Marten - Host can parse language independent part separately fr"
+    },
+    {
+      "chunk_id": 47,
+      "text": "can parse language independent part separately from dynamic part. Brad - Bad experience with editing two files. Don't like it. Edward - Let's go with Javascript single file representation with long-term goal of domain specific language for separati"
+    },
+    {
+      "chunk_id": 48,
+      "text": "term goal of domain specific language for separating out static info. Intermediate solution is single Javascript file with a setup function. Brad - Could write setup function that parses a static variable containing Javascript. OK. (All agreed). Pa"
+    },
+    {
+      "chunk_id": 49,
+      "text": "iable containing Javascript. OK. (All agreed). Pat - Other differences: We also parse comments at the top of the file; good for writers. Edward - Why not use CommonJS standard? Has JSDoc tool. Use for name, author, email... (All agreed). Pat - D"
+    },
+    {
+      "chunk_id": 50,
+      "text": "for name, author, email... (All agreed). Pat - Didn't know about it. Block comments nice since people write longer descriptions. Want to support markdown. (All agreed). Pat - Want to flip arguments for inputHandler. Most Javascript functions ha"
+    },
+    {
+      "chunk_id": 51,
+      "text": "ts for inputHandler. Most Javascript functions have callbacks last. (Not including add interval). (All agreed). Want to flip argument order to send. Edward - Current way of reading it is send \"foo\" to \"bar\", instead of send \"bar\" a \"foo\". Port n"
+    },
+    {
+      "chunk_id": 52,
+      "text": "\" to \"bar\", instead of send \"bar\" a \"foo\". Port name is a string, is last argument. Can change to port name first. (All agreed). Marten - For removing handler, why do you need the port, since you have saved a handler? Add to change list. (All ag"
+    },
+    {
+      "chunk_id": 53,
+      "text": "ave saved a handler? Add to change list. (All agreed). Edward - Camelcase vs. underscores? Camelcase. (All agreed). Pat - Predefined port names mapped to functions, or addInputHandlers as functions? Our motivation came from readability. If I pr"
+    },
+    {
+      "chunk_id": 54,
+      "text": "s? Our motivation came from readability. If I provide interface, I must create functions for it. Edward - Relates to question of parameters. In Ptolemy, Javascript has access to Ptolemy parameters additionally, so getting value from a port with no"
+    },
+    {
+      "chunk_id": 55,
+      "text": "additionally, so getting value from a port with no new values will give you default parameter value. Pat - Our parameters are immutable over initialize through wrapup, so that you can store global state. E.g. like an IPAddress. Should not change du"
+    },
+    {
+      "chunk_id": 56,
+      "text": "te. E.g. like an IPAddress. Should not change during accessor execution. Edward - Three types of inputs to accessors that are useful. Parameter - set once, has same value through execution. 2nd - could be provided dynamically, but doesn't have to"
+    },
+    {
+      "chunk_id": 57,
+      "text": "could be provided dynamically, but doesn't have to be, e.g. inputs with defaults. 3rd - No default provided, have to provide input dynamically. All 3 worthwhile. Pat - Have get_parameter() for immutable parameters, have create_port() for ports with"
+    },
+    {
+      "chunk_id": 58,
+      "text": "able parameters, have create_port() for ports with optional default value. Marten - Could have function that gets value on port. Edward - Why not just get? Pat - getParameter() exposes immutable value, get() does not. Semantic difference. Marten - N"
+    },
+    {
+      "chunk_id": 59,
+      "text": ", get() does not. Semantic difference. Marten - Need either different objects for these or need different functions. Edward - Think you're conflating a separate issues. Why two different functions? Only if we want to give same name to port and var"
+    },
+    {
+      "chunk_id": 60,
+      "text": "Only if we want to give same name to port and variable? Brad - Readability improved, since program gives semantic hint to programmer. Chris - Two different function names provide info for static analysis. Edward - Call get_parameter() in setup() and"
+    },
+    {
+      "chunk_id": 61,
+      "text": "ysis. Edward - Call get_parameter() in setup() and only call it once there. Edward - Don't think we need to be able to get the default value, if overridden the default value is irrelevant. Try: exports.setup = function() { accessor.input('foo');"
+    },
+    {
+      "chunk_id": 62,
+      "text": "rts.setup = function() { accessor.input('foo'); accessor.input('bar', {'value' : 0}); accessor.parameter('baz', {'value' : 1}); } Pat - Want for e.g. hue where you cannot instantiate accessor without providing the bridge URL. Edward - In ours,"
+    },
+    {
+      "chunk_id": 63,
+      "text": "thout providing the bridge URL. Edward - In ours, want to use variant of discovery mechanism, so we can use a find hue bridge accessor that outputs the IP address, then hook up to input of Hue actor. So IP address is sort-of-dynamic. Matt - Find hue"
+    },
+    {
+      "chunk_id": 64,
+      "text": "So IP address is sort-of-dynamic. Matt - Find hue bridge could create the Hue accessor. Also, if MoC does something weird, accessor might try to run without having IP. Edward - Could define accessor that's tolerant of not having a Hue bridge, or if"
+    },
+    {
+      "chunk_id": 65,
+      "text": "that's tolerant of not having a Hue bridge, or if the Hue bridge changes. In principle, find hue bridge could instantiate other accessor, but do we want to do that? But then what is example for defining swarmlet? Matt - Have \"input accessor here\""
+    },
+    {
+      "chunk_id": 66,
+      "text": "ining swarmlet? Matt - Have \"input accessor here\" accessor. Marten - Need this to begin with, when you start running swarmlet, might not know what's available. If you find Hue light bulb, might have to instantiate something. Will require work on Pt"
+    },
+    {
+      "chunk_id": 67,
+      "text": "to instantiate something. Will require work on Ptolemy side. Edward - Do have some actors with comments that if you change parameter, change will be ignored. Pat - Nice to have get_parameter at top of file for readability. Edward - Smells like API c"
+    }
+  ]
+}

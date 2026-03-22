@@ -1,0 +1,65 @@
+{
+  "url": "https://wiki.eecs.berkeley.edu/accessors/Notes/Sandbox",
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "text": "Accessors Wiki | Notes / Sandbox Recent Changes - Search : iCyPhy Home Accessors Home Accessors Wiki Editing Instructions All Recent Changes edit SideBar View Edit History Print Notes / Sandbox It would be helpful to run Composite Accessors in a sand"
+    },
+    {
+      "chunk_id": 2,
+      "text": "ld be helpful to run Composite Accessors in a sandbox to prevent malicious code from being executed. Attacks See Security -> Attacks . Hosts Below is a list of the hosts and the status of their sand boxes: Browser Host Status: Sandboxed Even with san"
+    },
+    {
+      "chunk_id": 3,
+      "text": "oxes: Browser Host Status: Sandboxed Even with sandboxing, susceptible to general JavaScript attacks The Browser Host already runs in a sandbox, though there are plenty of JavaScript attacks like Cross-site request forgery etc. Part of the Life Cycle"
+    },
+    {
+      "chunk_id": 4,
+      "text": "s-site request forgery etc. Part of the Life Cycle Management effort is to get Composite Accessor life cycle management to work in the Browser Host. iframe sandbox attribute HTML iframes have a sandbox attribute Cape Code Host & Nashorn Host Status:"
+    },
+    {
+      "chunk_id": 5,
+      "text": "x attribute Cape Code Host & Nashorn Host Status: Easy to sandbox both the entire Java process. Sandboxing the Nashorn engine is also possible ClassFilter Introduction (Oracle Nashorn Notes) Secure Nashorn JS Execution (StackOverflow) In Nashorn, exi"
+    },
+    {
+      "chunk_id": 6,
+      "text": "shorn JS Execution (StackOverflow) In Nashorn, exit and quit should be disabled. Even with sandboxing, susceptible to general JavaScript attacks The Cape Code Host uses Java, and Java can be run in a sandbox that can be configured to only allow acces"
+    },
+    {
+      "chunk_id": 7,
+      "text": "sandbox that can be configured to only allow access to certain resources. Cape Code runs each Composite Accessor in its own JavaScript engine. This makes it easier to kill a non-cooperative composite accessor, in principle, and provides more rigorous"
+    },
+    {
+      "chunk_id": 8,
+      "text": "accessor, in principle, and provides more rigorous isolation between accessors. But it may be a resource hog. $PTII/doc/sandbox.htm - how to run Ptolemy II (and thus Cape Code) in a sandbox Running Nashorn from jar files represents a special challeng"
+    },
+    {
+      "chunk_id": 9,
+      "text": "shorn from jar files represents a special challenge because we need to be able to look in the classpath for resources, yet we want to be careful about exposing other data. For example, if a user can invoke Class.getResource(), and $PTII is in the pa"
+    },
+    {
+      "chunk_id": 10,
+      "text": "invoke Class.getResource(), and $PTII is in the path, then they could read any file in $PTII. The Nashorn host restricts access to certain prefixes, but this should be reviewed. Duktape Host Status: Easy to limit what functions are available, for ex"
+    },
+    {
+      "chunk_id": 11,
+      "text": "Easy to limit what functions are available, for example reading the file system. Even with sandboxing, susceptible to General JavaScript . See https://github.com/svaarala/duktape/blob/master/doc/sandboxing.rst for a lengthy description of what needs"
+    },
+    {
+      "chunk_id": 12,
+      "text": "oxing.rst for a lengthy description of what needs to be done. DUK_USE_EXEC_TIMEOUT_CHECK can be set. The Duktape Host is written in C and supports a subset of JavaScript. The Node module system is not used, though require() will read files on the lo"
+    },
+    {
+      "chunk_id": 13,
+      "text": "t used, though require() will read files on the local machine Node Host Status: Very difficult to sandbox because things like the Node fs module are present Even with sandboxing, susceptible to heneral JavaScript attacks The Node Host does have a vm"
+    },
+    {
+      "chunk_id": 14,
+      "text": "l JavaScript attacks The Node Host does have a vm module : \"APIs for compiling and running code within V8 Virtual Machine contexts.\" One possibility would be to run the Node process in a chroot jail. Running chroot requires root access. Sandboxing J"
+    },
+    {
+      "chunk_id": 15,
+      "text": "Running chroot requires root access. Sandboxing JavaScript Infinite Loop JavaScript is single threaded, so there is no easy way to stop a tight loop Cooperative multitasking, where the process stops periodically, see JavaScript: Stop Function execut"
+    }
+  ]
+}
